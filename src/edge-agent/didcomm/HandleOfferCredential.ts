@@ -30,7 +30,7 @@ export class HandleOfferCredential extends Task<RequestCredential, Args> {
 
     const requestCredentialBody = createRequestCredentialBody(
       [],
-      offer.body.goalCode,
+      offer.body.goal_code,
       offer.body.comment
     );
 
