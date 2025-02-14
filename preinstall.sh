@@ -7,5 +7,6 @@ if [ -z "$PWD/node_modules/rxdb/patched" ]; then
 else 
     npm i rxdb@14.17.1 --ignore-scripts
     npx patch-package
+    mkdir -p $PWD/node_modules/rxdb/patched/
     touch $PWD/node_modules/rxdb/patched/done
 fi
