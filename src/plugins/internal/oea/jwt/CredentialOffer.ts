@@ -12,7 +12,7 @@ export class CredentialOffer extends Plugins.Task<Args> {
   async run(ctx: Plugins.Context) {
     const offer = this.args.offer;
 
-    // [ ] https://github.com/hyperledger/identus-edge-agent-sdk-ts/issues/363 use CreatePrismDID
+    // [ ] https://github.com/hyperledger-identus/sdk-ts/issues/363 use CreatePrismDID
     // CreatePrismDID needs updating to accept keytypes (both secp here)
     const getIndexTask = new PrismKeyPathIndexTask({});
     const index = await ctx.run(getIndexTask);
@@ -20,14 +20,12 @@ export class CredentialOffer extends Plugins.Task<Args> {
     const masterSk = await ctx.Apollo.createPrivateKey({
       [Domain.KeyProperties.curve]: Domain.Curve.SECP256K1,
       [Domain.KeyProperties.index]: index,
-      [Domain.KeyProperties.type]: Domain.KeyTypes.EC,
       [Domain.KeyProperties.seed]: Buffer.from(ctx.Seed.value).toString("hex"),
     });
 
     const authSk = await ctx.Apollo.createPrivateKey({
       [Domain.KeyProperties.curve]: Domain.Curve.SECP256K1,
       [Domain.KeyProperties.index]: index + 1,
-      [Domain.KeyProperties.type]: Domain.KeyTypes.EC,
       [Domain.KeyProperties.seed]: Buffer.from(ctx.Seed.value).toString("hex"),
     });
 
