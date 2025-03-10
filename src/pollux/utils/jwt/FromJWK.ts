@@ -62,37 +62,33 @@ export class FromJWK extends Task<Domain.PublicKey | Domain.KeyPair, Args> {
 
         if (withCoordinates) {
 
-            if (crv === Curve.SECP256K1) {
-                const decodedX = this.decodeJWKParameter('x', jwk);
-                const decodedY = this.decodeJWKParameter('y', jwk);
+            const decodedX = this.decodeJWKParameter('x', jwk);
+            const decodedY = this.decodeJWKParameter('y', jwk);
 
-                let pk: PublicKey;
-                let sk: PrivateKey;
+            let pk: PublicKey;
+            let sk: PrivateKey;
 
-                pk = apollo.createPublicKey({
+            pk = apollo.createPublicKey({
+                [KeyProperties.curve]: crv,
+                [KeyProperties.curvePointX]: decodedX,
+                [KeyProperties.curvePointY]: decodedY
+            });
+
+            if (jwk.d !== undefined) {
+                const decodedD = this.decodeJWKParameter('d', jwk);
+                sk = apollo.createPrivateKey({
                     [KeyProperties.curve]: crv,
-                    [KeyProperties.curvePointX]: decodedX,
-                    [KeyProperties.curvePointY]: decodedY
+                    [KeyProperties.rawKey]: decodedD
                 });
 
-                if (jwk.d !== undefined) {
-                    const decodedD = this.decodeJWKParameter('d', jwk);
-                    sk = apollo.createPrivateKey({
-                        [KeyProperties.curve]: crv,
-                        [KeyProperties.rawKey]: decodedD
-                    });
-
-                    const keypair: Domain.KeyPair = {
-                        privateKey: sk,
-                        publicKey: pk,
-                        curve: crv
-                    }
-                    return keypair;
+                const keypair: Domain.KeyPair = {
+                    privateKey: sk,
+                    publicKey: pk,
+                    curve: crv
                 }
-                return pk;
+                return keypair;
             }
-
-            throw new ApolloError.InvalidKeyCurve(crv, [Curve.SECP256K1]);
+            return pk;
         }
 
         if (jwk.d !== undefined) {

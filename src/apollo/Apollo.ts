@@ -212,40 +212,30 @@ export default class Apollo implements ApolloInterface, KeyRestoration {
 
     const { curve } = getKeyCurveByNameAndIndex(keyCurve);
     const keyData = parameters[KeyProperties.rawKey];
+    const xData = parameters[KeyProperties.curvePointX];
+    const yData = parameters[KeyProperties.curvePointY];
 
-    if (curve === Curve.ED25519) {
-      if (keyData) {
+    if (keyData) {
+      if (curve === Curve.ED25519) {
         return new Ed25519PublicKey(keyData);
       }
-
-      throw new ApolloError.MissingKeyParameters(KeyProperties.rawKey);
-    }
-
-    if (curve === Curve.SECP256K1) {
-      if (keyData) {
+      if (curve === Curve.SECP256K1) {
         return new Secp256k1PublicKey(keyData);
-      } else {
-        const xData = parameters[KeyProperties.curvePointX];
-        const yData = parameters[KeyProperties.curvePointY];
-
-        if (xData && yData) {
-          return Secp256k1PublicKey.secp256k1FromByteCoordinates(xData, yData);
-        }
       }
-
-      throw new ApolloError.MissingKeyParameters(KeyProperties.rawKey, KeyProperties.curvePointX, KeyProperties.curvePointY);
-    }
-
-
-    if (curve === Curve.X25519) {
-      if (keyData) {
+      if (curve === Curve.X25519) {
         return new X25519PublicKey(keyData);
       }
-
-      throw new ApolloError.MissingKeyParameters(KeyProperties.rawKey);
+      throw new ApolloError.InvalidKeyCurve();
     }
 
-    throw new ApolloError.InvalidKeyCurve();
+    if (xData && yData) {
+      if (curve === Curve.SECP256K1) {
+        return Secp256k1PublicKey.secp256k1FromByteCoordinates(xData, yData);
+      }
+      throw new ApolloError.InvalidKeyCurve(curve, [Curve.SECP256K1]);
+    }
+
+    throw new ApolloError.MissingKeyParameters(KeyProperties.rawKey, KeyProperties.curvePointX, KeyProperties.curvePointY);
   }
 
   /**
