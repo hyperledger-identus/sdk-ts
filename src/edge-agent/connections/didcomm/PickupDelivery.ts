@@ -35,9 +35,9 @@ export class PickupDelivery extends Task<void, Args> {
 
     await ctx.Pluto.storeMessages(attachedMsgs);
 
-    const messageIdList = msg.attachments.map(x => x.id);
+    const message_id_list = msg.attachments.map(x => x.id);
     const pickupReceived = new PickupReceived(
-      { messageIdList },
+      { message_id_list },
       mediator.hostDID,
       mediator.mediatorDID
     );

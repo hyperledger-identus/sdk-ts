@@ -1,8 +1,20 @@
 import { uuid } from "@stablelib/uuid";
 import { DID, Message } from "../../../domain";
-
 import { ProtocolType } from "../ProtocolTypes";
-import { MediationKeysUpdateListBody } from "../types";
+
+/**
+ * Specification:
+ * https://didcomm.org/coordinate-mediation/2.0/
+ */
+
+export interface MediationKeysUpdateListBody {
+  updates: Array<{
+    // DID subject of the update.
+    recipient_did: string;
+    // one of add or remove.
+    action: "add";
+  }>;
+}
 
 export class MediationKeysUpdateList {
   public static type = ProtocolType.DidcommMediationKeysUpdate;

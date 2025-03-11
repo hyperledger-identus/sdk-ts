@@ -1,14 +1,22 @@
 import { uuid } from "@stablelib/uuid";
-
 import { DID, Message } from "../../../domain";
 import { AgentError } from "../../../domain/models/Errors";
 import { OutOfBandInvitation } from "../invitation/v2/OutOfBandInvitation";
 import { ProtocolType } from "../ProtocolTypes";
-import { HandshakeRequestBody } from "../types";
-import { asArray, isArray, isString, notNil } from "../../../utils";
+import { isArray, isString, notNil } from "../../../utils";
+
+/**
+ * No specification available
+ */
+
+export interface HandshakeRequestBody {
+  goal_code?: string;
+  goal?: string;
+  accept?: string[];
+}
 
 export class HandshakeRequest {
-  public static type = ProtocolType.DidcommconnectionRequest;
+  public static type = ProtocolType.DidcommConnectionRequest;
 
   constructor(
     public body: HandshakeRequestBody,
@@ -19,9 +27,8 @@ export class HandshakeRequest {
   ) {}
 
   makeMessage(): Message {
-    const body = JSON.stringify(this.body);
     return new Message(
-      body,
+      this.body,
       this.id,
       HandshakeRequest.type,
       this.from,
@@ -31,45 +38,30 @@ export class HandshakeRequest {
     );
   }
 
-  public static safeParseBody(msg: Message): HandshakeRequestBody {
-    // msg.piuri === HandshakeRequest.type
+  static fromMessage(msg: Message, from: DID): HandshakeRequest {
+    if (!msg.from || !msg.piuri) {
+      throw new AgentError.InvitationIsInvalidError();
+    }
 
     if (notNil(msg.body.goal) && !isString(msg.body.goal)) {
       throw new AgentError.UnknownInvitationTypeError();
     }
 
-    if (notNil(msg.body.goalCode) && !isString(msg.body.goalCode)) {
+    if (notNil(msg.body.goal_code) && !isString(msg.body.goal_code)) {
       throw new AgentError.UnknownInvitationTypeError();
     }
 
     if (notNil(msg.body.accept) && (
-      !isArray(msg.body.accept) ||
-      msg.body.accept.some(x => !isString(x)))
-    ) {
+      !isArray(msg.body.accept) || msg.body.accept.some(x => !isString(x))
+    )) {
       throw new AgentError.UnknownInvitationTypeError();
     }
 
-    return {
-      goalCode: msg.body.goalCode,
-      goal: msg.body.goal,
-      accept: asArray(msg.body.accept, isString),
-    };
-  }
-
-  static fromMessage(inviteMessage: Message, from: DID): HandshakeRequest {
-    // TODO piuri not compared
-    if (!inviteMessage.from || !inviteMessage.piuri) {
-      throw new AgentError.InvitationIsInvalidError();
-    }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const toDID = inviteMessage.from!;
-    const handShakeRequestBody = HandshakeRequest.safeParseBody(inviteMessage);
-
     return new HandshakeRequest(
-      handShakeRequestBody,
+      msg.body,
       from,
-      toDID,
-      inviteMessage.id
+      msg.from,
+      msg.id
     );
   }
 
@@ -77,8 +69,7 @@ export class HandshakeRequest {
     inviteMessage: OutOfBandInvitation,
     from: DID
   ): HandshakeRequest {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const toDID = DID.fromString(inviteMessage.from!);
+    const toDID = DID.fromString(inviteMessage.from);
 
     return new HandshakeRequest(
       inviteMessage.body,
