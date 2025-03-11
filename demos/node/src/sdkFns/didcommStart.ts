@@ -34,7 +34,15 @@ export const DIDCommStart = new AsyncPrompt(
     // Agent orchestrates the SDK functionality
     const agent = SDK.Agent.initialize({ mediatorDID, pluto });
 
-    await agent.start();
+    try {
+      // ? should start be retry-able
+      await agent.start();
+    }
+    catch (err) {
+      // store is not controlled by the SDK
+      await store.clear();
+      throw err;
+    }
 
     agent.addListener(SDK.ListenerKey.CONNECTION, event => {
       state.notifications[SDK.ListenerKey.CONNECTION] = true;

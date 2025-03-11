@@ -8,6 +8,7 @@ import { PeerDID } from "../../peer-did/PeerDID";
 import { uuid } from "@stablelib/uuid";
 import { Arrayable } from "../../utils";
 import * as Backup from "../backup";
+import { Startable } from "../protocols";
 
 export namespace Pluto {
   /**
@@ -32,15 +33,7 @@ export namespace Pluto {
  * which will be implemented using this SDK. Implement this interface using your
  * preferred underlying storage technology, most appropriate for your use case.
  */
-export interface Pluto {
-  // TODO apply breaking change below
-  // export interface Pluto extends Startable.IController {
-  /**
-   * Pluto initialise function
-   */
-  start(): Promise<void>;
-  stop?(): Promise<void>;
-
+export interface Pluto extends Startable.IController {
   /**
    * create a Backup object from the stored data
    */
