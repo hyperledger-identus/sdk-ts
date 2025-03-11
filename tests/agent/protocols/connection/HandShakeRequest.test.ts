@@ -3,7 +3,6 @@ import { Message } from "../../../../src/domain";
 
 import { HandshakeRequest } from "../../../../src/edge-agent/protocols/connection/HandshakeRequest";
 import { ProtocolType } from "../../../../src/edge-agent/protocols/ProtocolTypes";
-import { HandshakeRequestBody } from "../../../../src/edge-agent/protocols/types";
 import * as Fixtures from "../../../fixtures";
 
 describe("HandShakeRequest Test", () => {
@@ -13,7 +12,7 @@ describe("HandShakeRequest Test", () => {
     const request = new HandshakeRequest(
       {
         goal: "Test",
-        goalCode: "1",
+        goal_code: "1",
         accept: ["Test1"],
       },
       fromDID,
@@ -28,15 +27,15 @@ describe("HandShakeRequest Test", () => {
     expect(message.to?.toString()).to.equal(request.to.toString());
     expect(message.thid).to.equal(request.thid);
 
-    const decodedBody = HandshakeRequest.safeParseBody(message);
+    const result = HandshakeRequest.fromMessage(message, fromDID);
 
-    expect(decodedBody).to.deep.equal(request.body);
+    expect(result.body).to.deep.equal(request.body);
   });
 
   it("Should create HandShakeRequest from a valid InvitationMessage", () => {
     const fromDID = Fixtures.DIDs.peerDID1;
     const toDID = Fixtures.DIDs.peerDID2;
-    const body: HandshakeRequestBody = {
+    const body = {
       goal: "Test",
       goalCode: "123",
       accept: ["Test1"],

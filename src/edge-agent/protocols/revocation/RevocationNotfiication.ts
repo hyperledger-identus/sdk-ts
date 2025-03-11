@@ -1,7 +1,15 @@
 import { DID, Message } from "../../../domain";
 import { isNil, isString } from "../../../utils";
 import { ProtocolType } from "../ProtocolTypes";
-import { PrismRevocationBody } from "../types";
+
+/**
+ * No specification available
+ */
+
+export interface PrismRevocationBody {
+  issueCredentialProtocolThreadId: string;
+  comment?: string;
+}
 
 export class RevocationNotification {
   public static type = ProtocolType.PrismRevocation;
