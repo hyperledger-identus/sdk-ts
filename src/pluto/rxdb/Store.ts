@@ -15,6 +15,7 @@ export class RxdbStore implements Pluto.Store {
     private readonly options: RxDatabaseCreator,
     private readonly collections?: CollectionList
   ) {
+    console.warn("[DEPRECATION WARNING] RxdbStore is deprecated and future versions will no longer bundle it. Use @trust0/identus-store-rxdb in replacement for this class.");
     addRxPlugin(RxDBQueryBuilderPlugin);
     addRxPlugin(RxDBJsonDumpPlugin);
     addRxPlugin(RxDBEncryptedMigrationPlugin);
