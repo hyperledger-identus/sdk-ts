@@ -32,7 +32,7 @@ export class Presentation {
 
   private validate() {
     if (notNil(this.body.goal_code) && !isString(this.body.goal_code)) {
-      throw new AgentError.InvalidPresentationBodyError("Invalid goalCode");
+      throw new AgentError.InvalidPresentationBodyError("Invalid goal_code");
     }
 
     if (notNil(this.body.comment) && !isString(this.body.comment)) {
