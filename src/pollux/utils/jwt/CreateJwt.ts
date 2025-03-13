@@ -1,6 +1,5 @@
-import { Signer, createJWT } from "did-jwt";
+import { ES256KSigner, EdDSASigner, Signer, createJWT } from "did-jwt";
 import { base58btc } from "multiformats/bases/base58";
-import { base64url } from "multiformats/bases/base64";
 import * as Domain from "../../../domain";
 import { asJsonObj, expect, notNil } from "../../../utils";
 import { Task } from "../../../utils/tasks";
@@ -33,12 +32,14 @@ export class CreateJWT extends Task<string, Args> {
 
     const kid = await this.getSigningKid(ctx, this.args.did, privateKey);
 
-    const signer: Signer = async (data: any) => {
-      const signature = privateKey.sign(Buffer.from(data));
-      const encoded = base64url.baseEncode(signature);
-      return encoded;
-    };
-
+    let signer: Signer;
+    if (privateKey.curve === Domain.Curve.SECP256K1) {
+      signer = ES256KSigner(privateKey.raw);
+    } else if (privateKey.curve === Domain.Curve.ED25519) {
+      signer = EdDSASigner(privateKey.raw);
+    } else {
+      throw new Error("Unsupported curve");
+    }
     const jwt = await createJWT(
       this.args.payload,
       { issuer: this.args.did.toString(), signer },
