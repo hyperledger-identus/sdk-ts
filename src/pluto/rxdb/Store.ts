@@ -1,4 +1,4 @@
-import { CollectionsOfDatabase, MangoQuery, RxDatabase, RxDatabaseCreator, RxDocument, addRxPlugin, createRxDatabase, removeRxDatabase } from 'rxdb';
+import { CollectionsOfDatabase, MangoQuery, RxDatabase, RxDatabaseCreator, RxDocument, addRxPlugin, createRxDatabase } from 'rxdb';
 import { RxDBJsonDumpPlugin } from 'rxdb/plugins/json-dump';
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
 import { CollectionList, makeCollections } from "./collections";
@@ -115,6 +115,7 @@ export class RxdbStore implements Pluto.Store {
    */
   async clear() {
     await this.cleanup();
-    await removeRxDatabase(this.options.name, this.db.storage);
+    await this.db.remove();
+    delete this._db;
   }
 }
