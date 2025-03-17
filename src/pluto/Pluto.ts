@@ -122,14 +122,6 @@ export class Pluto extends Startable.Controller implements Domain.Pluto {
     this.BackupMgr = new BackupManager(this, this.Repositories);
   }
 
-  // TODO breaking change workarounds
-  override async start(): Promise<any> {
-    return await super.start();
-  }
-  override async stop(): Promise<any> {
-    return await super.stop();
-  }
-
   protected async _start() {
     if (notNil(this.store.start)) {
       await this.store.start();
