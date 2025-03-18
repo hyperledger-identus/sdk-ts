@@ -63,7 +63,6 @@ const sidebars = {
         'sdk/classes/Agent',
         'pluto/README',
         'sdk/classes/Mercury',
-        'sdk/classes/Pollux',
         {
           type: 'category',
           label: 'Domain',
