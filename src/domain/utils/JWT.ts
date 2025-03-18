@@ -1,7 +1,6 @@
 import { base64url } from "multiformats/bases/base64";
 import { isNil } from "../../utils/guards";
 import { InvalidJWTString } from "../models/errors/Pollux";
-import { JWTCredentialPayload, JWTPresentationPayload } from "../../pollux/models/JWTVerifiableCredential";
 import { JWTPayload } from "did-jwt";
 
 
