@@ -171,6 +171,8 @@ export class PresentationVerify extends Plugins.Task<Args> {
       );
     }
 
+    const credentialType = descriptorItem.format === "jwt_vc" || descriptorItem.format === "jwt_vp" ? "jwt" : "sd_jwt";
+
     const credential = await this.getCredential(ctx, descriptorItem, value);
     if (!credential) {
       //TODO: Improve this error, can be presentation or credential
@@ -194,7 +196,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
     const presentationSubmissionMapper = new DescriptorPath(presentationSubmission);
     const descriptorMaps = presentationSubmission.presentation_submission.descriptor_map;
 
-    // return true if 
+    // return true if all descriptorItems are valid
     for (const descriptorItem of descriptorMaps) {
       //Check descriptor format, and path or nested path
       const inputDescriptor = inputDescriptors.find(({ id }) => id === descriptorItem.id);
@@ -208,11 +210,11 @@ export class PresentationVerify extends Plugins.Task<Args> {
         descriptorItem,
         value
       );
-      if (valid) {
-        return true;
+      if (!valid) {
+        return false;
       }
     }
-    return false;
+    return true;
   }
 
   private validateField(
@@ -288,7 +290,10 @@ export class PresentationVerify extends Plugins.Task<Args> {
           while (paths.length) {
             const [path] = paths.splice(0, 1);
             try {
-              this.validateField(vc, descriptorMapper, path, field);
+              const valid = this.validateField(vc, descriptorMapper, path, field);
+              if (valid) {
+                break;
+              }
               //if field is valid, stop searching paths
               error = undefined;
               break;

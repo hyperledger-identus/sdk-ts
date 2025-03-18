@@ -126,7 +126,7 @@ export class SDJWT extends Task.Runner {
         const signature = Buffer.from(base64url.baseDecode(signatureEncoded));
         return publicKey.verify(Buffer.from(data), signature);
       },
-      saltGenerator: this.saltGenerator
+      saltGenerator: (length: number) => this.saltGenerator(length)
     };
   }
 
@@ -161,7 +161,7 @@ export class SDJWT extends Task.Runner {
         const signatureEncoded = base64url.baseEncode(signature);
         return signatureEncoded;
       },
-      saltGenerator: this.saltGenerator
+      saltGenerator: (length: number) => this.saltGenerator(length)
     };
   }
 }
