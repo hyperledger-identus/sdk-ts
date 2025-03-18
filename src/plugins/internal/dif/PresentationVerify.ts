@@ -171,8 +171,6 @@ export class PresentationVerify extends Plugins.Task<Args> {
       );
     }
 
-    const credentialType = descriptorItem.format === "jwt_vc" || descriptorItem.format === "jwt_vp" ? "jwt" : "sd_jwt";
-
     const credential = await this.getCredential(ctx, descriptorItem, value);
     if (!credential) {
       //TODO: Improve this error, can be presentation or credential
