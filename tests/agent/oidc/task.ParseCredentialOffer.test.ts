@@ -18,7 +18,7 @@ describe("OIDC Tasks", () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    ctx = Task.Context.make<any>({
+    ctx = new Task.Context<any>({
       Api: { request: vi.fn() }
     });
   });

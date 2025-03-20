@@ -1,5 +1,6 @@
 import * as Domain from "../../../domain";
 import { Ctor, Task, notNil } from "../../../utils";
+import { AgentContext } from "../../didcomm/Context";
 import { ProtocolType } from "../../protocols/ProtocolTypes";
 import { Connection } from "../Connection";
 import { MediateDeny } from "../didcomm/MediateDeny";
@@ -26,7 +27,7 @@ export class DIDCommConnection implements Connection {
       .set(ProtocolType.ProblemReporting, ProblemReport);
   }
 
-  async send(msg: Domain.Message, ctx: Task.Context) {
+  async send(msg: Domain.Message, ctx: AgentContext) {
     msg.direction = Domain.MessageDirection.SENT;
     // filter which messages we want stored
     const ignorePluto = [ProtocolType.PickupRequest, ProtocolType.DidcommMediationKeysUpdate];
@@ -42,7 +43,7 @@ export class DIDCommConnection implements Connection {
     return this.receive(response, ctx);
   }
 
-  async receive(msg: Domain.Message | undefined, ctx: Task.Context) {
+  async receive(msg: Domain.Message | undefined, ctx: AgentContext) {
     // find the relevant task - enable handling of unmatched
     const taskCtor = this.tasks.get(msg?.piuri ?? "unknown");
 

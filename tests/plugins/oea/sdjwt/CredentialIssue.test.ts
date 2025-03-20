@@ -11,7 +11,7 @@ describe("Plugins - OEA", () => {
   beforeEach(() => {
     const apollo = new Apollo();
     const castor = new Castor(apollo);
-    ctx = Task.Context.make<any>({
+    ctx = new Task.Context<any>({
       Apollo: apollo,
       Castor: castor,
       JWT: new JWT(),

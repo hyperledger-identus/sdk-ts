@@ -4,13 +4,14 @@ import { CredentialRequest } from "../protocols/CredentialRequest";
 import { Task } from "../../../utils/tasks";
 import { validate } from "../../../utils";
 import { JWTCredential } from "../../../pollux/models/JWTVerifiableCredential";
+import { AgentContext } from "../../didcomm/Context";
 
 interface Args {
   request: CredentialRequest;
 }
 
 export class HandleCredentialRequest extends Task<Domain.Credential, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const response = await ctx.Api.request(
       this.args.request.method,
       this.args.request.url.href,

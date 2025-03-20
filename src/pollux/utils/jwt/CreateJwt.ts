@@ -4,6 +4,7 @@ import { base64url } from "multiformats/bases/base64";
 import * as Domain from "../../../domain";
 import { asJsonObj, expect, notNil } from "../../../utils";
 import { Task } from "../../../utils/tasks";
+import { AgentContext } from "../../../edge-agent/didcomm/Context";
 
 /**
  * Asyncronously sign with a DID
@@ -23,7 +24,7 @@ interface Args {
 }
 
 export class CreateJWT extends Task<string, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const privateKey = await this.getPrivateKey(ctx);
 
     if (!privateKey.isSignable()) {
@@ -51,7 +52,7 @@ export class CreateJWT extends Task<string, Args> {
     return jwt;
   }
 
-  private async getPrivateKey(ctx: Task.Context) {
+  private async getPrivateKey(ctx: AgentContext) {
     if (notNil(this.args.privateKey)) {
       return this.args.privateKey;
     }
@@ -73,7 +74,7 @@ export class CreateJWT extends Task<string, Args> {
    * @param privateKey 
    * @returns {string} kid (key identifier)
    */
-  private async getSigningKid(ctx: Task.Context, did: Domain.DID, privateKey: Domain.PrivateKey) {
+  private async getSigningKid(ctx: AgentContext, did: Domain.DID, privateKey: Domain.PrivateKey) {
     const pubKey = privateKey.publicKey();
     const encoded = base58btc.encode(pubKey.to.Buffer());
     const document = await ctx.Castor.resolveDID(did.toString());

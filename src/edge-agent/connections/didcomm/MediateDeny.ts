@@ -1,6 +1,6 @@
 import * as Domain from "../../../domain";
 import { Task, expect } from "../../../utils";
-import { DIDCommContext } from "../../didcomm/Context";
+import { AgentContext } from "../../didcomm/Context";
 import { Connection } from "../Connection";
 
 /**
@@ -13,7 +13,7 @@ interface Args {
 }
 
 export class MediateDeny extends Task<void, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     ctx.logger.warn(`Mediation denied for: ${this.args.message.from?.toString()}`);
     ctx.logger.debug(`Mediate-Deny message:`, this.args.message);
 

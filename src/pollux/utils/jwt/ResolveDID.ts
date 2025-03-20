@@ -1,13 +1,14 @@
 import type * as DIDResolver from "did-resolver";
 import * as Domain from "../../../domain";
 import { Task, asArray, isEmpty } from "../../../utils";
+import { AgentContext } from "../../../edge-agent/didcomm/Context";
 
 export interface Args {
   did: string;
 }
 
 export class ResolveDID extends Task<DIDResolver.DIDResolutionResult, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const resolved = await ctx.Castor.resolveDID(this.args.did);
 
     const alsoKnownAs = resolved.coreProperties.find(

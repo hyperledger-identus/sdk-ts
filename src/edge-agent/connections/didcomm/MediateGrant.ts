@@ -1,6 +1,6 @@
 import * as Domain from "../../../domain";
 import { Task, expect } from "../../../utils";
-import { DIDCommContext } from "../../didcomm/Context";
+import { AgentContext } from "../../didcomm/Context";
 import { Connection } from "../Connection";
 
 /**
@@ -17,7 +17,7 @@ interface Args {
 }
 
 export class MediateGrant extends Task<void, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     const uri = expect(this.args.message.from);
     const msgTo = expect(this.args.message.to);
     const routingDID = expect(this.args.message.body.routing_did, "routing_did not available on message body");

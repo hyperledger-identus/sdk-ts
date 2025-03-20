@@ -3,7 +3,7 @@ import * as Domain from "../../domain";
 import { expect, isNil, notNil } from "../../utils";
 import { Task } from "../../utils/tasks";
 import { CancellableTask } from "../helpers/Task";
-import { DIDCommContext } from "./Context";
+import { AgentContext } from "./Context";
 import { ProtocolType } from "../protocols/ProtocolTypes";
 import { PickupRequest } from "../protocols/pickup/PickupRequest";
 
@@ -17,7 +17,7 @@ interface Args {
 }
 
 export class StartFetchingMessages extends Task<void, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     // check we're not already fetching messages
     if (notNil(ctx.Jobs.fetchMessages) || isNil(ctx.Connections.mediator)) {
       return;
@@ -69,7 +69,7 @@ export class StartFetchingMessages extends Task<void, Args> {
     }
   }
 
-  private async getSocketService(ctx: DIDCommContext) {
+  private async getSocketService(ctx: AgentContext) {
     const mediator = ctx.Connections.mediator;
 
     if (this.args.useSockets && mediator) {

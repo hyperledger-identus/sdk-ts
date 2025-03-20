@@ -6,6 +6,7 @@ import { Task } from "../../../utils/tasks";
 import { CreatePrismDID } from "../../didFunctions/CreatePrismDID";
 import { CreateJWT } from "../../../pollux/utils/jwt/CreateJwt";
 import { InvalidCredentialConfigurationIds } from "../errors";
+import { AgentContext } from "../../didcomm/Context";
 
 interface Args {
   offer: OIDC.CredentialOffer;
@@ -15,7 +16,7 @@ interface Args {
 }
 
 export class CreateCredentialRequest extends Task<CredentialRequest, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const credentialIssuer = this.args.offer.credential_issuer;
     const configId = expect(this.args.offer.credential_configuration_ids.at(0), InvalidCredentialConfigurationIds);
     const config = expect(this.args.issuerMeta.credential_configurations_supported[configId], InvalidCredentialConfigurationIds);

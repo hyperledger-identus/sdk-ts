@@ -14,7 +14,7 @@ describe("Plugins - DIF", () => {
     const apollo = new Apollo();
     const castor = new Castor(apollo);
     const pluto = mockPluto();
-    ctx = Task.Context.make<any>({
+    ctx = new Task.Context<any>({
       Apollo: apollo,
       Castor: castor,
       Pluto: pluto,

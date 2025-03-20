@@ -91,7 +91,7 @@ export class OIDCAgent extends Startable.Controller {
   }
 
   private runTask<T>(task: Task<T>): Promise<T> {
-    const ctx = Task.Context.make({
+    const ctx = new Task.Context({
       Api: this.api,
       Apollo: this.apollo,
       Castor: this.castor,

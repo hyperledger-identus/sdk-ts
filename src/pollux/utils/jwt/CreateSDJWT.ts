@@ -17,62 +17,62 @@ import { Plugins } from "../../../plugins";
  */
 
 interface Args<T extends SdJwtVcPayload = SdJwtVcPayload> {
-    did: Domain.DID;
-    privateKey?: Domain.PrivateKey;
-    payload: T;
-    header?: Partial<Domain.JWT.Header>;
-    disclosureFrame: DisclosureFrame<T>;
+  did: Domain.DID;
+  privateKey?: Domain.PrivateKey;
+  payload: T;
+  header?: Partial<Domain.JWT.Header>;
+  disclosureFrame: DisclosureFrame<T>;
 }
 
 export class CreateSDJWT<T extends SdJwtVcPayload = SdJwtVcPayload> extends Task<string, Args<T>> {
-    async run(ctx: Plugins.Context) {
-        const privateKey = await this.getPrivateKey(ctx);
-        if (!privateKey.isSignable()) {
-            throw new Error("Key is not signable");
-        }
-        const kid = await this.getSigningKid(ctx, this.args.did, privateKey);
-        const jwt = await ctx.SDJWT.sign({
-            issuerDID: this.args.did,
-            privateKey,
-            payload: this.args.payload,
-            disclosureFrame: this.args.disclosureFrame,
-            kid
-        })
-        return jwt;
+  async run(ctx: Plugins.Context) {
+    const privateKey = await this.getPrivateKey(ctx);
+    if (!privateKey.isSignable()) {
+      throw new Error("Key is not signable");
+    }
+    const kid = await this.getSigningKid(ctx, this.args.did, privateKey);
+    const jwt = await ctx.SDJWT.sign({
+      issuerDID: this.args.did,
+      privateKey,
+      payload: this.args.payload,
+      disclosureFrame: this.args.disclosureFrame,
+      kid
+    });
+    return jwt;
+  }
+
+  private async getPrivateKey(ctx: Plugins.Context) {
+    if (notNil(this.args.privateKey)) {
+      return this.args.privateKey;
     }
 
-    private async getPrivateKey(ctx: Task.Context) {
-        if (notNil(this.args.privateKey)) {
-            return this.args.privateKey;
-        }
+    const keys = await ctx.Pluto.getDIDPrivateKeysByDID(this.args.did);
+    const privateKey = expect(
+      keys.find(x => x.curve === Domain.Curve.ED25519),
+      "key not found"
+    );
 
-        const keys = await ctx.Pluto.getDIDPrivateKeysByDID(this.args.did);
-        const privateKey = expect(
-            keys.find(x => x.curve === Domain.Curve.ED25519),
-            "key not found"
-        );
+    return privateKey;
+  }
 
-        return privateKey;
-    }
+  /**
+   * try to match the privateKey with a dids verificationMethod
+   * returning the relevant key id
+   * 
+   * @param did 
+   * @param privateKey 
+   * @returns {string} kid (key identifier)
+   */
+  private async getSigningKid(ctx: Plugins.Context, did: Domain.DID, privateKey: Domain.PrivateKey) {
+    const pubKey = privateKey.publicKey();
+    const encoded = base58btc.encode(pubKey.to.Buffer());
+    const document = await ctx.Castor.resolveDID(did.toString());
 
-    /**
-     * try to match the privateKey with a dids verificationMethod
-     * returning the relevant key id
-     * 
-     * @param did 
-     * @param privateKey 
-     * @returns {string} kid (key identifier)
-     */
-    private async getSigningKid(ctx: Task.Context, did: Domain.DID, privateKey: Domain.PrivateKey) {
-        const pubKey = privateKey.publicKey();
-        const encoded = base58btc.encode(pubKey.to.Buffer());
-        const document = await ctx.Castor.resolveDID(did.toString());
+    const signingKey = document.verificationMethods.find(key => {
+      // TODO improve key identification
+      return key.publicKeyMultibase === encoded && key.id.includes("#authentication");
+    });
 
-        const signingKey = document.verificationMethods.find(key => {
-            // TODO improve key identification
-            return key.publicKeyMultibase === encoded && key.id.includes("#authentication");
-        });
-
-        return signingKey?.id;
-    }
+    return signingKey?.id;
+  }
 }
