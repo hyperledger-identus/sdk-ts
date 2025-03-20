@@ -1,9 +1,7 @@
 import { Payload } from "../../domain/protocols/Payload";
 import { JsonObj, expect, isObject, notEmptyString, notNil } from "../../utils";
 import { Task } from "../../utils/tasks";
-import { DIDCommContext } from "../didcomm/Context";
-import { JWT, SDJWT } from "../../pollux/utils/jwt";
-import { Plugins } from "../../plugins";
+import { AgentContext } from "../didcomm/Context";
 import { Domain } from "../..";
 
 interface IArgs<T extends string, D extends JsonObj> {
@@ -42,18 +40,11 @@ type Args =
   | Args_RevocationCheck;
 
 export class RunProtocol extends Task<Payload, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     const taskCtor = expect(
       ctx.Plugins.findProtocol(this.args.type, this.args.pid),
       `Protocol handler not found for ${this.args.pid} (${this.args.type})`
     );
-
-    const internalModules: Plugins.InternalModules = {
-      JWT: new JWT(),
-      SDJWT: new SDJWT(),
-    };
-
-    ctx.extend(internalModules);
 
     const task = new taskCtor(this.args.data);
     const result = await ctx.run(task);

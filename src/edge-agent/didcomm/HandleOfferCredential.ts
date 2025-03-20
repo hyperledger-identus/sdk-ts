@@ -3,7 +3,7 @@ import * as Domain from "../../domain";
 import { OfferCredential } from "../protocols/issueCredential/OfferCredential";
 import { RequestCredential } from "../protocols/issueCredential/RequestCredential";
 import { Task } from "../../utils/tasks";
-import { DIDCommContext } from "./Context";
+import { AgentContext } from "./Context";
 import { expect, isString } from "../../utils";
 import { RunProtocol } from "../helpers/RunProtocol";
 
@@ -17,7 +17,7 @@ interface Args {
 }
 
 export class HandleOfferCredential extends Task<RequestCredential, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     const { offer } = this.args;
     const attachment = expect(offer.attachments.at(0), "Invalid attachment");
     const format = expect(attachment.format, "Invalid attachment format");

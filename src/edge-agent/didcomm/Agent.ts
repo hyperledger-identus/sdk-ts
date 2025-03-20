@@ -44,6 +44,8 @@ import { Send } from "./Send";
 import { asJsonObj, isNil, notNil } from "../../utils";
 import { StartMediator } from "./StartMediator";
 import { StartFetchingMessages } from "./StartFetchingMessages";
+import { AgentContext } from "./Context";
+import { JWT, SDJWT } from "../../pollux/utils/jwt";
 
 /**
  * Edge agent implementation
@@ -195,8 +197,14 @@ export default class DIDCommAgent extends Startable.Controller {
       : undefined;
   }
 
-  private runTask<T>(task: Task<T>) {
-    const ctx = Task.Context.make({
+  /**
+   * run the given Task
+   * 
+   * @param task 
+   * @returns 
+   */
+  runTask<T>(task: Task<T>) {
+    const ctx = new AgentContext({
       Connections: this.connections,
       Plugins: this.plugins,
       Events: this.events,
@@ -207,6 +215,9 @@ export default class DIDCommAgent extends Startable.Controller {
       Castor: this.castor,
       Pluto: this.pluto,
       Seed: this.seed,
+
+      JWT: new JWT(),
+      SDJWT: new SDJWT(),
     });
 
     ctx.extend(this.plugins.getModules());

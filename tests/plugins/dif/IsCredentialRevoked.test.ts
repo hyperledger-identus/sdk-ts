@@ -21,7 +21,7 @@ describe("Plugins - DIF", () => {
         request: async () => new ApiResponse<any>(new Uint8Array(), 200),
       };
       apollo = new Apollo();
-      ctx = Task.Context.make({
+      ctx = new Task.Context({
         Api: api,
         Apollo: apollo,
       });

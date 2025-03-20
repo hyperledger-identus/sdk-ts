@@ -21,7 +21,7 @@ describe("StartMediator", () => {
       sendMessageParseMessage: vi.fn()
     } as any;
     pluto = mockPluto();
-    ctx = Task.Context.make({
+    ctx = new Task.Context({
       Connections: connections,
       Mercury: mercury,
       Pluto: pluto,

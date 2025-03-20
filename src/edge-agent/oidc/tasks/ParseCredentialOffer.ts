@@ -2,6 +2,7 @@ import { Task } from "../../../utils/tasks";
 import { asJsonObj, isObject, isString, notNil, validate } from "../../../utils";
 import { OIDC } from "../types";
 import { InvalidOffer } from "../errors";
+import { AgentContext } from "../../didcomm/Context";
 
 /**
  * attempt to extract a Credential Offer from the given value
@@ -14,7 +15,7 @@ interface Args {
 }
 
 export class ParseCredentialOffer extends Task<OIDC.CredentialOffer, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     try {
       const json = await this.extractJson(ctx);
       validate(json, OIDC.CredentialOffer);
@@ -27,7 +28,7 @@ export class ParseCredentialOffer extends Task<OIDC.CredentialOffer, Args> {
     }
   }
 
-  private async extractJson(ctx: Task.Context) {
+  private async extractJson(ctx: AgentContext) {
     if (isObject(this.args.value)) {
       return this.args.value;
     }

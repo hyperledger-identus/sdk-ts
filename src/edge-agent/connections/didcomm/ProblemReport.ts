@@ -1,7 +1,7 @@
 import * as Domain from "../../../domain";
 import { Task } from "../../../utils";
 import { ListenerKey } from "../../types";
-import { DIDCommContext } from "../../didcomm/Context";
+import { AgentContext } from "../../didcomm/Context";
 
 /**
  * Problem Report
@@ -12,7 +12,7 @@ interface Args {
 }
 
 export class ProblemReport extends Task<void, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     const msgs = [this.args.message];
     await ctx.Pluto.storeMessages(msgs);
     ctx.Events.emit(ListenerKey.MESSAGE, msgs);

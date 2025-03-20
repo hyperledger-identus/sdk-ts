@@ -2,7 +2,7 @@ import * as Domain from "../../domain";
 import { asArray, isNil, notNil } from "../../utils";
 import { Task } from "../../utils/tasks";
 import { OutOfBandInvitation } from "../protocols/invitation/v2/OutOfBandInvitation";
-import { DIDCommContext } from "./Context";
+import { AgentContext } from "./Context";
 import { CreatePeerDID } from "./CreatePeerDID";
 import { HandshakeRequest } from "../protocols/connection/HandshakeRequest";
 import { ListenerKey } from "../types";
@@ -20,7 +20,7 @@ interface Args {
 }
 
 export class HandleOOBInvitation extends Task<void, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     const attachment = asArray(this.args.invitation.attachments).at(0);
     // ?? make peerDID an arg - so we dont always create a new one
     const peerDID = await ctx.run(new CreatePeerDID({ services: [], updateMediator: true }));

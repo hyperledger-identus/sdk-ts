@@ -6,7 +6,7 @@ import { RevocationNotification } from "../../protocols/revocation/RevocationNot
 import { ProtocolType } from "../../protocols/ProtocolTypes";
 import { IssueCredential } from "../../protocols/issueCredential/IssueCredential";
 import { HandleIssueCredential } from "../../didcomm/HandleIssueCredential";
-import { DIDCommContext } from "../../didcomm/Context";
+import { AgentContext } from "../../didcomm/Context";
 
 /**
  * Pickup Delivery
@@ -22,7 +22,7 @@ interface Args {
 }
 
 export class PickupDelivery extends Task<void, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     const msg = this.args.message;
     const connection = ctx.Connections.mediator;
     const mediator = expect(connection?.asMediator());

@@ -4,14 +4,14 @@ import { Task } from "../../utils/tasks";
 import { RunProtocol } from "../helpers/RunProtocol";
 import { Presentation } from "../protocols/proofPresentation";
 import { ProtocolType } from "../protocols/ProtocolTypes";
-import { DIDCommContext } from "./Context";
+import { AgentContext } from "./Context";
 
 interface Args {
   presentation: Presentation;
 }
 
 export class HandlePresentation extends Task<boolean, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     const { presentation } = this.args;
 
     const attachment = expect(
@@ -39,7 +39,7 @@ export class HandlePresentation extends Task<boolean, Args> {
     return verified.data;
   }
 
-  private async getPresentationRequest(ctx: DIDCommContext, thid: string) {
+  private async getPresentationRequest(ctx: AgentContext, thid: string) {
     const allMessages = await ctx.Pluto.getAllMessages();
     const message = allMessages.find((message) => {
       return message.thid === thid && message.piuri === ProtocolType.DidcommRequestPresentation;

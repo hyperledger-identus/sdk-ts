@@ -17,7 +17,7 @@ describe("Plugins - OEA", () => {
   beforeEach(() => {
     pluto = mockPluto();
 
-    ctx = Task.Context.make<any>({
+    ctx = new Task.Context<any>({
       Pluto: pluto,
       JWT: new JWT(),
       SDJWT: new SDJWT(),

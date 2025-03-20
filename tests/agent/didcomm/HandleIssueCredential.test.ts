@@ -11,7 +11,7 @@ describe("Agent", () => {
   let ctx: Task.Context;
 
   beforeEach(() => {
-    ctx = Task.Context.make({});
+    ctx = new Task.Context({});
   });
 
 

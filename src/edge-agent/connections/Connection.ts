@@ -1,5 +1,5 @@
 import * as Domain from "../../domain";
-import { DIDCommContext } from "../didcomm/Context";
+import { AgentContext } from "../didcomm/Context";
 
 /**
  * Define the structure of a Connection
@@ -17,11 +17,11 @@ export interface Connection {
   /**
    * handle delivering a Message to the connected entity
    */
-  send: (message: Domain.Message, ctx: DIDCommContext) => Promise<Domain.Message | undefined>;
+  send: (message: Domain.Message, ctx: AgentContext) => Promise<Domain.Message | undefined>;
   /**
    * called when a Message is received from this connection
    */
-  receive: (message: any, ctx: DIDCommContext) => Promise<void>;
+  receive: (message: any, ctx: AgentContext) => Promise<void>;
   /**
    * handle any desired teardown
    */

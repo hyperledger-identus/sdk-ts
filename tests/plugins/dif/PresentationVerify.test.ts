@@ -17,13 +17,13 @@ describe("Plugins - DIF", () => {
     JWT: JWT,
     Apollo: Apollo,
     Castor: Castor,
-    DIF: DIFModule
+    DIF: DIFModule;
   }>;
 
   beforeEach(() => {
     const apollo = new Apollo();
     const castor = new Castor(apollo);
-    ctx = Task.Context.make<any>({
+    ctx = new Task.Context<any>({
       Apollo: apollo,
       Castor: castor,
       JWT: new JWT(),
@@ -300,7 +300,7 @@ describe("Plugins - DIF", () => {
               ]
             }
           };
-          const presentationJWT = await ctx.JWT.signWithDID(holderDID, vpPayload, undefined, issuerAuthenticationSK)
+          const presentationJWT = await ctx.JWT.signWithDID(holderDID, vpPayload, undefined, issuerAuthenticationSK);
 
 
           const presentation: DIF.EmbedTarget = {
@@ -399,7 +399,7 @@ describe("Plugins - DIF", () => {
           await expect(result).rejects.toThrow(
             `Verification failed for credential (eyJhbGciOi...): reason -> Invalid Verifiable Presentation JWS Signature`
           );
-        })
+        });
 
 
 
@@ -483,7 +483,7 @@ describe("Plugins - DIF", () => {
               ]
             }
           };
-          const presentationJWT = await ctx.JWT.signWithDID(holderDID, vpPayload, undefined, holderMasterSK)
+          const presentationJWT = await ctx.JWT.signWithDID(holderDID, vpPayload, undefined, holderMasterSK);
 
 
           const presentation: DIF.EmbedTarget = {
@@ -578,14 +578,14 @@ describe("Plugins - DIF", () => {
           await expect(result).rejects.toThrow(
             `Verification failed for credential (eyJhbGciOi...): reason -> Invalid Verifiable Credential JWS Signature`
           );
-        })
+        });
 
         test("Should verify true when presentation is valid using jwt_vc and jwt_vp with nested paths", async () => {
           const sut = new PresentationVerify({ presentation, presentationRequest, });
           const result = await ctx.run(sut);
 
           expect(result.data).toBe(true);
-        })
+        });
 
         test("Should verify true when the presentation is valid,using jwt_vc only", async () => {
 
@@ -1281,7 +1281,7 @@ describe("Plugins - DIF", () => {
           type: 'string',
           pattern: '*'
         }
-      }
+      };
 
       const presentationFrame: PresentationFrame<typeof payload> = {
         vc: {
@@ -1290,7 +1290,7 @@ describe("Plugins - DIF", () => {
             email: false
           }
         }
-      }
+      };
 
       const disclosureFrame: DisclosureFrame<typeof payload> = {
         _sd: ["vc"],
@@ -1306,7 +1306,7 @@ describe("Plugins - DIF", () => {
             _sd: ['email', 'firstname']
           }
         }
-      }
+      };
 
       const createSDJWT = new CreateSDJWT<typeof payload>({
         did: issuerDID,
@@ -1352,6 +1352,6 @@ describe("Plugins - DIF", () => {
 
       await expect(sut).rejects.toThrow('Verification failed for credential (eyJ0eXAiOi...): reason -> Invalid Claim: Expected one of the paths $.vc.credentialSubject.email, $.credentialSubject.email, $.email to exist.');
 
-    })
+    });
   });
 });

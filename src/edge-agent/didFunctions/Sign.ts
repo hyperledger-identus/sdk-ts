@@ -1,5 +1,6 @@
 import * as Domain from "../../domain";
 import { Task } from "../../utils/tasks";
+import { AgentContext } from "../didcomm/Context";
 
 /**
  * Asyncronously sign with a DID
@@ -16,7 +17,7 @@ interface Args {
 }
 
 export class SignWithDID extends Task<Domain.Signature, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const privateKeys = await ctx.Pluto.getDIDPrivateKeysByDID(this.args.did);
 
     for (const privateKey of privateKeys) {

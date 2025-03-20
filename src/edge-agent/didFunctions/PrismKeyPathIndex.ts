@@ -1,4 +1,5 @@
 import { Task } from "../../utils/tasks";
+import { AgentContext } from "../didcomm/Context";
 
 /**
  * Task to find the latest Prism DID KeyPathIndex
@@ -14,7 +15,7 @@ interface Args {
 }
 
 export class PrismKeyPathIndexTask extends Task<number, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const { index } = this.args;
     const prismDIDs = await ctx.Pluto.getAllPrismDIDs();
 

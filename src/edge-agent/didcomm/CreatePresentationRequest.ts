@@ -3,12 +3,12 @@ import * as Domain from "../../domain";
 import { RequestPresentation } from "../protocols/proofPresentation";
 import { CreatePeerDID } from "./CreatePeerDID";
 import { Task } from "../../utils/tasks";
-import { DIDCommContext } from "./Context";
+import { AgentContext } from "./Context";
 import { Context as ACContext } from "../../plugins/internal/anoncreds";
 import { Context as DIFContext } from "../../plugins/internal/dif";
 
 // TODO tmp workaround using plugins in Agent task
-type TaskContext = DIDCommContext & ACContext & DIFContext;
+type TaskContext = AgentContext & ACContext & DIFContext;
 
 interface Args {
   type: Domain.CredentialType;

@@ -7,6 +7,7 @@ import { ParsePrismInvitation } from "./ParsePrismInvitation";
 import { InvalidURLError, InvitationIsInvalidError } from "../../domain/models/errors/Agent";
 import { ParseOOBInvitation } from "./ParseOOBInvitation";
 import { InvitationType } from "../types";
+import { AgentContext } from "./Context";
 
 /**
  * Attempt to parse a given invitation based on its Type
@@ -18,7 +19,7 @@ interface Args {
 }
 
 export class ParseInvitation extends Task<InvitationType, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const json = this.decode();
     const type = json.type ?? json.piuri;
 

@@ -23,7 +23,7 @@ describe("StartFetchingMessages", () => {
     connections = { get mediator() { return mockMediator(); } } as any;
     mercury = { sendMessageParseMessage: vi.fn() } as any;
     pluto = mockPluto();
-    ctx = Task.Context.make({
+    ctx = new Task.Context({
       Connections: connections,
       Castor: { resolveDID: vi.fn() } as any,
       Jobs: new JobManager(),

@@ -15,7 +15,7 @@ describe("Plugins - Anoncreds", () => {
 
   beforeEach(() => {
     pluto = mockPluto();
-    ctx = Task.Context.make({
+    ctx = new Task.Context({
       Pluto: pluto,
       Anoncreds: new AnoncredsLoader(),
     });

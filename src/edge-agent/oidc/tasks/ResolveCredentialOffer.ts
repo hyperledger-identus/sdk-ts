@@ -7,6 +7,7 @@ import { InvalidCredentialConfigurationIds, MissingAuthorizationServerUri } from
 import { ProcessScopesAndConfigurationIds } from "./ProcessScopesAndConfigurationIds";
 import { FetchAuthServerMeta } from "./FetchAuthServerMeta";
 import { CreateAuthorizationRequest } from "./CreateAuthorizationRequest";
+import { AgentContext } from "../../didcomm/Context";
 
 /**
  * OIDC Authorization flow
@@ -21,7 +22,7 @@ interface Args {
 }
 
 export class ResolveCredentialOffer extends Task<AuthorizationRequest, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const { offer, clientId, redirectUri } = this.args;
     const issuerMeta = await ctx.run(new FetchIssuerMetadata({ uri: offer.credential_issuer }));
     const supportedKeys = Object.keys(issuerMeta.credential_configurations_supported);

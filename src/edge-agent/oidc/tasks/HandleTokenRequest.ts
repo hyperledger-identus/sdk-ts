@@ -4,13 +4,14 @@ import { Task } from "../../../utils/tasks";
 import { validate } from "../../../utils";
 import { OIDC } from "../types";
 import { InvalidTokenResponseStatus } from "../errors";
+import { AgentContext } from "../../didcomm/Context";
 
 interface Args {
   request: TokenRequest;
 }
 
 export class HandleTokenRequest extends Task<TokenResponse, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const response = await ctx.Api.request(
       this.args.request.method,
       this.args.request.url.href,
