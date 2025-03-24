@@ -1,6 +1,15 @@
 import { DID, Message } from "../../../domain";
 import { ProtocolType } from "../ProtocolTypes";
-import { PickupReceivedBody } from "../types";
+
+/**
+ * Specification:
+ * https://didcomm.org/messagepickup/3.0/
+ */
+
+export interface PickupReceivedBody {
+  // a list of ids of each message received. The id of each message is present in the attachment descriptor of each attached message of a delivery message.
+  message_id_list: string[];
+}
 
 export class PickupReceived {
   public static type = ProtocolType.PickupReceived;
@@ -12,11 +21,8 @@ export class PickupReceived {
   ) {}
 
   makeMessage(): Message {
-    const body = JSON.stringify({
-      message_id_list: this.body.messageIdList || [],
-    });
     return new Message(
-      body,
+      this.body,
       undefined,
       PickupReceived.type,
       this.from,

@@ -32,7 +32,7 @@ export class ProposePresentation {
 
   private validate() {
     if (notNil(this.body.goal_code) && !isString(this.body.goal_code)) {
-      throw new Error("Invalid goalCode");
+      throw new Error("Invalid goal_code");
     }
 
     if (notNil(this.body.comment) && !isString(this.body.comment)) {

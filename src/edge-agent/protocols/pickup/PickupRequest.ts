@@ -1,6 +1,17 @@
 import { DID, Message } from "../../../domain";
 import { ProtocolType } from "../ProtocolTypes";
-import { PickupRequestBody } from "../types";
+
+/**
+ * Specification:
+ * https://didcomm.org/messagepickup/3.0/
+ */
+
+export interface PickupRequestBody {
+  // after receipt of this message, the mediator SHOULD deliver up to the limit indicated.
+  limit: number;
+  // optional. When specified, the mediator MUST only return messages sent to that recipient did.
+  recipient_did?: string;
+}
 
 export class PickupRequest {
   public static type = ProtocolType.PickupRequest;
@@ -12,9 +23,8 @@ export class PickupRequest {
   ) {}
 
   makeMessage(): Message {
-    const body = JSON.stringify(this.body);
     const message = new Message(
-      body,
+      this.body,
       undefined,
       PickupRequest.type,
       this.from,
