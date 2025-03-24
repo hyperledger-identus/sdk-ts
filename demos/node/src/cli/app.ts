@@ -12,6 +12,11 @@ export class App {
   public state: State = {
     notifications: {},
     components: {},
+    oidc: {
+      // setup to work with allain local-prism
+      clientId: "alice-wallet",
+      redirectUri: "http://localhost/demo",
+    }
   };
 
   async start() {

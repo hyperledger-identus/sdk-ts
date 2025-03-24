@@ -1,5 +1,5 @@
 import { AsyncPrompt, SelectPrompt } from "../../cli";
-import SDK from "sdk";;
+import SDK from "@hyperledger/identus-sdk";
 
 export const ListConnections = new SelectPrompt(
   state => {

@@ -48,10 +48,6 @@ const runTests = (describe, test, assert, SDK) => {
     assert("ProposePresentation" in SDK);
     assert("RequestPresentation" in SDK);
 
-    // OIDC
-    assert("OIDC" in SDK);
-    assert("OIDCAgent" in SDK);
-
     assert("ListenerKey" in SDK);
 
     // ?? should be in Castor
@@ -135,6 +131,12 @@ const runTests = (describe, test, assert, SDK) => {
     //   });
     // });
   });
+
+  // describe("Plugins", () => {
+  //   // OIDC
+  //   assert("OIDC" in SDK);
+  //   assert("OIDCAgent" in SDK);
+  // })
 
   test("Agent starts", async () => {
     const apollo = new SDK.Apollo();

@@ -5,7 +5,7 @@ import * as sinon from "sinon";
 import SinonChai from "sinon-chai";
 import * as UUIDLib from "@stablelib/uuid";
 
-import Agent from "../../src/edge-agent/didcomm/Agent";
+import Agent from "../../src/edge-agent/Agent";
 import Mercury from "../../src/mercury/Mercury";
 import Apollo from "../../src/apollo/Apollo";
 import * as Fixtures from "../fixtures";

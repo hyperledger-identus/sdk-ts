@@ -4,8 +4,9 @@
  */
 export * as Connections from "./connections";
 
+export * as DIDs from "./dids";
+export * as OIDC from "./oidc";
 export * from "./didcommStart";
 export * from "./messages/listMessages";
 export * from "./inputOOB";
-export * from "./resolveDID";
 export * from "./updateMediatorDID";
