@@ -3,7 +3,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import SinonChai from "sinon-chai";
 import UUIDLib from "@stablelib/uuid";
-import Agent from "../../../src/edge-agent/didcomm/Agent";
+import Agent from "../../../src/edge-agent/Agent";
 import { AttachmentDescriptor, DID, Message, MessageDirection, Seed } from "../../../src/domain";
 import { HandshakeRequest, OutOfBandInvitation, ProtocolType } from "../../../src";
 import { InvitationIsInvalidError } from "../../../src/domain/models/errors/Agent";

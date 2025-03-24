@@ -1,5 +1,5 @@
 import { AsyncPrompt } from "../../cli";
-import SDK from "sdk";;
+import SDK from "@hyperledger/identus-sdk";
 
 export const makeAcceptCredentialOffer = (message: SDK.Domain.Message) => new AsyncPrompt(
   "Accept Credential Offer",

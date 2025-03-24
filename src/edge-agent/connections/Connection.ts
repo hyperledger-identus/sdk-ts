@@ -1,5 +1,9 @@
-import * as Domain from "../../domain";
-import { AgentContext } from "../didcomm/Context";
+import { Task } from "../../utils";
+
+// TODO define Protocol
+/// currently we handle sending ApiRequests and Messages
+/// is it worth abstracting away from those
+type Protocol = any;
 
 /**
  * Define the structure of a Connection
@@ -13,15 +17,14 @@ export interface Connection {
    * current condition of the connection
    */
   state: Connection.State;
-  // ? convert Message to Protocol
   /**
    * handle delivering a Message to the connected entity
    */
-  send: (message: Domain.Message, ctx: AgentContext) => Promise<Domain.Message | undefined>;
+  send: (message: Protocol, ctx: Task.Context<any>) => Promise<Protocol | undefined>;
   /**
    * called when a Message is received from this connection
    */
-  receive: (message: any, ctx: AgentContext) => Promise<void>;
+  receive: (message: Protocol, ctx: Task.Context<any>) => Promise<void>;
   /**
    * handle any desired teardown
    */

@@ -1,4 +1,4 @@
-import SDK from "sdk";;
+import SDK from "@hyperledger/identus-sdk";
 import { AsyncPrompt, SelectPrompt } from "../../cli";
 import { makeAcceptCredentialOffer } from "./acceptCredentialOffer";
 import { makeProcessIssueCredential } from "./processCredentialIssue";

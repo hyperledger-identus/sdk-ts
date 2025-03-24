@@ -1,6 +1,6 @@
 // TODO remove this when removing fn from Agent
-import { OEA } from "../../plugins/internal/oea/types";
-import { Claims as ACClaims } from "../../plugins/internal/anoncreds/types";
+import type { OEA } from "../../plugins/internal/oea/types";
+import type { Claims as ACClaims } from "../../plugins/internal/anoncreds/types";
 
 export type PresentationClaims<T extends CredentialType = CredentialType.JWT> =
   T extends CredentialType.JWT ? OEA.JWTPresentationClaims :

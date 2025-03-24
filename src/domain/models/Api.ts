@@ -1,3 +1,5 @@
+import { JsonObj } from "../../utils";
+
 export type HttpMethod =
   | 'DELETE'
   | 'GET'
@@ -29,6 +31,15 @@ export interface Api {
     httpHeaders?: Map<string, string>,
     body?: string | Record<string, any>
   ): Promise<ApiResponse<T>>;
+}
+
+export class ApiRequest {
+  public readonly headers = new Headers();
+  public readonly params = new URLSearchParams();
+  public method: HttpMethod = "GET";
+  public body?: string | JsonObj;
+
+  constructor(public readonly url: URL) {}
 }
 
 export class ApiResponse<T = unknown> {

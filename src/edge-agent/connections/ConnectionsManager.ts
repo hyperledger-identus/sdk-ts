@@ -42,7 +42,7 @@ export class ConnectionsManager {
    * @param {DIDPair} paired
    * @returns {Promise<void>}
    */
-  add<T extends Connection>(connection: T): void {
+  add(connection: Connection): void {
     this.connections.push(connection);
   }
 
@@ -50,7 +50,7 @@ export class ConnectionsManager {
    * add a Connection and mark it as a Mediator
    * @param mediator 
    */
-  addMediator<T extends Connection>(mediator: T): void {
+  addMediator(mediator: Connection): void {
     this.add(mediator);
     this.mediators.add(mediator.uri);
   }

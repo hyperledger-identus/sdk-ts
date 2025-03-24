@@ -33,6 +33,7 @@ export class HandleOOBInvitation extends Task<void, Args> {
         throw new Domain.AgentError.NoMediatorAvailableError();
       }
 
+      // ? should this get wrapped in a flow
       const request = HandshakeRequest.fromOutOfBand(this.args.invitation, peerDID);
       const alias = this.args.alias ?? "OOBConn";
       const pair = new Domain.DIDPair(peerDID, request.to, alias);
