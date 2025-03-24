@@ -8,6 +8,7 @@ import {
   PrismDerivationPathSchema
 } from "../../domain/models/derivation/schemas/PrismDerivation";
 import { Task } from "../../utils/tasks";
+import { AgentContext } from "../didcomm/Context";
 import { PrismKeyPathIndexTask } from "./PrismKeyPathIndex";
 
 /**
@@ -25,7 +26,7 @@ interface Args {
 }
 
 export class CreatePrismDID extends Task<Domain.DID, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const getIndexTask = new PrismKeyPathIndexTask({ index: this.args.keyPathIndex });
     const index = await ctx.run(getIndexTask);
 

@@ -50,3 +50,9 @@ import AnoncredsPlugin from "./plugins/internal/anoncreds";
 export const Plugins = {
   Anoncreds: AnoncredsPlugin
 };
+
+// Tasks
+import { CreatePrismDID } from "./edge-agent/didFunctions";
+export const Tasks = {
+  CreatePrismDID
+};

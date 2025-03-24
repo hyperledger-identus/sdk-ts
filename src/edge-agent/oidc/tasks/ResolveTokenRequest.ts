@@ -6,6 +6,7 @@ import { TokenResponse } from "../protocols/TokenResponse";
 import { expect } from "../../../utils";
 import { Task } from "../../../utils/tasks";
 import { MissingClientId, MissingRedirectUri, RequiredCallbackUrl } from "../errors";
+import { AgentContext } from "../../didcomm/Context";
 
 interface Args {
   authorizationRequest: AuthorizationRequest;
@@ -13,7 +14,7 @@ interface Args {
 }
 
 export class ResolveTokenRequest extends Task<TokenResponse, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     // validateAuthResponse(this.authServerConfig!, { client_id: this.clientId }, new URL(window.location.href));
     const { authorizationRequest, callbackUrl } = this.args;
     const authMeta = authorizationRequest.authServerMeta;

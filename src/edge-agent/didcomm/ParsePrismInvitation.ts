@@ -4,6 +4,7 @@ import { Task } from "../../utils/tasks";
 import { InvitationIsInvalidError } from "../../domain/models/errors/Agent";
 import { PrismOnboardingInvitation } from "../types";
 import { CreatePeerDID } from "./CreatePeerDID";
+import { AgentContext } from "./Context";
 
 /**
  * parse a prismOnboarding invitation
@@ -14,7 +15,7 @@ interface Args {
 }
 
 export class ParsePrismInvitation extends Task<PrismOnboardingInvitation, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const json = asJsonObj(this.args.value);
     const endpoint = expect(json.onboardEndpoint, new InvitationIsInvalidError("Undefined PrismOnboardingInvitation onboardEndpoint"));
     const type = expect(json.type, new InvitationIsInvalidError("Undefined PrismOnboardingInvitation type"));

@@ -1,6 +1,6 @@
 import * as Domain from "../../domain";
 import { CreatePeerDID } from "./CreatePeerDID";
-import { DIDCommContext } from "./Context";
+import { AgentContext } from "./Context";
 import { Task } from "../../utils/tasks";
 import { expect } from "../../utils";
 import { MediationRequest } from "../protocols/mediation/MediationRequest";
@@ -20,7 +20,7 @@ interface Args {
 }
 
 export class StartMediator extends Task<void, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     try {
       // re-establish known connection
       const mediators = await ctx.Pluto.getAllMediators();
@@ -51,7 +51,7 @@ export class StartMediator extends Task<void, Args> {
    * @param {DID} host
    * @returns {Promise<Mediator>}
    */
-  private async achieveMediation(ctx: DIDCommContext) {
+  private async achieveMediation(ctx: AgentContext) {
     const host = await ctx.run(
       new CreatePeerDID({ services: [], updateMediator: false })
     );

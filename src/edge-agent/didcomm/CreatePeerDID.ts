@@ -1,7 +1,7 @@
 import * as Domain from "../../domain";
 import { Task } from "../../utils/tasks";
 import { MediationKeysUpdateList } from "../protocols/mediation/MediationKeysUpdateList";
-import { DIDCommContext } from "./Context";
+import { AgentContext } from "./Context";
 import { Send } from "./Send";
 
 /**
@@ -19,7 +19,7 @@ interface Args {
 }
 
 export class CreatePeerDID extends Task<Domain.DID, Args> {
-  async run(ctx: DIDCommContext): Promise<Domain.DID> {
+  async run(ctx: AgentContext): Promise<Domain.DID> {
     const services = this.args.services;
     const updateMediator = this.args.updateMediator ?? false;
     const publicKeys: Domain.PublicKey[] = [];
@@ -73,7 +73,7 @@ export class CreatePeerDID extends Task<Domain.DID, Args> {
    * @param {DID[]} did
    * @returns {Promise<void>}
    */
-  async updateKeyListWithDID(ctx: DIDCommContext, did: Domain.DID): Promise<void> {
+  async updateKeyListWithDID(ctx: AgentContext, did: Domain.DID): Promise<void> {
     const mediator = ctx.Connections.mediator?.asMediator();
 
     if (!mediator) {

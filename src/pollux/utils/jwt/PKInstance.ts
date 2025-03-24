@@ -5,14 +5,14 @@ import { isObject, notEmptyString, Task } from "../../../utils";
 // TODO importing from Castor
 import { VerificationKeyType } from "../../../castor/types";
 import { FromJWK } from "./FromJWK";
+import { AgentContext } from "../../../edge-agent/didcomm/Context";
 export interface Args {
   verificationMethod: DIDResolver.VerificationMethod;
 }
 
 
 export class PKInstance extends Task<Domain.PublicKey | undefined, Args> {
-
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const verificationMethod = this.args.verificationMethod;
     let pk: Domain.PublicKey | undefined = undefined;
 

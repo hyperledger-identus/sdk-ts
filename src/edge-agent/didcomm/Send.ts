@@ -3,7 +3,7 @@ import { expect, notNil } from "../../utils";
 import { Task } from "../../utils/tasks";
 import { Connection } from "../connections";
 import { DIDCommConnection } from "../connections/didcomm";
-import { DIDCommContext } from "./Context";
+import { AgentContext } from "./Context";
 
 /**
  * attempt to deliver a Message across a Connection
@@ -24,7 +24,7 @@ interface Args {
 }
 
 export class Send extends Task<Domain.Message | undefined, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     const uri = expect(this.args.message.to?.toString());
     const connection = this.args.connection ?? ctx.Connections.find(uri);
 

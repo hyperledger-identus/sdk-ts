@@ -1,7 +1,7 @@
 import { uuid } from "@stablelib/uuid";
 import * as Domain from "../../domain";
 import { Presentation, RequestPresentation } from "../protocols/proofPresentation";
-import { DIDCommContext } from "./Context";
+import { AgentContext } from "./Context";
 import { Task } from "../../utils/tasks";
 import { expect, isString } from "../../utils";
 import { RunProtocol } from "../helpers/RunProtocol";
@@ -18,7 +18,7 @@ interface Args {
 }
 
 export class CreatePresentation extends Task<Presentation, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     const { credential, request } = this.args;
     const attachment = expect(request.attachments.at(0));
     const format = expect(attachment.format, "Invalid attachment format");

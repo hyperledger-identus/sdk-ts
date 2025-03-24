@@ -15,7 +15,7 @@ describe("Domain - SDJWT", () => {
     apollo = new Apollo();
     castor = new Castor(apollo);
     plutoMock = { getDIDPrivateKeysByDID: vi.fn() } as any;
-    const ctx = Task.Context.make({
+    const ctx = new Task.Context({
       Apollo: apollo,
       Castor: castor,
       Pluto: plutoMock,

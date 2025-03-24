@@ -1,6 +1,6 @@
 import * as Domain from "../../../domain";
 import { Task } from "../../../utils";
-import { DIDCommContext } from "../../didcomm/Context";
+import { AgentContext } from "../../didcomm/Context";
 
 /**
  * Pickup Status
@@ -13,7 +13,7 @@ interface Args {
 }
 
 export class PickupStatus extends Task<void, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     // do nothing
   }
 }

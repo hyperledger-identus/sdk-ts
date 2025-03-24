@@ -1,6 +1,7 @@
 import * as Domain from "../../../domain";
 import { validate } from "../../../utils";
 import { Task } from "../../../utils/tasks";
+import { AgentContext } from "../../didcomm/Context";
 import { OIDC } from "../types";
 
 interface Args {
@@ -9,7 +10,7 @@ interface Args {
 }
 
 export class FetchAuthServerMeta extends Task<Domain.ApiResponse<OIDC.AuthServerMetadata>, Args> {
-  async run(ctx: Task.Context) {
+  async run(ctx: AgentContext) {
     const serverUrl = new URL(this.args.serverUri);
     const url = new URL(serverUrl);
 

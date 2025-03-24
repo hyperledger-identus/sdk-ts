@@ -3,7 +3,7 @@ import { expect } from "../../utils";
 import { Task } from "../../utils/tasks";
 import { RunProtocol } from "../helpers/RunProtocol";
 import { IssueCredential } from "../protocols/issueCredential/IssueCredential";
-import { DIDCommContext } from "./Context";
+import { AgentContext } from "./Context";
 
 /**
  * Extract the verifiableCredential object from the Issue credential message asyncronously
@@ -14,7 +14,7 @@ interface Args {
 }
 
 export class HandleIssueCredential extends Task<Domain.Credential, Args> {
-  async run(ctx: DIDCommContext) {
+  async run(ctx: AgentContext) {
     const { issueCredential } = this.args;
     const attachment = expect(issueCredential.attachments.at(0), "Invalid attachment");
     const format = expect(attachment.format, "Invalid attachment");
