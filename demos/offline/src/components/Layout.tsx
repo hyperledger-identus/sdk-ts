@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Link from 'next/link';
 import AgentRequire from './AgentRequire';
 import { PrismDIDSelect } from './PrismDIDSelect';
@@ -30,12 +30,11 @@ type NavigationItem = NavItem | NavGroup;
 export default function Layout({ children, showDIDSelector = false }: LayoutProps) {
     const [notificationsOpen, setNotificationsOpen] = useState(false);
     const [agentControlsOpen, setAgentControlsOpen] = useState(false);
-    const { state } = useAgent();
-    const [notifications] = useState([
-        { id: 1, text: 'New connection request', isRead: false },
-        { id: 2, text: 'Credential offer received', isRead: false },
-        { id: 3, text: 'DID resolution complete', isRead: true },
-    ]);
+    const { state, agent, messages } = useAgent();
+
+    const [peerDID, setPeerDID] = useState<SDK.Domain.DID | null>(null);
+    const [showCopyFeedback, setShowCopyFeedback] = useState(false);
+
     const navItems: NavigationItem[] = [
         { path: '/app', label: 'Home' },
         {
@@ -74,9 +73,16 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
         setNotificationsOpen(!notificationsOpen);
     };
 
-    const unreadCount = notifications.filter(n => !n.isRead).length;
+    const unreadCount = messages.filter(({ read }) => !read).length;
+    debugger;
     // Type guard to check if item is a NavGroup
     const isNavGroup = (item: NavigationItem): item is NavGroup => 'children' in item;
+
+    useEffect(() => {
+        if (state === SDK.Domain.Startable.State.RUNNING && agent) {
+            agent.createNewPeerDID([], true).then(setPeerDID);
+        }
+    }, [state])
 
     return (
         <AgentRequire>
@@ -86,6 +92,7 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                     <div className=" px-4 py-3 flex items-center justify-between">
                         <div className="flex items-center space-x-4"></div>
                         <div className="flex items-center space-x-6">
+
                             {/* Notifications */}
                             <div className="relative flex items-center group">
                                 <div
@@ -96,16 +103,17 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                                             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">Notifications</h3>
                                         </div>
                                         <div className="max-h-96 overflow-y-auto">
-                                            {notifications.length > 0 ? (
+                                            {messages.length > 0 ? (
                                                 <div>
-                                                    {notifications.map((notification) => (
-                                                        <div
-                                                            key={notification.id}
-                                                            className={`px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 ${!notification.isRead ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}
+                                                    {messages.map((notification) => {
+                                                        debugger;
+                                                        return <div
+                                                            key={notification.message.id}
+                                                            className={`px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 ${!notification.read ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}
                                                         >
-                                                            <p className="text-sm text-gray-700 dark:text-gray-300">{notification.text}</p>
+                                                            <p className="text-smº text-gray-700 dark:text-gray-300">{notification.message.piuri}</p>
                                                         </div>
-                                                    ))}
+                                                    })}
                                                 </div>
                                             ) : (
                                                 <p className="text-sm text-gray-500 dark:text-gray-400 px-4 py-3">No notifications</p>
@@ -134,10 +142,43 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                                     className="absolute top-10 right-0 mt-1 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg z-20 border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 md:block hidden"
                                 >
                                     <div className="py-2">
-                                        <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                                        <div className="flex px-4 py-2 border-b border-gray-200 dark:border-gray-700 justify-between items-center">
                                             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">Agent Controls</h3>
+                                            {
+                                                peerDID && (
+                                                    <button
+                                                        onClick={() => {
+                                                            navigator.clipboard.writeText(peerDID.toString());
+                                                            setShowCopyFeedback(true);
+                                                            setTimeout(() => setShowCopyFeedback(false), 2000);
+                                                        }}
+                                                        className={`text-xs sm:text-sm text-blue-500 transition-transform duration-300 flex items-center gap-2 ${showCopyFeedback ? 'text-green-500' : ''}`}
+                                                    >
+                                                        {showCopyFeedback ? (
+                                                            <>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                                </svg>
+                                                                Copied!
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                                    <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                                                                    <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                                                                </svg>
+                                                                Copy DID
+                                                            </>
+                                                        )}
+                                                    </button>
+                                                )
+                                            }
                                         </div>
                                         <div className="p-4 space-y-4">
+
+
+
+
                                             <div className="flex flex-col items-end">
                                                 <AgentStart />
                                             </div>

@@ -66,6 +66,9 @@ export const schemas = {
     dids: migrateSchema(collections.dids.schema, {
         status: { type: SchemaFieldType.string }
     }),
+    messages: migrateSchema(collections.messages.schema, {
+        read: { type: SchemaFieldType.boolean, default: false }
+    }),
     settings: {
         version: 0 as const,
         primaryKey: 'id',
