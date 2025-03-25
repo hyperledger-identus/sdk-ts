@@ -17,7 +17,6 @@ import {
   PublicKey,
   Curve,
   getUsage,
-  VerificationMethodType,
   getCurveVerificationMethodType,
 } from "../../domain/models";
 

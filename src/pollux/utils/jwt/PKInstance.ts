@@ -1,4 +1,3 @@
-import type * as DIDResolver from "did-resolver";
 import { base58btc } from 'multiformats/bases/base58';
 import * as Domain from "../../../domain";
 import { isObject, notEmptyString, Task } from "../../../utils";
