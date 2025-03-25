@@ -53,6 +53,8 @@ export const Plugins = {
 
 // Tasks
 import { CreatePrismDID } from "./edge-agent/didFunctions";
+import { PKInstance } from "./pollux/utils/jwt/PKInstance";
 export const Tasks = {
-  CreatePrismDID
+  CreatePrismDID,
+  PKInstance
 };
