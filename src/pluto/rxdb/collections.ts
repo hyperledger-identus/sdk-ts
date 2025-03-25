@@ -12,11 +12,10 @@ type CollectionCreate<
   | MigrationStrategies;
 };
 
-type MakeCollections = (additional?: CollectionList) => CollectionList;
 
 export type CollectionList = Record<string, CollectionCreate>;
 
-export const makeCollections: MakeCollections = (
+export const makeCollections = (
   additional: CollectionList = {}
 ) => ({
   credentials: { schema: Models.CredentialSchema, migrationStrategies: Models.CredentialMigration },
