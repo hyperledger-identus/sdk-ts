@@ -14,12 +14,21 @@ type KeysFor<T, P extends PropertyTypes> = P extends "number"
 type PropertyTypes = "boolean" | "number" | "string";
 
 interface SchemaGenerator<T> {
-  addProperty<P extends PropertyTypes>(type: P, key: KeysFor<T, P>, opts?: any): void;
+  addProperty<K extends keyof T>(
+    type: T[K] extends string | undefined ? "string" :
+      T[K] extends number | undefined ? "number" :
+      T[K] extends boolean | undefined ? "boolean" : never,
+    key: K,
+    opts?: T[K] extends string | undefined ? { maxLength?: number } : Record<string, any>
+  ): void;
   addProperty(type: PropertyTypes, key: string, opts?: any): void;
-  setEncrypted(...keys: StringKeys<T>[]): void;
-  setRequired(...keys: StringKeys<T>[]): void;
+  setEncrypted(...keys: Array<keyof T & string>): void;
+  setRequired(...keys: Array<keyof T & string>): void;
   setVersion(version: number): void;
 }
+
+type InSchema<T> = keyof T & string;
+
 
 /**
  * helper for creating Schemas
@@ -44,10 +53,16 @@ export const schemaFactory = <T>(generator: (schema: SchemaGenerator<T>) => void
   };
 
   generator({
-    addProperty: (type: any, key: string, opts = {}) => { schema.properties[key] = { type, ...opts }; },
-    setEncrypted: (...keys) => { schema.encrypted.push(...keys); },
-    setRequired: (...keys) => { schema.required.push(...keys); },
-    setVersion: (version) => { schema.version = version; }
+    addProperty: (type: PropertyTypes, key: string, opts = {}) => {
+      (schema.properties as any)[key] = { type, ...opts };
+    },
+    setEncrypted: (...keys: Array<InSchema<T>>) => {
+      schema.encrypted.push(...keys);
+    },
+    setRequired: (...keys: Array<InSchema<T> | "uuid">) => {
+      schema.required.push(...keys);
+    },
+    setVersion: (version: number) => { schema.version = version; }
   });
 
   return schema;
