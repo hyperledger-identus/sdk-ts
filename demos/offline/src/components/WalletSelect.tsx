@@ -93,10 +93,10 @@ export function WalletSelect() {
 
             {isOpen && (
                 <div className="absolute z-10 w-56 mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg">
-                    {connected && (
+                    {connected ? (
                         <button
                             onClick={handleLogout}
-                            className="w-full flex items-center px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 border-b border-gray-200 dark:border-gray-600"
+                            className="w-full flex items-center px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
                         >
                             <svg
                                 className="w-4 h-4 mr-2"
@@ -113,34 +113,35 @@ export function WalletSelect() {
                             </svg>
                             Disconnect Wallet
                         </button>
+                    ) : (
+                        availableWallets.map((foundWallet) => (
+                            <button
+                                key={foundWallet.name}
+                                onClick={async () => {
+                                    try {
+                                        setSelectedWallet(foundWallet.name);
+                                        await connect(foundWallet.name);
+                                        await setWallet(foundWallet.name);
+                                        setIsOpen(false);
+                                    } catch (err: any) {
+                                        console.error("Error connecting wallet:", err);
+                                        setError(`Error connecting wallet: ${err.message}`);
+                                    }
+                                }}
+                                className={`w-full flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 ${selectedWallet === foundWallet.name ? 'bg-gray-100 dark:bg-gray-600' : ''
+                                    }`}
+                            >
+                                {foundWallet.icon && (
+                                    <img
+                                        src={foundWallet.icon}
+                                        alt={foundWallet.name}
+                                        className="w-6 h-6 mr-2"
+                                    />
+                                )}
+                                <span>{foundWallet.name}</span>
+                            </button>
+                        ))
                     )}
-                    {availableWallets.map((foundWallet) => (
-                        <button
-                            key={foundWallet.name}
-                            onClick={async () => {
-                                try {
-                                    setSelectedWallet(foundWallet.name);
-                                    await connect(foundWallet.name);
-                                    await setWallet(foundWallet.name);
-                                    setIsOpen(false);
-                                } catch (err: any) {
-                                    console.error("Error connecting wallet:", err);
-                                    setError(`Error connecting wallet: ${err.message}`);
-                                }
-                            }}
-                            className={`w-full flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 ${selectedWallet === foundWallet.name ? 'bg-gray-100 dark:bg-gray-600' : ''
-                                }`}
-                        >
-                            {foundWallet.icon && (
-                                <img
-                                    src={foundWallet.icon}
-                                    alt={foundWallet.name}
-                                    className="w-6 h-6 mr-2"
-                                />
-                            )}
-                            <span>{foundWallet.name}</span>
-                        </button>
-                    ))}
                 </div>
             )}
         </div>

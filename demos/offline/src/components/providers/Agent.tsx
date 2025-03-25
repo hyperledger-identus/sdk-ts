@@ -8,6 +8,7 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     const [agent, setAgent] = useState<SDK.Agent | null>(null);
     const { db, getMediator, getSeed, getResolverUrl } = useDatabase();
     const [state, setState] = useState<SDK.Domain.Startable.State>(SDK.Domain.Startable.State.STOPPED);
+    const [messages, setMessages] = useState<{ message: SDK.Domain.Message, read: boolean }[]>([]);
 
     async function start() {
         if (!db) {
@@ -42,19 +43,23 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     }
 
     useEffect(() => {
-        setState(agent?.state || SDK.Domain.Startable.State.STOPPED);
+        const currentState = agent?.state || SDK.Domain.Startable.State.STOPPED;
+        setState(currentState);
     }, [agent?.state]);
 
     useEffect(() => {
-        async function startAgent() {
-            if (db) {
-                const seed = await getSeed();
-                if (seed) {
-                    await start();
-                }
-            }
+        function onMessage(messages: SDK.Domain.Message[]) {
+            setMessages((prev) => [...prev, ...messages.map((message) => ({ message, read: false }))]);
         }
-        startAgent();
-    }, [db]);
-    return <AgentContext.Provider value={{ agent, setAgent, start, stop, state }}> {children} </AgentContext.Provider>
+        if (state === SDK.Domain.Startable.State.RUNNING) {
+            db?.getMessages().then((messages) => {
+                setMessages((prev) => [...prev, ...messages]);
+            });
+        }
+        agent?.addListener(SDK.ListenerKey.MESSAGE, onMessage);
+        return () => {
+            agent?.removeListener(SDK.ListenerKey.MESSAGE, onMessage);
+        }
+    }, [state])
+    return <AgentContext.Provider value={{ agent, setAgent, start, stop, state, messages }}> {children} </AgentContext.Provider>
 }
