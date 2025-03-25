@@ -26,6 +26,8 @@ import {
   VerificationMethods as DIDDocumentVerificationMethods,
   getUsageFromId,
   getUsageId,
+  isEd25519VerificationKey,
+  isSecp256k1VerificationKey,
   PrivateKey,
   Usage,
   VerificationMethod,
@@ -122,19 +124,19 @@ export default class Castor implements CastorInterface {
       }
     } else if (verificationMethod.publicKeyMultibase) {
       const raw = base58.base58btc.decode(verificationMethod.publicKeyMultibase)
-      if (verificationMethod.type === Curve.SECP256K1) {
+      if (verificationMethod.type === "EcdsaSecp256k1VerificationKey2019") {
         return new PrismDIDPublicKey(
           getUsageId(usage, index),
           usage,
           new Secp256k1PublicKey(raw)
         );
-      } else if (verificationMethod.type === Curve.ED25519) {
+      } else if (verificationMethod.type === "Ed25519VerificationKey2018" || verificationMethod.type === "Ed25519VerificationKey2020") {
         return new PrismDIDPublicKey(
           getUsageId(usage, index),
           usage,
           new Ed25519PublicKey(raw)
         );
-      } else if (verificationMethod.type === Curve.X25519) {
+      } else if (verificationMethod.type === "X25519KeyAgreementKey2019" || verificationMethod.type === "X25519KeyAgreementKey2020") {
         return new PrismDIDPublicKey(
           getUsageId(usage, index),
           usage,
@@ -430,7 +432,7 @@ export default class Castor implements CastorInterface {
 
     if (did.method == "prism") {
       const methods = verificationMethods.filter(
-        (method) => method.type == Curve.SECP256K1 || method.type === Curve.ED25519
+        (method) => isSecp256k1VerificationKey(method.type) || isEd25519VerificationKey(method.type)
       );
       if (methods.length <= 0) {
         throw new Error("No verification methods for Prism DID");
@@ -442,7 +444,7 @@ export default class Castor implements CastorInterface {
               "PrismDID VerificationMethod does not have multibase Key in it"
             );
           }
-          if (method.type === Curve.SECP256K1) {
+          if (isSecp256k1VerificationKey(method.type)) {
             const publicKey = Secp256k1PublicKey.secp256k1FromBytes(
               Buffer.from(base58.base58btc.decode(method.publicKeyMultibase))
             );
@@ -455,7 +457,7 @@ export default class Castor implements CastorInterface {
             }
 
           }
-          if (method.type === Curve.ED25519) {
+          if (isEd25519VerificationKey(method.type)) {
             const publicKey = new Ed25519PublicKey(
               Buffer.from(base58.base58btc.decode(method.publicKeyMultibase))
             );

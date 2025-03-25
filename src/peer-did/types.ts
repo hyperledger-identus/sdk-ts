@@ -1,3 +1,5 @@
+import { VerificationMethodType } from "../domain/models/DIDDocument";
+
 export enum VerificationMaterialFormatPeerDID {
   JWK = "jwk",
 }
@@ -6,8 +8,8 @@ export interface VerificationMethodTypePeerDID {
   value: string;
 }
 
-export class VerificationMethodType implements VerificationMethodTypePeerDID {
-  constructor(public value: string) {}
+export class BaseVerificationMethod implements VerificationMethodTypePeerDID {
+  constructor(public value: VerificationMethodType) { }
 }
 
 export enum Numalgo2Prefix {
@@ -22,26 +24,31 @@ export type OctetPublicKey = {
   x: string;
 };
 
-export class VerificationMethodTypeAgreement extends VerificationMethodType {
+export class VerificationMethodTypeAgreement extends BaseVerificationMethod {
   static JSON_WEB_KEY_2020 = new VerificationMethodTypeAgreement(
     "JsonWebKey2020"
   );
   static X25519_KEY_AGREEMENT_KEY_2019 = new VerificationMethodTypeAgreement(
     "X25519KeyAgreementKey2019"
+
   );
   static X25519_KEY_AGREEMENT_KEY_2020 = new VerificationMethodTypeAgreement(
     "X25519KeyAgreementKey2020"
   );
 }
 
-export class VerificationMethodTypeAuthentication extends VerificationMethodType {
+export class VerificationMethodTypeAuthentication extends BaseVerificationMethod {
   static JSON_WEB_KEY_2020 = new VerificationMethodTypeAuthentication(
     "JsonWebKey2020"
   );
   static ED25519_KEY_AGREEMENT_KEY_2018 =
-    new VerificationMethodTypeAuthentication("Ed25519VerificationKey2018");
+    new VerificationMethodTypeAuthentication(
+      "Ed25519VerificationKey2018"
+    );
   static ED25519_KEY_AGREEMENT_KEY_2020 =
-    new VerificationMethodTypeAuthentication("Ed25519VerificationKey2020");
+    new VerificationMethodTypeAuthentication(
+      "Ed25519VerificationKey2020"
+    );
 }
 
 export interface VerificationMethodTypePeerDIDWithAgreement

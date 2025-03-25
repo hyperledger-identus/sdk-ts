@@ -1,16 +1,13 @@
-import type * as DIDResolver from "did-resolver";
 import { base58btc } from 'multiformats/bases/base58';
 import * as Domain from "../../../domain";
 import { isObject, notEmptyString, Task } from "../../../utils";
 // TODO importing from Castor
-import { VerificationKeyType } from "../../../castor/types";
 import { FromJWK } from "./FromJWK";
 import { AgentContext } from "../../../edge-agent/didcomm/Context";
+
 export interface Args {
-  verificationMethod: DIDResolver.VerificationMethod;
+  verificationMethod: Domain.VerificationMethod;
 }
-
-
 export class PKInstance extends Task<Domain.PublicKey | undefined, Args> {
   async run(ctx: AgentContext) {
     const verificationMethod = this.args.verificationMethod;
@@ -18,15 +15,26 @@ export class PKInstance extends Task<Domain.PublicKey | undefined, Args> {
 
     if (notEmptyString(verificationMethod.publicKeyMultibase)) {
       const decoded = base58btc.decode(verificationMethod.publicKeyMultibase);
-      if (verificationMethod.type === VerificationKeyType.EcdsaSecp256k1VerificationKey2019) {
+      if (verificationMethod.type === "EcdsaSecp256k1VerificationKey2019") {
         pk = ctx.Apollo.createPublicKey({
           [Domain.KeyProperties.curve]: Domain.Curve.SECP256K1,
           [Domain.KeyProperties.rawKey]: decoded
         });
-      } else if (verificationMethod.type === VerificationKeyType.Ed25519VerificationKey2018 ||
-        verificationMethod.type === VerificationKeyType.Ed25519VerificationKey2020) {
+      } else if (verificationMethod.type === "Ed25519VerificationKey2018" ||
+        verificationMethod.type === "Ed25519VerificationKey2020") {
         pk = ctx.Apollo.createPublicKey({
           [Domain.KeyProperties.curve]: Domain.Curve.ED25519,
+          [Domain.KeyProperties.rawKey]: decoded
+        });
+      } else if (verificationMethod.type === "X25519KeyAgreementKey2019" ||
+        verificationMethod.type === "X25519KeyAgreementKey2020") {
+        pk = ctx.Apollo.createPublicKey({
+          [Domain.KeyProperties.curve]: Domain.Curve.X25519,
+          [Domain.KeyProperties.rawKey]: decoded
+        });
+      } else if (verificationMethod.type === "JsonWebKey2020") {
+        pk = ctx.Apollo.createPublicKey({
+          [Domain.KeyProperties.curve]: Domain.Curve.SECP256K1,
           [Domain.KeyProperties.rawKey]: decoded
         });
       }

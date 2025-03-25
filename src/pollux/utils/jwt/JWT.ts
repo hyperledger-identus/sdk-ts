@@ -58,9 +58,9 @@ export class JWT extends Task.Runner {
 
       const decoded = await this.decode(jws);
 
-      for (const vm of verificationMethods) {
+      for (const verificationMethod of verificationMethods) {
         try {
-          const pk = await this.runTask(new PKInstance({ verificationMethod: vm }));
+          const pk = await this.runTask(new PKInstance({ verificationMethod }));
 
           if (isNil(pk) || !pk.canVerify()) {
             throw new Error("Invalid key verification method type found");

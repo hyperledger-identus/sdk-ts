@@ -40,7 +40,7 @@ export class DIDCommDIDResolver implements DIDResolver {
           verificationMethods.push({
             controller: method.controller,
             id: method.id,
-            type: "JsonWebKey2020",
+            type: "JsonWebKey2020" as Domain.VerificationMethodType,
             publicKeyJwk: {
               crv: method.publicKeyJwk?.crv,
               kid: publicKeyKid,

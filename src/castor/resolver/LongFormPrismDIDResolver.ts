@@ -17,6 +17,7 @@ import {
   PublicKey,
   Curve,
   getUsage,
+  getCurveVerificationMethodType,
 } from "../../domain/models";
 
 import * as DIDParser from "../parser/DIDParser";
@@ -158,7 +159,7 @@ export class LongFormPrismDIDResolver implements DIDResolver {
           const method = new DIDDocumentVerificationMethod(
             didUrl.string(),
             did.toString(),
-            curve,
+            getCurveVerificationMethodType(curve),
             undefined,
             base58.base58btc.encode(publicKey.keyData.raw)
           );

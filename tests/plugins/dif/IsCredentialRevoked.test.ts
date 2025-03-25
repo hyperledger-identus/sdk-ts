@@ -257,7 +257,7 @@ describe("Plugins - DIF", () => {
     });
 
     it("Should throw an error if a wrong key type is used", async () => {
-      const encoded3 = base64.baseEncode(Buffer.from(JSON.stringify({ type: VerificationKeyType.EcdsaSecp256k1VerificationKey2019, publicKeyJwk: { x: "423", y: "123" } })));
+      const encoded3 = base64.baseEncode(Buffer.from(JSON.stringify({ type: "EcdsaSecp256k1VerificationKey2019", publicKeyJwk: { x: "423", y: "123" } })));
       vi.spyOn(api, "request").mockResolvedValue(new ApiResponse({
         "proof": {
           "type": "EcdsaSecp256k1Signature2019",
@@ -292,7 +292,7 @@ describe("Plugins - DIF", () => {
     });
 
     it("Should throw an error if a wrong key curve is used", async () => {
-      const encoded4 = base64.baseEncode(Buffer.from(JSON.stringify({ type: VerificationKeyType.EcdsaSecp256k1VerificationKey2019, publicKeyJwk: { x: "423", y: "123", kty: KeyTypes.EC } })));
+      const encoded4 = base64.baseEncode(Buffer.from(JSON.stringify({ type: "EcdsaSecp256k1VerificationKey2019", publicKeyJwk: { x: "423", y: "123", kty: KeyTypes.EC } })));
       vi.spyOn(api, "request").mockResolvedValue(new ApiResponse({
         "proof": {
           "type": "EcdsaSecp256k1Signature2019",
@@ -326,7 +326,7 @@ describe("Plugins - DIF", () => {
     });
 
     it("Should throw an eror if an invalid verificationKey is used", async () => {
-      const encoded5 = base64.baseEncode(Buffer.from(JSON.stringify({ type: VerificationKeyType.EcdsaSecp256k1VerificationKey2019, publicKeyJwk: { x: 'TYBgml3TiQdR_YQD1hIuNO8bRynSJ-rlPqaUwrWkq-E=', y: 'V0gTYA3LalWwCxOdyjofhGbdaQDwq0AwBnShtRK_3Xg=', kty: KeyTypes.EC, crv: Curve.SECP256K1.toLocaleLowerCase() } })));
+      const encoded5 = base64.baseEncode(Buffer.from(JSON.stringify({ type: "EcdsaSecp256k1VerificationKey2019", publicKeyJwk: { x: 'TYBgml3TiQdR_YQD1hIuNO8bRynSJ-rlPqaUwrWkq-E=', y: 'V0gTYA3LalWwCxOdyjofhGbdaQDwq0AwBnShtRK_3Xg=', kty: KeyTypes.EC, crv: Curve.SECP256K1.toLocaleLowerCase() } })));
 
       // return privateKey so .canVerify() returns false
       vi.spyOn(apollo, "createPublicKey").mockReturnValue(Fixtures.Keys.ed25519.privateKey);
@@ -364,7 +364,7 @@ describe("Plugins - DIF", () => {
     });
 
     it("Should throw an error if the status jwt is invalid", async () => {
-      const encoded6 = base64.baseEncode(Buffer.from(JSON.stringify({ type: VerificationKeyType.EcdsaSecp256k1VerificationKey2019, publicKeyJwk: { x: 'TYBgml3TiQdR_YQD1hIuNO8bRynSJ-rlPqaUwrWkq-E=', y: 'V0gTYA3LalWwCxOdyjofhGbdaQDwq0AwBnShtRK_3Xg=', kty: KeyTypes.EC, crv: Curve.SECP256K1.toLocaleLowerCase() } })));
+      const encoded6 = base64.baseEncode(Buffer.from(JSON.stringify({ type: "EcdsaSecp256k1VerificationKey2019", publicKeyJwk: { x: 'TYBgml3TiQdR_YQD1hIuNO8bRynSJ-rlPqaUwrWkq-E=', y: 'V0gTYA3LalWwCxOdyjofhGbdaQDwq0AwBnShtRK_3Xg=', kty: KeyTypes.EC, crv: Curve.SECP256K1.toLocaleLowerCase() } })));
 
       vi.spyOn(api, "request").mockResolvedValue(new ApiResponse({
         "proof": {
@@ -402,7 +402,7 @@ describe("Plugins - DIF", () => {
       const encoded8 = base64.baseEncode(
         Buffer.from(
           JSON.stringify({
-            type: VerificationKeyType.EcdsaSecp256k1VerificationKey2019,
+            type: "EcdsaSecp256k1VerificationKey2019",
             publicKeyJwk: {
               x: 'TYBgml3TiQdR_YQD1hIuNO8bRynSJ-rlPqaUwrWkq-E=',
               y: 'V0gTYA3LalWwCxOdyjofhGbdaQDwq0AwBnShtRK_3Xg=',
@@ -492,7 +492,7 @@ describe("Plugins - DIF", () => {
     //*/
     it("Should throw an error if the status proof type is invalid", async () => {
       const encoded6 = base64.baseEncode(Buffer.from(JSON.stringify({
-        type: VerificationKeyType.EcdsaSecp256k1VerificationKey2019,
+        type: "EcdsaSecp256k1VerificationKey2019",
         publicKeyJwk: { x: 'TYBgml3TiQdR_YQD1hIuNO8bRynSJ-rlPqaUwrWkq-E=', y: 'V0gTYA3LalWwCxOdyjofhGbdaQDwq0AwBnShtRK_3Xg=', kty: KeyTypes.EC, crv: Curve.SECP256K1.toLocaleLowerCase() }
       })));
       vi.spyOn(api, "request").mockResolvedValue(new ApiResponse({

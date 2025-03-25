@@ -10,11 +10,57 @@ export class ServiceEndpoint {
   ) {}
 }
 
+export function decodeVerificationMethodType(verificationMethod: string): verificationMethod is VerificationMethodType {
+  return verificationMethod === "EcdsaSecp256k1VerificationKey2019" ||
+    verificationMethod === "Ed25519VerificationKey2018" ||
+    verificationMethod === "Ed25519VerificationKey2020" ||
+    verificationMethod === "X25519KeyAgreementKey2019" ||
+    verificationMethod === "X25519KeyAgreementKey2020" ||
+    verificationMethod === "JsonWebKey2020"
+}
+
+export function getCurveVerificationMethodType(curve: string): VerificationMethodType {
+  if (curve === Curve.SECP256K1) {
+    return "EcdsaSecp256k1VerificationKey2019";
+  }
+  if (curve === Curve.ED25519) {
+    return "Ed25519VerificationKey2020";
+  }
+
+  if (curve === Curve.X25519) {
+    return "X25519KeyAgreementKey2020";
+  }
+
+  return "JsonWebKey2020"
+}
+
+export function isEd25519VerificationKey(verificationMethod: string): boolean {
+  return verificationMethod === "Ed25519VerificationKey2018" ||
+    verificationMethod === "Ed25519VerificationKey2020"
+}
+
+export function isSecp256k1VerificationKey(verificationMethod: string): boolean {
+  return verificationMethod === "EcdsaSecp256k1VerificationKey2019"
+}
+
+export function isX25519KeyAgreementKey(verificationMethod: string): boolean {
+  return verificationMethod === "X25519KeyAgreementKey2019" ||
+    verificationMethod === "X25519KeyAgreementKey2020"
+}
+
+export type VerificationMethodType =
+  "JsonWebKey2020" |
+  "Ed25519VerificationKey2018" |
+  "Ed25519VerificationKey2020" |
+  "X25519KeyAgreementKey2019" |
+  "X25519KeyAgreementKey2020" |
+  "EcdsaSecp256k1VerificationKey2019";
+
 export class VerificationMethod {
   constructor(
     public id: string,
     public controller: string,
-    public type: string,
+    public type: VerificationMethodType,
     public publicKeyJwk?: PublicKeyJWK,
     public publicKeyMultibase?: string
   ) {}

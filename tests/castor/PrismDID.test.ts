@@ -2,7 +2,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { base58btc } from "multiformats/bases/base58";
 import { describe, assert, it, expect, test, beforeEach, afterEach } from 'vitest';
-import { Authentication, Curve, DIDDocument, getProtosUsage, getUsageId, JWT_ALG, KeyTypes, PublicKey, Services, Usage, VerificationMethod, VerificationMethods } from "../../src/domain";
+import { Authentication, Curve, DIDDocument, getCurveVerificationMethodType, getProtosUsage, getUsageId, JWT_ALG, KeyTypes, PublicKey, Services, Usage, VerificationMethod, VerificationMethods } from "../../src/domain";
 import Apollo from "../../src/apollo/Apollo";
 import Castor from "../../src/castor/Castor";
 import * as ECConfig from "../../src/domain/models/ECConfig";
@@ -143,7 +143,7 @@ describe("PrismDID", () => {
         expect(cp0vm0?.id).to.eq(`${didStr}#master-0`);
         expect(cp0vm0?.publicKeyJwk).to.be.undefined;
         expect(cp0vm0?.publicKeyMultibase).to.eq("zSXxpYB6edvxvWxRTo3kMUoTTQVHpbNnXo2Z1AjLA78iqLdK2kVo5xw9rGg8uoEgmhxYahNur3RvV7HnaktWBqkXt");
-        expect(cp0vm0?.type).to.eq(Curve.SECP256K1);
+        expect(cp0vm0?.type).to.eq("EcdsaSecp256k1VerificationKey2019");
 
         const cp1 = sut.coreProperties.at(1) as Authentication;
         expect(cp1).to.be.instanceOf(Authentication);
@@ -154,7 +154,7 @@ describe("PrismDID", () => {
         expect(cp1vm0?.id).to.eq(`${didStr}#authentication-0`);
         expect(cp1vm0?.publicKeyJwk).to.be.undefined;
         expect(cp1vm0?.publicKeyMultibase).to.eq("zSXxpYB6edvxvWxRTo3kMUoTTQVHpbNnXo2Z1AjLA78iqLdK2kVo5xw9rGg8uoEgmhxYahNur3RvV7HnaktWBqkXt");
-        expect(cp1vm0?.type).to.eq(Curve.SECP256K1);
+        expect(cp1vm0?.type).to.eq("EcdsaSecp256k1VerificationKey2019");
 
         const cp2 = sut.coreProperties.at(2) as Services;
         expect(cp2).to.be.instanceOf(Services);
@@ -171,7 +171,7 @@ describe("PrismDID", () => {
         expect(cp3v0?.id).to.eq(`${didStr}#master-0`);
         expect(cp3v0?.publicKeyJwk).to.be.undefined;
         expect(cp3v0?.publicKeyMultibase).to.eq("zSXxpYB6edvxvWxRTo3kMUoTTQVHpbNnXo2Z1AjLA78iqLdK2kVo5xw9rGg8uoEgmhxYahNur3RvV7HnaktWBqkXt");
-        expect(cp3v0?.type).to.eq(Curve.SECP256K1);
+        expect(cp3v0?.type).to.eq("EcdsaSecp256k1VerificationKey2019");
 
         const cp3v1 = cp3.values.at(1);
         expect(cp3v1).to.be.instanceOf(VerificationMethod);
@@ -179,7 +179,7 @@ describe("PrismDID", () => {
         expect(cp3v1?.id).to.eq(`${didStr}#authentication-0`);
         expect(cp3v1?.publicKeyJwk).to.be.undefined;
         expect(cp3v1?.publicKeyMultibase).to.eq("zSXxpYB6edvxvWxRTo3kMUoTTQVHpbNnXo2Z1AjLA78iqLdK2kVo5xw9rGg8uoEgmhxYahNur3RvV7HnaktWBqkXt");
-        expect(cp3v1?.type).to.eq(Curve.SECP256K1);
+        expect(cp3v1?.type).to.eq("EcdsaSecp256k1VerificationKey2019");
       });
 
       const masterKeyId = getUsageId(Usage.MASTER_KEY);
@@ -191,7 +191,7 @@ describe("PrismDID", () => {
         expect(sut?.id).to.eq(`${didStr}#${keyId}`);
         expect(sut?.publicKeyJwk).to.be.undefined;
         expect(sut?.publicKeyMultibase).to.eq(keyMultibase);
-        expect(sut?.type).to.eq(curve);
+        expect(sut?.type).to.eq(getCurveVerificationMethodType(curve));
       };
 
       test("master key", async () => {
