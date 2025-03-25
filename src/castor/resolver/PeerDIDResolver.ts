@@ -205,7 +205,7 @@ export class PeerDIDResolver implements DIDResolver {
     return {
       id: new DIDUrl(did, [], new Map(), keyId).string(),
       controller: did.toString(),
-      type: decodedEncnumbasis[1].keyType.value,
+      type: 'JsonWebKey2020',
       publicKeyJwk: jsonObject,
     };
   }
