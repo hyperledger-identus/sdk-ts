@@ -113,6 +113,24 @@ export class PlutoExtended {
         return this._internal.collections;
     }
 
+    async getMessages(): Promise<{ message: SDK.Domain.Message, read: boolean }[]> {
+        const messages = await this.collections.messages.find({});
+        return messages.map((message) => ({
+            message: SDK.Domain.Message.fromJson(message.dataJson),
+            read: message.read ?? false
+        }))
+    }
+
+    async readMessage(message: SDK.Domain.Message) {
+        const found = await this.collections.messages.findById(message.uuid);
+        if (found) {
+            await this.collections.messages.update({
+                ...found,
+                read: true
+            })
+        }
+    }
+
     async getExtendedDIDs() {
         const dids = await this.collections.dids.find({});
         return Promise.all(dids.map(async (did) => {

@@ -20,6 +20,7 @@ export const AgentContext = createContext<{
     setAgent: (agent: SDK.Agent) => void;
     start: () => Promise<void>;
     stop: () => Promise<void>;
+    messages: { message: SDK.Domain.Message, read: boolean }[];
     state: SDK.Domain.Startable.State;
 } | undefined>(undefined);
 
