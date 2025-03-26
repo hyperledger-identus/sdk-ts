@@ -6,7 +6,7 @@ import AgentRequire from './AgentRequire';
 import { PrismDIDSelect } from './PrismDIDSelect';
 import { WalletSelect } from './WalletSelect';
 import { AgentStart } from './AgentStart';
-import { useAgent } from '@/hooks';
+import { useAgent, useDatabase } from '@/hooks';
 import SDK from "@hyperledger/identus-sdk";
 import { useRouter } from 'next/router';
 interface LayoutProps {
@@ -27,47 +27,70 @@ interface NavGroup {
 type NavigationItem = NavItem | NavGroup;
 
 
+
+const agentRoutes = [
+    {
+        label: 'Agent',
+        children: [
+            { path: '#', label: 'Issue Credentials' },
+            { path: '#', label: 'Verify Credentials' },
+
+        ]
+    },
+];
+
+const holderRoutes = [
+    {
+        label: 'Identity',
+        children: [
+            { path: '/app/dids', label: 'DIDs' },
+            { path: '/app/credentials', label: 'Credentials' },
+        ]
+    },
+];
+
+
 export default function Layout({ children, showDIDSelector = false }: LayoutProps) {
+    const { peerDID, state, messages } = useAgent();
+    const { features } = useDatabase();
+
     const [notificationsOpen, setNotificationsOpen] = useState(false);
     const [agentControlsOpen, setAgentControlsOpen] = useState(false);
-    const { state, messages } = useAgent();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const router = useRouter();
-    const [peerDID, setPeerDID] = useState<SDK.Domain.DID | null>(null);
     const [showCopyFeedback, setShowCopyFeedback] = useState(false);
+
+    // Close sidebar when route changes
+    useEffect(() => {
+        setIsSidebarOpen(false);
+    }, [router.pathname]);
 
     const navItems: NavigationItem[] = [
         { path: '/app', label: 'Home' },
-        {
-            label: 'Issuance',
-            children: [
-                { path: '/app/issuance-requests', label: 'Request' },
-            ]
-        },
-        {
-            label: 'Verification',
-            children: [
-                { path: '#', label: 'Requests' },
-            ]
-        },
-        {
-            label: 'Miscellaneous',
-            children: [
-                { path: '/app/dids', label: 'DIDs' },
-                { path: '/app/keys', label: 'Keys' },
-                { path: '/app/messages', label: 'Messages' },
-                { path: '/app/connections', label: 'Connections' },
-                { path: '/app/credentials', label: 'Credentials' },
-            ]
-        },
-        {
-            label: 'Settings',
-            children: [
-                { path: '/app/settings/blockfrost', label: 'Blockfrost' },
-                { path: '/app/settings/prism', label: 'Prism Resolver' },
-
-            ]
-        }
     ];
+
+    if (features.includes('agent')) {
+        navItems.push(...agentRoutes);
+    }
+
+    if (features.includes('holder')) {
+        navItems.push(...holderRoutes);
+    }
+
+
+    navItems.push(...[{
+        label: 'DIDComm',
+        children: [
+            { path: '/app/messages', label: 'Messages' },
+            { path: '/app/connections', label: 'Connections' },
+        ]
+    },
+    {
+        label: 'Config',
+        children: [
+            { path: '/app/settings', label: 'Settings' },
+        ]
+    }]);
 
     const toggleNotifications = () => {
         setNotificationsOpen(!notificationsOpen);
@@ -84,17 +107,29 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
             <div className="flex flex-col h-screen bg-white dark:bg-gray-800">
                 {/* Header */}
                 <header className="border-b border-gray-200 dark:border-gray-700 shadow-sm">
-                    <div className=" px-4 py-3 flex items-center justify-between">
+                    <div className="px-4 py-3 flex items-center justify-between">
                         <div className="flex items-center space-x-4">
+                            {/* Mobile menu button */}
+                            <button
+                                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                                className="lg:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+                                aria-label="Toggle menu"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
                             <div className="bg-gray-50 rounded-full p-2">
                                 <img src="/identus-navbar-light.png" alt="Identus Logo" className="h-8" />
                             </div>
                         </div>
-                        <div className="flex items-center space-x-6">
+                        <div className="flex items-center space-x-4 lg:space-x-6">
                             {/* Notifications */}
                             <div className="relative flex items-center group">
                                 <div
-                                    className="absolute top-10 right-0 mt-1 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg z-20 border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 md:block hidden"
+                                    className={`absolute top-10 right-0 mt-1 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg z-20 border border-gray-200 dark:border-gray-700 transition-all duration-200 
+                                    ${notificationsOpen ? 'opacity-100 visible' : 'opacity-0 invisible'} 
+                                    lg:group-hover:opacity-100 lg:group-hover:visible`}
                                 >
                                     <div className="py-2">
                                         <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
@@ -121,7 +156,7 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                                     </div>
                                 </div>
                                 <button
-                                    onClick={toggleNotifications}
+                                    onClick={() => setNotificationsOpen(!notificationsOpen)}
                                     className="flex items-center justify-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 border border-gray-300 dark:border-gray-600"
                                     aria-label="Notifications"
                                 >
@@ -138,7 +173,9 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                             {/* Agent Controls Menu */}
                             <div className="relative flex items-center group">
                                 <div
-                                    className="absolute top-10 right-0 mt-1 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg z-20 border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 md:block hidden"
+                                    className={`absolute top-10 right-0 mt-1 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg z-20 border border-gray-200 dark:border-gray-700 transition-all duration-200 
+                                    ${agentControlsOpen ? 'opacity-100 visible' : 'opacity-0 invisible'} 
+                                    lg:group-hover:opacity-100 lg:group-hover:visible`}
                                 >
                                     <div className="py-2">
                                         <div className="flex px-4 py-2 border-b border-gray-200 dark:border-gray-700 justify-between items-center">
@@ -217,8 +254,12 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                 </header>
                 <div className="flex flex-1 overflow-hidden">
                     {/* Sidebar */}
-                    <aside className="w-64 overflow-y-auto bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-colors duration-200">
-                        <nav className="mt-4">
+                    <aside className={`
+                        fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 
+                        transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static
+                        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+                    `}>
+                        <nav className="mt-4 h-full overflow-y-auto">
                             <ul>
                                 {navItems.map((item, index) => (
                                     <li key={isNavGroup(item) ? `group-${index}` : `item-${index}`}>
@@ -230,7 +271,10 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                                                 <ul>
                                                     {item.children.map((child, childIndex) => (
                                                         <li key={`${item.label}-${childIndex}`}>
-                                                            <Link href={child.path} className="text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-4 py-2 block">
+                                                            <Link
+                                                                href={child.path}
+                                                                className="text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-4 py-2 block"
+                                                            >
                                                                 {child.label}
                                                             </Link>
                                                         </li>
@@ -238,7 +282,10 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                                                 </ul>
                                             </>
                                         ) : (
-                                            <Link href={item.path} className="text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-4 py-2 block">
+                                            <Link
+                                                href={item.path}
+                                                className="text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-4 py-2 block"
+                                            >
                                                 {item.label}
                                             </Link>
                                         )}
@@ -248,7 +295,7 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                         </nav>
                     </aside>
                     {/* Main content */}
-                    <main className="flex-1 p-8">
+                    <main className="flex-1 p-4 lg:p-8 overflow-y-auto">
                         {children}
                     </main>
                 </div>
