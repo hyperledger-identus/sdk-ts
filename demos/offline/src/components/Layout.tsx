@@ -8,7 +8,7 @@ import { WalletSelect } from './WalletSelect';
 import { AgentStart } from './AgentStart';
 import { useAgent } from '@/hooks';
 import SDK from "@hyperledger/identus-sdk";
-
+import { useRouter } from 'next/router';
 interface LayoutProps {
     children: ReactNode;
     showDIDSelector?: boolean;
@@ -30,8 +30,8 @@ type NavigationItem = NavItem | NavGroup;
 export default function Layout({ children, showDIDSelector = false }: LayoutProps) {
     const [notificationsOpen, setNotificationsOpen] = useState(false);
     const [agentControlsOpen, setAgentControlsOpen] = useState(false);
-    const { state, agent, messages } = useAgent();
-
+    const { state, messages } = useAgent();
+    const router = useRouter();
     const [peerDID, setPeerDID] = useState<SDK.Domain.DID | null>(null);
     const [showCopyFeedback, setShowCopyFeedback] = useState(false);
 
@@ -73,26 +73,24 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
         setNotificationsOpen(!notificationsOpen);
     };
 
-    const unreadCount = messages.filter(({ read }) => !read).length;
-    debugger;
+    const unreadMessages = messages.filter(({ read }) => !read);
+    const unreadCount = unreadMessages.length;
     // Type guard to check if item is a NavGroup
     const isNavGroup = (item: NavigationItem): item is NavGroup => 'children' in item;
 
-    useEffect(() => {
-        if (state === SDK.Domain.Startable.State.RUNNING && agent) {
-            agent.createNewPeerDID([], true).then(setPeerDID);
-        }
-    }, [state])
 
     return (
         <AgentRequire>
             <div className="flex flex-col h-screen bg-white dark:bg-gray-800">
                 {/* Header */}
-                <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+                <header className="border-b border-gray-200 dark:border-gray-700 shadow-sm">
                     <div className=" px-4 py-3 flex items-center justify-between">
-                        <div className="flex items-center space-x-4"></div>
+                        <div className="flex items-center space-x-4">
+                            <div className="bg-gray-50 rounded-full p-2">
+                                <img src="/identus-navbar-light.png" alt="Identus Logo" className="h-8" />
+                            </div>
+                        </div>
                         <div className="flex items-center space-x-6">
-
                             {/* Notifications */}
                             <div className="relative flex items-center group">
                                 <div
@@ -103,15 +101,16 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                                             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">Notifications</h3>
                                         </div>
                                         <div className="max-h-96 overflow-y-auto">
-                                            {messages.length > 0 ? (
+                                            {unreadMessages.length > 0 ? (
                                                 <div>
-                                                    {messages.map((notification) => {
-                                                        debugger;
+                                                    {unreadMessages.map((notification) => {
                                                         return <div
                                                             key={notification.message.id}
                                                             className={`px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 ${!notification.read ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}
                                                         >
-                                                            <p className="text-smº text-gray-700 dark:text-gray-300">{notification.message.piuri}</p>
+                                                            <p onClick={() => {
+                                                                router.push(`/app/messages/${notification.message.id}`);
+                                                            }} className="text-sm text-gray-700 dark:text-gray-300">{notification.message.piuri}</p>
                                                         </div>
                                                     })}
                                                 </div>
@@ -175,10 +174,6 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                                             }
                                         </div>
                                         <div className="p-4 space-y-4">
-
-
-
-
                                             <div className="flex flex-col items-end">
                                                 <AgentStart />
                                             </div>
