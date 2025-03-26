@@ -18,10 +18,13 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
 
     const currentRoute = router.pathname;
     useEffect(() => {
-        if (currentRoute !== "/app/auth" && state === "disconnected") {
+        if (currentRoute !== "/app/auth") {
             setRedirectUrl(currentRoute);
-            router.replace("/app/auth");
-            return;
+        }
+        if (state === "disconnected") {
+            if (currentRoute !== "/app/auth") {
+                router.replace("/app/auth");
+            }
         }
     }, [currentRoute, state])
 

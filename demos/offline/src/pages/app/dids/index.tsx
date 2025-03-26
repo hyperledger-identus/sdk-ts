@@ -50,7 +50,7 @@ export default function DIDsPage() {
                 description="Create and manage your decentralized identifiers"
             />
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+            <div className="bg-white dark:bg-gray-800 hadow-sm">
                 {error && (
                     <ErrorAlert
                         message={error}

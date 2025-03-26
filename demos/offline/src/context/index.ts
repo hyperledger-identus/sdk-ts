@@ -22,6 +22,8 @@ export const AgentContext = createContext<{
     stop: () => Promise<void>;
     readMessage: (message: SDK.Domain.Message) => Promise<void>;
     messages: { message: SDK.Domain.Message, read: boolean }[];
+    connections: SDK.Domain.DIDPair[];
+    credentials: SDK.Domain.Credential[];
     state: SDK.Domain.Startable.State;
 } | undefined>(undefined);
 
