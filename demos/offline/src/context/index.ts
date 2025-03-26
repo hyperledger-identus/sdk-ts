@@ -20,6 +20,7 @@ export const AgentContext = createContext<{
     setAgent: (agent: SDK.Agent) => void;
     start: () => Promise<void>;
     stop: () => Promise<void>;
+    readMessage: (message: SDK.Domain.Message) => Promise<void>;
     messages: { message: SDK.Domain.Message, read: boolean }[];
     state: SDK.Domain.Startable.State;
 } | undefined>(undefined);
@@ -39,4 +40,5 @@ export const DatabaseContext = createContext<{
     setSeed: (seed: SDK.Domain.Seed | null) => Promise<void>;
     setWallet: (wallet: string | null) => Promise<void>;
     setResolverUrl: (resolverUrl: string | null) => Promise<void>;
+    readMessage: (message: SDK.Domain.Message) => Promise<void>;
 } | undefined>(undefined);

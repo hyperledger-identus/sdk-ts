@@ -1,16 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SDK from "@hyperledger/identus-sdk";
+
 import { DatabaseContext, DatabaseState } from "@/context";
 import { PlutoExtended } from "@/utils/db";
 import { MEDIATOR_DID, PRISM_RESOLVER_URL_KEY, WALLET_NAME } from "@/config";
-
+import { useRouter } from "next/router";
 
 const hasDB = (db: PlutoExtended | null): db is PlutoExtended => db !== null;
 
 export function DatabaseProvider({ children }: { children: React.ReactNode }) {
     const [db, setDb] = useState<PlutoExtended | null>(null);
+    const router = useRouter();
+    const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
+
     const [state, setState] = useState<DatabaseState>('disconnected');
     const [error, setError] = useState<Error | null>(null);
+
+    const currentRoute = router.pathname;
+    useEffect(() => {
+        if (currentRoute !== "/app/auth" && state === "disconnected") {
+            setRedirectUrl(currentRoute);
+            router.replace("/app/auth");
+            return;
+        }
+    }, [currentRoute, state])
+
+    useEffect(() => {
+        setState(db?.state || 'disconnected');
+        if (db?.state === 'disconnected') {
+            db?.start().then(() => {
+                setState('loaded');
+                return router.replace(redirectUrl || "/app");
+            })
+        }
+    }, [db])
 
     async function getMediator() {
         if (!hasDB(db)) {
@@ -90,20 +113,25 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         }
     }
 
+    async function readMessage(message: SDK.Domain.Message) {
+        if (!hasDB(db)) {
+            throw new Error("Database not connected");
+        }
+        await db.readMessage(message);
+    }
+
     async function start() {
         try {
-            setState("loading");
             if (!hasDB(db)) {
                 throw new Error("Database not connected");
             }
             await db.start();
-            setState("loaded");
         } catch (error) {
             setError(error as Error);
         }
     }
 
-    return <DatabaseContext.Provider value={{ db, state, error, setDb, start, getMediator, getSeed, getWallet, getResolverUrl, setMediator, setSeed, setWallet, setResolverUrl }}>
+    return <DatabaseContext.Provider value={{ db, state, error, setDb, start, getMediator, getSeed, getWallet, getResolverUrl, setMediator, readMessage, setSeed, setWallet, setResolverUrl }}>
         {children}
     </DatabaseContext.Provider>
 }

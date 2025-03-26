@@ -2,10 +2,10 @@
 
 import type { AppProps } from 'next/app';
 import { Geist, Geist_Mono } from "next/font/google";
-import "../styles/globals.css";
-
-import { ThemeProvider } from '../components/ThemeProvider';
 import { MeshProvider } from '@meshsdk/react';
+
+import "../styles/globals.css";
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { DatabaseProvider } from '@/components/providers/Database';
 import { AgentProvider } from '@/components/providers/Agent';
 

@@ -1,13 +1,14 @@
 import SDK from '@hyperledger/identus-sdk'
 import { schemas } from './schemas';
-import { Doc, QueryType, RIDB, StartOptions, StorageType } from '@trust0/ridb';
-import { Arrayable } from '../../../../../build/utils';
+import { Doc, QueryType, RIDB, StorageType } from '@trust0/ridb';
 
 import { uuid } from '@stablelib/uuid';
+import { DatabaseState } from '@/context';
 
 type SchemasType = typeof schemas;
 
 class RIDBStore implements SDK.Pluto.Store {
+    public state: DatabaseState = 'disconnected';
 
     get collections() {
         if (!this._db) {
@@ -61,14 +62,17 @@ class RIDBStore implements SDK.Pluto.Store {
     }
 
     async start() {
+        this.state = 'loading';
         await this._db.start({
             storageType: this.storageType,
             password: this.password
         })
+        this.state = 'loaded';
     }
 
     async stop(): Promise<void> {
         this._db.close()
+        this.state = 'disconnected';
     }
 }
 
@@ -78,12 +82,10 @@ type ApolloWithKeyRestoration = SDK.Domain.Apollo & SDK.Domain.KeyRestoration;
 export class PlutoExtended {
     public _internal: RIDBStore;
     public pluto: SDK.Pluto;
-    private _db: RIDB<SchemasType>;
-
     constructor(
         dbName: string,
-        private password: string,
-        private storageType: StorageType = StorageType.IndexDB,
+        password: string,
+        storageType: StorageType = StorageType.IndexDB,
         private apollo: ApolloWithKeyRestoration = new SDK.Apollo()
     ) {
         const db = new RIDB({
@@ -102,11 +104,15 @@ export class PlutoExtended {
             }
         });
         const store = new RIDBStore(db, password, storageType);
-        this._db = db;
+
         this._internal = store;
         this.pluto = new SDK.Pluto(store, apollo)
 
         this.pluto.storeDID = this.storeDID.bind(this);
+    }
+
+    get state(): DatabaseState {
+        return this._internal.state
     }
 
     get collections() {
@@ -122,7 +128,8 @@ export class PlutoExtended {
     }
 
     async readMessage(message: SDK.Domain.Message) {
-        const found = await this.collections.messages.findById(message.uuid);
+        const [found] = await this.collections.messages.find({ $or: [{ uuid: message.uuid }, { id: message.id }] });
+        debugger;
         if (found) {
             await this.collections.messages.update({
                 ...found,
@@ -133,7 +140,7 @@ export class PlutoExtended {
 
     async getExtendedDIDs() {
         const dids = await this.collections.dids.find({});
-        return Promise.all(dids.map(async (did) => {
+        return Promise.all(dids.filter((did) => did.method === 'prism').map(async (did) => {
             const keysIds = await this.collections['didkey-link'].find({ didId: did.uuid });
             const keys = await Promise.all(keysIds.map(({ keyId }) => this.collections.keys.findById(keyId)))
             return {
@@ -149,7 +156,7 @@ export class PlutoExtended {
         }))
     }
 
-    async storeDID(did: SDK.Domain.DID, keys: Arrayable<SDK.Domain.PrivateKey>, alias: string = "DID") {
+    async storeDID(did: SDK.Domain.DID, keys: SDK.Domain.PrivateKey[], alias: string = "DID") {
         if (alias.trim().length === 0) alias = "DID";
 
         await this.collections.dids.create({
@@ -266,10 +273,11 @@ export class PlutoExtended {
     }
 
     async start() {
-        await this._db.start({
-            storageType: this.storageType,
-            password: this.password
-        })
+        await this._internal.start()
+    }
+
+    async stop() {
+        await this._internal.stop()
     }
 
 }

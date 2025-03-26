@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
 import SDK from "@hyperledger/identus-sdk";
+import { useRouter } from "next/router";
+
 import { AgentContext } from "@/context";
-import { useDatabase } from "@/hooks";
 import { ResolverClass, createResolver } from "@/utils/resolvers";
+import { useDatabase } from "@/hooks";
 
 export function AgentProvider({ children }: { children: React.ReactNode }) {
+    const { db, getMediator, getSeed, getResolverUrl, state: dbState } = useDatabase();
     const [agent, setAgent] = useState<SDK.Agent | null>(null);
-    const { db, getMediator, getSeed, getResolverUrl } = useDatabase();
     const [state, setState] = useState<SDK.Domain.Startable.State>(SDK.Domain.Startable.State.STOPPED);
     const [messages, setMessages] = useState<{ message: SDK.Domain.Message, read: boolean }[]>([]);
+    const router = useRouter();
 
     async function start() {
         if (!db) {
             throw new Error("No db found");
+        }
+        if (db.state !== "loaded") {
+            await db.start();
         }
         const seed = await getSeed();
         if (!seed) {
@@ -40,6 +46,17 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     async function stop() {
         await agent?.stop();
         setAgent(null);
+        if (db?.state === 'disconnected') {
+            router.replace("/app/auth");
+        }
+    }
+
+    async function readMessage(message: SDK.Domain.Message) {
+        if (!db) {
+            throw new Error("No db found");
+        }
+        await db.readMessage(message);
+        setMessages((prev) => prev.map((m) => m.message.id === message.id ? { ...m, read: true } : m));
     }
 
     useEffect(() => {
@@ -48,18 +65,24 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     }, [agent?.state]);
 
     useEffect(() => {
-        function onMessage(messages: SDK.Domain.Message[]) {
-            setMessages((prev) => [...prev, ...messages.map((message) => ({ message, read: false }))]);
+        if (agent) {
+            function onMessage(messages: SDK.Domain.Message[]) {
+                setMessages((prev) => [...prev, ...messages.map((message) => ({ message, read: false }))]);
+            }
+            agent.addListener(SDK.ListenerKey.MESSAGE, onMessage);
+            return () => agent.removeListener(SDK.ListenerKey.MESSAGE, onMessage);
         }
-        if (state === SDK.Domain.Startable.State.RUNNING) {
-            db?.getMessages().then((messages) => {
+    }, [agent])
+
+    useEffect(() => {
+        if (db && dbState === 'loaded') {
+            db.getMessages().then((messages) => {
                 setMessages((prev) => [...prev, ...messages]);
+            }).catch((error) => {
+                console.log(error);
             });
         }
-        agent?.addListener(SDK.ListenerKey.MESSAGE, onMessage);
-        return () => {
-            agent?.removeListener(SDK.ListenerKey.MESSAGE, onMessage);
-        }
-    }, [state])
-    return <AgentContext.Provider value={{ agent, setAgent, start, stop, state, messages }}> {children} </AgentContext.Provider>
+    }, [dbState, db])
+
+    return <AgentContext.Provider value={{ agent, setAgent, start, stop, state, messages, readMessage }}> {children} </AgentContext.Provider>
 }

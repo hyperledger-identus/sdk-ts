@@ -1,8 +1,9 @@
 import Head from "next/head";
 import Layout from "@/components/Layout";
-import PageHeader from "@/components/PageHeader";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+
+import PageHeader from "@/components/PageHeader";
 import { getGroupedDIDs, GroupedDIDs } from "@/utils";
 import { DIDItem } from "@/components/DIDItem";
 import { ErrorAlert } from "@/components/ErrorAlert";
@@ -74,7 +75,7 @@ export default function DIDsPage() {
                 ) : hasAnyDIDs ? (
                     <div>
                         {Object.entries(groupedDIDs).map(([method, dids]) => (
-                            <div className="mb-6">
+                            <div key={`${method}-dids`} className="mb-6">
                                 <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3 capitalize">
                                     {method} DIDs
                                 </h3>
