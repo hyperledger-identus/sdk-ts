@@ -1,4 +1,5 @@
 import Head from "next/head";
+
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { OOB } from "@/components/OOB";
@@ -12,12 +13,10 @@ export default function ConnectionsPage() {
                 <title>Connections | Identus Agent</title>
                 <meta name="description" content="Manage your connections with other agents" />
             </Head>
-
             <PageHeader
                 title="Connections"
                 description="Manage your connections with other agents and services"
             />
-
             <div className="bg-white dark:bg-gray-800 hadow-sm">
                 <OOB />
                 {
