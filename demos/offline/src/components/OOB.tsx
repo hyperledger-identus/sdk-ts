@@ -101,16 +101,16 @@ export const OOB: React.FC = () => {
     const connection = connections.at(0);
     return <>
         <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Out of Band Connections</h2>
+            <h2 className="text-xl font-semibold text-text-primary-light dark:text-text-primary-dark">Out of Band Connections</h2>
             <button
                 onClick={() => setIsPopupOpen(true)}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                className="px-4 py-2 bg-button-primary-light dark:bg-button-primary-dark hover:bg-button-primary-dark dark:hover:bg-button-primary-light text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-button-primary-light/50 dark:focus:ring-button-primary-dark/50">
                 Create DID
             </button>
         </div>
         {!!connection && (
             <>
-                <p>Stored Connection as <b>{connection.name}</b></p>
+                <p className="text-text-primary-light dark:text-text-primary-dark">Stored Connection as <b>{connection.name}</b></p>
             </>
         )}
         <Popup
@@ -120,13 +120,12 @@ export const OOB: React.FC = () => {
                 setAlias("");
                 setIsPopupOpen(false);
                 setErrors({});
-
             }}
             title={"New connection"}
             footerButtons={[
                 <button
                     key="create"
-                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-button-primary-light dark:bg-button-primary-dark text-base font-medium text-white hover:bg-button-primary-dark dark:hover:bg-button-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-button-primary-light/50 dark:focus:ring-button-primary-dark/50 sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={onConnectionHandleClick}
                     disabled={isSubmitting}
                 >
@@ -134,54 +133,54 @@ export const OOB: React.FC = () => {
                 </button>
             ]}
         >
-            <h1 className="mb-4 text-lg font-extrabold tracking-tight leading-none text-gray-900 dark:text-white">
+            <h1 className="mb-4 text-lg font-extrabold tracking-tight leading-none text-text-primary-light dark:text-text-primary-dark">
                 Accept OOB (Connections / Presentations)
             </h1>
-            <p className="mb-4 text-md text-gray-900 dark:text-white">
+            <p className="mb-4 text-md text-text-primary-light dark:text-text-primary-dark">
                 This screen can help you establish a connection with another entity, wallet or agent. It also allows accepting an out of band verification request, when a verifier is asking you to prove something without a pre-existing connection, what we call "Connectionless presentation".
             </p>
 
             {errors.general && (
-                <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                <div className="mb-4 p-3 bg-status-error-light/10 dark:bg-status-error-dark/10 border border-status-error-light/20 dark:border-status-error-dark/20 text-status-error-light dark:text-status-error-dark rounded">
                     {errors.general}
                 </div>
             )}
 
             <div className="mb-4">
-                <label htmlFor="alias" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="alias" className="block text-sm font-medium text-text-primary-light dark:text-text-primary-dark mb-1">
                     Connection Name (Optional)
                 </label>
                 <input
                     id="alias"
                     name="alias"
-                    className={`block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border ${errors.alias ? 'border-red-500' : 'border-gray-300'
-                        } focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                    className={`block p-2.5 w-full text-sm text-text-primary-light dark:text-text-primary-dark bg-input-background-light dark:bg-input-background-dark rounded-lg border ${errors.alias ? 'border-status-error-light dark:border-status-error-dark' : 'border-input-border-light dark:border-input-border-dark'
+                        } focus:ring-button-primary-light dark:focus:ring-button-primary-dark focus:border-button-primary-light dark:focus:border-button-primary-dark`}
                     placeholder="Enter a name for this connection"
                     type="text"
                     value={alias}
                     onChange={handleOnChange}
                 />
                 {errors.alias && (
-                    <p className="mt-1 text-sm text-red-600">{errors.alias}</p>
+                    <p className="mt-1 text-sm text-status-error-light dark:text-status-error-dark">{errors.alias}</p>
                 )}
             </div>
 
             <div className="mb-4">
-                <label htmlFor="oob" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="oob" className="block text-sm font-medium text-text-primary-light dark:text-text-primary-dark mb-1">
                     OOB Invitation or DID
                 </label>
                 <input
                     id="oob"
                     name="oob"
-                    className={`block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border ${errors.oob ? 'border-red-500' : 'border-gray-300'
-                        } focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                    className={`block p-2.5 w-full text-sm text-text-primary-light dark:text-text-primary-dark bg-input-background-light dark:bg-input-background-dark rounded-lg border ${errors.oob ? 'border-status-error-light dark:border-status-error-dark' : 'border-input-border-light dark:border-input-border-dark'
+                        } focus:ring-button-primary-light dark:focus:ring-button-primary-dark focus:border-button-primary-light dark:focus:border-button-primary-dark`}
                     placeholder="Paste out of band connection QRCode here or a DID"
                     type="text"
                     value={oob}
                     onChange={handleOnChange}
                 />
                 {errors.oob && (
-                    <p className="mt-1 text-sm text-red-600">{errors.oob}</p>
+                    <p className="mt-1 text-sm text-status-error-light dark:text-status-error-dark">{errors.oob}</p>
                 )}
             </div>
         </Popup>

@@ -18,17 +18,17 @@ export const Popup: React.FC<PopupProps> = ({ isOpen, onClose, children, title, 
                     aria-hidden="true"
                     onClick={onClose}
                 >
-                    <div className="absolute inset-0 bg-gray-500 dark:bg-gray-900 opacity-75"></div>
+                    <div className="absolute inset-0 bg-black-75"></div>
                 </div>
                 <div
-                    className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                    className="inline-block align-bottom bg-background-light dark:bg-background-dark rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <div className="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div className="bg-background-light dark:bg-background-dark px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div className="sm:flex sm:items-start">
                             <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
                                 {title && (
-                                    <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">
+                                    <h3 className="text-lg leading-6 font-medium text-text-primary-light dark:text-text-primary-dark mb-4">
                                         {title}
                                     </h3>
                                 )}
@@ -36,10 +36,10 @@ export const Popup: React.FC<PopupProps> = ({ isOpen, onClose, children, title, 
                             </div>
                         </div>
                     </div>
-                    <div className="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <div className="bg-background-light/50 dark:bg-background-dark/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button
                             type="button"
-                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-button-primary-light dark:bg-button-primary-dark text-base font-medium text-white hover:bg-button-primary-dark dark:hover:bg-button-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-button-primary-light/50 dark:focus:ring-button-primary-dark/50 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={onClose}
                         >
                             Close

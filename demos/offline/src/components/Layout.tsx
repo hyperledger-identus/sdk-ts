@@ -273,7 +273,10 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                                                         <li key={`${item.label}-${childIndex}`}>
                                                             <Link
                                                                 href={child.path}
-                                                                className="text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-4 py-2 block"
+                                                                className={`text-sm px-4 py-2 block ${router.pathname === child.path
+                                                                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+                                                                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                                                    }`}
                                                             >
                                                                 {child.label}
                                                             </Link>
@@ -284,7 +287,10 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                                         ) : (
                                             <Link
                                                 href={item.path}
-                                                className="text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-4 py-2 block"
+                                                className={`text-sm px-4 py-2 block ${router.pathname === item.path
+                                                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+                                                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                                    }`}
                                             >
                                                 {item.label}
                                             </Link>

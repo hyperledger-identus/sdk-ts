@@ -55,7 +55,6 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
         return txHash;
     }
 
-
     function splitStringIntoChunks(input: Uint8Array, chunkSize = 64): Uint8Array[] {
         const buffer = Buffer.from(input);
         const chunks: Uint8Array[] = [];
@@ -160,7 +159,7 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
     }
 
     return (
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700 last:border-0">
+        <div className="p-4 border-b border-border-light dark:border-border-dark last:border-0">
             {error && (
                 <ErrorAlert
                     message={`Error resolving DID: ${error}`}
@@ -176,7 +175,7 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
 
             <div className="flex justify-between items-center">
                 <div>
-                    <h3 className="font-medium text-gray-900 dark:text-white">
+                    <h3 className="font-medium text-text-primary-light dark:text-text-primary-dark">
                         {didItem.alias}
                         {
                             didItem.did.method === "prism" && <>
@@ -191,7 +190,7 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
                                                 }
                                             }}
                                             disabled={publishing}
-                                            className="ml-2 px-2 py-0.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 disabled:bg-indigo-400 disabled:cursor-not-allowed"
+                                            className="ml-2 px-2 py-0.5 bg-button-primary-light hover:bg-button-primary-dark text-white rounded text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-button-primary-light/50 focus:ring-opacity-50 disabled:bg-button-primary-light/50 disabled:cursor-not-allowed"
                                         >
                                             {publishing ? 'Publishing...' : 'Publish'}
                                         </button>
@@ -200,7 +199,7 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
                             </>
                         }
                     </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                    <p className="text-sm text-text-secondary-light dark:text-text-secondary-dark truncate">
                         {
                             didItem.did.method === "prism" ?
                                 didString.split(':').slice(0, 3).join(':') :
@@ -212,7 +211,7 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
                     <button
                         onClick={() => resolveDID(didString.split(':').slice(0, 3).join(':'))}
                         disabled={isResolving}
-                        className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 disabled:bg-green-400 disabled:cursor-not-allowed text-sm"
+                        className="px-3 py-1 bg-status-success-light hover:bg-status-success-dark text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-status-success-light/50 focus:ring-opacity-50 disabled:bg-status-success-light/50 disabled:cursor-not-allowed text-sm"
                     >
                         {isResolving ? 'Resolving...' : 'Resolve'}
                     </button>
@@ -221,32 +220,32 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
 
             {/* Resolution results */}
             {isResolving && (
-                <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-900 rounded-md">
+                <div className="mt-4 p-3 bg-background-light/50 dark:bg-background-dark/50 rounded-md">
                     <div className="flex items-center justify-center">
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-2"></div>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">Resolving DID...</p>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-button-primary-light dark:border-button-primary-dark mr-2"></div>
+                        <p className="text-sm text-text-secondary-light dark:text-text-secondary-dark">Resolving DID...</p>
                     </div>
                 </div>
             )}
 
             {resolvedData && !isResolving && (
                 <div className="mt-4">
-                    <div className="p-3 border border-green-200 rounded-md bg-green-50 dark:bg-green-900/20 dark:border-green-800">
+                    <div className="p-3 border border-status-success-light/20 rounded-md bg-status-success-light/10 dark:bg-status-success-dark/10 dark:border-status-success-dark/20">
                         <div className="flex justify-between items-center mb-2">
-                            <h3 className="text-sm font-medium text-green-700 dark:text-green-400">DID Resolution Result</h3>
+                            <h3 className="text-sm font-medium text-status-success-light dark:text-status-success-dark">DID Resolution Result</h3>
                             <button
                                 onClick={() => setExpanded(!expanded)}
-                                className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 focus:outline-none"
+                                className="text-xs text-button-primary-light hover:text-button-primary-dark dark:text-button-primary-dark dark:hover:text-button-primary-light focus:outline-none"
                             >
                                 {expanded ? 'Collapse' : 'Expand'}
                             </button>
                         </div>
                         {expanded ? (
-                            <pre className="text-xs bg-white dark:bg-gray-900 p-3 rounded overflow-auto max-h-96 text-gray-800 dark:text-gray-200">
+                            <pre className="text-xs bg-background-light dark:bg-background-dark p-3 rounded overflow-auto max-h-96 text-text-primary-light dark:text-text-primary-dark">
                                 {JSON.stringify(resolvedData, null, 2)}
                             </pre>
                         ) : (
-                            <p className="text-xs text-gray-600 dark:text-gray-400">
+                            <p className="text-xs text-text-secondary-light dark:text-text-secondary-dark">
                                 Click expand to view the full resolution data
                             </p>
                         )}
