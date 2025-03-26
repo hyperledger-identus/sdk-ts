@@ -20,7 +20,7 @@ export default function MessagesPage() {
                 description="View and manage your messages"
             />
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+            <div className="bg-white dark:bg-gray-800 shadow-sm">
 
                 {messages.length === 0 ? (
                     <div className="border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900">
