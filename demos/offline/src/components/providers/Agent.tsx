@@ -67,7 +67,12 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (agent) {
             function onMessage(messages: SDK.Domain.Message[]) {
-                setMessages((prev) => [...prev, ...messages.map((message) => ({ message, read: false }))]);
+                setMessages((prev) => {
+                    const newMessages = messages.filter(
+                        (message) => !prev.some((m) => m.message.id === message.id)
+                    );
+                    return [...prev, ...newMessages.map((message) => ({ message, read: false }))];
+                });
             }
             agent.addListener(SDK.ListenerKey.MESSAGE, onMessage);
             return () => agent.removeListener(SDK.ListenerKey.MESSAGE, onMessage);
@@ -77,7 +82,12 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (db && dbState === 'loaded') {
             db.getMessages().then((messages) => {
-                setMessages((prev) => [...prev, ...messages]);
+                setMessages((prev) => {
+                    const newMessages = messages.filter(
+                        (message) => !prev.some((m) => m.message.id === message.message.id)
+                    );
+                    return [...prev, ...newMessages];
+                });
             }).catch((error) => {
                 console.log(error);
             });
