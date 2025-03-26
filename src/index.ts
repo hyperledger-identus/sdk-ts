@@ -18,6 +18,7 @@ export { HandshakeRequest } from './edge-agent/protocols/connection/HandshakeReq
 export { OutOfBandInvitation } from './edge-agent/protocols/invitation/v2/OutOfBandInvitation';
 export * from "./edge-agent/protocols/proofPresentation";
 export * from "./edge-agent/connections/ConnectionsManager";
+export * from "./edge-agent/connections/didcomm/DIDCommConnection";
 export * from "./mercury/didcomm/Wrapper";
 export { FetchApi as ApiImpl } from "./edge-agent/helpers/FetchApi";
 export { ListenerKey } from "./edge-agent/types";
