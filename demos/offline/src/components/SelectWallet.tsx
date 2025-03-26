@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from "react";
 import { BrowserWallet, Wallet } from "@meshsdk/core";
 import { useWallet } from "@meshsdk/react";
@@ -33,23 +31,23 @@ export default function SelectWallet({ onSelected }: { onSelected: (wallet: Wall
         });
     }, []);
 
-    return <div className="fixed inset-0 z-[9999] bg-white dark:bg-gray-800  overflow-y-auto bg-black/20 flex items-center justify-center p-4">
-        <div className=" rounded-lg shadow-xl max-w-2xl w-full p-6">
-            <h1 className="text-2xl font-bold">Connect to a Cardano Wallet</h1>
-            <p className="text-gray-500 dark:text-gray-400 my-5">
+    return <div className="fixed inset-0 z-[9999] bg-background-light dark:bg-background-dark overflow-y-auto bg-black-20 flex items-center justify-center p-4">
+        <div className="rounded-lg shadow-xl max-w-2xl w-full p-6">
+            <h1 className="text-2xl font-bold text-text-primary-light dark:text-text-primary-dark">Connect to a Cardano Wallet</h1>
+            <p className="text-text-secondary-light dark:text-text-secondary-dark my-5">
                 Please select a wallet to continue
             </p>
             {error && (
-                <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded">
+                <div className="mb-4 p-3 bg-status-error-light/10 dark:bg-status-error-dark/10 border border-status-error-light/20 dark:border-status-error-dark/20 text-status-error-light dark:text-status-error-dark rounded">
                     <p>Error loading wallets: {error}</p>
                 </div>
             )}
 
             {availableWallets.length === 0 ? (
                 <div className="py-6 text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600 dark:text-gray-300">Loading wallets...</p>
-                    <p className="mt-2 text-gray-500 dark:text-gray-400 text-sm">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-button-primary-light dark:border-button-primary-dark mx-auto mb-4"></div>
+                    <p className="text-text-primary-light dark:text-text-primary-dark">Loading wallets...</p>
+                    <p className="mt-2 text-text-secondary-light dark:text-text-secondary-dark text-sm">
                         Make sure you have a compatible Cardano wallet extension installed
                     </p>
                 </div>
@@ -58,7 +56,7 @@ export default function SelectWallet({ onSelected }: { onSelected: (wallet: Wall
                     {availableWallets.map((foundWallet: Wallet) => (
                         <button
                             key={foundWallet.name}
-                            className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center"
+                            className="p-4 border border-border-light dark:border-border-dark rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center"
                             onClick={async () => {
                                 try {
                                     connect(foundWallet.name);
@@ -74,7 +72,7 @@ export default function SelectWallet({ onSelected }: { onSelected: (wallet: Wall
                                 alt={foundWallet.name}
                                 className="w-8 h-8 mr-4"
                             />
-                            <span className="text-lg font-medium">
+                            <span className="text-lg font-medium text-text-primary-light dark:text-text-primary-dark">
                                 {foundWallet.name}
                             </span>
                         </button>

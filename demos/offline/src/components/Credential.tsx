@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 
 import SDK from "@hyperledger/identus-sdk";
@@ -44,15 +43,15 @@ export function Credential(props: { credential: SDK.Domain.Credential }) {
             })
     }
 
-    return <div className="w-full mt-5  p-6 bg-white rounded-lg shadow dark:bg-gray-800">
-        <p className="text-md font-normal text-gray-500 whitespace-normal max-w-full dark:text-gray-400"
+    return <div className="w-full mt-5 p-6 bg-background-light dark:bg-background-dark rounded-lg shadow">
+        <p className="text-md font-normal text-text-secondary-light dark:text-text-secondary-dark whitespace-normal max-w-full"
             style={{
                 textOverflow: 'ellipsis',
                 overflow: "hidden"
             }}>
             Issuer {credential.issuer}
         </p>
-        <p className="mt-5 text-md font-normal text-gray-500 whitespace-normal max-w-full dark:text-gray-400">
+        <p className="mt-5 text-md font-normal text-text-secondary-light dark:text-text-secondary-dark whitespace-normal max-w-full">
             Claims:
         </p>
         {claims.map((claim, claimIndex) =>
@@ -61,7 +60,7 @@ export function Credential(props: { credential: SDK.Domain.Credential }) {
                 .map((field, i) => (
                     <div
                         key={`field${i}`}
-                        className="text-md font-normal text-gray-500 dark:text-gray-400"
+                        className="text-md font-normal text-text-secondary-light dark:text-text-secondary-dark"
                     >
                         {field}
                         {claim[field] === "******" ? (
@@ -69,7 +68,7 @@ export function Credential(props: { credential: SDK.Domain.Credential }) {
                                 onClick={() => {
                                     revealAttributes(credential, claimIndex, field);
                                 }}
-                                className="m-3 px-3 py-2 text-md font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                className="m-3 px-3 py-2 text-md font-medium text-center text-white bg-button-primary-light dark:bg-button-primary-dark rounded-lg hover:bg-button-primary-dark dark:hover:bg-button-primary-light focus:ring-4 focus:outline-none focus:ring-button-primary-light/30 dark:focus:ring-button-primary-dark/30"
                             >
                                 Reveal
                             </button>
@@ -80,5 +79,4 @@ export function Credential(props: { credential: SDK.Domain.Credential }) {
                 ))
         )}
     </div>
-
 }

@@ -28,7 +28,7 @@ export function PrismDIDSelect() {
     }, [db]);
 
     if (dids.length === 0) {
-        return <div className="text-gray-500 dark:text-gray-400 px-4 py-3">
+        return <div className="text-text-secondary-light dark:text-text-secondary-dark px-4 py-3">
             No DIDs found
         </div>
     }
@@ -36,7 +36,7 @@ export function PrismDIDSelect() {
     return <select
         value={selectedDID?.toString() ?? ""}
         onChange={(e) => setDID(e.target.value)}
-        className="block w-56 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 text-sm leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+        className="block w-56 bg-input-background-light dark:bg-input-background-dark border border-input-border-light dark:border-input-border-dark rounded-md py-2 px-3 text-sm leading-tight focus:outline-none focus:ring-2 focus:ring-button-primary-light dark:focus:ring-button-primary-dark focus:border-button-primary-light dark:focus:border-button-primary-dark transition-colors duration-200"
     >
         {dids.map(({ did, alias }) => {
             const didString = did.toString();
