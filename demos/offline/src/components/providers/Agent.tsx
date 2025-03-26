@@ -10,8 +10,11 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     const { db, getMediator, getSeed, getResolverUrl, state: dbState } = useDatabase();
     const [agent, setAgent] = useState<SDK.Agent | null>(null);
     const [state, setState] = useState<SDK.Domain.Startable.State>(SDK.Domain.Startable.State.STOPPED);
-    const [messages, setMessages] = useState<{ message: SDK.Domain.Message, read: boolean }[]>([]);
     const router = useRouter();
+
+    const [messages, setMessages] = useState<{ message: SDK.Domain.Message, read: boolean }[]>([]);
+    const [connections, setConnections] = useState<SDK.Domain.DIDPair[]>([]);
+    const [credentials, setCredentials] = useState<SDK.Domain.Credential[]>([]);
 
     async function start() {
         if (!db) {
@@ -74,25 +77,67 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
                     return [...prev, ...newMessages.map((message) => ({ message, read: false }))];
                 });
             }
+            function onConnection(connections: SDK.Domain.DIDPair) {
+                setConnections((prev) => {
+                    if (prev.some((c) =>
+                        c.host.toString() === connections.host.toString() &&
+                        c.receiver.toString() === connections.receiver.toString()
+                    )) {
+                        return prev;
+                    }
+                    return [...prev, connections];
+                });
+            }
+            function onRevokeCredential(credential: SDK.Domain.Credential) {
+                setCredentials((prev) => {
+                    if (prev.some((c) => c.id === credential.id)) {
+                        return prev;
+                    }
+                    return [...prev, credential];
+                });
+            }
             agent.addListener(SDK.ListenerKey.MESSAGE, onMessage);
-            return () => agent.removeListener(SDK.ListenerKey.MESSAGE, onMessage);
+            agent.addListener(SDK.ListenerKey.CONNECTION, onConnection);
+            agent.addListener(SDK.ListenerKey.REVOKE, onRevokeCredential);
+            return () => {
+                agent.removeListener(SDK.ListenerKey.MESSAGE, onMessage);
+                agent.removeListener(SDK.ListenerKey.CONNECTION, onConnection);
+                agent.removeListener(SDK.ListenerKey.REVOKE, onRevokeCredential);
+            };
         }
     }, [agent])
 
     useEffect(() => {
-        if (db && dbState === 'loaded') {
-            db.getMessages().then((messages) => {
+        async function preloadData() {
+            if (db && dbState === 'loaded') {
+                const messages = await db.getMessages();
+                const connections = await db.pluto.getAllDidPairs();
+                const credentials = await db.pluto.getAllCredentials();
                 setMessages((prev) => {
                     const newMessages = messages.filter(
                         (message) => !prev.some((m) => m.message.id === message.message.id)
                     );
                     return [...prev, ...newMessages];
                 });
-            }).catch((error) => {
-                console.log(error);
-            });
+                setConnections((prev) => {
+                    const newConnections = connections.filter(
+                        (connection) => !prev.some((c) =>
+                            c.host.toString() === connection.host.toString() &&
+                            c.receiver.toString() === connection.receiver.toString()
+                        )
+                    );
+                    return [...prev, ...newConnections];
+                });
+                setCredentials((prev) => {
+                    const newCredentials = credentials.filter(
+                        (credential) => !prev.some((c) => c.id === credential.id)
+                    );
+                    return [...prev, ...newCredentials];
+                });
+            }
         }
+        preloadData().catch(console.log);
     }, [dbState, db])
 
-    return <AgentContext.Provider value={{ agent, setAgent, start, stop, state, messages, readMessage }}> {children} </AgentContext.Provider>
+    return <AgentContext.Provider value={{ agent, connections, credentials, setAgent, start, stop, state, messages, readMessage }}> {children} </AgentContext.Provider>
 }

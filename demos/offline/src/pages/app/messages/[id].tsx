@@ -33,7 +33,7 @@ export default function MessageDetails() {
                 description="View detailed information about a message"
             />
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+            <div className="bg-white dark:bg-gray-800 hadow-sm">
                 <ErrorAlert
                     message={"Message not found"}
                     onDismiss={() => setError(null)}
@@ -55,7 +55,7 @@ export default function MessageDetails() {
             description="View detailed information about a message"
         />
 
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+        <div className="bg-white dark:bg-gray-800 hadow-sm">
             <div className="space-y-6">
                 {/* Basic Message Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

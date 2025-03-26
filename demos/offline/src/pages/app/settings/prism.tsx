@@ -81,7 +81,7 @@ export default function PrismResolverPage() {
                 description="Configure the URL for resolving PRISM DIDs"
             />
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm mb-6">
+            <div className="bg-white dark:bg-gray-800 hadow-sm mb-6">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">PRISM DID Resolver Configuration</h2>
                 </div>
@@ -126,7 +126,7 @@ export default function PrismResolverPage() {
                 </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+            <div className="bg-white dark:bg-gray-800 hadow-sm">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Resolve PRISM DID</h2>
                 </div>
