@@ -58,7 +58,7 @@ export function WalletSelect() {
     };
 
     if (availableWallets.length === 0) {
-        return <div className="text-gray-500 dark:text-gray-400 px-4 py-3">
+        return <div className="text-text-secondary-light dark:text-text-secondary-dark px-4 py-3">
             No wallets found
         </div>
     }
@@ -69,7 +69,7 @@ export function WalletSelect() {
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center justify-between w-56 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 text-sm leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                className="flex items-center justify-between w-56 bg-input-background-light dark:bg-input-background-dark border border-input-border-light dark:border-input-border-dark rounded-md py-2 px-3 text-sm leading-tight focus:outline-none focus:ring-2 focus:ring-button-primary-light dark:focus:ring-button-primary-dark focus:border-button-primary-light dark:focus:border-button-primary-dark transition-colors duration-200"
             >
                 <div className="flex items-center">
                     {selectedWalletData?.icon && (
@@ -79,7 +79,7 @@ export function WalletSelect() {
                             className="w-6 h-6 mr-2"
                         />
                     )}
-                    <span>{selectedWallet || "Select Wallet"}</span>
+                    <span className="text-text-primary-light dark:text-text-primary-dark">{selectedWallet || "Select Wallet"}</span>
                 </div>
                 <svg
                     className={`w-4 h-4 ml-2 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`}
@@ -92,11 +92,11 @@ export function WalletSelect() {
             </button>
 
             {isOpen && (
-                <div className="absolute z-10 w-56 mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg">
+                <div className="absolute z-10 w-56 mt-1 bg-input-background-light dark:bg-input-background-dark border border-input-border-light dark:border-input-border-dark rounded-md shadow-lg">
                     {connected ? (
                         <button
                             onClick={handleLogout}
-                            className="w-full flex items-center px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                            className="w-full flex items-center px-3 py-2 text-sm text-status-error-light dark:text-status-error-dark hover:bg-status-error-light/10 dark:hover:bg-status-error-dark/10"
                         >
                             <svg
                                 className="w-4 h-4 mr-2"
@@ -128,7 +128,7 @@ export function WalletSelect() {
                                         setError(`Error connecting wallet: ${err.message}`);
                                     }
                                 }}
-                                className={`w-full flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 ${selectedWallet === foundWallet.name ? 'bg-gray-100 dark:bg-gray-600' : ''
+                                className={`w-full flex items-center px-3 py-2 text-sm hover:bg-background-light/50 dark:hover:bg-background-dark/50 ${selectedWallet === foundWallet.name ? 'bg-background-light/50 dark:bg-background-dark/50' : ''
                                     }`}
                             >
                                 {foundWallet.icon && (
@@ -138,7 +138,7 @@ export function WalletSelect() {
                                         className="w-6 h-6 mr-2"
                                     />
                                 )}
-                                <span>{foundWallet.name}</span>
+                                <span className="text-text-primary-light dark:text-text-primary-dark">{foundWallet.name}</span>
                             </button>
                         ))
                     )}

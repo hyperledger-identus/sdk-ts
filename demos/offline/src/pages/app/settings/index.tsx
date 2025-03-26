@@ -4,6 +4,7 @@ import PageHeader from "@/components/PageHeader";
 import { useEffect, useState } from "react";
 import { BLOCKFROST_KEY_NAME, PRISM_RESOLVER_URL_KEY, FEATURES } from "@/config";
 import { useDatabase } from "@/hooks";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function SettingsPage() {
     const { db, state: dbState, getFeatures } = useDatabase();
@@ -86,6 +87,17 @@ export default function SettingsPage() {
             <div className="space-y-6">
                 <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
                     <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Theme
+                            </label>
+                            <div className="flex items-center gap-4">
+                                <ThemeToggle />
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                    Toggle between light and dark mode
+                                </p>
+                            </div>
+                        </div>
                         <div>
                             <label htmlFor="blockfrostKey" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                 Blockfrost API Key
