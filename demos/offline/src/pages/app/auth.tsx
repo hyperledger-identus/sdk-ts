@@ -20,33 +20,14 @@ export default function Auth() {
             setError('Database name is required');
             return;
         }
-        // Here you would handle the authentication logic with the app context
-        // For example: app.authenticate(dbName, password)
-        console.log('Authenticating with:', { dbName, password });
         const db = new PlutoExtended(
             dbName,
             password,
             StorageType.IndexDB,
             apollo
         );
-        await db.start();
         setDb(db);
-        router.push("/app");
     }
-
-    useEffect(() => {
-        if (db) {
-            start().catch((err) => {
-                setError(err.message);
-            });
-        }
-    }, [db]);
-
-    useEffect(() => {
-        if (state === "loaded") {
-            router.push("/app");
-        }
-    }, [state]);
 
     return (
         <>

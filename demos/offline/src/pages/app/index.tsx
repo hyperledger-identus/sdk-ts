@@ -3,6 +3,7 @@ import Head from "next/head";
 import Layout from "@/components/Layout";
 import Link from "next/link";
 import AgentRequire from "@/components/AgentRequire";
+import PageHeader from "@/components/PageHeader";
 
 
 export default function Dashboard() {
@@ -78,10 +79,6 @@ export default function Dashboard() {
             </Head>
 
             <Layout>
-                <div className="mb-8 py-6 border-b border-gray-200 dark:border-gray-700">
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-                    <p className="mt-2 text-gray-600 dark:text-gray-400">Manage your self-sovereign identity with Identus Agent</p>
-                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {features.map((feature) => (
                         <Link key={feature.path} href={feature.path} className="block group">
