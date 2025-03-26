@@ -15,6 +15,7 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     const [messages, setMessages] = useState<{ message: SDK.Domain.Message, read: boolean }[]>([]);
     const [connections, setConnections] = useState<SDK.Domain.DIDPair[]>([]);
     const [credentials, setCredentials] = useState<SDK.Domain.Credential[]>([]);
+    const [peerDID, setPeerDID] = useState<SDK.Domain.DID | null>(null);
 
     async function start() {
         if (!db) {
@@ -43,6 +44,8 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
             seed,
         });
         await agent.start()
+        const peerDID = await agent.createNewPeerDID([], true);
+        setPeerDID(peerDID);
         setAgent(agent);
     }
 
@@ -63,11 +66,8 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     }
 
     useEffect(() => {
-        const currentState = agent?.state || SDK.Domain.Startable.State.STOPPED;
-        setState(currentState);
-    }, [agent?.state]);
+        setState(agent?.state || SDK.Domain.Startable.State.STOPPED);
 
-    useEffect(() => {
         if (agent) {
             function onMessage(messages: SDK.Domain.Message[]) {
                 setMessages((prev) => {
@@ -139,5 +139,5 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         preloadData().catch(console.log);
     }, [dbState, db])
 
-    return <AgentContext.Provider value={{ agent, connections, credentials, setAgent, start, stop, state, messages, readMessage }}> {children} </AgentContext.Provider>
+    return <AgentContext.Provider value={{ agent, connections, credentials, setAgent, start, stop, state, messages, readMessage, peerDID }}> {children} </AgentContext.Provider>
 }

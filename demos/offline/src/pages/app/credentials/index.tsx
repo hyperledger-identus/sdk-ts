@@ -4,6 +4,7 @@ import PageHeader from "@/components/PageHeader";
 import SDK from "@hyperledger/identus-sdk";
 import { useEffect, useState } from "react";
 import { useDatabase } from "@/hooks";
+
 export default function CredentialsPage() {
     const [credentials, setCredentials] = useState<SDK.Domain.Credential[]>([]);
     const { db } = useDatabase();

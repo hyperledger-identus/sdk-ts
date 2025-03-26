@@ -25,6 +25,7 @@ export const AgentContext = createContext<{
     connections: SDK.Domain.DIDPair[];
     credentials: SDK.Domain.Credential[];
     state: SDK.Domain.Startable.State;
+    peerDID: SDK.Domain.DID | null;
 } | undefined>(undefined);
 
 export type DatabaseState = 'disconnected' | 'loading' | 'loaded' | 'error';
@@ -32,8 +33,10 @@ export const DatabaseContext = createContext<{
     db: PlutoExtended | null;
     state: DatabaseState;
     error: Error | null;
+    features: string[];
     setDb: (db: PlutoExtended) => void;
     start: () => Promise<void>;
+    getFeatures: () => Promise<void>;
     getMediator: () => Promise<SDK.Domain.DID | null>;
     getSeed: () => Promise<SDK.Domain.Seed | null>;
     getWallet: () => Promise<string | null>;
