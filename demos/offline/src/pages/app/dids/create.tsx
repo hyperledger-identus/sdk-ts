@@ -2,12 +2,10 @@ import Head from "next/head";
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { useState } from "react";
-import SDK from "@hyperledger/identus-sdk";
 import { useAgent } from "@/hooks";
 
 export default function DIDsPage() {
     const { agent } = useAgent();
-    const [keyType, setKeyType] = useState<SDK.Domain.Curve>(SDK.Domain.Curve.SECP256K1);
     const [alias, setAlias] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [result, setResult] = useState<{ success: boolean; message: string; did?: string }>();
@@ -52,7 +50,7 @@ export default function DIDsPage() {
                 description="Create and manage your decentralized identifiers"
             />
 
-            <div className="bg-white dark:bg-gray-800 hadow-sm">
+            <div className="bg-background-light dark:bg-background-dark hadow-sm">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Create DID</h2>
                 </div>
@@ -70,25 +68,6 @@ export default function DIDsPage() {
                             placeholder="Enter an alias for your DID"
                             className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                         />
-                    </div>
-
-                    <div>
-                        <label htmlFor="keyType" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Key Type
-                        </label>
-                        <select
-                            id="keyType"
-                            value={keyType}
-                            onChange={(e) => setKeyType(e.target.value as SDK.Domain.Curve)}
-                            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                            disabled={true}
-                        >
-                            <option value={SDK.Domain.Curve.SECP256K1}>SECP256K1</option>
-                            <option value={SDK.Domain.Curve.ED25519}>ED25519</option>
-                        </select>
-                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                            Note: Currently the key type is set by the agent, this selection is for display only.
-                        </p>
                     </div>
 
                     <button

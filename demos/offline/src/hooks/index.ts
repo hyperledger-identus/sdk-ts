@@ -1,6 +1,9 @@
 import { useContext, useMemo } from "react";
-import { AgentContext, DatabaseContext, PrismDIDContext, ThemeContext } from "@/context";
 import SDK from "@hyperledger/identus-sdk";
+
+
+import { AgentContext, DatabaseContext, PrismDIDContext, ThemeContext } from "@/context";
+
 
 export function useApollo() {
     const apollo = useMemo(() => new SDK.Apollo(), []);

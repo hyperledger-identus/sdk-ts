@@ -1,11 +1,21 @@
 import SDK from '@hyperledger/identus-sdk'
-import { schemas } from './schemas';
 import { Doc, QueryType, RIDB, StorageType } from '@trust0/ridb';
-
 import { uuid } from '@stablelib/uuid';
-import { DatabaseState } from '@/context';
+
+import { schemas } from '@/utils/db/schemas';
+import { DatabaseState } from '@/utils/types';
 
 type SchemasType = typeof schemas;
+
+// Helper to load RIDB lazily
+let ridbModule: typeof import('@trust0/ridb') | null = null;
+
+async function getRIDBModule(): Promise<typeof import('@trust0/ridb')> {
+    if (!ridbModule) {
+        ridbModule = await import('@trust0/ridb');
+    }
+    return ridbModule;
+}
 
 class RIDBStore implements SDK.Pluto.Store {
     public state: DatabaseState = 'disconnected';
@@ -18,9 +28,9 @@ class RIDBStore implements SDK.Pluto.Store {
     }
 
     constructor(
-        private _db: RIDB<SchemasType>,
-        private password: string,
-        private storageType: StorageType
+        public _db: RIDB<SchemasType>,
+        protected password: string,
+        protected storageType: StorageType
     ) {
 
     }
@@ -82,33 +92,50 @@ type ApolloWithKeyRestoration = SDK.Domain.Apollo & SDK.Domain.KeyRestoration;
 export class PlutoExtended {
     public _internal: RIDBStore;
     public pluto: SDK.Pluto;
+    public db: RIDB<SchemasType>;
+
+    public revalidateAuthentication: () => Promise<boolean>;
+
     constructor(
         dbName: string,
         password: string,
         storageType: StorageType = StorageType.IndexDB,
         private apollo: ApolloWithKeyRestoration = new SDK.Apollo()
     ) {
-        const db = new RIDB({
+        this.db = new RIDB({
             dbName,
             schemas,
-            migrations: {
-                credentials: {},
-                dids: {},
-                issuance: {},
-                'credential-metadata': {},
-                'didkey-link': {},
-                'did-link': {},
-                keys: {},
-                messages: {},
-                settings: {}
-            }
+            migrations: undefined
         });
-        const store = new RIDBStore(db, password, storageType);
+        const store = new RIDBStore(this.db, password, storageType);
 
         this._internal = store;
         this.pluto = new SDK.Pluto(store, apollo)
-
         this.pluto.storeDID = this.storeDID.bind(this);
+        this.revalidateAuthentication = () => this.db.authenticate(password);
+    }
+
+    // Factory method to create PlutoExtended instance with dynamic import
+    static async create(
+        dbName: string,
+        password: string,
+        storageTypeName: string = 'IndexDB', // Use string names instead of enum values
+        apollo: ApolloWithKeyRestoration = new SDK.Apollo()
+    ): Promise<PlutoExtended> {
+        const { StorageType } = await getRIDBModule();
+        // Map string name to actual enum value
+        let storageType: StorageType;
+        switch (storageTypeName) {
+            case 'InMemory':
+                storageType = StorageType.InMemory;
+                break;
+            case 'IndexDB':
+            default:
+                storageType = StorageType.IndexDB;
+                break;
+        }
+
+        return new PlutoExtended(dbName, password, storageType, apollo);
     }
 
     get state(): DatabaseState {
@@ -129,7 +156,6 @@ export class PlutoExtended {
 
     async readMessage(message: SDK.Domain.Message) {
         const [found] = await this.collections.messages.find({ $or: [{ uuid: message.uuid }, { id: message.id }] });
-        debugger;
         if (found) {
             await this.collections.messages.update({
                 ...found,
@@ -204,7 +230,7 @@ export class PlutoExtended {
     }
 
     async getIssuanceFlow(id: string) {
-        return this.collections.issuance.findById(id);
+        return this.collections.issuance.findById(id) || null;
     }
 
     async createIssuanceFlow(issuanceFlow: Doc<SchemasType["issuance"]>) {

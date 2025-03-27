@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SDK from "@hyperledger/identus-sdk";
 import { useRouter } from "next/router";
 
-import { AgentContext } from "@/context";
+import { AgentContext, DatabaseContext } from "@/context";
 import { ResolverClass, createResolver } from "@/utils/resolvers";
-import { useDatabase } from "@/hooks";
 
 export function AgentProvider({ children }: { children: React.ReactNode }) {
-    const { db, getMediator, getSeed, getResolverUrl, state: dbState } = useDatabase();
+    const databaseContext = useContext(DatabaseContext);
+    if (!databaseContext) {
+        throw new Error('AgentProvider must be used within a DatabaseProvider');
+    }
+
+    const { db, getMediator, getSeed, getResolverUrl, state: dbState } = databaseContext;
     const [agent, setAgent] = useState<SDK.Agent | null>(null);
     const [state, setState] = useState<SDK.Domain.Startable.State>(SDK.Domain.Startable.State.STOPPED);
     const router = useRouter();
@@ -16,6 +20,7 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     const [connections, setConnections] = useState<SDK.Domain.DIDPair[]>([]);
     const [credentials, setCredentials] = useState<SDK.Domain.Credential[]>([]);
     const [peerDID, setPeerDID] = useState<SDK.Domain.DID | null>(null);
+    const currentState = agent?.state || SDK.Domain.Startable.State.STOPPED;
 
     async function start() {
         if (!db) {
@@ -28,6 +33,7 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         if (!seed) {
             throw new Error("No seed found");
         }
+        setState(SDK.Domain.Startable.State.STARTING);
         const apollo = new SDK.Apollo();
         const mediatorDID = await getMediator() ?? undefined;
         const resolverUrl = await getResolverUrl();
@@ -50,6 +56,7 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     }
 
     async function stop() {
+        setState(SDK.Domain.Startable.State.STOPPING);
         await agent?.stop();
         setAgent(null);
         if (db?.state === 'disconnected') {
@@ -66,8 +73,10 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     }
 
     useEffect(() => {
-        setState(agent?.state || SDK.Domain.Startable.State.STOPPED);
+        setState(currentState);
+    }, [currentState])
 
+    useEffect(() => {
         if (agent) {
             function onMessage(messages: SDK.Domain.Message[]) {
                 setMessages((prev) => {

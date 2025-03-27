@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import SDK from "@hyperledger/identus-sdk";
+import { useRouter } from "next/router";
 
-import { DatabaseContext, DatabaseState } from "@/context";
+import { DatabaseContext } from "@/context";
 import { PlutoExtended } from "@/utils/db";
 import { FEATURES, MEDIATOR_DID, PRISM_RESOLVER_URL_KEY, WALLET_NAME } from "@/config";
-import { useRouter } from "next/router";
+import { DatabaseState } from "@/utils/types";
 
 const hasDB = (db: PlutoExtended | null): db is PlutoExtended => db !== null;
 
@@ -18,6 +19,9 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
     const currentRoute = router.pathname;
 
     useEffect(() => {
+        if (!currentRoute.includes("/app")) {
+            return
+        }
         if (currentRoute !== "/app/auth") {
             setRedirectUrl(currentRoute);
         }
@@ -33,21 +37,26 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         if (db?.state === 'disconnected') {
             db?.start().then(async () => {
                 setState('loaded');
+                await db.revalidateAuthentication()
                 await getFeatures();
-                return router.replace(redirectUrl || "/app");
-            })
+                await router.replace(redirectUrl || "/app");
+
+            }).catch(setError)
         }
     }, [db])
 
     async function getFeatures() {
+
         if (!hasDB(db)) {
             throw new Error("Database not connected");
         }
         const features = (await db.getSettingsByKey(FEATURES)) || '';
         setFeatures(features.split(','));
+
     }
 
     async function getMediator() {
+
         if (!hasDB(db)) {
             throw new Error("Database not connected");
         }
@@ -58,30 +67,38 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
             return SDK.Domain.DID.fromString(process.env.NEXT_PUBLIC_MEDIATOR_DID);
         }
         return null;
+
     }
 
     async function getSeed() {
+
         if (!hasDB(db)) {
             throw new Error("Database not connected");
         }
         return await db.decryptSeed();
+
     }
 
     async function getResolverUrl() {
+
         if (!hasDB(db)) {
             throw new Error("Database not connected");
         }
         return await db.getSettingsByKey(PRISM_RESOLVER_URL_KEY);
+
     }
 
     async function getWallet() {
+
         if (!hasDB(db)) {
             throw new Error("Database not connected");
         }
         return await db.getSettingsByKey(WALLET_NAME);
+
     }
 
     async function setMediator(mediator: SDK.Domain.DID | null) {
+
         if (!hasDB(db)) {
             throw new Error("Database not connected");
         }
@@ -90,9 +107,11 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         } else {
             await db.deleteSettingsByKey(MEDIATOR_DID);
         }
+
     }
 
     async function setSeed(seed: SDK.Domain.Seed | null) {
+
         if (!hasDB(db)) {
             throw new Error("Database not connected");
         }
@@ -101,9 +120,11 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         } else {
             await db.deleteSettingsByKey(WALLET_NAME);
         }
+
     }
 
     async function setWallet(wallet: string | null) {
+
         if (!hasDB(db)) {
             throw new Error("Database not connected");
         }
@@ -112,6 +133,7 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         } else {
             await db.deleteSettingsByKey(WALLET_NAME);
         }
+
     }
 
     async function setResolverUrl(resolverUrl: string | null) {
@@ -123,6 +145,7 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         } else {
             await db.deleteSettingsByKey(PRISM_RESOLVER_URL_KEY);
         }
+
     }
 
     async function readMessage(message: SDK.Domain.Message) {
@@ -130,20 +153,10 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
             throw new Error("Database not connected");
         }
         await db.readMessage(message);
+
     }
 
-    async function start() {
-        try {
-            if (!hasDB(db)) {
-                throw new Error("Database not connected");
-            }
-            await db.start();
-        } catch (error) {
-            setError(error as Error);
-        }
-    }
-
-    return <DatabaseContext.Provider value={{ features, db, state, error, getFeatures, setDb, start, getMediator, getSeed, getWallet, getResolverUrl, setMediator, readMessage, setSeed, setWallet, setResolverUrl }}>
+    return <DatabaseContext.Provider value={{ features, db, state, error, getFeatures, setDb, getMediator, getSeed, getWallet, getResolverUrl, setMediator, readMessage, setSeed, setWallet, setResolverUrl }}>
         {children}
     </DatabaseContext.Provider>
 }

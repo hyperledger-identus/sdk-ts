@@ -136,10 +136,10 @@ export default function Dashboard() {
             <Layout>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {featureBlocks.map((feature) => (
-                        <Link key={feature.path} href={feature.path} className="block group">
-                            <div className="p-6 h-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-md transition-all duration-200">
+                        <Link key={feature.path} href={feature.path} className="block group bg-container-light dark:bg-container-dark">
+                            <div className="p-6 h-full rounded-lg border border-border-light dark:border-border-dark hover:border-blue-500 dark:hover:border-blue-400 shadow-md transition-all duration-200">
                                 <div className="flex items-center mb-4">
-                                    <div className="p-2 mr-3 rounded-md bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+                                    <div className="p-2 mr-3 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
                                         {feature.icon}
                                     </div>
                                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{feature.title}</h2>
