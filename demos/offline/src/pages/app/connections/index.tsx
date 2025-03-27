@@ -17,7 +17,7 @@ export default function ConnectionsPage() {
                 title="Connections"
                 description="Manage your connections with other agents and services"
             />
-            <div className="bg-white dark:bg-gray-800 hadow-sm">
+            <div className="bg-background-light dark:bg-background-dark hadow-sm">
                 <OOB />
                 {
                     connections.length <= 0 ?

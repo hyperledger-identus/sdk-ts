@@ -20,10 +20,10 @@ export default function MessagesPage() {
                 description="View and manage your messages"
             />
 
-            <div className="bg-white dark:bg-gray-800 shadow-sm">
+            <div className="bg-background-light dark:bg-background-dark shadow-sm">
 
                 {messages.length === 0 ? (
-                    <div className="border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900">
+                    <div className="border border-border-light dark:border-border-dark rounded-md bg-gray-50 dark:bg-gray-900">
                         <div className="p-8 text-center text-gray-500 dark:text-gray-400">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto mb-4 text-gray-400 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
@@ -40,7 +40,7 @@ export default function MessagesPage() {
                                 <Link
                                     key={msg.id}
                                     href={`/app/messages/${msg.id}`}
-                                    className="block p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                    className="block p-4 border border-border-light dark:border-border-dark rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                                 >
                                     <div className="flex items-start justify-between">
                                         <div className="flex-1 min-w-0">

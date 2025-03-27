@@ -28,7 +28,7 @@ export default function Mediator() {
                 <meta name="description" content="Manage your connections with other agents" />
             </Head>
             <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-                <div className="max-w-md w-full space-y-8 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                <div className="max-w-md w-full space-y-8 p-8 bg-background-light dark:bg-background-dark rounded-lg shadow-md">
                     <div>
                         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
                             Configure Mediator DID

@@ -3,14 +3,13 @@ import { PlutoExtended } from "@/utils/db";
 import { StorageType } from "@trust0/ridb";
 import { useEffect, useState } from "react";
 import SDK from "@hyperledger/identus-sdk";
-import { useRouter } from "next/router";
 import { useDatabase } from "@/hooks";
 import AtalaGraphic from "@/components/Identus";
+import Image from "next/image";
 const apollo = new SDK.Apollo();
 
 export default function Auth() {
-    const router = useRouter();
-    const { db, setDb, state, start, error: dbError } = useDatabase();
+    const { setDb, error: dbError } = useDatabase();
     const [dbName, setDbName] = useState('test-db');
     const [password, setPassword] = useState('123456');
     const [error, setError] = useState(dbError?.message);
@@ -30,6 +29,10 @@ export default function Auth() {
         setDb(db);
     }
 
+    useEffect(() => {
+        setError(dbError?.message);
+    }, [dbError])
+
     return (
         <>
             <Head>
@@ -42,7 +45,7 @@ export default function Auth() {
             <div className="relative min-h-screen w-full overflow-hidden">
                 <div className="relative z-10 min-h-screen flex items-center justify-center ">
                     <div className="max-w-md w-full space-y-8 p-8 bg-background-light dark:bg-background-dark rounded-lg shadow-md">
-                        <img src="/identus-navbar-light.png" alt="Identus Logo" width={500} height={'auto'} />
+                        <Image src="/identus-navbar-light.png" alt="Identus Logo" width={500} height={100} />
                         {error && (
                             <div className="bg-status-error-light/10 dark:bg-status-error-dark/20 p-4 rounded-md">
                                 <p className="text-sm text-status-error-light dark:text-status-error-dark">{error}</p>

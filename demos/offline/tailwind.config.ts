@@ -51,6 +51,10 @@ const config: Config = {
                     900: '#111827',
                     950: '#030712',
                 },
+                container: {
+                    light: '#ffffff',
+                    dark: '#121212',
+                },
                 // Semantic colors
                 background: {
                     light: '#ffffff',
@@ -68,7 +72,7 @@ const config: Config = {
                 },
                 border: {
                     light: '#e5e7eb',
-                    dark: '#374151',
+                    dark: '#333333',
                 },
                 // Status colors
                 status: {
@@ -110,11 +114,6 @@ const config: Config = {
                         dark: '#374151',
                     },
                 },
-            },
-            // Common background opacity values
-            backgroundColor: {
-                'black-20': 'rgba(0, 0, 0, 0.2)',
-                'black-75': 'rgba(0, 0, 0, 0.75)',
             },
         },
     },

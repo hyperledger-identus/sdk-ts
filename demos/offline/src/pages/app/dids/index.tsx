@@ -50,7 +50,7 @@ export default function DIDsPage() {
                 description="Create and manage your decentralized identifiers"
             />
 
-            <div className="bg-white dark:bg-gray-800 hadow-sm">
+            <div className="bg-background-light dark:bg-background-dark hadow-sm">
                 {error && (
                     <ErrorAlert
                         message={error}
@@ -68,7 +68,7 @@ export default function DIDsPage() {
                 </div>
 
                 {loading ? (
-                    <div className="p-8 text-center border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900">
+                    <div className="p-8 text-center border border-border-light dark:border-border-dark rounded-md bg-gray-50 dark:bg-gray-900">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
                         <p className="text-gray-500 dark:text-gray-400">Loading DIDs...</p>
                     </div>
@@ -79,7 +79,7 @@ export default function DIDsPage() {
                                 <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3 capitalize">
                                     {method} DIDs
                                 </h3>
-                                <div className="border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900">
+                                <div className="border border-border-light dark:border-border-dark rounded-md bg-gray-50 dark:bg-gray-900">
                                     {dids.map((didItem, index) => (
                                         <DIDItem key={`${method}-${index}`} didItem={didItem} onUpdate={() => {
                                             if (db) {
@@ -99,7 +99,7 @@ export default function DIDsPage() {
                         ))}
                     </div>
                 ) : (
-                    <div className="p-8 text-center text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900">
+                    <div className="p-8 text-center text-gray-500 dark:text-gray-400 border border-border-light dark:border-border-dark rounded-md bg-gray-50 dark:bg-gray-900">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto mb-4 text-gray-400 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
                         </svg>
