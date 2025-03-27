@@ -9,6 +9,7 @@ import { AgentStart } from './AgentStart';
 import { useAgent, useDatabase } from '@/hooks';
 import SDK from "@hyperledger/identus-sdk";
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 interface LayoutProps {
     children: ReactNode;
     showDIDSelector?: boolean;
@@ -104,9 +105,9 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
 
     return (
         <AgentRequire>
-            <div className="flex flex-col h-screen bg-white dark:bg-gray-800">
+            <div className="flex flex-col h-screen bg-background-light dark:bg-background-dark">
                 {/* Header */}
-                <header className="border-b border-gray-200 dark:border-gray-700 shadow-sm">
+                <header className="border-b border-border-light dark:border-border-dark shadow-sm">
                     <div className="px-4 py-3 flex items-center justify-between">
                         <div className="flex items-center space-x-4">
                             {/* Mobile menu button */}
@@ -120,19 +121,19 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                                 </svg>
                             </button>
                             <div className="bg-gray-50 rounded-full p-2">
-                                <img src="/identus-navbar-light.png" alt="Identus Logo" className="h-8" />
+                                <Image src="/identus-navbar-light.png" alt="Identus Logo" width={64} height={64} className="w-16" />
                             </div>
                         </div>
                         <div className="flex items-center space-x-4 lg:space-x-6">
                             {/* Notifications */}
                             <div className="relative flex items-center group">
                                 <div
-                                    className={`absolute top-10 right-0 mt-1 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg z-20 border border-gray-200 dark:border-gray-700 transition-all duration-200 
+                                    className={`absolute top-10 right-0 mt-1 w-80 bg-background-light dark:bg-background-dark rounded-md shadow-lg z-20 border border-border-light dark:border-border-dark transition-all duration-200 
                                     ${notificationsOpen ? 'opacity-100 visible' : 'opacity-0 invisible'} 
                                     lg:group-hover:opacity-100 lg:group-hover:visible`}
                                 >
                                     <div className="py-2">
-                                        <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                                        <div className="px-4 py-2 border-b border-border-light dark:border-border-dark">
                                             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">Notifications</h3>
                                         </div>
                                         <div className="max-h-96 overflow-y-auto">
@@ -173,12 +174,12 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                             {/* Agent Controls Menu */}
                             <div className="relative flex items-center group">
                                 <div
-                                    className={`absolute top-10 right-0 mt-1 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg z-20 border border-gray-200 dark:border-gray-700 transition-all duration-200 
+                                    className={`absolute top-10 right-0 mt-1 w-80 bg-background-light dark:bg-background-dark rounded-md shadow-lg z-20 border border-border-light dark:border-border-dark transition-all duration-200 
                                     ${agentControlsOpen ? 'opacity-100 visible' : 'opacity-0 invisible'} 
                                     lg:group-hover:opacity-100 lg:group-hover:visible`}
                                 >
                                     <div className="py-2">
-                                        <div className="flex px-4 py-2 border-b border-gray-200 dark:border-gray-700 justify-between items-center">
+                                        <div className="flex px-4 py-2 border-b border-border-light dark:border-border-dark justify-between items-center">
                                             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">Agent Controls</h3>
                                             {
                                                 peerDID && (
@@ -255,7 +256,7 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                 <div className="flex flex-1 overflow-hidden">
                     {/* Sidebar */}
                     <aside className={`
-                        fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 
+                        fixed inset-y-0 left-0 z-30 w-64 bg-background-light dark:bg-background-dark border-r border-border-light dark:border-border-dark 
                         transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static
                         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
                     `}>
@@ -265,7 +266,7 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
                                     <li key={isNavGroup(item) ? `group-${index}` : `item-${index}`}>
                                         {isNavGroup(item) ? (
                                             <>
-                                                <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                                                <div className="px-4 py-2 border-b border-border-light dark:border-border-dark">
                                                     <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">{item.label}</h3>
                                                 </div>
                                                 <ul>

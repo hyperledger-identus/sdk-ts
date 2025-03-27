@@ -7,6 +7,7 @@ const collections = SDK.makeCollections();
 type Collections = {
     [key in keyof typeof collections]: typeof collections[key]
 };
+
 type CollectionSchemas = {
     [key in keyof Collections]: {
         version: Collections[key]['schema']['version'];
@@ -16,6 +17,7 @@ type CollectionSchemas = {
         properties: Collections[key]['schema']['properties'];
     };
 }
+
 type CollectionSchema = CollectionSchemas[keyof CollectionSchemas];
 
 function migrateSchema<
@@ -23,51 +25,67 @@ function migrateSchema<
     P extends Record<string, Property>
 >(schema: T, properties: P): Omit<T, 'properties'> & {
     properties: T['properties'] & P;
+    version: 0;
 } {
     const { properties: schemaProperties, ...schemaWithoutProperties } = schema;
     const props = {
         ...schemaProperties,
         ...properties
-    }
+    };
+
     return {
         ...schemaWithoutProperties,
         version: 0 as const,
-        properties: Object.keys(props).reduce((all, item) => {
-            (all as any)[item] = {
-                type: props[item].type,
-            }
-            if (props[item].required === undefined || props[item].required === false) {
-                (all as any)[item].required = false;
-            } else {
-                (all as any)[item].required = true;
-            }
-            return all
-        }, props)
+        properties: Object.fromEntries(
+            Object.entries(props).map(([key, value]) => {
+                const propValue: any = { ...value };
+                // Ensure required is explicitly set
+                if (propValue.required === undefined || propValue.required === false) {
+                    propValue.required = false;
+                } else {
+                    propValue.required = true;
+                }
+                propValue.maxLength = undefined;
+                return [key, propValue];
+            })
+        ) as T['properties'] & P
     };
-}
-function extractSchemas<T extends Record<string, { schema: any }>>(collections: T) {
-    const result = {} as {
-        [K in keyof T]: T[K]['schema'] & { version: 0 }
-    };
-    for (const key in collections) {
-        if (Object.prototype.hasOwnProperty.call(collections, key)) {
-            result[key] = migrateSchema(collections[key].schema, {}) as any;
-        }
-    }
-    return result;
 }
 
+function extractSchemas<T extends Record<string, { schema: CollectionSchema }>>(collections: T) {
+    const result = {} as {
+        [K in keyof T]: Omit<T[K]['schema'], 'version'> & { version: 0 }
+    };
+
+    for (const key in collections) {
+        if (Object.prototype.hasOwnProperty.call(collections, key)) {
+            (result as any)[key] = migrateSchema(collections[key].schema, {});
+        }
+    }
+
+    return result;
+}
 
 export const schemas = {
     ...extractSchemas(collections),
     credentials: migrateSchema(collections.credentials.schema, {
-        status: { type: SchemaFieldType.string }
+        status: {
+            type: SchemaFieldType.string,
+            required: false
+        }
     }),
     dids: migrateSchema(collections.dids.schema, {
-        status: { type: SchemaFieldType.string }
+        status: {
+            type: SchemaFieldType.string,
+            required: false
+        }
     }),
     messages: migrateSchema(collections.messages.schema, {
-        read: { type: SchemaFieldType.boolean, default: false }
+        read: {
+            type: SchemaFieldType.boolean,
+            default: false,
+            required: true
+        }
     }),
     settings: {
         version: 0 as const,
@@ -75,12 +93,17 @@ export const schemas = {
         type: SchemaFieldType.object,
         encrypted: ['value'],
         properties: {
-            id: { type: SchemaFieldType.string },
+            id: {
+                type: SchemaFieldType.string,
+                required: true
+            },
             key: {
-                type: SchemaFieldType.string
+                type: SchemaFieldType.string,
+                required: true
             },
             value: {
-                type: SchemaFieldType.string
+                type: SchemaFieldType.string,
+                required: true
             }
         }
     },
@@ -90,15 +113,28 @@ export const schemas = {
         type: SchemaFieldType.object,
         encrypted: ['dataJson'],
         properties: {
-            id: { type: SchemaFieldType.string },
+            id: {
+                type: SchemaFieldType.string,
+                required: true
+            },
             claims: {
                 type: SchemaFieldType.array,
+                required: false,
                 items: {
                     type: SchemaFieldType.object,
                     properties: {
-                        name: { type: SchemaFieldType.string },
-                        value: { type: SchemaFieldType.string },
-                        type: { type: SchemaFieldType.string },
+                        name: {
+                            type: SchemaFieldType.string,
+                            required: true
+                        },
+                        value: {
+                            type: SchemaFieldType.string,
+                            required: true
+                        },
+                        type: {
+                            type: SchemaFieldType.string,
+                            required: true
+                        },
                     }
                 }
             },
@@ -108,6 +144,7 @@ export const schemas = {
             },
             automaticIssuance: {
                 type: SchemaFieldType.boolean,
+                required: false
             },
             issuingDID: {
                 type: SchemaFieldType.string,

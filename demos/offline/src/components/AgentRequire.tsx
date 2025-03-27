@@ -12,7 +12,7 @@ interface RequireDBProps {
 
 
 export default function AgentRequire({ children }: RequireDBProps) {
-    const { getMediator, getSeed, getWallet, state: dbState, db } = useDatabase();
+    const { getMediator, getSeed, getWallet, state: dbState, db, error: dbError } = useDatabase();
     const router = useRouter();
     const [loaded, setLoaded] = useState<boolean>(false);
     const [mediatorDID, setMediatorDID] = useState<SDK.Domain.DID | null>(null);
@@ -21,7 +21,7 @@ export default function AgentRequire({ children }: RequireDBProps) {
     const currentRoute = router.pathname;
     useEffect(() => {
         async function load() {
-            if (dbState === 'loaded') {
+            if (dbState === 'loaded' && !dbError) {
                 const seed = await getSeed();
                 if (currentRoute !== "/app/mnemonics" && !seed) {
                     router.replace("/app/mnemonics");
@@ -42,7 +42,7 @@ export default function AgentRequire({ children }: RequireDBProps) {
             }
         }
         load().then(() => setLoaded(true))
-    }, []);
+    }, [dbState, dbError, currentRoute, getMediator, getSeed, getWallet, connect, router]);
 
     if (!loaded) {
         return <Loading />

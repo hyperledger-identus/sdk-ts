@@ -1,6 +1,8 @@
 import { createContext } from "react";
 import SDK from "@hyperledger/identus-sdk";
+
 import { PlutoExtended } from "@/utils/db";
+import { DatabaseState } from "@/utils/types";
 
 export type Theme = 'dark' | 'light';
 export type ThemeContextType = {
@@ -28,14 +30,12 @@ export const AgentContext = createContext<{
     peerDID: SDK.Domain.DID | null;
 } | undefined>(undefined);
 
-export type DatabaseState = 'disconnected' | 'loading' | 'loaded' | 'error';
 export const DatabaseContext = createContext<{
     db: PlutoExtended | null;
     state: DatabaseState;
     error: Error | null;
     features: string[];
     setDb: (db: PlutoExtended) => void;
-    start: () => Promise<void>;
     getFeatures: () => Promise<void>;
     getMediator: () => Promise<SDK.Domain.DID | null>;
     getSeed: () => Promise<SDK.Domain.Seed | null>;
