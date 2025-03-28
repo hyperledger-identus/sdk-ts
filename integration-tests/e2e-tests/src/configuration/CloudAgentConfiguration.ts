@@ -6,7 +6,7 @@ import {
   Curve,
   ManagedDIDKeyTemplate,
   Purpose
-} from "@amagyar-iohk/identus-cloud-agent-client-ts"
+} from "@hyperledger/identus-cloud-agent-client"
 import { Utils } from "../Utils"
 import { randomUUID } from "crypto"
 import * as fs from "fs"
@@ -93,7 +93,7 @@ export class CloudAgentConfiguration {
   }
 
   private static getSdkVersion(): string {
-    const file = "node_modules/@hyperledger/identus-edge-agent-sdk/package.json"
+    const file = "node_modules/@hyperledger/identus-sdk/package.json"
     const json = JSON.parse(fs.readFileSync(file).toString())
     return json.version
   }
