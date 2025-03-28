@@ -1,5 +1,6 @@
 import { BeforeAll, defineParameterType, setDefaultTimeout } from "@cucumber/cucumber"
 import { actorCalled, actorInTheSpotlight, configure } from "@serenity-js/core"
+import { resolve } from "node:path"
 
 setDefaultTimeout(5 * 60 * 1000)
 
@@ -7,7 +8,14 @@ BeforeAll(async function () {
   // Configure Serenity/JS
   configure({
     crew: [
-      "@serenity-js/console-reporter"
+      ["@serenity-js/console-reporter", { theme: "auto" }],
+      [ "@serenity-js/core:ArtifactArchiver", { outputDirectory: resolve(__dirname, "../../target/site/serenity") } ],
+      ["@serenity-js/serenity-bdd", {
+        reporter: {
+          specDirectory: resolve(__dirname, "buceta"),
+          includeAbilityDetails: true,
+        },
+      }],
     ]
   })
 })

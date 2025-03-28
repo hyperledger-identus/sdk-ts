@@ -1,5 +1,5 @@
 @jwt @proof
-Feature: Provide proof
+Feature: Provide jwt proof
   The Edge Agent should provide proof to Cloud Agent
 
   Scenario: Edge Agent with a credential should provide proof to Cloud Agent
