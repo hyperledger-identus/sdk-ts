@@ -3,6 +3,7 @@ import { Actor, Notepad } from "@serenity-js/core"
 import { EdgeAgentWorkflow } from "../workflow/EdgeAgentWorkflow"
 import { CloudAgentWorkflow } from "../workflow/CloudAgentWorkflow"
 import { Utils } from "../Utils"
+import SDK from "@hyperledger/identus-sdk"
 
 Given("{actor} has '{int}' jwt credentials issued by {actor}",
   async function (edgeAgent: Actor, numberOfIssuedCredentials: number, cloudAgent: Actor) {
@@ -229,7 +230,6 @@ Then("{actor} is dismissed",
 
 Then("{actor} will request {actor} to verify the anonymous credential",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
-    const SDK = await EdgeAgentWorkflow.instance
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
     const holderDID = await holderEdgeAgent.answer(Notepad.notes().get("lastPeerDID"))
     const claims = {
@@ -247,7 +247,6 @@ Then("{actor} will request {actor} to verify the anonymous credential",
 
 Then("{actor} will request {actor} to verify the JWT credential",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
-    const SDK = await EdgeAgentWorkflow.instance
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
     const holderDID = await holderEdgeAgent.answer(Notepad.notes().get("lastPeerDID"))
     const claims = {
@@ -265,12 +264,11 @@ Then("{actor} will request {actor} to verify the JWT credential",
 
 Then("{actor} will request {actor} to verify the SD+JWT credential",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
-    const SDK = await EdgeAgentWorkflow.instance
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
     const holderDID = await holderEdgeAgent.answer(Notepad.notes().get("lastPeerDID"))
-    const claims: any = {
+    const claims = {
       claims: {
-        automationRequired: {
+        "automation-required": {
           type: "string",
           pattern: "required value"
         }
@@ -282,10 +280,9 @@ Then("{actor} will request {actor} to verify the SD+JWT credential",
 
 Then("{actor} will request {actor} to verify the SD+JWT credential with non-existing claims",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
-    const SDK = await EdgeAgentWorkflow.instance
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
     const holderDID = await holderEdgeAgent.answer(Notepad.notes().get("lastPeerDID"))
-    const claims: any = {
+    const claims = {
       claims: {
         doesNotExist: {
           type: "string",
