@@ -11,9 +11,10 @@ import {
   Options,
   ProofRequestAux,
   RequestPresentationInput,
-} from "@amagyar-iohk/identus-cloud-agent-client-ts"
+} from "@hyperledger/identus-cloud-agent-client"
 import { CloudAgentConfiguration } from "../configuration/CloudAgentConfiguration"
 import { Utils } from "../Utils"
+import SDK from "@hyperledger/identus-sdk"
 
 export class CloudAgentWorkflow {
   static async createConnection(cloudAgent: Actor, label?: string, goalCode?: string, goal?: string) {
@@ -94,9 +95,10 @@ export class CloudAgentWorkflow {
 
   static async offerSDJWTCredential(cloudAgent: Actor) {
     const credential = new CreateIssueCredentialRecordRequest()
+    credential.schemaId = `${CloudAgentConfiguration.agentUrl}schema-registry/schemas/${CloudAgentConfiguration.sdJWTSchemaGuid}`
     credential.validityPeriod = 360000
     credential.claims = {
-      "automationRequired": "required value",
+      "automation-required": "required value",
     }
     credential.automaticIssuance = true
     credential.issuingDID = CloudAgentConfiguration.publishedEd25519Did
@@ -144,7 +146,7 @@ export class CloudAgentWorkflow {
     presentProofRequest.options.domain = CloudAgentConfiguration.agentUrl
 
     const proof = new ProofRequestAux()
-    proof.schemaId = "https://schema.org/Person"
+    proof.schemaId = `${CloudAgentConfiguration.agentUrl}schema-registry/schemas/${CloudAgentConfiguration.jwtSchemaGuid}`
     proof.trustIssuers = [CloudAgentConfiguration.publishedDid]
 
     presentProofRequest.proofs = [proof]
@@ -165,7 +167,7 @@ export class CloudAgentWorkflow {
     presentProofRequest.options.challenge = randomUUID()
     presentProofRequest.options.domain = CloudAgentConfiguration.agentUrl
     const proof = new ProofRequestAux()
-    proof.schemaId = "https://schema.org/Person"
+    proof.schemaId = `${CloudAgentConfiguration.agentUrl}schema-registry/schemas/${CloudAgentConfiguration.sdJWTSchemaGuid}`
     proof.trustIssuers = [CloudAgentConfiguration.publishedEd25519Did]
     presentProofRequest.proofs = [proof]
     presentProofRequest.credentialFormat = "SDJWT"
@@ -295,15 +297,12 @@ export class CloudAgentWorkflow {
     return await LastResponse.body().answeredBy(cloudAgent)
   }
 
-  private static instance: typeof import("@hyperledger/identus-edge-agent-sdk").default
-
   static async getCredentialStatusList(cloudAgent: Actor, recordIdList: string[]): Promise<Map<string, string>> {
-    CloudAgentWorkflow.instance ??= require("@hyperledger/identus-edge-agent-sdk")
     const statusRegistry = new Map<string, string>()
     for (const recordId of recordIdList) {
       const credentialResponse = await this.getCredential(cloudAgent, recordId)
       const jwtString = Utils.decodeBase64URL(credentialResponse.credential)
-      const decoded = CloudAgentWorkflow.instance.JWTCredential.fromJWS(jwtString)
+      const decoded = SDK.JWTCredential.fromJWS(jwtString)
       const credentialStatus = decoded.vc.credentialStatus as any
       const statusList = credentialStatus.statusListCredential
       statusRegistry.set(recordId, statusList)
