@@ -278,31 +278,25 @@ export class PresentationVerify extends Plugins.Task<Args> {
     const fields = constraints.fields;
 
     if (constraints.limit_disclosure === "required") {
+      const requiredFields = fields.filter((field) => !field.optional);
 
-      for (const field of fields) {
+      for (const field of requiredFields) {
         const paths = [...field.path];
-        const optional = field.optional;
-
-        if (!optional) {
-          let error: Error | undefined;
-          while (paths.length) {
-            const [path] = paths.splice(0, 1);
-            try {
-              const valid = this.validateField(vc, descriptorMapper, path, field);
-              if (valid) {
-                break;
-              }
-              //if field is valid, stop searching paths
-              error = undefined;
-              break;
-            } catch (err) {
-              //set error and continue to see if other paths succeed
-              error ??= err as Error;
-            }
+        let error: Error | undefined;
+        while (paths.length) {
+          const [path] = paths.splice(0, 1);
+          try {
+            //throws an exception or returns true if it's valid
+            this.validateField(vc, descriptorMapper, path, field);
+            error = undefined;
+            break;
+          } catch (err) {
+            //set error and continue to see if other paths succeed
+            error ??= err as Error;
           }
-          if (error) {
-            throw error
-          }
+        }
+        if (error) {
+          throw error
         }
       }
     }
