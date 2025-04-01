@@ -141,7 +141,7 @@
     "elliptic": "^6.5.4",
     "jsdom": "^24.1.0",
     "rxjs": "^7.8.1",
-    "webdriverio": "^7.16.4"
+    "webdriverio": "^9.12.2"
   },
   "overrides": {
     "ws": "^8.17.1"
