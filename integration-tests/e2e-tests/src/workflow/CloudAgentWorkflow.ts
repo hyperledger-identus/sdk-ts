@@ -150,6 +150,7 @@ export class CloudAgentWorkflow {
     proof.trustIssuers = [CloudAgentConfiguration.publishedDid]
 
     presentProofRequest.proofs = [proof]
+    presentProofRequest.credentialFormat = "JWT"
 
     await cloudAgent.attemptsTo(
       Send.a(PostRequest.to("present-proof/presentations").with(presentProofRequest)),
