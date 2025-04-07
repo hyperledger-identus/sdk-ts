@@ -35,7 +35,6 @@ const agentRoutes = [
         children: [
             { path: '#', label: 'Issue Credentials' },
             { path: '#', label: 'Verify Credentials' },
-
         ]
     },
 ];
@@ -44,7 +43,6 @@ const holderRoutes = [
     {
         label: 'Identity',
         children: [
-            { path: '/app/dids', label: 'DIDs' },
             { path: '/app/credentials', label: 'Credentials' },
         ]
     },
@@ -70,6 +68,14 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
         { path: '/app', label: 'Home' },
     ];
 
+
+    navItems.push(...[{
+        label: 'DIDs',
+        children: [
+            { path: '/app/dids', label: 'DIDs' },
+        ]
+    }]);
+
     if (features.includes('agent')) {
         navItems.push(...agentRoutes);
     }
@@ -77,6 +83,7 @@ export default function Layout({ children, showDIDSelector = false }: LayoutProp
     if (features.includes('holder')) {
         navItems.push(...holderRoutes);
     }
+
 
 
     navItems.push(...[{

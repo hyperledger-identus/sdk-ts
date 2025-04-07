@@ -3,9 +3,10 @@ import { BrowserWallet, Wallet } from "@meshsdk/core";
 import { useWallet } from "@meshsdk/react";
 import { WALLET_NAME } from "@/config";
 import { useDatabase } from "@/hooks";
+import Image from "next/image";
 
 export default function SelectWallet({ onSelected }: { onSelected: (wallet: Wallet) => void }) {
-    const { db, getWallet } = useDatabase();
+    const { db, wallet: selectedWallet } = useDatabase();
     const { connect } = useWallet();
     const [availableWallets, setAvailableWallets] = useState<Wallet[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -17,17 +18,6 @@ export default function SelectWallet({ onSelected }: { onSelected: (wallet: Wall
         }).catch(err => {
             console.error("Error loading wallets:", err);
             setError(err.message || "Failed to load wallets");
-        });
-    }, []);
-
-    useEffect(() => {
-        getWallet().then(async (walletId) => {
-            console.log("Stored wallet ID:", walletId);
-            if (walletId) {
-                await connect(walletId);
-            }
-        }).catch(err => {
-            setError(err.message || "Failed to load wallet");
         });
     }, []);
 
@@ -56,21 +46,25 @@ export default function SelectWallet({ onSelected }: { onSelected: (wallet: Wall
                     {availableWallets.map((foundWallet: Wallet) => (
                         <button
                             key={foundWallet.name}
-                            className="p-4 border border-border-light dark:border-border-dark rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center"
+                            className={`w-full flex items-center px-3 py-2 text-sm hover:bg-background-light/50 dark:hover:bg-background-dark/50 ${selectedWallet === foundWallet.name ? 'bg-background-light/50 dark:bg-background-dark/50' : ''
+                                }`}
                             onClick={async () => {
                                 try {
                                     connect(foundWallet.name);
                                     await db?.storeSettingsByKey(WALLET_NAME, foundWallet.name);
+                                    onSelected(foundWallet);
                                 } catch (err: any) {
                                     console.error("Error connecting wallet:", err);
                                     setError(`Error connecting wallet: ${err.message}`);
                                 }
                             }}
                         >
-                            <img
+                            <Image
                                 src={foundWallet.icon}
                                 alt={foundWallet.name}
                                 className="w-8 h-8 mr-4"
+                                width={24}
+                                height={24}
                             />
                             <span className="text-lg font-medium text-text-primary-light dark:text-text-primary-dark">
                                 {foundWallet.name}

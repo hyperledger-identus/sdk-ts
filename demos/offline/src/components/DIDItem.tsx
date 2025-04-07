@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SDK from "@hyperledger/identus-sdk";
 
 import { useWallet } from "@meshsdk/react";
@@ -11,7 +11,7 @@ import { useDatabase, useAgent } from "@/hooks";
 
 export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (did: DIDAlias) => void }) {
     const { wallet, connected } = useWallet();
-    const { db } = useDatabase();
+    const { db, setWallet, wallet: currentWallet } = useDatabase();
     const { agent } = useAgent();
     const [error, setError] = useState<string | null>(null);
     const [isResolving, setIsResolving] = useState(false);
@@ -20,24 +20,10 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
     const [showModal, setShowModal] = useState(false);
     const didString = didItem.did.toString();
     const [publishing, setPublishing] = useState(false);
+    const [wasPublishing, setWasPublishing] = useState(false);
 
-    async function checkTransactionConfirmation(txHash: string, project_id: string) {
-        try {
-            const response = await fetch(
-                `https://cardano-mainnet.blockfrost.io/api/v0/txs/${txHash}`,
-                {
-                    headers: {
-                        project_id
-                    },
-                }
-            );
-            return response.ok;
-        } catch (error) {
-            return false;
-        }
-    }
 
-    async function buildAndSubmitTransaction(metadataBody: any): Promise<string> {
+    const buildAndSubmitTransaction = useCallback(async (metadataBody: any) => {
         if (!wallet) throw new Error("No wallet connected");
         // Create a new transaction with the "initiator" set to the connected wallet
         const tx = new Transaction({ initiator: wallet })
@@ -53,20 +39,11 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
         const signedTx = await wallet.signTx(unsignedTx);
         const txHash = await wallet.submitTx(signedTx);
         return txHash;
-    }
+    }, [wallet])
 
-    function splitStringIntoChunks(input: Uint8Array, chunkSize = 64): Uint8Array[] {
-        const buffer = Buffer.from(input);
-        const chunks: Uint8Array[] = [];
-        for (let i = 0; i < buffer.length; i += chunkSize) {
-            chunks.push(
-                Uint8Array.from(buffer.slice(i, i + chunkSize))
-            );
-        }
-        return chunks;
-    }
+    const onPublishClick = useCallback(async () => {
+        setWasPublishing(false);
 
-    async function onPublishClick() {
         if (!agent) {
             setError("Agent is not initialized");
             return;
@@ -77,7 +54,7 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
             const document = await agent.castor.resolveDID(didString);
             const signingKey = document.verificationMethods.find(key => key.id.includes("#master"));
             const projectId = await db?.getSettingsByKey(BLOCKFROST_KEY_NAME) ?? null;
-            const walletId = await db?.getSettingsByKey(WALLET_NAME) ?? null;
+            const walletId = currentWallet;
             console.log("Publish clicked - Wallet ID:", walletId, "Project ID:", projectId);
 
             if (!walletId) {
@@ -136,6 +113,41 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
         } catch (err: any) {
             setError(err.message || "Failed to publish DID");
         }
+    }, [agent, db, currentWallet, onUpdate, buildAndSubmitTransaction, didItem, didString, setWasPublishing])
+
+    useEffect(() => {
+        if (wallet && wasPublishing) {
+            onPublishClick();
+        } else {
+            debugger;
+        }
+    }, [wallet, wasPublishing, onPublishClick])
+
+    async function checkTransactionConfirmation(txHash: string, project_id: string) {
+        try {
+            const response = await fetch(
+                `https://cardano-mainnet.blockfrost.io/api/v0/txs/${txHash}`,
+                {
+                    headers: {
+                        project_id
+                    },
+                }
+            );
+            return response.ok;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    function splitStringIntoChunks(input: Uint8Array, chunkSize = 64): Uint8Array[] {
+        const buffer = Buffer.from(input);
+        const chunks: Uint8Array[] = [];
+        for (let i = 0; i < buffer.length; i += chunkSize) {
+            chunks.push(
+                Uint8Array.from(buffer.slice(i, i + chunkSize))
+            );
+        }
+        return chunks;
     }
 
     // Function to resolve a DID
@@ -169,6 +181,7 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
 
             {
                 showModal && <SelectWallet onSelected={(wallet) => {
+                    setWallet(wallet.name);
                     setShowModal(false);
                 }} />
             }
@@ -186,6 +199,7 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
                                                 if (connected) {
                                                     onPublishClick()
                                                 } else {
+                                                    setWasPublishing(true)
                                                     setShowModal(true)
                                                 }
                                             }}

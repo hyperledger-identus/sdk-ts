@@ -2,7 +2,7 @@ import Head from "next/head";
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { useEffect, useState } from "react";
-import { BLOCKFROST_KEY_NAME, PRISM_RESOLVER_URL_KEY, FEATURES } from "@/config";
+import { BLOCKFROST_KEY_NAME, PRISM_RESOLVER_URL_KEY, FEATURES, MEDIATOR_DID } from "@/config";
 import { useDatabase } from "@/hooks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -10,6 +10,7 @@ export default function SettingsPage() {
     const { db, state: dbState, getFeatures } = useDatabase();
     const [blockfrostKey, setBlockfrostKey] = useState("");
     const [resolverUrl, setResolverUrl] = useState("");
+    const [mediatorDID, setMediatorDID] = useState("");
     const [features, setFeatures] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<{ success: boolean, message: string } | null>(null);
@@ -17,10 +18,11 @@ export default function SettingsPage() {
     useEffect(() => {
         async function load() {
             if (db && dbState === "loaded") {
-                const [blockfrost, prism, features] = await Promise.all([
+                const [blockfrost, prism, features, mediatorDID] = await Promise.all([
                     db.getSettingsByKey(BLOCKFROST_KEY_NAME),
                     db.getSettingsByKey(PRISM_RESOLVER_URL_KEY),
-                    db.getSettingsByKey(FEATURES)
+                    db.getSettingsByKey(FEATURES),
+                    db.getSettingsByKey(MEDIATOR_DID)
                 ]);
                 if (blockfrost) {
                     setBlockfrostKey(blockfrost);
@@ -30,6 +32,9 @@ export default function SettingsPage() {
                 }
                 if (features) {
                     setFeatures(features.split(","));
+                }
+                if (mediatorDID) {
+                    setMediatorDID(mediatorDID);
                 }
             }
         }
@@ -55,7 +60,8 @@ export default function SettingsPage() {
             await Promise.all([
                 db.storeSettingsByKey(BLOCKFROST_KEY_NAME, blockfrostKey),
                 db.storeSettingsByKey(PRISM_RESOLVER_URL_KEY, resolverUrl),
-                db.storeSettingsByKey(FEATURES, features.join(","))
+                db.storeSettingsByKey(FEATURES, features.join(",")),
+                db.storeSettingsByKey(MEDIATOR_DID, mediatorDID)
             ]);
             await getFeatures();
             setResult({
@@ -114,6 +120,24 @@ export default function SettingsPage() {
                             </div>
                             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                 This API key is required for interacting with the Cardano blockchain.
+                            </p>
+                        </div>
+                        <div>
+                            <label htmlFor="resolverUrl" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Mediator DID
+                            </label>
+                            <div className="mt-1 flex gap-4">
+                                <input
+                                    type="text"
+                                    id="resolverUrl"
+                                    value={mediatorDID}
+                                    onChange={(e) => setMediatorDID(e.target.value)}
+                                    placeholder="Enter the Mediator DID"
+                                    className="flex-1 rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                />
+                            </div>
+                            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                This URL is required for resolving PRISM DIDs.
                             </p>
                         </div>
                         <div>

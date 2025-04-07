@@ -1,16 +1,42 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { BrowserWallet, Wallet } from "@meshsdk/core";
 import { useWallet } from "@meshsdk/react";
 import { useDatabase } from "@/hooks";
+import Image from "next/image";
 
 export function WalletSelect() {
-    const { getWallet, error: dbError, setWallet } = useDatabase();
+    const { error: dbError, setWallet, wallet: selectedWallet } = useDatabase();
     const { connect, disconnect, connected } = useWallet();
     const [availableWallets, setAvailableWallets] = useState<Wallet[]>([]);
-    const [selectedWallet, setSelectedWallet] = useState<string>("");
     const [error, setError] = useState<string | undefined>(dbError?.message);
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+
+    const onHandleLogout = useCallback(async () => {
+        try {
+            await disconnect();
+            await setWallet(null);
+            setIsOpen(false);
+        } catch (err: any) {
+            console.error("Error disconnecting wallet:", err);
+            setError(`Error disconnecting wallet: ${err.message}`);
+        }
+    }, [disconnect, setWallet, setIsOpen]);
+
+    const onHandleConnect = useCallback(async (wallet: Wallet) => {
+        try {
+            debugger;
+            await connect(wallet.name);
+            await setWallet(wallet.name);
+            debugger;
+            setIsOpen(false);
+        } catch (err: any) {
+            console.error("Error connecting wallet:", err);
+            setError(`Error connecting wallet: ${err.message}`);
+        }
+    }, [connect, setWallet, setIsOpen]);
+
 
     useEffect(() => {
         BrowserWallet.getAvailableWallets().then((foundWallets) => {
@@ -19,18 +45,6 @@ export function WalletSelect() {
         }).catch(err => {
             console.error("Error loading wallets:", err);
             setError(err.message || "Failed to load wallets");
-        });
-    }, []);
-
-    useEffect(() => {
-        getWallet().then(async (walletId) => {
-            console.log("Stored wallet ID:", walletId);
-            if (walletId) {
-                setSelectedWallet(walletId);
-                await connect(walletId);
-            }
-        }).catch(err => {
-            setError(err.message || "Failed to load wallet");
         });
     }, []);
 
@@ -45,17 +59,6 @@ export function WalletSelect() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const handleLogout = async () => {
-        try {
-            await disconnect();
-            setSelectedWallet("");
-            await setWallet(null);
-            setIsOpen(false);
-        } catch (err: any) {
-            console.error("Error disconnecting wallet:", err);
-            setError(`Error disconnecting wallet: ${err.message}`);
-        }
-    };
 
     if (availableWallets.length === 0) {
         return <div className="text-text-secondary-light dark:text-text-secondary-dark px-4 py-3">
@@ -73,10 +76,12 @@ export function WalletSelect() {
             >
                 <div className="flex items-center">
                     {selectedWalletData?.icon && (
-                        <img
+                        <Image
                             src={selectedWalletData.icon}
                             alt={selectedWalletData.name}
                             className="w-6 h-6 mr-2"
+                            width={24}
+                            height={24}
                         />
                     )}
                     <span className="text-text-primary-light dark:text-text-primary-dark">{selectedWallet || "Select Wallet"}</span>
@@ -95,7 +100,7 @@ export function WalletSelect() {
                 <div className="absolute z-10 w-56 mt-1 bg-input-background-light dark:bg-input-background-dark border border-input-border-light dark:border-input-border-dark rounded-md shadow-lg">
                     {connected ? (
                         <button
-                            onClick={handleLogout}
+                            onClick={onHandleLogout}
                             className="w-full flex items-center px-3 py-2 text-sm text-status-error-light dark:text-status-error-dark hover:bg-status-error-light/10 dark:hover:bg-status-error-dark/10"
                         >
                             <svg
@@ -117,25 +122,17 @@ export function WalletSelect() {
                         availableWallets.map((foundWallet) => (
                             <button
                                 key={foundWallet.name}
-                                onClick={async () => {
-                                    try {
-                                        setSelectedWallet(foundWallet.name);
-                                        await connect(foundWallet.name);
-                                        await setWallet(foundWallet.name);
-                                        setIsOpen(false);
-                                    } catch (err: any) {
-                                        console.error("Error connecting wallet:", err);
-                                        setError(`Error connecting wallet: ${err.message}`);
-                                    }
-                                }}
+                                onClick={() => onHandleConnect(foundWallet)}
                                 className={`w-full flex items-center px-3 py-2 text-sm hover:bg-background-light/50 dark:hover:bg-background-dark/50 ${selectedWallet === foundWallet.name ? 'bg-background-light/50 dark:bg-background-dark/50' : ''
                                     }`}
                             >
                                 {foundWallet.icon && (
-                                    <img
+                                    <Image
                                         src={foundWallet.icon}
                                         alt={foundWallet.name}
                                         className="w-6 h-6 mr-2"
+                                        width={24}
+                                        height={24}
                                     />
                                 )}
                                 <span className="text-text-primary-light dark:text-text-primary-dark">{foundWallet.name}</span>
