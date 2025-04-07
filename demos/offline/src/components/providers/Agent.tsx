@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import SDK from "@hyperledger/identus-sdk";
 import { useRouter } from "next/router";
 
@@ -22,7 +22,7 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     const [peerDID, setPeerDID] = useState<SDK.Domain.DID | null>(null);
     const currentState = agent?.state || SDK.Domain.Startable.State.STOPPED;
 
-    async function start() {
+    const start = useCallback(async () => {
         if (!db) {
             throw new Error("No db found");
         }
@@ -53,58 +53,61 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         const peerDID = await agent.createNewPeerDID([], true);
         setPeerDID(peerDID);
         setAgent(agent);
-    }
+    }, [db, getSeed, getMediator, getResolverUrl, setState, setPeerDID, setAgent]);
 
-    async function stop() {
+    const stop = useCallback(async () => {
         setState(SDK.Domain.Startable.State.STOPPING);
         await agent?.stop();
         setAgent(null);
         if (db?.state === 'disconnected') {
             router.replace("/app/auth");
         }
-    }
+    }, [agent, db, router, setState, setAgent]);
 
-    async function readMessage(message: SDK.Domain.Message) {
+    const readMessage = useCallback(async (message: SDK.Domain.Message) => {
         if (!db) {
             throw new Error("No db found");
         }
         await db.readMessage(message);
         setMessages((prev) => prev.map((m) => m.message.id === message.id ? { ...m, read: true } : m));
-    }
+    }, [db, setMessages]);
 
     useEffect(() => {
         setState(currentState);
     }, [currentState])
 
+    const onMessage = useCallback((messages: SDK.Domain.Message[]) => {
+        setMessages((prev) => {
+            const newMessages = messages.filter(
+                (message) => !prev.some((m) => m.message.id === message.id)
+            );
+            return [...prev, ...newMessages.map((message) => ({ message, read: false }))];
+        });
+    }, [setMessages]);
+
+    const onConnection = useCallback((connections: SDK.Domain.DIDPair) => {
+        setConnections((prev) => {
+            if (prev.some((c) =>
+                c.host.toString() === connections.host.toString() &&
+                c.receiver.toString() === connections.receiver.toString()
+            )) {
+                return prev;
+            }
+            return [...prev, connections];
+        });
+    }, [setConnections]);
+
+    const onRevokeCredential = useCallback((credential: SDK.Domain.Credential) => {
+        setCredentials((prev) => {
+            if (prev.some((c) => c.id === credential.id)) {
+                return prev;
+            }
+            return [...prev, credential];
+        });
+    }, [setCredentials]);
+
     useEffect(() => {
         if (agent) {
-            function onMessage(messages: SDK.Domain.Message[]) {
-                setMessages((prev) => {
-                    const newMessages = messages.filter(
-                        (message) => !prev.some((m) => m.message.id === message.id)
-                    );
-                    return [...prev, ...newMessages.map((message) => ({ message, read: false }))];
-                });
-            }
-            function onConnection(connections: SDK.Domain.DIDPair) {
-                setConnections((prev) => {
-                    if (prev.some((c) =>
-                        c.host.toString() === connections.host.toString() &&
-                        c.receiver.toString() === connections.receiver.toString()
-                    )) {
-                        return prev;
-                    }
-                    return [...prev, connections];
-                });
-            }
-            function onRevokeCredential(credential: SDK.Domain.Credential) {
-                setCredentials((prev) => {
-                    if (prev.some((c) => c.id === credential.id)) {
-                        return prev;
-                    }
-                    return [...prev, credential];
-                });
-            }
             agent.addListener(SDK.ListenerKey.MESSAGE, onMessage);
             agent.addListener(SDK.ListenerKey.CONNECTION, onConnection);
             agent.addListener(SDK.ListenerKey.REVOKE, onRevokeCredential);
@@ -114,39 +117,40 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
                 agent.removeListener(SDK.ListenerKey.REVOKE, onRevokeCredential);
             };
         }
-    }, [agent])
+    }, [agent, onMessage, onConnection, onRevokeCredential])
+
+    const preloadData = useCallback(async () => {
+        if (db && dbState === 'loaded') {
+            const messages = await db.getMessages();
+            const connections = await db.pluto.getAllDidPairs();
+            const credentials = await db.pluto.getAllCredentials();
+            setMessages((prev) => {
+                const newMessages = messages.filter(
+                    (message) => !prev.some((m) => m.message.id === message.message.id)
+                );
+                return [...prev, ...newMessages];
+            });
+            setConnections((prev) => {
+                const newConnections = connections.filter(
+                    (connection) => !prev.some((c) =>
+                        c.host.toString() === connection.host.toString() &&
+                        c.receiver.toString() === connection.receiver.toString()
+                    )
+                );
+                return [...prev, ...newConnections];
+            });
+            setCredentials((prev) => {
+                const newCredentials = credentials.filter(
+                    (credential) => !prev.some((c) => c.id === credential.id)
+                );
+                return [...prev, ...newCredentials];
+            });
+        }
+    }, [db, dbState, setMessages, setConnections, setCredentials]);
 
     useEffect(() => {
-        async function preloadData() {
-            if (db && dbState === 'loaded') {
-                const messages = await db.getMessages();
-                const connections = await db.pluto.getAllDidPairs();
-                const credentials = await db.pluto.getAllCredentials();
-                setMessages((prev) => {
-                    const newMessages = messages.filter(
-                        (message) => !prev.some((m) => m.message.id === message.message.id)
-                    );
-                    return [...prev, ...newMessages];
-                });
-                setConnections((prev) => {
-                    const newConnections = connections.filter(
-                        (connection) => !prev.some((c) =>
-                            c.host.toString() === connection.host.toString() &&
-                            c.receiver.toString() === connection.receiver.toString()
-                        )
-                    );
-                    return [...prev, ...newConnections];
-                });
-                setCredentials((prev) => {
-                    const newCredentials = credentials.filter(
-                        (credential) => !prev.some((c) => c.id === credential.id)
-                    );
-                    return [...prev, ...newCredentials];
-                });
-            }
-        }
         preloadData().catch(console.log);
-    }, [dbState, db])
+    }, [dbState, db, preloadData])
 
     return <AgentContext.Provider value={{ agent, connections, credentials, setAgent, start, stop, state, messages, readMessage, peerDID }}> {children} </AgentContext.Provider>
 }
