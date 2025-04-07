@@ -35,6 +35,7 @@ export const DatabaseContext = createContext<{
     state: DatabaseState;
     error: Error | null;
     features: string[];
+    wallet: string | null;
     setDb: (db: PlutoExtended) => void;
     getFeatures: () => Promise<void>;
     getMediator: () => Promise<SDK.Domain.DID | null>;
