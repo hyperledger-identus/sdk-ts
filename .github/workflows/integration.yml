@@ -6,6 +6,7 @@ on:
       - "main"
     tags:
       - "v*"
+
 jobs:
   integrate-revision:
     if: github.ref == 'refs/heads/main'
@@ -16,8 +17,8 @@ jobs:
       - name: Dispatch integration
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.ATALA_GITHUB_TOKEN }}
-          repository: input-output-hk/identus-integration
+          token: ${{ secrets.IDENTUS_CI }}
+          repository: hyperledger-identus/integration
           event-type: integration
           client-payload: '{"component": "sdk-ts", "release": false, "version": "${{ github.sha }}" }'
 
@@ -34,7 +35,7 @@ jobs:
       - name: Dispatch integration
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.ATALA_GITHUB_TOKEN }}
-          repository: input-output-hk/identus-integration
+          token: ${{ secrets.IDENTUS_CI }}
+          repository: hyperledger-identus/integration
           event-type: integration
           client-payload: '{"component": "sdk-ts", "release": true, "version": "${{ steps.tag.outputs.name }}" }'
