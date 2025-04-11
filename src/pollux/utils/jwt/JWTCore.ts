@@ -32,7 +32,7 @@ export abstract class JWTCore {
   constructor(
     public readonly apollo: Apollo,
     public readonly castor: Castor
-  ) {}
+  ) { }
 
   public async resolve(did: string): Promise<didResolver.DIDResolutionResult> {
     const resolved = await this.castor.resolveDID(did);
@@ -132,63 +132,49 @@ export abstract class JWTCore {
       return pk;
     }
     if (verificationMethod.publicKeyJwk) {
-      const { crv, x } = verificationMethod.publicKeyJwk;
-      if (crv === Curve.ED25519) {
-        pk = this.apollo.createPublicKey({
-          [KeyProperties.curve]: Curve.ED25519,
-          [KeyProperties.type]: KeyTypes.EC,
-          [KeyProperties.rawKey]: base64url.baseDecode(x!)
-        });
-      } else if (crv === Curve.SECP256K1) {
-        pk = this.apollo.createPublicKey({
-          [KeyProperties.curve]: Curve.SECP256K1,
-          [KeyProperties.type]: KeyTypes.EC,
-          [KeyProperties.rawKey]: base64url.baseDecode(x!)
-        });
+      const jwk = verificationMethod.publicKeyJwk as any;
 
-        const jwk = verificationMethod.publicKeyJwk as any;
+      if (jwk.kty === "EC") {
+        const crv = expect(jwk.crv, new Error('Missing JWK Parameter `crv`'));
+        const withCoordinates = jwk.x !== undefined || jwk.y !== undefined;
 
-        if (jwk.kty === "EC") {
-          const crv = expect(jwk.crv, new Error('Missing JWK Parameter `crv`'));
-          const withCoordinates = jwk.x !== undefined || jwk.y !== undefined;
-
-          if (withCoordinates) {
-            const decodedX = this.decodeJWKParameter('x', jwk);
-            const decodedY = this.decodeJWKParameter('y', jwk);
-            return this.apollo.createPublicKey({
-              [KeyProperties.type]: crv === Curve.X25519 ? KeyTypes.Curve25519 : KeyTypes.EC,
-              [KeyProperties.curve]: crv,
-              [KeyProperties.curvePointX]: decodedX,
-              [KeyProperties.curvePointY]: decodedY
-            });
-          }
-
-          if (jwk.d !== undefined) {
-            const decodedD = this.decodeJWKParameter('d', jwk);
-            const sk = this.apollo.createPrivateKey({
-              [KeyProperties.type]: crv === Curve.X25519 ? KeyTypes.Curve25519 : KeyTypes.EC,
-              [KeyProperties.curve]: crv,
-              [KeyProperties.rawKey]: decodedD
-            });
-
-            return sk.publicKey();
-          }
-
-          throw new Error('Required property x+y or d is missing in EC JWK');
-        }
-
-        if (verificationMethod.publicKeyJwk.kty === "OKP") {
-          const crv = expect(jwk.crv, new Error('Missing JWK Parameter x'));
+        if (withCoordinates) {
           const decodedX = this.decodeJWKParameter('x', jwk);
-
+          const decodedY = this.decodeJWKParameter('y', jwk);
           return this.apollo.createPublicKey({
             [KeyProperties.type]: crv === Curve.X25519 ? KeyTypes.Curve25519 : KeyTypes.EC,
             [KeyProperties.curve]: crv,
-            [KeyProperties.rawKey]: decodedX
+            [KeyProperties.curvePointX]: decodedX,
+            [KeyProperties.curvePointY]: decodedY
+          });
+        }
+
+        if (jwk.d !== undefined) {
+          const decodedD = this.decodeJWKParameter('d', jwk);
+          const sk = this.apollo.createPrivateKey({
+            [KeyProperties.type]: crv === Curve.X25519 ? KeyTypes.Curve25519 : KeyTypes.EC,
+            [KeyProperties.curve]: crv,
+            [KeyProperties.rawKey]: decodedD
           });
 
+          return sk.publicKey();
         }
+
+        throw new Error('Required property x+y or d is missing in EC JWK');
       }
+
+      if (verificationMethod.publicKeyJwk.kty === "OKP") {
+        const crv = expect(jwk.crv, new Error('Missing JWK Parameter x'));
+        const decodedX = this.decodeJWKParameter('x', jwk);
+
+        return this.apollo.createPublicKey({
+          [KeyProperties.type]: crv === Curve.X25519 ? KeyTypes.Curve25519 : KeyTypes.EC,
+          [KeyProperties.curve]: crv,
+          [KeyProperties.rawKey]: decodedX
+        });
+
+      }
+
       return pk;
     }
     throw new Error("Not supported");
