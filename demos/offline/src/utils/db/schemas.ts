@@ -36,11 +36,11 @@ export const schemas = {
   }),
   settings: migrateSchema({
     version: 0 as const,
-    primaryKey: 'id',
+    primaryKey: 'uuid',
     type: "object",
     encrypted: ['value'],
     properties: {
-      id: {
+      uuid: {
         type: "string",
         required: true
       },
@@ -56,11 +56,11 @@ export const schemas = {
   }),
   issuance: migrateSchema({
     version: 0 as const,
-    primaryKey: 'did',
+    primaryKey: 'uuid',
     type: "object",
     encrypted: ['dataJson'],
     properties: {
-      id: {
+      uuid: {
         type: "string",
         required: true
       },

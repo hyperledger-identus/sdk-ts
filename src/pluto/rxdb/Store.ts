@@ -57,8 +57,8 @@ export class RxdbStore implements Pluto.Store {
         uuid: model.uuid
       }
     }).exec();
-    if (row) {
 
+    if (row) {
       //Improve error handling when not found
       await row.patch(model);
     }
@@ -67,10 +67,8 @@ export class RxdbStore implements Pluto.Store {
   async delete(name: string, uuid: string): Promise<void> {
     const table = this.getCollection(name);
     const row = await table.findOne({
-      selector: {
-        uuid: uuid
-      }
-    });
+      selector: { uuid }
+    }).exec();
     //TODO: Improve error handling, specially when not found
     await row?.remove();
   }
