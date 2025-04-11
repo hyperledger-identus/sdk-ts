@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/domain/utils/JWT.ts:15](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/7eadfa3c5dda4c81079844b2a47014b3c9b03dac/src/domain/utils/JWT.ts#L15)
+[src/domain/utils/JWT.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/bc699428ddd8313d8025ef810d8e7784a65f26cc/src/domain/utils/JWT.ts#L15)
 
 ## Functions
 
@@ -50,7 +50,7 @@ decode a JWT into its parts
 
 #### Defined in
 
-[src/domain/utils/JWT.ts:64](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/7eadfa3c5dda4c81079844b2a47014b3c9b03dac/src/domain/utils/JWT.ts#L64)
+[src/domain/utils/JWT.ts:68](https://github.com/hyperledger-identus/sdk-ts/blob/bc699428ddd8313d8025ef810d8e7784a65f26cc/src/domain/utils/JWT.ts#L68)
 
 ___
 
@@ -75,4 +75,4 @@ Creates a signed JWT
 
 #### Defined in
 
-[src/domain/utils/JWT.ts:33](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/7eadfa3c5dda4c81079844b2a47014b3c9b03dac/src/domain/utils/JWT.ts#L33)
+[src/domain/utils/JWT.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/bc699428ddd8313d8025ef810d8e7784a65f26cc/src/domain/utils/JWT.ts#L33)

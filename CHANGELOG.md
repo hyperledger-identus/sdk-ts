@@ -1,3 +1,17 @@
+# [6.6.0](https://github.com/hyperledger/identus-edge-agent-sdk-ts/compare/v6.5.1...v6.6.0) (2025-04-11)
+
+
+### Bug Fixes
+
+* fixes pk for jwk ([bc69942](https://github.com/hyperledger/identus-edge-agent-sdk-ts/commit/bc699428ddd8313d8025ef810d8e7784a65f26cc))
+* jwk decoding ([90dc370](https://github.com/hyperledger/identus-edge-agent-sdk-ts/commit/90dc370993307e43521ca4a1b0da680a3e6f1835))
+* update signature encoding ([300826f](https://github.com/hyperledger/identus-edge-agent-sdk-ts/commit/300826fdb19d08c21a5ead20268193a973b0b233))
+
+
+### Features
+
+* updating DIDComm protocols closer to specification ([393447c](https://github.com/hyperledger/identus-edge-agent-sdk-ts/commit/393447c29214560a27678033c57bed2eccfee397))
+
 ## [6.5.1](https://github.com/hyperledger/identus-edge-agent-sdk-ts/compare/v6.5.0...v6.5.1) (2025-02-06)
 
 

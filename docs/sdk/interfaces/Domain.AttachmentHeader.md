@@ -18,4 +18,4 @@
 
 #### Defined in
 
-[src/domain/models/MessageAttachment.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/7eadfa3c5dda4c81079844b2a47014b3c9b03dac/src/domain/models/MessageAttachment.ts#L5)
+[src/domain/models/MessageAttachment.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/bc699428ddd8313d8025ef810d8e7784a65f26cc/src/domain/models/MessageAttachment.ts#L5)
