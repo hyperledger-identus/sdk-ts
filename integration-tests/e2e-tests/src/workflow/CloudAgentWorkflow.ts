@@ -96,9 +96,10 @@ export class CloudAgentWorkflow {
 
   static async offerSDJWTCredential(cloudAgent: Actor) {
     const credential = new CreateIssueCredentialRecordRequest()
+    credential.schemaId = `${CloudAgentConfiguration.agentUrl}schema-registry/schemas/${CloudAgentConfiguration.sdJWTSchemaGuid}`
     credential.validityPeriod = 360000
     credential.claims = {
-      "automationRequired": "required value",
+      "automation-required": "required value",
     }
     credential.automaticIssuance = true
     credential.issuingDID = CloudAgentConfiguration.publishedEd25519Did
@@ -146,7 +147,7 @@ export class CloudAgentWorkflow {
     presentProofRequest.options.domain = CloudAgentConfiguration.agentUrl
 
     const proof = new ProofRequestAux()
-    proof.schemaId = "https://schema.org/Person"
+    proof.schemaId = `${CloudAgentConfiguration.agentUrl}schema-registry/schemas/${CloudAgentConfiguration.jwtSchemaGuid}`
     proof.trustIssuers = [CloudAgentConfiguration.publishedDid]
 
     presentProofRequest.proofs = [proof]
@@ -167,7 +168,7 @@ export class CloudAgentWorkflow {
     presentProofRequest.options.challenge = randomUUID()
     presentProofRequest.options.domain = CloudAgentConfiguration.agentUrl
     const proof = new ProofRequestAux()
-    proof.schemaId = "https://schema.org/Person"
+    proof.schemaId = `${CloudAgentConfiguration.agentUrl}schema-registry/schemas/${CloudAgentConfiguration.sdJWTSchemaGuid}`
     proof.trustIssuers = [CloudAgentConfiguration.publishedEd25519Did]
     presentProofRequest.proofs = [proof]
     presentProofRequest.credentialFormat = "SDJWT"

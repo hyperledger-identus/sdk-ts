@@ -270,7 +270,7 @@ Then("{actor} will request {actor} to verify the SD+JWT credential",
     const holderDID = await holderEdgeAgent.answer(Notepad.notes().get("lastPeerDID"))
     const claims: any = {
       claims: {
-        automationRequired: {
+        "automation-required": {
           type: "string",
           pattern: "required value"
         }
