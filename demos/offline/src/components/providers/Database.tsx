@@ -143,8 +143,8 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
     }, [db, setWallet]);
 
     useEffect(() => {
-        setState(db?.state || 'disconnected');
-        if (db?.state === 'disconnected') {
+        // setState(db?.state || 'disconnected');
+        if (db?.state === 'stopped') {
             db?.start().then(async () => {
                 setState('loaded');
                 await db.revalidateAuthentication()
