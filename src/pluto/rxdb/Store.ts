@@ -15,13 +15,12 @@ export class RxdbStore implements Pluto.Store {
     private readonly options: RxDatabaseCreator,
     private readonly collections?: CollectionList
   ) {
-    console.warn("[DEPRECATION WARNING] RxdbStore is deprecated and future versions will no longer bundle it. Use @trust0/identus-store-rxdb in replacement for this class.");
+    console.warn("[DEPRECATION WARNING] RxdbStore is deprecated and future versions will no longer bundle it. Please use an alternative like @trust0/identus-store-rxdb.");
     addRxPlugin(RxDBQueryBuilderPlugin);
     addRxPlugin(RxDBJsonDumpPlugin);
     addRxPlugin(RxDBEncryptedMigrationPlugin);
     addRxPlugin(RxDBUpdatePlugin);
   }
-
 
   get db() {
     if (!this._db) {
@@ -52,29 +51,26 @@ export class RxdbStore implements Pluto.Store {
 
   async update<T extends Domain.Pluto.Storable>(name: string, model: T): Promise<void> {
     const table = this.getCollection(name);
-    const row = await table.findOne({
-      selector: {
-        uuid: model.uuid
-      }
-    }).exec();
-    if (row) {
+    const rxQuery = table.findOne({
+      selector: { uuid: model.uuid }
+    });
+    const row = await rxQuery.exec();
 
-      //Improve error handling when not found
+    if (row) {
+      // Improve error handling when not found
       await row.patch(model);
     }
   }
 
   async delete(name: string, uuid: string): Promise<void> {
     const table = this.getCollection(name);
-    const row = await table.findOne({
-      selector: {
-        uuid: uuid
-      }
+    const rxQuery = table.findOne({
+      selector: { uuid }
     });
+    const row = await rxQuery.exec();
     //TODO: Improve error handling, specially when not found
     await row?.remove();
   }
-
 
   getCollection(name: string) {
     const safeName = name.replace(/([A-Z])/g, "-$1").toLowerCase();
