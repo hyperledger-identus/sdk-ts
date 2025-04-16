@@ -1,4 +1,4 @@
-import { OIDC } from "../types";
+import { AuthServerMetadata } from "../types";
 import { Context } from "../plugin";
 import * as Domain from "../../../../domain";
 import * as Utils from "../../../../utils";
@@ -13,9 +13,9 @@ interface Args {
  * `/.well-known/openid-configuration` will be appended to the URI
  * 
  * @param uri 
- * @returns {Promise<OIDC.AuthServerMetadata>}
+ * @returns {Promise<AuthServerMetadata>}
  */
-export class FetchAuthServerMeta extends Utils.Task<Domain.ApiResponse<OIDC.AuthServerMetadata>, Args> {
+export class FetchAuthServerMeta extends Utils.Task<Domain.ApiResponse<AuthServerMetadata>, Args> {
   async run(ctx: Context) {
     const serverUrl = new URL(this.args.serverUri);
     const url = new URL(serverUrl);
@@ -52,7 +52,7 @@ export class FetchAuthServerMeta extends Utils.Task<Domain.ApiResponse<OIDC.Auth
     return response;
   }
 
-  private validate(response: Domain.ApiResponse): asserts response is Domain.ApiResponse<OIDC.AuthServerMetadata> {
-    Utils.validate(response.body, OIDC.AuthServerMetadata);
+  private validate(response: Domain.ApiResponse): asserts response is Domain.ApiResponse<AuthServerMetadata> {
+    Utils.validate(response.body, AuthServerMetadata);
   }
 }

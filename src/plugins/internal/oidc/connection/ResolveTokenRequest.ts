@@ -1,5 +1,5 @@
 import * as Errors from "../errors";
-import { OIDC } from "../types";
+import { TokenResponse } from "../types";
 import { Context } from "../plugin";
 import { AuthorizationRequest, TokenRequest } from "../protocols";
 import { ProcessCallbackUrl } from "./ProcessCallbackUrl";
@@ -7,32 +7,30 @@ import { OIDCConnection } from "./OIDCConnection";
 import * as Utils from "../../../../utils";
 import { Connection } from "../../../../edge-agent/connections";
 
-/**
- * Convenience function 2 of 2 
- * for Credential Issuance flow 
- * from callbackUrl to Credential issuance
- * 
- * steps
- *   - handleTokenRequest
- *   - createCredentialRequest
- *   - storeCredential
- * 
- */
-
 interface Args {
   authorizationRequest: AuthorizationRequest;
   callbackUrl?: string | URL;
 }
 
 /**
+ * OIDC Convenience Task
+ * CallbackUrl to established Connection
+ * 
+ * OIDC Connection flow 2/2
+ * OIDC Credential Issuance flow 2/3
+ * 
  * manage fetching a Token from the Authorization Server
  * establishing a connection for future use
+ * steps
+ *   - processCallbackUrl
+ *   - send a TokenRequest
+ *   - add a Connection
  * 
  * @param authorizationRequest 
  * @param callbackUrl 
  * @returns 
  */
-export class ResolveTokenRequest extends Utils.Task<OIDC.TokenResponse, Args> {
+export class ResolveTokenRequest extends Utils.Task<TokenResponse, Args> {
   async run(ctx: Context) {
     const { authorizationRequest, callbackUrl } = this.args;
     const clientId = Utils.expect(authorizationRequest.params.get("client_id"), Errors.MissingClientId);
@@ -73,12 +71,12 @@ export class ResolveTokenRequest extends Utils.Task<OIDC.TokenResponse, Args> {
     connection.state = Connection.State.REQUESTED;
     const response = await connection.send(tokenRequest, ctx);
 
-    if (response.status !== 200) {
+    if (response?.status !== 200) {
       throw new Errors.InvalidTokenResponseStatus();
     }
 
     const tokenResponse = response.body;
-    Utils.validate(tokenResponse, OIDC.TokenResponse);
+    Utils.validate(tokenResponse, TokenResponse);
 
     connection.tokenResponse = tokenResponse;
     connection.state = Connection.State.GRANTED;

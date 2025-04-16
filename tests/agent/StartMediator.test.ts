@@ -6,7 +6,7 @@ import { ConnectionsManager, Mercury, ProtocolType } from '../../src';
 import { StartMediator } from '../../src/edge-agent/didcomm/StartMediator';
 import * as Fixtures from "../fixtures";
 import { mockTask } from '../testFns';
-import * as CreatePeerDIDModule from '../../src/edge-agent/didcomm/CreatePeerDID';
+import { CreatePeerDID } from '../../src/edge-agent/didcomm/CreatePeerDID';
 import { Connection } from '../../src/edge-agent/connections';
 
 describe("StartMediator", () => {
@@ -60,7 +60,7 @@ describe("StartMediator", () => {
       vi.spyOn(mercury, "sendMessageParseMessage").mockResolvedValue(
         new Domain.Message({ routing_did }, "id", ProtocolType.DidcommMediationGrant, mediatorDID, hostDID)
       );
-      mockTask(CreatePeerDIDModule, "CreatePeerDID", hostDID);
+      mockTask(CreatePeerDID, hostDID);
 
       expect(connections.mediator).toBeNull();
 
@@ -81,7 +81,7 @@ describe("StartMediator", () => {
       vi.spyOn(mercury, "sendMessageParseMessage").mockResolvedValue(
         new Domain.Message({}, "id", ProtocolType.DidcommMediationDeny, mediatorDID, hostDID)
       );
-      mockTask(CreatePeerDIDModule, "CreatePeerDID", hostDID);
+      mockTask(CreatePeerDID, hostDID);
 
       expect(connections.mediator).toBeNull();
 
@@ -100,7 +100,7 @@ describe("StartMediator", () => {
       vi.spyOn(pluto, "getAllMediators").mockResolvedValue([]);
       vi.spyOn(pluto, "storeMessage").mockResolvedValue();
       vi.spyOn(mercury, "sendMessageParseMessage").mockResolvedValue(undefined);
-      mockTask(CreatePeerDIDModule, "CreatePeerDID", hostDID);
+      mockTask(CreatePeerDID, hostDID);
 
       expect(connections.mediator).toBeNull();
 

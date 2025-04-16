@@ -1,13 +1,17 @@
-import { OIDC } from "../types";
 import { AuthorizationRequest } from "../protocols/AuthorizationRequest";
 import * as Utils from "../../../../utils";
+import {
+  CredentialOffer,
+  IssuerMetadata,
+  AuthServerMetadata,
+} from "../types";
 
 interface Args {
-  issuerMeta: OIDC.IssuerMetadata;
-  authServerMeta: OIDC.AuthServerMetadata;
+  issuerMeta: IssuerMetadata;
+  authServerMeta: AuthServerMetadata;
   clientId: string;
   redirectUri: string;
-  offer?: OIDC.CredentialOffer;
+  offer?: CredentialOffer;
   scopes?: string[];
 }
 

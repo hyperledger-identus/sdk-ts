@@ -406,10 +406,24 @@ export default class Agent extends Startable.Controller {
   /**
    * Asyncronously send a didcomm Message
    *
+   * @deprecated use `send` instead
    * @param {Message} message
    * @returns {Promise<Message | undefined>}
    */
   async sendMessage(message: Domain.Message | Domain.ApiRequest): Promise<Domain.Message | undefined> {
+    const task = new Send({ message });
+    return this.runTask(task);
+  }
+
+  /**
+   * Handle sending a Protocol
+   *
+   * @param {Message} message
+   * @returns {Promise<Message | undefined>}
+   */
+  async send(message: Domain.ApiRequest): Promise<Domain.ApiResponse | undefined>;
+  async send(message: Domain.Message): Promise<Domain.Message | undefined>;
+  async send(message: Domain.Message | Domain.ApiRequest) {
     const task = new Send({ message });
     return this.runTask(task);
   }

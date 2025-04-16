@@ -1,4 +1,4 @@
-import { OIDC } from "../types";
+import { CredentialOffer, IssuerMetadata } from "../types";
 import { Context } from "../plugin";
 import { CreateAuthorizationRequest } from "./CreateAuthorizationRequest";
 import { AuthorizationRequest } from "../protocols/AuthorizationRequest";
@@ -7,22 +7,18 @@ import { FetchAuthServerMeta } from "../tasks/FetchAuthServerMeta";
 import { InvalidCredentialConfigurationIds, MissingAuthorizationServerUri } from "../errors";
 import * as Utils from "../../../../utils";
 
-/**
- * OIDC Authorization flow
- * start with Credential Offer
- * return Authorization Request
- */
-
 interface Args {
-  offer: OIDC.CredentialOffer;
+  offer: CredentialOffer;
   clientId: string;
   redirectUri: string;
 }
 
 /**
- * Convenience function 1 of 2
- * for Credential Issuance flow 
- * from Credential Offer to Authorization Request
+ * OIDC Convenience Task
+ * Credential Offer to Authorization Request
+ * 
+ * OIDC Connection flow 1/2
+ * OIDC Credential Issuance flow 1/3
  * 
  * steps
  *   - fetchIssuerMetadata
@@ -32,7 +28,7 @@ interface Args {
  * @param offer 
  * @returns 
  */
-export class ResolveCredentialOffer extends Utils.Task<AuthorizationRequest, Args> {
+export class ResolveAuthorizationRequest extends Utils.Task<AuthorizationRequest, Args> {
   async run(ctx: Context) {
     const { offer, clientId, redirectUri } = this.args;
     const issuerMeta = await ctx.run(new FetchIssuerMetadata({ uri: offer.credential_issuer }));
@@ -83,8 +79,8 @@ export class ResolveCredentialOffer extends Utils.Task<AuthorizationRequest, Arg
   }
 
   private async processScopesAndConfigurationIds(
-    offer: OIDC.CredentialOffer,
-    issuerMeta: OIDC.IssuerMetadata,
+    offer: CredentialOffer,
+    issuerMeta: IssuerMetadata,
   ) {
     const scopes: string[] = [];
     const configurationIds: string[] = [];

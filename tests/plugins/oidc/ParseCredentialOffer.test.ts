@@ -1,30 +1,21 @@
-import { vi, describe, it, expect, test, beforeEach, afterEach, MockInstance } from 'vitest';
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import * as sinon from "sinon";
-import SinonChai from "sinon-chai";
+import { vi, describe, expect, test, beforeEach, afterEach } from 'vitest';
 import { Task } from "../../../src/utils/tasks";
-import * as Fixtures from "../../fixtures";
 import { ApiResponse } from "../../../src/domain";
 import { ParseCredentialOffer } from "../../../src/plugins/internal/oidc/tasks";
 import { InvalidOffer } from "../../../src/plugins/internal/oidc/errors";
-
-chai.use(SinonChai);
-chai.use(chaiAsPromised);
+import * as Fixtures from "../../fixtures";
 
 describe("OIDC Tasks", () => {
   let ctx: Task.Context;
-  let sandbox: sinon.SinonSandbox;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
     ctx = new Task.Context<any>({
       Api: { request: vi.fn() }
     });
   });
 
   afterEach(async () => {
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   describe("parseCredentialOffer", () => {
@@ -41,13 +32,13 @@ describe("OIDC Tasks", () => {
     });
 
     test("valid offer - uri - returns offer", async () => {
-      const stubRequest = sandbox.stub(ctx.Api, "request").resolves(new ApiResponse(Fixtures.OIDC.credentialOfferJson, 200));
+      const stubRequest = vi.spyOn(ctx.Api, "request").mockResolvedValue(new ApiResponse(Fixtures.OIDC.credentialOfferJson, 200));
       const uri = "openid-credential-offer://?credential_offer_uri=http%3A%2F%2Flocalhost%2Ftestoffer";
       const task = new ParseCredentialOffer({ value: uri });
       const result = await ctx.run(task);
 
       expect(result).to.deep.eq(Fixtures.OIDC.credentialOfferJson);
-      expect(stubRequest).to.have.been.calledOnceWith("GET", "http://localhost/testoffer");
+      expect(stubRequest).toHaveBeenCalledWith("GET", "http://localhost/testoffer");
     });
 
     describe("Errors", () => {

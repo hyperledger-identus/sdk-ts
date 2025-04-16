@@ -1,12 +1,10 @@
+import * as Domain from "../../domain";
 import { Task } from "../../utils";
-
-// TODO define Protocol
-/// currently we handle sending ApiRequests and Messages
-/// is it worth abstracting away from those
-type Protocol = any;
 
 /**
  * Define the structure of a Connection
+ * 
+ * Connections are used to capture Protocol specific behaviours and metadata
  */
 export interface Connection {
   /**
@@ -20,11 +18,11 @@ export interface Connection {
   /**
    * handle delivering a Message to the connected entity
    */
-  send: (message: Protocol, ctx: Task.Context<any>) => Promise<Protocol | undefined>;
+  send: (protocol: Connection.Protocol, ctx: Task.Context<any>) => Promise<any | undefined>;
   /**
    * called when a Message is received from this connection
    */
-  receive: (message: Protocol, ctx: Task.Context<any>) => Promise<void>;
+  receive?: (protocol: Connection.Protocol, ctx: Task.Context<any>) => Promise<void>;
   /**
    * handle any desired teardown
    */
@@ -32,6 +30,9 @@ export interface Connection {
 }
 
 export namespace Connection {
+  /// allow any for now to enable arbitrary extension
+  export type Protocol = Domain.Message | Domain.ApiRequest | any;
+
   export enum State {
     // no interactions
     UNKNOWN = 0,

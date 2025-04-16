@@ -1,9 +1,9 @@
-import { OIDC } from "../types";
+import { AuthServerMetadata } from "../types";
 import { AuthorizationResponse } from "../protocols/AuthorizationResponse";
 import * as Utils from "../../../../utils";
 
 interface Args {
-  authServerMeta: OIDC.AuthServerMetadata;
+  authServerMeta: AuthServerMetadata;
   callbackUrl: URL;
   expectedState?: "none" | "skip" | string;
 }
