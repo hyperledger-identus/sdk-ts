@@ -52,10 +52,8 @@ export * from "./pollux/models/AnonCredsVerifiableCredential";
 
 // plugins
 import AnoncredsPlugin from "./plugins/internal/anoncreds";
-import * as OIDCPlugin from "./plugins/internal/oidc";
 export const Plugins = {
   Anoncreds: AnoncredsPlugin,
-  OIDC: OIDCPlugin,
 };
 
 // Tasks

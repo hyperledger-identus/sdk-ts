@@ -1,4 +1,4 @@
-import { OIDC } from "../types";
+import { CredentialOffer, IssuerMetadata } from "../types";
 import { Context } from "../plugin";
 import { CreateAuthorizationRequest } from "./CreateAuthorizationRequest";
 import { AuthorizationRequest } from "../protocols/AuthorizationRequest";
@@ -14,7 +14,7 @@ import * as Utils from "../../../../utils";
  */
 
 interface Args {
-  offer: OIDC.CredentialOffer;
+  offer: CredentialOffer;
   clientId: string;
   redirectUri: string;
 }
@@ -83,8 +83,8 @@ export class ResolveCredentialOffer extends Utils.Task<AuthorizationRequest, Arg
   }
 
   private async processScopesAndConfigurationIds(
-    offer: OIDC.CredentialOffer,
-    issuerMeta: OIDC.IssuerMetadata,
+    offer: CredentialOffer,
+    issuerMeta: IssuerMetadata,
   ) {
     const scopes: string[] = [];
     const configurationIds: string[] = [];

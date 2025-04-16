@@ -13,7 +13,7 @@ export class App {
     notifications: {},
     components: {},
     oidc: {
-      // setup to work with allain local-prism
+      // setup to work with local-prism repo
       clientId: "alice-wallet",
       redirectUri: "http://localhost/demo",
     }

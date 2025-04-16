@@ -10,8 +10,7 @@ interface Args {
   response: Domain.ApiResponse;
 }
 
-// ?? moreso handle CredentialRequest response
-export class HandleCredentialRequest extends Utils.Task<Domain.Credential, Args> {
+export class HandleResponse_CredentialRequest extends Utils.Task<Domain.Credential, Args> {
   async run(ctx: Context) {
     const response = this.args.response;
     Utils.validate(response.body, TB.Object({ credential: TB.String() }));

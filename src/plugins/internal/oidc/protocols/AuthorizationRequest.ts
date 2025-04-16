@@ -1,4 +1,4 @@
-import { OIDC } from "../types";
+import { AuthServerMetadata, IssuerMetadata } from "../types";
 import * as Utils from "../../../../utils";
 
 interface Metadata {
@@ -11,8 +11,8 @@ export class AuthorizationRequest {
   public readonly meta: Metadata = {};
 
   constructor(
-    public readonly authServerMeta: OIDC.AuthServerMetadata,
-    public readonly issuerMeta: OIDC.IssuerMetadata,
+    public readonly authServerMeta: AuthServerMetadata,
+    public readonly issuerMeta: IssuerMetadata,
   ) {
     const endpoint = Utils.expect(authServerMeta.authorization_endpoint, "authorization_endpoint missing");
     this.url = new URL(endpoint);

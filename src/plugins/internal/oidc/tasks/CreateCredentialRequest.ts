@@ -1,4 +1,4 @@
-import { OIDC } from "../types";
+import { CredentialOffer, IssuerMetadata, TokenResponse } from "../types";
 import { Context } from "../plugin";
 import { InvalidCredentialConfigurationIds } from "../errors";
 import { CredentialRequest } from "../protocols/CredentialRequest";
@@ -8,10 +8,10 @@ import * as Utils from "../../../../utils";
 import { CreatePrismDID } from "../../../../edge-agent/didFunctions";
 
 interface Args {
-  offer: OIDC.CredentialOffer;
+  offer: CredentialOffer;
   clientId?: string;
-  issuerMeta?: OIDC.IssuerMetadata;
-  tokenResponse?: OIDC.TokenResponse;
+  issuerMeta?: IssuerMetadata;
+  tokenResponse?: TokenResponse;
 }
 
 /**
@@ -76,7 +76,7 @@ export class CreateCredentialRequest extends Utils.Task<CredentialRequest, Args>
     return this.args.issuerMeta;
   }
 
-  private getTokenResponse(ctx: Context, issuerMeta: OIDC.IssuerMetadata): OIDC.TokenResponse | undefined {
+  private getTokenResponse(ctx: Context, issuerMeta: IssuerMetadata): TokenResponse | undefined {
     // if tokenResponse is not provided, try to find the relevant connection
     if (Utils.isNil(this.args.tokenResponse)) {
       const maybeConnection = ctx.Connections.find(issuerMeta.credential_endpoint);

@@ -1,5 +1,5 @@
 import * as Errors from "../errors";
-import { OIDC } from "../types";
+import { TokenResponse } from "../types";
 import { Context } from "../plugin";
 import { AuthorizationRequest, TokenRequest } from "../protocols";
 import { ProcessCallbackUrl } from "./ProcessCallbackUrl";
@@ -32,7 +32,7 @@ interface Args {
  * @param callbackUrl 
  * @returns 
  */
-export class ResolveTokenRequest extends Utils.Task<OIDC.TokenResponse, Args> {
+export class ResolveTokenRequest extends Utils.Task<TokenResponse, Args> {
   async run(ctx: Context) {
     const { authorizationRequest, callbackUrl } = this.args;
     const clientId = Utils.expect(authorizationRequest.params.get("client_id"), Errors.MissingClientId);
@@ -78,7 +78,7 @@ export class ResolveTokenRequest extends Utils.Task<OIDC.TokenResponse, Args> {
     }
 
     const tokenResponse = response.body;
-    Utils.validate(tokenResponse, OIDC.TokenResponse);
+    Utils.validate(tokenResponse, TokenResponse);
 
     connection.tokenResponse = tokenResponse;
     connection.state = Connection.State.GRANTED;

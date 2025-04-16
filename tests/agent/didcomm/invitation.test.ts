@@ -9,8 +9,8 @@ import { HandshakeRequest, OutOfBandInvitation, ProtocolType } from "../../../sr
 import { InvitationIsInvalidError } from "../../../src/domain/models/errors/Agent";
 import { mockPluto } from "../../fixtures/inmemory/factory";
 import { mockTask } from "../../testFns";
-import * as StartMediatorModule from '../../../src/edge-agent/didcomm/StartMediator';
-import * as StartFetchMessagesModule from '../../../src/edge-agent/didcomm/StartFetchingMessages';
+import { StartMediator } from '../../../src/edge-agent/didcomm/StartMediator';
+import { StartFetchingMessages } from '../../../src/edge-agent/didcomm/StartFetchingMessages';
 import { MediatorConnection } from '../../../src/edge-agent/connections/didcomm';
 
 chai.use(SinonChai);
@@ -38,8 +38,8 @@ describe("Agent", () => {
       seed,
     });
 
-    mockTask(StartFetchMessagesModule, "StartFetchingMessages");
-    mockTask(StartMediatorModule, "StartMediator");
+    mockTask(StartMediator, "StartMediator");
+    mockTask(StartFetchingMessages, "StartFetchingMessages");
     agent.connections.addMediator(
       new MediatorConnection(
         "did:peer:2.Ez6LSghwSE437wnDE1pt3X6hVDUQzSjsHzinpX3XFvMjRAm7y.Vz6Mkhh1e5CEYYq6JBUcTZ6Cp2ranCWRrv7Yax3Le4N59R6dd.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6Imh0dHA6Ly8xOTIuMTY4LjEuNDQ6ODA4MCIsImEiOlsiZGlkY29tbS92MiJdfX0.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6IndzOi8vMTkyLjE2OC4xLjQ0OjgwODAvd3MiLCJhIjpbImRpZGNvbW0vdjIiXX19",

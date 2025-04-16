@@ -1,18 +1,18 @@
-import { OIDC } from "../types";
+import { IssuerMetadata, TokenResponse } from "../types";
 import { Context } from "../plugin";
 import { CredentialRequest } from "../protocols";
-import { HandleCredentialRequest } from "../tasks";
+import { HandleResponse_CredentialRequest } from "./HandleResponse_CredentialRequest";
 import * as Domain from "../../../../domain";
 import * as Utils from "../../../../utils";
 import { Connection } from "../../../../edge-agent/connections";
 
 export class OIDCConnection implements Connection {
   public state = Connection.State.NEW;
-  public tokenResponse?: OIDC.TokenResponse;
+  public tokenResponse?: TokenResponse;
   public readonly uri: string;
 
   constructor(
-    public readonly issuerMeta: OIDC.IssuerMetadata,
+    public readonly issuerMeta: IssuerMetadata,
     public readonly scopes: string[],
   ) {
     this.uri = this.issuerMeta.credential_endpoint;
@@ -44,9 +44,9 @@ export class OIDCConnection implements Connection {
 
   private async handleResponse(response: Domain.ApiResponse, request: Domain.ApiRequest | null, ctx: Context) {
     // TODO protocol shape
-    // if (request.ident === OIDC.Protocols.CredentialRequest) {
+    // if (request.ident === Protocols.CredentialRequest) {
     if (request instanceof CredentialRequest) {
-      return ctx.run(new HandleCredentialRequest({ request, response }));
+      return ctx.run(new HandleResponse_CredentialRequest({ request, response }));
     }
 
     // ? throw or return here

@@ -1,9 +1,9 @@
-import { OIDC } from "../types";
+import { Protocols } from "../types";
 import * as Domain from "../../../../domain";
 import * as Utils from "../../../../utils";
 
 export class CredentialRequest extends Domain.ApiRequest {
-  public readonly ProtocolId = OIDC.Protocols.CredentialRequest;
+  public readonly ProtocolId = Protocols.CredentialRequest;
 
   constructor(
     endpoint: string | URL,

@@ -1,4 +1,4 @@
-import { OIDC } from "../types";
+import { CredentialOffer } from "../types";
 import { Context } from "../plugin";
 import { InvalidOffer } from "../errors";
 import * as Utils from "../../../../utils";
@@ -18,13 +18,13 @@ interface Args {
  * returns the offer Typed as such
  * 
  * @param offer - json object
- * @returns {OIDC.CredentialOffer}
+ * @returns {CredentialOffer}
  */
-export class ParseCredentialOffer extends Utils.Task<OIDC.CredentialOffer, Args> {
+export class ParseCredentialOffer extends Utils.Task<CredentialOffer, Args> {
   async run(ctx: Context) {
     try {
       const json = await this.extractJson(ctx);
-      Utils.validate(json, OIDC.CredentialOffer);
+      Utils.validate(json, CredentialOffer);
 
       return json;
     }
