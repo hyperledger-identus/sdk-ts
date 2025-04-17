@@ -139,7 +139,6 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
   async discard(): Promise<void> {
     agentList.delete(this.id)
     if (this.isInitialised()) {
-      await this.store.clear()
       await this.sdk.stop()
     }
   }
