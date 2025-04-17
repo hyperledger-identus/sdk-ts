@@ -1,6 +1,6 @@
 import * as assert from 'node:assert';
 import { InputPrompt } from "../cli";
-import SDK from "sdk";;
+import SDK from "@hyperledger/identus-sdk";
 
 /**
  * Input an OOB string and handle it

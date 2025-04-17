@@ -5,7 +5,7 @@ import * as sinon from "sinon";
 import SinonChai from "sinon-chai";
 import * as UUIDLib from "@stablelib/uuid";
 
-import Agent from "../../src/edge-agent/didcomm/Agent";
+import Agent from "../../src/edge-agent/Agent";
 import Mercury from "../../src/mercury/Mercury";
 import Apollo from "../../src/apollo/Apollo";
 import * as Fixtures from "../fixtures";
@@ -45,8 +45,8 @@ import { Castor, SDJWTCredential, Store } from "../../src";
 import { randomUUID } from "crypto";
 import { DIF } from '../../src/plugins/internal/dif/types';
 // import { JWT } from "../../src/pollux/utils/JWT";
-import * as StartMediatorModule from '../../src/edge-agent/didcomm/StartMediator';
-import * as StartFetchMessagesModule from '../../src/edge-agent/didcomm/StartFetchingMessages';
+import { StartMediator } from '../../src/edge-agent/didcomm/StartMediator';
+import { StartFetchingMessages } from '../../src/edge-agent/didcomm/StartFetchingMessages';
 import { mockTask } from '../testFns';
 import { MediatorConnection } from '../../src/edge-agent/connections/didcomm';
 
@@ -115,8 +115,8 @@ describe("Agent Tests", () => {
       seed,
     });
 
-    mockTask(StartFetchMessagesModule, "StartFetchingMessages");
-    mockTask(StartMediatorModule, "StartMediator");
+    mockTask(StartMediator);
+    mockTask(StartFetchingMessages);
     agent.connections.addMediator(
       new MediatorConnection(
         "did:peer:2.Ez6LSghwSE437wnDE1pt3X6hVDUQzSjsHzinpX3XFvMjRAm7y.Vz6Mkhh1e5CEYYq6JBUcTZ6Cp2ranCWRrv7Yax3Le4N59R6dd.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6Imh0dHA6Ly8xOTIuMTY4LjEuNDQ6ODA4MCIsImEiOlsiZGlkY29tbS92MiJdfX0.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6IndzOi8vMTkyLjE2OC4xLjQ0OjgwODAvd3MiLCJhIjpbImRpZGNvbW0vdjIiXX19",

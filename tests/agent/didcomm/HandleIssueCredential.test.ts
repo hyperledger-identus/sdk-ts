@@ -4,7 +4,6 @@ import { HandleIssueCredential } from '../../../src/edge-agent/didcomm/HandleIss
 import { Task } from '../../../src/utils';
 import { IssueCredential } from '../../../src';
 import * as Fixtures from "../../fixtures";
-import { Payload } from '../../../src/domain/protocols/Payload';
 
 
 describe("Agent", () => {
