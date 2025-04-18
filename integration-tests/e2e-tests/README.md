@@ -26,7 +26,7 @@ further instructions.
 ### Installing dependencies
 
 ```bash
-yarn install
+npm install
 ```
 
 ### Running the tests
@@ -34,13 +34,13 @@ yarn install
 To run the full end-to-end regression test suite
 
 ```bash
-yarn test:sdk
+npm run test:sdk
 ```
 
 To run a specific tagged scenario
 
 ```bash
-yarn test:sdk --tags "@mytag and @anothertag"
+npm run test:sdk --tags "@mytag and @anothertag"
 ```
 
 After the execution is done, it will generate the report inside the `target` folder.
