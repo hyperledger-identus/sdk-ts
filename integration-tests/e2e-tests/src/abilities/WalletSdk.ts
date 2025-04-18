@@ -4,14 +4,15 @@ import axios from "axios"
 import { CloudAgentConfiguration } from "../configuration/CloudAgentConfiguration"
 import { randomUUID, UUID } from "crypto"
 import { PrismShortFormDIDResolver } from "../resolvers/PrismShortFormDIDResolver"
-import InMemory from "@pluto-encrypted/inmemory"
+import * as InMemoryStore from "../configuration/store"
+import { IntegrationStore } from "../configuration/store/store"
 
 // fallback in any case of dangling sdk agents
 export const agentList: Map<string, WalletSdk> = new Map()
 
 export class WalletSdk extends Ability implements Initialisable, Discardable {
   sdk!: SDK.Agent
-  store: SDK.Store
+  store: IntegrationStore
   messages: MessageQueue = new MessageQueue()
   id: UUID = randomUUID()
 
@@ -87,9 +88,9 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     const apollo = new SDK.Apollo()
     const castor = new SDK.Castor(apollo, resolvers)
 
-    this.store = new SDK.Store({
+    this.store = new IntegrationStore({
       name: [...Array(30)].map(() => Math.random().toString(36)[2]).join(""),
-      storage: InMemory,
+      storage: InMemoryStore.default,
       password: "random12434",
       ignoreDuplicate: true
     })
