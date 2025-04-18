@@ -1,8 +1,4 @@
-import { describe, it, expect, test, beforeEach } from 'vitest';
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
+import { describe, it, expect, test, beforeEach, afterEach } from 'vitest';
 
 import * as Domain from "../../src/domain";
 import * as Fixtures from "../fixtures";
@@ -19,6 +15,10 @@ describe("Pluto", () => {
     await instance.start();
   });
 
+  afterEach(async () => {
+    await instance.stop()
+  })
+  
   Fixtures.Backup.backups.forEach(backupFixture => {
     const version = backupFixture.json.version;
 
@@ -321,28 +321,28 @@ describe("Pluto", () => {
       describe("Store not empty - throws", () => {
         it("Credentials", async () => {
           await instance.storeCredential(Fixtures.Backup.credentialJWT);
-          expect(instance.restore(backupFixture.json)).eventually.rejected;
+          expect(instance.restore(backupFixture.json)).rejects;
         });
   
         it("DIDs", async () => {
           await instance.storeDIDPair(Fixtures.Backup.hostDID, Fixtures.Backup.targetDID, Fixtures.Backup.pairAlias);
-          expect(instance.restore(backupFixture.json)).eventually.rejected;
+          expect(instance.restore(backupFixture.json)).rejects;
         });
   
         it("Keys", async () => {
           await instance.storeDID(Fixtures.Backup.hostDID, Fixtures.Backup.peerDIDKeys);
-          expect(instance.restore(backupFixture.json)).eventually.rejected;
+          expect(instance.restore(backupFixture.json)).rejects;
         });
   
         if (version == "0.0.1") {
           it("LinkSecret", async () => {
             await instance.storeLinkSecret(Fixtures.Backup.linkSecret);
-            expect(instance.restore(backupFixture.json)).eventually.rejected;
+            expect(instance.restore(backupFixture.json)).rejects;
           });
     
           it("Messages", async () => {
             await instance.storeMessage(Fixtures.Backup.message);
-            expect(instance.restore(backupFixture.json)).eventually.rejected;
+            expect(instance.restore(backupFixture.json)).rejects;
           });
         }
       });

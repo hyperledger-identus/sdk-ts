@@ -36,17 +36,17 @@ export function normaliseDER(derSignature: Uint8Array): Uint8Array {
 
     // Normalize r and s to 32 bytes
     if (r.length > 32) {
-        r = r.slice(-32); // truncate if r is longer than 32 bytes
+        r = r.subarray(-32); // truncate if r is longer than 32 bytes
     } else if (r.length < 32) {
-        const paddedR = Uint8Array.from(Buffer.alloc(32));
+        const paddedR = Buffer.alloc(32);
         r.copy(paddedR, 32 - r.length);
         r = Buffer.from(paddedR); // left pad with zeros if r is shorter than 32 bytes
     }
 
     if (s.length > 32) {
-        s = s.slice(-32); // truncate if s is longer than 32 bytes
+        s = s.subarray(-32); // truncate if s is longer than 32 bytes
     } else if (s.length < 32) {
-        const paddedS = Uint8Array.from(Buffer.alloc(32));
+        const paddedS = Buffer.alloc(32);
         s.copy(paddedS, 32 - s.length);
         s = Buffer.from(paddedS); // left pad with zeros if s is shorter than 32 bytes
     }

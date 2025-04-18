@@ -1,7 +1,4 @@
-import { describe, it, expect, test, beforeEach, afterEach } from 'vitest';
-
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
+import { describe, it, expect, test, beforeEach, afterEach, assert } from 'vitest';
 import Apollo from "../../src/apollo/Apollo";
 import { Secp256k1KeyPair } from "../../src/apollo/utils/Secp256k1KeyPair";
 import * as ECConfig from "../../src/domain/models/ECConfig";
@@ -31,7 +28,6 @@ import { DerivationAxis } from "../../src/domain/models/derivation/DerivationAxi
 import ApolloPKG from "@hyperledger/identus-apollo";
 
 const ApolloSDK = ApolloPKG.org.hyperledger.identus.apollo;
-chai.use(chaiAsPromised);
 
 describe("Apollo", () => {
   let apollo: Apollo;

@@ -1,8 +1,4 @@
 import { vi, describe, it, expect, test, beforeEach, afterEach, MockInstance } from 'vitest';
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import * as sinon from "sinon";
-import SinonChai from "sinon-chai";
 import * as UUIDLib from "@stablelib/uuid";
 
 import Agent from "../../src/edge-agent/didcomm/Agent";
@@ -11,6 +7,7 @@ import Apollo from "../../src/apollo/Apollo";
 import * as Fixtures from "../fixtures";
 import {
   Api,
+  AttachmentBase64,
   AttachmentDescriptor,
   Credential,
   CredentialMetadata,
@@ -18,6 +15,7 @@ import {
   DID,
   Message,
   MessageDirection,
+  PrivateKey,
   Seed,
   Service,
   ServiceEndpoint,
@@ -38,40 +36,28 @@ import { Presentation } from "../../src/edge-agent/protocols/proofPresentation/P
 import { JWTCredential } from "../../src/pollux/models/JWTVerifiableCredential";
 import { AnonCredsCredential } from "../../src/pollux/models/AnonCredsVerifiableCredential";
 import InMemoryStore from "../fixtures/inmemory";
-import { ApiResponse, Pluto as IPluto, JWT } from "../../src/domain";
+import { ApiResponse, Pluto as IPluto } from "../../src/domain";
 import { Pluto } from "../../src/pluto/Pluto";
 import { RevocationNotification } from "../../src/edge-agent/protocols/revocation/RevocationNotfiication";
-import { Castor, SDJWTCredential, Store } from "../../src";
+import { Castor, Domain, PeerDID, SDJWTCredential, Store } from "../../src";
 import { randomUUID } from "crypto";
 import { DIF } from '../../src/plugins/internal/dif/types';
-// import { JWT } from "../../src/pollux/utils/JWT";
 import * as StartMediatorModule from '../../src/edge-agent/didcomm/StartMediator';
 import * as StartFetchMessagesModule from '../../src/edge-agent/didcomm/StartFetchingMessages';
 import { mockTask } from '../testFns';
 import { MediatorConnection } from '../../src/edge-agent/connections/didcomm';
 
-
-
-chai.use(SinonChai);
-chai.use(chaiAsPromised);
-
 let agent: Agent;
 let apollo: Apollo;
 let pluto: IPluto;
 let castor: CastorType;
-let sandbox: sinon.SinonSandbox;
 let store: Pluto.Store;
 let api: Api;
 
-
 describe("Agent Tests", () => {
-  let spy: MockInstance;
-
   afterEach(async () => {
     vi.useRealTimers();
-
     await agent.stop();
-    sandbox.restore();
     vi.restoreAllMocks();
   });
 
@@ -84,7 +70,6 @@ describe("Agent Tests", () => {
         close: vi.fn(),
       })),
     }));
-    sandbox = sinon.createSandbox();
     apollo = new Apollo();
     castor = new Castor(apollo);
     api = {
@@ -139,32 +124,31 @@ describe("Agent Tests", () => {
       await agent.start();
     });
 
-
     it("As a developer when a peerDID is created and we have specified to updateKeyList the services are correctly added and updateKeyList is called correctly.", async () => {
-      const storePeerDID = sandbox.stub(pluto, "storeDID").resolves();
-      const createPeerDID = sandbox.spy(castor, "createPeerDID");
-      const stubSendMessage = sandbox.stub(agent.mercury, "sendMessage").resolves();
+      const storePeerDIDSpy = vi.spyOn(pluto, "storeDID");
+      const createPeerDIDSpy = vi.spyOn(castor, "createPeerDID");
+      const sendMessageSpy = vi.spyOn(agent.mercury, "sendMessage");
 
       const peerDID = await agent.createNewPeerDID([], true);
 
-      expect(createPeerDID.callCount).to.be.equal(1);
-      expect(storePeerDID.callCount).to.be.equal(1);
+      expect(createPeerDIDSpy).toHaveBeenCalledTimes(1);
+      expect(storePeerDIDSpy).toHaveBeenCalledTimes(1);
 
       expect(agent.currentMediatorDID).not.equals(null);
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const mediatorDID = agent.currentMediatorDID!;
 
-      const expectedService = new Service(
+      const expectedServices: Service[] = [new Service(
         "#didcomm-1",
         ["DIDCommMessaging"],
         new ServiceEndpoint(mediatorDID.toString())
-      );
+      )];
 
-      createPeerDID.calledWith([], [expectedService]);
+      expect(createPeerDIDSpy).toBeCalledWith(expect.any(Array), expectedServices);
+      expect(sendMessageSpy).toHaveBeenCalledTimes(1);
 
-      expect(stubSendMessage).to.have.been.calledOnce;
-      const msg = stubSendMessage.args.at(0)?.at(0);
-      expect(msg).to.be.instanceOf(Message);
+      const msg = sendMessageSpy.mock.calls[0]?.[0];
+      expect(msg).toBeInstanceOf(Message);
       expect(msg?.body).to.deep.eq({
         updates: [{
           action: "add",
@@ -182,31 +166,31 @@ describe("Agent Tests", () => {
 
       expect(
         agent.parseOOBInvitation(new URL(oob))
-      ).to.eventually.be.rejectedWith(AgentError.UnknownInvitationTypeError);
+      ).rejects.toThrow(AgentError.UnknownInvitationTypeError);
     });
 
     it("As a developer with a valid invitationMessage I will be sending a Handshake request with the correct information and store the didPair in pluto right after.", async () => {
       const did = DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const validOOB = "https://my.domain.com/path?_oob=eyJpZCI6Ijg5NWYzMWZhLTIyNWUtNDRlNi1hNzkyLWFhN2E0OGY1MjgzYiIsInR5cGUiOiJodHRwczovL2RpZGNvbW0ub3JnL291dC1vZi1iYW5kLzIuMC9pbnZpdGF0aW9uIiwiZnJvbSI6ImRpZDpwZWVyOjIuRXo2TFNlenlrY0JqTUtnR1BFRGg0NHBDOFFmdTdjQ3pKb3NWdVY0anA2eDVZNUJITC5WejZNa3dSSnQxU21acDNhRERoTFVuNGZLMzNtOExMWlhXOTJYVDh2clVIdTR1cEE2LlNleUowSWpvaVpHMGlMQ0p6SWpvaWFIUjBjSE02THk5ck9ITXRaR1YyTG1GMFlXeGhjSEpwYzIwdWFXOHZjSEpwYzIwdFlXZGxiblF2Wkdsa1kyOXRiU0lzSW5JaU9sdGRMQ0poSWpwYkltUnBaR052YlcwdmRqSWlYWDAiLCJib2R5Ijp7ImdvYWxfY29kZSI6ImlvLmF0YWxhcHJpc20uY29ubmVjdCIsImdvYWwiOiJFc3RhYmxpc2ggYSB0cnVzdCBjb25uZWN0aW9uIGJldHdlZW4gdHdvIHBlZXJzIHVzaW5nIHRoZSBwcm90b2NvbCAnaHR0cHM6Ly9hdGFsYXByaXNtLmlvL21lcmN1cnkvY29ubmVjdGlvbnMvMS4wL3JlcXVlc3QnIiwiYWNjZXB0IjpbXX19";
 
-      sandbox.stub(UUIDLib, "uuid").returns("123456-123456-12356-123456");
-      const stubStoreDID = sandbox.stub(agent.pluto, "storeDID").resolves();
-      const stubStoreDIDPair = sandbox.stub(agent.pluto, "storeDIDPair").resolves();
-      const stubCreateDID = sandbox.stub(agent.castor, "createPeerDID").resolves(did);
-      const stubSendMessage = sandbox.stub(agent.mercury, "sendMessage").resolves();
+      vi.spyOn(UUIDLib, "uuid").mockReturnValue("123456-123456-12356-123456");
+      const storePeerDIDSpy = vi.spyOn(agent.pluto, "storeDID").mockResolvedValue();
+      const storeDIDPairSpy = vi.spyOn(agent.pluto, "storeDIDPair").mockResolvedValue();
+      const createDIDSpy = vi.spyOn(agent.castor, "createPeerDID").mockResolvedValue(did);
+      const sendMessageSpy = vi.spyOn(agent.mercury, "sendMessage").mockResolvedValue(new Uint8Array());
 
       const oobInvitation = await agent.parseOOBInvitation(new URL(validOOB));
       await agent.acceptInvitation(oobInvitation);
 
-      expect(stubStoreDID).to.have.been.calledOnce;
-      expect(stubStoreDIDPair).to.have.been.calledOnce;
-      expect(stubCreateDID).to.have.been.calledOnce;
-      expect(stubSendMessage).to.have.been.calledTwice;
+      expect(storePeerDIDSpy).toHaveBeenCalledTimes(1);
+      expect(storeDIDPairSpy).toHaveBeenCalledTimes(1);
+      expect(createDIDSpy).toHaveBeenCalledTimes(1);
+      expect(sendMessageSpy).toHaveBeenCalledTimes(2);
       const expectedMsg = {
         ...HandshakeRequest.fromOutOfBand(oobInvitation, did).makeMessage(),
         direction: MessageDirection.SENT
       };
-      expect(stubSendMessage.secondCall.args[0]).to.deep.eq(expectedMsg);
+      expect(sendMessageSpy.mock.calls[1]?.[0]).to.deep.eq(expectedMsg);
     });
 
     it("As a developer with a valid invitationMessage I will be sending a presentation with the correct information, but will fail as it is expired.", async () => {
@@ -216,25 +200,17 @@ describe("Agent Tests", () => {
       const validOOB =
         "https://my.domain.com/path?_oob=eyJpZCI6IjViMjUwMjIzLWExNDItNDRmYi1hOWJkLWU1MjBlNGI0ZjQzMiIsInR5cGUiOiJodHRwczovL2RpZGNvbW0ub3JnL291dC1vZi1iYW5kLzIuMC9pbnZpdGF0aW9uIiwiZnJvbSI6ImRpZDpwZWVyOjIuRXo2TFNkV0hWQ1BFOHc0NWZETjM4aUh0ZFJ6WGkyTFNqQmRSUjRGTmNOUm12VkNKcy5WejZNa2Z2aUI5S1F1OGlnNVZpeG1HZHM3dmdMNmoyUXNOUGFybkZaanBNQ0E5aHpQLlNleUowSWpvaVpHMGlMQ0p6SWpwN0luVnlhU0k2SW1oMGRIQTZMeTh4T1RJdU1UWTRMakV1TXpjNk9EQTNNQzlrYVdSamIyMXRJaXdpY2lJNlcxMHNJbUVpT2xzaVpHbGtZMjl0YlM5Mk1pSmRmWDAiLCJib2R5Ijp7ImdvYWxfY29kZSI6InByZXNlbnQtdnAiLCJnb2FsIjoiUmVxdWVzdCBwcm9vZiBvZiB2YWNjaW5hdGlvbiBpbmZvcm1hdGlvbiIsImFjY2VwdCI6W119LCJhdHRhY2htZW50cyI6W3siaWQiOiIyYTZmOGM4NS05ZGE3LTRkMjQtOGRhNS0wYzliZDY5ZTBiMDEiLCJtZWRpYV90eXBlIjoiYXBwbGljYXRpb24vanNvbiIsImRhdGEiOnsianNvbiI6eyJpZCI6IjI1NTI5MTBiLWI0NmMtNDM3Yy1hNDdhLTlmODQ5OWI5ZTg0ZiIsInR5cGUiOiJodHRwczovL2RpZGNvbW0uYXRhbGFwcmlzbS5pby9wcmVzZW50LXByb29mLzMuMC9yZXF1ZXN0LXByZXNlbnRhdGlvbiIsImJvZHkiOnsiZ29hbF9jb2RlIjoiUmVxdWVzdCBQcm9vZiBQcmVzZW50YXRpb24iLCJ3aWxsX2NvbmZpcm0iOmZhbHNlLCJwcm9vZl90eXBlcyI6W119LCJhdHRhY2htZW50cyI6W3siaWQiOiJiYWJiNTJmMS05NDUyLTQzOGYtYjk3MC0yZDJjOTFmZTAyNGYiLCJtZWRpYV90eXBlIjoiYXBwbGljYXRpb24vanNvbiIsImRhdGEiOnsianNvbiI6eyJvcHRpb25zIjp7ImNoYWxsZW5nZSI6IjExYzkxNDkzLTAxYjMtNGM0ZC1hYzM2LWIzMzZiYWI1YmRkZiIsImRvbWFpbiI6Imh0dHBzOi8vcHJpc20tdmVyaWZpZXIuY29tIn0sInByZXNlbnRhdGlvbl9kZWZpbml0aW9uIjp7ImlkIjoiMGNmMzQ2ZDItYWY1Ny00Y2E1LTg2Y2EtYTA1NTE1NjZlYzZmIiwiaW5wdXRfZGVzY3JpcHRvcnMiOltdfX19LCJmb3JtYXQiOiJwcmlzbS9qd3QifV0sInRoaWQiOiI1YjI1MDIyMy1hMTQyLTQ0ZmItYTliZC1lNTIwZTRiNGY0MzIiLCJmcm9tIjoiZGlkOnBlZXI6Mi5FejZMU2RXSFZDUEU4dzQ1ZkROMzhpSHRkUnpYaTJMU2pCZFJSNEZOY05SbXZWQ0pzLlZ6Nk1rZnZpQjlLUXU4aWc1Vml4bUdkczd2Z0w2ajJRc05QYXJuRlpqcE1DQTloelAuU2V5SjBJam9pWkcwaUxDSnpJanA3SW5WeWFTSTZJbWgwZEhBNkx5OHhPVEl1TVRZNExqRXVNemM2T0RBM01DOWthV1JqYjIxdElpd2ljaUk2VzEwc0ltRWlPbHNpWkdsa1kyOXRiUzkyTWlKZGZYMCJ9fX1dLCJjcmVhdGVkX3RpbWUiOjE3MjQzMzkxNDQsImV4cGlyZXNfdGltZSI6MTcyNDMzOTQ0NH0";
 
-      const createPeerDID = sandbox.stub(agent, "createNewPeerDID");
-      const sendMessage = sandbox.stub(agent.mercury, "sendMessage");
+      const createPeerDIDSpy = vi.spyOn(agent, "createNewPeerDID").mockResolvedValue(did);
+      const sendMessageSpy = vi.spyOn(agent.mercury, "sendMessage");
+      vi.spyOn(UUIDLib, "uuid").mockReturnValue("123456-123456-12356-123456");
 
-      sandbox.stub(UUIDLib, "uuid").returns("123456-123456-12356-123456");
-
-      createPeerDID.resolves(did);
-      sendMessage.resolves();
-      // addConnection.resolves();
-
-      expect(
+      await expect(
         agent.parseOOBInvitation(new URL(validOOB))
-      ).to.eventually.be.rejectedWith(AgentError.InvitationIsInvalidError);
+      ).rejects.toThrow(AgentError.InvitationIsInvalidError);
     });
   });
 
   describe("functions", () => {
-    beforeEach(async () => {
-      await agent.start();
-    });
     /* Iterate through backup scenarios and fixtures to validate backup and restore functionality.
        Each fixture tests the following:
       - `backup`: Ensures a valid JWE is created from backup data.
@@ -242,17 +218,21 @@ describe("Agent Tests", () => {
       - `round trip integration`: Confirms data integrity during backup and restore cycle.
     */
     Fixtures.Backup.backups.forEach(backupFixture => {
+      beforeEach(async () => {
+        await agent.start();
+      });
+
       describe(`Backup/Restore :: ${backupFixture.title}`, () => {
         test("backup", async () => {
-          sandbox.stub(pluto, "backup").resolves(backupFixture.json);
+          const backupSpy = vi.spyOn(pluto, "backup").mockResolvedValue(backupFixture.json);
 
           const jwe = await agent.backup.createJWE(backupFixture.options);
-          expect(jwe).to.be.a("string");
-          expect(jwe.split(".")).to.have.length(5);
+          expect(jwe).toBeTypeOf("string");
+          expect(jwe.split(".")).toHaveLength(5);
         });
 
         test("restore", async () => {
-          const stubRestore = sandbox.stub(pluto, "restore");
+          const restoreSpy = vi.spyOn(pluto, "restore");
           await agent.backup.restore(backupFixture.jwe, backupFixture.options);
           let backupSchema = backupFixture.json;
           const excludes = backupFixture.options?.excludes;
@@ -262,19 +242,19 @@ describe("Agent Tests", () => {
             backupSchema.link_secret = excludes.includes('link_secret') ? undefined : backupSchema.link_secret;
           }
           const expected = JSON.parse(JSON.stringify(backupSchema));
-          expect(stubRestore).to.have.been.calledWith(expected);
+          expect(restoreSpy).toHaveBeenCalledWith(expected);
         });
 
         test("round trip integration", async () => {
           // empty db of linksecret
           (store as any).cleanup();
-          sandbox.stub(pluto, "backup").resolves(backupFixture.json);
-          const spyRestore = sandbox.spy(pluto, "restore");
+          const backupSpy = vi.spyOn(pluto, "backup").mockResolvedValue(backupFixture.json);
+          const restoreSpy = vi.spyOn(pluto, "restore");
 
           const jwe = await agent.backup.createJWE(backupFixture.options);
           await agent.backup.restore(jwe, backupFixture.options);
 
-          expect(jwe).to.be.a("string");
+          expect(jwe).toBeTypeOf("string");
 
           let backupSchema = backupFixture.json;
           const excludes = backupFixture.options?.excludes;
@@ -285,7 +265,7 @@ describe("Agent Tests", () => {
           }
           // running SERDE to remove nil values, which will happen during backup/restore
           let expected = JSON.parse(JSON.stringify(backupSchema));
-          expect(spyRestore).to.have.been.calledWith(expected);
+          expect(restoreSpy).toHaveBeenCalledWith(expected);
         });
 
       });
@@ -427,9 +407,7 @@ describe("Agent Tests", () => {
       for (let credType of [CredentialType.W3C, CredentialType.Unknown]) {
         it(`CredentialType [${credType}] - not implemented - should throw`, async () => {
           const offer = createOffer(credType);
-
-          expect(agent.prepareRequestCredentialWithIssuer(offer)).to.eventually.be
-            .rejected;
+          expect(agent.prepareRequestCredentialWithIssuer(offer)).rejects.toThrow();
         });
       }
     });
@@ -445,14 +423,14 @@ describe("Agent Tests", () => {
 
         const result = agent.processIssuedCredentialMessage(issueCredential);
 
-        expect(result).to.eventually.be.rejected;
+        expect(result).rejects.toThrow();
       });
 
       describe("JWTCredential", () => {
         const base64Data = base64url.baseEncode(Buffer.from(Fixtures.Credentials.JWT.credentialPayloadEncoded));
 
         it("Should be able to parse a credential and convert it into a storable object from a valid didcomm CredentialIssue Message", async () => {
-          vi.spyOn(pluto, "storeCredential").mockResolvedValue();
+          vi.spyOn(pluto, "storeCredential");
 
           const jwtAttachment = AttachmentDescriptor.build(
             Fixtures.Credentials.JWT.credentialPayloadEncoded,
@@ -509,7 +487,7 @@ describe("Agent Tests", () => {
 
       describe("SD+JWTCredential", () => {
         it("Should be able to parse a credential and convert it into a storable object from a valid didcomm CredentialIssue Message", async () => {
-          vi.spyOn(pluto, "storeCredential").mockResolvedValue();
+          vi.spyOn(pluto, "storeCredential");
 
           const attachment = AttachmentDescriptor.build(
             Fixtures.Credentials.SDJWT.credentialPayloadEncoded,
@@ -538,7 +516,7 @@ describe("Agent Tests", () => {
 
       describe("AnonCreds", () => {
         it("module not registered by default - throws", async () => {
-          vi.spyOn(pluto, "storeCredential").mockResolvedValue();
+          vi.spyOn(pluto, "storeCredential");
           vi.spyOn(pluto, "getLinkSecret").mockResolvedValue(Fixtures.Credentials.Anoncreds.linkSecret);
           vi.spyOn(api, "request").mockResolvedValue(new ApiResponse(Fixtures.Credentials.Anoncreds.credentialDefinition, 200));
           vi.spyOn(pluto, "getCredentialMetadata").mockResolvedValue(
@@ -558,7 +536,7 @@ describe("Agent Tests", () => {
           );
 
           const sut = agent.processIssuedCredentialMessage(issueCredential);
-          expect(sut).to.eventually.be.rejected;
+          expect(sut).rejects.toThrow();
         });
       });
     });
@@ -586,17 +564,16 @@ describe("Agent Tests", () => {
           );
 
           const sut = agent.createPresentationForRequestProof(request, credential);
-          expect(sut).to.eventually.be.rejected;
+          expect(sut).rejects.toThrow();
         });
       });
 
       describe("JWT", () => {
-        let stubGetDIDPrivateKeysByDID;
+        let getDIDPrivateKeysByDIDSpy: MockInstance<(...args: any[]) => Promise<PrivateKey[]>>;
 
         beforeEach(() => {
-          stubGetDIDPrivateKeysByDID = sandbox
-            .stub(pluto, "getDIDPrivateKeysByDID")
-            .resolves([Fixtures.Keys.secp256K1.privateKey as any]);
+          getDIDPrivateKeysByDIDSpy = vi.spyOn(pluto, "getDIDPrivateKeysByDID")
+            .mockResolvedValue([Fixtures.Keys.secp256K1.privateKey as any]);
         });
 
         test("JWTCredential + JWTPresentationRequest - returns Presentation", async () => {
@@ -611,22 +588,24 @@ describe("Agent Tests", () => {
 
           const result = await agent.createPresentationForRequestProof(request, credential);
 
-          expect(result).to.be.instanceOf(Presentation);
-          expect(result).to.have.property("attachments")
-            .to.be.an("array")
-            .to.have.length(1);
-          const attached = result.attachments[0];
-          // expect(attached).to.have.property("mediaType", CredentialType.JWT);
-          expect(attached).to.have.property("data");
-          expect(attached.data).to.have.property("base64").to.be.a("string");
+          expect(result).toBeInstanceOf(Presentation);
+          expect(result).toHaveProperty("attachments");
+          expect(result.attachments).toBeInstanceOf(Array);
+          expect(result.attachments).toHaveLength(1);
+          const attached: AttachmentDescriptor = result.attachments[0];
+          const attachedData = attached.data as AttachmentBase64
+          // expect(attached).toHaveProperty("mediaType", CredentialType.JWT);
+          expect(attached).toHaveProperty("data");
+          expect(attachedData).toHaveProperty("base64");
+          expect(attachedData.base64).toBeTypeOf("string");
 
-          expect(result).to.have.property("body");
-          expect(result.body).to.have.property("comment", request.body.comment);
-          expect(result.body).to.have.property("goal_code", request.body.goal_code);
+          expect(result).toHaveProperty("body");
+          expect(result.body).toHaveProperty("comment", request.body.comment);
+          expect(result.body).toHaveProperty("goal_code", request.body.goal_code);
 
-          expect(result).to.have.property("from", request.to);
-          expect(result).to.have.property("to", request.from);
-          expect(result).to.have.property("thid", request.thid || request.id);
+          expect(result).toHaveProperty("from", request.to);
+          expect(result).toHaveProperty("to", request.from);
+          expect(result).toHaveProperty("thid", request.thid || request.id);
         });
 
         test("Attachment format - not JWT - throws", async () => {
@@ -640,7 +619,7 @@ describe("Agent Tests", () => {
 
           const result = agent.createPresentationForRequestProof(request, credential);
 
-          expect(result).to.eventually.be.rejected;
+          await expect(result).rejects.toThrow();
         });
 
         test("Credential.subjectDID - invalid - throws", async () => {
@@ -661,11 +640,11 @@ describe("Agent Tests", () => {
 
           const sut = agent.createPresentationForRequestProof(request, credential);
 
-          expect(sut).to.eventually.be.rejected;
+          await expect(sut).rejects.toThrow();
         });
 
         test("Credential.subjectDID - doesn't match PrivateKey - throws", async () => {
-          stubGetDIDPrivateKeysByDID.resolves([]);
+          getDIDPrivateKeysByDIDSpy.mockResolvedValue([]);
 
           const credential = new JWTCredential({
             iss: "did:test:123",
@@ -683,8 +662,7 @@ describe("Agent Tests", () => {
           );
 
           const sut = agent.createPresentationForRequestProof(request, credential);
-
-          expect(sut).to.eventually.be.rejected;
+          await expect(sut).rejects.toThrow();
         });
       });
 
@@ -700,7 +678,7 @@ describe("Agent Tests", () => {
 
           const result = agent.createPresentationForRequestProof(request, credential);
 
-          expect(result).to.eventually.be.rejected;
+          expect(result).rejects.toThrow();
         });
 
         test("Credential - not matched - throws", async () => {
@@ -713,7 +691,7 @@ describe("Agent Tests", () => {
 
           const credential = JWTCredential.fromJWS(Fixtures.Credentials.JWT.credentialPayloadEncoded);
           const result = agent.createPresentationForRequestProof(request, credential);
-          expect(result).to.eventually.be.rejected;
+          expect(result).rejects.toThrow();
         });
       });
     });
@@ -788,9 +766,11 @@ describe("Agent Tests", () => {
     });
 
     describe("handlePresentation", () => {
+      let getDIDPrivateKeysByDIDSpy: MockInstance<(...args: any[]) => Promise<PrivateKey[]>>;
+
       beforeEach(() => {
-        sandbox.stub(pluto, "getDIDPrivateKeysByDID")
-          .resolves([Fixtures.Keys.secp256K1.privateKey]);
+        getDIDPrivateKeysByDIDSpy = vi.spyOn(pluto, "getDIDPrivateKeysByDID")
+          .mockResolvedValue([Fixtures.Keys.secp256K1.privateKey as any]);
       });
 
       test("JWT", async () => {
@@ -828,13 +808,13 @@ describe("Agent Tests", () => {
       });
 
       // test("Anoncreds", async () => {
-      //   sandbox.stub(pluto, "getLinkSecret").resolves(Fixtures.Credentials.Anoncreds.linkSecret);
+      //   const getLinkSecretSpy = vi.spyOn(pluto, "getLinkSecret").mockResolvedValue(Fixtures.Credentials.Anoncreds.linkSecret);
 
-      //   sandbox.stub(pollux as any, "fetchSchema")
-      //     .resolves(Fixtures.Credentials.Anoncreds.schema);
+      //   const fetchSchemaSpy = vi.spyOn(pollux as any, "fetchSchema")
+      //     .mockResolvedValue(Fixtures.Credentials.Anoncreds.schema);
 
-      //   sandbox.stub(pollux as any, "fetchCredentialDefinition")
-      //     .resolves(Fixtures.Credentials.Anoncreds.credentialDefinition);
+      //   const fetchCredentialDefinitionSpy = vi.spyOn(pollux as any, "fetchCredentialDefinition")
+      //     .mockResolvedValue(Fixtures.Credentials.Anoncreds.credentialDefinition);
 
       //   const presentationReq = await agent.initiatePresentationRequest(CredentialType.AnonCreds, Fixtures.DIDs.peerDID1, {
       //     attributes: {
