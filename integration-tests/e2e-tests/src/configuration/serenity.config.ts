@@ -12,7 +12,7 @@ BeforeAll(async function () {
       [ "@serenity-js/core:ArtifactArchiver", { outputDirectory: resolve(__dirname, "../../target/site/serenity") } ],
       ["@serenity-js/serenity-bdd", {
         reporter: {
-          specDirectory: resolve(__dirname, "buceta"),
+          specDirectory: resolve(__dirname),
           includeAbilityDetails: true,
         },
       }],
