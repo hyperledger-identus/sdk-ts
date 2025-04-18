@@ -259,7 +259,7 @@ describe("Agent Tests", () => {
         const credential = new AnonCredsCredential(Fixtures.Credentials.Anoncreds.credential);
         const attachment = new AttachmentDescriptor(Fixtures.PresentationRequests.AnoncredsAttachment.data, "attach_1", undefined, undefined, "anoncreds/proof-request@v1.0");
         const request = new RequestPresentation(
-          { proofTypes: [] },
+          {},
           [attachment],
           didFrom,
           didTo

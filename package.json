@@ -6,10 +6,9 @@
   "module": "./index.mjs",
   "exports": {
     ".": {
+      "types": "./index.d.ts",
       "import": "./index.mjs",
-      "require": "./index.cjs",
-      "default": "./index.mjs",
-      "types": "./index.d.ts"
+      "require": "./index.cjs"
     }
   },
   "types": "./index.d.ts",
@@ -58,27 +57,22 @@
   "devDependencies": {
     "@esbuild-plugins/node-resolve": "^0.2.2",
     "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^9.0.2",
-    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/exec": "^7.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/release-notes-generator": "^10.0.3",
-    "@types/chai": "^4.3.4",
-    "@types/chai-as-promised": "^7.1.5",
+    "@semantic-release/release-notes-generator": "^14.0.3",
     "@types/google-protobuf": "^3.15.6",
     "@types/jsonld": "^1.5.14",
     "@types/node": "^18.14.2",
     "@types/pako": "^2.0.3",
-    "@types/sinon": "^17.0.3",
-    "@types/sinon-chai": "^3.2.12",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.55.0",
-    "@vitest/browser": "^1.6.0",
-    "@vitest/coverage-istanbul": "^1.6.0",
+    "@vitest/browser": "^3.1.1",
+    "@vitest/coverage-istanbul": "^3.1.1",
     "anoncreds-wasm": "./externals/generated/anoncreds-wasm",
-    "chai": "^4.3.7",
-    "chai-as-promised": "^7.1.1",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
     "didcomm-wasm": "./externals/generated/didcomm-wasm",
-    "esbuild": "0.21.5",
+    "esbuild": "^0.25.2",
     "eslint": "^8.36.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-unused-imports": "^2.0.0",
@@ -87,15 +81,13 @@
     "prettier": "^3.0.2",
     "protoc-gen-ts": "^0.8.7",
     "rxdb": "^14.17.1",
-    "semantic-release": "^24.0.0",
-    "sinon": "^18.0.0",
-    "sinon-chai": "^3.7.0",
+    "semantic-release": "^24.2.3",
     "typedoc": "^0.25.2",
     "typedoc-plugin-external-module-map": "^1.3.2",
     "typedoc-plugin-markdown": "^3.17.1",
     "typedoc-plugin-rename-defaults": "^0.7.0",
     "typescript": "^4.9.5",
-    "vitest": "^1.6.0"
+    "vitest": "^3.1.1"
   },
   "dependencies": {
     "@hyperledger/identus-apollo": "^1.4.5",
@@ -115,11 +107,8 @@
     "multiformats": "^9.9.0",
     "pako": "^2.1.0",
     "patch-package": "^8.0.0",
-    "postinstall-postinstall": "^2.1.0"
-  },
-  "optionalDependencies": {
-    "@esbuild/darwin-arm64": "0.15.18",
-    "@rollup/rollup-linux-x64-gnu": "^4.24.0"
+    "postinstall-postinstall": "^2.1.0",
+    "vite": "^6.3.1"
   },
   "peerDependencies": {
     "@types/elliptic": "^6.4.16",

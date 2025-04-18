@@ -1,26 +1,17 @@
-import { vi, describe, it, beforeEach, afterEach } from 'vitest';
-import { expect } from 'chai';
+import { vi, describe, it, beforeEach, afterEach, expect } from 'vitest';
 
 import { Api, ApiResponse, Curve, KeyTypes } from "../../src/domain";
 import { JWTCredential, JWT_VC_PROPS } from "../../src/pollux/models/JWTVerifiableCredential";
 import Apollo from "../../src/apollo/Apollo";
 import { base64 } from "multiformats/bases/base64";
-import { VerificationKeyType } from "../../src/castor/types";
 import * as Fixtures from "../fixtures";
 import { SDJWTCredential } from "../../src/pollux/models/SDJWTVerifiableCredential";
 import DIFPlugin from "../../src/plugins/internal/dif";
 
-import SinonChai from "sinon-chai";
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { Agent } from '../../src';
 import { Task } from '../../src/utils';
 import { RunProtocol } from '../../src/edge-agent/helpers/RunProtocol';
 import { PluginManager } from '../../src/plugins';
 
-chai.use(SinonChai);
-chai.use(chaiAsPromised);
 const revocableJWTCredential = `eyJhbGciOiJFUzI1NksifQ.eyJpc3MiOiJkaWQ6cHJpc206YmM5ZGFhZWFmMGFkNjczZjVkNTViM2I2NjEyYTE2NTNiYzcyYWMxNjU5Y2VmYTgxYzZlZWY0NWMxZjcyMTYzOTpDcmtCQ3JZQkVqb0tCbUYxZEdndE1SQUVTaTRLQ1hObFkzQXlOVFpyTVJJaEFqRDNnM3ctcHNnRXZQcUJxUDJmVjhPQXAwQ0l3WjVYU3FhMU9OWU1HOGRQRWpzS0IybHpjM1ZsTFRFUUFrb3VDZ2x6WldOd01qVTJhekVTSVFQRGNPbm9BV25YODBhZnA2aVVEZUl6ZUViMXMySFVPUEo5TEpRRTd1RzdYeEk3Q2dkdFlYTjBaWEl3RUFGS0xnb0pjMlZqY0RJMU5tc3hFaUVDc3luYTRsbkw3anhfSnctTXUtUjd3UUppSnhCNGpnMWUwODN1Q252amNhSSIsInN1YiI6ImRpZDpwcmlzbTozZjBiNDQ5NjI3NmI3NGEzMTU3ZmRiOTEwODU5MDExYjhjZWQwNjU1ZGYyNWU3ZjgwNTAyZjE0OGU2NmM1NGU4OkN0OEJDdHdCRW5RS0gyRjFkR2hsYm5ScFkyRjBhVzl1WVhWMGFHVnVkR2xqWVhScGIyNUxaWGtRQkVKUENnbHpaV053TWpVMmF6RVNJS0ZpZjRlcnNMOFF2SFF2VmxXUEFNaHFPNmwzbXZSbUp5ZlRFRTYzZzI2MEdpRG9PNS1KRzR3Z1JkZk1LcXlqZnp2ek9sSXRsNDNsdDQ0Z21TMWxtaFpKZUJKa0NnOXRZWE4wWlhKdFlYTjBaWEpMWlhrUUFVSlBDZ2x6WldOd01qVTJhekVTSUtGaWY0ZXJzTDhRdkhRdlZsV1BBTWhxTzZsM212Um1KeWZURUU2M2cyNjBHaURvTzUtSkc0d2dSZGZNS3F5amZ6dnpPbEl0bDQzbHQ0NGdtUzFsbWhaSmVBIiwibmJmIjoxNzE1MDA2OTY4LCJ2YyI6eyJjcmVkZW50aWFsU3ViamVjdCI6eyJlbWFpbEFkZHJlc3MiOiJjb3Jwb3JhdGVAZG9tYWluLmNvbSIsImRyaXZpbmdDbGFzcyI6MSwiZHJpdmluZ0xpY2Vuc2VJRCI6IkVTLTEyMzQ1Njc4OTAiLCJpZCI6ImRpZDpwcmlzbTozZjBiNDQ5NjI3NmI3NGEzMTU3ZmRiOTEwODU5MDExYjhjZWQwNjU1ZGYyNWU3ZjgwNTAyZjE0OGU2NmM1NGU4OkN0OEJDdHdCRW5RS0gyRjFkR2hsYm5ScFkyRjBhVzl1WVhWMGFHVnVkR2xqWVhScGIyNUxaWGtRQkVKUENnbHpaV053TWpVMmF6RVNJS0ZpZjRlcnNMOFF2SFF2VmxXUEFNaHFPNmwzbXZSbUp5ZlRFRTYzZzI2MEdpRG9PNS1KRzR3Z1JkZk1LcXlqZnp2ek9sSXRsNDNsdDQ0Z21TMWxtaFpKZUJKa0NnOXRZWE4wWlhKdFlYTjBaWEpMWlhrUUFVSlBDZ2x6WldOd01qVTJhekVTSUtGaWY0ZXJzTDhRdkhRdlZsV1BBTWhxTzZsM212Um1KeWZURUU2M2cyNjBHaURvTzUtSkc0d2dSZGZNS3F5amZ6dnpPbEl0bDQzbHQ0NGdtUzFsbWhaSmVBIiwiZGF0ZU9mSXNzdWFuY2UiOiIyMDIzLTAxLTAxVDAyOjAyOjAyWiJ9LCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIl0sIkBjb250ZXh0IjpbImh0dHBzOlwvXC93d3cudzMub3JnXC8yMDE4XC9jcmVkZW50aWFsc1wvdjEiXSwiY3JlZGVudGlhbFN0YXR1cyI6eyJzdGF0dXNQdXJwb3NlIjoiUmV2b2NhdGlvbiIsInN0YXR1c0xpc3RJbmRleCI6MSwiaWQiOiJodHRwOlwvXC8xOTIuMTY4LjE1NC4yMDU6ODAwMFwvcHJpc20tYWdlbnRcL2NyZWRlbnRpYWwtc3RhdHVzXC8xYzE1Yjk2My1kYzRkLTQ3NjUtYjc1Mi01M2EzZmQxZjE4MzMjMSIsInR5cGUiOiJTdGF0dXNMaXN0MjAyMUVudHJ5Iiwic3RhdHVzTGlzdENyZWRlbnRpYWwiOiJodHRwOlwvXC8xOTIuMTY4LjE1NC4yMDU6ODAwMFwvcHJpc20tYWdlbnRcL2NyZWRlbnRpYWwtc3RhdHVzXC8xYzE1Yjk2My1kYzRkLTQ3NjUtYjc1Mi01M2EzZmQxZjE4MzMifX19.NxuJoiEgSnGs7suM5cxDq3tZ6ZYVDAscnKBuAXghW0KD9MhSr1vBUo9F6y0YkjhHBY4Y_gTGnIMBwgLYjcNVKw`;
 
 vi.mock("pako");
@@ -29,7 +20,7 @@ describe("Pollux", () => {
   let api: Api;
   let apollo: Apollo;
   let plugins: PluginManager;
-  let testCtx: Task.Context<any>;
+  let testCtx: Task.Context;
 
   beforeEach(async () => {
     const pakoPkg = await import('pako');
@@ -153,7 +144,7 @@ describe("Pollux", () => {
       data: { credential }
     }));
 
-    await expect(sut).to.eventually.rejectedWith(`Only JWT Credential are supported`);
+    expect(sut).rejects.toThrow(`Only JWT Credential are supported`);
   });
 
   it("Should throw an error if we try to use a credential which an unsupported type ", async () => {
@@ -197,7 +188,7 @@ describe("Pollux", () => {
       data: { credential }
     }));
 
-    await expect(sut).to.eventually.rejectedWith(`CredentialStatus revocation type not supported`);
+    expect(sut).rejects.toThrow(`CredentialStatus revocation type not supported`);
 
     const sut2 = testCtx.run(new RunProtocol({
       type: "revocation-check",
@@ -205,7 +196,7 @@ describe("Pollux", () => {
       data: { credential: JWTCredential.fromJWS(revocableJWTCredential) }
     }));
 
-    await expect(sut2).to.eventually.rejectedWith(`CredentialStatus response revocation type not supported`);
+    expect(sut2).rejects.toThrow(`CredentialStatus response revocation type not supported`);
   });
 
   it("Should throw an error if the credential status proof contains an invalid verificationMethod", async () => {
@@ -238,14 +229,13 @@ describe("Pollux", () => {
       }, 200)
     );
 
-    const sut = testCtx.run(new RunProtocol({
+    const sut: Promise<any> = testCtx.run(new RunProtocol({
       type: "revocation-check",
       pid: "prism/jwt",
       data: { credential: JWTCredential.fromJWS(revocableJWTCredential) }
     }));
 
-    await expect(sut)
-      .to.eventually.rejectedWith(`CredentialStatus proof invalid verificationMethod`);
+    expect(sut).rejects.toThrow(`CredentialStatus proof invalid verificationMethod`);
 
   });
 
@@ -285,8 +275,7 @@ describe("Pollux", () => {
       data: { credential: JWTCredential.fromJWS(revocableJWTCredential) }
     }));
 
-    await expect(sut)
-      .to.eventually.rejectedWith("No public jwk provided");
+    expect(sut).rejects.toThrow("No public jwk provided");
   });
 
   it("should throw an eror if a wrong verificationMethod type is used", async () => {
@@ -325,8 +314,8 @@ describe("Pollux", () => {
       data: { credential: JWTCredential.fromJWS(revocableJWTCredential) }
     }));
 
-    await expect(sut)
-      .to.eventually.rejectedWith("Err Only EcdsaSecp256k1VerificationKey2019 is supported");
+    expect(sut)
+      .rejects.toThrow("Err Only EcdsaSecp256k1VerificationKey2019 is supported");
 
 
   });
@@ -367,8 +356,8 @@ describe("Pollux", () => {
       data: { credential: JWTCredential.fromJWS(revocableJWTCredential) }
     }));
 
-    await expect(sut)
-      .to.eventually.rejectedWith("Err Invalid JWK kty: undefined, should be EC");
+    expect(sut)
+      .rejects.toThrow("Err Invalid JWK kty: undefined, should be EC");
 
   });
 
@@ -408,8 +397,8 @@ describe("Pollux", () => {
       data: { credential: JWTCredential.fromJWS(revocableJWTCredential) }
     }));
 
-    await expect(sut)
-      .to.eventually.rejectedWith("Err Invalid JWK crv: undefined, should be secp256k1");
+    expect(sut)
+      .rejects.toThrow("Err Invalid JWK crv: undefined, should be secp256k1");
   });
 
   it("Should throw an eror if an invalid verificationKey is used", async () => {
@@ -453,8 +442,8 @@ describe("Pollux", () => {
       data: { credential: JWTCredential.fromJWS(revocableJWTCredential) }
     }));
 
-    await expect(sut)
-      .to.eventually.rejectedWith("CredentialStatus proof invalid verifying key");
+    expect(sut)
+      .rejects.toThrow("CredentialStatus proof invalid verifying key");
   });
 
   it("Should throw an error if the status jwt is invalid", async () => {
@@ -494,8 +483,8 @@ describe("Pollux", () => {
       data: { credential: JWTCredential.fromJWS(revocableJWTCredential) }
     }));
 
-    await expect(sut)
-      .to.eventually.rejectedWith("Credential status jwt is invalid");
+    expect(sut)
+      .rejects.toThrow("Credential status jwt is invalid");
   });
 
   it("should throw an error if wrong signature is used", async () => {
@@ -553,8 +542,8 @@ describe("Pollux", () => {
       data: { credential: JWTCredential.fromJWS(revocableJWTCredential) }
     }));
 
-    await expect(sut)
-      .to.eventually.rejectedWith("CredentialStatus invalid signature");
+    expect(sut)
+      .rejects.toThrow("CredentialStatus invalid signature");
   });
 
   it("Should throw an error if we cannot decode the revocation registry correctly ", async () => {
@@ -602,8 +591,8 @@ describe("Pollux", () => {
       data: { credential: JWTCredential.fromJWS(revocableJWTCredential) }
     }));
 
-    await expect(sut)
-      .to.eventually.rejectedWith(`Couldn't ungzip base64 encoded list, err: whatever`);
+    expect(sut)
+      .rejects.toThrow(`Couldn't ungzip base64 encoded list, err: whatever`);
   });
 
 
@@ -643,7 +632,7 @@ describe("Pollux", () => {
       data: { credential: JWTCredential.fromJWS(revocableJWTCredential) }
     }));
 
-    await expect(sut)
-      .to.eventually.rejectedWith("CredentialStatus proof type not supported");
+    expect(sut)
+      .rejects.toThrow("CredentialStatus proof type not supported");
   });
 });

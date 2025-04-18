@@ -1,7 +1,4 @@
 import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import SinonChai from "sinon-chai";
 import UUIDLib from "@stablelib/uuid";
 import Agent from "../../../src/edge-agent/didcomm/Agent";
 import { AttachmentDescriptor, DID, Message, MessageDirection, Seed } from "../../../src/domain";
@@ -12,11 +9,6 @@ import { mockTask } from "../../testFns";
 import * as StartMediatorModule from '../../../src/edge-agent/didcomm/StartMediator';
 import * as StartFetchMessagesModule from '../../../src/edge-agent/didcomm/StartFetchingMessages';
 import { MediatorConnection } from '../../../src/edge-agent/connections/didcomm';
-
-chai.use(SinonChai);
-chai.use(chaiAsPromised);
-
-
 
 describe("Agent", () => {
   let agent: Agent;
@@ -104,7 +96,7 @@ describe("Agent", () => {
       const url = `https://my.domain.com/path?_oob=${encodeB64(oob)}`;
 
       expect(agent.parseInvitation(url))
-        .to.eventually.be.rejectedWith(InvitationIsInvalidError);
+        .rejects.toThrow(InvitationIsInvalidError);
     });
 
     it("Credential Offer Attachment - returns OutOfBandInvitation with attachment", async () => {

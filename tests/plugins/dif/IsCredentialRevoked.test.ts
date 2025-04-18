@@ -112,7 +112,7 @@ describe("Plugins - DIF", () => {
       const credential = SDJWTCredential.fromJWS(Fixtures.Credentials.SDJWT.credentialPayloadEncoded);
       const sut = ctx.run(new IsCredentialRevoked({ credential: credential as any }));
 
-      expect(sut).rejects.toThrowError(`Only JWT Credential are supported`);
+      expect(sut).rejects.rejects.toThrow(`Only JWT Credential are supported`);
     });
     //*
 
@@ -151,7 +151,7 @@ describe("Plugins - DIF", () => {
 
       const sut = ctx.run(new IsCredentialRevoked({ credential: credential as any }));
 
-      expect(sut).rejects.toThrowError(`CredentialStatus revocation type not supported`);
+      expect(sut).rejects.rejects.toThrow(`CredentialStatus revocation type not supported`);
     });
 
     it("Should throw an error if the credential status proof contains an invalid verificationMethod", async () => {
@@ -184,7 +184,7 @@ describe("Plugins - DIF", () => {
       const credential = JWTCredential.fromJWS(revocableJWTCredential);
       const sut = ctx.run(new IsCredentialRevoked({ credential }));
 
-      await expect(sut).rejects.toThrowError(`CredentialStatus proof invalid verificationMethod`);
+      await expect(sut).rejects.rejects.toThrow(`CredentialStatus proof invalid verificationMethod`);
 
     });
 
@@ -219,7 +219,7 @@ describe("Plugins - DIF", () => {
       const credential = JWTCredential.fromJWS(revocableJWTCredential);
       const sut = ctx.run(new IsCredentialRevoked({ credential }));
 
-      await expect(sut).rejects.toThrowError("No public jwk provided");
+      await expect(sut).rejects.rejects.toThrow("No public jwk provided");
     });
 
     it("should throw an eror if a wrong verificationMethod type is used", async () => {
@@ -253,7 +253,7 @@ describe("Plugins - DIF", () => {
       const credential = JWTCredential.fromJWS(revocableJWTCredential);
       const sut = ctx.run(new IsCredentialRevoked({ credential }));
 
-      await expect(sut).rejects.toThrowError("Err Only EcdsaSecp256k1VerificationKey2019 is supported");
+      await expect(sut).rejects.rejects.toThrow("Err Only EcdsaSecp256k1VerificationKey2019 is supported");
     });
 
     it("Should throw an error if a wrong key type is used", async () => {
@@ -287,7 +287,7 @@ describe("Plugins - DIF", () => {
       const credential = JWTCredential.fromJWS(revocableJWTCredential);
       const sut = ctx.run(new IsCredentialRevoked({ credential }));
 
-      await expect(sut).rejects.toThrowError("Err Invalid JWK kty: undefined, should be EC");
+      await expect(sut).rejects.rejects.toThrow("Err Invalid JWK kty: undefined, should be EC");
 
     });
 
@@ -322,7 +322,7 @@ describe("Plugins - DIF", () => {
       const credential = JWTCredential.fromJWS(revocableJWTCredential);
       const sut = ctx.run(new IsCredentialRevoked({ credential }));
 
-      await expect(sut).rejects.toThrowError("Err Invalid JWK crv: undefined, should be secp256k1");
+      await expect(sut).rejects.rejects.toThrow("Err Invalid JWK crv: undefined, should be secp256k1");
     });
 
     it("Should throw an eror if an invalid verificationKey is used", async () => {
@@ -360,7 +360,7 @@ describe("Plugins - DIF", () => {
       const credential = JWTCredential.fromJWS(revocableJWTCredential);
       const sut = ctx.run(new IsCredentialRevoked({ credential }));
 
-      await expect(sut).rejects.toThrowError("CredentialStatus proof invalid verifying key");
+      await expect(sut).rejects.rejects.toThrow("CredentialStatus proof invalid verifying key");
     });
 
     it("Should throw an error if the status jwt is invalid", async () => {
@@ -395,7 +395,7 @@ describe("Plugins - DIF", () => {
       const credential = JWTCredential.fromJWS(revocableJWTCredential);
       const sut = ctx.run(new IsCredentialRevoked({ credential }));
 
-      await expect(sut).rejects.toThrowError("Credential status jwt is invalid");
+      await expect(sut).rejects.rejects.toThrow("Credential status jwt is invalid");
     });
 
     it("should throw an error if wrong signature is used", async () => {
@@ -445,7 +445,7 @@ describe("Plugins - DIF", () => {
       const credential = JWTCredential.fromJWS(revocableJWTCredential);
       const sut = ctx.run(new IsCredentialRevoked({ credential }));
 
-      await expect(sut).rejects.toThrowError("CredentialStatus invalid signature");
+      await expect(sut).rejects.rejects.toThrow("CredentialStatus invalid signature");
     });
 
     /*
@@ -485,7 +485,7 @@ describe("Plugins - DIF", () => {
           }, 200));
     
           await expect(pollux.isCredentialRevoked(JWTCredential.fromJWS(revocableJWTCredential)))
-            .rejects.toThrowError(`Couldn't ungzip base64 encoded list, err: whatever`);
+            .rejects.rejects.toThrow(`Couldn't ungzip base64 encoded list, err: whatever`);
     
           fetchRevocationRegistryStub.mockRestore();
         });
@@ -524,7 +524,7 @@ describe("Plugins - DIF", () => {
       const credential = JWTCredential.fromJWS(revocableJWTCredential);
       const sut = ctx.run(new IsCredentialRevoked({ credential }));
 
-      await expect(sut).rejects.toThrowError("CredentialStatus proof type not supported");
+      await expect(sut).rejects.rejects.toThrow("CredentialStatus proof type not supported");
     });
     //*/
   });

@@ -1,60 +1,23 @@
-import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
-import chai from "chai";
-import * as sinon from "sinon";
-import SinonChai from "sinon-chai";
+import { vi, describe, it, expect } from 'vitest';
 import Apollo from "../../../src/apollo/Apollo";
 import Castor from "../../../src/castor/Castor";
-import Pluto from "../../../src/pluto/Pluto";
 import * as Domain from "../../../src/domain";
 import { DIDCommSecretsResolver } from "../../../src/mercury/didcomm/SecretsResolver";
 import { Curve, PrivateKey } from "../../../src/domain";
-
-chai.use(SinonChai);
+import { Pluto } from '../../../src';
+import { mockPluto } from '../../fixtures/inmemory/factory';
+import * as Fixtures from '../../fixtures';
+import { Secret } from 'didcomm-wasm';
 
 describe("Mercury DIDComm SecretsResolver", () => {
-  let sandbox: sinon.SinonSandbox;
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-  afterEach(() => {
-    sandbox.restore();
-  });
+  let apollo: Apollo
+  let castor: Castor
+  let pluto: Pluto
 
   const makeTestContext = () => {
-    const apollo: Pick<Apollo, "createPrivateKey" | "getPrivateJWKJson"> = {
-      createPrivateKey: (parameters: { [name: string]: any }) => {
-        return new (class extends PrivateKey {
-          publicKey(): Domain.PublicKey {
-            return new (class extends Domain.PublicKey {
-              type: Domain.KeyTypes;
-              keySpecification: Map<string, string>;
-              size: number;
-              raw: Uint8Array = new Uint8Array();
-              getEncoded(): Uint8Array {
-                return this.raw;
-              }
-            })();
-          }
-          type: Domain.KeyTypes;
-          keySpecification: Map<string, string>;
-          size: number;
-          raw: Uint8Array = new Uint8Array();
-          getEncoded(): Uint8Array {
-            return this.raw;
-          }
-        })();
-      },
-      getPrivateJWKJson: (id) => `${id}`,
-    };
-
-    const castor: Pick<Castor, "getEcnumbasis" | "resolveDID"> = {
-      getEcnumbasis: (did, publicKey) => `${publicKey.curve}`,
-      resolveDID: async () => ({}) as Domain.DIDDocument,
-    };
-
-    const pluto: Pick<Pluto, "getAllPeerDIDs"> = {
-      getAllPeerDIDs: async () => [],
-    };
+    apollo = new Apollo()
+    castor = new Castor(apollo)
+    pluto = mockPluto()
 
     const secretsResolver = new DIDCommSecretsResolver(
       apollo as Apollo,
@@ -73,7 +36,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
       );
       const secret = did.toString();
 
-      sandbox.stub(ctx.pluto, "getAllPeerDIDs").resolves([
+      vi.spyOn(ctx.pluto, "getAllPeerDIDs").mockResolvedValue([
         // TODO: update when PeerDID Types are fixed
         { did: secret } as any,
       ]);
@@ -91,9 +54,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
       );
       const secret = did.toString();
 
-      sandbox
-        .stub(ctx.pluto, "getAllPeerDIDs")
-        .resolves([{ did: secret } as any, { did: secret } as any]);
+      vi.spyOn(ctx.pluto, "getAllPeerDIDs").mockResolvedValue([{ did: secret } as any, { did: secret } as any]);
 
       const result = await ctx.secretsResolver.find_secrets([secret]);
 
@@ -108,7 +69,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
       );
       const secret = did.toString();
 
-      sandbox.stub(ctx.pluto, "getAllPeerDIDs").resolves([]);
+      vi.spyOn(ctx.pluto, "getAllPeerDIDs").mockResolvedValue([]);
 
       const result = await ctx.secretsResolver.find_secrets([secret]);
 
@@ -143,53 +104,50 @@ describe("Mercury DIDComm SecretsResolver", () => {
         ],
       } as any;
 
-      sandbox.stub(ctx.pluto, "getAllPeerDIDs").resolves([peerDid]);
-
-      sandbox
-        .stub(ctx.castor, "resolveDID")
-        .resolves(
-          new Domain.DIDDocument(did, [
-            new Domain.VerificationMethods([
-              new Domain.VerificationMethod(
-                secret,
-                "controller",
-                "type",
-                publicKeyJwk
-              ),
-            ]),
-          ])
-        );
-
-      sandbox.stub(ctx.apollo, "createPrivateKey").returns(
-        new (class extends PrivateKey {
-          publicKey(): Domain.PublicKey {
-            return new (class extends Domain.PublicKey {
-              type: Domain.KeyTypes;
-              keySpecification: Map<string, string>;
-              size: number;
-              raw: Uint8Array = new Uint8Array();
-              getEncoded(): Uint8Array {
-                return this.raw;
-              }
-            })();
-          }
-          type: Domain.KeyTypes;
-          keySpecification: Map<string, string>;
-          size: number;
-          raw: Uint8Array = new Uint8Array();
-          getEncoded(): Uint8Array {
-            return this.raw;
-          }
-        })()
+      vi.spyOn(ctx.pluto, "getAllPeerDIDs").mockResolvedValue([peerDid]);
+      vi.spyOn(ctx.castor, "resolveDID").mockResolvedValue(
+        new Domain.DIDDocument(did, [
+          new Domain.VerificationMethods([
+            new Domain.VerificationMethod(
+              secret,
+              "controller",
+              "type" as any,
+              publicKeyJwk
+            ),
+          ]),
+        ])
       );
 
-      sandbox.stub(ctx.castor, "getEcnumbasis").returns(ecnum);
 
-      const result = await ctx.secretsResolver.get_secret(secret);
-      const [privateKey] = peerDid.privateKeys;
+      const privateKey =  new (class extends PrivateKey {
+        to: { Buffer: () => Buffer; String: (encoding?: BufferEncoding) => string; };
+        publicKey(): Domain.PublicKey {
+          return new (class extends Domain.PublicKey {
+            to: { Buffer: () => Buffer; String: (encoding?: BufferEncoding) => string; };
+            type: Domain.KeyTypes;
+            keySpecification: Map<string, string>;
+            size: number;
+            raw: Uint8Array = new Uint8Array();
+            getEncoded(): Uint8Array {
+              return this.raw;
+            }
+          })();
+        }
+        type: Domain.KeyTypes;
+        keySpecification: Map<string, string>;
+        size: number;
+        raw: Uint8Array = new Uint8Array();
+        getEncoded(): Uint8Array {
+          return this.raw;
+        }
+      })()
 
-      expect(result).not.to.be.null;
-      expect(result).to.eql({
+      vi.spyOn(ctx.apollo, "createPrivateKey").mockReturnValue(privateKey);
+      vi.spyOn(ctx.castor, "getEcnumbasis").mockReturnValue(ecnum);
+
+      const result: Secret | null = await ctx.secretsResolver.get_secret(secret);
+
+      const expectedSecret = {
         id: `${secret}#${ecnum}`,
         type: "JsonWebKey2020",
         privateKeyJwk: {
@@ -198,7 +156,10 @@ describe("Mercury DIDComm SecretsResolver", () => {
           d: privateKey.value.toString(),
           x: publicKeyJwk.x as any,
         },
-      });
+      }
+
+      expect(result).not.to.be.null;
+      expect(result).to.eql(expectedSecret);
     });
 
     it("should return null when unmatched secret", async () => {
@@ -208,7 +169,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
       );
       const secret = did.toString();
 
-      sandbox.stub(ctx.pluto, "getAllPeerDIDs").resolves([]);
+      vi.spyOn(ctx.pluto, "getAllPeerDIDs").mockResolvedValue([]);
 
       const result = await ctx.secretsResolver.get_secret(secret);
 

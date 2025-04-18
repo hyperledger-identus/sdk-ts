@@ -1,8 +1,4 @@
-import { vi, describe, it, expect, test, beforeEach, afterEach, MockInstance } from 'vitest';
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import * as sinon from "sinon";
-import SinonChai from "sinon-chai";
+import { vi, describe, it, expect, test, beforeEach } from 'vitest';
 import { Task } from "../../../src/utils/tasks";
 import { FetchIssuerMetadata } from "../../../src/edge-agent/oidc/tasks";
 import * as Fixtures from "../../fixtures";
@@ -11,36 +7,27 @@ import { InvalidOffer } from "../../../src/edge-agent/oidc/errors";
 import { OIDC } from "../../../src";
 import { ValidationError } from "../../../src/domain/models/errors/Common";
 
-chai.use(SinonChai);
-chai.use(chaiAsPromised);
-
 describe("OIDC Tasks", () => {
   let ctx: Task.Context;
-  let sandbox: sinon.SinonSandbox;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
     ctx = new Task.Context({
       Api: { request: vi.fn() }
     });
   });
 
-  afterEach(async () => {
-    sandbox.restore();
-  });
-
   describe("fetchIssuerMetadata", () => {
     test("path appended to issuer url", async () => {
-      const stubRequest = sandbox.stub(ctx.Api, "request").resolves(new ApiResponse(Fixtures.OIDC.issuerMeta, 200));
+      const stubRequest = vi.spyOn(ctx.Api, "request").mockReturnValue(new ApiResponse(Fixtures.OIDC.issuerMeta, 200));
       const uri = "http://test/issuermeta";
       const task = new FetchIssuerMetadata({ uri });
       await ctx.run(task);
 
-      expect(stubRequest).to.have.been.calledOnceWith("GET", `${uri}/.well-known/openid-credential-issuer`);
+      expect(stubRequest).toBeCalledWith("GET", `${uri}/.well-known/openid-credential-issuer`);
     });
 
     test("valid issuer metadata returned", async () => {
-      sandbox.stub(ctx.Api, "request").resolves(new ApiResponse(Fixtures.OIDC.issuerMeta, 200));
+      vi.spyOn(ctx.Api, "request").mockReturnValue(new ApiResponse(Fixtures.OIDC.issuerMeta, 200));
       const task = new FetchIssuerMetadata({ uri: "http://test/issuermeta" });
       const result = await ctx.run(task);
 
@@ -69,7 +56,7 @@ describe("OIDC Tasks", () => {
       });
 
       test("invalid issuerMeta - throws", async () => {
-        sandbox.stub(ctx.Api, "request").resolves(new ApiResponse({}, 200));
+        vi.spyOn(ctx.Api, "request").mockReturnValue(new ApiResponse({}, 200));
         const task = new FetchIssuerMetadata({ uri: "http://test/issuermeta" });
         const s = OIDC.TokenResponseSchema;
         let err;

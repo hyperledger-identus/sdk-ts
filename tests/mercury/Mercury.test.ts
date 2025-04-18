@@ -1,21 +1,11 @@
-import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-
-import * as sinon from "sinon";
-import SinonChai from "sinon-chai";
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import {
   Api,
   DID,
   DIDDocument,
-  KeyPair,
   Message,
   PublicKey,
   Service,
-  ServiceEndpoint,
-  Services,
 } from "../../src/domain";
 import * as Domain from "../../src/domain";
 import { MercuryError } from "../../src/domain/models/Errors";
@@ -23,25 +13,13 @@ import { DIDCommProtocol } from "../../src/mercury/DIDCommProtocol";
 import Mercury from "../../src/mercury/Mercury";
 import { Castor } from "../../src/domain/buildingBlocks/Castor";
 
-chai.use(SinonChai);
-chai.use(chaiAsPromised);
-
 describe("Mercury", () => {
-  let sandbox: sinon.SinonSandbox;
   let ctx: {
     castor: Castor;
     httpManager: Api;
     didProtocol: DIDCommProtocol;
     mercury: Mercury;
   };
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   const makeTestContext = (message?: Message) => {
     const castor: Castor = {
@@ -54,7 +32,7 @@ describe("Mercury", () => {
       ): Promise<DID> {
         throw new Error("Method not implemented.");
       },
-      createPeerDID(keyPairs: KeyPair[], services: Service[]): Promise<DID> {
+      createPeerDID(publicKeys: PublicKey[], services: Service[]): Promise<DID> {
         throw new Error("Method not implemented.");
       },
       resolveDID(did: string): Promise<DIDDocument> {
@@ -67,7 +45,7 @@ describe("Mercury", () => {
       ): Promise<boolean> {
         throw new Error("Method not implemented.");
       },
-      getEcnumbasis(did: DID, keyPair: KeyPair): string {
+      getEcnumbasis(did: DID, publicKey: PublicKey): string {
         throw new Error("Method not implemented.");
       },
     };
@@ -102,10 +80,10 @@ describe("Mercury", () => {
       );
       const ctx = makeTestContext(message);
 
-      sandbox.stub(ctx.didProtocol, "packEncrypted");
+      vi.spyOn(ctx.didProtocol, "packEncrypted");
       ctx.mercury.packMessage(message);
 
-      expect(ctx.didProtocol.packEncrypted).to.have.been.calledWith(
+      expect(ctx.didProtocol.packEncrypted).toBeCalledWith(
         message,
         toDid,
         fromDid
@@ -137,10 +115,10 @@ describe("Mercury", () => {
       const ctx = makeTestContext();
       const messageString = "someMessageString";
 
-      sandbox.stub(ctx.didProtocol, "unpack");
+      vi.spyOn(ctx.didProtocol, "unpack");
       ctx.mercury.unpackMessage(messageString);
 
-      expect(ctx.didProtocol.unpack).to.have.been.calledWith(messageString);
+      expect(ctx.didProtocol.unpack).toBeCalledWith(messageString);
     });
   });
 
@@ -157,10 +135,10 @@ describe("Mercury", () => {
         "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ"
       );
 
-      sandbox.stub(ctx.castor, "parseDID").returns(fromDID);
-      sandbox
-        .stub(ctx.httpManager, "request")
-        .resolves(new Domain.ApiResponse<any>({}, 200));
+      vi.spyOn(ctx.castor, "parseDID").mockReturnValue(fromDID);
+      vi
+        .spyOn(ctx.httpManager, "request")
+        .mockResolvedValue(new Domain.ApiResponse<any>({}, 200));
     });
 
     // it("should call HttpManager.postEncrypted with [ServiceEndpoint.uri, packedMessage]", async () => {
@@ -205,7 +183,7 @@ describe("Mercury", () => {
       it("should throw error when Messsage.to is not a DID", async () => {
         const message = new Message("{}", "", "");
 
-        expect(ctx.mercury.sendMessage(message)).to.eventually.be.rejectedWith(
+        expect(ctx.mercury.sendMessage(message)).rejects.toThrow(
           MercuryError.NoRecipientDIDSetError
         );
       });
@@ -219,11 +197,11 @@ describe("Mercury", () => {
           fromDID
         );
 
-        sandbox
-          .stub(ctx.castor, "resolveDID")
-          .resolves(new Domain.DIDDocument(toDID, []));
+        vi
+          .spyOn(ctx.castor, "resolveDID")
+          .mockResolvedValue(new Domain.DIDDocument(toDID, []));
 
-        expect(ctx.mercury.sendMessage(message)).to.eventually.be.rejectedWith(
+        expect(ctx.mercury.sendMessage(message)).rejects.toThrow(
           MercuryError.NoValidServiceFoundError
         );
       });
@@ -237,17 +215,13 @@ describe("Mercury", () => {
       const returnedMessage = { message: "returnedMessage" };
       const unpackedMessage = new Message("{}", undefined, "TypeofMessage");
 
-      sandbox
-        .stub(ctx.mercury, "sendMessage")
-        .callsFake(async () => returnedMessage);
-      sandbox
-        .stub(ctx.mercury, "unpackMessage")
-        .callsFake(async () => unpackedMessage);
+      vi.spyOn(ctx.mercury, "sendMessage").mockImplementation(async () => returnedMessage);
+      vi.spyOn(ctx.mercury, "unpackMessage").mockImplementation(async () => unpackedMessage);
 
       const result = await ctx.mercury.sendMessageParseMessage(message);
       const jsonMessage = JSON.stringify(returnedMessage);
-      expect(ctx.mercury.sendMessage).to.have.been.calledWith(message);
-      expect(ctx.mercury.unpackMessage).to.have.been.calledWith(jsonMessage);
+      expect(ctx.mercury.sendMessage).toBeCalledWith(message);
+      expect(ctx.mercury.unpackMessage).toBeCalledWith(jsonMessage);
       expect(result).to.equal(unpackedMessage);
     });
   });

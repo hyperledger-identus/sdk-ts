@@ -178,7 +178,7 @@ describe("Plugins - Anoncreds", () => {
 
       const sut = ctx.run(new PresentationRequest({ credential, presentationRequest }));
 
-      await expect(sut).rejects.toThrowError('AnoncredsError Credential value not found for attribute "email"');
+      await expect(sut).rejects.rejects.toThrow('AnoncredsError Credential value not found for attribute "email"');
     });
 
     test("Should Reject Creating a Presentation with a Credential that doesn't have predicates", async () => {
@@ -200,7 +200,7 @@ describe("Plugins - Anoncreds", () => {
 
       const sut = ctx.run(new PresentationRequest({ credential, presentationRequest }));
 
-      await expect(sut).rejects.toThrowError("AnoncredsError No credential mapping or self-attested attributes presented");
+      await expect(sut).rejects.rejects.toThrow("AnoncredsError No credential mapping or self-attested attributes presented");
     });
 
     test("Should Reject Creating a Presentation with a Credential that doesn't have valid predicates", async () => {
@@ -228,7 +228,7 @@ describe("Plugins - Anoncreds", () => {
 
       const sut = ctx.run(new PresentationRequest({ credential, presentationRequest }));
 
-      expect(sut).rejects.toThrowError("AnoncredsError Error: Invalid structure\nCaused by: Predicate is not satisfied\n");
+      expect(sut).rejects.rejects.toThrow("AnoncredsError Error: Invalid structure\nCaused by: Predicate is not satisfied\n");
     });
 
     test("Should Reject Creating an Anoncreds Presentation Submission using an invalid presentationDefinition", async () => {
@@ -236,7 +236,7 @@ describe("Plugins - Anoncreds", () => {
 
       const sut = ctx.run(new PresentationRequest({ credential, presentationRequest: null as any }));
 
-      expect(sut).rejects.toThrowError('Invalid Presentation definition error');
+      expect(sut).rejects.rejects.toThrow('Invalid Presentation definition error');
     });
 
     test("Should Reject Creating an Anoncreds Presentation Submission using a wrong JWT Credential", async () => {
@@ -270,7 +270,7 @@ describe("Plugins - Anoncreds", () => {
 
       const sut = ctx.run(new PresentationRequest({ credential, presentationRequest }));
 
-      expect(sut).rejects.toThrowError('Required a valid Anoncreds Credential for Anoncreds Presentation submission');
+      expect(sut).rejects.rejects.toThrow('Required a valid Anoncreds Credential for Anoncreds Presentation submission');
     });
   });
 });
