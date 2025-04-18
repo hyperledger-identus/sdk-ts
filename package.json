@@ -36,7 +36,7 @@
     "build:dev": "npm run externals:check && rm -rf build/* && npm run build:agnostic && npm run types",
     "build:agnostic": "node esbuild.config.mjs",
     "types": "rm -rf build/**/*.d.ts && tsc",
-    "test": "npx vitest --config vitest.config.mjs --run",
+    "test": "npx vitest --run",
     "coverage": "npm run test -- --coverage",
     "lint": "npx eslint .",
     "docs": "npx typedoc --options typedoc.js",
@@ -44,8 +44,8 @@
     "preinstall": "sh preinstall.sh",
     "postinstall": "sh postinstall.sh",
     "protos": "npm run protos:node && npm run protos:common",
-    "protos:node": "protoc -I=src --proto_path=castor/protos --ts_out=castor/protos  castor/protos/node_models.proto",
-    "protos:common": "protoc -I=src --proto_path=castor/protos --ts_out=castor/protos  castor/protos/common_models.proto"
+    "protos:node": "protoc -I=src --proto_path=src/castor/protos --ts_out=src/castor/protos src/castor/protos/node_models.proto",
+    "protos:common": "protoc -I=src --proto_path=src/castor/protos --ts_out=src/castor/protos src/castor/protos/common_models.proto"
   },
   "author": "IOHK",
   "repository": {
@@ -68,7 +68,7 @@
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.55.0",
     "@vitest/browser": "^3.1.1",
-    "@vitest/coverage-istanbul": "^3.1.1",
+    "@vitest/coverage-v8": "^3.1.1",
     "anoncreds-wasm": "./externals/generated/anoncreds-wasm",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "didcomm-wasm": "./externals/generated/didcomm-wasm",

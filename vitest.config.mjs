@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitest/config'
 import { getWasmJSContent } from './esbuild.base.mjs';
+import { dirname, resolve } from 'node:path';
 
 const isCI = process.env.CI === "true";
 
@@ -8,7 +9,7 @@ function WasmPlugin() {
     name: 'wasm-plugin',
     resolveId: (source, importer) =>
       source.endsWith('.wasm') ?
-        path.resolve(path.dirname(importer), source) :
+        resolve(dirname(importer), source) :
         null,
     load: (id) => id.endsWith('.wasm') ?
       getWasmJSContent(id) :
@@ -30,8 +31,8 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['tests/**/*.test.ts'],
     coverage: {
-      provider: 'istanbul',
-      reporter: isCI ? ['json-summary', 'lcov'] : ['text', 'lcov'],
+      provider: 'v8',
+      reporter: isCI ? ['json-summary', 'lcov'] : ['text', 'html', 'lcov'],
       thresholds: {
         "branches": 63,
         "functions": 75,
