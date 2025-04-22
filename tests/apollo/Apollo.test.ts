@@ -1,7 +1,4 @@
 import { describe, it, expect, test, beforeEach, afterEach } from 'vitest';
-
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
 import Apollo from "../../src/apollo/Apollo";
 import { Secp256k1KeyPair } from "../../src/apollo/utils/Secp256k1KeyPair";
 import * as ECConfig from "../../src/domain/models/ECConfig";
@@ -31,7 +28,6 @@ import { DerivationAxis } from "../../src/domain/models/derivation/DerivationAxi
 import ApolloPKG from "@hyperledger/identus-apollo";
 
 const ApolloSDK = ApolloPKG.org.hyperledger.identus.apollo;
-chai.use(chaiAsPromised);
 
 describe("Apollo", () => {
   let apollo: Apollo;
@@ -107,21 +103,13 @@ describe("Apollo", () => {
       it(`Should fail when mnemonics is wrong length [${i}]`, () => {
         const mnemonics = list.slice(0, i);
 
-        assert.throws(
-          () => apollo.createSeed(mnemonics as any, ""),
-          ApolloError.MnemonicLengthError
-        );
+        expect(() => apollo.createSeed(mnemonics as any, "")).throws(ApolloError.MnemonicLengthError);
       });
     }
 
     it("Should test failure when checksum is incorrect", () => {
       const mnemonicCode = Array(24).fill("abandon") as MnemonicWordList;
-      assert.throws(
-        () => {
-          apollo.createSeed(mnemonicCode, "");
-        },
-        ApolloError.MnemonicWordError
-      );
+      expect(() => { apollo.createSeed(mnemonicCode, ""); }).throws(ApolloError.MnemonicWordError);
     });
 
     it("Should compute the right binary seed", () => {
@@ -147,9 +135,7 @@ describe("Apollo", () => {
         "codus",
         ...Array(20).fill("abandon"),
       ] as MnemonicWordList;
-      assert.throws(() => {
-        apollo.createSeed(mnemonicCode, "");
-      }, ApolloError.MnemonicWordError);
+      expect(() => { apollo.createSeed(mnemonicCode, ""); }).throws(ApolloError.MnemonicWordError);
     });
   });
 
@@ -454,7 +440,7 @@ describe("Apollo", () => {
           raw: Fixtures.Keys.ed25519.privateKey.raw
         };
 
-        assert.throws(() => apollo.restorePrivateKey(key as any), ApolloError.KeyRestoratonFailed);
+        expect(() => apollo.restorePrivateKey(key as any)).throws(ApolloError.KeyRestoratonFailed);
       });
     });
 
@@ -498,7 +484,7 @@ describe("Apollo", () => {
           raw: Fixtures.Keys.ed25519.publicKey.raw
         };
 
-        assert.throws(() => apollo.restorePublicKey(key as any), ApolloError.KeyRestoratonFailed);
+        expect(() => apollo.restorePublicKey(key as any)).throws(ApolloError.KeyRestoratonFailed);
       });
     });
   });

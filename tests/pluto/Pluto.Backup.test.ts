@@ -1,9 +1,4 @@
-import { describe, it, expect, test, beforeEach } from 'vitest';
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-
+import { describe, it, expect, test, beforeEach, afterEach, vi } from 'vitest';
 import * as Domain from "../../src/domain";
 import * as Fixtures from "../fixtures";
 import { mockPluto } from "../fixtures/inmemory/factory";
@@ -17,6 +12,10 @@ describe("Pluto", () => {
   beforeEach(async () => {
     instance = mockPluto();
     await instance.start();
+  });
+
+  afterEach(async () => {
+    vi.restoreAllMocks();
   });
 
   Fixtures.Backup.backups.forEach(backupFixture => {
@@ -137,7 +136,7 @@ describe("Pluto", () => {
           messages: [],
           link_secret: undefined,
         });
-  
+
         const result = await instance.getAllCredentials();
         expect(result).to.be.an("array").to.have.length(1);
         const sut = result[0] as JWTCredential;
@@ -160,7 +159,7 @@ describe("Pluto", () => {
         expect(sut.termsOfUse).to.deep.eq(Fixtures.Backup.credentialJWT.termsOfUse);
         expect(sut.type).to.deep.eq(Fixtures.Backup.credentialJWT.type);
       });
-  
+
       test("credentials - Anoncreds", async () => {
         await instance.restore({
           credentials: [
@@ -176,7 +175,7 @@ describe("Pluto", () => {
           messages: [],
           link_secret: undefined,
         });
-  
+
         const result = await instance.getAllCredentials();
         expect(result).to.be.an("array").to.have.length(1);
         const sut = result[0] as AnonCredsCredential;
@@ -190,7 +189,7 @@ describe("Pluto", () => {
         expect(sut.schemaId).to.eq(Fixtures.Backup.credentialAnoncreds.schemaId);
         expect(sut.subject).to.eq(Fixtures.Backup.credentialAnoncreds.subject);
       });
-  
+
       test("dids", async () => {
         await instance.restore({
           credentials: [],
@@ -203,13 +202,13 @@ describe("Pluto", () => {
           messages: [],
           link_secret: undefined,
         });
-  
+
         const result = await (instance as any).Repositories.DIDs.get();
-  
+
         expect(result).to.be.an("array").to.have.length(1);
         expect(result[0].toString()).to.eq(Fixtures.Backup.hostDID.toString());
       });
-  
+
       test("did_pairs", async () => {
         const name = "test-did-pairs";
         await instance.restore({
@@ -227,15 +226,15 @@ describe("Pluto", () => {
           messages: [],
           link_secret: undefined,
         });
-  
+
         const result = await instance.getAllDidPairs();
-  
+
         expect(result).to.be.an("array").to.have.length(1);
         expect(result[0].host.toString()).to.eq(Fixtures.Backup.hostDID.toString());
         expect(result[0].receiver.toString()).to.eq(Fixtures.Backup.targetDID.toString());
         expect(result[0].name).to.eq(name);
       });
-  
+
       test("keys", async () => {
         await instance.restore({
           credentials: [],
@@ -251,9 +250,9 @@ describe("Pluto", () => {
           messages: [],
           link_secret: undefined,
         });
-  
+
         const result = await (instance as any).Repositories.Keys.get();
-  
+
         expect(result).to.be.an("array").to.have.length(1);
         expect(result[0].curve).to.eq(Fixtures.Backup.secpPrivateKey.curve);
         expect(result[0].index).to.eq(Fixtures.Backup.secpPrivateKey.index);
@@ -276,9 +275,9 @@ describe("Pluto", () => {
             ],
             link_secret: undefined,
           });
-    
+
           const result = await instance.getAllMessages();
-    
+
           expect(result).to.be.an("array").to.have.length(1);
           const msg = result.at(0)!;
           expect(msg.ack).to.deep.eq(Fixtures.Backup.message.ack);
@@ -310,70 +309,70 @@ describe("Pluto", () => {
             messages: [],
             link_secret: secret,
           });
-    
+
           const result = await instance.getLinkSecret();
-    
+
           expect(result).to.be.instanceOf(Domain.LinkSecret);
           expect(result?.secret).to.eq(secret);
         });
       }
-  
+
       describe("Store not empty - throws", () => {
         it("Credentials", async () => {
           await instance.storeCredential(Fixtures.Backup.credentialJWT);
-          expect(instance.restore(backupFixture.json)).eventually.rejected;
+          await expect(instance.restore(backupFixture.json)).rejects.toThrow();
         });
-  
+
         it("DIDs", async () => {
           await instance.storeDIDPair(Fixtures.Backup.hostDID, Fixtures.Backup.targetDID, Fixtures.Backup.pairAlias);
-          expect(instance.restore(backupFixture.json)).eventually.rejected;
+          await expect(instance.restore(backupFixture.json)).rejects.toThrow();
         });
-  
+
         it("Keys", async () => {
           await instance.storeDID(Fixtures.Backup.hostDID, Fixtures.Backup.peerDIDKeys);
-          expect(instance.restore(backupFixture.json)).eventually.rejected;
+          await expect(instance.restore(backupFixture.json)).rejects.toThrow();
         });
-  
+
         if (version == "0.0.1") {
           it("LinkSecret", async () => {
             await instance.storeLinkSecret(Fixtures.Backup.linkSecret);
-            expect(instance.restore(backupFixture.json)).eventually.rejected;
+            await expect(instance.restore(backupFixture.json)).rejects.toThrow();
           });
-    
+
           it("Messages", async () => {
             await instance.storeMessage(Fixtures.Backup.message);
-            expect(instance.restore(backupFixture.json)).eventually.rejected;
+            await expect(instance.restore(backupFixture.json)).rejects.toThrow();
           });
         }
       });
     });
-  
+
     describe(`Round trip ${backupFixture.title}`, () => {
       test("Restore -> Backup", async () => {
         await instance.restore(backupFixture.json);
-  
+
         const backup = await instance.backup(version);
-  
+
         expect(backup.credentials).to.have.length(backupFixture.json.credentials.length);
         expect(backup.credentials).to.have.deep.members(backupFixture.json.credentials);
-  
+
         expect(backup.dids).to.have.length(backupFixture.json.dids.length);
         expect(backup.dids).to.have.deep.members(backupFixture.json.dids);
-  
+
         expect(backup.did_pairs).to.have.length(backupFixture.json.did_pairs.length);
         expect(backup.did_pairs).to.have.deep.members(backupFixture.json.did_pairs);
-  
+
         expect(backup.keys).to.have.length(backupFixture.json.keys.length);
         expect(backup.keys).to.have.deep.members(backupFixture.json.keys);
-        
+
         if (backup.version == "0.0.1" && backupFixture.json.version == "0.0.1") {
           expect(backup.messages).to.have.length(backupFixture.json.messages.length);
           expect(backup.messages).to.have.deep.members(backupFixture.json.messages);
           expect(backup.link_secret).to.eq(backupFixture.json.link_secret);
         }
-  
+
       });
-  
+
       test("Backup -> Restore", async () => {
         await instance.storeCredential(Fixtures.Backup.credentialJWT);
         await instance.storeCredential(Fixtures.Backup.credentialAnoncreds);
@@ -384,15 +383,15 @@ describe("Pluto", () => {
           await instance.storeMessage(Fixtures.Backup.message);
           await instance.storeMediator(Fixtures.Backup.mediator);
         }
-  
+
         const backup = await instance.backup(version);
-  
+
         expect(backup).not.to.be.null;
-  
+
         const sut = mockPluto();
         await sut.start();
         await sut.restore(backup);
-  
+
         const credentials = await sut.getAllCredentials();
         const dids = await sut.getAllPeerDIDs();
         const didPairs = await sut.getAllDidPairs();
@@ -400,12 +399,12 @@ describe("Pluto", () => {
         const mediators = await sut.getAllMediators();
         const messages = await sut.getAllMessages();
         const linksecret = await sut.getLinkSecret();
-  
+
         expect(dids).not.to.be.null;
-  
+
         expect(credentials).to.have.length(2);
         // expect(credentials.map(x => (x as any).toStorable())).to.have.deep.members([Fixtures.Backup.credentialAnoncreds.toStorable(), Fixtures.Backup.credentialJWT.toStorable()]);
-  
+
         expect(dids).to.have.length(2);
         expect(didPairs).to.have.length(1);
         expect(keys).to.have.length(1);
@@ -413,7 +412,7 @@ describe("Pluto", () => {
           expect(mediators).to.have.length(1);
           expect(messages).to.have.length(1);
         }
-  
+
       });
     });
 

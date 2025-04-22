@@ -5,7 +5,6 @@ import * as Fixtures from "../../fixtures";
 import { Apollo, JWTCredential, SDJWTCredential } from '../../../src';
 import { IsCredentialRevoked } from '../../../src/plugins/internal/dif/IsCredentialRevoked';
 import { Api, ApiResponse, Curve, KeyTypes } from '../../../src/domain';
-import { VerificationKeyType } from '../../../src/castor/types';
 import { JWT_VC_PROPS } from '../../../src/pollux/models/JWTVerifiableCredential';
 
 
@@ -112,7 +111,7 @@ describe("Plugins - DIF", () => {
       const credential = SDJWTCredential.fromJWS(Fixtures.Credentials.SDJWT.credentialPayloadEncoded);
       const sut = ctx.run(new IsCredentialRevoked({ credential: credential as any }));
 
-      expect(sut).rejects.toThrowError(`Only JWT Credential are supported`);
+      await expect(sut).rejects.toThrowError(`Only JWT Credential are supported`);
     });
     //*
 
@@ -151,7 +150,7 @@ describe("Plugins - DIF", () => {
 
       const sut = ctx.run(new IsCredentialRevoked({ credential: credential as any }));
 
-      expect(sut).rejects.toThrowError(`CredentialStatus revocation type not supported`);
+      await expect(sut).rejects.toThrowError(`CredentialStatus revocation type not supported`);
     });
 
     it("Should throw an error if the credential status proof contains an invalid verificationMethod", async () => {
@@ -185,7 +184,6 @@ describe("Plugins - DIF", () => {
       const sut = ctx.run(new IsCredentialRevoked({ credential }));
 
       await expect(sut).rejects.toThrowError(`CredentialStatus proof invalid verificationMethod`);
-
     });
 
     it("should throw an error if no jwk is provided", async () => {
@@ -288,7 +286,6 @@ describe("Plugins - DIF", () => {
       const sut = ctx.run(new IsCredentialRevoked({ credential }));
 
       await expect(sut).rejects.toThrowError("Err Invalid JWK kty: undefined, should be EC");
-
     });
 
     it("Should throw an error if a wrong key curve is used", async () => {
