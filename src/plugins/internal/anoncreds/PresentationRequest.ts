@@ -6,7 +6,7 @@ import { isObject, notEmptyString } from "../../../utils";
 import { FetchCredentialDefinition } from "./FetchCredentialDefinition";
 import { fetchSchema } from "./FetchSchema";
 import { GetLinkSecret } from "./GetLinkSecret";
-import type { Context } from "./index";
+import type { Context } from "./plugin";
 import * as Types from "./types";
 
 interface Args {

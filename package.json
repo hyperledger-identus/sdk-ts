@@ -11,6 +11,12 @@
       "require": "./index.cjs",
       "default": "./index.mjs"
     },
+    "./plugins/anoncreds": {
+      "types": "./build/plugins/internal/anoncreds/index.d.ts",
+      "import": "./build/plugins/internal/anoncreds/index.js",
+      "require": "./build/plugins/internal/anoncreds/index.js",
+      "default": "./build/plugins/internal/anoncreds/index.js"
+    },
     "./plugins/oidc": {
       "types": "./build/plugins/internal/oidc/index.d.ts",
       "import": "./build/plugins/internal/oidc/index.js",
@@ -20,6 +26,9 @@
   },
   "typesVersions": {
     "*": {
+      "plugins/anoncreds": [
+        "./build/plugins/internal/oidc/index.d.ts"
+      ],
       "plugins/oidc": [
         "./build/plugins/internal/oidc/index.d.ts"
       ]

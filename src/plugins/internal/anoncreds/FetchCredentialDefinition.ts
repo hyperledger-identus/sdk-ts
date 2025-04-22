@@ -1,5 +1,5 @@
 import { Task } from "../../../utils";
-import type { Context } from "./index";
+import type { Context } from "./plugin";
 import * as Types from "./types";
 
 interface Args {

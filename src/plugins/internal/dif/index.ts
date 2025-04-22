@@ -5,7 +5,7 @@ import { PresentationRequest } from "./PresentationRequest";
 import { PresentationVerify } from "./PresentationVerify";
 import { DIFModule } from "./module";
 import { DIF } from "./types";
-import type { Context as ACContext } from "../anoncreds";
+import type { Context as ACContext } from "../anoncreds/plugin";
 
 export type Modules = { DIF: DIFModule; };
 export type Context = Plugins.Context<Modules & ACContext>;
