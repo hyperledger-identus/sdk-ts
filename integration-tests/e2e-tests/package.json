@@ -1,47 +1,38 @@
 {
-  "name": "atala-prism-wallet-sdk-ts-e2e",
+  "name": "e2e",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
     "clean": "rimraf target",
-    "test:sdk": "yarn clean && cucumber-js -b"
+    "test:sdk": "npm run clean && cucumber-js -b"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/input-output-hk/atala-prism-wallet-sdk-ts-e2e.git"
   },
   "author": "Allain Magyar",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/input-output-hk/atala-prism-wallet-sdk-ts-e2e/issues"
-  },
-  "homepage": "https://github.com/input-output-hk/atala-prism-wallet-sdk-ts-e2e",
+  "license": "Apache-2.0",
   "dependencies": {
-    "@amagyar-iohk/identus-cloud-agent-client-ts": "^1.36.1",
     "@cucumber/cucumber": "^10.3.1",
     "@cucumber/pretty-formatter": "^1.0.0",
-    "@hyperledger/identus-edge-agent-sdk": "../../",
-    "@serenity-js/assertions": "^3.29.2",
-    "@serenity-js/console-reporter": "^3.29.2",
-    "@serenity-js/core": "^3.29.2",
-    "@serenity-js/cucumber": "^3.29.2",
-    "@serenity-js/rest": "^3.29.2"
+    "@hyperledger/identus-cloud-agent-client": "^1.40.1-4106e54",
+    "@hyperledger/identus-sdk": "../..",
+    "@serenity-js/assertions": "^3.31.13",
+    "@serenity-js/console-reporter": "^3.31.13",
+    "@serenity-js/core": "^3.31.13",
+    "@serenity-js/cucumber": "^3.31.13",
+    "@serenity-js/rest": "^3.31.13",
+    "@serenity-js/serenity-bdd": "^3.31.13"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
     "@types/node": "^18.19.14",
-    "@typescript-eslint/eslint-plugin": "^6.5.0",
-    "@typescript-eslint/parser": "^6.5.0",
     "allure-cucumberjs": "^3.0.0-beta.11",
     "axios": "^1.6.7",
     "chai": "^4.5.0",
     "cliui": "^8.0.1",
     "dotenv": "^16.4.1",
-    "eslint": "^8.56.0",
-    "eslint-config-standard-with-typescript": "^39.0.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
-    "eslint-plugin-promise": "^6.0.0",
+    "eslint": "^9.23.0",
     "lodash": "^4.17.21",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
