@@ -1,5 +1,11 @@
+import fs from 'fs';
 import { defineConfig } from 'vitest/config'
-import { getWasmJSContent } from './esbuild.base.mjs';
+
+const getWasmJSContent = (file) => {
+  const wasmBinary = fs.readFileSync(file);
+  const base64 = Buffer.from(wasmBinary).toString('base64');
+  return `export default Buffer.from("${base64}", "base64");`;
+};
 
 const isCI = process.env.CI === "true";
 
@@ -10,9 +16,7 @@ function WasmPlugin() {
       source.endsWith('.wasm') ?
         path.resolve(path.dirname(importer), source) :
         null,
-    load: (id) => id.endsWith('.wasm') ?
-      getWasmJSContent(id) :
-      null,
+    load: (id) => id.endsWith('.wasm') ? getWasmJSContent(id) : null,
   };
 }
 

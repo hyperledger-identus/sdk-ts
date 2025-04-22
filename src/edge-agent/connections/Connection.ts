@@ -1,8 +1,10 @@
 import * as Domain from "../../domain";
-import { AgentContext } from "../didcomm/Context";
+import { Task } from "../../utils";
 
 /**
  * Define the structure of a Connection
+ * 
+ * Connections are used to capture Protocol specific behaviours and metadata
  */
 export interface Connection {
   /**
@@ -13,15 +15,14 @@ export interface Connection {
    * current condition of the connection
    */
   state: Connection.State;
-  // ? convert Message to Protocol
   /**
    * handle delivering a Message to the connected entity
    */
-  send: (message: Domain.Message, ctx: AgentContext) => Promise<Domain.Message | undefined>;
+  send: (protocol: Connection.Protocol, ctx: Task.Context<any>) => Promise<any | undefined>;
   /**
    * called when a Message is received from this connection
    */
-  receive: (message: any, ctx: AgentContext) => Promise<void>;
+  receive?: (protocol: Connection.Protocol, ctx: Task.Context<any>) => Promise<void>;
   /**
    * handle any desired teardown
    */
@@ -29,6 +30,9 @@ export interface Connection {
 }
 
 export namespace Connection {
+  /// allow any for now to enable arbitrary extension
+  export type Protocol = Domain.Message | Domain.ApiRequest | any;
+
   export enum State {
     // no interactions
     UNKNOWN = 0,

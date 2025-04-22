@@ -1,5 +1,5 @@
 import { AsyncPrompt } from "../cli";
-import SDK from "sdk";;
+import SDK from "@hyperledger/identus-sdk";
 import * as InMemory from "@pluto-encrypted/inmemory";
 
 /**

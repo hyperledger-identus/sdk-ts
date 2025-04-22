@@ -16,7 +16,8 @@ interface Args {
   /**
    * Message to be delivered
    */
-  message: Domain.Message;
+  message: Domain.Message | Domain.ApiRequest;
+
   /**
    * Connection to use
    */
@@ -25,19 +26,35 @@ interface Args {
 
 export class Send extends Task<Domain.Message | undefined, Args> {
   async run(ctx: AgentContext) {
-    const uri = expect(this.args.message.to?.toString());
-    const connection = this.args.connection ?? ctx.Connections.find(uri);
+    if (this.args.message instanceof Domain.Message) {
+      const uri = expect(this.args.message.to?.toString());
+      const connection = this.args.connection ?? ctx.Connections.find(uri);
 
-    if (notNil(connection)) {
-      const response = await connection.send(this.args.message, ctx);
+      if (notNil(connection)) {
+        const response = await connection.send(this.args.message, ctx);
+        return response;
+      }
+
+      // default to DIDComm
+      ctx.logger.info(`Connection not found - defaulting to DIDComm`);
+      const host = expect(this.args.message.from?.toString());
+      const tmpConn = new DIDCommConnection(uri, host);
+      const response = await tmpConn.send(this.args.message, ctx);
       return response;
     }
 
-    // default to DIDComm
-    ctx.logger.info(`Connection not found - defaulting to DIDComm`);
-    const host = expect(this.args.message.from?.toString());
-    const tmpConn = new DIDCommConnection(uri, host);
-    const response = await tmpConn.send(this.args.message, ctx);
-    return response;
+    if (this.args.message instanceof Domain.ApiRequest) {
+      const uri = expect(this.args.message.url.toString());
+      const connection = this.args.connection ?? ctx.Connections.find(uri);
+
+      if (notNil(connection)) {
+        const response = await connection.send(this.args.message, ctx);
+        return response;
+      }
+
+      // no default
+      ctx.logger.warn(`Connection not found - ApiRequest`);
+      return undefined;
+    }
   }
 }

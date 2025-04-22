@@ -1,6 +1,6 @@
-import * as Utils from "../utils/tasks";
-import { Payload } from "../domain/protocols/Payload";
-import { AgentContext } from "../edge-agent/didcomm/Context";
+import * as Utils from "../utils";
+import type { Payload } from "../domain/protocols/Payload";
+import type { AgentContext } from "../edge-agent/didcomm/Context";
 
 export namespace Plugins {
   export abstract class Task<T = unknown> extends Utils.Task<Payload, T> {}

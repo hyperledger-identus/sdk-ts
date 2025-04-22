@@ -1,5 +1,5 @@
 import { AsyncPrompt } from "../../cli";
-import SDK from "sdk";;
+import SDK from "@hyperledger/identus-sdk";
 
 export const makeProcessIssueCredential = (message: SDK.Domain.Message) => new AsyncPrompt(
   "Process Issue Credential",

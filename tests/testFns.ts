@@ -1,17 +1,13 @@
 import { vi } from "vitest";
+import { Ctor, Task } from "../src/utils";
 
 /**
  * tests utility to mock a Task
  * so that the real implementation doesn't run
  * 
- * @param module imported Task module (`import * as someModule from "../path/to/task"`)
- * @param task the className of the Task
+ * @param task imported Task (`import { someModule } from "../path/to/task"`)
  * @param value value to be returned by the Task.run()
  */
-export const mockTask = <T>(module: T, task: keyof T, value?: any) => {
-  vi.spyOn(module as any, task as any)
-    .mockReturnValue({
-      run: () => Promise.resolve(value ?? {}),
-      log: () => ({}),
-    });
+export const mockTask = <T extends Ctor<Task<any>>>(task: T, value?: any) => {
+  vi.spyOn(task.prototype, "run").mockResolvedValue(value);
 };
