@@ -1,11 +1,10 @@
-import { Signer, createJWT } from "did-jwt";
+import { ES256KSigner, Signer, createJWT } from "did-jwt";
 import { base58btc } from "multiformats/bases/base58";
 import * as Domain from "../../../domain";
 import { asJsonObj, expect, notNil } from "../../../utils";
 import { Task } from "../../../utils/tasks";
 import { AgentContext } from "../../../edge-agent/didcomm/Context";
 import { base64url } from "multiformats/bases/base64";
-import { normaliseDER } from "./DER";
 
 /**
  * Asyncronously sign with a DID
@@ -33,15 +32,14 @@ export class CreateJWT extends Task<string, Args> {
     }
 
     const kid = await this.getSigningKid(ctx, this.args.did, privateKey);
-    const signer: Signer = async (data: any) => {
-      const rawSignature = privateKey.sign(Buffer.from(data));
-      //secp256k1 uses compact encoding while apollo returns der signatures so far
-      const signature = privateKey.curve === Domain.Curve.SECP256K1 ?
-        normaliseDER(rawSignature) :
-        rawSignature;
-      const encoded = base64url.baseEncode(signature);
-      return encoded;
-    };
+    // secp256k1 uses compact encoding while apollo returns der signatures so far
+    const signer: Signer = privateKey.curve === Domain.Curve.SECP256K1
+      ? ES256KSigner(privateKey.raw)
+      : async (data: any) => {
+        const signature = privateKey.sign(Buffer.from(data));
+        const encoded = base64url.baseEncode(signature);
+        return encoded;
+      };
 
     const jwt = await createJWT(
       this.args.payload,
