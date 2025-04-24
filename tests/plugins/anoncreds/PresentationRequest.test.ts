@@ -228,7 +228,7 @@ describe("Plugins - Anoncreds", () => {
 
       const sut = ctx.run(new PresentationRequest({ credential, presentationRequest }));
 
-      expect(sut).rejects.toThrowError("AnoncredsError Error: Invalid structure\nCaused by: Predicate is not satisfied\n");
+      await expect(sut).rejects.toThrowError("AnoncredsError Error: Invalid structure\nCaused by: Predicate is not satisfied\n");
     });
 
     test("Should Reject Creating an Anoncreds Presentation Submission using an invalid presentationDefinition", async () => {
@@ -236,7 +236,7 @@ describe("Plugins - Anoncreds", () => {
 
       const sut = ctx.run(new PresentationRequest({ credential, presentationRequest: null as any }));
 
-      expect(sut).rejects.toThrowError('Invalid Presentation definition error');
+      await expect(sut).rejects.toThrowError('Invalid Presentation definition error');
     });
 
     test("Should Reject Creating an Anoncreds Presentation Submission using a wrong JWT Credential", async () => {
@@ -270,7 +270,7 @@ describe("Plugins - Anoncreds", () => {
 
       const sut = ctx.run(new PresentationRequest({ credential, presentationRequest }));
 
-      expect(sut).rejects.toThrowError('Required a valid Anoncreds Credential for Anoncreds Presentation submission');
+      await expect(sut).rejects.toThrowError('Required a valid Anoncreds Credential for Anoncreds Presentation submission');
     });
   });
 });

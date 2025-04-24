@@ -53,7 +53,7 @@ describe("Plugins - OEA", () => {
 
         const sut = ctx.run(new PresentationRequest({ credential, presentationRequest }));
 
-        expect(sut).rejects.toThrowError(CannotFindDIDPrivateKey);
+        await expect(sut).rejects.toThrowError(CannotFindDIDPrivateKey);
       });
 
       test("Ed25519 privateKey not found - throws", async () => {
@@ -63,7 +63,7 @@ describe("Plugins - OEA", () => {
 
         const sut = ctx.run(new PresentationRequest({ credential, presentationRequest }));
 
-        expect(sut).rejects.toThrowError(CannotFindDIDPrivateKey);
+        await expect(sut).rejects.toThrowError(CannotFindDIDPrivateKey);
       });
     });
   });

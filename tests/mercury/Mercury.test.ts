@@ -1,97 +1,41 @@
 import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-
-import * as sinon from "sinon";
-import SinonChai from "sinon-chai";
-import {
-  Api,
-  DID,
-  DIDDocument,
-  KeyPair,
-  Message,
-  PublicKey,
-  Service,
-  ServiceEndpoint,
-  Services,
-} from "../../src/domain";
+import { Api, DID, Message } from "../../src/domain";
 import * as Domain from "../../src/domain";
 import { MercuryError } from "../../src/domain/models/Errors";
 import { DIDCommProtocol } from "../../src/mercury/DIDCommProtocol";
 import Mercury from "../../src/mercury/Mercury";
 import { Castor } from "../../src/domain/buildingBlocks/Castor";
 
-chai.use(SinonChai);
-chai.use(chaiAsPromised);
-
 describe("Mercury", () => {
-  let sandbox: sinon.SinonSandbox;
-  let ctx: {
-    castor: Castor;
-    httpManager: Api;
-    didProtocol: DIDCommProtocol;
-    mercury: Mercury;
-  };
+  let castor: Castor;
+  let httpManager: Api;
+  let didProtocol: DIDCommProtocol;
+  let mercury: Mercury;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
+    castor = {
+      parseDID: vi.fn(),
+      resolveDID: vi.fn(),
+    } as any;
+
+    httpManager = { request: async () => new Domain.ApiResponse<any>(new Uint8Array(), 200) };
+
+    didProtocol = {
+      packEncrypted: async () => "",
+      unpack: async () => new Message("{}", undefined, "TypeofMessage"),
+    };
+
+    mercury = new Mercury(castor, didProtocol, httpManager);
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
-  const makeTestContext = (message?: Message) => {
-    const castor: Castor = {
-      parseDID(did: string): DID {
-        throw new Error("Method not implemented.");
-      },
-      createPrismDID(
-        masterPublicKey: PublicKey,
-        services?: Service[] | undefined
-      ): Promise<DID> {
-        throw new Error("Method not implemented.");
-      },
-      createPeerDID(keyPairs: KeyPair[], services: Service[]): Promise<DID> {
-        throw new Error("Method not implemented.");
-      },
-      resolveDID(did: string): Promise<DIDDocument> {
-        throw new Error("Method not implemented.");
-      },
-      verifySignature(
-        did: DID,
-        challenge: Uint8Array,
-        signature: Uint8Array
-      ): Promise<boolean> {
-        throw new Error("Method not implemented.");
-      },
-      getEcnumbasis(did: DID, keyPair: KeyPair): string {
-        throw new Error("Method not implemented.");
-      },
-    };
-    const httpManager: Api = {
-      request: async () => new Domain.ApiResponse<any>(new Uint8Array(), 200),
-    };
-    const didProtocol: DIDCommProtocol = {
-      packEncrypted: async () => "",
-      unpack: async () =>
-        message || new Message("{}", undefined, "TypeofMessage"),
-    };
-    const mercury = new Mercury(castor, didProtocol, httpManager);
-    mercury.castor = castor;
-    return { castor, httpManager, didProtocol, mercury };
-  };
-
   describe("PackMessage", () => {
-    it("should call DIDCommProtocol.packEncrypted with [message, message.to, message.from]", () => {
-      const fromDid = DID.fromString(
-        "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ"
-      );
-      const toDid = DID.fromString(
-        "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ"
-      );
+    it("should call DIDCommProtocol.packEncrypted with [message, message.to, message.from]", async () => {
+      const fromDid = DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
+      const toDid = DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const message = new Message(
         "{}",
         undefined,
@@ -100,47 +44,29 @@ describe("Mercury", () => {
         toDid,
         []
       );
-      const ctx = makeTestContext(message);
 
-      sandbox.stub(ctx.didProtocol, "packEncrypted");
-      ctx.mercury.packMessage(message);
+      const spy = vi.spyOn(didProtocol, "packEncrypted");
+      await mercury.packMessage(message);
 
-      expect(ctx.didProtocol.packEncrypted).to.have.been.calledWith(
-        message,
-        toDid,
-        fromDid
-      );
+      expect(spy).toHaveBeenCalledWith(message, toDid, fromDid);
     });
 
     describe("Errors", () => {
-      it("should throw error when Messsage.to is not a DID", () => {
+      it("should throw error when Messsage.to is not a DID", async () => {
         const message = {} as any;
-        const ctx = makeTestContext(message);
-
-        expect(() => ctx.mercury.packMessage(message)).to.throw(
-          MercuryError.NoRecipientDIDSetError
-        );
-      });
-
-      it("should throw error when Messsage.to is not a DID", () => {
-        const message = new Message("{}", "", "");
-        const ctx = makeTestContext(message);
-        expect(() => ctx.mercury.packMessage(message)).to.throw(
-          MercuryError.NoRecipientDIDSetError
-        );
+        await expect(mercury.packMessage(message)).rejects.toThrowError(MercuryError.NoRecipientDIDSetError);
       });
     });
   });
 
   describe("UnpackMessage", () => {
-    it("should call DIDCommProtocol.unpack with [message]", () => {
-      const ctx = makeTestContext();
+    it("should call DIDCommProtocol.unpack with [message]", async () => {
       const messageString = "someMessageString";
+      vi.spyOn(didProtocol, "unpack");
 
-      sandbox.stub(ctx.didProtocol, "unpack");
-      ctx.mercury.unpackMessage(messageString);
+      mercury.unpackMessage(messageString);
 
-      expect(ctx.didProtocol.unpack).to.have.been.calledWith(messageString);
+      await expect(didProtocol.unpack).toHaveBeenCalledWith(messageString);
     });
   });
 
@@ -149,18 +75,11 @@ describe("Mercury", () => {
     let toDID;
 
     beforeEach(() => {
-      ctx = makeTestContext();
-      fromDID = DID.fromString(
-        "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ"
-      );
-      toDID = DID.fromString(
-        "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ"
-      );
+      fromDID = DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
+      toDID = DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
 
-      sandbox.stub(ctx.castor, "parseDID").returns(fromDID);
-      sandbox
-        .stub(ctx.httpManager, "request")
-        .resolves(new Domain.ApiResponse<any>({}, 200));
+      vi.spyOn(castor, "parseDID").mockReturnValue(fromDID);
+      vi.spyOn(httpManager, "request").mockResolvedValue(new Domain.ApiResponse<any>({}, 200));
     });
 
     // it("should call HttpManager.postEncrypted with [ServiceEndpoint.uri, packedMessage]", async () => {
@@ -178,21 +97,21 @@ describe("Mercury", () => {
     //     new Service("testService", ["DIDCommMessaging"], endpoint),
     //   ]);
     //   sandbox
-    //     .stub(ctx.castor, "resolveDID")
+    //     .stub(castor, "resolveDID")
     //     .resolves(new Domain.DIDDocument(toDID, [services]));
-    //   sandbox.stub(ctx.didProtocol, "packEncrypted").resolves(packedMessage);
+    //   vi.spyOn(didProtocol, "packEncrypted").resolves(packedMessage);
 
-    //   await ctx.mercury.sendMessage(message);
+    //   await mercury.sendMessage(message);
 
-    //   expect(ctx.didProtocol.packEncrypted).to.have.been.calledWith(
+    //   expect(didProtocol.packEncrypted).to.have.been.calledWith(
     //     message,
     //     toDID,
     //     fromDID
     //   );
-    //   expect(ctx.mercury.castor.resolveDID).to.have.been.calledWith(
+    //   expect(mercury.castor.resolveDID).to.have.been.calledWith(
     //     toDID.toString()
     //   );
-    //   expect(ctx.mercury.api.request).to.have.been.calledWith(
+    //   expect(mercury.api.request).to.have.been.calledWith(
     //     "POST",
     //     endpoint.uri,
     //     new Map(),
@@ -205,9 +124,7 @@ describe("Mercury", () => {
       it("should throw error when Messsage.to is not a DID", async () => {
         const message = new Message("{}", "", "");
 
-        expect(ctx.mercury.sendMessage(message)).to.eventually.be.rejectedWith(
-          MercuryError.NoRecipientDIDSetError
-        );
+        await expect(mercury.sendMessage(message)).rejects.toThrowError(MercuryError.NoRecipientDIDSetError);
       });
 
       it("should throw error when Messsage.to has no valid Service", async () => {
@@ -219,35 +136,26 @@ describe("Mercury", () => {
           fromDID
         );
 
-        sandbox
-          .stub(ctx.castor, "resolveDID")
-          .resolves(new Domain.DIDDocument(toDID, []));
+        vi.spyOn(castor, "resolveDID").mockResolvedValue(new Domain.DIDDocument(toDID, []));
 
-        expect(ctx.mercury.sendMessage(message)).to.eventually.be.rejectedWith(
-          MercuryError.NoValidServiceFoundError
-        );
+        await expect(mercury.sendMessage(message)).rejects.toThrowError(MercuryError.NoValidServiceFoundError);
       });
     });
   });
 
   describe("SendMessageParseMessage", () => {
     it("passes the result of sendMessage to unpackMessage", async () => {
-      const ctx = makeTestContext();
       const message = new Message("{}", undefined, "TypeofMessage");
       const returnedMessage = { message: "returnedMessage" };
       const unpackedMessage = new Message("{}", undefined, "TypeofMessage");
 
-      sandbox
-        .stub(ctx.mercury, "sendMessage")
-        .callsFake(async () => returnedMessage);
-      sandbox
-        .stub(ctx.mercury, "unpackMessage")
-        .callsFake(async () => unpackedMessage);
+      const spySend = vi.spyOn(mercury, "sendMessage").mockResolvedValue(returnedMessage);
+      const spyUnpack = vi.spyOn(mercury, "unpackMessage").mockResolvedValue(unpackedMessage);
 
-      const result = await ctx.mercury.sendMessageParseMessage(message);
+      const result = await mercury.sendMessageParseMessage(message);
       const jsonMessage = JSON.stringify(returnedMessage);
-      expect(ctx.mercury.sendMessage).to.have.been.calledWith(message);
-      expect(ctx.mercury.unpackMessage).to.have.been.calledWith(jsonMessage);
+      expect(spySend).toHaveBeenCalledWith(message);
+      expect(spyUnpack).toHaveBeenCalledWith(jsonMessage);
       expect(result).to.equal(unpackedMessage);
     });
   });

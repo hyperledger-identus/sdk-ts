@@ -1,116 +1,69 @@
 import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
-import chai from "chai";
-import * as sinon from "sinon";
-import SinonChai from "sinon-chai";
 import Apollo from "../../../src/apollo/Apollo";
 import Castor from "../../../src/castor/Castor";
-import Pluto from "../../../src/pluto/Pluto";
+import { Pluto } from "../../../src/pluto/Pluto";
 import * as Domain from "../../../src/domain";
 import { DIDCommSecretsResolver } from "../../../src/mercury/didcomm/SecretsResolver";
-import { Curve, PrivateKey } from "../../../src/domain";
-
-chai.use(SinonChai);
+import { Curve } from "../../../src/domain";
+import * as Fixtures from "../../fixtures";
 
 describe("Mercury DIDComm SecretsResolver", () => {
-  let sandbox: sinon.SinonSandbox;
+  let apollo: Apollo;
+  let castor: Castor;
+  let pluto: Pluto;
+  let secretsResolver: DIDCommSecretsResolver;
+
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-  afterEach(() => {
-    sandbox.restore();
-  });
+    apollo = {
+      createPrivateKey: vi.fn(),
+    } as any;
 
-  const makeTestContext = () => {
-    const apollo: Pick<Apollo, "createPrivateKey" | "getPrivateJWKJson"> = {
-      createPrivateKey: (parameters: { [name: string]: any }) => {
-        return new (class extends PrivateKey {
-          publicKey(): Domain.PublicKey {
-            return new (class extends Domain.PublicKey {
-              type: Domain.KeyTypes;
-              keySpecification: Map<string, string>;
-              size: number;
-              raw: Uint8Array = new Uint8Array();
-              getEncoded(): Uint8Array {
-                return this.raw;
-              }
-            })();
-          }
-          type: Domain.KeyTypes;
-          keySpecification: Map<string, string>;
-          size: number;
-          raw: Uint8Array = new Uint8Array();
-          getEncoded(): Uint8Array {
-            return this.raw;
-          }
-        })();
-      },
-      getPrivateJWKJson: (id) => `${id}`,
-    };
-
-    const castor: Pick<Castor, "getEcnumbasis" | "resolveDID"> = {
+    castor = {
       getEcnumbasis: (did, publicKey) => `${publicKey.curve}`,
       resolveDID: async () => ({}) as Domain.DIDDocument,
-    };
+    } as any;
 
-    const pluto: Pick<Pluto, "getAllPeerDIDs"> = {
+    pluto = {
       getAllPeerDIDs: async () => [],
-    };
+    } as any;
 
-    const secretsResolver = new DIDCommSecretsResolver(
-      apollo as Apollo,
-      castor as Castor,
-      pluto as Pluto
-    );
+    secretsResolver = new DIDCommSecretsResolver(apollo, castor, pluto);
+  });
 
-    return { apollo, castor, pluto, secretsResolver };
-  };
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe("find_secrets", () => {
     it("should return matched secret", async () => {
-      const ctx = makeTestContext();
-      const did = Domain.DID.fromString(
-        "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ"
-      );
+      const did = Domain.DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const secret = did.toString();
+      // TODO: update when PeerDID Types are fixed
+      vi.spyOn(pluto, "getAllPeerDIDs").mockResolvedValue([{ did: secret } as any]);
 
-      sandbox.stub(ctx.pluto, "getAllPeerDIDs").resolves([
-        // TODO: update when PeerDID Types are fixed
-        { did: secret } as any,
-      ]);
-
-      const result = await ctx.secretsResolver.find_secrets([secret]);
+      const result = await secretsResolver.find_secrets([secret]);
 
       expect(result).to.have.lengthOf(1);
       expect(result).to.contain(secret);
     });
 
     it("should return matched secret - no duplicates", async () => {
-      const ctx = makeTestContext();
-      const did = Domain.DID.fromString(
-        "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ"
-      );
+      const did = Domain.DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const secret = did.toString();
+      vi.spyOn(pluto, "getAllPeerDIDs").mockResolvedValue([{ did: secret }, { did: secret }] as any);
 
-      sandbox
-        .stub(ctx.pluto, "getAllPeerDIDs")
-        .resolves([{ did: secret } as any, { did: secret } as any]);
-
-      const result = await ctx.secretsResolver.find_secrets([secret]);
+      const result = await secretsResolver.find_secrets([secret]);
 
       expect(result).to.have.lengthOf(1);
       expect(result).to.eql([secret]);
     });
 
     it("should return empty array with unmatched secret", async () => {
-      const ctx = makeTestContext();
-      const did = Domain.DID.fromString(
-        "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ"
-      );
+      const did = Domain.DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const secret = did.toString();
+      vi.spyOn(pluto, "getAllPeerDIDs").mockResolvedValue([]);
 
-      sandbox.stub(ctx.pluto, "getAllPeerDIDs").resolves([]);
-
-      const result = await ctx.secretsResolver.find_secrets([secret]);
+      const result = await secretsResolver.find_secrets([secret]);
 
       expect(result).to.have.lengthOf(0);
     });
@@ -118,10 +71,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
 
   describe("get_secret", () => {
     it("should return matched secret", async () => {
-      const ctx = makeTestContext();
-      const did = Domain.DID.fromString(
-        "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ"
-      );
+      const did = Domain.DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const secret = did.toString();
       const publicKeyJwk: Domain.PublicKeyJWK = {
         crv: Domain.Curve.X25519,
@@ -130,63 +80,38 @@ describe("Mercury DIDComm SecretsResolver", () => {
         x: Buffer.from(new Uint8Array()).toString("base64url"),
       };
       const ecnum = "ecnum123";
+      const privateKey = Fixtures.Keys.x25519.privateKey;
       const peerDid = {
         did: secret,
         curve: Curve.X25519,
         privateKeys: [
           {
             keyCurve: {
-              curve: Curve.X25519,
+              curve: privateKey.curve
             },
-            value: new Uint8Array(),
+            value: privateKey.getEncoded(),
           },
         ],
       } as any;
 
-      sandbox.stub(ctx.pluto, "getAllPeerDIDs").resolves([peerDid]);
-
-      sandbox
-        .stub(ctx.castor, "resolveDID")
-        .resolves(
-          new Domain.DIDDocument(did, [
-            new Domain.VerificationMethods([
-              new Domain.VerificationMethod(
-                secret,
-                "controller",
-                "type",
-                publicKeyJwk
-              ),
-            ]),
-          ])
-        );
-
-      sandbox.stub(ctx.apollo, "createPrivateKey").returns(
-        new (class extends PrivateKey {
-          publicKey(): Domain.PublicKey {
-            return new (class extends Domain.PublicKey {
-              type: Domain.KeyTypes;
-              keySpecification: Map<string, string>;
-              size: number;
-              raw: Uint8Array = new Uint8Array();
-              getEncoded(): Uint8Array {
-                return this.raw;
-              }
-            })();
-          }
-          type: Domain.KeyTypes;
-          keySpecification: Map<string, string>;
-          size: number;
-          raw: Uint8Array = new Uint8Array();
-          getEncoded(): Uint8Array {
-            return this.raw;
-          }
-        })()
+      vi.spyOn(pluto, "getAllPeerDIDs").mockResolvedValue([peerDid]);
+      vi.spyOn(castor, "resolveDID").mockResolvedValue(
+        new Domain.DIDDocument(did, [
+          new Domain.VerificationMethods([
+            new Domain.VerificationMethod(
+              secret,
+              "controller",
+              "JsonWebKey2020",
+              publicKeyJwk
+            ),
+          ]),
+        ])
       );
 
-      sandbox.stub(ctx.castor, "getEcnumbasis").returns(ecnum);
+      vi.spyOn(castor, "getEcnumbasis").mockReturnValue(ecnum);
+      vi.spyOn(apollo, "createPrivateKey").mockReturnValue(privateKey);
 
-      const result = await ctx.secretsResolver.get_secret(secret);
-      const [privateKey] = peerDid.privateKeys;
+      const result = await secretsResolver.get_secret(secret);
 
       expect(result).not.to.be.null;
       expect(result).to.eql({
@@ -195,22 +120,20 @@ describe("Mercury DIDComm SecretsResolver", () => {
         privateKeyJwk: {
           crv: peerDid.curve,
           kty: "OKP",
-          d: privateKey.value.toString(),
+          d: peerDid.privateKeys[0].value.toString(),
           x: publicKeyJwk.x as any,
         },
       });
     });
 
     it("should return null when unmatched secret", async () => {
-      const ctx = makeTestContext();
       const did = Domain.DID.fromString(
         "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ"
       );
       const secret = did.toString();
+      vi.spyOn(pluto, "getAllPeerDIDs").mockResolvedValue([]);
 
-      sandbox.stub(ctx.pluto, "getAllPeerDIDs").resolves([]);
-
-      const result = await ctx.secretsResolver.get_secret(secret);
+      const result = await secretsResolver.get_secret(secret);
 
       expect(result).to.be.null;
     });

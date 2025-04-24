@@ -1,10 +1,7 @@
 import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import SinonChai from "sinon-chai";
 import UUIDLib from "@stablelib/uuid";
 import Agent from "../../../src/edge-agent/Agent";
-import { AttachmentDescriptor, DID, Message, MessageDirection, Seed } from "../../../src/domain";
+import { AttachmentDescriptor, DID, MessageDirection, Seed } from "../../../src/domain";
 import { HandshakeRequest, OutOfBandInvitation, ProtocolType } from "../../../src";
 import { InvitationIsInvalidError } from "../../../src/domain/models/errors/Agent";
 import { mockPluto } from "../../fixtures/inmemory/factory";
@@ -12,11 +9,6 @@ import { mockTask } from "../../testFns";
 import { StartMediator } from '../../../src/edge-agent/didcomm/StartMediator';
 import { StartFetchingMessages } from '../../../src/edge-agent/didcomm/StartFetchingMessages';
 import { MediatorConnection } from '../../../src/edge-agent/connections/didcomm';
-
-chai.use(SinonChai);
-chai.use(chaiAsPromised);
-
-
 
 describe("Agent", () => {
   let agent: Agent;
@@ -98,13 +90,12 @@ describe("Agent", () => {
       expect(result).to.be.instanceOf(OutOfBandInvitation);
     });
 
-    it("Invitation expired - throws", () => {
+    it("Invitation expired - throws", async () => {
       const oob = makeOOB();
       oob.expires_time = (Date.now() / 1000) - 10;
       const url = `https://my.domain.com/path?_oob=${encodeB64(oob)}`;
 
-      expect(agent.parseInvitation(url))
-        .to.eventually.be.rejectedWith(InvitationIsInvalidError);
+      await expect(agent.parseInvitation(url)).rejects.toThrow(InvitationIsInvalidError);
     });
 
     it("Credential Offer Attachment - returns OutOfBandInvitation with attachment", async () => {
