@@ -89,16 +89,15 @@
     "@types/pako": "^2.0.3",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.55.0",
-    "@vitest/browser": "^1.6.0",
-    "@vitest/coverage-istanbul": "^1.6.0",
+    "@vitest/browser": "^3.1.2",
+    "@vitest/coverage-istanbul": "^3.1.2",
     "anoncreds-wasm": "./externals/generated/anoncreds-wasm",
     "didcomm-wasm": "./externals/generated/didcomm-wasm",
     "eslint": "^8.36.0",
-    "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^9.0.11",
     "jwe-wasm": "./externals/generated/jwe-wasm",
-    "prettier": "^3.0.2",
+    "prettier": "^3.5.3",
     "protoc-gen-ts": "^0.8.7",
     "rxdb": "^14.17.1",
     "semantic-release": "^24.0.0",
@@ -108,7 +107,7 @@
     "typedoc-plugin-markdown": "^3.17.1",
     "typedoc-plugin-rename-defaults": "^0.7.0",
     "typescript": "^4.9.5",
-    "vitest": "^1.6.0"
+    "vitest": "^3.1.2"
   },
   "dependencies": {
     "@hyperledger/identus-apollo": "^1.4.5",
@@ -131,8 +130,7 @@
     "postinstall-postinstall": "^2.1.0"
   },
   "optionalDependencies": {
-    "@esbuild/darwin-arm64": "0.15.18",
-    "@rollup/rollup-linux-x64-gnu": "^4.24.0"
+    "@esbuild/darwin-arm64": "0.15.18"
   },
   "peerDependencies": {
     "@types/elliptic": "^6.4.16",

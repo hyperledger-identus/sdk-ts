@@ -454,7 +454,12 @@ export default class Agent extends Startable.Controller {
    * @param {Credential} credential
    * @returns {AttributeType}
    */
-  async revealCredentialFields(credential: Domain.Credential, fields: string[], linkSecret: string) {
+  async revealCredentialFields(
+    credential: Domain.Credential,
+    fields: string[],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    linkSecret: string
+  ) {
     const task = new RevealCredentialFields({ credential, fields });
     return this.runTask(task);
   }

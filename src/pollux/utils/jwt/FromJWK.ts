@@ -62,14 +62,10 @@ export class FromJWK extends Task<Domain.PublicKey | Domain.KeyPair, Args> {
       jwk.y !== undefined;
 
     if (withCoordinates) {
-
       const decodedX = this.decodeJWKParameter('x', jwk);
       const decodedY = this.decodeJWKParameter('y', jwk);
 
-      let pk: PublicKey;
-      let sk: PrivateKey;
-
-      pk = apollo.createPublicKey({
+      const pk = apollo.createPublicKey({
         [KeyProperties.curve]: crv,
         [KeyProperties.curvePointX]: decodedX,
         [KeyProperties.curvePointY]: decodedY
@@ -77,7 +73,7 @@ export class FromJWK extends Task<Domain.PublicKey | Domain.KeyPair, Args> {
 
       if (jwk.d !== undefined) {
         const decodedD = this.decodeJWKParameter('d', jwk);
-        sk = apollo.createPrivateKey({
+        const sk = apollo.createPrivateKey({
           [KeyProperties.curve]: crv,
           [KeyProperties.rawKey]: decodedD
         });

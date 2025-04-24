@@ -164,8 +164,9 @@ export class IsCredentialRevoked extends Plugins.Task<Args> {
           throw new Domain.PolluxError.InvalidJWTString("Credential status jwt is invalid");
         }
 
-        const { proof, ...cleanedPayload } = revocation;
-        const payload = { ...cleanedPayload };
+        const payload: Partial<JWTStatusListResponse> = { ...revocation };
+        delete payload.proof;
+
         const encoded = await this.encode(ctx, payload);
         const signature = Buffer.from(base64url.baseDecode(jwsArray[2]));
         const signaturePayload = Buffer.from(`${jwsArray[0]}.${encoded.toString()}`);
