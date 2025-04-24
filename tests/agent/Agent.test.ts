@@ -12,11 +12,10 @@ import {
   CredentialMetadata,
   CredentialType,
   DID,
+  DIDDocument,
   Message,
   MessageDirection,
   Seed,
-  Service,
-  ServiceEndpoint,
   StorableCredential,
 } from "../../src/domain/models";
 import { DIDCommProtocol } from "../../src/mercury/DIDCommProtocol";
@@ -139,10 +138,10 @@ describe("Agent Tests", () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const mediatorDID = agent.currentMediatorDID!;
 
-      const expectedService = new Service(
+      const expectedService = new DIDDocument.Service(
         "#didcomm-1",
         ["DIDCommMessaging"],
-        new ServiceEndpoint(mediatorDID.toString())
+        new DIDDocument.ServiceEndpoint(mediatorDID.toString())
       );
 
       expect(createPeerDID).toHaveBeenLastCalledWith(expect.arrayContaining([]), [expectedService]);
@@ -577,7 +576,7 @@ describe("Agent Tests", () => {
         });
 
         test("JWTCredential + JWTPresentationRequest - returns Presentation", async () => {
-          const credential = JWTCredential.fromJWS(Fixtures.Credentials.JWT.credentialPayloadEncoded);
+          const credential = JWTCredential.fromJWS(Fixtures.Credentials.JWT.credentialData.jws);
           const attach = AttachmentDescriptor.build(Fixtures.PresentationRequests.JWTAttachment.data, undefined, undefined, undefined, CredentialType.JWT);
           const request = new RequestPresentation(
             {},

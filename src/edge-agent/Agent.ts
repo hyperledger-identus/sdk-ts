@@ -236,7 +236,7 @@ export default class Agent extends Startable.Controller {
    */
   async createNewPrismDID(
     alias: string,
-    services: Domain.Service[] = [],
+    services: Domain.DIDDocument.Service[] = [],
     keyPathIndex?: number
   ): Promise<Domain.DID> {
     const task = new DIDfns.CreatePrismDID({ alias, services, keyPathIndex });
@@ -252,7 +252,7 @@ export default class Agent extends Startable.Controller {
    * @returns {Promise<DID>}
    */
   async createNewPeerDID(
-    services: Domain.Service[] = [],
+    services: Domain.DIDDocument.Service[] = [],
     updateMediator = true
   ): Promise<Domain.DID> {
     const task = new CreatePeerDID({ services, updateMediator });

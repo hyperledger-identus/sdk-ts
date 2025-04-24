@@ -3,7 +3,6 @@ import * as bip39 from "@scure/bip39";
 import { wordlist } from "@scure/bip39/wordlists/english";
 
 import {
-  getKeyCurveByNameAndIndex,
   ApolloError,
   Curve,
   KeyProperties,
@@ -204,13 +203,12 @@ export default class Apollo implements ApolloInterface, KeyRestoration {
   createPublicKey(parameters: {
     [name: KeyProperties | string]: any;
   }): PublicKey {
-    const keyCurve = parameters[KeyProperties.curve];
+    const curve = parameters[KeyProperties.curve];
 
-    if (isEmpty(keyCurve)) {
+    if (isEmpty(curve)) {
       throw new ApolloError.InvalidKeyCurve();
     }
 
-    const { curve } = getKeyCurveByNameAndIndex(keyCurve);
     const keyData = parameters[KeyProperties.rawKey];
     const xData = parameters[KeyProperties.curvePointX];
     const yData = parameters[KeyProperties.curvePointY];
@@ -294,13 +292,12 @@ export default class Apollo implements ApolloInterface, KeyRestoration {
   createPrivateKey(parameters: {
     [name: KeyProperties | string]: any;
   }): PrivateKey {
-    const keyCurve = parameters[KeyProperties.curve];
+    const curve = parameters[KeyProperties.curve];
 
-    if (isEmpty(keyCurve)) {
+    if (isEmpty(curve)) {
       throw new ApolloError.InvalidKeyCurve();
     }
 
-    const { curve } = getKeyCurveByNameAndIndex(parameters[KeyProperties.curve]);
     const keyData = parameters[KeyProperties.rawKey];
 
     if (curve === Curve.ED25519) {

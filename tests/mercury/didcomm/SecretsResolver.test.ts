@@ -73,7 +73,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
     it("should return matched secret", async () => {
       const did = Domain.DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const secret = did.toString();
-      const publicKeyJwk: Domain.PublicKeyJWK = {
+      const publicKeyJwk: Domain.JWK.OKP = {
         crv: Domain.Curve.X25519,
         kid: "kid",
         kty: "OKP",
@@ -97,8 +97,8 @@ describe("Mercury DIDComm SecretsResolver", () => {
       vi.spyOn(pluto, "getAllPeerDIDs").mockResolvedValue([peerDid]);
       vi.spyOn(castor, "resolveDID").mockResolvedValue(
         new Domain.DIDDocument(did, [
-          new Domain.VerificationMethods([
-            new Domain.VerificationMethod(
+          new Domain.DIDDocument.VerificationMethods([
+            new Domain.DIDDocument.VerificationMethod(
               secret,
               "controller",
               "JsonWebKey2020",

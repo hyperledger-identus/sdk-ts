@@ -1,18 +1,18 @@
-import { DID, DIDDocument, Service as DIDDocumentService, KeyPair } from "../models";
+import { DID, DIDDocument, KeyPair } from "../models";
 import { PublicKey } from "../models";
 
 export interface Castor {
   parseDID(did: string): DID;
   createPrismDID(
     masterPublicKey: PublicKey,
-    services?: DIDDocumentService[],
+    services?: DIDDocument.Service[],
     authenticationKeys?: (PublicKey | KeyPair)[]
   ): Promise<DID>;
   createPeerDID(
     publicKeys: PublicKey[],
-    services: DIDDocumentService[]
+    services: DIDDocument.Service[]
   ): Promise<DID>;
-  resolveDID(did: string): Promise<DIDDocument>;
+  resolveDID(did: DID | string): Promise<DIDDocument>;
   verifySignature(
     did: DID,
     challenge: Uint8Array,

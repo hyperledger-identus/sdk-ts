@@ -14,7 +14,7 @@ import { Send } from "./Send";
  */
 
 interface Args {
-  services: Domain.Service[];
+  services: Domain.DIDDocument.Service[];
   updateMediator: boolean;
 }
 
@@ -45,10 +45,10 @@ export class CreatePeerDID extends Task<Domain.DID, Args> {
     ) {
       //TODO This still needs to be done update the key List
       services.push(
-        new Domain.Service(
+        new Domain.DIDDocument.Service(
           "#didcomm-1",
           ["DIDCommMessaging"],
-          new Domain.ServiceEndpoint(mediatorDID.toString())
+          new Domain.DIDDocument.ServiceEndpoint(mediatorDID.toString())
         )
       );
     }

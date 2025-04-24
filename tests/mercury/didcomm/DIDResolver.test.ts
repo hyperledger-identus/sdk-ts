@@ -1,6 +1,6 @@
 import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
 
-import Castor from "../../../castor/Castor";
+import Castor from "../../../src/castor/Castor";
 import * as Domain from "../../../src/domain";
 import { DIDCommDIDResolver } from "../../../src/mercury/didcomm/DIDResolver";
 import { PeerDIDService } from "../../../src/peer-did/PeerDID";
@@ -9,35 +9,35 @@ describe("Mercury DIDComm DIDResolver", () => {
   describe("resolve", () => {
     it("should transform Domain.DIDDocument into DIDComm.DIDDoc", async () => {
       const idDid = Domain.DID.fromString("did:test:id");
-      const vmAuthentication = new Domain.VerificationMethod(
+      const vmAuthentication = new Domain.DIDDocument.VerificationMethod(
         "vm-ED25519",
         "1",
         "type",
         { crv: Domain.Curve.ED25519, kid: "kid", x: "xData" } as any
       );
-      const vmKeyAgreements = new Domain.VerificationMethod(
+      const vmKeyAgreements = new Domain.DIDDocument.VerificationMethod(
         "vm-X25519",
         "2",
         "type",
         { crv: Domain.Curve.X25519, kid: "kid", x: "xData" } as any
       );
-      const vmOther = new Domain.VerificationMethod(
+      const vmOther = new Domain.DIDDocument.VerificationMethod(
         "vm-SECP256K1",
         "3",
         "type",
         { crv: Domain.Curve.SECP256K1, kid: "kid", x: "xData" } as any
       );
-      const service = new Domain.Service(
+      const service = new Domain.DIDDocument.Service(
         "",
         [PeerDIDService.DIDCommMessagingKey],
-        new Domain.ServiceEndpoint("")
+        new Domain.DIDDocument.ServiceEndpoint("")
       );
 
       const castor: Pick<Castor, "resolveDID"> = {
         resolveDID: async (): Promise<Domain.DIDDocument> =>
           new Domain.DIDDocument(idDid, [
             service,
-            new Domain.Authentication(
+            new Domain.DIDDocument.Authentication(
               [],
               [vmAuthentication, vmKeyAgreements, vmOther]
             ),

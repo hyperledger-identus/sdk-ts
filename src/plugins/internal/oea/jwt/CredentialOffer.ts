@@ -1,6 +1,6 @@
 import * as Domain from "../../../../domain";
 import { Payload } from "../../../../domain/protocols/Payload";
-import { PrismKeyPathIndexTask } from "../../../../edge-agent/didFunctions";
+import { CreatePrismDID } from "../../../../edge-agent/didFunctions";
 import { OEA } from "../types";
 import { Plugins } from "../../../../plugins";
 
@@ -11,33 +11,9 @@ interface Args {
 export class CredentialOffer extends Plugins.Task<Args> {
   async run(ctx: Plugins.Context) {
     const offer = this.args.offer;
-
-    // [ ] https://github.com/hyperledger-identus/sdk-ts/issues/363 use CreatePrismDID
-    // CreatePrismDID needs updating to accept keytypes (both secp here)
-    const getIndexTask = new PrismKeyPathIndexTask({});
-    const index = await ctx.run(getIndexTask);
-
-    const masterSk = await ctx.Apollo.createPrivateKey({
-      [Domain.KeyProperties.curve]: Domain.Curve.SECP256K1,
-      [Domain.KeyProperties.index]: index,
-      [Domain.KeyProperties.seed]: Buffer.from(ctx.Seed.value).toString("hex"),
-    });
-
-    const authSk = await ctx.Apollo.createPrivateKey({
-      [Domain.KeyProperties.curve]: Domain.Curve.SECP256K1,
-      [Domain.KeyProperties.index]: index + 1,
-      [Domain.KeyProperties.seed]: Buffer.from(ctx.Seed.value).toString("hex"),
-    });
-
-    const did = await ctx.Castor.createPrismDID(
-      masterSk.publicKey(),
-      [],
-      [authSk.publicKey()]
-    );
-
-    await ctx.Pluto.storeDID(did, [masterSk, authSk]);
-    // ODOT
-
+    const did = await ctx.run(new CreatePrismDID({
+      authenticationKeyCurve: Domain.Curve.SECP256K1
+    }));
 
     const payload = {
       aud: [offer.options.domain],

@@ -1,6 +1,6 @@
 import * as base64 from "multiformats/bases/base64";
 
-import { Curve, DID, Service as DIDDocumentService } from "../domain/models";
+import { Curve, DID, DIDDocument } from "../domain/models";
 
 import { CastorError } from "../domain/models/Errors";
 import { JWKHelper, VerificationMaterial } from "./helpers/JWKHelper";
@@ -39,7 +39,7 @@ export class PeerDIDCreate {
    */
   createPeerDID(
     publicKeys: PublicKey[],
-    services: DIDDocumentService[]
+    services: DIDDocument.Service[]
   ): PeerDID {
     const { signingKeys, encryptionKeys } = publicKeys.reduce(
       ({ signingKeys, encryptionKeys }, publicKey) => {
@@ -138,7 +138,7 @@ export class PeerDIDCreate {
     return base58btc.encode(multiCodec.value);
   }
 
-  private encodeService(services: DIDDocumentService[]): string {
+  private encodeService(services: DIDDocument.Service[]): string {
     const peerDIDServices = services.reduce<PeerDIDEncoded[]>(
       (acc, service) => {
         const type = service.type.at(0);

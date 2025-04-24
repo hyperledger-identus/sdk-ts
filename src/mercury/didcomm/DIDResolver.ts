@@ -7,9 +7,10 @@ import type {
 
 import * as Domain from "../../domain";
 import { PeerDIDService } from "../../peer-did/PeerDID";
+import { expect } from "../../utils";
 
 export class DIDCommDIDResolver implements DIDResolver {
-  constructor(private readonly castor: Domain.Castor) { }
+  constructor(private readonly castor: Domain.Castor) {}
 
   async resolve(did: string): Promise<DIDDoc | null> {
     const doc = await this.castor.resolveDID(did);
@@ -22,9 +23,7 @@ export class DIDCommDIDResolver implements DIDResolver {
     doc.coreProperties.forEach((coreProperty) => {
       if ("verificationMethods" in coreProperty) {
         coreProperty.verificationMethods.forEach((method) => {
-          const curve = Domain.VerificationMethod.getCurveByType(
-            method.publicKeyJwk?.crv || ""
-          );
+          const curve = expect(method.publicKeyJwk?.crv, Domain.CastorError.InvalidKeyError);
 
           switch (curve) {
             case Domain.Curve.ED25519:
@@ -40,7 +39,7 @@ export class DIDCommDIDResolver implements DIDResolver {
           verificationMethods.push({
             controller: method.controller,
             id: method.id,
-            type: "JsonWebKey2020" as Domain.VerificationMethodType,
+            type: "JsonWebKey2020",
             publicKeyJwk: {
               crv: method.publicKeyJwk?.crv,
               kid: publicKeyKid,
@@ -52,7 +51,7 @@ export class DIDCommDIDResolver implements DIDResolver {
       }
 
       if (
-        coreProperty instanceof Domain.Service &&
+        coreProperty instanceof Domain.DIDDocument.Service &&
         coreProperty.type.includes(PeerDIDService.DIDCommMessagingKey)
       ) {
         services.push({

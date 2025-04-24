@@ -12,16 +12,16 @@ export class ResolveDID extends Task<DIDResolver.DIDResolutionResult, Args> {
     const resolved = await ctx.Castor.resolveDID(this.args.did);
 
     const alsoKnownAs = resolved.coreProperties.find(
-      (prop): prop is Domain.AlsoKnownAs => prop instanceof Domain.AlsoKnownAs
+      (prop): prop is Domain.DIDDocument.AlsoKnownAs => prop instanceof Domain.DIDDocument.AlsoKnownAs
     );
     const controller = resolved.coreProperties.find(
-      (prop): prop is Domain.Controller => prop instanceof Domain.Controller
+      (prop): prop is Domain.DIDDocument.Controller => prop instanceof Domain.DIDDocument.Controller
     );
     const verificationMethods = resolved.coreProperties.find(
-      (prop): prop is Domain.VerificationMethods => prop instanceof Domain.VerificationMethods
+      (prop): prop is Domain.DIDDocument.VerificationMethods => prop instanceof Domain.DIDDocument.VerificationMethods
     );
     const service = resolved.coreProperties.find(
-      (prop): prop is Domain.Services => prop instanceof Domain.Services
+      (prop): prop is Domain.DIDDocument.Services => prop instanceof Domain.DIDDocument.Services
     );
 
 
@@ -38,14 +38,14 @@ export class ResolveDID extends Task<DIDResolver.DIDResolutionResult, Args> {
       if (vm.publicKeyJwk) {
         return {
           id: vm.id,
-          type: "JsonWebKey2020" as Domain.VerificationMethodType,
+          type: "JsonWebKey2020" as Domain.DIDDocument.VerificationMethod.Type,
           controller: vm.controller,
           publicKeyJwk: vm.publicKeyJwk,
         };
       }
 
       throw new Error("Invalid KeyType");
-    })
+    });
     return {
       didResolutionMetadata: { contentType: "application/did+ld+json" },
       didDocumentMetadata: {},

@@ -18,8 +18,8 @@ import {
   PrivateKey,
   StorableKey,
   MnemonicWordList,
-  curveToAlg,
-  JWT_ALG
+  JWT_ALG,
+  KeyProperties
 } from "../../src/domain/models";
 import * as Fixtures from "../fixtures";
 import { PrismDerivationPath } from "../../src/domain/models/derivation/schemas/PrismDerivation";
@@ -387,19 +387,20 @@ describe("Apollo", () => {
 
   describe("Curve to alg", () => {
     it("Should convert from curve to alg correctly", () => {
+      const unknownKey = Secp256k1PrivateKey.from.Buffer(Fixtures.Keys.secp256K1.privateKey.to.Buffer());
+      unknownKey.keySpecification.set(KeyProperties.curve, "testing");
+      expect(unknownKey.alg).to.eq(JWT_ALG.unknown);
 
-      expect(curveToAlg('and')).to.eq(JWT_ALG.unknown);
-      expect(curveToAlg(Curve.SECP256K1)).to.eq(JWT_ALG.ES256K);
+      expect(Fixtures.Keys.secp256K1.privateKey.alg).to.eq(JWT_ALG.ES256K);
 
-      expect(curveToAlg(Curve.ED25519)).to.eq(JWT_ALG.EdDSA);
+      expect(Fixtures.Keys.ed25519.privateKey.alg).to.eq(JWT_ALG.EdDSA);
 
-      expect(curveToAlg(Curve.X25519)).to.eq(JWT_ALG.EdDSA);
+      expect(Fixtures.Keys.x25519.privateKey.alg).to.eq(JWT_ALG.EdDSA);
 
     });
   });
 
   describe("KeyRestoration", () => {
-
     describe("restorePrivateKey", () => {
       test("recoveryId ed25519+priv - matches - returns Ed25519PrivateKey instance", () => {
         const key: StorableKey = {
