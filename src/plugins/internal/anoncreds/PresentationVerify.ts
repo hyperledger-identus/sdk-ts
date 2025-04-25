@@ -4,7 +4,7 @@ import { FetchCredentialDefinition } from "./FetchCredentialDefinition";
 import { fetchSchema } from "./FetchSchema";
 import { Payload } from "../../../domain/protocols/Payload";
 import { notNil } from "../../../utils";
-import type { Context } from "./index";
+import type { Context } from "./plugin";
 import * as Types from "./types";
 import { Plugins } from "../../../plugins";
 

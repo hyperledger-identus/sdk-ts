@@ -50,11 +50,7 @@ export { JWTCredential, JWTVerifiableCredentialRecoveryId } from "./pollux/model
 export { SDJWTCredential, SDJWTVerifiableCredentialRecoveryId } from "./pollux/models/SDJWTVerifiableCredential";
 export * from "./pollux/models/AnonCredsVerifiableCredential";
 
-// plugins
-import AnoncredsPlugin from "./plugins/internal/anoncreds";
-export const Plugins = {
-  Anoncreds: AnoncredsPlugin,
-};
+// plugins exported through /plugins/plugin_name
 
 // Tasks
 import { CreatePrismDID } from "./edge-agent/didFunctions";

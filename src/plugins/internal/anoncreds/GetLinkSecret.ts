@@ -1,6 +1,6 @@
 import { LinkSecret } from "../../../domain";
 import { Task, notNil } from "../../../utils";
-import type { Context } from "./index";
+import type { Context } from "./plugin";
 
 /**
  * Retrieve a LinkSecret for use with Anoncreds operations

@@ -32,7 +32,7 @@ import { ApiResponse, Pluto as IPluto, JWT } from "../../src/domain";
 import { Pluto } from "../../src/pluto/Pluto";
 import { Castor, Store } from "../../src";
 import { randomUUID } from "crypto";
-import AnoncredsModule from "../../src/plugins/internal/anoncreds";
+import { plugin as AnoncredsPlugin } from "../../src/plugins/internal/anoncreds/plugin";
 
 
 let agent: Agent;
@@ -88,7 +88,7 @@ describe("Agent Tests", () => {
       api,
     });
 
-    agent.plugins.register(AnoncredsModule);
+    agent.plugins.register(AnoncredsPlugin);
   });
 
   describe("Anoncreds", () => {
@@ -259,7 +259,7 @@ describe("Agent Tests", () => {
         const credential = new AnonCredsCredential(Fixtures.Credentials.Anoncreds.credential);
         const attachment = new AttachmentDescriptor(Fixtures.PresentationRequests.AnoncredsAttachment.data, "attach_1", undefined, undefined, "anoncreds/proof-request@v1.0");
         const request = new RequestPresentation(
-          { proofTypes: [] },
+          {},
           [attachment],
           didFrom,
           didTo

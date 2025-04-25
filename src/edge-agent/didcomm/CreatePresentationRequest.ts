@@ -4,8 +4,8 @@ import { RequestPresentation } from "../protocols/proofPresentation";
 import { CreatePeerDID } from "./CreatePeerDID";
 import { Task } from "../../utils/tasks";
 import { AgentContext } from "./Context";
-import { Context as ACContext } from "../../plugins/internal/anoncreds";
-import { Context as DIFContext } from "../../plugins/internal/dif";
+import type { Context as ACContext } from "../../plugins/internal/anoncreds/plugin";
+import type { Context as DIFContext } from "../../plugins/internal/dif";
 
 // TODO tmp workaround using plugins in Agent task
 type TaskContext = AgentContext & ACContext & DIFContext;
