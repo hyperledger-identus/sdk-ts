@@ -41,7 +41,6 @@ export namespace Task {
       this.logger = opts.logger ?? new ConsoleLogger();
 
       const get = (target: any, prop: string) => {
-        // return target.opts[prop] ?? target.modules[prop] ?? undefined;
         const ref = target[prop] ?? target.opts[prop] ?? target.modules[prop] ?? undefined;
         // ?? tmp work around context propagation
         return ref instanceof Runner
