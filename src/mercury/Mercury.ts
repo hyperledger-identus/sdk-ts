@@ -99,7 +99,7 @@ export default class Mercury implements MercuryInterface {
   }
 
   private async makeRequest<T>(
-    service: Domain.Service | URL | undefined,
+    service: Domain.DIDDocument.Service | URL | undefined,
     message: string
   ) {
     if (service == undefined) throw new MercuryError.NoValidServiceFoundError();

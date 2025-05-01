@@ -16,14 +16,7 @@ import {
   DID,
   DIDDocument,
   DIDResolver,
-  VerificationMethod,
-  Service as DIDDocumentService,
   DIDUrl,
-  ServiceEndpoint,
-  VerificationMethods,
-  Authentication as DIDDocumentAuthentication,
-  KeyAgreement as DIDDocumentKeyAgreement,
-  Services as DIDDocumentServices,
 } from "../../domain/models";
 import { JWKHelper } from "../../peer-did/helpers/JWKHelper";
 import * as base64 from "multiformats/bases/base64";
@@ -47,9 +40,9 @@ export class PeerDIDResolver implements DIDResolver {
     format: VerificationMaterialFormatPeerDID
   ): DIDDocument {
     const composition = did.methodId.split(".").slice(1);
-    const authenticationMethods: VerificationMethod[] = [];
-    const keyAgreementMethods: VerificationMethod[] = [];
-    const services: DIDDocumentService[] = [];
+    const authenticationMethods: DIDDocument.VerificationMethod[] = [];
+    const keyAgreementMethods: DIDDocument.VerificationMethod[] = [];
+    const services: DIDDocument.Service[] = [];
 
     composition.forEach((part, index) => {
       let decoded: [
@@ -75,19 +68,19 @@ export class PeerDIDResolver implements DIDResolver {
       }
     });
     return new DIDDocument(did, [
-      new VerificationMethods([
+      new DIDDocument.VerificationMethods([
         ...authenticationMethods,
         ...keyAgreementMethods,
       ]),
-      new DIDDocumentAuthentication(
+      new DIDDocument.Authentication(
         authenticationMethods.map(({ id }) => id),
         authenticationMethods
       ),
-      new DIDDocumentKeyAgreement(
+      new DIDDocument.KeyAgreement(
         keyAgreementMethods.map(({ id }) => id),
         keyAgreementMethods
       ),
-      new DIDDocumentServices(services),
+      new DIDDocument.Services(services),
     ]);
   }
 
@@ -195,9 +188,9 @@ export class PeerDIDResolver implements DIDResolver {
     did: DID,
     decodedEncnumbasis: [string, VerificationMaterialPeerDID],
     index: number
-  ): VerificationMethod {
+  ): DIDDocument.VerificationMethod {
     const jsonObject = JSON.parse(decodedEncnumbasis[1].value);
-    const keyId = "key-" + (index + 1)
+    const keyId = "key-" + (index + 1);
 
     // jsonObject["kid"] = did.toString() + "#" + decodedEncnumbasis[0]; //Before https://github.com/decentralized-identity/peer-did-method-spec/pull/62
     jsonObject["kid"] = did.toString() + "#" + keyId;
@@ -210,7 +203,7 @@ export class PeerDIDResolver implements DIDResolver {
     };
   }
 
-  public decodeService(did: DID, encodedString: string): DIDDocumentService[] {
+  public decodeService(did: DID, encodedString: string): DIDDocument.Service[] {
     let jsonData: Buffer;
     try {
       const base64State = base64.base64url.decode(`u${encodedString}`);
@@ -223,10 +216,10 @@ export class PeerDIDResolver implements DIDResolver {
       ).map((service) => PeerDIDService.decode(service));
 
       const didcommServices = services.map((service, offset) => {
-        return new DIDDocumentService(
+        return new DIDDocument.Service(
           did.toString() + "#" + service.type + "-" + offset,
           [service.type],
-          new ServiceEndpoint(
+          new DIDDocument.ServiceEndpoint(
             service.serviceEndpoint,
             service.accept,
             service.routingKeys

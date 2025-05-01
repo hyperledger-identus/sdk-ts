@@ -1,12 +1,11 @@
 import { base58btc } from 'multiformats/bases/base58';
 import * as Domain from "../../../domain";
 import { isObject, notEmptyString, Task } from "../../../utils";
-// TODO importing from Castor
 import { FromJWK } from "./FromJWK";
 import { AgentContext } from "../../../edge-agent/didcomm/Context";
 
 export interface Args {
-  verificationMethod: Domain.VerificationMethod;
+  verificationMethod: Domain.DIDDocument.VerificationMethod;
 }
 export class PKInstance extends Task<Domain.PublicKey | undefined, Args> {
   async run(ctx: AgentContext) {

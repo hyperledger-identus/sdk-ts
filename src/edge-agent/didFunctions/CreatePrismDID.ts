@@ -1,15 +1,19 @@
 import * as Domain from "../../domain";
 import {
   PrismDerivationPath,
-  PRISM_WALLET_PURPOSE,
-  PRISM_DID_METHOD,
-  MASTER_KEY,
-  ISSUING_KEY,
-  PrismDerivationPathSchema
+  PrismDerivationPathSchema,
+  PrismDIDKeyUsage
 } from "../../domain/models/derivation/schemas/PrismDerivation";
 import { Task } from "../../utils/tasks";
 import { AgentContext } from "../didcomm/Context";
 import { PrismKeyPathIndexTask } from "./PrismKeyPathIndex";
+
+interface Args {
+  authenticationKeyCurve?: Domain.Curve;
+  services?: Domain.DIDDocument.Service[];
+  alias?: string;
+  keyPathIndex?: number;
+}
 
 /**
  * Handle the creation of a PrismDID
@@ -17,37 +21,16 @@ import { PrismKeyPathIndexTask } from "./PrismKeyPathIndex";
  * Calculate and use the latest Prism DID KeyPathIndex.
  * Create the relevant PrivateKeys.
  * Store the PrismDID plus Keys in Pluto
+ * 
+ * @param { Domain.Curve } authenticationKeyCurve specify the Curve used for the included AuthorizationKey
  */
-
-interface Args {
-  alias: string;
-  services: Domain.Service[];
-  keyPathIndex?: number;
-}
-
 export class CreatePrismDID extends Task<Domain.DID, Args> {
   async run(ctx: AgentContext) {
-    const getIndexTask = new PrismKeyPathIndexTask({ index: this.args.keyPathIndex });
-    const index = await ctx.run(getIndexTask);
-
-    const masterKeyDerivation = new PrismDerivationPath([
-      PRISM_WALLET_PURPOSE,
-      PRISM_DID_METHOD,
-      0,
-      MASTER_KEY,
-      index
-    ]);
-
-    const issuingDerivation = new PrismDerivationPath([
-      PRISM_WALLET_PURPOSE,
-      PRISM_DID_METHOD,
-      0,
-      ISSUING_KEY,
-      index
-    ]);
-
+    const index = await ctx.run(new PrismKeyPathIndexTask({ index: this.args.keyPathIndex }));
+    const masterKeyDerivation = PrismDerivationPath.init(index, PrismDIDKeyUsage.MASTER_KEY);
+    // TODO should this be using AUTHENTICATION_KEY
+    const issuingDerivation = PrismDerivationPath.init(index, PrismDIDKeyUsage.ISSUING_KEY);
     const seedHex = Buffer.from(ctx.Seed.value).toString("hex");
-
     const masterSK = ctx.Apollo.createPrivateKey({
       [Domain.KeyProperties.curve]: Domain.Curve.SECP256K1,
       [Domain.KeyProperties.seed]: seedHex,
@@ -55,8 +38,9 @@ export class CreatePrismDID extends Task<Domain.DID, Args> {
       [Domain.KeyProperties.derivationSchema]: PrismDerivationPathSchema
     });
 
-    const edSk = ctx.Apollo.createPrivateKey({
-      [Domain.KeyProperties.curve]: Domain.Curve.ED25519,
+    const authKeyCurve = this.args.authenticationKeyCurve ?? Domain.Curve.ED25519;
+    const authKey = ctx.Apollo.createPrivateKey({
+      [Domain.KeyProperties.curve]: authKeyCurve,
       [Domain.KeyProperties.seed]: seedHex,
       [Domain.KeyProperties.derivationPath]: issuingDerivation.toString(),
       [Domain.KeyProperties.derivationSchema]: PrismDerivationPathSchema
@@ -65,12 +49,10 @@ export class CreatePrismDID extends Task<Domain.DID, Args> {
     const did = await ctx.Castor.createPrismDID(
       masterSK.publicKey(),
       this.args.services,
-      [
-        edSk.publicKey()
-      ]
+      [authKey.publicKey()]
     );
 
-    await ctx.Pluto.storeDID(did, [masterSK, edSk], this.args.alias);
+    await ctx.Pluto.storeDID(did, [masterSK, authKey], this.args.alias);
 
     return did;
   }

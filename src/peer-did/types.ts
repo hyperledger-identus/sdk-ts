@@ -1,4 +1,4 @@
-import { VerificationMethodType } from "../domain/models/DIDDocument";
+import { DIDDocument } from "../domain/models/DIDDocument";
 
 export enum VerificationMaterialFormatPeerDID {
   JWK = "jwk",
@@ -9,7 +9,7 @@ export interface VerificationMethodTypePeerDID {
 }
 
 export class BaseVerificationMethod implements VerificationMethodTypePeerDID {
-  constructor(public value: VerificationMethodType) { }
+  constructor(public value: DIDDocument.VerificationMethod.Type) {}
 }
 
 export enum Numalgo2Prefix {
@@ -68,8 +68,7 @@ export interface VerificationMaterialPeerDID {
 }
 
 export class VerificationMaterialPeerDIDWithAgreement
-  implements VerificationMaterialPeerDID
-{
+  implements VerificationMaterialPeerDID {
   constructor(
     public keyType: VerificationMethodTypePeerDID,
     public value: string,
@@ -78,8 +77,7 @@ export class VerificationMaterialPeerDIDWithAgreement
 }
 
 export class VerificationMaterialPeerDIDWithAuthentication
-  implements VerificationMaterialPeerDID
-{
+  implements VerificationMaterialPeerDID {
   constructor(
     public keyType: VerificationMethodTypePeerDID,
     public value: string,
@@ -88,8 +86,7 @@ export class VerificationMaterialPeerDIDWithAuthentication
 }
 
 export class VerificationMaterialAgreement
-  implements VerificationMaterialPeerDIDWithAgreement
-{
+  implements VerificationMaterialPeerDIDWithAgreement {
   public readonly format: VerificationMaterialFormatPeerDID;
   public readonly value: string;
   public readonly type: VerificationMethodTypeAgreement;
@@ -114,8 +111,7 @@ export class VerificationMaterialAgreement
 }
 
 export class VerificationMaterialAuthentication
-  implements VerificationMaterialPeerDIDWithAuthentication
-{
+  implements VerificationMaterialPeerDIDWithAuthentication {
   public readonly format: VerificationMaterialFormatPeerDID;
   public readonly value: string;
   public readonly type: VerificationMethodTypeAuthentication;

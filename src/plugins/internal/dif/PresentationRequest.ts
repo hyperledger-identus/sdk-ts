@@ -109,7 +109,7 @@ export class PresentationRequest extends Plugins.Task<Args> {
       //   payload.nonce = challenge;
       // }
 
-      return ctx.JWT.signWithDID(subject, payload);
+      return ctx.JWT.signWithDID(subject, payload, undefined, privateKey);
     }
 
     throw new Error("unhandled");

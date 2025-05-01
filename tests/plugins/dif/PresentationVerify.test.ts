@@ -7,7 +7,6 @@ import { Apollo, Castor } from '../../../src';
 import { JWT, SDJWT } from "../../../src/pollux/utils/jwt";
 import { PresentationVerify } from '../../../src/plugins/internal/dif/PresentationVerify';
 import { Curve, KeyTypes } from '../../../src/domain';
-import { CreateSDJWT } from '../../../src/pollux/utils/jwt/CreateSDJWT';
 import { DIFModule } from '../../../src/plugins/internal/dif/module';
 import { JWTCredentialPayload, JWTPresentationPayload } from '../../../src/pollux/models/JWTVerifiableCredential';
 
@@ -1466,14 +1465,12 @@ describe("Plugins - DIF", () => {
         }
       };
 
-      const createSDJWT = new CreateSDJWT<typeof payload>({
-        did: issuerDID,
+      const jwt = await ctx.SDJWT.sign({
+        issuerDID,
         payload,
-        privateKey: issuerAuthenticationSK,
-        disclosureFrame
+        disclosureFrame,
+        privateKey: issuerAuthenticationSK
       });
-
-      const jwt = await ctx.run(createSDJWT);
 
       const presentationDefinition = await ctx.DIF.createPresentationDefinition(claims, {
         issuer: issuerDID.toString()

@@ -8,7 +8,6 @@ import { isObject } from "../../../utils";
 import { JWTCredential } from "../../../pollux/models/JWTVerifiableCredential";
 import { Bitstring } from "../../../pollux/utils/Bitstring";
 import type { Context } from "./index";
-// ?? dont import from Castor, lift to domain?
 import { Plugins } from '../../types';
 import { Payload } from '../../../domain/protocols/Payload';
 
@@ -133,13 +132,14 @@ export class IsCredentialRevoked extends Plugins.Task<Args> {
 
       if (proofType === JWTProofType.EcdsaSecp256k1Signature2019) {
         const { publicKeyJwk } = decodedVerificationMethod;
-        const verificationMethodType = Domain.decodeVerificationMethodType(decodedVerificationMethod.type);
+
         if (!publicKeyJwk) {
           throw new Domain.PolluxError.InvalidCredentialStatus("No public jwk provided");
         }
-        if (!verificationMethodType || decodedVerificationMethod.type !== "EcdsaSecp256k1VerificationKey2019") {
+        if (decodedVerificationMethod.type !== "EcdsaSecp256k1VerificationKey2019") {
           throw new Domain.PolluxError.InvalidCredentialStatus(`Only EcdsaSecp256k1VerificationKey2019 is supported`);
         }
+
         const curve = decodedVerificationMethod.publicKeyJwk.crv;
         const kty = decodedVerificationMethod.publicKeyJwk.kty;
         if (kty !== Domain.KeyTypes.EC) {

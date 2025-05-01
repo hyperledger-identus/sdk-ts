@@ -8,7 +8,7 @@ export class DIDCommSecretsResolver implements SecretsResolver {
     private readonly apollo: Domain.Apollo,
     private readonly castor: Domain.Castor,
     private readonly pluto: Domain.Pluto
-  ) { }
+  ) {}
 
   async find_secrets(secret_ids: string[]): Promise<string[]> {
     const peerDids = await this.pluto.getAllPeerDIDs();
@@ -29,9 +29,9 @@ export class DIDCommSecretsResolver implements SecretsResolver {
     if (found) {
       const did = await this.castor.resolveDID(found.did.toString());
 
-      const [publicKeyJWK] = did.coreProperties.reduce((all, property) => {
-        if (property instanceof Domain.VerificationMethods) {
-          const matchingValue: Domain.VerificationMethod | undefined =
+      const [publicKeyJWK] = did.coreProperties.reduce<Domain.JWK[]>((all, property) => {
+        if (property instanceof Domain.DIDDocument.VerificationMethods) {
+          const matchingValue: Domain.DIDDocument.VerificationMethod | undefined =
             property.values.find(
               (verificationMethod) => verificationMethod.id === secret_id
             );
@@ -41,7 +41,7 @@ export class DIDCommSecretsResolver implements SecretsResolver {
           }
         }
         return all;
-      }, [] as Domain.PublicKeyJWK[]);
+      }, []);
 
       if (publicKeyJWK) {
         const secret = this.mapToSecret(found, publicKeyJWK);
@@ -53,7 +53,7 @@ export class DIDCommSecretsResolver implements SecretsResolver {
 
   private mapToSecret(
     peerDid: PeerDID,
-    publicKeyJWK: Domain.PublicKeyJWK
+    publicKeyJWK: Domain.JWK
   ): Secret {
     const privateKeyBuffer = peerDid.privateKeys.find(
       (key) => key.keyCurve.curve === Domain.Curve.X25519

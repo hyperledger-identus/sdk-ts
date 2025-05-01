@@ -282,6 +282,19 @@ export class Pluto extends Startable.Controller implements Domain.Pluto {
       selector: { $or: allLinks.map(x => ({ uuid: x.keyId })) }
     });
 
+    const getKeyCurveByNameAndIndex = (name: string, index?: number): Domain.KeyCurve => {
+      switch (name) {
+        case Domain.Curve.X25519:
+          return { curve: Domain.Curve.X25519 };
+        case Domain.Curve.ED25519:
+          return { curve: Domain.Curve.ED25519 };
+        case Domain.Curve.SECP256K1:
+          return { curve: Domain.Curve.SECP256K1, index };
+        default:
+          throw new Domain.ApolloError.InvalidKeyCurve(name);
+      }
+    };
+
     const peerDids = allDids.map(did => {
       const keyIds = allLinks.filter(x => x.didId === did.uuid).map(x => x.keyId);
       const keys = allKeys.filter(x => keyIds.includes(x.uuid));
@@ -290,7 +303,7 @@ export class Pluto extends Startable.Controller implements Domain.Pluto {
         did,
         // TODO: remove this when PeerDIDs are updated to use PrivateKey
         keys.map(x => ({
-          keyCurve: Domain.getKeyCurveByNameAndIndex(x.curve, x.index),
+          keyCurve: getKeyCurveByNameAndIndex(x.curve, x.index),
           value: x.getEncoded()
         }))
       );

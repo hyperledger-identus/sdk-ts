@@ -2,13 +2,11 @@ import { describe, it, expect, test, beforeEach, afterEach } from 'vitest';
 import { base64url } from "multiformats/bases/base64";
 
 import {
-  Service,
   DID,
-  ServiceEndpoint,
+  DIDDocument,
   PublicKey,
   KeyTypes,
   Curve,
-  VerificationMethods,
 } from "../../src/domain";
 import Apollo from "../../src/apollo/Apollo";
 
@@ -72,11 +70,11 @@ describe("PEERDID CreateTest", () => {
     publicKeys.push(authenticationPrivateKey.publicKey());
     publicKeys.push(keyAgreementPrivateKey.publicKey());
 
-    const services: Service[] = [
-      new Service(
+    const services: DIDDocument.Service[] = [
+      new DIDDocument.Service(
         "didcomm",
         ["DIDCommMessaging"],
-        new ServiceEndpoint(
+        new DIDDocument.ServiceEndpoint(
           "https://example.com/endpoint",
           [],
           ["did:example:somemediator#somekey"]
@@ -95,6 +93,7 @@ describe("PEERDID CreateTest", () => {
     );
     const apollo = new Apollo();
     const castor = new Castor(apollo);
+
     const document = await castor.resolveDID(mypeerDID.toString());
     expect(document.id.toString()).to.equal(mypeerDID.toString());
   });
@@ -109,7 +108,7 @@ describe("PEERDID CreateTest", () => {
     const castor = new Castor(apollo);
     const document = await castor.resolveDID(mypeerDID.toString());
     document.coreProperties.forEach((element) => {
-      if (element instanceof VerificationMethods) {
+      if (element instanceof DIDDocument.VerificationMethods) {
         expect(element.values.length).to.equal(2);
         expect(element.values[0].id)
           .to.equal(element.values[0].publicKeyJwk?.kid)
@@ -142,11 +141,11 @@ describe("PEERDID CreateTest", () => {
     publicKeys.push(keyAgreementPrivateKey.publicKey());
     publicKeys.push(authenticationPrivateKey.publicKey());
 
-    const services: Service[] = [
-      new Service(
+    const services = [
+      new DIDDocument.Service(
         "didcomm",
         ["DIDCommMessaging"],
-        new ServiceEndpoint(
+        new DIDDocument.ServiceEndpoint(
           "https://example.com/endpoint",
           [],
           ["did:example:somemediator#somekey"]
@@ -192,11 +191,11 @@ describe("PEERDID CreateTest", () => {
     publicKeys.push(authenticationPrivate.publicKey());
     publicKeys.push(keyAgreementPrivate.publicKey());
 
-    const services: Service[] = [
-      new Service(
+    const services = [
+      new DIDDocument.Service(
         "didcomm",
         ["DIDCommMessaging"],
-        new ServiceEndpoint(
+        new DIDDocument.ServiceEndpoint(
           "https://example.com/endpoint",
           [],
           ["did:example:somemediator#somekey"]

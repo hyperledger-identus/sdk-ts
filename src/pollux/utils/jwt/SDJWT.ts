@@ -3,7 +3,7 @@ import { base64url } from "multiformats/bases/base64";
 import { SDJWTVCConfig, SDJwtVcInstance, SdJwtVcPayload, } from '@sd-jwt/sd-jwt-vc';
 import { Disclosure } from '@sd-jwt/utils';
 import { decodeSdJwtSync, getClaimsSync } from '@sd-jwt/decode';
-import type { DisclosureFrame, Extensible, PresentationFrame } from '@sd-jwt/types';
+import type { DisclosureFrame, PresentationFrame } from '@sd-jwt/types';
 import * as Domain from '../../../domain';
 import { SDJWTCredential } from '../../models/SDJWTVerifiableCredential';
 import { Task, notNil } from "../../../utils";
@@ -33,21 +33,20 @@ export class SDJWT extends Task.Runner {
     return decodeSdJwtSync(jws, defaultHashConfig.hasher);
   }
 
-  async sign<E extends Extensible>(options: {
+  async sign<E extends SdJwtVcPayload>(options: {
     issuerDID: Domain.DID,
     privateKey: Domain.PrivateKey,
-    payload: SdJwtVcPayload,
-    disclosureFrame: DisclosureFrame<E>
-    kid?: string | undefined
-
+    payload: E,
+    disclosureFrame: DisclosureFrame<E>;
+    kid?: string | undefined;
   }): Promise<string> {
-    const config = this.getSKConfig(options.privateKey)
+    const config = this.getSKConfig(options.privateKey);
     const sdjwt = new SDJwtVcInstance(config);
     return sdjwt.issue(
       options.payload,
       options.disclosureFrame,
       options.kid ? { header: { kid: options.kid } } : undefined
-    )
+    );
   }
 
   async verify(options: {
@@ -63,7 +62,7 @@ export class SDJWT extends Task.Runner {
       throw new Error("Invalid did document");
     }
     const jwtObject = await SDJWTCredential.fromJWS(jws);
-    //TODO: OAS needs to migrate to VC Data model for SDJWT
+
     if (jwtObject.issuer && jwtObject.issuer !== issuerDID.toString()) {
       throw new Error("Invalid issuer");
     }
@@ -94,13 +93,13 @@ export class SDJWT extends Task.Runner {
     return false;
   }
 
-  async createPresentationFor<E extends Extensible>(options: {
+  async createPresentationFor<T extends SdJwtVcPayload>(options: {
     jws: string,
     privateKey: Domain.PrivateKey,
-    presentationFrame?: PresentationFrame<E>;
+    presentationFrame?: PresentationFrame<T>;
   }) {
     const sdjwt = new SDJwtVcInstance(this.getSKConfig(options.privateKey));
-    return sdjwt.present<E>(options.jws, options.presentationFrame);
+    return sdjwt.present<T>(options.jws, options.presentationFrame);
   }
 
   async reveal(

@@ -21,8 +21,8 @@ export class ParsePrismInvitation extends Task<PrismOnboardingInvitation, Args> 
     const type = expect(json.type, new InvitationIsInvalidError("Undefined PrismOnboardingInvitation type"));
     const from = json.from;
     const invitation = new PrismOnboardingInvitation(endpoint, from, type);
-    const serviceEndpoint = new Domain.ServiceEndpoint(invitation.onboardEndpoint, ["DIDCommMessaging"]);
-    const service = new Domain.Service("#didcomm-1", ["DIDCommMessaging"], serviceEndpoint);
+    const serviceEndpoint = new Domain.DIDDocument.ServiceEndpoint(invitation.onboardEndpoint, ["DIDCommMessaging"]);
+    const service = new Domain.DIDDocument.Service("#didcomm-1", ["DIDCommMessaging"], serviceEndpoint);
 
     const did = await ctx.run(
       new CreatePeerDID({
