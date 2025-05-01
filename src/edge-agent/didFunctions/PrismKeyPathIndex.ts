@@ -1,5 +1,5 @@
 import { Task } from "../../utils/tasks";
-import { AgentContext } from "../didcomm/Context";
+import { AgentContext } from "../Context";
 
 /**
  * Task to find the latest Prism DID KeyPathIndex

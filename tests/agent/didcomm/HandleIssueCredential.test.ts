@@ -1,9 +1,8 @@
 import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
 import * as RunProtocolModule from "../../../src/edge-agent/helpers/RunProtocol";
-import { HandleIssueCredential } from '../../../src/edge-agent/didcomm/HandleIssueCredential';
 import { Task } from '../../../src/utils';
-import { IssueCredential } from '../../../src';
 import * as Fixtures from "../../fixtures";
+import { HandleIssueCredential } from '../../../src/plugins/internal/didcomm/tasks/HandleIssueCredential';
 
 
 describe("Agent", () => {
@@ -26,8 +25,7 @@ describe("Agent", () => {
           log: () => ({}),
         } as any);
 
-      const issueCredential = IssueCredential.fromMessage(Fixtures.Messages.IssueCredential);
-      const sut = ctx.run(new HandleIssueCredential({ issueCredential }));
+      const sut = ctx.run(new HandleIssueCredential({ message: Fixtures.Messages.IssueCredential }));
 
       await expect(sut).rejects.toThrow("invalid Credential issued");
     });
@@ -39,8 +37,7 @@ describe("Agent", () => {
           log: () => ({}),
         } as any);
 
-      const issueCredential = IssueCredential.fromMessage(Fixtures.Messages.IssueCredential);
-      const sut = ctx.run(new HandleIssueCredential({ issueCredential }));
+      const sut = ctx.run(new HandleIssueCredential({ message: Fixtures.Messages.IssueCredential }));
 
       await expect(sut).rejects.toThrow("invalid Credential issued");
     });

@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest';
-import { OfferCredential, OfferCredentialBody } from "../../../../src/edge-agent/protocols/issueCredential/OfferCredential";
-import { ProtocolType } from "../../../../src/edge-agent/protocols/ProtocolTypes";
 import { AttachmentDescriptor } from '../../../../src/domain';
 import * as Messages from "../../../fixtures/messages";
 import * as Fixtures from "../../../fixtures";
+import { OfferCredential, OfferCredentialBody } from '../../../../src/plugins/internal/didcomm';
+import { ProtocolType } from '../../../../src';
 
 describe("OfferCredential", () => {
   test("Should create OfferCredential from valid params", () => {

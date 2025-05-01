@@ -1,7 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { AttachmentDescriptor, Message } from "../../../../src/domain";
-import { ProposePresentation } from "../../../../src/edge-agent/protocols/proofPresentation/ProposePresentation";
-import { ProtocolType } from '../../../../src';
+import { ProposePresentation, ProtocolType } from '../../../../src';
 import * as Fixtures from "../../../fixtures";
 
 describe("ProposePresentation", () => {

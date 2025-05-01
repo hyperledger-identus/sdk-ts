@@ -1,9 +1,9 @@
 import * as Domain from "../../domain";
 import { expect, notNil } from "../../utils";
 import { Task } from "../../utils/tasks";
+import { AgentContext } from "../Context";
 import { Connection } from "../connections";
-import { DIDCommConnection } from "../connections/didcomm";
-import { AgentContext } from "./Context";
+import { DIDCommConnection } from "../../plugins/internal/didcomm";
 
 /**
  * attempt to deliver a Message across a Connection

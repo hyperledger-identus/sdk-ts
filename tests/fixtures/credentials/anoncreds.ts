@@ -1,9 +1,8 @@
 import type * as Anoncreds from "anoncreds-wasm";
 
 import { AttachmentDescriptor, LinkSecret } from "../../../src/domain";
-import { ProtocolType } from "../../../src/edge-agent/protocols/ProtocolTypes";
-import { OfferCredential } from "../../../src/edge-agent/protocols/issueCredential/OfferCredential";
 import { list } from "../dids";
+import { OfferCredential, ProtocolType } from "../../../src";
 
 export const credDefId = "did:web:xyz/resource/definition";
 export const schemaId = "did:web:xyz/resource/schema";

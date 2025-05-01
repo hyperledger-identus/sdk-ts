@@ -1,6 +1,6 @@
 import { base58btc } from "multiformats/bases/base58";
 import { Task } from "../../utils/tasks";
-import { AgentContext } from "../didcomm/Context";
+import { AgentContext } from "../Context";
 import { isNil, notNil } from "../../utils";
 import type * as Domain from "../../domain";
 

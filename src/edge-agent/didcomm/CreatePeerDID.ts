@@ -1,8 +1,8 @@
 import * as Domain from "../../domain";
 import { Task } from "../../utils/tasks";
-import { MediationKeysUpdateList } from "../protocols/mediation/MediationKeysUpdateList";
-import { AgentContext } from "./Context";
+import { AgentContext } from "../Context";
 import { Send } from "./Send";
+import { MediationKeysUpdateList } from "../../plugins/internal/didcomm/protocols/mediation/MediationKeysUpdateList";
 
 /**
  * Asyncronously create and store a new peer did

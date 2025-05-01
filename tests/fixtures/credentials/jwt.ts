@@ -1,5 +1,5 @@
+import { OfferCredential } from "../../../src";
 import { AttachmentDescriptor, CredentialType, W3CVerifiableCredential } from "../../../src/domain";
-import { OfferCredential } from "../../../src/edge-agent/protocols/issueCredential/OfferCredential";
 import { list } from "../dids";
 
 export const credentialOfferMessage = new OfferCredential(

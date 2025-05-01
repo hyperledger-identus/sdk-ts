@@ -1,7 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { AttachmentDescriptor, Message } from "../../../../src/domain";
-import { RequestPresentation } from "../../../../src/edge-agent/protocols/proofPresentation/RequestPresentation";
-import { ProtocolType } from '../../../../src';
+import { ProtocolType, RequestPresentation } from '../../../../src';
 import * as Messages from "../../../fixtures/messages";
 import * as Fixtures from "../../../fixtures";
 

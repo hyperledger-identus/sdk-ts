@@ -3,9 +3,9 @@ import * as Domain from "../../domain";
 import { expect, isNil, notNil } from "../../utils";
 import { Task } from "../../utils/tasks";
 import { CancellableTask } from "../helpers/Task";
-import { AgentContext } from "./Context";
-import { ProtocolType } from "../protocols/ProtocolTypes";
-import { PickupRequest } from "../protocols/pickup/PickupRequest";
+import { AgentContext } from "../Context";
+import { ProtocolIds } from "../../plugins/internal/didcomm/types";
+import { PickupRequest } from "../../plugins/internal/didcomm/protocols/pickup/PickupRequest";
 
 /**
  * Handle the setup of fetching messages from the Mediator
@@ -32,7 +32,7 @@ export class StartFetchingMessages extends Task<void, Args> {
       const message = new Domain.Message(
         JSON.stringify({ live_delivery: true }),
         uuid(),
-        ProtocolType.LiveDeliveryChange,
+        ProtocolIds.LiveDeliveryChange,
         mediator.hostDID,
         mediator.mediatorDID,
       );

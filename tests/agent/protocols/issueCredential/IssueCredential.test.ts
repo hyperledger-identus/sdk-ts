@@ -1,8 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { AttachmentDescriptor, Message } from "../../../../src/domain";
-import { IssueCredential } from "../../../../src/edge-agent/protocols/issueCredential/IssueCredential";
-import { ProtocolType } from "../../../../src/edge-agent/protocols/ProtocolTypes";
 import * as Fixtures from "../../../fixtures";
+import { IssueCredential, ProtocolType } from '../../../../src';
 
 describe("IssueCredential", () => {
   test("Should create a valid IssueCredential from valid params", () => {

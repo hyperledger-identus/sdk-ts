@@ -2,7 +2,7 @@ import { base58btc } from 'multiformats/bases/base58';
 import * as Domain from "../../../domain";
 import { isObject, notEmptyString, Task } from "../../../utils";
 import { FromJWK } from "./FromJWK";
-import { AgentContext } from "../../../edge-agent/didcomm/Context";
+import { AgentContext } from "../../../edge-agent/Context";
 
 export interface Args {
   verificationMethod: Domain.DIDDocument.VerificationMethod;

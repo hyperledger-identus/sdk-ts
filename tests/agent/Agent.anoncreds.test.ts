@@ -16,23 +16,17 @@ import {
   Seed,
   StorableCredential,
 } from "../../src/domain/models";
+import { base64url } from "multiformats/bases/base64";
 import { DIDCommProtocol } from "../../src/mercury/DIDCommProtocol";
 import { Castor as CastorType } from "../../src/domain/buildingBlocks/Castor";
-import { OfferCredential } from "../../src/edge-agent/protocols/issueCredential/OfferCredential";
-import { ProtocolType } from "../../src/edge-agent/protocols/ProtocolTypes";
-import { CredentialPreview } from "../../src/edge-agent/protocols/issueCredential/CredentialPreview";
-import { RequestCredential } from "../../src/edge-agent/protocols/issueCredential/RequestCredential";
-import { IssueCredential } from "../../src/edge-agent/protocols/issueCredential/IssueCredential";
-import { base64url } from "multiformats/bases/base64";
-import { RequestPresentation } from "../../src/edge-agent/protocols/proofPresentation/RequestPresentation";
-import { Presentation } from "../../src/edge-agent/protocols/proofPresentation/Presentation";
 import { AnonCredsCredential } from "../../src/pollux/models/AnonCredsVerifiableCredential";
 import InMemoryStore from "../fixtures/inmemory";
 import { ApiResponse, Pluto as IPluto, JWT } from "../../src/domain";
 import { Pluto } from "../../src/pluto/Pluto";
-import { Castor, Store } from "../../src";
+import { Castor, Presentation, ProtocolType, RequestPresentation, Store } from "../../src";
 import { randomUUID } from "crypto";
 import { plugin as AnoncredsPlugin } from "../../src/plugins/internal/anoncreds/plugin";
+import { CredentialPreview, IssueCredential, OfferCredential, RequestCredential } from '../../src/plugins/internal/didcomm';
 
 
 let agent: Agent;

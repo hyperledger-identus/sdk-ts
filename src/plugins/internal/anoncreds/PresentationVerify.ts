@@ -1,5 +1,4 @@
 import * as Domain from "../../../domain";
-import { ProtocolType } from "../../../edge-agent/protocols/ProtocolTypes";
 import { FetchCredentialDefinition } from "./FetchCredentialDefinition";
 import { fetchSchema } from "./FetchSchema";
 import { Payload } from "../../../domain/protocols/Payload";
@@ -7,6 +6,7 @@ import { notNil } from "../../../utils";
 import type { Context } from "./plugin";
 import * as Types from "./types";
 import { Plugins } from "../../../plugins";
+import { OEA } from "../oea/types";
 
 interface Args {
   presentation: Types.Presentation;
@@ -52,7 +52,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
     const allMessages = await ctx.Pluto.getAllMessages();
     const message = allMessages.find(msg => {
       return msg.thid === this.args.thid
-        && msg.piuri === ProtocolType.DidcommRequestPresentation;
+        && msg.piuri === OEA.ProtocolIds.RequestPresentation;
     });
 
     if (message) {

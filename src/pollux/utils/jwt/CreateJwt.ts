@@ -2,7 +2,7 @@ import { ES256KSigner, Signer, createJWT } from "did-jwt";
 import * as Domain from "../../../domain";
 import { asJsonObj, expect } from "../../../utils";
 import { Task } from "../../../utils/tasks";
-import { AgentContext } from "../../../edge-agent/didcomm/Context";
+import { AgentContext } from "../../../edge-agent/Context";
 import { base64url } from "multiformats/bases/base64";
 import { FindSigningKeys } from "../../../edge-agent/didFunctions/FindDIDSigningKeys";
 

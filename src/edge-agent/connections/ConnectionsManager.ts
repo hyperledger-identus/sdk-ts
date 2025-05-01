@@ -1,6 +1,6 @@
 import { Nil, isString } from "../../utils";
 import { Connection } from "./Connection";
-import { MediatorConnection } from "./didcomm";
+import { MediatorConnection } from "../../plugins/internal/didcomm";
 
 /**
  * ConnectionsManager is responsible for handling Connections and Mediators

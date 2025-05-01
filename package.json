@@ -17,6 +17,12 @@
       "require": "./build/plugins/internal/anoncreds/index.js",
       "default": "./build/plugins/internal/anoncreds/index.js"
     },
+    "./plugins/didcomm": {
+      "types": "./build/plugins/internal/didcomm/index.d.ts",
+      "import": "./build/plugins/internal/didcomm/index.js",
+      "require": "./build/plugins/internal/didcomm/index.js",
+      "default": "./build/plugins/internal/didcomm/index.js"
+    },
     "./plugins/oidc": {
       "types": "./build/plugins/internal/oidc/index.d.ts",
       "import": "./build/plugins/internal/oidc/index.js",
@@ -27,7 +33,10 @@
   "typesVersions": {
     "*": {
       "plugins/anoncreds": [
-        "./build/plugins/internal/oidc/index.d.ts"
+        "./build/plugins/internal/anoncreds/index.d.ts"
+      ],
+      "plugins/didcomm": [
+        "./build/plugins/internal/didcomm/index.d.ts"
       ],
       "plugins/oidc": [
         "./build/plugins/internal/oidc/index.d.ts"
