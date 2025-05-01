@@ -1,7 +1,7 @@
 import type * as DIDResolver from "did-resolver";
 import * as Domain from "../../../domain";
 import { Task, asArray, isEmpty } from "../../../utils";
-import { AgentContext } from "../../../edge-agent/didcomm/Context";
+import { AgentContext } from "../../../edge-agent/Context";
 
 export interface Args {
   did: string;
@@ -46,6 +46,7 @@ export class ResolveDID extends Task<DIDResolver.DIDResolutionResult, Args> {
 
       throw new Error("Invalid KeyType");
     });
+
     return {
       didResolutionMetadata: { contentType: "application/did+ld+json" },
       didDocumentMetadata: {},

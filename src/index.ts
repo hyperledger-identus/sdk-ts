@@ -13,7 +13,7 @@ export * as Utils from "./utils";
 export { FetchApi as ApiImpl } from "./edge-agent/helpers/FetchApi";
 export * from "./edge-agent/connections";
 export * from "./edge-agent/connections/ConnectionsManager";
-export * from "./edge-agent/connections/didcomm/DIDCommConnection";
+export * from "./plugins/internal/didcomm/connection/DIDCommConnection";
 export { ListenerKey } from "./edge-agent/types";
 export type {
   ConnectionEventArg,
@@ -23,15 +23,6 @@ export type {
 } from "./edge-agent/types";
 
 export * from './peer-did/PeerDID';
-
-// didcomm messages
-export { ProtocolType } from "./edge-agent/protocols/ProtocolTypes";
-export { IssueCredential } from "./edge-agent/protocols/issueCredential/IssueCredential";
-export { OfferCredential } from "./edge-agent/protocols/issueCredential/OfferCredential";
-export { HandshakeRequest } from './edge-agent/protocols/connection/HandshakeRequest';
-export { OutOfBandInvitation } from './edge-agent/protocols/invitation/v2/OutOfBandInvitation';
-export * from "./edge-agent/protocols/proofPresentation";
-export * from "./edge-agent/protocols/other/BasicMessage";
 
 // keys
 export { KeyProperties } from "./domain/models/KeyProperties";
@@ -49,6 +40,25 @@ export * from "./apollo/utils/X25519KeyPair";
 export { JWTCredential, JWTVerifiableCredentialRecoveryId } from "./pollux/models/JWTVerifiableCredential";
 export { SDJWTCredential, SDJWTVerifiableCredentialRecoveryId } from "./pollux/models/SDJWTVerifiableCredential";
 export * from "./pollux/models/AnonCredsVerifiableCredential";
+
+
+/// temporary workaround changing to plugins
+/// continue exporting already exported 
+/// all plugin related should be removed when transistion complete
+
+export { ProtocolType } from "./edge-agent/types";
+
+// didcomm messages
+export { IssueCredential } from "./plugins/internal/didcomm/protocols/issueCredential/IssueCredential";
+export { OfferCredential } from "./plugins/internal/didcomm/protocols/issueCredential/OfferCredential";
+export { OutOfBandInvitation } from './plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation';
+export * from "./plugins/internal/didcomm/protocols/other/BasicMessage";
+
+// oea specifc messages
+export * from "./plugins/internal/oea/protocols/Presentation";
+export * from "./plugins/internal/oea/protocols/ProposePresentation";
+export * from "./plugins/internal/oea/protocols/RequestPresentation";
+export { HandshakeRequest } from './plugins/internal/oea/protocols/HandshakeRequest';
 
 // plugins exported through /plugins/plugin_name
 

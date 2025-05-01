@@ -180,13 +180,17 @@ export class EdgeAgentWorkflow {
       return await edgeAgent.answer(Notepad.notes().get(recordId))
     }))
     await edgeAgent.attemptsTo(
-      WalletSdk.execute(async (sdk) => {
+      WalletSdk.execute(async (sdk, messages) => {
+        const revokes = messages.revocationStack;
+        await sdk.handle(revokes.at(0));
+        
         const credentials = await sdk.verifiableCredentials()
         const revokedCredentials = await Utils.asyncFilter(credentials, async credential => {
           // checks if it's revoked and part of the revoked ones
-          return sdk.isCredentialRevoked(credential) &&
-            credential.isRevoked() &&
-            revokedIdList.includes(credential.id)
+          const check1 = await sdk.isCredentialRevoked(credential);
+          const check2 = credential.isRevoked();
+          const check3 = revokedIdList.includes(credential.id);
+          return check1 && check2 && check3;
         })
         await edgeAgent.attemptsTo(
           Ensure.that(revokedCredentials.length, equals(revokedRecordIdList.length))

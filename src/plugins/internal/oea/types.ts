@@ -2,6 +2,16 @@ import { JsonObj } from "../../../utils";
 
 // Open Enterprise Agent specific
 export namespace OEA {
+  export const ProtocolIds = {
+    ConnectionRequest: "https://atalaprism.io/mercury/connections/1.0/request",
+    ConnectionResponse: "https://atalaprism.io/mercury/connections/1.0/response",
+    ProposePresentation: "https://didcomm.atalaprism.io/present-proof/3.0/propose-presentation",
+    RequestPresentation: "https://didcomm.atalaprism.io/present-proof/3.0/request-presentation",
+    Presentation: "https://didcomm.atalaprism.io/present-proof/3.0/presentation",
+    PrismOnboarding: "https://atalaprism.io/did-request",
+    PrismRevocation: "https://atalaprism.io/revocation_notification/1.0/revoke",
+  } as const;
+
   export const PRISM_JWT = "prism/jwt";
   export const PRISM_SDJWT = "vc+sd-jwt";
 
@@ -11,7 +21,6 @@ export namespace OEA {
       domain: string;
     };
   }
-
 
   export enum DescriptorItemFormat {
     JWT_VC = 'jwt_vc',

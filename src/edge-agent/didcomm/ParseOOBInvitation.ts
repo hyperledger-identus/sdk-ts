@@ -2,8 +2,8 @@ import * as Domain from "../../domain";
 import { JsonObj, asArray, asJsonObj, isArray, isObject, notEmptyString } from "../../utils";
 import { Task } from "../../utils/tasks";
 import { InvitationIsInvalidError } from "../../domain/models/errors/Agent";
-import { OutOfBandInvitation } from "../protocols/invitation/v2/OutOfBandInvitation";
-import { ProtocolType } from "../protocols/ProtocolTypes";
+import { OutOfBandInvitation } from "../../plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation";
+import { ProtocolIds } from "../../plugins/internal/didcomm/types";
 
 /**
  * parse OOB invitation
@@ -27,7 +27,7 @@ export class ParseOOBInvitation extends Task<OutOfBandInvitation, Args> {
   private safeParseBody(): OutOfBandInvitation {
     const msg = asJsonObj(this.args.value);
     const valid = (
-      msg.type === ProtocolType.Didcomminvitation
+      msg.type === ProtocolIds.OOBInvitation
       && notEmptyString(msg.id)
       && notEmptyString(msg.from)
       && isObject(msg.body)

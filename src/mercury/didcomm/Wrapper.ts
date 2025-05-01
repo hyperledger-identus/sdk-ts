@@ -14,9 +14,8 @@ import { DIDCommDIDResolver } from "./DIDResolver";
 import { DIDCommSecretsResolver } from "./SecretsResolver";
 import { DIDCommProtocol } from "../DIDCommProtocol";
 import { MercuryError } from "../../domain/models/Errors";
-
-import { ProtocolType } from "../../edge-agent/protocols/ProtocolTypes";
 import { isObject } from "../../utils";
+import { ProtocolIds } from "../../plugins/internal/didcomm/types";
 
 export class DIDCommWrapper implements DIDCommProtocol {
   public static didcomm: typeof import("didcomm-wasm");
@@ -42,16 +41,16 @@ export class DIDCommWrapper implements DIDCommProtocol {
   }
 
   private doesRequireReturnRoute(type: string) {
-    if (type === ProtocolType.DidcommMediationRequest) {
+    if (type === ProtocolIds.MediationRequest) {
       return true;
     }
-    if (type === ProtocolType.PickupReceived) {
+    if (type === ProtocolIds.PickupReceived) {
       return true;
     }
-    if (type === ProtocolType.PickupRequest) {
+    if (type === ProtocolIds.PickupRequest) {
       return true;
     }
-    if (type === ProtocolType.LiveDeliveryChange) {
+    if (type === ProtocolIds.LiveDeliveryChange) {
       return true;
     }
     return false;

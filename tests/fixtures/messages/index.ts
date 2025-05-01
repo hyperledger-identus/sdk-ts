@@ -1,6 +1,6 @@
 import { base64 } from "multiformats/bases/base64";
 import * as Domain from "../../../src/domain";
-import { ProtocolType } from "../../../src/edge-agent/protocols/ProtocolTypes";
+import { ProtocolType } from "../../../src";
 
 // convert raw DIDComm message to domain, handles parsing idiosyncrasies
 const convertDidcomm = (value: any) => new Domain.Message(
@@ -258,4 +258,4 @@ export const Reporting = convertDidcomm({
     "did:peer:2.Ez6LSrjn3NUEgFDY2wKnxbNfbXLozs8Em5RX6xWkTJn3kqpsL.Vz6MkuK1KvyssRGvzYuerJQQaTANA9hAe3dXt2X31d6Ef9xee.SW10"
   ],
   "thid": "dcc4af0e-0a9c-4082-98d1-bbdc582002b7"
-})
+});

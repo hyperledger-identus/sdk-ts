@@ -1,9 +1,7 @@
 import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
 import { Message } from "../../../../src/domain";
-
-import { HandshakeRequest } from "../../../../src/edge-agent/protocols/connection/HandshakeRequest";
-import { ProtocolType } from "../../../../src/edge-agent/protocols/ProtocolTypes";
 import * as Fixtures from "../../../fixtures";
+import { HandshakeRequest, ProtocolType } from '../../../../src';
 
 describe("HandShakeRequest Test", () => {
   it("Should create a HandshakeRequest from a valid HandShakeRequest Message", () => {

@@ -5,7 +5,7 @@ import {
   PrismDIDKeyUsage
 } from "../../domain/models/derivation/schemas/PrismDerivation";
 import { Task } from "../../utils/tasks";
-import { AgentContext } from "../didcomm/Context";
+import { AgentContext } from "../Context";
 import { PrismKeyPathIndexTask } from "./PrismKeyPathIndex";
 
 interface Args {

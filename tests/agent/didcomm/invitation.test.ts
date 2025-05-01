@@ -8,7 +8,7 @@ import { mockPluto } from "../../fixtures/inmemory/factory";
 import { mockTask } from "../../testFns";
 import { StartMediator } from '../../../src/edge-agent/didcomm/StartMediator';
 import { StartFetchingMessages } from '../../../src/edge-agent/didcomm/StartFetchingMessages';
-import { MediatorConnection } from '../../../src/edge-agent/connections/didcomm';
+import { MediatorConnection } from '../../../src/plugins/internal/didcomm';
 
 describe("Agent", () => {
   let agent: Agent;

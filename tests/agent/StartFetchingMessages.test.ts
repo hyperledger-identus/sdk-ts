@@ -2,11 +2,11 @@ import { vi, describe, expect, test, beforeEach, afterEach, Mock } from 'vitest'
 import { mockPluto } from "../fixtures/inmemory/factory";
 import * as Domain from "../../src/domain";
 import { Task } from '../../src/utils';
-import { ProtocolType } from '../../src/edge-agent/protocols/ProtocolTypes';
 import { StartFetchingMessages } from '../../src/edge-agent/didcomm/StartFetchingMessages';
 import { JobManager } from '../../src/edge-agent/connections/JobManager';
 import { CancellableTask } from '../../src/edge-agent/helpers/Task';
 import { ConnectionsManager } from '../../src/edge-agent/connections';
+import { ProtocolType } from '../../src';
 
 describe("StartFetchingMessages", () => {
   let ctx: Task.Context;

@@ -1,13 +1,18 @@
-import { Payload } from "../../domain/protocols/Payload";
-import { JsonObj, expect, isObject, notEmptyString, notNil } from "../../utils";
-import { Task } from "../../utils/tasks";
-import { AgentContext } from "../didcomm/Context";
+import { JsonObj, expect, Task } from "../../utils";
+import { AgentContext } from "../Context";
 import { Domain } from "../..";
+
+/**
+ * RunProtocol exists to bridge the gap between
+ * the strong coupling to DIDComm messages and abstracting to Protocols
+ * 
+ * When the abstraction happens this should be removable
+ */
 
 interface IArgs<T extends string, D extends JsonObj> {
   // generalized type of protocol
   type: T;
-  // specific protocol identifier
+  // protocol identifier
   pid: string;
   // relevant protocol data
   data: D;
@@ -31,15 +36,23 @@ type Args_PresentationVerify = IArgs<"presentation-verify", {
   thid?: string;
 }>;
 type Args_RevocationCheck = IArgs<"revocation-check", { credential: Domain.Credential; }>;
+type Args_Message = IArgs<"message", { message: Domain.Message; }>;
+type Args_Unknown = IArgs<"unknown", JsonObj>;
 
 type Args =
   | Args_CredentialIssue
   | Args_CredentialOffer
   | Args_PresentationRequest
   | Args_PresentationVerify
-  | Args_RevocationCheck;
+  | Args_RevocationCheck
+  | Args_Message
+  | Args_Unknown;
 
-export class RunProtocol extends Task<Payload, Args> {
+
+/**
+ * Find and execute a task registered by plugins for the given pid (protocol identifier)
+ */
+export class RunProtocol extends Task<any, Args> {
   async run(ctx: AgentContext) {
     const taskCtor = expect(
       ctx.Plugins.findProtocol(this.args.type, this.args.pid),
@@ -48,15 +61,6 @@ export class RunProtocol extends Task<Payload, Args> {
 
     const task = new taskCtor(this.args.data);
     const result = await ctx.run(task);
-    this.assertPayload(result);
     return result;
-  }
-
-  private assertPayload(value: unknown): asserts value is Payload {
-    if (isObject(value) && notEmptyString(value.pid) && notNil(value.data)) {
-      return;
-    }
-
-    throw new Error("invalid payload returned");
   }
 }

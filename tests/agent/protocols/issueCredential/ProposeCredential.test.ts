@@ -1,11 +1,9 @@
 import { assert, describe, expect, test } from 'vitest';
 import { AttachmentDescriptor, Message } from "../../../../src/domain";
 import { AgentError } from "../../../../src/domain/models/Errors";
-
-import { ProposeCredential, ProposeCredentialBody } from "../../../../src/edge-agent/protocols/issueCredential/ProposeCredential";
-import { ProtocolType } from "../../../../src/edge-agent/protocols/ProtocolTypes";
-import { CredentialPreview } from '../../../../src/edge-agent/protocols/issueCredential/CredentialPreview';
 import * as Fixtures from "../../../fixtures";
+import { CredentialPreview, ProposeCredential, ProposeCredentialBody } from '../../../../src/plugins/internal/didcomm';
+import { ProtocolType } from '../../../../src';
 
 describe("ProposeCredential", () => {
   test("Should create a ProposeCredential from valid params", () => {

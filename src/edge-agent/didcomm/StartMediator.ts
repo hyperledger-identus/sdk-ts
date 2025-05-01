@@ -1,11 +1,11 @@
 import * as Domain from "../../domain";
 import { CreatePeerDID } from "./CreatePeerDID";
-import { AgentContext } from "./Context";
+import { AgentContext } from "../Context";
 import { Task } from "../../utils/tasks";
 import { expect } from "../../utils";
-import { MediationRequest } from "../protocols/mediation/MediationRequest";
 import { Connection } from "../connections";
-import { MediatorConnection } from "../connections/didcomm";
+import { MediatorConnection } from "../../plugins/internal/didcomm";
+import { MediationRequest } from "../../plugins/internal/didcomm/protocols/mediation/MediationRequest";
 
 /**
  * Handle existing mediator logic

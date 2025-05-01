@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest';
 import { AttachmentDescriptor, Message } from "../../../../src/domain";
-import { RequestCredential } from "../../../../src/edge-agent/protocols/issueCredential/RequestCredential";
 import * as Fixtures from "../../../fixtures";
 import { InvalidCredentialFormats } from '../../../../src/domain/models/errors/Agent';
 import { ProtocolType } from '../../../../src';
+import { RequestCredential } from '../../../../src/plugins/internal/didcomm';
 
 describe("RequestCredential", () => {
   test("Should create a valid RequestCredential from valid params", () => {

@@ -2,9 +2,9 @@ import * as Domain from "../../domain";
 import { JsonObj, asJsonObj, expect } from "../../utils";
 import { Task } from "../../utils/tasks";
 import { InvitationIsInvalidError } from "../../domain/models/errors/Agent";
-import { PrismOnboardingInvitation } from "../types";
 import { CreatePeerDID } from "./CreatePeerDID";
-import { AgentContext } from "./Context";
+import { AgentContext } from "../Context";
+import { PrismOnboardingInvitation } from "../../plugins/internal/didcomm/protocols/invitation/PrismOnboardingInvitation";
 
 /**
  * parse a prismOnboarding invitation

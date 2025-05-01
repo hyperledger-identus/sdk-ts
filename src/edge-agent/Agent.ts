@@ -5,25 +5,12 @@ import {
   EventCallback,
   InvitationType,
   ListenerKey,
-  PrismOnboardingInvitation,
 } from "./types";
 
 import { AgentBackup } from "./Agent.Backup";
 import { ConnectionsManager } from "./connections/ConnectionsManager";
-import { OutOfBandInvitation } from "./protocols/invitation/v2/OutOfBandInvitation";
-import { OfferCredential } from "./protocols/issueCredential/OfferCredential";
-import { RequestCredential } from "./protocols/issueCredential/RequestCredential";
-import { IssueCredential } from "./protocols/issueCredential/IssueCredential";
-import { Presentation } from "./protocols/proofPresentation/Presentation";
-import { RequestPresentation } from "./protocols/proofPresentation/RequestPresentation";
 import { DIDCommWrapper } from "../mercury/didcomm/Wrapper";
 import { CreatePeerDID } from "./didcomm/CreatePeerDID";
-import { CreatePresentationRequest } from "./didcomm/CreatePresentationRequest";
-import { HandleIssueCredential } from "./didcomm/HandleIssueCredential";
-import { HandleOfferCredential } from "./didcomm/HandleOfferCredential";
-import { HandlePresentation } from "./didcomm/HandlePresentation";
-import { CreatePresentation } from "./didcomm/CreatePresentation";
-import { ProtocolType } from "./protocols/ProtocolTypes";
 import Apollo from "../apollo";
 import Castor from "../castor";
 import * as DIDfns from "./didFunctions";
@@ -31,21 +18,28 @@ import { Task } from "../utils/tasks";
 import { FetchApi } from "./helpers/FetchApi";
 import { ParsePrismInvitation } from "./didcomm/ParsePrismInvitation";
 import { ParseInvitation } from "./didcomm/ParseInvitation";
-import { HandleOOBInvitation } from "./didcomm/HandleOOBInvitation";
 import { Startable } from "../domain/protocols/Startable";
 import { RevealCredentialFields } from "./helpers/RevealCredentialFields";
 import { RunProtocol } from "./helpers/RunProtocol";
 import { PluginManager } from "../plugins";
-import OEAPlugin from "../plugins/internal/oea";
-import DIFPlugin from "../plugins/internal/dif";
 import { EventsManager } from "./Agent.MessageEvents";
 import { JobManager } from "./connections/JobManager";
 import { Send } from "./didcomm/Send";
 import { asJsonObj, isNil, notNil } from "../utils";
 import { StartMediator } from "./didcomm/StartMediator";
 import { StartFetchingMessages } from "./didcomm/StartFetchingMessages";
-import { AgentContext } from "./didcomm/Context";
+import { AgentContext } from "./Context";
 import { JWT, SDJWT } from "../pollux/utils/jwt";
+import OEAPlugin from "../plugins/internal/oea";
+import DIFPlugin from "../plugins/internal/dif";
+
+import { CreatePresentationRequest } from "../plugins/internal/oea/tasks/CreatePresentationRequest";
+import { CreatePresentation } from "../plugins/internal/oea/tasks/CreatePresentation";
+import { RequestPresentation } from "../plugins/internal/oea/protocols/RequestPresentation";
+import { Presentation } from "../plugins/internal/oea/protocols/Presentation";
+
+import * as DIDComm from "../plugins/internal/didcomm";
+import { HandleOOBInvitation } from "../plugins/internal/didcomm/tasks/HandleOOBInvitation";
 
 /**
  * Edge agent implementation
@@ -83,6 +77,7 @@ export default class Agent extends Startable.Controller {
     this.jobs = new JobManager();
 
     this.plugins = new PluginManager();
+    this.plugins.register(DIDComm.plugin);
     this.plugins.register(DIFPlugin);
     this.plugins.register(OEAPlugin);
   }
@@ -297,11 +292,11 @@ export default class Agent extends Startable.Controller {
    * @returns {Promise<void>}
    */
   async acceptInvitation(invitation: InvitationType, optionalAlias?: string): Promise<void> {
-    if (invitation.type === ProtocolType.Didcomminvitation) {
+    if (invitation.type === DIDComm.ProtocolIds.OOBInvitation) {
       return this.acceptDIDCommInvitation(invitation, optionalAlias);
     }
 
-    if (invitation instanceof PrismOnboardingInvitation) {
+    if (invitation instanceof DIDComm.PrismOnboardingInvitation) {
       return this.acceptPrismOnboardingInvitation(invitation);
     }
 
@@ -315,7 +310,7 @@ export default class Agent extends Startable.Controller {
    * @param {string} str
    * @returns {Promise<PrismOnboardingInvitation>}
    */
-  async parsePrismInvitation(str: string): Promise<PrismOnboardingInvitation> {
+  async parsePrismInvitation(str: string): Promise<DIDComm.PrismOnboardingInvitation> {
     const task = new ParsePrismInvitation({ value: str });
     return this.runTask(task);
   }
@@ -327,7 +322,7 @@ export default class Agent extends Startable.Controller {
    * @param {PrismOnboardingInvitation} invitation
    * @returns {Promise<void>}
    */
-  private async acceptPrismOnboardingInvitation(invitation: PrismOnboardingInvitation): Promise<void> {
+  private async acceptPrismOnboardingInvitation(invitation: DIDComm.PrismOnboardingInvitation): Promise<void> {
     if (!invitation.from) {
       throw new Domain.AgentError.UnknownInvitationTypeError();
     }
@@ -354,11 +349,11 @@ export default class Agent extends Startable.Controller {
    * @param {URL} url
    * @returns {Promise<OutOfBandInvitation>}
    */
-  async parseOOBInvitation(url: URL): Promise<OutOfBandInvitation> {
+  async parseOOBInvitation(url: URL): Promise<DIDComm.OutOfBandInvitation> {
     const task = new ParseInvitation({ value: url });
     const result = await this.runTask(task);
 
-    if (result instanceof OutOfBandInvitation) {
+    if (result instanceof DIDComm.OutOfBandInvitation) {
       return result;
     }
 
@@ -375,10 +370,10 @@ export default class Agent extends Startable.Controller {
    * @returns {*}
    */
   async acceptDIDCommInvitation(
-    invitation: OutOfBandInvitation,
+    invitation: DIDComm.OutOfBandInvitation,
     alias?: string
   ): Promise<void> {
-    const task = new HandleOOBInvitation({ invitation, alias });
+    const task = new HandleOOBInvitation({ message: invitation, alias });
     return this.runTask(task);
   }
 
@@ -426,6 +421,23 @@ export default class Agent extends Startable.Controller {
   async send(message: Domain.Message | Domain.ApiRequest) {
     const task = new Send({ message });
     return this.runTask(task);
+  }
+
+  /**
+   * Find and execute a task registered for the given Message.piuri
+   * 
+   * @param message 
+   * @returns 
+   */
+  async handle(message: Domain.Message) {
+    const task = new RunProtocol({
+      type: "message",
+      pid: message.piuri,
+      data: { message }
+    });
+
+    const result = await this.runTask(task);
+    return result;
   }
 
   /**
@@ -481,10 +493,11 @@ export default class Agent extends Startable.Controller {
    * @returns {Promise<RequestCredential>}
    */
   async prepareRequestCredentialWithIssuer(
-    offer: OfferCredential
-  ): Promise<RequestCredential> {
-    const task = new HandleOfferCredential({ offer });
-    return this.runTask(task);
+    offer: DIDComm.OfferCredential
+  ): Promise<DIDComm.RequestCredential> {
+    const message = offer.makeMessage();
+    const result = await this.handle(message);
+    return result;
   }
 
   /**
@@ -495,10 +508,11 @@ export default class Agent extends Startable.Controller {
    * @returns {Promise<VerifiableCredential>}
    */
   async processIssuedCredentialMessage(
-    issueCredential: IssueCredential
+    issueCredential: DIDComm.IssueCredential
   ): Promise<Domain.Credential> {
-    const task = new HandleIssueCredential({ issueCredential });
-    return this.runTask(task);
+    const message = issueCredential.makeMessage();
+    const result = await this.handle(message);
+    return result;
   }
 
   /**
@@ -558,7 +572,8 @@ export default class Agent extends Startable.Controller {
    * @param presentation 
    */
   async handlePresentation(presentation: Presentation): Promise<boolean> {
-    const task = new HandlePresentation({ presentation });
-    return this.runTask(task);
+    const message = presentation.makeMessage();
+    const result = await this.handle(message);
+    return result;
   }
 }

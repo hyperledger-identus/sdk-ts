@@ -8,6 +8,8 @@ import * as Fixtures from "../fixtures";
 import { mockTask } from '../testFns';
 import { CreatePeerDID } from '../../src/edge-agent/didcomm/CreatePeerDID';
 import { Connection } from '../../src/edge-agent/connections';
+import { PluginManager } from '../../src/plugins';
+import * as DIDComm from "../../src/plugins/internal/didcomm";
 
 describe("StartMediator", () => {
   let ctx: Task.Context;
@@ -21,10 +23,13 @@ describe("StartMediator", () => {
       sendMessageParseMessage: vi.fn()
     } as any;
     pluto = mockPluto();
+    const plugins = new PluginManager();
+    plugins.register(DIDComm.plugin);
     ctx = new Task.Context({
       Connections: connections,
       Mercury: mercury,
       Pluto: pluto,
+      Plugins: plugins
     });
   });
 

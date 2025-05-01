@@ -3,7 +3,7 @@ import { expect, Task } from "../../../utils";
 
 import { base64url } from "multiformats/bases/base64";
 import { ApolloError, Curve, JWK, KeyPair, KeyProperties, PolluxError, PrivateKey, PublicKey } from "../../../domain";
-import { AgentContext } from "../../../edge-agent/didcomm/Context";
+import { AgentContext } from "../../../edge-agent/Context";
 
 export interface Args {
   jwk: Domain.JWK;

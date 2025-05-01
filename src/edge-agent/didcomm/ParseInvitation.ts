@@ -2,12 +2,13 @@ import { base64 } from "multiformats/bases/base64";
 import * as Domain from "../../domain";
 import { JsonObj, asJsonObj, expect, isObject, isString } from "../../utils";
 import { Task } from "../../utils/tasks";
-import { ProtocolType } from "../protocols/ProtocolTypes";
 import { ParsePrismInvitation } from "./ParsePrismInvitation";
 import { InvalidURLError, InvitationIsInvalidError } from "../../domain/models/errors/Agent";
 import { ParseOOBInvitation } from "./ParseOOBInvitation";
 import { InvitationType } from "../types";
-import { AgentContext } from "./Context";
+import { AgentContext } from "../Context";
+import { OEA } from "../../plugins/internal/oea/types";
+import { ProtocolIds } from "../../plugins/internal/didcomm/types";
 
 /**
  * Attempt to parse a given invitation based on its Type
@@ -24,9 +25,9 @@ export class ParseInvitation extends Task<InvitationType, Args> {
     const type = json.type ?? json.piuri;
 
     switch (type) {
-      case ProtocolType.PrismOnboarding:
+      case OEA.ProtocolIds.PrismOnboarding:
         return ctx.run(new ParsePrismInvitation({ value: json }));
-      case ProtocolType.Didcomminvitation:
+      case ProtocolIds.OOBInvitation:
         return ctx.run(new ParseOOBInvitation({ value: json }));
     }
 
