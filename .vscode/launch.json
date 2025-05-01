@@ -20,7 +20,7 @@
       "type": "node"
     },
     {
-      "command": "yarn test:sdk",
+      "command": "npm run test:sdk",
       "name": "Run test:sdk",
       "request": "launch",
       "type": "node-terminal",

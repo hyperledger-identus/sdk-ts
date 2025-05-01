@@ -1,7 +1,7 @@
 import type * as Anoncreds from "anoncreds-wasm";
 import wasmBuffer from 'anoncreds-wasm/anoncreds_wasm_bg.wasm';
 import * as Types from "../types";
-import { isNil } from "../../../../utils";
+import { expect, isNil } from "../../../../utils";
 
 /**
  * @class AnoncredsLoader
@@ -36,7 +36,8 @@ export class AnoncredsLoader {
 
   private async wasm() {
     const instance = await this.getInstance();
-    return instance.pkg!;
+    const pkg = expect(instance.pkg, "Anoncreds wasm not loaded");
+    return pkg;
   }
 
   async createLinksecret() {
