@@ -1,7 +1,6 @@
 import { notNil } from "../utils";
 import { Plugin } from ".";
 
-// TODO comments
 export class PluginManager {
   private readonly plugins: Plugin[] = [];
 
