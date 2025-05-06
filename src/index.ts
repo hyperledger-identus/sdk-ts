@@ -64,6 +64,10 @@ export { HandshakeRequest } from './plugins/internal/oea/protocols/HandshakeRequ
 
 // Tasks
 import { CreatePrismDID } from "./edge-agent/didFunctions";
+import { PKInstance } from "./pollux/utils/jwt/PKInstance";
+import { CreateOOBOffer } from './edge-agent/didcomm/CreateOOBOffer';
 export const Tasks = {
-  CreatePrismDID
+  CreatePrismDID,
+  PKInstance,
+  CreateOOBOffer
 };
