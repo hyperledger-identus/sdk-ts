@@ -2,10 +2,8 @@
 import { uuid } from "@stablelib/uuid";
 import * as Domain from "../../domain";
 import { Task } from "../../utils/tasks";
-import { OutOfBandInvitation } from "../protocols/invitation/v2/OutOfBandInvitation";
-import { OfferCredential } from "../protocols/issueCredential/OfferCredential";
-import { AgentContext } from "./Context";
-
+import { OfferCredential, OutOfBandInvitation } from "../../plugins/internal/didcomm";
+import { AgentContext } from "../Context";
 
 /**
  * Asyncronously create and store a new peer did
