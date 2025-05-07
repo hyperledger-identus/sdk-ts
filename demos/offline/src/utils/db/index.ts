@@ -1,9 +1,10 @@
 import SDK from '@hyperledger/identus-sdk'
-import { Doc, QueryType, RIDB, StorageType } from '@trust0/ridb';
+import { RIDB, StorageType } from '@trust0/ridb';
 import { uuid } from '@stablelib/uuid';
 
 import { schemas } from '@/utils/db/schemas';
 import { DatabaseState } from '@/utils/types';
+import { QueryType, Doc } from '@trust0/ridb-core';
 
 type SchemasType = typeof schemas;
 
@@ -105,7 +106,6 @@ export class PlutoExtended {
         this.db = new RIDB({
             dbName,
             schemas,
-            migrations: undefined
         });
         const store = new RIDBStore(this.db, password, storageType);
 
@@ -171,7 +171,7 @@ export class PlutoExtended {
             const keys = await Promise.all(keysIds.map(({ keyId }) => this.collections.keys.findById(keyId)))
             return {
                 did: SDK.Domain.DID.fromString(did.uuid),
-                status: did.status as DIDStatus,
+                status: (did as any).status as DIDStatus,
                 alias: did.alias,
                 keys: keys.map((key) => this.apollo.restorePrivateKey({
                     recoveryId: key.recoveryId,
@@ -187,11 +187,11 @@ export class PlutoExtended {
 
         await this.collections.dids.create({
             uuid: did.toString(),
-            status: 'unpublished',
+            status: 'unpublished' as any,
             alias,
             schema: did.schema,
             method: did.method,
-        });
+        } as any);
 
         const keyArray = Array.isArray(keys) ? keys : [keys];
 
@@ -222,7 +222,7 @@ export class PlutoExtended {
         await this.collections.dids.update({
             ...found,
             status
-        });
+        } as any);
     }
 
     async getIssuanceFlows() {
