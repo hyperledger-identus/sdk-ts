@@ -1,5 +1,5 @@
-import { Property, SchemaFieldType } from "@trust0/ridb";
-
+import { SchemaFieldType } from "@trust0/ridb";
+import { Property } from "@trust0/ridb-core";
 import SDK from '@hyperledger/identus-sdk';
 
 const collections = SDK.makeCollections();

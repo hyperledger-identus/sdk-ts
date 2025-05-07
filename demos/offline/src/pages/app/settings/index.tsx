@@ -110,7 +110,7 @@ export default function SettingsPage() {
                             </label>
                             <div className="mt-1 flex gap-4">
                                 <input
-                                    type="text"
+                                    type="password"
                                     id="blockfrostKey"
                                     value={blockfrostKey}
                                     onChange={(e) => setBlockfrostKey(e.target.value)}
