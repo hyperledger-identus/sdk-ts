@@ -17,7 +17,7 @@ You will learn everything that is needed to receive an Issued SD-JWT credential 
 
 ### **What are connectionless flows?**
 
-In this presentation we won't be using [DIDComm Connections](https://hyperledger.github.io/identus-docs/docs/concepts/multi-tenancy#didcomm-connections) but instead we will generate Out of Band (OOB) codes for Issuance and Verification.
+In this presentation we won't be using [DIDComm Connections](https://hyperledger-identus.github.io/docs/home/concepts/multi-tenancy#didcomm-connections) but instead we will generate Out of Band (OOB) codes for Issuance and Verification.
 
 You will then receive and process this OOB in your Edge Agent and run the corresponding flow:
 1. Create the Credential Request from the Credential Offer
