@@ -109,9 +109,9 @@ export const schemas = {
     },
     issuance: {
         version: 0 as const,
-        primaryKey: 'did',
+        primaryKey: 'id',
         type: SchemaFieldType.object,
-        encrypted: ['dataJson'],
+        encrypted: ['claims'],
         properties: {
             id: {
                 type: SchemaFieldType.string,

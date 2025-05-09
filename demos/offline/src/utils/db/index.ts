@@ -4,7 +4,8 @@ import { uuid } from '@stablelib/uuid';
 
 import { schemas } from '@/utils/db/schemas';
 import { DatabaseState } from '@/utils/types';
-import { QueryType, Doc } from '@trust0/ridb-core';
+import { QueryType } from '@trust0/ridb-core';
+import { Doc } from '@trust0/ridb-core';
 
 type SchemasType = typeof schemas;
 
@@ -106,6 +107,7 @@ export class PlutoExtended {
         this.db = new RIDB({
             dbName,
             schemas,
+            migrations: undefined
         });
         const store = new RIDBStore(this.db, password, storageType);
 

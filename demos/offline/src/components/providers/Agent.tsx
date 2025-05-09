@@ -57,10 +57,15 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
 
     const stop = useCallback(async () => {
         setState(SDK.Domain.Startable.State.STOPPING);
-        await agent?.stop();
-        setAgent(null);
-        if (db?.state === 'disconnected') {
-            router.replace("/app/auth");
+        try {
+            await agent?.stop();
+        } catch (error) {
+            console.log("Error stopping agent:", error);
+        } finally {
+            setAgent(null);
+            if (db?.state === 'disconnected') {
+                router.replace("/app/auth");
+            }
         }
     }, [agent, db, router, setState, setAgent]);
 
