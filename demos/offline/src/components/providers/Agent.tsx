@@ -1,17 +1,22 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SDK from "@hyperledger/identus-sdk";
 import { useRouter } from "next/router";
 
-import { AgentContext, DatabaseContext } from "@/context";
+import { AgentContext } from "@/context";
 import { ResolverClass, createResolver } from "@/utils/resolvers";
+import { useDatabase } from "@/hooks";
 
 export function AgentProvider({ children }: { children: React.ReactNode }) {
-    const databaseContext = useContext(DatabaseContext);
-    if (!databaseContext) {
-        throw new Error('AgentProvider must be used within a DatabaseProvider');
-    }
+    const {
+        db,
+        getMediator,
+        getSeed,
+        getResolverUrl,
+        state: dbState,
+        getMessages,
+        pluto,
+    } = useDatabase();
 
-    const { db, getMediator, getSeed, getResolverUrl, state: dbState } = databaseContext;
     const [agent, setAgent] = useState<SDK.Agent | null>(null);
     const [state, setState] = useState<SDK.Domain.Startable.State>(SDK.Domain.Startable.State.STOPPED);
     const router = useRouter();
@@ -25,9 +30,6 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     const start = useCallback(async () => {
         if (!db) {
             throw new Error("No db found");
-        }
-        if (db.state !== "loaded") {
-            await db.start();
         }
         const seed = await getSeed();
         if (!seed) {
@@ -46,14 +48,14 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
             apollo,
             castor,
             mediatorDID,
-            pluto: db.pluto,
+            pluto: pluto,
             seed,
         });
         await agent.start()
         const peerDID = await agent.createNewPeerDID([], true);
         setPeerDID(peerDID);
         setAgent(agent);
-    }, [db, getSeed, getMediator, getResolverUrl, setState, setPeerDID, setAgent]);
+    }, [db, getSeed, getMediator, getResolverUrl, pluto]);
 
     const stop = useCallback(async () => {
         setState(SDK.Domain.Startable.State.STOPPING);
@@ -63,17 +65,21 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
             console.log("Error stopping agent:", error);
         } finally {
             setAgent(null);
-            if (db?.state === 'disconnected') {
-                router.replace("/app/auth");
-            }
+            router.replace("/app/auth");
         }
-    }, [agent, db, router, setState, setAgent]);
+    }, [agent, router, setState, setAgent]);
 
     const readMessage = useCallback(async (message: SDK.Domain.Message) => {
         if (!db) {
             throw new Error("No db found");
         }
-        await db.readMessage(message);
+        const [found] = await db.collections.messages.find({ $or: [{ uuid: message.uuid }, { id: message.id }] });
+        if (found) {
+            await db.collections.messages.update({
+                ...found,
+                read: true
+            })
+        }
         setMessages((prev) => prev.map((m) => m.message.id === message.id ? { ...m, read: true } : m));
     }, [db, setMessages]);
 
@@ -126,9 +132,9 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
 
     const preloadData = useCallback(async () => {
         if (db && dbState === 'loaded') {
-            const messages = await db.getMessages();
-            const connections = await db.pluto.getAllDidPairs();
-            const credentials = await db.pluto.getAllCredentials();
+            const messages = await getMessages();
+            const connections = await pluto.getAllDidPairs();
+            const credentials = await pluto.getAllCredentials();
             setMessages((prev) => {
                 const newMessages = messages.filter(
                     (message) => !prev.some((m) => m.message.id === message.message.id)
@@ -151,7 +157,7 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
                 return [...prev, ...newCredentials];
             });
         }
-    }, [db, dbState, setMessages, setConnections, setCredentials]);
+    }, [db, dbState, getMessages, pluto]);
 
     useEffect(() => {
         preloadData().catch(console.log);

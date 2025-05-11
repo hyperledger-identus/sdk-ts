@@ -20,7 +20,7 @@ type IssuanceRequest = {
 };
 
 export default function IssuanceRequestsPage() {
-    const { db, error: dbError } = useDatabase();
+    const { db, error: dbError, getIssuanceFlows } = useDatabase();
     const { agent } = useAgent();
     const [issuanceRequests, setIssuanceRequests] = useState<IssuanceRequest[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +31,7 @@ export default function IssuanceRequestsPage() {
     useEffect(() => {
         if (db) {
             setIsLoading(true);
-            db.getIssuanceFlows()
+            getIssuanceFlows()
                 .then((data) => {
                     setIssuanceRequests(data || []);
                     setIsLoading(false);
@@ -42,7 +42,7 @@ export default function IssuanceRequestsPage() {
                     setIsLoading(false);
                 });
         }
-    }, [db]);
+    }, [db, getIssuanceFlows]);
 
     const openPopup = (request: IssuanceRequest) => {
 

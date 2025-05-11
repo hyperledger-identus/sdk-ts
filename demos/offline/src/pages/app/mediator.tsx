@@ -9,14 +9,14 @@ import { MEDIATOR_DID } from "@/config";
 import { useDatabase } from "@/hooks";
 
 export default function Mediator() {
-    const { db } = useDatabase();
+    const { storeSettingsByKey } = useDatabase();
     const router = useRouter();
     const [mediatorDID, setMediatorDID] = useState<string | undefined>(process.env.NEXT_PUBLIC_MEDIATOR_DID);
 
     function onClick() {
         if (mediatorDID?.length) {
             const did = SDK.Domain.DID.fromString(mediatorDID);
-            db?.storeSettingsByKey(MEDIATOR_DID, did.toString());
+            storeSettingsByKey(MEDIATOR_DID, did.toString());
             router.push('/app');
         }
     }

@@ -9,12 +9,12 @@ import { useDatabase, useApollo } from "@/hooks";
 export default function Mnemonics() {
     const apollo = useApollo();
     const router = useRouter();
-    const { db } = useDatabase();
+    const { setSeed } = useDatabase();
     const [mnemonics, setMnemonics] = useState<string[]>([]);
 
     useEffect(() => {
         setMnemonics(apollo.createRandomMnemonics());
-    }, []);
+    }, [apollo]);
 
     async function regenerateClick() {
         setMnemonics(apollo.createRandomMnemonics());
@@ -23,7 +23,7 @@ export default function Mnemonics() {
     async function onNextClick() {
         if (mnemonics.length === 24) {
             const seed = apollo.createSeed(mnemonics as any);
-            await db?.storeSeed(seed);
+            await setSeed(seed);
             router.push('/app/mediator');
         }
     }

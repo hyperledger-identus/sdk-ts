@@ -6,7 +6,7 @@ import { useDatabase } from "@/hooks";
 import Image from "next/image";
 
 export default function SelectWallet({ onSelected }: { onSelected: (wallet: Wallet) => void }) {
-    const { db, wallet: selectedWallet } = useDatabase();
+    const { db, wallet: selectedWallet, storeSettingsByKey } = useDatabase();
     const { connect } = useWallet();
     const [availableWallets, setAvailableWallets] = useState<Wallet[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -51,7 +51,7 @@ export default function SelectWallet({ onSelected }: { onSelected: (wallet: Wall
                             onClick={async () => {
                                 try {
                                     connect(foundWallet.name);
-                                    await db?.storeSettingsByKey(WALLET_NAME, foundWallet.name);
+                                    await storeSettingsByKey(WALLET_NAME, foundWallet.name);
                                     onSelected(foundWallet);
                                 } catch (err: any) {
                                     console.error("Error connecting wallet:", err);

@@ -6,13 +6,13 @@ import { usePrismDID, useDatabase } from "@/hooks";
 
 
 export function PrismDIDSelect() {
-    const { db } = useDatabase();
+    const { db, getExtendedDIDs } = useDatabase();
     const [dids, setDIDs] = useState<Pick<SDK.Domain.PrismDID, "did" | "alias">[]>([]);
     const { did: selectedDID, setDID } = usePrismDID();
 
     useEffect(() => {
         if (db) {
-            db.getExtendedDIDs().then((dids) => {
+            getExtendedDIDs().then((dids) => {
                 const data = dids.reduce<Pick<SDK.Domain.PrismDID, "did" | "alias">[]>((dids, prismDID) => {
                     if (prismDID.status === "published") {
                         const found = dids.find(d => d.did.toString() === prismDID.did.toString());
@@ -25,7 +25,7 @@ export function PrismDIDSelect() {
                 return setDIDs(data)
             });
         }
-    }, [db]);
+    }, [db, getExtendedDIDs]);
 
     if (dids.length === 0) {
         return <div className="text-text-secondary-light dark:text-text-secondary-dark px-4 py-3">

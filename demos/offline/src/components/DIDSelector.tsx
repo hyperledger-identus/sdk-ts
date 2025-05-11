@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getGroupedDIDs, GroupedDIDs, DIDAlias } from "@/utils";
 import { useDatabase } from "@/hooks";
+import { DIDAlias, GroupedDIDs } from "@/utils/types";
 
 interface DIDSelectorProps {
     onSelectDID: (didItem: DIDAlias | null) => void;
@@ -15,18 +15,16 @@ export function DIDSelector({
     label = "Select a DID",
     className = ""
 }: DIDSelectorProps) {
-    const { db } = useDatabase();
+    const { db, getGroupedDIDs } = useDatabase();
     const [groupedDIDs, setGroupedDIDs] = useState<GroupedDIDs>({});
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [flatDIDs, setFlatDIDs] = useState<DIDAlias[]>([]);
     const [initialSelectionDone, setInitialSelectionDone] = useState(false);
 
     useEffect(() => {
-        setLoading(true);
         if (db) {
-            getGroupedDIDs(db)
-                .then(({ groupedDIDs: { prism = [], ...dids } }) => {
+            getGroupedDIDs()
+                .then(({ prism = [], ...dids }) => {
                     const groupedData = {
                         prism,
                         ...dids
@@ -52,11 +50,8 @@ export function DIDSelector({
                 .catch((err) => {
                     setError(err.message);
                 })
-                .finally(() => {
-                    setLoading(false);
-                });
         }
-    }, [db, onSelectDID, initialSelectionDone, selectedDID]);
+    }, [db, onSelectDID, initialSelectionDone, selectedDID, getGroupedDIDs]);
 
     const handleDIDChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const didString = event.target.value;

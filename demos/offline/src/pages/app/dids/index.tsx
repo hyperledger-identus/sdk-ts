@@ -1,25 +1,25 @@
 import Head from "next/head";
 import Layout from "@/components/Layout";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import PageHeader from "@/components/PageHeader";
-import { getGroupedDIDs, GroupedDIDs } from "@/utils";
 import { DIDItem } from "@/components/DIDItem";
 import { ErrorAlert } from "@/components/ErrorAlert";
 import { useDatabase } from "@/hooks";
+import { GroupedDIDs } from "@/utils/types";
 
 export default function DIDsPage() {
-    const { db } = useDatabase();
+    const { db, getGroupedDIDs } = useDatabase();
     const router = useRouter();
     const [groupedDIDs, setGroupedDIDs] = useState<GroupedDIDs>({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        setLoading(true);
+    const loadData = useCallback(async () => {
         if (db) {
-            getGroupedDIDs(db).then(({ groupedDIDs: { prism = [], ...dids } }) => {
+            setLoading(true);
+            getGroupedDIDs().then(({ prism = [], ...dids }) => {
                 setGroupedDIDs({
                     prism,
                     ...dids
@@ -30,7 +30,11 @@ export default function DIDsPage() {
                 setLoading(false);
             })
         }
-    }, [])
+    }, [db, getGroupedDIDs])
+
+    useEffect(() => {
+        loadData();
+    }, [loadData])
 
     async function createDIDClick() {
         await router.push("/app/dids/create");
@@ -82,16 +86,7 @@ export default function DIDsPage() {
                                 <div className="border border-border-light dark:border-border-dark rounded-md bg-gray-50 dark:bg-gray-900">
                                     {dids.map((didItem, index) => (
                                         <DIDItem key={`${method}-${index}`} didItem={didItem} onUpdate={() => {
-                                            if (db) {
-                                                getGroupedDIDs(db).then(({ groupedDIDs: { prism = [], ...dids } }) => {
-                                                    setGroupedDIDs({
-                                                        prism,
-                                                        ...dids
-                                                    });
-                                                }).catch((err) => {
-                                                    setError(err.message);
-                                                })
-                                            }
+                                            loadData();
                                         }} />
                                     ))}
                                 </div>

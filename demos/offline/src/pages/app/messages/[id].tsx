@@ -19,7 +19,7 @@ export default function MessageDetails() {
         if (message && !message.read) {
             readMessage(message.message);
         }
-    }, [message])
+    }, [message, readMessage])
 
     if (!message) {
         return <Layout>
