@@ -7,12 +7,12 @@ import { useDatabase } from "@/hooks";
 
 export default function CredentialsPage() {
     const [credentials, setCredentials] = useState<SDK.Domain.Credential[]>([]);
-    const { db } = useDatabase();
+    const { db, pluto } = useDatabase();
     useEffect(() => {
         if (db) {
-            db.pluto.getAllCredentials().then(setCredentials)
+            pluto.getAllCredentials().then(setCredentials)
         }
-    }, [db]);
+    }, [db, pluto]);
     return (
         <Layout>
             <Head>

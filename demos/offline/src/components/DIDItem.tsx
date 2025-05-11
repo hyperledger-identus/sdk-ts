@@ -3,15 +3,15 @@ import SDK from "@hyperledger/identus-sdk";
 
 import { useWallet } from "@meshsdk/react";
 import { Transaction } from "@meshsdk/core";
-import { BLOCKFROST_KEY_NAME, WALLET_NAME } from "@/config";
-import { DIDAlias } from "@/utils";
+import { BLOCKFROST_KEY_NAME } from "@/config";
 import { ErrorAlert } from "./ErrorAlert";
 import SelectWallet from "./SelectWallet";
 import { useDatabase, useAgent } from "@/hooks";
+import { DIDAlias } from "@/utils/types";
 
 export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (did: DIDAlias) => void }) {
     const { wallet, connected } = useWallet();
-    const { db, setWallet, wallet: currentWallet } = useDatabase();
+    const { db, setWallet, wallet: currentWallet, getSettingsByKey, updateDIDStatus } = useDatabase();
     const { agent } = useAgent();
     const [error, setError] = useState<string | null>(null);
     const [isResolving, setIsResolving] = useState(false);
@@ -53,7 +53,7 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
             const castor = new SDK.Castor(new SDK.Apollo());
             const document = await agent.castor.resolveDID(didString);
             const signingKey = document.verificationMethods.find(key => key.id.includes("#master"));
-            const projectId = await db?.getSettingsByKey(BLOCKFROST_KEY_NAME) ?? null;
+            const projectId = await getSettingsByKey(BLOCKFROST_KEY_NAME) ?? null;
             const walletId = currentWallet;
             console.log("Publish clicked - Wallet ID:", walletId, "Project ID:", projectId);
 
@@ -90,7 +90,7 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
             const checkConfirmation = async () => {
                 const isConfirmed = await checkTransactionConfirmation(txHash, projectId);
                 if (isConfirmed) {
-                    db?.updateDIDStatus(didItem.did, 'published')
+                    updateDIDStatus(didItem.did, 'published')
 
                     setPublishing(false);
                     onUpdate({ ...didItem, status: 'published' })

@@ -1,15 +1,12 @@
 import Head from "next/head";
-import { PlutoExtended } from "@/utils/db";
-import { StorageType } from "@trust0/ridb";
 import { useEffect, useState } from "react";
-import SDK from "@hyperledger/identus-sdk";
 import { useDatabase } from "@/hooks";
 import AtalaGraphic from "@/components/Identus";
 import Image from "next/image";
-const apollo = new SDK.Apollo();
+import { StorageType } from "@trust0/ridb";
 
 export default function Auth() {
-    const { setDb, error: dbError } = useDatabase();
+    const { error: dbError, start } = useDatabase();
     const [dbName, setDbName] = useState('test-db');
     const [password, setPassword] = useState('123456');
     const [error, setError] = useState(dbError?.message);
@@ -20,13 +17,14 @@ export default function Auth() {
             setError('Database name is required');
             return;
         }
-        const db = new PlutoExtended(
+        start({
             dbName,
             password,
-            StorageType.IndexDB,
-            apollo
-        );
-        setDb(db);
+            storageType: StorageType.IndexDB,
+        })
+            .catch((err) => {
+                setError(err.message);
+            })
     }
 
     useEffect(() => {
@@ -39,9 +37,7 @@ export default function Auth() {
                 <title>Authentication | Identus Agent</title>
                 <meta name="description" content="Manage your connections with other agents" />
             </Head>
-
             <AtalaGraphic />
-
             <div className="relative min-h-screen w-full overflow-hidden">
                 <div className="relative z-10 min-h-screen flex items-center justify-center ">
                     <div className="max-w-md w-full space-y-8 p-8 bg-background-light dark:bg-background-dark rounded-lg shadow-md">

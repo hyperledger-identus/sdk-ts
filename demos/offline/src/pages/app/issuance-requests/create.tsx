@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useState } from "react";
 import Head from "next/head";
 import Layout from "@/components/Layout";
@@ -5,7 +6,7 @@ import PageHeader from "@/components/PageHeader";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
 import { DIDSelector } from "@/components/DIDSelector";
-import { DIDAlias } from "@/utils";
+import { DIDAlias } from "@/utils/types";
 import SDK from "@hyperledger/identus-sdk";
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from "react-beautiful-dnd";
 import { motion, AnimatePresence } from "framer-motion";
@@ -52,7 +53,7 @@ const claimTemplates: ClaimTemplate[] = [
 ];
 
 export default function CreateIssuanceRequestPage() {
-    const { db, error: dbError } = useDatabase();
+    const { db, error: dbError, createIssuanceFlow } = useDatabase();
 
     const router = useRouter();
     const [formData, setFormData] = useState({
@@ -153,7 +154,7 @@ export default function CreateIssuanceRequestPage() {
         };
 
 
-        db?.createIssuanceFlow(issuanceRequest)
+        createIssuanceFlow(issuanceRequest)
             .then(() => {
                 router.push("/app/issuance-requests");
             })
@@ -282,92 +283,97 @@ export default function CreateIssuanceRequestPage() {
                                     </motion.div>
                                 )}
                             </AnimatePresence>
-
+                            {/* @ts-ignore */}
                             <DragDropContext onDragEnd={handleDragEnd}>
+                                {/* @ts-ignore */}
                                 <Droppable droppableId="claims">
-                                    {(provided: DroppableProvided) => (
+                                    {(provided) => (
                                         <div
                                             {...provided.droppableProps}
                                             ref={provided.innerRef}
                                             className="space-y-3"
                                         >
                                             <AnimatePresence>
-                                                {claims.map((claim, index) => (
-                                                    <Draggable key={claim.id} draggableId={claim.id} index={index}>
-                                                        {(provided: DraggableProvided) => (
-                                                            <motion.div
-                                                                initial={{ opacity: 0, y: -10 }}
-                                                                animate={{ opacity: 1, y: 0 }}
-                                                                exit={{ opacity: 0, height: 0 }}
-                                                                transition={{ duration: 0.2 }}
-                                                                ref={provided.innerRef}
-                                                                {...provided.draggableProps}
-                                                                className={`flex items-center space-x-2 p-3 border rounded-md bg-white dark:bg-gray-800 ${claim.isValid === false
-                                                                    ? 'border-red-300 dark:border-red-700 shadow-sm shadow-red-100 dark:shadow-red-900/20'
-                                                                    : 'border-gray-200 dark:border-gray-700'
-                                                                    }`}
-                                                            >
-                                                                <div
-                                                                    {...provided.dragHandleProps}
-                                                                    className="cursor-move text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                                                                >
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="flex-1">
-                                                                    <input
-                                                                        type="text"
-                                                                        value={claim.name}
-                                                                        onChange={(e) => handleClaimChange(index, "name", e.target.value)}
-                                                                        placeholder="Claim Name"
-                                                                        className={`w-full px-3 py-1.5 border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white text-sm ${claim.isValid === false && !claim.name
-                                                                            ? 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20'
-                                                                            : 'border-gray-300 dark:border-gray-700'
+                                                {
+                                                    claims.map((claim, index) =>
+                                                        <>
+                                                            {/* @ts-ignore */}
+                                                            <Draggable key={claim.id} draggableId={claim.id} index={index}>
+                                                                {(provided: DraggableProvided) => (
+                                                                    <motion.div
+                                                                        initial={{ opacity: 0, y: -10 }}
+                                                                        animate={{ opacity: 1, y: 0 }}
+                                                                        exit={{ opacity: 0, height: 0 }}
+                                                                        transition={{ duration: 0.2 }}
+                                                                        ref={provided.innerRef}
+                                                                        {...provided.draggableProps}
+                                                                        className={`flex items-center space-x-2 p-3 border rounded-md bg-white dark:bg-gray-800 ${claim.isValid === false
+                                                                            ? 'border-red-300 dark:border-red-700 shadow-sm shadow-red-100 dark:shadow-red-900/20'
+                                                                            : 'border-gray-200 dark:border-gray-700'
                                                                             }`}
-                                                                        required
-                                                                    />
-                                                                </div>
-                                                                <div className="flex-1">
-                                                                    <input
-                                                                        type={claim.type === 'date' ? 'date' : 'text'}
-                                                                        value={claim.value}
-                                                                        onChange={(e) => handleClaimChange(index, "value", e.target.value)}
-                                                                        placeholder={`Claim Value (${claim.type})`}
-                                                                        className={`w-full px-3 py-1.5 border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white text-sm ${claim.isValid === false && !claim.value
-                                                                            ? 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20'
-                                                                            : 'border-gray-300 dark:border-gray-700'
-                                                                            }`}
-                                                                        required
-                                                                    />
-                                                                </div>
-                                                                <div className="w-28">
-                                                                    <select
-                                                                        value={claim.type}
-                                                                        onChange={(e) => handleClaimChange(index, "type", e.target.value)}
-                                                                        className="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white text-sm"
                                                                     >
-                                                                        <option value="string">String</option>
-                                                                        <option value="number">Number</option>
-                                                                        <option value="boolean">Boolean</option>
-                                                                        <option value="date">Date</option>
-                                                                    </select>
-                                                                </div>
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() => removeClaim(index)}
-                                                                    className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                                                                    title="Remove claim"
-                                                                >
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                                                                    </svg>
-                                                                </button>
-                                                            </motion.div>
-                                                        )}
-                                                    </Draggable>
-                                                ))}
-                                                {provided.placeholder}
+                                                                        <div
+                                                                            {...provided.dragHandleProps}
+                                                                            className="cursor-move text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                                                        >
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                                                                            </svg>
+                                                                        </div>
+                                                                        <div className="flex-1">
+                                                                            <input
+                                                                                type="text"
+                                                                                value={claim.name}
+                                                                                onChange={(e) => handleClaimChange(index, "name", e.target.value)}
+                                                                                placeholder="Claim Name"
+                                                                                className={`w-full px-3 py-1.5 border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white text-sm ${claim.isValid === false && !claim.name
+                                                                                    ? 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20'
+                                                                                    : 'border-gray-300 dark:border-gray-700'
+                                                                                    }`}
+                                                                                required
+                                                                            />
+                                                                        </div>
+                                                                        <div className="flex-1">
+                                                                            <input
+                                                                                type={claim.type === 'date' ? 'date' : 'text'}
+                                                                                value={claim.value}
+                                                                                onChange={(e) => handleClaimChange(index, "value", e.target.value)}
+                                                                                placeholder={`Claim Value (${claim.type})`}
+                                                                                className={`w-full px-3 py-1.5 border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white text-sm ${claim.isValid === false && !claim.value
+                                                                                    ? 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20'
+                                                                                    : 'border-gray-300 dark:border-gray-700'
+                                                                                    }`}
+                                                                                required
+                                                                            />
+                                                                        </div>
+                                                                        <div className="w-28">
+                                                                            <select
+                                                                                value={claim.type}
+                                                                                onChange={(e) => handleClaimChange(index, "type", e.target.value)}
+                                                                                className="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white text-sm"
+                                                                            >
+                                                                                <option value="string">String</option>
+                                                                                <option value="number">Number</option>
+                                                                                <option value="boolean">Boolean</option>
+                                                                                <option value="date">Date</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={() => removeClaim(index)}
+                                                                            className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                                                                            title="Remove claim"
+                                                                        >
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                                                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </motion.div>
+                                                                )}
+                                                            </Draggable>
+                                                        </>
+                                                    )}
+                                                {provided.placeholder as any}
                                             </AnimatePresence>
                                         </div>
                                     )}

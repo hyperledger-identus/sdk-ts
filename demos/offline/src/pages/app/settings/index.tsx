@@ -7,7 +7,7 @@ import { useDatabase } from "@/hooks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function SettingsPage() {
-    const { db, state: dbState, getFeatures } = useDatabase();
+    const { state: dbState, getFeatures, getSettingsByKey, storeSettingsByKey } = useDatabase();
     const [blockfrostKey, setBlockfrostKey] = useState("");
     const [resolverUrl, setResolverUrl] = useState("");
     const [mediatorDID, setMediatorDID] = useState("");
@@ -17,12 +17,12 @@ export default function SettingsPage() {
 
     useEffect(() => {
         async function load() {
-            if (db && dbState === "loaded") {
+            if (dbState === "loaded") {
                 const [blockfrost, prism, features, mediatorDID] = await Promise.all([
-                    db.getSettingsByKey(BLOCKFROST_KEY_NAME),
-                    db.getSettingsByKey(PRISM_RESOLVER_URL_KEY),
-                    db.getSettingsByKey(FEATURES),
-                    db.getSettingsByKey(MEDIATOR_DID)
+                    getSettingsByKey(BLOCKFROST_KEY_NAME),
+                    getSettingsByKey(PRISM_RESOLVER_URL_KEY),
+                    getSettingsByKey(FEATURES),
+                    getSettingsByKey(MEDIATOR_DID)
                 ]);
                 if (blockfrost) {
                     setBlockfrostKey(blockfrost);
@@ -39,7 +39,7 @@ export default function SettingsPage() {
             }
         }
         load();
-    }, [db, dbState]);
+    }, [dbState, getSettingsByKey]);
 
     const handleFeatureChange = (feature: string, checked: boolean) => {
         setFeatures(prev => {
@@ -54,14 +54,11 @@ export default function SettingsPage() {
     const handleSaveAll = async () => {
         setLoading(true);
         try {
-            if (!db) {
-                throw new Error("Database not initialized");
-            }
             await Promise.all([
-                db.storeSettingsByKey(BLOCKFROST_KEY_NAME, blockfrostKey),
-                db.storeSettingsByKey(PRISM_RESOLVER_URL_KEY, resolverUrl),
-                db.storeSettingsByKey(FEATURES, features.join(",")),
-                db.storeSettingsByKey(MEDIATOR_DID, mediatorDID)
+                storeSettingsByKey(BLOCKFROST_KEY_NAME, blockfrostKey),
+                storeSettingsByKey(PRISM_RESOLVER_URL_KEY, resolverUrl),
+                storeSettingsByKey(FEATURES, features.join(",")),
+                storeSettingsByKey(MEDIATOR_DID, mediatorDID)
             ]);
             await getFeatures();
             setResult({
