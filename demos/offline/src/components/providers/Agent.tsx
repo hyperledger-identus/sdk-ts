@@ -19,8 +19,6 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
 
     const [agent, setAgent] = useState<SDK.Agent | null>(null);
     const [state, setState] = useState<SDK.Domain.Startable.State>(SDK.Domain.Startable.State.STOPPED);
-    const router = useRouter();
-
     const [messages, setMessages] = useState<{ message: SDK.Domain.Message, read: boolean }[]>([]);
     const [connections, setConnections] = useState<SDK.Domain.DIDPair[]>([]);
     const [credentials, setCredentials] = useState<SDK.Domain.Credential[]>([]);
@@ -60,14 +58,14 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     const stop = useCallback(async () => {
         setState(SDK.Domain.Startable.State.STOPPING);
         try {
-            await agent?.stop();
+            await agent?.connections.stop();
+            await agent?.jobs.stop();
         } catch (error) {
             console.log("Error stopping agent:", error);
         } finally {
             setAgent(null);
-            router.replace("/app/auth");
         }
-    }, [agent, router, setState, setAgent]);
+    }, [agent, setState, setAgent]);
 
     const readMessage = useCallback(async (message: SDK.Domain.Message) => {
         if (!db) {
