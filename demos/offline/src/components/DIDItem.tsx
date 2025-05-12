@@ -118,8 +118,6 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
     useEffect(() => {
         if (wallet && wasPublishing) {
             onPublishClick();
-        } else {
-            debugger;
         }
     }, [wallet, wasPublishing, onPublishClick])
 
