@@ -113,7 +113,7 @@ export function DIDItem({ didItem, onUpdate }: { didItem: DIDAlias, onUpdate: (d
         } catch (err: any) {
             setError(err.message || "Failed to publish DID");
         }
-    }, [agent, db, currentWallet, onUpdate, buildAndSubmitTransaction, didItem, didString, setWasPublishing])
+    }, [agent, didItem, didString, getSettingsByKey, currentWallet, buildAndSubmitTransaction, updateDIDStatus, onUpdate])
 
     useEffect(() => {
         if (wallet && wasPublishing) {

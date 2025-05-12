@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SDK from "@hyperledger/identus-sdk";
 import { useRouter } from "next/router";
 
@@ -19,7 +19,7 @@ const hasDB = (db: RIDB<typeof schemas> | null):
     db is RIDB<typeof schemas> => db !== null;
 
 
-export type DIDStatus = 'pending' | 'published' | 'deactivated';
+export type DIDStatus = 'unpublished' | 'published' | 'deactivated';
 
 
 
@@ -60,7 +60,7 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
             const keys = await Promise.all(keysIds.map(({ keyId }) => db.collections.keys.findById(keyId)))
             return {
                 did: SDK.Domain.DID.fromString(did.uuid),
-                status: (did as any).status as DIDStatus,
+                status: (did as any)?.status as DIDStatus ?? 'unpublished',
                 alias: did.alias,
                 keys: keys.map((key) => apollo.restorePrivateKey({
                     recoveryId: key.recoveryId,
