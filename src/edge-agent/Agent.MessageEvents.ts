@@ -11,7 +11,7 @@ import { EventCallback, ListenerKey } from "./types";
  * @typedef {EventsManager}
  */
 export class EventsManager {
-  private events: Map<ListenerKey, Set<EventCallback>> = new Map();
+  private events: Map<ListenerKey, Set<EventCallback<any>>> = new Map();
 
   /**
    * Just adds a new event listener by passing the event name and the callback function we want
@@ -22,7 +22,7 @@ export class EventsManager {
    * @param {EventCallback} callback
    * @returns {number}
    */
-  public addListener(eventName: ListenerKey, callback: EventCallback): number {
+  public addListener<T extends ListenerKey>(eventName: T, callback: EventCallback<T>): number {
     if (!this.events.has(eventName)) {
       this.events.set(eventName, new Set());
     }
@@ -40,7 +40,7 @@ export class EventsManager {
    * @param {ListenerKey} eventName
    * @param {EventCallback} callback
    */
-  public removeListener(eventName: ListenerKey, callback: EventCallback): void {
+  public removeListener<T extends ListenerKey>(eventName: T, callback: EventCallback<T>): void {
     const callbacks = this.events.get(eventName);
 
     if (notNil(callbacks)) {
