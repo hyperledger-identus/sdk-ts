@@ -26,10 +26,8 @@ export function WalletSelect() {
 
     const onHandleConnect = useCallback(async (wallet: Wallet) => {
         try {
-            debugger;
             await connect(wallet.name);
             await setWallet(wallet.name);
-            debugger;
             setIsOpen(false);
         } catch (err: any) {
             console.error("Error connecting wallet:", err);

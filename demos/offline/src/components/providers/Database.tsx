@@ -330,12 +330,10 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
 
     const start = useCallback(async (options: StartOptions<typeof schemas>) => {
         try {
-            debugger;
             if (!hasDB(db)) {
                 throw new Error("Database not connected");
             }
             setState('loading');
-            debugger;
             await db.start(options);
             await getFeatures();
             await getWallet();
@@ -354,10 +352,8 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         }
         if (state === "disconnected") {
             if (currentRoute !== "/app/auth") {
-                debugger;
                 setRedirectUrl(currentRoute);
             }
-            debugger;
             if (currentRoute !== "/app/auth") {
                 router.replace("/app/auth");
             }
