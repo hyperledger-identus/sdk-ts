@@ -2,13 +2,14 @@ import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
 import UUIDLib from "@stablelib/uuid";
 import Agent from "../../../src/edge-agent/Agent";
 import { AttachmentDescriptor, DID, MessageDirection, Seed } from "../../../src/domain";
-import { HandshakeRequest, OutOfBandInvitation, ProtocolType } from "../../../src";
+import { HandshakeRequest, OfferCredential, OutOfBandInvitation, ProtocolType } from "../../../src";
 import { InvitationIsInvalidError } from "../../../src/domain/models/errors/Agent";
 import { mockPluto } from "../../fixtures/inmemory/factory";
 import { mockTask } from "../../testFns";
 import { StartMediator } from '../../../src/edge-agent/didcomm/StartMediator';
 import { StartFetchingMessages } from '../../../src/edge-agent/didcomm/StartFetchingMessages';
 import { MediatorConnection } from '../../../src/plugins/internal/didcomm';
+import { CreateOOBOffer } from '../../../src/edge-agent/didcomm/CreateOOBOffer';
 
 describe("Agent", () => {
   let agent: Agent;
@@ -63,6 +64,57 @@ describe("Agent", () => {
     });
 
     const encodeB64 = (value: any) => Buffer.from(JSON.stringify(value)).toString("base64");
+
+    it("Should issue an oob invitation with a credential offer attachment", async () => {
+      const task = new CreateOOBOffer({
+        from: DID.fromString("did:peer:2.Ez6LSghwSE437wnDE1pt3X6hVDUQzSjsHzinpX3XFvMjRAm7y.Vz6Mkhh1e5CEYYq6JBUcTZ6Cp2ranCWRrv7Yax3Le4N59R6dd.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6Imh0dHA6Ly8xOTIuMTY4LjEuNDQ6ODA4MCIsImEiOlsiZGlkY29tbS92MiJdfX0.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6IndzOi8vMTkyLjE2OC4xLjQ0OjgwODAvd3MiLCJhIjpbImRpZGNvbW0vdjIiXX19"),
+        offer: new OfferCredential(
+          {
+            goal_code: "Offer Credential",
+            credential_preview: {
+              type: "https://didcomm.org/issue-credential/3.0/credential-credential",
+              body: {
+                attributes: [{ name: "familyName", value: "Wonderland" }],
+              },
+            },
+          },
+          [
+            new AttachmentDescriptor(
+              {
+                json: {
+                  id: "8404678b-9a36-4989-af1d-0f445347e0e3",
+                  media_type: "application/json",
+                  data: {
+                    json: {
+                      options: {
+                        challenge: "ad0f43ad-8538-41d4-9cb8-20967bc685bc",
+                        domain: "domain",
+                      },
+                      presentation_definition: {
+                        id: "748efa58-2bce-440d-921f-2520a8446663",
+                        input_descriptors: [],
+                        format: {
+                          jwt: {
+                            alg: ["ES256K"],
+                            proof_type: [],
+                          },
+                        },
+                      },
+                    },
+                  },
+                  format: "prism/jwt",
+                },
+              },
+              "application/json",
+            )
+          ]
+        ),
+      });
+      const oob = await agent.runTask(task);
+      const url = `https://my.domain.com/path?_oob=${oob}`;
+      const result = await agent.parseInvitation(url);
+      expect(result).to.be.instanceOf(OutOfBandInvitation);
+    });
 
     it("invitation - returns OutOfBandInvitation", async () => {
       const oob = makeOOB();
