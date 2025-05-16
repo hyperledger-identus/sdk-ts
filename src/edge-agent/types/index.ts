@@ -54,10 +54,17 @@ export type InvitationType = PrismOnboardingInvitation | OutOfBandInvitation;
 export type MessageEventArg = Message[];
 export type ConnectionEventArg = DIDPair;
 export type RevokeEventArg = Credential;
-export type EventCallback = (arg: MessageEventArg | ConnectionEventArg | RevokeEventArg) => void;
 
 export enum ListenerKey {
   MESSAGE = "message",
   CONNECTION = "connection",
   REVOKE = "revoke"
 }
+
+
+export type EventCallbacks = {
+  [ListenerKey.MESSAGE]: (messages: MessageEventArg) => void;
+  [ListenerKey.CONNECTION]: (connection: ConnectionEventArg) => void;
+  [ListenerKey.REVOKE]: (revoke: RevokeEventArg) => void;
+}
+export type EventCallback<T extends ListenerKey> = EventCallbacks[T];

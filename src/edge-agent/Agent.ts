@@ -162,7 +162,7 @@ export default class Agent extends Startable.Controller {
    * @param {ListenerKey} eventName
    * @param {EventCallback} callback
    */
-  addListener(eventName: ListenerKey, callback: EventCallback) {
+  addListener<T extends ListenerKey>(eventName: T, callback: EventCallback<T>) {
     return this.events.addListener(eventName, callback);
   }
 
@@ -173,7 +173,7 @@ export default class Agent extends Startable.Controller {
    * @param {ListenerKey} eventName
    * @param {EventCallback} callback
    */
-  removeListener(eventName: ListenerKey, callback: EventCallback): void {
+  removeListener<T extends ListenerKey>(eventName: T, callback: EventCallback<T>): void {
     return this.events.removeListener(eventName, callback);
   }
 
