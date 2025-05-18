@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { DID } from "./DID";
 import {
   AttachmentBase64,

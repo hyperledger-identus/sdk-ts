@@ -9,7 +9,7 @@ export class JobManager {
    * @public
    * @type {CancellableTask<any>[]}
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   public cancellables: CancellableTask<any>[] = [];
   /**
    * Cancellable task used to listen for new messages, stopping the Agent should also stop this
