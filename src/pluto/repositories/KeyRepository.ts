@@ -1,7 +1,7 @@
-import { MangoQuery } from "rxdb";
 import * as Domain from "../../domain";
 import type * as Models from "../models";
 import type { Pluto } from "../Pluto";
+import { Query } from "../types";
 import { MapperRepository } from "./builders/MapperRepository";
 
 export class KeyRepository extends MapperRepository<Models.Key, Domain.PrivateKey> {
@@ -12,7 +12,7 @@ export class KeyRepository extends MapperRepository<Models.Key, Domain.PrivateKe
     super(store, "keys");
   }
 
-  override async getModels(query?: MangoQuery<Models.Key>): Promise<Models.Key[]> {
+  override async getModels(query?: Query<Models.Key>): Promise<Models.Key[]> {
     const result = await super.getModels(query);
     const filtered = result.filter(x => x.recoveryId !== "linksecret");
 

@@ -1,4 +1,6 @@
-import type { MangoQuery } from "rxdb";
+
+
+
 import * as Domain from "../domain";
 import * as Models from "./models";
 import { PeerDID } from "../peer-did/PeerDID";
@@ -7,6 +9,7 @@ import { PlutoRepositories, repositoryFactory } from "./repositories";
 import { Arrayable, asArray, notNil } from "../utils";
 import { Startable } from "../domain/protocols/Startable";
 import { Version } from "../domain/backup";
+import { Query } from "./types";
 
 
 /**
@@ -60,7 +63,7 @@ export namespace Pluto {
      * Run a query to fetch data from the Store
      * 
      * @param table table name
-     * @param query a MangoQuery object, a set of values and operators defining the query
+     * @param query a Query object, a set of values and operators defining the query
      * 
      * properties within an object will be AND'ed
      * different objects will be OR'd
@@ -83,7 +86,7 @@ export namespace Pluto {
      * 
      * @returns relevant Models
      */
-    query<T extends Models.Model>(table: string, query?: MangoQuery<T>): Promise<T[]>;
+    query<T extends Models.Model>(table: string, query?: Query<T>): Promise<T[]>;
 
     /**
      * Persist new data in the Store.

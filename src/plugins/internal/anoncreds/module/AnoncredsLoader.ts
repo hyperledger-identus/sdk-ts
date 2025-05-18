@@ -1,4 +1,5 @@
 import type * as Anoncreds from "anoncreds-wasm";
+// @ts-ignore
 import wasmBuffer from 'anoncreds-wasm/anoncreds_wasm_bg.wasm';
 import * as Types from "../types";
 import { expect, isNil } from "../../../../utils";

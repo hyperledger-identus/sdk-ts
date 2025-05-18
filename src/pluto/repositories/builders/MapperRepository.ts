@@ -1,6 +1,6 @@
-import type { MangoQuery } from "rxdb";
 import type * as Domain from "../../../domain";
 import { Model } from "../../models";
+import { Query } from "../../types";
 import { BaseRepository } from "./BaseRepository";
 
 
@@ -11,8 +11,7 @@ import { BaseRepository } from "./BaseRepository";
  * while mapping between a Domain class and a Model object
  */
 export abstract class MapperRepository<T extends Model, D extends Domain.Pluto.Storable>
-  extends BaseRepository<T>
-{
+  extends BaseRepository<T> {
   /**
    * Map from a Model to the Domain class
    * 
@@ -34,7 +33,7 @@ export abstract class MapperRepository<T extends Model, D extends Domain.Pluto.S
    * @returns {T[]} Array of matched Domain instances
    * @throws {@link StoreQueryFailed} if the query fails
    */
-  async get(query?: MangoQuery<T>): Promise<D[]> {
+  async get(query?: Query<T>): Promise<D[]> {
     const result = await this.getModels(query);
     return result.map(x => this.toDomain(x));
   }

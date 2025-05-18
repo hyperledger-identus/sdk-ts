@@ -1,7 +1,7 @@
-import { MangoQuery } from "rxdb";
 import * as Domain from "../../../domain";
 import type { Model } from "../../models";
 import type { Pluto } from "../../Pluto";
+import { Query } from "../../types";
 
 export type OptionalId<T extends Model> = Omit<T, "uuid"> & { uuid?: string; };
 export type WithId<T> = T & Required<Domain.Pluto.Storable>;
@@ -62,8 +62,8 @@ export abstract class BaseRepository<T extends Model> {
   /**
    * Search the Store for Models
    * 
-   * @param query a MangoQuery object, a set of values and operators defining the query
-   * @see rxdb/rx-query.d.ts
+   * @param query a Query object, a set of values and operators defining the query
+   * @see ../types.ts
    * 
    * @example
    * search for a model with uuid and name
@@ -84,7 +84,7 @@ export abstract class BaseRepository<T extends Model> {
    * @returns {T[]} Array of matched Models
    * @throws {@link StoreQueryFailed} if the query fails
    */
-  async getModels(query?: MangoQuery<T>): Promise<T[]> {
+  async getModels(query?: Query<T>): Promise<T[]> {
     // const queryObj = typeof query === "function"
     //   ? this.buildQuery(query)
     //   : new NoSqlQueryBuilderClass(query);
@@ -99,7 +99,7 @@ export abstract class BaseRepository<T extends Model> {
    * @returns {T[]}
    * @throws {@link StoreQueryFailed}
    */
-  private async runQuery(query?: MangoQuery<T>): Promise<T[]> {
+  private async runQuery(query?: Query<T>): Promise<T[]> {
     // const query = builder?.merge(this.baseModel).toJSON().query;
     const mQuery = this.makeMangoQuery(query);
 
@@ -117,9 +117,9 @@ export abstract class BaseRepository<T extends Model> {
    * @param query 
    * @returns 
    */
-  private makeMangoQuery(query?: MangoQuery<T>): MangoQuery<T> | undefined {
+  private makeMangoQuery(query?: Query<T>): Query<T> | undefined {
     if (Object.keys(this.baseModel).length > 0) {
-      const baseQuery: MangoQuery = {
+      const baseQuery: Query = {
         selector: { $and: [this.baseModel] }
       };
 

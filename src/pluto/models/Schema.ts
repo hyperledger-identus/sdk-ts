@@ -1,16 +1,5 @@
-export interface Schema {
-  version: number;
-  primaryKey: string;
-  type: "object";
-  properties: Record<string, Property>;
-  encrypted: string[];
-  required: string[];
-}
+import type { SchemaType } from '@trust0/ridb-core';
 
-interface Property {
-  type: string;
-  maxLength?: number;
-}
 
 type StringKeys<T> = Exclude<Extract<keyof T, string>, "uuid">;
 type KeysOf<T, X> = { [K in keyof T]-?: X extends T[K] ? K : never; }[StringKeys<T>];
@@ -40,24 +29,33 @@ interface SchemaGenerator<T> {
  * @returns 
  */
 export const schemaFactory = <T>(generator: (schema: SchemaGenerator<T>) => void) => {
-  const schema: Schema = {
+  const schema: SchemaType = {
     version: 0,
     type: 'object',
     primaryKey: 'uuid',
     properties: {
       uuid: {
         type: "string",
-        maxLength: 60
+        maxLength: 60,
+        required: true
       }
     },
     encrypted: [],
-    required: ["uuid"],
   };
 
   generator({
     addProperty: (type: any, key: string, opts = {}) => { schema.properties[key] = { type, ...opts }; },
-    setEncrypted: (...keys) => { schema.encrypted.push(...keys); },
-    setRequired: (...keys) => { schema.required.push(...keys); },
+    setEncrypted: (...keys) => { schema.encrypted?.push(...keys); },
+    setRequired: (...keys) => {
+      keys.forEach(key => {
+        if (schema.properties[key]) {
+          schema.properties[key] = {
+            ...schema.properties[key],
+            required: true
+          };
+        }
+      });
+    },
     setVersion: (version) => { schema.version = version; }
   });
 
