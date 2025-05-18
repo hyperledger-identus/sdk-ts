@@ -1,8 +1,10 @@
 "use client";
+
 import Head from "next/head";
 import Image from "next/image";
 import LOGO from "../../public/identus-navbar-light.png";
 import { useRouter } from "next/router";
+
 export default function Home() {
     const router = useRouter();
     return (

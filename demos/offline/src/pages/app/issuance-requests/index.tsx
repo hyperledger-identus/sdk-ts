@@ -4,7 +4,7 @@ import PageHeader from "@/components/PageHeader";
 import Link from "next/link";
 import { useAgent, useDatabase } from "@/hooks";
 import { useEffect, useState } from "react";
-
+import SDK from '@hyperledger/identus-sdk';
 type IssuanceRequest = {
     id: string;
     issuingDID: string;
@@ -45,7 +45,9 @@ export default function IssuanceRequestsPage() {
     }, [db, getIssuanceFlows]);
 
     const openPopup = (request: IssuanceRequest) => {
+        const code = new SDK.Tasks.CreateOOBOffer({
 
+        });
         setSelectedRequest(request);
         setShowPopup(true);
     };

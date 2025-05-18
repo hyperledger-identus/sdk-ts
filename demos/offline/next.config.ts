@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   webpack: (config, { isServer }) => {
     // Configure externals - dependencies that should not be bundled
     config.externals = [
-      ...(config.externals || []),
+      ...(config.externals || ['rxjs']),
     ];
 
     // Enable top-level await
