@@ -92,6 +92,7 @@
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/release-notes-generator": "^10.0.3",
     "@swc/core": "^1.11.24",
+    "@trust0/identus-store-rxdb": "^0.0.2",
     "@trust0/ridb-core": "^1.7.17",
     "@types/google-protobuf": "^3.15.6",
     "@types/jsonld": "^1.5.14",

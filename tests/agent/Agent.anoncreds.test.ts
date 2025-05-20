@@ -23,10 +23,12 @@ import { AnonCredsCredential } from "../../src/pollux/models/AnonCredsVerifiable
 import InMemoryStore from "../fixtures/inmemory";
 import { ApiResponse, Pluto as IPluto, JWT } from "../../src/domain";
 import { Pluto } from "../../src/pluto/Pluto";
-import { Castor, Presentation, ProtocolType, RequestPresentation, Store } from "../../src";
+import { Castor, Presentation, ProtocolType, RequestPresentation } from "../../src";
 import { randomUUID } from "crypto";
 import { plugin as AnoncredsPlugin } from "../../src/plugins/internal/anoncreds/plugin";
 import { CredentialPreview, IssueCredential, OfferCredential, RequestCredential } from '../../src/plugins/internal/didcomm';
+import { RxdbStore } from "@trust0/identus-store-rxdb";
+import { mockPluto } from "../fixtures/inmemory/factory";
 
 
 let agent: Agent;
@@ -60,7 +62,7 @@ describe("Agent Tests", () => {
       packEncrypted: async () => "",
       unpack: async () => new Message("{}", undefined, "TypeofMessage"),
     };
-    store = new Store({
+    store = new RxdbStore({
       name: 'test' + randomUUID(),
       storage: InMemoryStore,
       password: Buffer.from("demoapp").toString("hex")

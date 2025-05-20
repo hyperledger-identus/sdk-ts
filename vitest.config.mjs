@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { defineConfig } from 'vitest/config'
+import path from "path";
 
 const getWasmJSContent = (file) => {
   const wasmBinary = fs.readFileSync(file);
@@ -27,6 +28,15 @@ export default defineConfig({
   resolve: {
     extensions: ['.ts', '.js', '.wasm'],
     mainFields: ['module', 'main'],
+    alias: {
+      // Add path aliases to match tsconfig.json
+      'jwe-wasm/jwe_rust_bg.wasm': path.resolve(__dirname, './externals/generated/jwe-wasm/jwe_rust_bg.wasm'),
+      'anoncreds-wasm/anoncreds_wasm_bg.wasm': path.resolve(__dirname, './externals/generated/anoncreds-wasm/anoncreds_wasm_bg.wasm'),
+      'didcomm-wasm/didcomm_js_bg.wasm': path.resolve(__dirname, './externals/generated/didcomm-wasm/didcomm_js_bg.wasm'),
+      'anoncreds-wasm': path.resolve(__dirname, './externals/generated/anoncreds-wasm'),
+      'didcomm-wasm': path.resolve(__dirname, './externals/generated/didcomm-wasm'),
+      'jwe-wasm': path.resolve(__dirname, './externals/generated/jwe-wasm')
+    },
   },
   test: {
     setupFiles: ['./tests/setup.ts'],

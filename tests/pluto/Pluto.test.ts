@@ -8,17 +8,18 @@ import { X25519PrivateKey } from "../../src/apollo/utils/X25519PrivateKey";
 import { Ed25519PrivateKey } from "../../src/apollo/utils/Ed25519PrivateKey";
 import { JWTCredential } from "../../src/pollux/models/JWTVerifiableCredential";
 
-import { Apollo, Store } from "../../src";
+import { Apollo } from "../../src";
 import { Pluto } from "../../src/pluto/Pluto";
 import InMemoryStore from "../fixtures/inmemory";
 import * as Fixtures from "../fixtures";
+import { RxdbStore } from "@trust0/identus-store-rxdb";
 
 describe("Pluto", () => {
   let instance: Domain.Pluto;
 
   beforeEach(async () => {
     const apollo = new Apollo();
-    const store = new Store({
+    const store = new RxdbStore({
       name: "randomdb" + randomUUID(),
       storage: InMemoryStore,
       password: 'random12434',
