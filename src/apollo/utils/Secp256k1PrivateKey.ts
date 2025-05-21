@@ -47,7 +47,7 @@ export class Secp256k1PrivateKey
     super();
 
     this.keySpecification.set(KeyProperties.curve, Curve.SECP256K1);
-    this.raw = nativeValue;
+    this.raw = Uint8Array.from(nativeValue);
     this.size = this.raw.length;
   }
 

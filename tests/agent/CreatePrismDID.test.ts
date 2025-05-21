@@ -155,7 +155,7 @@ describe("CreatePrismDID", () => {
       });
     });
 
-    test("create -> resolve > expected keys", async () => {
+    test.only("create -> resolve > expected keys", async () => {
       mockTask(PrismKeyPathIndexTask, 4);
       // vi.spyOn(apollo, "createPrivateKey")
       //   .mockReturnValueOnce(Fixtures.Keys.secp256K1.privateKey)

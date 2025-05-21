@@ -29,33 +29,24 @@ interface SchemaGenerator<T> {
  * @returns 
  */
 export const schemaFactory = <T>(generator: (schema: SchemaGenerator<T>) => void) => {
-  const schema: SchemaType = {
+  const schema: SchemaType & { required: string[], encrypted: [] } = {
     version: 0,
     type: 'object',
     primaryKey: 'uuid',
     properties: {
       uuid: {
         type: "string",
-        maxLength: 60,
-        required: true
+        maxLength: 60
       }
     },
     encrypted: [],
+    required: ['uuid']
   };
 
   generator({
     addProperty: (type: any, key: string, opts = {}) => { schema.properties[key] = { type, ...opts }; },
-    setEncrypted: (...keys) => { schema.encrypted?.push(...keys); },
-    setRequired: (...keys) => {
-      keys.forEach(key => {
-        if (schema.properties[key]) {
-          schema.properties[key] = {
-            ...schema.properties[key],
-            required: true
-          };
-        }
-      });
-    },
+    setEncrypted: (...keys) => { schema.encrypted.push(...keys); },
+    setRequired: (...keys) => { schema.required.push(...keys); },
     setVersion: (version) => { schema.version = version; }
   });
 

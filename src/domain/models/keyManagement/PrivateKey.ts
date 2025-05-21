@@ -9,7 +9,7 @@ export abstract class PrivateKey extends Key implements Pluto.Storable {
   public readonly uuid = Pluto.makeUUID();
 
   get curve() {
-     
+
     return this.getProperty(KeyProperties.curve)!;
   }
 
@@ -28,6 +28,6 @@ export abstract class PrivateKey extends Key implements Pluto.Storable {
   }
 
   get value() {
-    return this.raw;
+    return Uint8Array.from(this.raw);
   }
 }

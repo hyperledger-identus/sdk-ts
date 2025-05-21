@@ -30,7 +30,7 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
 
     const keyData = keys.map(privateKey => {
       const publicKey = privateKey.publicKey();
-      const encoded = base58btc.encode(publicKey.to.Buffer());
+      const encoded = base58btc.encode(Uint8Array.from(publicKey.to.Buffer()));
 
       return { privateKey, publicKey, encoded };
     });

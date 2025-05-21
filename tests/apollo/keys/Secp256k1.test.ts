@@ -26,7 +26,7 @@ describe("Keys", () => {
       });
 
       // const raw = new Uint8Array([224, 246, 25, 33, 67, 211, 16, 98, 135, 227, 73, 111, 174, 27, 187, 111, 175, 145, 13, 188, 225, 22, 46, 168, 201, 237, 194, 40, 47, 227, 118, 36]);
-      const raw = Buffer.from([55, 242, 69, 130, 246, 26, 69, 236, 145, 95, 6, 172, 179, 62, 69, 30, 13, 247, 3, 130, 58, 117, 204, 243, 117, 122, 227, 116, 113, 164, 178, 104]);
+      const raw = Uint8Array.from([55, 242, 69, 130, 246, 26, 69, 236, 145, 95, 6, 172, 179, 62, 69, 30, 13, 247, 3, 130, 58, 117, 204, 243, 117, 122, 227, 116, 113, 164, 178, 104]);
       const privateKey = new Secp256k1PrivateKey(raw);
 
       // implementations
@@ -149,11 +149,11 @@ describe("Keys", () => {
       });
 
       test("value - returns constructor value", () => {
-        expect(privateKey.value).to.equal(raw);
+        expect(privateKey.value).to.eql(raw);
       });
 
       test("raw - returns constructor value", () => {
-        expect(privateKey.raw).to.equal(raw);
+        expect(privateKey.raw).to.eql(raw);
       });
 
       test("size - returns length of constructor value", () => {
@@ -274,7 +274,7 @@ describe("Keys", () => {
       });
 
       test("value - returns constructor value", () => {
-        expect(publicKey.value).to.equal(raw);
+        expect(publicKey.value).to.eql(raw);
       });
 
       describe("isCurve", () => {
