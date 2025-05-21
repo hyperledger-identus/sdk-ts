@@ -343,7 +343,7 @@ describe("Agent Tests", () => {
           expect(foundAttachment?.format).to.equal("anoncreds/credential-request@v1.0");
         });
         //*/
-        it.only(`CredentialType [${CredentialType.JWT}]`, async () => {
+        it(`CredentialType [${CredentialType.JWT}]`, async () => {
 
           // const offer = createOffer(CredentialType.JWT);
           const offer = Fixtures.Credentials.JWT.credentialOfferMessage;
