@@ -28,6 +28,15 @@
     ],
     "jsx": "react-jsx",
     "paths": {
+      "jwe-wasm/jwe_rust_bg.wasm": [
+        "./externals/generated/jwe-wasm/jwe_rust_bg.wasm"
+      ],
+      "anoncreds-wasm/anoncreds_wasm_bg.wasm": [
+        "./externals/generated/anoncreds-wasm/anoncreds_wasm_bg.wasm"
+      ],
+      "didcomm-wasm/didcomm_js_bg.wasm": [
+        "./externals/generated/didcomm-wasm/didcomm_js_bg.wasm"
+      ],
       "anoncreds-wasm": [
         "./externals/generated/anoncreds-wasm"
       ],

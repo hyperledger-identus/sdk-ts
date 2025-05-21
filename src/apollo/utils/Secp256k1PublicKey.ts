@@ -82,7 +82,7 @@ export class Secp256k1PublicKey extends PublicKey implements StorableKey, Export
       );
     }
 
-    this.raw = nativeValue;
+    this.raw = Uint8Array.from(nativeValue);
     this.size = this.raw.length;
   }
 

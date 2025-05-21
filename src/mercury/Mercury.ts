@@ -188,7 +188,7 @@ export default class Mercury implements MercuryInterface {
       ?.serviceEndpoint?.uri;
     try {
       //It Is okey to fail
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+       
       const did = this.castor.parseDID(uri!);
       return did;
     } catch {

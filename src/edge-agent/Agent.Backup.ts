@@ -1,4 +1,5 @@
 import Pako from "pako";
+// @ts-ignore
 import jweWasm from "jwe-wasm/jwe_rust_bg.wasm";
 import * as Domain from "../domain";
 import Agent from "./Agent";

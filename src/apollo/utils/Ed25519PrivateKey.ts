@@ -25,7 +25,7 @@ export class Ed25519PrivateKey extends PrivateKey implements DerivableKey, Expor
 
 
   public keySpecification: Map<string, string> = new Map();
-  public raw: Buffer;
+  public raw: Uint8Array;
   public size: number;
   public type = KeyTypes.EC;
 
@@ -35,7 +35,7 @@ export class Ed25519PrivateKey extends PrivateKey implements DerivableKey, Expor
   constructor(bytes: Int8Array | Uint8Array) {
     super();
 
-    this.raw = this.getInstance(bytes).raw;
+    this.raw = Uint8Array.from(this.getInstance(bytes).raw);
     this.size = this.raw.length;
     this.keySpecification.set(KeyProperties.curve, Curve.ED25519);
   }

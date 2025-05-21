@@ -16,9 +16,12 @@ export class ConnectionsManager {
 
   // ?? tmp hack around only one mediator
   get mediator(): MediatorConnection | Nil {
-    const mediator: string = this.mediators.values().next().value;
-    const connection = this.find(mediator);
+    const mediator = this.mediators.values().next().value;
+    if (!mediator) {
+      return null;
+    }
 
+    const connection = this.find(mediator);
     if (connection instanceof MediatorConnection) {
       return connection;
     }

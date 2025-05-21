@@ -19,7 +19,7 @@ export class X25519PrivateKey extends PrivateKey implements ExportableKey, Stora
   public readonly recoveryId = StorableKey.recoveryId("x25519", "priv");
 
   public keySpecification: Map<string, string> = new Map();
-  public raw: Buffer;
+  public raw: Uint8Array;
   public size: number;
   public type = KeyTypes.EC;
 
@@ -29,7 +29,7 @@ export class X25519PrivateKey extends PrivateKey implements ExportableKey, Stora
   constructor(bytes: Int8Array | Uint8Array) {
     super();
 
-    this.raw = this.getInstance(bytes).raw;
+    this.raw = Uint8Array.from(this.getInstance(bytes).raw);
     this.size = this.raw.length;
     this.keySpecification.set(KeyProperties.curve, Curve.X25519);
   }

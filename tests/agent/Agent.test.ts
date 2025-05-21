@@ -27,7 +27,7 @@ import { AnonCredsCredential } from "../../src/pollux/models/AnonCredsVerifiable
 import InMemoryStore from "../fixtures/inmemory";
 import { ApiResponse, Pluto as IPluto, JWT } from "../../src/domain";
 import { Pluto } from "../../src/pluto/Pluto";
-import { Castor, HandshakeRequest, Presentation, ProtocolType, RequestPresentation, SDJWTCredential, Store } from "../../src";
+import { Castor, HandshakeRequest, Presentation, ProtocolType, RequestPresentation, SDJWTCredential } from "../../src";
 import { randomUUID } from "crypto";
 import { DIF } from '../../src/plugins/internal/dif/types';
 // import { JWT } from "../../src/pollux/utils/JWT";
@@ -36,6 +36,7 @@ import { StartFetchingMessages } from '../../src/edge-agent/didcomm/StartFetchin
 import { mockTask } from '../testFns';
 import { CredentialPreview, IssueCredential, MediatorConnection, OfferCredential, RequestCredential } from '../../src/plugins/internal/didcomm';
 import { RevocationNotification } from '../../src/plugins/internal/oea/protocols/RevocationNotfiication';
+import { RxdbStore } from "@trust0/identus-store-rxdb";
 
 let agent: Agent;
 let apollo: Apollo;
@@ -71,7 +72,7 @@ describe("Agent Tests", () => {
       packEncrypted: async () => "",
       unpack: async () => new Message("{}", undefined, "TypeofMessage"),
     };
-    store = new Store({
+    store = new RxdbStore({
       name: 'test' + randomUUID(),
       storage: InMemoryStore,
       password: Buffer.from("demoapp").toString("hex")
@@ -305,7 +306,7 @@ describe("Agent Tests", () => {
 
       describe("Should create a credential request from a valid didcomm CredentialOffer Message", () => {
         /*
-        // TODO 
+        // TODO
         it(`CredentialType [${CredentialType.AnonCreds}]`, async () => {
           const linkSecret = Fixtures.Credentials.Anoncreds.linkSecret;
 
@@ -451,7 +452,7 @@ describe("Agent Tests", () => {
         it("Should revoke a JWT Credential", async () => {
           const revocationIssueMessage = new IssueCredential(
             {
-              // formats: [{ attach_id: "attach_1", format: CredentialType.JWT }] 
+              // formats: [{ attach_id: "attach_1", format: CredentialType.JWT }]
             },
             [new AttachmentDescriptor({ base64: base64Data }, "attach_1", undefined, undefined, CredentialType.JWT)],
             new DID("did", "prism", "from"),

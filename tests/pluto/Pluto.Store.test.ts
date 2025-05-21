@@ -1,13 +1,13 @@
 import { describe, expect, test, beforeEach, afterEach } from 'vitest';
 import { randomUUID } from "crypto";
-import { Store } from "../../src";
 import InMemoryStore from "../fixtures/inmemory";
+import { RxdbStore } from "@trust0/identus-store-rxdb";
 
 describe("Pluto - Store", () => {
-  let sut: Store;
+  let sut: RxdbStore;
 
   beforeEach(async () => {
-    sut = new Store({
+    sut = new RxdbStore({
       name: "randomdb" + randomUUID(),
       storage: InMemoryStore,
       password: 'random12434',

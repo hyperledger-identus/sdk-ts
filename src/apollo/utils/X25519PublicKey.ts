@@ -18,7 +18,7 @@ export class X25519PublicKey extends PublicKey implements ExportableKey, Storabl
   public readonly recoveryId = StorableKey.recoveryId("x25519", "pub");
 
   public keySpecification: Map<string, string> = new Map();
-  public raw: Buffer;
+  public raw: Uint8Array;
   public size: number;
   public type = KeyTypes.EC;
 
@@ -28,7 +28,9 @@ export class X25519PublicKey extends PublicKey implements ExportableKey, Storabl
   constructor(bytes: Int8Array | Uint8Array) {
     super();
 
-    this.raw = this.getInstance(bytes).raw;
+    this.raw = Uint8Array.from(
+      this.getInstance(bytes).raw
+    );
     this.size = this.raw.length;
     this.keySpecification.set(KeyProperties.curve, Curve.X25519);
   }
@@ -41,7 +43,6 @@ export class X25519PublicKey extends PublicKey implements ExportableKey, Storabl
     // eslint-disable-next-line no-extra-boolean-cast
     const bytes = !!value ? Buffer.from(value) : this.raw;
     const instance = new ApolloSDK.utils.KMMX25519PublicKey(Int8Array.from(bytes));
-
     return instance;
   }
 }

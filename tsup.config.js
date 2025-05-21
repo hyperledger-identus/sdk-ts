@@ -15,5 +15,6 @@ export default defineConfig({
   loader: {
     '.wasm': 'binary'
   },
+  inject: ['anoncreds-wasm/anoncreds_wasm_bg.wasm', 'didcomm-wasm/didcomm_js_bg.wasm', 'jwe-wasm/jwe_rust_bg.wasm'],
   external: ['buffer']
 });

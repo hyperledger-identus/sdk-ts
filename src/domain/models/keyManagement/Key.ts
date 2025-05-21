@@ -18,7 +18,7 @@ export abstract class Key {
   abstract getEncoded(): Uint8Array;
 
   get curve() {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+     
     return this.getProperty(KeyProperties.curve)!;
   }
 

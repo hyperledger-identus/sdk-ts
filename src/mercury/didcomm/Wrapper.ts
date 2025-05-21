@@ -7,6 +7,7 @@ import type {
   Attachment,
   AttachmentData,
 } from "didcomm-wasm";
+// @ts-ignore
 import wasmBuffer from "didcomm-wasm/didcomm_js_bg.wasm";
 
 import * as Domain from "../../domain";

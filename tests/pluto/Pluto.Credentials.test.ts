@@ -4,15 +4,16 @@ import { Pluto } from "../../src/pluto/Pluto";
 import InMemoryStore from "../fixtures/inmemory";
 import * as Fixtures from "../fixtures";
 import * as Domain from "../../src/domain";
-import { AnonCredsCredential, Apollo, JWTCredential, Store } from "../../src";
+import { AnonCredsCredential, Apollo, JWTCredential } from "../../src";
 import { randomUUID } from "crypto";
+import { RxdbStore } from "@trust0/identus-store-rxdb";
 
 describe("Pluto", () => {
   let instance: Domain.Pluto;
 
   beforeEach(async () => {
     const apollo = new Apollo();
-    const store = new Store({
+    const store = new RxdbStore({
       name: "randomdb" + randomUUID(),
       storage: InMemoryStore,
       password: 'random12434',

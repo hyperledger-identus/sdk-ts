@@ -1,18 +1,18 @@
 import { describe, expect, test } from 'vitest';
 import * as Domain from "../../src/domain";
-import { Store } from "../../src";
 import * as Models from "../../src/pluto/models";
 import { schemaFactory } from "../../src/pluto/models/Schema";
 import { Credential } from "../../src/pluto/models";
 import { addRxPlugin } from "rxdb";
 import { RxDBDevModePlugin } from "rxdb/plugins/dev-mode";
 import InMemory from "../fixtures/inmemory";
+import { RxdbStore } from "@trust0/identus-store-rxdb";
 
 addRxPlugin(RxDBDevModePlugin);
 
 describe("Pluto", () => {
   const createStore = (name: string, collections?: any) => {
-    const store = new Store({
+    const store = new RxdbStore({
       name: `testingdb_${name}`,
       password: 'random12434',
       ignoreDuplicate: true,
