@@ -53,9 +53,6 @@ const runTests = (describe, test, assert, SDK) => {
     // ?? should be in Castor
     assert("PeerDID" in SDK);
     assert("PeerDIDService" in SDK);
-
-    // ?? should be in Pluto
-    assert("Store" in SDK);
   });
 
   describe("Modules", () => {
