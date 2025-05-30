@@ -11,9 +11,7 @@ export const disabledRules = {
 	"no-unused-vars": "off",
 	"no-undef": "off",
 	"@typescript-eslint/no-empty-object-type": "off",
-	"@typescript-eslint/no-unused-vars": "off",
 	"@typescript-eslint/explicit-function-return-type": "off",
-	"@typescript-eslint/no-explicit-any": "off",
 	"@typescript-eslint/no-unnecessary-type-assertion": "off",
 	'@typescript-eslint/no-namespace': 'warn',
 	'no-redeclare': 'warn'
