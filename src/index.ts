@@ -50,6 +50,7 @@ export * from "./pollux/models/AnonCredsVerifiableCredential";
 export { ProtocolType } from "./edge-agent/types";
 
 // didcomm messages
+export { RequestCredential } from "./plugins/internal/didcomm/protocols/issueCredential/RequestCredential";
 export { IssueCredential } from "./plugins/internal/didcomm/protocols/issueCredential/IssueCredential";
 export { OfferCredential } from "./plugins/internal/didcomm/protocols/issueCredential/OfferCredential";
 export { OutOfBandInvitation } from './plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation';
@@ -67,8 +68,11 @@ export { HandshakeRequest } from './plugins/internal/oea/protocols/HandshakeRequ
 import { CreatePrismDID } from "./edge-agent/didFunctions";
 import { PKInstance } from "./pollux/utils/jwt/PKInstance";
 import { CreateOOBOffer } from './edge-agent/didcomm/CreateOOBOffer';
+import { CreateJWT } from "./pollux/utils/jwt/CreateJwt";
+
 export const Tasks = {
   CreatePrismDID,
   PKInstance,
-  CreateOOBOffer
+  CreateOOBOffer,
+  CreateJWT
 };
