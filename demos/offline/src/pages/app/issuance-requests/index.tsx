@@ -5,6 +5,10 @@ import Link from "next/link";
 import { useAgent, useDatabase } from "@/hooks";
 import { useEffect, useState } from "react";
 import SDK from '@hyperledger/identus-sdk';
+import { v4 as uuidv4 } from 'uuid';
+import { base64ToBytes } from "did-jwt";
+import QRCodeDisplay from "@/components/QRCodeDisplay";
+
 type IssuanceRequest = {
     id: string;
     issuingDID: string;
@@ -21,11 +25,13 @@ type IssuanceRequest = {
 
 export default function IssuanceRequestsPage() {
     const { db, error: dbError, getIssuanceFlows } = useDatabase();
-    const { agent } = useAgent();
+    const { agent, peerDID } = useAgent();
     const [issuanceRequests, setIssuanceRequests] = useState<IssuanceRequest[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
     const [showPopup, setShowPopup] = useState(false);
+    const [oob, setOob] = useState<string | null>(null);
     const [selectedRequest, setSelectedRequest] = useState<IssuanceRequest | null>(null);
 
     useEffect(() => {
@@ -44,10 +50,60 @@ export default function IssuanceRequestsPage() {
         }
     }, [db, getIssuanceFlows]);
 
-    const openPopup = (request: IssuanceRequest) => {
-        const code = new SDK.Tasks.CreateOOBOffer({
+    const openPopup = async (request: IssuanceRequest) => {
+        if (!agent || !peerDID) return;
 
+        const oobTask = new SDK.Tasks.CreateOOBOffer({
+            from: peerDID,
+            offer: new SDK.OfferCredential(
+                {
+                    goal_code: "Offer Credential",
+                    credential_preview: {
+                        type: SDK.ProtocolType.DidcommCredentialPreview,
+                        body: {
+                            attributes: request.claims.map((claim) => ({ name: claim.name, value: claim.value })),
+                        },
+                    },
+                },
+                [
+                    new SDK.Domain.AttachmentDescriptor(
+                        {
+                            json: {
+                                id: uuidv4(),
+                                media_type: "application/json",
+                                options: {
+                                    challenge: uuidv4(),
+                                    domain: window.location.origin || "domain",
+                                },
+                                thid: request.id,
+                                presentation_definition: {
+                                    id: uuidv4(),
+                                    input_descriptors: [],
+                                    format: {
+                                        jwt: {
+                                            alg: ["ES256K"],
+                                            proof_type: [],
+                                        },
+                                    },
+                                },
+                                format: "prism/jwt",
+                            },
+                        },
+                        "application/json",
+                        request.id,
+                        undefined,
+                        "prism/jwt"
+                    )
+                ],
+                undefined,
+                undefined,
+                request.id
+            )
         });
+        const oob = await agent.runTask(oobTask);
+        const oobDecoded = base64ToBytes(oob);
+        const oobJson = Buffer.from(oobDecoded).toString();
+        setOob(oobJson);
         setSelectedRequest(request);
         setShowPopup(true);
     };
@@ -55,6 +111,7 @@ export default function IssuanceRequestsPage() {
     const closePopup = () => {
         setShowPopup(false);
         setSelectedRequest(null);
+        setOob(null);
     };
 
     return (
@@ -177,7 +234,7 @@ export default function IssuanceRequestsPage() {
             </div>
 
             {/* Popup Modal */}
-            {showPopup && selectedRequest && (
+            {showPopup && selectedRequest && oob && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
                     <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-xl">
                         <div className="p-6">
@@ -192,10 +249,13 @@ export default function IssuanceRequestsPage() {
                             </button>
 
                             <div className="bg-white dark:bg-gray-800 p-4 rounded-md">
-                                {/* White box content placeholder */}
-                                <div className="h-40 flex items-center justify-center text-gray-400 dark:text-gray-500">
-                                    Issuance Request Details
+                                <div className="mb-4">
+                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Credential Offer QR Code</h3>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                                        Scan this QR code with your wallet to receive the credential offer
+                                    </p>
                                 </div>
+                                <QRCodeDisplay oob={oob} />
                             </div>
                         </div>
                     </div>

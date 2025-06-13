@@ -352,13 +352,14 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         }
         if (state === "disconnected") {
             if (currentRoute !== "/app/auth") {
-                setRedirectUrl(currentRoute);
+                const fullUrl = router.asPath;
+                setRedirectUrl(fullUrl);
             }
             if (currentRoute !== "/app/auth") {
                 router.replace("/app/auth");
             }
         }
-    }, [currentRoute, state, router])
+    }, [currentRoute, state, router, router.asPath])
 
     useEffect(() => {
         if (currentWallet) {

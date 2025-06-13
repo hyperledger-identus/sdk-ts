@@ -33,7 +33,7 @@ const agentRoutes = [
     {
         label: 'Agent',
         children: [
-            { path: '#', label: 'Issue Credentials' },
+            { path: '/app/issuance-requests', label: 'Issue Credentials' },
             { path: '#', label: 'Verify Credentials' },
         ]
     },

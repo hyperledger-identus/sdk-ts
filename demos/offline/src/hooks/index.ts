@@ -1,9 +1,8 @@
-import { useContext, useMemo } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import SDK from "@hyperledger/identus-sdk";
 
-
 import { AgentContext, DatabaseContext, PrismDIDContext, ThemeContext } from "@/context";
-
+import { FEATURES } from "@/config";
 
 export function useApollo() {
     const apollo = useMemo(() => new SDK.Apollo(), []);
@@ -46,3 +45,13 @@ export function useAgent() {
     }
     return context;
 }
+
+export function usePermissions() {
+    const { features } = useDatabase();
+    const hasPermission = useCallback((feature: string): boolean => {
+        return features.includes(feature);
+    }, [features]);
+    return {
+        hasPermission
+    };
+} 

@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import SDK from "@hyperledger/identus-sdk";
-import { useRouter } from "next/router";
 
 import { AgentContext } from "@/context";
 import { ResolverClass, createResolver } from "@/utils/resolvers";
 import { useDatabase } from "@/hooks";
+import { v4 as uuidv4 } from 'uuid';
+import { base64 } from "multiformats/bases/base64";
 
 export function AgentProvider({ children }: { children: React.ReactNode }) {
     const {
@@ -15,6 +16,7 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         state: dbState,
         getMessages,
         pluto,
+        getIssuanceFlow
     } = useDatabase();
 
     const [agent, setAgent] = useState<SDK.Agent | null>(null);
@@ -24,6 +26,65 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     const [credentials, setCredentials] = useState<SDK.Domain.Credential[]>([]);
     const [peerDID, setPeerDID] = useState<SDK.Domain.DID | null>(null);
     const currentState = agent?.state || SDK.Domain.Startable.State.STOPPED;
+
+    //TODO: Add support for SD+JWT
+    const processRequestCredentialMessage = useCallback(async (message: SDK.RequestCredential) => {
+        const issuanceFlow = await getIssuanceFlow(message.thid!);
+        if (!issuanceFlow) {
+            throw new Error("No issuance flow found");
+        }
+        const issuerDID = SDK.Domain.DID.fromString(issuanceFlow.issuingDID)
+        const sk = await pluto.getDIDPrivateKeysByDID(issuerDID);
+        const privateKey = sk.at(0);
+        if (!privateKey) {
+            throw new Error("No private key found");
+        }
+        const credentialTask = new SDK.Tasks.CreateJWT({
+            did: SDK.Domain.DID.fromString(issuanceFlow.issuingDID),
+            payload: issuanceFlow.claims.reduce((all, { name, value, type }) => {
+                if (type === 'number') {
+                    all[name] = Number(value);
+                } else if (type === 'boolean') {
+                    all[name] = value === 'true';
+                } else if (type === 'string') {
+                    all[name] = value;
+                } else if (type === 'date') {
+                    all[name] = new Date(value);
+                } else {
+                    all[name] = value;
+                }
+                return all;
+            }, {} as Partial<SDK.Domain.JWT.Payload>),
+            privateKey
+        })
+        const jwtCredential = await agent?.runTask(credentialTask);
+        const issueCredentialMessage = new SDK.Domain.Message(
+            {
+                comment: null,
+                goal_code: null,
+                more_available: null,
+                replacement_id: null
+            },
+            uuidv4(),
+            SDK.ProtocolType.DidcommIssueCredential,
+            message.to,
+            message.from,
+            [
+                new SDK.Domain.AttachmentDescriptor({
+                    base64: base64.baseEncode(
+                        Buffer.from(jwtCredential!.toString())
+                    )
+                },
+                    "application/jwt",
+                    uuidv4(),
+                    undefined,
+                    "prism/jwt"
+                )
+            ],
+            message.thid
+        )
+        return SDK.IssueCredential.fromMessage(issueCredentialMessage)
+    }, [agent, getIssuanceFlow, pluto]);
 
     const start = useCallback(async () => {
         if (!db) {
@@ -71,12 +132,14 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         if (!db) {
             throw new Error("No db found");
         }
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         const [found] = await db.collections.messages.find({ $or: [{ uuid: message.uuid }, { id: message.id }] });
         if (found) {
             await db.collections.messages.update({
                 ...found,
                 read: true
-            })
+            } as any)
         }
         setMessages((prev) => prev.map((m) => m.message.id === message.id ? { ...m, read: true } : m));
     }, [db, setMessages]);
@@ -86,13 +149,27 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     }, [currentState])
 
     const onMessage = useCallback((messages: SDK.Domain.Message[]) => {
+        const CredentialRequests = messages.filter((message) => message.piuri === SDK.ProtocolType.DidcommRequestCredential);
+
+
+        for (const request of CredentialRequests) {
+            getIssuanceFlow(request.thid!).then(async (issuanceFlow) => {
+                if (issuanceFlow?.automaticIssuance) {
+                    //Automatically issue Credentials
+                    const requestCredentialMessage = SDK.RequestCredential.fromMessage(request);
+                    const issueCredentialMessage = await processRequestCredentialMessage(requestCredentialMessage);
+                    agent?.send(issueCredentialMessage.makeMessage());
+                }
+            });
+        }
+
         setMessages((prev) => {
             const newMessages = messages.filter(
                 (message) => !prev.some((m) => m.message.id === message.id)
             );
             return [...prev, ...newMessages.map((message) => ({ message, read: false }))];
         });
-    }, [setMessages]);
+    }, [setMessages, getIssuanceFlow, agent, processRequestCredentialMessage]);
 
     const onConnection = useCallback((connections: SDK.Domain.DIDPair) => {
         setConnections((prev) => {
@@ -128,6 +205,7 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         }
     }, [agent, onMessage, onConnection, onRevokeCredential])
 
+
     const preloadData = useCallback(async () => {
         if (db && dbState === 'loaded') {
             const messages = await getMessages();
@@ -161,5 +239,5 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         preloadData().catch(console.log);
     }, [dbState, db, preloadData])
 
-    return <AgentContext.Provider value={{ agent, connections, credentials, setAgent, start, stop, state, messages, readMessage, peerDID }}> {children} </AgentContext.Provider>
+    return <AgentContext.Provider value={{ agent, connections, credentials, setAgent, start, stop, state, messages, readMessage, peerDID, processRequestCredentialMessage }}> {children} </AgentContext.Provider>
 }

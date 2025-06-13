@@ -25,6 +25,12 @@ export const AgentContext = createContext<{
     start: () => Promise<void>;
     stop: () => Promise<void>;
     readMessage: (message: SDK.Domain.Message) => Promise<void>;
+
+    //TODO: move this to a task in the Agent
+    processRequestCredentialMessage(
+        message: SDK.RequestCredential
+    ): Promise<SDK.IssueCredential>
+
     messages: { message: SDK.Domain.Message, read: boolean }[];
     connections: SDK.Domain.DIDPair[];
     credentials: SDK.Domain.Credential[];

@@ -12,6 +12,7 @@
     "@hyperledger/identus-sdk": "file:../../",
     "@meshsdk/core": "^1.9.0-beta.1",
     "@meshsdk/react": "^1.9.0-beta.1",
+    "@paulmillr/qr": "^0.3.0",
     "@trust0/identus-store": "^0.1.10",
     "@trust0/ridb": "^1.5.22",
     "@trust0/ridb-core": "^1.7.17",
@@ -19,9 +20,10 @@
     "framer-motion": "^12.10.1",
     "next": "15.3.2",
     "postcss": "^8.5.3",
+    "qr": "^0.5.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-beautiful-dnd": "^13.1.1"
+    "react-beautiful-dnd": "^13.1.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
