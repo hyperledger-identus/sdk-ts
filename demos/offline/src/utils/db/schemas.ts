@@ -13,7 +13,7 @@ type CollectionSchemas = {
         version: Collections[key]['schema']['version'];
         primaryKey: Collections[key]['schema']['primaryKey'];
         type: Collections[key]['schema']['type'];
-        encrypted: Collections[key]['schema']['encrypted'];
+        encrypted?: Collections[key]['schema']['encrypted'];
         properties: Collections[key]['schema']['properties'];
     };
 }
@@ -36,6 +36,7 @@ function migrateSchema<
     return {
         ...schemaWithoutProperties,
         version: 0 as const,
+        encrypted: schema.encrypted || [],
         properties: Object.fromEntries(
             Object.entries(props).map(([key, value]) => {
                 const propValue: any = { ...value };
