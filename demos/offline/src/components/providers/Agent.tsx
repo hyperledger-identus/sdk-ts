@@ -41,20 +41,28 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         }
         const credentialTask = new SDK.Tasks.CreateJWT({
             did: SDK.Domain.DID.fromString(issuanceFlow.issuingDID),
-            payload: issuanceFlow.claims.reduce((all, { name, value, type }) => {
-                if (type === 'number') {
-                    all[name] = Number(value);
-                } else if (type === 'boolean') {
-                    all[name] = value === 'true';
-                } else if (type === 'string') {
-                    all[name] = value;
-                } else if (type === 'date') {
-                    all[name] = new Date(value);
-                } else {
-                    all[name] = value;
-                }
-                return all;
-            }, {} as Partial<SDK.Domain.JWT.Payload>),
+            payload: {
+                iss: issuanceFlow.issuingDID,
+                sub: issuanceFlow.issuingDID,
+                iat: Date.now(),
+                exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
+                nbf: Date.now(),
+                jti: uuidv4(),
+                vc: issuanceFlow.claims.reduce((all, { name, value, type }) => {
+                    if (type === 'number') {
+                        all[name] = Number(value);
+                    } else if (type === 'boolean') {
+                        all[name] = value === 'true';
+                    } else if (type === 'string') {
+                        all[name] = value;
+                    } else if (type === 'date') {
+                        all[name] = new Date(value);
+                    } else {
+                        all[name] = value;
+                    }
+                    return all;
+                }, {} as Partial<SDK.Domain.JWT.Payload>)
+            },
             privateKey
         })
         const jwtCredential = await agent?.runTask(credentialTask);
@@ -148,28 +156,33 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         setState(currentState);
     }, [currentState])
 
-    const onMessage = useCallback((messages: SDK.Domain.Message[]) => {
-        const CredentialRequests = messages.filter((message) => message.piuri === SDK.ProtocolType.DidcommRequestCredential);
-
-
-        for (const request of CredentialRequests) {
-            getIssuanceFlow(request.thid!).then(async (issuanceFlow) => {
-                if (issuanceFlow?.automaticIssuance) {
-                    //Automatically issue Credentials
-                    const requestCredentialMessage = SDK.RequestCredential.fromMessage(request);
-                    const issueCredentialMessage = await processRequestCredentialMessage(requestCredentialMessage);
-                    agent?.send(issueCredentialMessage.makeMessage());
-                }
-            });
+    const onMessage = useCallback(async (messages: SDK.Domain.Message[]) => {
+        if (agent) {
+            const CredentialRequests = messages.filter((message) => message.piuri === SDK.ProtocolType.DidcommRequestCredential);
+            const IssueCredentials = messages.filter((message) => message.piuri === SDK.ProtocolType.DidcommIssueCredential);
+            for (const request of CredentialRequests) {
+                getIssuanceFlow(request.thid!).then(async (issuanceFlow) => {
+                    if (issuanceFlow?.automaticIssuance) {
+                        //Automatically issue Credentials
+                        const requestCredentialMessage = SDK.RequestCredential.fromMessage(request);
+                        const issueCredentialMessage = await processRequestCredentialMessage(requestCredentialMessage);
+                        agent.send(issueCredentialMessage.makeMessage());
+                    }
+                });
+            }
+            for (const issue of IssueCredentials) {
+                const issueCredentialMessage = SDK.IssueCredential.fromMessage(issue);
+                const credential = await agent.processIssuedCredentialMessage(issueCredentialMessage);
+                await pluto.storeCredential(credential)
+            }
         }
-
         setMessages((prev) => {
             const newMessages = messages.filter(
                 (message) => !prev.some((m) => m.message.id === message.id)
             );
             return [...prev, ...newMessages.map((message) => ({ message, read: false }))];
         });
-    }, [setMessages, getIssuanceFlow, agent, processRequestCredentialMessage]);
+    }, [setMessages, getIssuanceFlow, agent, processRequestCredentialMessage, pluto]);
 
     const onConnection = useCallback((connections: SDK.Domain.DIDPair) => {
         setConnections((prev) => {

@@ -192,10 +192,21 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         }
         const [found] = await db.collections.messages.find({ $or: [{ uuid: message.uuid }, { id: message.id }] });
         if (found) {
+
             await db.collections.messages.update({
                 ...found,
                 read: true
-            })
+            } as any)
+        }
+    }, [db]);
+
+    const deleteMessage = useCallback(async (message: SDK.Domain.Message) => {
+        if (!hasDB(db)) {
+            throw new Error("Database not connected");
+        }
+        const [found] = await db.collections.messages.find({ $or: [{ uuid: message.uuid }, { id: message.id }] });
+        if (found) {
+            await db.collections.messages.delete(found.id);
         }
     }, [db]);
 
@@ -378,6 +389,7 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         start,
         getMessages,
         readMessage,
+        deleteMessage,
         getExtendedDIDs,
         storeDID,
         updateDIDStatus,

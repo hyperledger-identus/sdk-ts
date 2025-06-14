@@ -49,6 +49,7 @@ export const DatabaseContext = createContext<{
     start: (options: StartOptions<typeof schemas>) => Promise<void>;
     getMessages: () => Promise<{ message: SDK.Domain.Message, read: boolean }[]>;
     readMessage: (message: SDK.Domain.Message) => Promise<void>;
+    deleteMessage: (message: SDK.Domain.Message) => Promise<void>;
     getExtendedDIDs: () => Promise<{ did: SDK.Domain.DID, status: string, alias: string, keys: SDK.Domain.PrivateKey[] }[]>;
     storeDID: (did: SDK.Domain.DID, keys: SDK.Domain.PrivateKey[], alias: string) => Promise<void>;
     updateDIDStatus: (did: SDK.Domain.DID, status: string) => Promise<void>;
