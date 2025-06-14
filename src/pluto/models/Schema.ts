@@ -29,6 +29,16 @@ interface SchemaGenerator<T> {
 
 type InSchema<T> = keyof T & string;
 
+// Type for the schema that constrains properties to only those that were added
+type TypedSchema<T> = Omit<SchemaType, 'properties'> & {
+  required: string[];
+  encrypted: string[];
+  properties: {
+    [K in keyof T | 'uuid']: K extends 'uuid'
+    ? { type: "string"; maxLength: number }
+    : { type: string; required?: boolean };
+  };
+};
 
 /**
  * helper for creating Schemas
@@ -37,8 +47,8 @@ type InSchema<T> = keyof T & string;
  * @param generator 
  * @returns 
  */
-export const schemaFactory = <T>(generator: (schema: SchemaGenerator<T>) => void) => {
-  const schema: SchemaType & { required: string[], encrypted: [] } = {
+export const schemaFactory = <T>(generator: (schema: SchemaGenerator<T>) => void): TypedSchema<T> => {
+  const schema: SchemaType & { required: string[], encrypted: string[] } = {
     version: 0,
     type: 'object',
     primaryKey: 'uuid',
@@ -65,5 +75,5 @@ export const schemaFactory = <T>(generator: (schema: SchemaGenerator<T>) => void
     setVersion: (version: number) => { schema.version = version; }
   });
 
-  return schema;
+  return schema as TypedSchema<T>;
 };

@@ -26,6 +26,7 @@ export const AgentContext = createContext<{
     stop: () => Promise<void>;
     readMessage: (message: SDK.Domain.Message) => Promise<void>;
 
+    deleteMessage: (message: SDK.Domain.Message) => Promise<void>;
     //TODO: move this to a task in the Agent
     processRequestCredentialMessage(
         message: SDK.RequestCredential

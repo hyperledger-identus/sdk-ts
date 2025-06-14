@@ -439,9 +439,10 @@ export class JWTCredential
       credentialData: JSON.stringify(data),
       issuer: this.issuer,
       subject: this.properties.get(JWT.Claims.sub),
-      validUntil: this.isCredentialPayload(Object.fromEntries(this.properties)) ?
-        this.getProperty(JWT.Claims.exp) :
-        this.getProperty(JWT.Claims.exp),
+      validUntil: `${this.isCredentialPayload(Object.fromEntries(this.properties)) ?
+          this.getProperty(JWT.Claims.exp) :
+          this.getProperty(JWT.Claims.exp)
+        }`,
       availableClaims: claims,
       revoked: this.revoked
     };

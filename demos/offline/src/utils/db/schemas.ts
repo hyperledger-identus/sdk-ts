@@ -13,7 +13,7 @@ type CollectionSchemas = {
         version: Collections[key]['schema']['version'];
         primaryKey: Collections[key]['schema']['primaryKey'];
         type: Collections[key]['schema']['type'];
-        encrypted?: Collections[key]['schema']['encrypted'];
+        encrypted?: 'encrypted' extends keyof Collections[key]['schema'] ? Collections[key]['schema']['encrypted'] : never;
         properties: Collections[key]['schema']['properties'];
     };
 }
@@ -23,34 +23,23 @@ type CollectionSchema = CollectionSchemas[keyof CollectionSchemas];
 function migrateSchema<
     T extends CollectionSchema,
     P extends Record<string, Property>
->(schema: T, properties: P): Omit<T, 'properties'> & {
-    properties: T['properties'] & P;
-    version: 0;
-} {
-    const { properties: schemaProperties, ...schemaWithoutProperties } = schema;
-    const props = {
-        ...schemaProperties,
-        ...properties
-    };
-
+>({ properties: schemaProperties, ...schemaWithoutProperties }: T, properties: P) {
     return {
         ...schemaWithoutProperties,
         version: 0 as const,
-        encrypted: schema.encrypted || [],
+        encrypted: schemaWithoutProperties.encrypted || [],
         properties: Object.fromEntries(
-            Object.entries(props).map(([key, value]) => {
+            Object.entries({
+                ...schemaProperties,
+                ...properties
+            }).map(([key, value]) => {
                 const propValue: any = { ...value };
-                // Ensure required is explicitly set
-                if (propValue.required === undefined || propValue.required === false) {
-                    propValue.required = false;
-                } else {
-                    propValue.required = true;
-                }
+                propValue.required = propValue?.required === true;
                 propValue.maxLength = undefined;
                 return [key, propValue];
             })
         ) as T['properties'] & P
-    };
+    }
 }
 
 function extractSchemas<T extends Record<string, { schema: CollectionSchema }>>(collections: T) {
@@ -67,10 +56,52 @@ function extractSchemas<T extends Record<string, { schema: CollectionSchema }>>(
     return result;
 }
 
+const messages = migrateSchema(collections.messages.schema, {
+    read: {
+        type: SchemaFieldType.boolean,
+        default: false,
+        required: true
+    },
+    uuid: {
+        type: SchemaFieldType.string,
+        required: true
+    },
+    id: {
+        type: SchemaFieldType.string,
+        required: true
+    }
+})
+
+const didKeyLink = collections['didkey-link'].schema
+
+
+const keys = migrateSchema(collections['keys'].schema, {
+    recoveryId: {
+        type: SchemaFieldType.string,
+        required: true
+    },
+    rawHex: {
+        type: SchemaFieldType.string,
+        required: true
+    },
+    alias: {
+        type: SchemaFieldType.string
+    },
+    index: {
+        type: SchemaFieldType.number
+    }
+})
+
 export const schemas = {
     ...extractSchemas(collections),
+    keys,
+    'didkey-link': didKeyLink,
     credentials: migrateSchema(collections.credentials.schema, {
         status: {
+            type: SchemaFieldType.string,
+            required: false
+        },
+        validUntil: {
             type: SchemaFieldType.string,
             required: false
         }
@@ -81,13 +112,7 @@ export const schemas = {
             required: false
         }
     }),
-    messages: migrateSchema(collections.messages.schema, {
-        read: {
-            type: SchemaFieldType.boolean,
-            default: false,
-            required: true
-        }
-    }),
+    messages,
     settings: {
         version: 0 as const,
         primaryKey: 'id',

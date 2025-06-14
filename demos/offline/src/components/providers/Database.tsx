@@ -192,7 +192,6 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         }
         const [found] = await db.collections.messages.find({ $or: [{ uuid: message.uuid }, { id: message.id }] });
         if (found) {
-
             await db.collections.messages.update({
                 ...found,
                 read: true
@@ -204,9 +203,10 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         if (!hasDB(db)) {
             throw new Error("Database not connected");
         }
-        const [found] = await db.collections.messages.find({ $or: [{ uuid: message.uuid }, { id: message.id }] });
+        const query = { $or: [{ uuid: message.uuid }, { id: message.id }] }
+        const [found] = await db.collections.messages.find(query);
         if (found) {
-            await db.collections.messages.delete(found.id);
+            await db.collections.messages.delete(found.uuid);
         }
     }, [db]);
 

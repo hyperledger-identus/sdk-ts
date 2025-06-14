@@ -16,7 +16,8 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         state: dbState,
         getMessages,
         pluto,
-        getIssuanceFlow
+        getIssuanceFlow,
+        deleteMessage: dbDeleteMessage
     } = useDatabase();
 
     const [agent, setAgent] = useState<SDK.Agent | null>(null);
@@ -26,6 +27,12 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     const [credentials, setCredentials] = useState<SDK.Domain.Credential[]>([]);
     const [peerDID, setPeerDID] = useState<SDK.Domain.DID | null>(null);
     const currentState = agent?.state || SDK.Domain.Startable.State.STOPPED;
+
+
+    const deleteMessage = useCallback(async (message: SDK.Domain.Message) => {
+        await dbDeleteMessage(message);
+        setMessages((prev) => prev.filter((m) => m.message.id !== message.id));
+    }, [dbDeleteMessage]);
 
     //TODO: Add support for SD+JWT
     const processRequestCredentialMessage = useCallback(async (message: SDK.RequestCredential) => {
@@ -48,20 +55,22 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
                 exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
                 nbf: Date.now(),
                 jti: uuidv4(),
-                vc: issuanceFlow.claims.reduce((all, { name, value, type }) => {
-                    if (type === 'number') {
-                        all[name] = Number(value);
-                    } else if (type === 'boolean') {
-                        all[name] = value === 'true';
-                    } else if (type === 'string') {
-                        all[name] = value;
-                    } else if (type === 'date') {
-                        all[name] = new Date(value);
-                    } else {
-                        all[name] = value;
-                    }
-                    return all;
-                }, {} as Partial<SDK.Domain.JWT.Payload>)
+                vc: {
+                    credentialSubject: issuanceFlow.claims.reduce((all, { name, value, type }) => {
+                        if (type === 'number') {
+                            all[name] = Number(value);
+                        } else if (type === 'boolean') {
+                            all[name] = value === 'true';
+                        } else if (type === 'string') {
+                            all[name] = value;
+                        } else if (type === 'date') {
+                            all[name] = new Date(value);
+                        } else {
+                            all[name] = value;
+                        }
+                        return all;
+                    }, {} as Partial<SDK.Domain.JWT.Payload>)
+                }
             },
             privateKey
         })
@@ -252,5 +261,5 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         preloadData().catch(console.log);
     }, [dbState, db, preloadData])
 
-    return <AgentContext.Provider value={{ agent, connections, credentials, setAgent, start, stop, state, messages, readMessage, peerDID, processRequestCredentialMessage }}> {children} </AgentContext.Provider>
+    return <AgentContext.Provider value={{ agent, connections, credentials, setAgent, start, stop, deleteMessage, state, messages, readMessage, peerDID, processRequestCredentialMessage }}> {children} </AgentContext.Provider>
 }

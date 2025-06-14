@@ -160,7 +160,7 @@ export class SDJWTCredential extends Credential implements ProvableCredential, S
             credentialData: JSON.stringify(data),
             issuer: this.issuer,
             subject: this.properties.get(JWT.Claims.sub),
-            validUntil: this.getProperty(JWT.Claims.exp),
+            validUntil: `${this.getProperty(JWT.Claims.exp)}`,
             availableClaims: claims,
             revoked: this.revoked
         };

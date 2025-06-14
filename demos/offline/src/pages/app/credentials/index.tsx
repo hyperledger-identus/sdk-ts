@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import AgentRequire from "@/components/AgentRequire";
 import { base64 } from "multiformats/bases/base64";
 import { Message } from "@/components/Message";
+import { Credential } from "@/components/Credential";
 
 
 function CredentialOffer({ message }: { message: SDK.Domain.Message }) {
@@ -33,19 +34,21 @@ export default function CredentialsPage() {
     useEffect(() => {
         if (router.isReady && peerDID) {
             const { oob } = router.query;
-            const decoded = base64.baseDecode(oob as string);
-            const message = SDK.Domain.Message.fromJson(Buffer.from(decoded).toString());
-            const attachment = message.attachments.at(0)?.payload;
-            setMessage(SDK.Domain.Message.fromJson({
-                ...attachment,
-                from: message.from,
-                to: peerDID,
-            }));
+            if (oob) {
+                const decoded = base64.baseDecode(oob as string);
+                const message = SDK.Domain.Message.fromJson(Buffer.from(decoded).toString());
+                const attachment = message.attachments.at(0)?.payload;
+                setMessage(SDK.Domain.Message.fromJson({
+                    ...attachment,
+                    from: message.from,
+                    to: peerDID,
+                }));
+            }
         }
     }, [router.isReady, router.query, peerDID]);
 
     useEffect(() => {
-        if (db && db.started) {
+        if (db) {
             pluto.getAllCredentials().then(setCredentials)
         }
     }, [db, pluto]);
@@ -64,17 +67,25 @@ export default function CredentialsPage() {
 
             {message && <CredentialOffer message={message} />}
 
-            <div className="mt-5 bg-background-light dark:bg-background-dark hadow-sm">
-                <div className="border border-border-light dark:border-border-dark rounded-md bg-gray-50 dark:bg-gray-900">
-                    <div className="p-8 text-center text-gray-500 dark:text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto mb-4 text-gray-400 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        <p className="text-lg mb-2">No credentials yet</p>
-                        <p>Request credentials from issuers to start building your digital identity</p>
+            {credentials.length > 0 ? (
+                <div className="mt-5">
+                    {credentials.map((credential, index) => (
+                        <Credential key={index} credential={credential} />
+                    ))}
+                </div>
+            ) : (
+                <div className="mt-5 bg-background-light dark:bg-background-dark hadow-sm">
+                    <div className="border border-border-light dark:border-border-dark rounded-md bg-gray-50 dark:bg-gray-900">
+                        <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto mb-4 text-gray-400 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <p className="text-lg mb-2">No credentials yet</p>
+                            <p>Request credentials from issuers to start building your digital identity</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
         </Layout>
     );
 } 
