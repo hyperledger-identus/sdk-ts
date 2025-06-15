@@ -58,7 +58,7 @@ export default function CreateIssuanceRequestPage() {
     const router = useRouter();
     const [formData, setFormData] = useState({
         issuingDID: "",
-        credentialFormat: "JWT",
+        credentialFormat: SDK.Domain.CredentialType.JWT,
         automaticIssuance: true,
         status: "pending"
     });

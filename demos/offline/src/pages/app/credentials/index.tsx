@@ -43,9 +43,13 @@ export default function CredentialsPage() {
                     from: message.from,
                     to: peerDID,
                 }));
+
+                // Clean the URL after processing the message
+                const { pathname } = router;
+                router.replace(pathname, undefined, { shallow: true });
             }
         }
-    }, [router.isReady, router.query, peerDID]);
+    }, [router.isReady, router.query, peerDID, router]);
 
     useEffect(() => {
         if (db) {

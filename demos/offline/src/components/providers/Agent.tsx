@@ -4,8 +4,6 @@ import SDK from "@hyperledger/identus-sdk";
 import { AgentContext } from "@/context";
 import { ResolverClass, createResolver } from "@/utils/resolvers";
 import { useDatabase } from "@/hooks";
-import { v4 as uuidv4 } from 'uuid';
-import { base64 } from "multiformats/bases/base64";
 
 export function AgentProvider({ children }: { children: React.ReactNode }) {
     const {
@@ -28,7 +26,6 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     const [peerDID, setPeerDID] = useState<SDK.Domain.DID | null>(null);
     const currentState = agent?.state || SDK.Domain.Startable.State.STOPPED;
 
-
     const deleteMessage = useCallback(async (message: SDK.Domain.Message) => {
         await dbDeleteMessage(message);
         setMessages((prev) => prev.filter((m) => m.message.id !== message.id));
@@ -40,68 +37,25 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         if (!issuanceFlow) {
             throw new Error("No issuance flow found");
         }
-        const issuerDID = SDK.Domain.DID.fromString(issuanceFlow.issuingDID)
-        const sk = await pluto.getDIDPrivateKeysByDID(issuerDID);
-        const privateKey = sk.at(0);
-        if (!privateKey) {
-            throw new Error("No private key found");
-        }
-        const credentialTask = new SDK.Tasks.CreateJWT({
-            did: SDK.Domain.DID.fromString(issuanceFlow.issuingDID),
-            payload: {
-                iss: issuanceFlow.issuingDID,
-                sub: issuanceFlow.issuingDID,
-                iat: Date.now(),
-                exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
-                nbf: Date.now(),
-                jti: uuidv4(),
-                vc: {
-                    credentialSubject: issuanceFlow.claims.reduce((all, { name, value, type }) => {
-                        if (type === 'number') {
-                            all[name] = Number(value);
-                        } else if (type === 'boolean') {
-                            all[name] = value === 'true';
-                        } else if (type === 'string') {
-                            all[name] = value;
-                        } else if (type === 'date') {
-                            all[name] = new Date(value);
-                        } else {
-                            all[name] = value;
-                        }
-                        return all;
-                    }, {} as Partial<SDK.Domain.JWT.Payload>)
+        console.log(issuanceFlow);
+        const issuerDID = SDK.Domain.DID.fromString(issuanceFlow.issuingDID);
+
+        if (issuanceFlow.credentialFormat === SDK.Domain.CredentialType.JWT) {
+            const protocol = new SDK.Tasks.RunProtocol({
+                type: 'credential-request',
+                pid: SDK.ProtocolType.DidcommRequestCredential,
+                data: {
+                    issuerDID,
+                    message: message.makeMessage(),
+                    format: SDK.Domain.CredentialType.JWT,
+                    claims: issuanceFlow.claims
                 }
-            },
-            privateKey
-        })
-        const jwtCredential = await agent?.runTask(credentialTask);
-        const issueCredentialMessage = new SDK.Domain.Message(
-            {
-                comment: null,
-                goal_code: null,
-                more_available: null,
-                replacement_id: null
-            },
-            uuidv4(),
-            SDK.ProtocolType.DidcommIssueCredential,
-            message.to,
-            message.from,
-            [
-                new SDK.Domain.AttachmentDescriptor({
-                    base64: base64.baseEncode(
-                        Buffer.from(jwtCredential!.toString())
-                    )
-                },
-                    "application/jwt",
-                    uuidv4(),
-                    undefined,
-                    "prism/jwt"
-                )
-            ],
-            message.thid
-        )
-        return SDK.IssueCredential.fromMessage(issueCredentialMessage)
-    }, [agent, getIssuanceFlow, pluto]);
+            })
+            return agent?.runTask(protocol);
+        }
+
+        throw new Error("Not implemented, only JWT is supported for now");
+    }, [agent, getIssuanceFlow]);
 
     const start = useCallback(async () => {
         if (!db) {
@@ -172,7 +126,6 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
             for (const request of CredentialRequests) {
                 getIssuanceFlow(request.thid!).then(async (issuanceFlow) => {
                     if (issuanceFlow?.automaticIssuance) {
-                        //Automatically issue Credentials
                         const requestCredentialMessage = SDK.RequestCredential.fromMessage(request);
                         const issueCredentialMessage = await processRequestCredentialMessage(requestCredentialMessage);
                         agent.send(issueCredentialMessage.makeMessage());
