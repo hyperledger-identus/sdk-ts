@@ -69,10 +69,14 @@ import { CreatePrismDID } from "./edge-agent/didFunctions";
 import { PKInstance } from "./pollux/utils/jwt/PKInstance";
 import { CreateOOBOffer } from './edge-agent/didcomm/CreateOOBOffer';
 import { CreateJWT } from "./pollux/utils/jwt/CreateJwt";
+import { CreateSDJWT } from "./pollux/utils/jwt/CreateSDJWT";
+import { RunProtocol } from "./edge-agent/helpers/RunProtocol";
 
 export const Tasks = {
+  RunProtocol,
   CreatePrismDID,
   PKInstance,
   CreateOOBOffer,
-  CreateJWT
+  CreateJWT,
+  CreateSDJWT
 };
