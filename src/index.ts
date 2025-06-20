@@ -6,6 +6,7 @@ export { default as Apollo } from "./apollo/Apollo";
 export { default as Castor } from "./castor/Castor";
 export { default as Mercury, type DIDCommProtocol, DIDCommWrapper } from "./mercury";
 export * from "./pluto";
+export * from "./pluto/collections";
 export * as Domain from "./domain";
 export * as Utils from "./utils";
 
