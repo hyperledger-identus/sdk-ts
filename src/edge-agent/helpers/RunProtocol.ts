@@ -1,6 +1,8 @@
 import { JsonObj, expect, Task } from "../../utils";
 import { AgentContext } from "../Context";
 import { Domain } from "../..";
+import { SdJwtVcPayload, } from "@sd-jwt/sd-jwt-vc";
+import type { DisclosureFrame } from '@sd-jwt/types';
 
 /**
  * RunProtocol exists to bridge the gap between
@@ -17,6 +19,25 @@ interface IArgs<T extends string, D extends JsonObj> {
   // relevant protocol data
   data: D;
 }
+interface Args_RequestCredentialJWT {
+  issuerDID: Domain.DID,
+  holderDID: Domain.DID,
+  message: Domain.Message;
+  format: Domain.CredentialType.JWT;
+  claims: { name: string, value: string, type: string }[];
+}
+
+interface Args_RequestCredentialSDJWT {
+  issuerDID: Domain.DID,
+  holderDID: Domain.DID,
+  message: Domain.Message;
+  format: Domain.CredentialType.SDJWT;
+  claims: { name: string, value: string, type: string }[];
+  disclosureFrame?: DisclosureFrame<SdJwtVcPayload>;
+}
+
+type Args_RequestCredential = IArgs<"credential-request", Args_RequestCredentialJWT | Args_RequestCredentialSDJWT>;
+
 
 type Args_CredentialIssue = IArgs<"credential-issue", {
   data: any;
@@ -40,6 +61,7 @@ type Args_Message = IArgs<"message", { message: Domain.Message; }>;
 type Args_Unknown = IArgs<"unknown", JsonObj>;
 
 type Args =
+  | Args_RequestCredential
   | Args_CredentialIssue
   | Args_CredentialOffer
   | Args_PresentationRequest
