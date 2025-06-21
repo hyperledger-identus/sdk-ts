@@ -47,7 +47,7 @@ export interface StorableCredential {
     credentialCreated?: string;
     credentialUpdated?: string;
     credentialSchema?: string;
-    validUntil?: string;
+    validUntil?: number;
     revoked?: boolean;
     availableClaims?: string[];
   };
