@@ -5,17 +5,17 @@ import { PresentationRequest } from '../../../../src/plugins/internal/oea/sdjwt'
 import { Task } from '../../../../src/utils';
 import { OEA } from '../../../../src/plugins/internal/oea/types';
 import { Pluto } from '../../../../src/domain';
-import { mockPluto } from '../../../fixtures/inmemory/factory';
 import { CannotFindDIDPrivateKey } from '../../../../src/domain/models/errors/Agent';
 import * as Fixtures from "../../../fixtures";
 import { InvalidPresentationProofArgs } from '../../../../src/domain/models/errors/Pollux';
+import { createInstance } from '../../../fixtures/pluto';
 
 describe("Plugins - OEA", () => {
   let ctx: Task.Context;
   let pluto: Pluto;
 
   beforeEach(() => {
-    pluto = mockPluto();
+    pluto = createInstance().pluto
 
     ctx = new Task.Context<any>({
       Pluto: pluto,
