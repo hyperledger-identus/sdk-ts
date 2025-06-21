@@ -174,11 +174,11 @@ describe("Pluto", () => {
       const newDIDSchema = Object.assign({}, Models.DIDSchema);
       newDIDSchema.properties['name'] = {
         type: 'string',
+        required: true
       };
       newDIDSchema.version = 1;
-      newDIDSchema.required.push('name');
 
-      delete newDIDSchema.properties['schema'];
+      delete (newDIDSchema as any).properties['schema'];
 
       const migrationStore = createStore("04", {
         dids: {
