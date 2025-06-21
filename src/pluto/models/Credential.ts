@@ -30,7 +30,7 @@ export interface Credential extends Model {
   credentialCreated?: string;
   credentialUpdated?: string;
   credentialSchema?: string;
-  validUntil?: string;
+  validUntil?: number;
   revoked?: boolean;
   // availableClaims?: string[];
   id: string;
@@ -45,11 +45,11 @@ export const CredentialSchema = schemaFactory<Credential>(schema => {
   schema.addProperty("string", "credentialCreated");
   schema.addProperty("string", "credentialUpdated");
   schema.addProperty("string", "credentialSchema");
-  schema.addProperty("string", "validUntil");
+  schema.addProperty("number", "validUntil");
   schema.addProperty("boolean", "revoked");
 
   schema.setEncrypted("dataJson");
-  schema.setVersion(1);
+  schema.setVersion(2);
 
   //V1
   schema.addProperty("string", "id");
@@ -80,5 +80,11 @@ export const CredentialMigration: MigrationStrategies = {
 
     }
     throw new PlutoError.UnknownCredentialTypeError();
+  },
+  2: function (document) {
+    return {
+      ...document,
+      validUntil: document.validUntil ? new Date(document.validUntil).getTime() : undefined
+    }
   }
 }
