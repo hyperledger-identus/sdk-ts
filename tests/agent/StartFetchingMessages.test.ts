@@ -1,5 +1,4 @@
 import { vi, describe, expect, test, beforeEach, afterEach, Mock } from 'vitest';
-import { mockPluto } from "../fixtures/inmemory/factory";
 import * as Domain from "../../src/domain";
 import { Task } from '../../src/utils';
 import { StartFetchingMessages } from '../../src/edge-agent/didcomm/StartFetchingMessages';
@@ -7,6 +6,7 @@ import { JobManager } from '../../src/edge-agent/connections/JobManager';
 import { CancellableTask } from '../../src/edge-agent/helpers/Task';
 import { ConnectionsManager } from '../../src/edge-agent/connections';
 import { ProtocolType } from '../../src';
+import { createInstance } from '../fixtures/pluto';
 
 describe("StartFetchingMessages", () => {
   let ctx: Task.Context;
@@ -19,7 +19,7 @@ describe("StartFetchingMessages", () => {
     mockMediator = vi.fn();
     connections = { get mediator() { return mockMediator(); } } as any;
     mercury = { sendMessageParseMessage: vi.fn() } as any;
-    pluto = mockPluto();
+    pluto = createInstance().pluto
     ctx = new Task.Context({
       Connections: connections,
       Castor: { resolveDID: vi.fn() } as any,

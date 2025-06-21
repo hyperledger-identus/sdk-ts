@@ -5,16 +5,16 @@ import { PresentationRequest } from '../../../src/plugins/internal/anoncreds/Pre
 import * as FetchCredModule from "../../../src/plugins/internal/anoncreds/FetchCredentialDefinition";
 import * as FetchSchemaModule from "../../../src/plugins/internal/anoncreds/FetchSchema";
 import * as Fixtures from "../../fixtures";
-import { mockPluto } from '../../fixtures/inmemory/factory';
 import { AnoncredsLoader } from '../../../src/plugins/internal/anoncreds/module/AnoncredsLoader';
 import * as Anoncreds from "../../../src/plugins/internal/anoncreds/types";
+import { createInstance } from '../../fixtures/pluto';
 
 describe("Plugins - Anoncreds", () => {
   let ctx: Task.Context;
   let pluto: Pluto;
 
   beforeEach(() => {
-    pluto = mockPluto();
+    pluto = createInstance().pluto
     ctx = new Task.Context({
       Pluto: pluto,
       Anoncreds: new AnoncredsLoader(),

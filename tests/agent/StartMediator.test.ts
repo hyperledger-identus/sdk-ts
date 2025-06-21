@@ -1,5 +1,4 @@
 import { vi, describe, expect, test, beforeEach, afterEach } from 'vitest';
-import { mockPluto } from "../fixtures/inmemory/factory";
 import * as Domain from "../../src/domain";
 import { Task } from '../../src/utils';
 import { ConnectionsManager, Mercury, ProtocolType } from '../../src';
@@ -10,6 +9,7 @@ import { CreatePeerDID } from '../../src/edge-agent/didcomm/CreatePeerDID';
 import { Connection } from '../../src/edge-agent/connections';
 import { PluginManager } from '../../src/plugins';
 import * as DIDComm from "../../src/plugins/internal/didcomm";
+import { createInstance } from '../fixtures/pluto';
 
 describe("StartMediator", () => {
   let ctx: Task.Context;
@@ -22,7 +22,7 @@ describe("StartMediator", () => {
     mercury = {
       sendMessageParseMessage: vi.fn()
     } as any;
-    pluto = mockPluto();
+    pluto = createInstance().pluto
     const plugins = new PluginManager();
     plugins.register(DIDComm.plugin);
     ctx = new Task.Context({

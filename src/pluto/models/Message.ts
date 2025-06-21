@@ -15,17 +15,17 @@ export interface Message extends Model {
   dataJson: string;
 
   // searchable properties
-  id?: string;
-  createdTime?: number;
+  id: string;
+  createdTime: number;
   thid?: string;
-  piuri?: string;
+  piuri: string;
   from?: string;
   to?: string;
-  isReceived?: number;
+  isReceived: number;
 }
 
 export const MessageSchema = schemaFactory<Message>(schema => {
-  schema.setRequired("dataJson");
+  schema.setRequired("dataJson", 'id', 'piuri', 'isReceived');
   schema.addProperty("string", "dataJson");
   schema.addProperty("string", "id");
   schema.addProperty("string", "from");

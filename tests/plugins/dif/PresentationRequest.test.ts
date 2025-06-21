@@ -5,7 +5,7 @@ import { Task } from '../../../src/utils';
 import { Apollo, Castor, JWTCredential, SDJWTCredential } from '../../../src';
 import { JWT, SDJWT } from "../../../src/pollux/utils/jwt";
 import * as Fixtures from "../../fixtures";
-import { mockPluto } from "../../fixtures/inmemory/factory";
+import { createInstance } from '../../fixtures/pluto';
 
 describe("Plugins - DIF", () => {
   let ctx: Task.Context;
@@ -13,7 +13,7 @@ describe("Plugins - DIF", () => {
   beforeEach(() => {
     const apollo = new Apollo();
     const castor = new Castor(apollo);
-    const pluto = mockPluto();
+    const pluto = createInstance().pluto;
     ctx = new Task.Context<any>({
       Apollo: apollo,
       Castor: castor,

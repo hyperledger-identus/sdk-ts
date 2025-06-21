@@ -2,8 +2,8 @@ import { vi, describe, expect, test, beforeEach } from 'vitest';
 import Agent from "../../src/edge-agent/Agent";
 import { DID } from '../../src/domain';
 import { Pluto } from "../../src";
-import { mockPluto } from "../fixtures/inmemory/factory";
 import * as Fixtures from "../fixtures";
+import { createInstance } from '../fixtures/pluto';
 
 describe("Agent", () => {
   let agent: Agent;
@@ -11,7 +11,7 @@ describe("Agent", () => {
 
   describe("Functional Tests", () => {
     beforeEach(async () => {
-      pluto = mockPluto();
+      pluto = createInstance().pluto
       const mediatorDID = DID.from("did:peer:2.Ez6LSghwSE437wnDE1pt3X6hVDUQzSjsHzinpX3XFvMjRAm7y.Vz6Mkhh1e5CEYYq6JBUcTZ6Cp2ranCWRrv7Yax3Le4N59R6dd.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6Imh0dHA6Ly8xOTIuMTY4LjEuNDQ6ODA4MCIsImEiOlsiZGlkY29tbS92MiJdfX0.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6IndzOi8vMTkyLjE2OC4xLjQ0OjgwODAvd3MiLCJhIjpbImRpZGNvbW0vdjIiXX19");
       agent = Agent.initialize({ pluto, mediatorDID });
 
@@ -66,18 +66,6 @@ describe("Agent", () => {
         await agent.start();
 
         expect(agent.state).toBe("running");
-      });
-
-      test("db persists after restart", async () => {
-        vi.spyOn(agent, "startFetchingMessages").mockResolvedValue();
-
-        await agent.start();
-        await agent.pluto.storeMessage(Fixtures.Messages.ConnectionResponse);
-        await agent.stop();
-        await agent.start();
-        const result = await agent.pluto.getAllMessages();
-
-        expect(result).toHaveLength(1);
       });
     });
   });

@@ -1,5 +1,4 @@
 import { vi, describe, expect, test, beforeEach, afterEach } from 'vitest';
-import { mockPluto } from "../fixtures/inmemory/factory";
 import * as Domain from "../../src/domain";
 import { CreatePrismDID, PrismKeyPathIndexTask } from '../../src/edge-agent/didFunctions';
 import { Task } from '../../src/utils';
@@ -7,6 +6,7 @@ import * as Fixtures from "../fixtures";
 import { mockTask } from '../testFns';
 import { PrismDIDKeyUsage, PrismDerivationPath, PrismDerivationPathSchema } from '../../src/domain/models/derivation/schemas/PrismDerivation';
 import { Apollo, Castor } from '../../src';
+import { createInstance } from '../fixtures/pluto';
 
 describe("CreatePrismDID", () => {
   let ctx: Task.Context;
@@ -22,7 +22,7 @@ describe("CreatePrismDID", () => {
     beforeEach(async () => {
       apollo = { createPrivateKey: vi.fn() } as any;
       castor = { createPrismDID: vi.fn() } as any;
-      pluto = mockPluto();
+      pluto = createInstance().pluto
       ctx = new Task.Context({
         Apollo: apollo,
         Castor: castor,
@@ -144,7 +144,7 @@ describe("CreatePrismDID", () => {
     beforeEach(async () => {
       apollo = new Apollo();
       castor = new Castor(apollo);
-      pluto = mockPluto();
+      pluto = createInstance().pluto
       ctx = new Task.Context({
         Apollo: apollo,
         Castor: castor,

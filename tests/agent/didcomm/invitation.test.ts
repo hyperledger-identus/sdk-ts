@@ -4,12 +4,12 @@ import Agent from "../../../src/edge-agent/Agent";
 import { AttachmentDescriptor, DID, MessageDirection, Seed } from "../../../src/domain";
 import { HandshakeRequest, OfferCredential, OutOfBandInvitation, ProtocolType } from "../../../src";
 import { InvitationIsInvalidError } from "../../../src/domain/models/errors/Agent";
-import { mockPluto } from "../../fixtures/inmemory/factory";
 import { mockTask } from "../../testFns";
 import { StartMediator } from '../../../src/edge-agent/didcomm/StartMediator';
 import { StartFetchingMessages } from '../../../src/edge-agent/didcomm/StartFetchingMessages';
 import { MediatorConnection } from '../../../src/plugins/internal/didcomm';
 import { CreateOOBOffer } from '../../../src/edge-agent/didcomm/CreateOOBOffer';
+import { createInstance } from '../../fixtures/pluto';
 
 describe("Agent", () => {
   let agent: Agent;
@@ -20,7 +20,7 @@ describe("Agent", () => {
   });
 
   beforeEach(async () => {
-    const pluto = mockPluto();
+    const pluto = createInstance().pluto
     const seed: Seed = {
       value: new Uint8Array([69, 191, 35, 232, 213, 102, 3, 93, 180, 106, 224, 144, 79, 171, 79, 223, 154, 217, 235, 232, 96, 30, 248, 92, 100, 38, 38, 42, 101, 53, 2, 247, 56, 111, 148, 220, 237, 122, 15, 120, 55, 82, 89, 150, 35, 45, 123, 135, 159, 140, 52, 127, 239, 148, 150, 109, 86, 145, 77, 109, 47, 60, 20, 16])
     };
@@ -222,7 +222,7 @@ describe("Agent", () => {
       const stubSendMessage = vi.spyOn(agent.mercury, "sendMessage").mockResolvedValue(null as any);
       const stubAddConnection = vi.spyOn(agent.connections, "add").mockResolvedValue();
 
-      vi.spyOn(UUIDLib, "uuid").mockResolvedValue("123456-123456-12356-123456");
+      vi.spyOn(UUIDLib, "uuid").mockReturnValue("123456-123456-12356-123456");
 
       const oob = new OutOfBandInvitation(
         {},
