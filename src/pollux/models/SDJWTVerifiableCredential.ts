@@ -150,7 +150,7 @@ export class SDJWTCredential extends Credential implements ProvableCredential, S
         return this.properties.get(SDJWT_VP_PROPS.revoked);
     }
 
-    toStorable(): { id: string; recoveryId: string; credentialData: string; issuer?: string | undefined; subject?: string | undefined; credentialCreated?: string | undefined; credentialUpdated?: string | undefined; credentialSchema?: string | undefined; validUntil?: string | undefined; revoked?: boolean | undefined; availableClaims?: string[] | undefined; } {
+    toStorable(): { id: string; recoveryId: string; credentialData: string; issuer?: string | undefined; subject?: string | undefined; credentialCreated?: string | undefined; credentialUpdated?: string | undefined; credentialSchema?: string | undefined; validUntil?: number | undefined; revoked?: boolean | undefined; availableClaims?: string[] | undefined; } {
         const id = this.id;
         const data = { id, ...Object.fromEntries(this.properties) };
         const claims = this.claims.map((claim) => typeof claim !== 'string' ? JSON.stringify(claim) : claim)
