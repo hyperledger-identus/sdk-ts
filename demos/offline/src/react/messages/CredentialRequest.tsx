@@ -1,20 +1,16 @@
 import SDK from "@hyperledger/identus-sdk";
 import { useEffect, useState } from "react";
-import { useAgent, useDatabase, usePermissions } from "@/hooks";
 import { MessageTitle } from "./MessageTitle";
 import { useMessageStatus } from "./utils";
 import { useRouter } from "next/router";
+import { useIssuer, useMessages } from "../hooks";
 
 export function CredentialRequest(props: { message: SDK.Domain.Message }) {
     const router = useRouter();
     const { message } = props;
     const { hasResponse, hasAnswered } = useMessageStatus(message);
-
-    const { hasPermission } = usePermissions();
-    const { getIssuanceFlow } = useDatabase();
-    const { deleteMessage } = useAgent();
-    const { agent, processRequestCredentialMessage } = useAgent();
-
+    const { deleteMessage } = useMessages();
+    const { agent, issueCredential } = useIssuer();
     const [loaded, setLoaded] = useState(true);
     const [isAgent, setIsAgent] = useState(true);
     const [isAnswering, setIsAnswering] = useState(false);
@@ -36,14 +32,14 @@ export function CredentialRequest(props: { message: SDK.Domain.Message }) {
     }, [hasAnswered])
 
     async function onAcceptCredentialRequest() {
-        try {
-            setIsAnswering(true);
-            const requestCredentialMessage = SDK.RequestCredential.fromMessage(message);
-            const issueCredentialMessage = await processRequestCredentialMessage(requestCredentialMessage);
-            await agent?.send(issueCredentialMessage.makeMessage());
-        } catch (err) {
-            console.log("continue after err", err);
-        }
+        // try {
+        //     setIsAnswering(true);
+        //     const requestCredentialMessage = SDK.RequestCredential.fromMessage(message);
+        //     const issueCredentialMessage = await processRequestCredentialMessage(requestCredentialMessage);
+        //     await agent?.send(issueCredentialMessage.makeMessage());
+        // } catch (err) {
+        //     console.log("continue after err", err);
+        // }
     }
 
     async function onDeleteCredentialRequest() {

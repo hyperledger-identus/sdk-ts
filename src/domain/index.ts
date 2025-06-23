@@ -7,3 +7,5 @@ export * from "./buildingBlocks/Castor";
 export * from "./buildingBlocks/Mercury";
 export * from "./buildingBlocks/Pluto";
 export * from "./utils/JWT";
+export *  as Models from "../pluto/models";
+
