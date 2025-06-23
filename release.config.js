@@ -5,7 +5,7 @@ module.exports = {
   branches: [
     'main',
     '+([0-9])?(.{+([0-9]),x}).x',
-    { name: 'beta', prerelease: 'rc' } // make a branch 'beta' a pre-release branch as '6.6.0-rc1'
+    { name: 'beta', prerelease: true }
   ],
   plugins: [
     ['@semantic-release/commit-analyzer', { preset: "conventionalcommits" }],
