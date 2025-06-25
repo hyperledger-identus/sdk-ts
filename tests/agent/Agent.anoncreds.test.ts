@@ -11,7 +11,6 @@ import {
   CredentialMetadata,
   CredentialType,
   DID,
-  LinkSecret,
   Message,
   Seed,
   StorableCredential,
@@ -20,15 +19,12 @@ import { base64url } from "multiformats/bases/base64";
 import { DIDCommProtocol } from "../../src/mercury/DIDCommProtocol";
 import { Castor as CastorType } from "../../src/domain/buildingBlocks/Castor";
 import { AnonCredsCredential } from "../../src/pollux/models/AnonCredsVerifiableCredential";
-import InMemoryStore from "../fixtures/inmemory";
 import { ApiResponse, Pluto as IPluto, JWT } from "../../src/domain";
 import { Pluto } from "../../src/pluto/Pluto";
 import { Castor, Presentation, ProtocolType, RequestPresentation } from "../../src";
-import { randomUUID } from "crypto";
 import { plugin as AnoncredsPlugin } from "../../src/plugins/internal/anoncreds/plugin";
 import { CredentialPreview, IssueCredential, OfferCredential, RequestCredential } from '../../src/plugins/internal/didcomm';
-import { RxdbStore } from "@trust0/identus-store-rxdb";
-import { mockPluto } from "../fixtures/inmemory/factory";
+import { createInstance } from '../fixtures/pluto';
 
 
 let agent: Agent;
@@ -62,13 +58,9 @@ describe("Agent Tests", () => {
       packEncrypted: async () => "",
       unpack: async () => new Message("{}", undefined, "TypeofMessage"),
     };
-    store = new RxdbStore({
-      name: 'test' + randomUUID(),
-      storage: InMemoryStore,
-      password: Buffer.from("demoapp").toString("hex")
-    });
-
-    pluto = new Pluto(store, apollo);
+    const instance = createInstance()
+    store = instance.store;
+    pluto = instance.pluto;
     const mercury = new Mercury(castor, didProtocol, api);
     const seed: Seed = {
       value: new Uint8Array([69, 191, 35, 232, 213, 102, 3, 93, 180, 106, 224, 144, 79, 171, 79, 223, 154, 217, 235, 232, 96, 30, 248, 92, 100, 38, 38, 42, 101, 53, 2, 247, 56, 111, 148, 220, 237, 122, 15, 120, 55, 82, 89, 150, 35, 45, 123, 135, 159, 140, 52, 127, 239, 148, 150, 109, 86, 145, 77, 109, 47, 60, 20, 16])

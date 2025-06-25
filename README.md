@@ -58,7 +58,7 @@ Clone and build:
 ```bash
 git clone git@github.com:hyperledger-identus/sdk-ts.git --recurse-submodules
 cd sdk-ts
-npm i
+yarn
 npm run build
 ```
 

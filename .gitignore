@@ -8,6 +8,8 @@ generated
 # testing
 /coverage
 .nyc_output
+.yarn/
+.yarn
 
 # misc
 .DS_Store

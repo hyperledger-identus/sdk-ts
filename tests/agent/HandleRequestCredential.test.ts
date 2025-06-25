@@ -1,5 +1,4 @@
 import { vi, describe, expect, test, beforeEach, afterEach } from 'vitest';
-import { mockPluto } from "../fixtures/inmemory/factory";
 import * as Domain from "../../src/domain";
 import { Task } from '../../src/utils';
 import * as Fixtures from "../fixtures";
@@ -10,6 +9,8 @@ import { FindSigningKeys } from '../../src/edge-agent/didFunctions/FindDIDSignin
 import { PluginManager } from '../../src/plugins';
 import * as DIDComm from "../../src/plugins/internal/didcomm";
 import { ProtocolType } from '../../src/edge-agent/types';
+import Apollo from "../../src/apollo/Apollo";
+import { createInstance } from '../fixtures/pluto';
 
 describe("HandleRequestCredential", () => {
     let ctx: Task.Context;
@@ -40,8 +41,12 @@ describe("HandleRequestCredential", () => {
         mockSigningKey = {
             privateKey: mockPrivateKey
         };
-
-        pluto = mockPluto();
+        const apollo = new Apollo();
+        const instance = createInstance({
+            apollo,
+            name: "test",
+        })
+        pluto = instance.pluto;
         const plugins = new PluginManager();
         plugins.register(DIDComm.plugin);
 

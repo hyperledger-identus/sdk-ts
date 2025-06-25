@@ -20,4 +20,5 @@ export * from "./WordList";
 export * from "./VerifiableCredential";
 export * from "./Credential";
 export * from "./CredentialMetadata";
+export * as Models from "../../pluto/models";
 export type JsonString = string;
