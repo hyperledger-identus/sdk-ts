@@ -69,12 +69,14 @@ import { CreateOOBOffer } from './edge-agent/didcomm/CreateOOBOffer';
 import { RunProtocol } from "./edge-agent/helpers/RunProtocol";
 import { CreatePresentationRequest } from "./plugins/internal/oea/tasks/CreatePresentationRequest";
 import { CreatePresentation } from "./plugins/internal/oea/tasks/CreatePresentation";
+import { CreateOOBPresentationRequest } from "./edge-agent/didcomm/CreateOOBPresentationRequest";
 
 export const Tasks = {
   RunProtocol,
   CreatePrismDID,
   PKInstance,
   CreateOOBOffer,
+  CreateOOBPresentationRequest,
   CreatePresentation,
   CreatePresentationRequest
 };
