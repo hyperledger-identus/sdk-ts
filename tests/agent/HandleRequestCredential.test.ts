@@ -239,8 +239,7 @@ describe("HandleRequestCredential", () => {
                 holderDID: Fixtures.DIDs.peerDID1,
                 message: mockMessage,
                 format: Domain.CredentialType.SDJWT,
-                claims: claims,
-                disclosureFrame: disclosureFrame
+                claims: claims
             });
 
             await ctx.run(task);
@@ -294,8 +293,7 @@ describe("HandleRequestCredential", () => {
                 holderDID: Fixtures.DIDs.peerDID1,
                 message: mockMessage,
                 format: Domain.CredentialType.SDJWT,
-                claims: claims,
-                disclosureFrame: disclosureFrame
+                claims: claims
             });
 
             await ctx.run(task);

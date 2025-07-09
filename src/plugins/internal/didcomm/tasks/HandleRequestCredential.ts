@@ -11,24 +11,46 @@ import { base64 } from "multiformats/bases/base64";
 import { ProtocolType } from '../../../../edge-agent/types';
 import { IssueCredential } from '../protocols/issueCredential/IssueCredential';
 
-interface ArgsJWT {
+type Claim = { name: string, value: string, type: string };
+type ClaimArray = Claim[];
+type Claims<A extends ClaimArray> = {
+    [K in A[number]['name']]: Extract<A[number], { name: K }>['value']
+}
+
+type VC<A extends ClaimArray> = {
+    vc: {
+        "@context": string[],
+        "type": string[],
+        "issuanceDate": Date,
+        "issuer": string,
+        credentialSubject: Claims<A>
+    }
+}
+type Payload<A extends ClaimArray> = VC<A> & SdJwtVcPayload
+
+
+
+interface ArgsJWT<T extends ClaimArray> {
     issuerDID: Domain.DID,
     holderDID: Domain.DID,
     message: Domain.Message;
     format: Domain.CredentialType.JWT;
-    claims: { name: string, value: string, type: string }[];
+    claims: T;
 }
 
-interface ArgsSDJWT {
+interface ArgsSDJWT<T extends ClaimArray> {
     issuerDID: Domain.DID,
     holderDID: Domain.DID,
     message: Domain.Message;
     format: Domain.CredentialType.SDJWT;
-    claims: { name: string, value: string, type: string }[];
-    disclosureFrame?: DisclosureFrame<SdJwtVcPayload>;
+    claims: T;
 }
 
-type Args = ArgsJWT | ArgsSDJWT;
+type Args<T extends ClaimArray = ClaimArray> = ArgsJWT<T> | ArgsSDJWT<T>;
+
+
+
+
 
 
 /**
@@ -74,12 +96,11 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
         return result;
     }
 
-    private async createSDJWT(
+    private async createSDJWT<T extends ClaimArray>(
         ctx: Plugins.Context,
         issuerDID: Domain.DID,
         holderDID: Domain.DID,
-        claims: { name: string, value: string, type: string }[],
-        disclosureFrame?: DisclosureFrame<SdJwtVcPayload>
+        claims: T,
     ) {
         const signingKeys = await ctx.run(new FindSigningKeys({
             did: issuerDID,
@@ -89,38 +110,59 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
         if (!privateKey?.isSignable()) {
             throw new Error("Key is not signable");
         }
-        const credentialSubject = claims.reduce((all, { name, value, type }) => {
-            if (type === 'number') {
-                all[name] = Number(value);
-            } else if (type === 'boolean') {
-                all[name] = value === 'true';
-            } else if (type === 'string') {
-                all[name] = value;
-            } else if (type === 'date') {
-                all[name] = new Date(value);
-            } else {
-                all[name] = value;
-            }
-            return all;
-        }, {} as any)
 
-        const result = await ctx.SDJWT.sign<SdJwtVcPayload>({
+        const payload = {
+            iss: issuerDID.toString(),
+            sub: holderDID.toString(),
+            iat: Date.now(),
+            exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
+            nbf: Date.now(),
+            jti: uuid(),
+            vc: {
+                "@context": ["https://www.w3.org/2018/credentials/v1"],
+                "type": ["VerifiableCredential"],
+                issuanceDate: new Date(),
+                issuer: issuerDID.toString(),
+                credentialSubject: claims.reduce((all, { name, value, type }) => {
+                    if (type === 'number') {
+                        all[name] = Number(value);
+                    } else if (type === 'boolean') {
+                        all[name] = value === 'true';
+                    } else if (type === 'string') {
+                        all[name] = value;
+                    } else if (type === 'date') {
+                        all[name] = new Date(value);
+                    } else {
+                        all[name] = value;
+                    }
+                    return all;
+                }, {} as Record<string, unknown>)
+            },
+            vct: issuerDID.toString()
+        }
+
+        const disclosureFrame: DisclosureFrame<typeof payload> = {
+            _sd: ['vc'],
+            vc: {
+                _sd: [
+                    "@context",
+                    "credentialSubject",
+                    "issuanceDate",
+                    "issuer",
+                    "type"
+                ],
+                credentialSubject: Object.keys(payload.vc.credentialSubject)
+                    .reduce((all, key) => ([...all, key]), [] as any)
+            }
+        }
+
+        const result = await ctx.SDJWT.sign({
             issuerDID,
             privateKey: privateKey,
-            payload: {
-                iss: issuerDID.toString(),
-                sub: holderDID.toString(),
-                iat: Date.now(),
-                exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
-                nbf: Date.now(),
-                jti: uuid(),
-                vc: {
-                    credentialSubject
-                },
-                vct: issuerDID.toString(),
-            },
-            disclosureFrame: disclosureFrame ?? {}
+            payload,
+            disclosureFrame: disclosureFrame
         })
+
         return result;
     }
 
@@ -140,9 +182,8 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
         }
 
         if (format === Domain.CredentialType.SDJWT) {
-            const disclosureFrame = this.args.disclosureFrame;
             return {
-                credential: await this.createSDJWT(ctx, issuerDID, holderDID, claims, disclosureFrame),
+                credential: await this.createSDJWT(ctx, issuerDID, holderDID, claims),
                 type: Domain.CredentialType.SDJWT
             }
         }
