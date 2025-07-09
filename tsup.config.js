@@ -6,6 +6,7 @@ export default defineConfig({
     'src/plugins/internal/anoncreds/index.ts',
     'src/plugins/internal/didcomm/index.ts',
     'src/plugins/internal/oidc/index.ts',
+    'src/plugins/internal/dif/index.ts',
   ],
   outDir: "build",
   clean: true,
