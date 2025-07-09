@@ -24,3 +24,5 @@ plugin.register(`credential-offer/${OEA.PRISM_SDJWT}`, sdjwt.CredentialOffer);
 plugin.register(`presentation-request/${OEA.PRISM_SDJWT}`, sdjwt.PresentationRequest);
 
 export default plugin;
+export * from "./types";
+

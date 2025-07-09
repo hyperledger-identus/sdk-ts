@@ -28,6 +28,18 @@
       "import": "./build/plugins/internal/oidc/index.js",
       "require": "./build/plugins/internal/oidc/index.js",
       "default": "./build/plugins/internal/oidc/index.js"
+    },
+    "./plugins/dif": {
+      "types": "./build/plugins/internal/dif/index.d.ts",
+      "import": "./build/plugins/internal/dif/index.js",
+      "require": "./build/plugins/internal/dif/index.js",
+      "default": "./build/plugins/internal/dif/index.js"
+    },
+    "./plugins/oea": {
+      "types": "./build/plugins/internal/oea/index.d.ts",
+      "import": "./build/plugins/internal/oea/index.js",
+      "require": "./build/plugins/internal/oea/index.js",
+      "default": "./build/plugins/internal/oea/index.js"
     }
   },
   "typesVersions": {

@@ -9,7 +9,6 @@ import type { Context as ACContext } from "../anoncreds/plugin";
 
 export type Modules = { DIF: DIFModule; };
 export type Context = Plugins.Context<Modules & ACContext>;
-
 const plugin = new Plugin()
   .addModule("DIF", new DIFModule())
   .register(DIF.PRESENTATION_REQUEST, PresentationRequest)
@@ -17,4 +16,6 @@ const plugin = new Plugin()
   // ??? tmp workaround Revocation being extracted to separate handlers
   .register("revocation-check/prism/jwt", IsCredentialRevoked);
 
+
 export default plugin;
+export * from "./types";
