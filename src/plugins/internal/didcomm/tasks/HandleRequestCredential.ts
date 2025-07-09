@@ -136,7 +136,7 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
         }
 
         const disclosureFrame: DisclosureFrame<typeof payload> = {
-            _sd: Object.keys(payload).reduce((all, key) => ([...all, key]), [] as any)
+            _sd: Object.keys(payload).filter((key) => !['iss', 'exp', 'nbf', 'vct'].includes(key)).reduce((all, key) => ([...all, key]), [] as any)
         }
 
         const result = await ctx.SDJWT.sign({

@@ -294,7 +294,7 @@ describe("HandleRequestCredential", () => {
             // Complex disclosure frame for a driver's license scenario
             // This allows selective disclosure for privacy - holder can choose what to reveal
             const disclosureFrame = {
-                _sd: ['iss', 'sub', 'iat', 'exp', 'nbf', 'jti', 'vct', 'fullName', 'dateOfBirth', 'nationality', 'licenseNumber', 'address', 'issuanceDate']
+                _sd: ['sub', 'iat', 'jti', 'fullName', 'dateOfBirth', 'nationality', 'licenseNumber', 'address', 'issuanceDate']
             };
 
             mockSDJWT.sign.mockResolvedValue("test-complex-sdjwt");
