@@ -151,8 +151,10 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
                     "issuer",
                     "type"
                 ],
-                credentialSubject: Object.keys(payload.vc.credentialSubject)
-                    .reduce((all, key) => ([...all, key]), [] as any)
+                credentialSubject: {
+                    _sd: Object.keys(payload.vc.credentialSubject)
+                        .reduce((all, key) => ([...all, key]), [] as any)
+                }
             }
         }
 

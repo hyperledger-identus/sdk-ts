@@ -305,7 +305,9 @@ describe("HandleRequestCredential", () => {
                 _sd: ["vc"], // Core JWT fields can be selectively disclosed
                 vc: {
                     _sd: ["@context", "credentialSubject", "issuanceDate", "issuer", "type"], // The entire credential subject can be hidden if needed
-                    credentialSubject: ["fullName", "dateOfBirth", "nationality", "licenseNumber", "address", "issuanceDate"]
+                    credentialSubject: {
+                        _sd: ["fullName", "dateOfBirth", "nationality", "licenseNumber", "address", "issuanceDate"]
+                    }
                     // Fine-grained control: sensitive info is selectively disclosable
                 }
             };
