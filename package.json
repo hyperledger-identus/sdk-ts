@@ -34,6 +34,12 @@
       "import": "./build/plugins/internal/dif/index.js",
       "require": "./build/plugins/internal/dif/index.js",
       "default": "./build/plugins/internal/dif/index.js"
+    },
+    "./plugins/oea": {
+      "types": "./build/plugins/internal/oea/index.d.ts",
+      "import": "./build/plugins/internal/oea/index.js",
+      "require": "./build/plugins/internal/oea/index.js",
+      "default": "./build/plugins/internal/oea/index.js"
     }
   },
   "typesVersions": {
