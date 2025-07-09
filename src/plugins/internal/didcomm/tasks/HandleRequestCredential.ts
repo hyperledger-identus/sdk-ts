@@ -118,44 +118,25 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
             exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
             nbf: Date.now(),
             jti: uuid(),
-            vc: {
-                "@context": ["https://www.w3.org/2018/credentials/v1"],
-                "type": ["VerifiableCredential"],
-                issuanceDate: new Date(),
-                issuer: issuerDID.toString(),
-                credentialSubject: claims.reduce((all, { name, value, type }) => {
-                    if (type === 'number') {
-                        all[name] = Number(value);
-                    } else if (type === 'boolean') {
-                        all[name] = value === 'true';
-                    } else if (type === 'string') {
-                        all[name] = value;
-                    } else if (type === 'date') {
-                        all[name] = new Date(value);
-                    } else {
-                        all[name] = value;
-                    }
-                    return all;
-                }, {} as Record<string, unknown>)
-            },
-            vct: issuerDID.toString()
+            vct: issuerDID.toString(),
+            ...claims.reduce((all, { name, value, type }) => {
+                if (type === 'number') {
+                    all[name] = Number(value);
+                } else if (type === 'boolean') {
+                    all[name] = value === 'true';
+                } else if (type === 'string') {
+                    all[name] = value;
+                } else if (type === 'date') {
+                    all[name] = new Date(value);
+                } else {
+                    all[name] = value;
+                }
+                return all;
+            }, {} as Record<string, unknown>)
         }
 
         const disclosureFrame: DisclosureFrame<typeof payload> = {
-            _sd: ['vc'],
-            vc: {
-                _sd: [
-                    "@context",
-                    "credentialSubject",
-                    "issuanceDate",
-                    "issuer",
-                    "type"
-                ],
-                credentialSubject: {
-                    _sd: Object.keys(payload.vc.credentialSubject)
-                        .reduce((all, key) => ([...all, key]), [] as any)
-                }
-            }
+            _sd: Object.keys(payload).reduce((all, key) => ([...all, key]), [] as any)
         }
 
         const result = await ctx.SDJWT.sign({

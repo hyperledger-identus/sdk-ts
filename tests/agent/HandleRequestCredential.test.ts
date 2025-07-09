@@ -219,12 +219,8 @@ describe("HandleRequestCredential", () => {
             const expectedPayload = {
                 iss: Fixtures.DIDs.peerDID2.toString(),
                 sub: Fixtures.DIDs.peerDID1.toString(),
-                vc: {
-                    credentialSubject: {
-                        name: "John Doe",
-                        age: 25
-                    }
-                },
+                name: "John Doe",
+                age: 25,
                 vct: Fixtures.DIDs.peerDID2.toString()
             };
 
@@ -273,14 +269,10 @@ describe("HandleRequestCredential", () => {
 
             // Validate using custom atLeastContains matcher
             const expectedPayload = {
-                vc: {
-                    credentialSubject: {
-                        firstName: "John",
-                        lastName: "Doe",
-                        email: "john.doe@example.com",
-                        age: 30
-                    }
-                }
+                firstName: "John",
+                lastName: "Doe",
+                email: "john.doe@example.com",
+                age: 30
             };
 
             expect(callArgs.issuerDID).toEqual(Fixtures.DIDs.peerDID2);
@@ -302,14 +294,7 @@ describe("HandleRequestCredential", () => {
             // Complex disclosure frame for a driver's license scenario
             // This allows selective disclosure for privacy - holder can choose what to reveal
             const disclosureFrame = {
-                _sd: ["vc"], // Core JWT fields can be selectively disclosed
-                vc: {
-                    _sd: ["@context", "credentialSubject", "issuanceDate", "issuer", "type"], // The entire credential subject can be hidden if needed
-                    credentialSubject: {
-                        _sd: ["fullName", "dateOfBirth", "nationality", "licenseNumber", "address", "issuanceDate"]
-                    }
-                    // Fine-grained control: sensitive info is selectively disclosable
-                }
+                _sd: ['iss', 'sub', 'iat', 'exp', 'nbf', 'jti', 'vct', 'fullName', 'dateOfBirth', 'nationality', 'licenseNumber', 'address', 'issuanceDate']
             };
 
             mockSDJWT.sign.mockResolvedValue("test-complex-sdjwt");
@@ -330,16 +315,12 @@ describe("HandleRequestCredential", () => {
 
             // Validate using custom atLeastContains matcher
             const expectedPayload = {
-                vc: {
-                    credentialSubject: {
-                        fullName: "Alice Johnson",
-                        dateOfBirth: new Date("1990-05-15"),
-                        nationality: "US",
-                        licenseNumber: "DL123456789",
-                        address: "123 Main St, Anytown, USA",
-                        issuanceDate: new Date("2024-01-01")
-                    }
-                }
+                fullName: "Alice Johnson",
+                dateOfBirth: new Date("1990-05-15"),
+                nationality: "US",
+                licenseNumber: "DL123456789",
+                address: "123 Main St, Anytown, USA",
+                issuanceDate: new Date("2024-01-01")
             };
 
             expect(callArgs.issuerDID).toEqual(Fixtures.DIDs.peerDID2);
