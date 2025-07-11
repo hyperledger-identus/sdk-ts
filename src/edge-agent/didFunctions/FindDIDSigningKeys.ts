@@ -3,6 +3,7 @@ import { Task } from "../../utils/tasks";
 import { AgentContext } from "../Context";
 import { isNil, notNil } from "../../utils";
 import type * as Domain from "../../domain";
+import { base64url } from "multiformats/bases/base64";
 
 interface Args {
   did: Domain.DID;
@@ -30,13 +31,35 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
 
     const keyData = keys.map(privateKey => {
       const publicKey = privateKey.publicKey();
-      const encoded = base58btc.encode(Uint8Array.from(publicKey.to.Buffer()));
-
-      return { privateKey, publicKey, encoded };
+      const decoded = Uint8Array.from(publicKey.to.Buffer())
+      const encoded = base58btc.encode(decoded);
+      const encodedBase64Url = base64url.baseEncode(decoded);
+      return { privateKey, publicKey, encoded, encodedBase64Url };
     });
 
     const signingKeyData = didDoc.authentication.reduce<SigningKeyData[]>((acc, method) => {
-      const data = keyData.find(x => x.encoded === method.publicKeyMultibase);
+      const data = keyData.find(x => {
+        if (method.publicKeyMultibase) {
+          return x.encoded === method.publicKeyMultibase
+        }
+        if (method.publicKeyJwk) {
+          if (x.publicKey.isExportable()) {
+            const resolvedJWK = x.publicKey.to.JWK()
+            if (method.publicKeyJwk.y) {
+              return resolvedJWK.kty === method.publicKeyJwk.kty &&
+                resolvedJWK.crv === method.publicKeyJwk.crv &&
+                resolvedJWK.x === method.publicKeyJwk.x &&
+                resolvedJWK.y === method.publicKeyJwk.y
+            }
+            return resolvedJWK.kty === method.publicKeyJwk.kty &&
+              resolvedJWK.crv === method.publicKeyJwk.crv &&
+              resolvedJWK.x === method.publicKeyJwk.x
+          }
+          return x.publicKey.curve === method.publicKeyJwk.crv &&
+            x.encodedBase64Url === method.publicKeyJwk.x
+        }
+        return false;
+      });
 
       return isNil(data) ? acc : acc.concat({
         kid: method.id,
@@ -44,13 +67,35 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
         privateKey: data.privateKey
       });
     }, []);
-
     return signingKeyData;
   }
 
+
+  private async getKeysFromPrismDIDs(ctx: AgentContext): Promise<Domain.PrivateKey[]> {
+    const prismDIDs = await ctx.Pluto.getAllPrismDIDs();
+    return prismDIDs.filter((did) => {
+      return did.did.toString().includes(this.args.did.toString())
+    }).map(({ privateKey }) => privateKey)
+  }
+
   private async getKeys(ctx: AgentContext): Promise<Domain.PrivateKey[]> {
-    return notNil(this.args.privateKey)
-      ? [this.args.privateKey]
-      : ctx.Pluto.getDIDPrivateKeysByDID(this.args.did);
+    if (notNil(this.args.privateKey)) {
+      return [this.args.privateKey];
+    }
+
+    const privateKeys = await ctx.Pluto.getDIDPrivateKeysByDID(this.args.did);
+
+    if (privateKeys.length) {
+      return privateKeys;
+    }
+
+    const prismDIDs = await this.getKeysFromPrismDIDs(ctx);
+
+    if (prismDIDs.length) {
+      return prismDIDs;
+    }
+
+
+    return []
   }
 }

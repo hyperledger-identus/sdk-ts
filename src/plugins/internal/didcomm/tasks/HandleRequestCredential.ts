@@ -32,7 +32,7 @@ type Payload<A extends ClaimArray> = VC<A> & SdJwtVcPayload
 
 interface ArgsJWT<T extends ClaimArray> {
     issuerDID: Domain.DID,
-    holderDID: Domain.DID,
+    holderDID?: Domain.DID,
     message: Domain.Message;
     format: Domain.CredentialType.JWT;
     claims: T;
@@ -40,7 +40,7 @@ interface ArgsJWT<T extends ClaimArray> {
 
 interface ArgsSDJWT<T extends ClaimArray> {
     issuerDID: Domain.DID,
-    holderDID: Domain.DID,
+    holderDID?: Domain.DID,
     message: Domain.Message;
     format: Domain.CredentialType.SDJWT;
     claims: T;
@@ -60,9 +60,9 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
 
     private async createJWT(
         ctx: Plugins.Context,
+        claims: { name: string, value: string, type: string }[],
         issuerDID: Domain.DID,
-        holderDID: Domain.DID,
-        claims: { name: string, value: string, type: string }[]
+        holderDID?: Domain.DID,
     ) {
         const credentialSubject = claims.reduce((all, { name, value, type }) => {
             if (type === 'number') {
@@ -77,43 +77,36 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
                 all[name] = value;
             }
             return all;
-        }, {} as any)
+        }, {} as any);
+
+        const payload = {
+            iss: issuerDID.toString(),
+            iat: Date.now(),
+            exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
+            nbf: Date.now(),
+            jti: uuid(),
+            vc: {
+                credentialSubject
+            },
+            ...(holderDID ? { sub: holderDID.toString() } : {})
+        }
 
         const result = await ctx.JWT.signWithDID(
             issuerDID,
-            {
-                iss: issuerDID.toString(),
-                sub: holderDID.toString(),
-                iat: Date.now(),
-                exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
-                nbf: Date.now(),
-                jti: uuid(),
-                vc: {
-                    credentialSubject
-                }
-            },
+            payload
         )
+
         return result;
     }
 
     private async createSDJWT<T extends ClaimArray>(
         ctx: Plugins.Context,
-        issuerDID: Domain.DID,
-        holderDID: Domain.DID,
         claims: T,
+        issuerDID: Domain.DID,
+        holderDID?: Domain.DID
     ) {
-        const signingKeys = await ctx.run(new FindSigningKeys({
-            did: issuerDID,
-        }));
-        const signingKey = signingKeys.at(0);
-        const privateKey = expect(signingKey?.privateKey, "key not found");
-        if (!privateKey?.isSignable()) {
-            throw new Error("Key is not signable");
-        }
-
         const payload = {
             iss: issuerDID.toString(),
-            sub: holderDID.toString(),
             iat: Date.now(),
             exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
             nbf: Date.now(),
@@ -132,20 +125,21 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
                     all[name] = value;
                 }
                 return all;
-            }, {} as Record<string, unknown>)
+            }, {} as Record<string, unknown>),
+            ...(holderDID ? { sub: holderDID.toString() } : {})
         }
 
         const disclosureFrame: DisclosureFrame<typeof payload> = {
-            _sd: Object.keys(payload).filter((key) => !['iss', 'exp', 'nbf', 'vct'].includes(key)).reduce((all, key) => ([...all, key]), [] as any)
+            _sd: Object.keys(payload)
+                .filter((key) => !['iss', 'exp', 'nbf', 'vct'].includes(key))
+                .reduce((all, key) => ([...all, key]), [] as any)
         }
 
         const result = await ctx.SDJWT.sign({
             issuerDID,
-            privateKey: privateKey,
             payload,
             disclosureFrame: disclosureFrame
         })
-
         return result;
     }
 
@@ -159,14 +153,14 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
 
         if (format === Domain.CredentialType.JWT) {
             return {
-                credential: await this.createJWT(ctx, issuerDID, holderDID, claims),
+                credential: await this.createJWT(ctx, claims, issuerDID, holderDID),
                 type: Domain.CredentialType.JWT
             }
         }
 
         if (format === Domain.CredentialType.SDJWT) {
             return {
-                credential: await this.createSDJWT(ctx, issuerDID, holderDID, claims),
+                credential: await this.createSDJWT(ctx, claims, issuerDID, holderDID),
                 type: Domain.CredentialType.SDJWT
             }
         }
