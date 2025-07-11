@@ -70,17 +70,32 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
     return signingKeyData;
   }
 
+
+  private async getKeysFromPrismDIDs(ctx: AgentContext): Promise<Domain.PrivateKey[]> {
+    const prismDIDs = await ctx.Pluto.getAllPrismDIDs();
+    return prismDIDs.filter((did) => {
+      return did.did.toString().includes(this.args.did.toString())
+    }).map(({ privateKey }) => privateKey)
+  }
+
   private async getKeys(ctx: AgentContext): Promise<Domain.PrivateKey[]> {
     if (notNil(this.args.privateKey)) {
       return [this.args.privateKey];
     }
-    const privateKeys = await ctx.Pluto.getDIDPrivateKeysByDID(this.args.did)
-    if (privateKeys.length === 0) {
-      const prismDIDs = await ctx.Pluto.getAllPrismDIDs();
-      return prismDIDs.filter((did) => {
-        return did.did.toString().includes(this.args.did.toString())
-      }).map(({ privateKey }) => privateKey)
+
+    const privateKeys = await ctx.Pluto.getDIDPrivateKeysByDID(this.args.did);
+
+    if (privateKeys.length) {
+      return privateKeys;
     }
-    return privateKeys;
+
+    const prismDIDs = await this.getKeysFromPrismDIDs(ctx);
+
+    if (prismDIDs.length) {
+      return prismDIDs;
+    }
+
+
+    return []
   }
 }

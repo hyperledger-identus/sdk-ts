@@ -15,7 +15,7 @@ describe("Domain - JWT", () => {
   beforeEach(() => {
     apollo = new Apollo();
     castor = new Castor(apollo);
-    plutoMock = { getDIDPrivateKeysByDID: vi.fn() } as any;
+    plutoMock = { getDIDPrivateKeysByDID: vi.fn(), getAllPrismDIDs: vi.fn() } as any;
     const ctx = new Task.Context({
       Apollo: apollo,
       Castor: castor,
@@ -42,6 +42,7 @@ describe("Domain - JWT", () => {
 
     test("no key found - throws", async () => {
       vi.spyOn(plutoMock, "getDIDPrivateKeysByDID").mockResolvedValue([]);
+      vi.spyOn(plutoMock, "getAllPrismDIDs").mockResolvedValue([]);
       const result = sut.signWithDID(Fixtures.DIDs.prismDIDDefault, { a: 1, b: 2 });
 
       await expect(result).rejects.toThrow("-1: key not found");
