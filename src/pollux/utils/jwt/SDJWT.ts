@@ -9,6 +9,7 @@ import { SDJWTCredential } from '../../models/SDJWTVerifiableCredential';
 import { Task, notNil } from "../../../utils";
 import { ResolveDID } from "./ResolveDID";
 import { PKInstance } from "./PKInstance";
+import { CreateSDJWT } from "./CreateSDJWT";
 
 export const defaultHashConfig = {
   hasherAlg: 'SHA256',
@@ -35,18 +36,18 @@ export class SDJWT extends Task.Runner {
 
   async sign<E extends SdJwtVcPayload>(options: {
     issuerDID: Domain.DID,
-    privateKey: Domain.PrivateKey,
+    privateKey?: Domain.PrivateKey,
     payload: E,
     disclosureFrame: DisclosureFrame<E>;
     kid?: string | undefined;
   }): Promise<string> {
-    const config = this.getSKConfig(options.privateKey);
-    const sdjwt = new SDJwtVcInstance(config);
-    return sdjwt.issue(
-      options.payload,
-      options.disclosureFrame,
-      options.kid ? { header: { kid: options.kid } } : undefined
-    );
+    return this.runTask(
+      new CreateSDJWT({
+        did: options.issuerDID,
+        payload: options.payload,
+        disclosureFrame: options.disclosureFrame,
+        privateKey: options.privateKey
+      }));
   }
 
   async verify(options: {
@@ -113,7 +114,7 @@ export class SDJWT extends Task.Runner {
     );
   }
 
-  private getPKConfig(publicKey: Domain.PublicKey): SDJWTVCConfig {
+  public getPKConfig(publicKey: Domain.PublicKey): SDJWTVCConfig {
     return {
       hashAlg: defaultHashConfig.hasherAlg.toLocaleLowerCase(),
       hasher: defaultHashConfig.hasher,
@@ -147,7 +148,7 @@ export class SDJWT extends Task.Runner {
     return salt;
   }
 
-  protected getSKConfig(privateKey: Domain.PrivateKey): SDJWTVCConfig {
+  public getSKConfig(privateKey: Domain.PrivateKey): SDJWTVCConfig {
     return {
       hashAlg: defaultHashConfig.hasherAlg.toLocaleLowerCase(),
       hasher: defaultHashConfig.hasher,

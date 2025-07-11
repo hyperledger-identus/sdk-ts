@@ -3,7 +3,6 @@ import {
   DID,
   DIDDocument,
   PublicKey,
-  Service,
 } from "../../../src/domain";
 import { Castor } from "../../../src/domain/buildingBlocks/Castor";
 
@@ -24,12 +23,12 @@ export const CastorMock: Castor & typeof castorVars = {
   },
   createPrismDID(
     masterPublicKey: PublicKey,
-    services?: Service[] | undefined
+    services?: DIDDocument.Service[] | undefined
   ): Promise<DID> {
     return Promise.resolve(castorVars._prismDID)
   },
 
-  createPeerDID(publicKeys: PublicKey[], services: Service[]): Promise<DID> {
+  createPeerDID(publicKeys: PublicKey[], services: DIDDocument.Service[]): Promise<DID> {
     return Promise.resolve(castorVars._peerDID);
   },
 

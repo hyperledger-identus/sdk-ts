@@ -11,6 +11,9 @@ import * as DIDComm from "../../src/plugins/internal/didcomm";
 import { ProtocolType } from '../../src/edge-agent/types';
 import Apollo from "../../src/apollo/Apollo";
 import { createInstance } from '../fixtures/pluto';
+import { CastorMock } from './mocks/CastorMock';
+import { SDJWT } from '../../src/pollux/utils/jwt/SDJWT';
+import { JWT } from '../../src/pollux/utils/jwt/JWT';
 
 // Custom matcher helper for at least contains validation
 const atLeastContains = (actual: any, expected: any): boolean => {
@@ -37,22 +40,76 @@ describe("HandleRequestCredential", () => {
     let mockMessage: Domain.Message;
     let mockSigningKey: any;
     let mockPrivateKey: any;
+    let mockPublicKey: any;
+    let plugins: PluginManager;
 
     beforeEach(async () => {
         // Mock JWT service
         mockJWT = {
-            signWithDID: vi.fn()
+            signWithDID: vi.fn(),
+            _context: undefined,
+            sign: vi.fn(),
+            runTask: vi.fn(),
+            get context() {
+                return this._context;
+            },
+            setContext(ctx: Task.Context) {
+                this._context = ctx;
+            },
         };
+
 
         // Mock SDJWT service
         mockSDJWT = {
-            sign: vi.fn()
+            _context: undefined,
+            sign: vi.fn(),
+            runTask: vi.fn(),
+            get context() {
+                return this._context;
+            },
+            setContext(ctx: Task.Context) {
+                this._context = ctx;
+            },
         };
+
+        mockPublicKey = {
+            canVerify: vi.fn().mockReturnValue(true),
+            isExportable: vi.fn().mockReturnValue(true),
+            to: {
+                Buffer: vi.fn().mockReturnValue(Fixtures.Keys.secp256K1.publicKey.raw),
+                JWK: vi.fn().mockReturnValue(Fixtures.Keys.secp256K1.publicKey.to.JWK())
+            },
+            get kty() {
+                return Fixtures.Keys.secp256K1.publicKey.to.JWK().kty
+            },
+            get crv() {
+                return Fixtures.Keys.secp256K1.publicKey.to.JWK().crv
+            },
+            get x() {
+                return Fixtures.Keys.secp256K1.publicKey.to.JWK().x
+            },
+            get y() {
+                return Fixtures.Keys.secp256K1.publicKey.to.JWK().y
+            }
+        }
 
         // Mock private key
         mockPrivateKey = {
-            isSignable: vi.fn().mockReturnValue(true)
-        };
+            isSignable: vi.fn().mockReturnValue(true),
+            isExportable: vi.fn().mockReturnValue(true),
+            sign: vi.fn(),
+            publicKey: vi.fn().mockReturnValue(mockPublicKey),
+            get kty() {
+                return Fixtures.Keys.secp256K1.publicKey.to.JWK().kty
+            },
+            get crv() {
+                return Fixtures.Keys.secp256K1.publicKey.to.JWK().crv
+            },
+            get d() {
+                return Fixtures.Keys.secp256K1.publicKey.to.JWK().d
+            }
+        }
+
 
         // Mock signing key
         mockSigningKey = {
@@ -62,9 +119,9 @@ describe("HandleRequestCredential", () => {
         const instance = createInstance({
             apollo,
             name: "test",
-        })
+        });
         pluto = instance.pluto;
-        const plugins = new PluginManager();
+        plugins = new PluginManager();
         plugins.register(DIDComm.plugin);
 
         // Create mock message
@@ -82,11 +139,14 @@ describe("HandleRequestCredential", () => {
         );
 
         ctx = new Task.Context({
+            Castor: CastorMock,
             Pluto: pluto,
             Plugins: plugins,
             JWT: mockJWT,
             SDJWT: mockSDJWT
         });
+
+        await pluto.start()
     });
 
     afterEach(() => {
@@ -225,7 +285,6 @@ describe("HandleRequestCredential", () => {
             };
 
             expect(callArgs.issuerDID).toEqual(Fixtures.DIDs.peerDID2);
-            expect(callArgs.privateKey).toEqual(mockPrivateKey);
             expect(atLeastContains(callArgs.payload, expectedPayload)).toBe(true);
             expect(callArgs.disclosureFrame).toBeDefined(); // Disclosure frame is set by the implementation
         });
@@ -237,20 +296,6 @@ describe("HandleRequestCredential", () => {
                 { name: "email", value: "john.doe@example.com", type: "string" },
                 { name: "age", value: "30", type: "number" }
             ];
-
-            // Define a meaningful disclosure frame that enables privacy-preserving presentations
-            // In this scenario, a holder can choose whether to reveal sensitive information like email and age
-            // while always showing basic identification like firstName and lastName
-            const disclosureFrame = {
-                _sd: ["vc"], // The entire vc object can be selectively disclosed
-                vc: {
-                    _sd: ["credentialSubject"], // credentialSubject can be selectively disclosed
-                    credentialSubject: {
-                        _sd: ["email", "age"] // Only email and age are selectively disclosable, firstName and lastName are always visible
-                    }
-                }
-            } as any; // Using 'as any' to work around strict typing for test purposes
-
             mockSDJWT.sign.mockResolvedValue("test-sdjwt-with-disclosure");
             mockTask(FindSigningKeys, [mockSigningKey]);
 
@@ -276,7 +321,6 @@ describe("HandleRequestCredential", () => {
             };
 
             expect(callArgs.issuerDID).toEqual(Fixtures.DIDs.peerDID2);
-            expect(callArgs.privateKey).toEqual(mockPrivateKey);
             expect(atLeastContains(callArgs.payload, expectedPayload)).toBe(true);
             expect(callArgs.disclosureFrame).toBeDefined(); // Disclosure frame is set by the implementation
         });
@@ -294,7 +338,7 @@ describe("HandleRequestCredential", () => {
             // Complex disclosure frame for a driver's license scenario
             // This allows selective disclosure for privacy - holder can choose what to reveal
             const disclosureFrame = {
-                _sd: ['sub', 'iat', 'jti', 'fullName', 'dateOfBirth', 'nationality', 'licenseNumber', 'address', 'issuanceDate']
+                _sd: ['iat', 'jti', 'fullName', 'dateOfBirth', 'nationality', 'licenseNumber', 'address', 'issuanceDate', 'sub']
             };
 
             mockSDJWT.sign.mockResolvedValue("test-complex-sdjwt");
@@ -315,48 +359,35 @@ describe("HandleRequestCredential", () => {
 
             // Validate using custom atLeastContains matcher
             const expectedPayload = {
+                sub: Fixtures.DIDs.peerDID1.toString(),
                 fullName: "Alice Johnson",
                 dateOfBirth: new Date("1990-05-15"),
                 nationality: "US",
                 licenseNumber: "DL123456789",
                 address: "123 Main St, Anytown, USA",
-                issuanceDate: new Date("2024-01-01")
+                issuanceDate: new Date("2024-01-01"),
             };
 
             expect(callArgs.issuerDID).toEqual(Fixtures.DIDs.peerDID2);
-            expect(callArgs.privateKey).toEqual(mockPrivateKey);
             expect(callArgs.disclosureFrame).toEqual(disclosureFrame);
             expect(atLeastContains(callArgs.payload, expectedPayload)).toBe(true);
         });
 
-        test("should throw error when signing key not found", async () => {
-            const claims = [
-                { name: "name", value: "John Doe", type: "string" }
-            ];
-
-            mockTask(FindSigningKeys, []);
-
-            const task = new HandleRequestCredential({
-                issuerDID: Fixtures.DIDs.peerDID2,
-                holderDID: Fixtures.DIDs.peerDID1,
-                message: mockMessage,
-                format: Domain.CredentialType.SDJWT,
-                claims: claims
-            });
-
-            await expect(ctx.run(task)).rejects.toThrow("key not found");
-        });
 
         test("should throw error when private key is not signable", async () => {
+            const instance = new SDJWT();
             const claims = [
                 { name: "name", value: "John Doe", type: "string" }
             ];
 
             mockPrivateKey.isSignable.mockReturnValue(false);
             mockTask(FindSigningKeys, [mockSigningKey]);
+            mockSDJWT.sign.mockImplementation(instance.sign)
+            mockSDJWT.runTask.mockImplementation((instance as any).runTask)
+            mockSDJWT.setContext(ctx);
 
             const task = new HandleRequestCredential({
-                issuerDID: Fixtures.DIDs.peerDID2,
+                issuerDID: Fixtures.DIDs.prismDIDDefault,
                 holderDID: Fixtures.DIDs.peerDID1,
                 message: mockMessage,
                 format: Domain.CredentialType.SDJWT,
@@ -364,6 +395,29 @@ describe("HandleRequestCredential", () => {
             });
 
             await expect(ctx.run(task)).rejects.toThrow("Key is not signable");
+        });
+
+
+        test("should throw error when signing key not found", async () => {
+            const instance = new SDJWT();
+            const claims = [
+                { name: "name", value: "John Doe", type: "string" }
+            ];
+
+            mockTask(FindSigningKeys, []);
+            mockSDJWT.sign.mockImplementation(instance.sign)
+            mockSDJWT.runTask.mockImplementation((instance as any).runTask)
+            mockSDJWT.setContext(ctx);
+
+            const task = new HandleRequestCredential({
+                issuerDID: Fixtures.DIDs.prismDIDDefault,
+                holderDID: Fixtures.DIDs.peerDID1,
+                message: mockMessage,
+                format: Domain.CredentialType.SDJWT,
+                claims: claims
+            });
+
+            await expect(ctx.run(task)).rejects.toThrow("key not found");
         });
     });
 
@@ -454,6 +508,61 @@ describe("HandleRequestCredential", () => {
             const result = await ctx.run(task);
 
             expect(result.thid).toEqual(customThreadId);
+        });
+
+        test("Should issue a Credential with ShortForm and fetch the keys from Pluto using LongForm and recover gracefully", async () => {
+            const instance = new JWT();
+            const shortFormDID = Domain.DID.fromString(
+                Fixtures.DIDs.prismDIDDefault.toString().slice(0, 37)
+            )
+
+            const verificationMethods = [
+                new Domain.DIDDocument.VerificationMethod(
+                    "key-1",
+                    shortFormDID.toString(),
+                    "JsonWebKey2020",
+                    { kty: mockPublicKey.kty, crv: mockPublicKey.crv, x: mockPublicKey.x, y: mockPublicKey.y }
+                )
+            ]
+            const mockDIDDocument = new Domain.DIDDocument(
+                shortFormDID,
+                [
+                    new Domain.DIDDocument.VerificationMethods(verificationMethods),
+                    new Domain.DIDDocument.Authentication(
+                        [
+                            "key-1"
+                        ],
+                        verificationMethods
+                    )
+                ]
+            );
+
+            const claims = [
+                { name: "name", value: "John Doe", type: "string" }
+            ];
+
+            //Store keys with LongForm to prove the current issue
+            await pluto.storeDID(Fixtures.DIDs.prismDIDDefault, [Fixtures.Keys.secp256K1.privateKey])
+
+            let resolveDIDSpy = vi.spyOn(CastorMock, 'resolveDID')
+            resolveDIDSpy.mockImplementation(async () => mockDIDDocument)
+            mockPrivateKey.isSignable.mockReturnValue(true);
+            mockPrivateKey.sign.mockReturnValue(Buffer.from("test-signature"));
+            mockJWT.signWithDID.mockImplementation(instance.signWithDID)
+            mockJWT.runTask.mockImplementation((instance as any).runTask)
+            mockJWT.setContext(ctx);
+
+            const task = new HandleRequestCredential({
+                issuerDID: shortFormDID,
+                holderDID: Fixtures.DIDs.peerDID1,
+                message: mockMessage,
+                format: Domain.CredentialType.JWT,
+                claims: claims
+            });
+
+            const result = await ctx.run(task);
+            expect(result).toBeInstanceOf(IssueCredential);
+            expect(resolveDIDSpy).toHaveBeenCalledWith(shortFormDID);
         });
     });
 }); 

@@ -37,8 +37,6 @@ export class CreateJWT extends Task<string, Args> {
       throw new Error("Key is not signable");
     }
 
-    // const kid = await this.getSigningKid(ctx, this.args.did, privateKey);
-
     // secp256k1 uses compact encoding while apollo returns der signatures so far
     const signer: Signer = privateKey.curve === Domain.Curve.SECP256K1
       ? ES256KSigner(privateKey.raw)
