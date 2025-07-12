@@ -13,7 +13,6 @@ import { ForwardMessage } from "./forward/ForwardMessage";
  * decentralized system requiring trusted peer-to-peer connections, Mercury provides the tools and features you need to
  * establish, manage, and secure your communications easily.
  *
- * @export
  * @class Mercury
  * @typedef {Mercury}
  */
@@ -21,7 +20,6 @@ export default class Mercury implements MercuryInterface {
   /**
    * Creates an instance of Mercury.
    *
-   * @constructor
    * @param {Castor} castor
    * @param {DIDCommProtocol} protocol
    * @param {Api} api
@@ -30,7 +28,7 @@ export default class Mercury implements MercuryInterface {
     public castor: Castor,
     public protocol: DIDCommProtocol,
     public api: Api
-  ) {}
+  ) { }
 
   /**
    * Asynchronously packs a given message object into a string representation. This function may throw an error if the
@@ -62,7 +60,7 @@ export default class Mercury implements MercuryInterface {
   /**
    * Asynchronously sends a given message and returns the response data.
    *
-   * @async
+   * 
    * @template T
    * @param {Domain.Message} message
    * @returns {Promise<T>}
@@ -123,7 +121,7 @@ export default class Mercury implements MercuryInterface {
   /**
    * Asynchronously sends a given message and returns the response message object.
    *
-   * @async
+   * 
    * @param {Domain.Message} message
    * @returns {Promise<Domain.Message>}
    */
@@ -188,7 +186,7 @@ export default class Mercury implements MercuryInterface {
       ?.serviceEndpoint?.uri;
     try {
       //It Is okey to fail
-       
+
       const did = this.castor.parseDID(uri!);
       return did;
     } catch {

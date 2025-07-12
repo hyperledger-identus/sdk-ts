@@ -7,7 +7,7 @@ import { FetchAuthServerMeta } from "../tasks/FetchAuthServerMeta";
 import { InvalidCredentialConfigurationIds, MissingAuthorizationServerUri } from "../errors";
 import * as Utils from "../../../../utils";
 
-interface Args {
+export interface ResolveAuthorizationRequestArgs {
   offer: CredentialOffer;
   clientId: string;
   redirectUri: string;
@@ -28,7 +28,7 @@ interface Args {
  * @param offer 
  * @returns 
  */
-export class ResolveAuthorizationRequest extends Utils.Task<AuthorizationRequest, Args> {
+export class ResolveAuthorizationRequest extends Utils.Task<AuthorizationRequest, ResolveAuthorizationRequestArgs> {
   async run(ctx: Context) {
     const { offer, clientId, redirectUri } = this.args;
     const issuerMeta = await ctx.run(new FetchIssuerMetadata({ uri: offer.credential_issuer }));

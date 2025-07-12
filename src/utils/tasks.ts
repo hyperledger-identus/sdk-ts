@@ -32,7 +32,7 @@ export namespace Task {
   /**
    * Context using proxy so we can extend arbitrarily
    */
-  class ContextProxy {
+  export class ContextProxy {
     public readonly logger: Logger;
     private readonly modules: JsonObj = {};
     private readonly _proxy: any;
@@ -79,7 +79,7 @@ export namespace Task {
    * used to mask the Proxy behaviour
    * and enable Typescript to know what Modules should be accessible
    */
-  interface ContextCtor {
+  export interface ContextCtor {
     new <T extends object>(modules: T): Context<T>;
   }
 

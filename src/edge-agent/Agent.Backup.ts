@@ -10,9 +10,9 @@ import { isNil, isObject, notNil, validateSafe } from "../utils";
 /**
  * define Agent requirements for Backup
  */
-type BackupAgent = Pick<Agent, "apollo" | "pluto" | "seed">;
-type BackupExclude = "messages" | "mediators" | "link_secret";
-type MasterKey = Domain.PrivateKey & Domain.ExportableKey.Common & Domain.ExportableKey.JWK & Domain.ExportableKey.PEM;
+export type BackupAgent = Pick<Agent, "apollo" | "pluto" | "seed">;
+export type BackupExclude = "messages" | "mediators" | "link_secret";
+export type MasterKey = Domain.PrivateKey & Domain.ExportableKey.Common & Domain.ExportableKey.JWK & Domain.ExportableKey.PEM;
 
 export type BackupOptions = {
   version?: Version;

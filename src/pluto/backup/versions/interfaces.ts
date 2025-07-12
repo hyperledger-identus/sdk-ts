@@ -1,4 +1,4 @@
-import { Domain } from "../../..";
+import { Domain } from "../../../exports";
 
 export interface IBackupTask {
   run(): Promise<Domain.Backup.Schema>;

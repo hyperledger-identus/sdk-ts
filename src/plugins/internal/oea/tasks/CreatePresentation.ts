@@ -12,7 +12,7 @@ import { Presentation } from "../protocols/Presentation";
  * instance of the presentation which we can share with the verifier.
  */
 
-interface Args {
+export interface Args {
   credential: Domain.Credential;
   request: RequestPresentation;
 }

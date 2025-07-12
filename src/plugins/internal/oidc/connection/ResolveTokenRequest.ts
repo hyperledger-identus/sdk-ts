@@ -7,7 +7,7 @@ import { OIDCConnection } from "./OIDCConnection";
 import * as Utils from "../../../../utils";
 import { Connection } from "../../../../edge-agent/connections";
 
-interface Args {
+export interface ResolveTokenRequestArgs {
   authorizationRequest: AuthorizationRequest;
   callbackUrl?: string | URL;
 }
@@ -30,7 +30,7 @@ interface Args {
  * @param callbackUrl 
  * @returns 
  */
-export class ResolveTokenRequest extends Utils.Task<TokenResponse, Args> {
+export class ResolveTokenRequest extends Utils.Task<TokenResponse, ResolveTokenRequestArgs> {
   async run(ctx: Context) {
     const { authorizationRequest, callbackUrl } = this.args;
     const clientId = Utils.expect(authorizationRequest.params.get("client_id"), Errors.MissingClientId);

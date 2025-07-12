@@ -1,3 +1,5 @@
+/* eslint-disable no-redeclare */
+/* eslint-disable @typescript-eslint/no-namespace */
 import { Key } from "../Key";
 import { JWK as _JWK } from "./JWK";
 import { PEM as _PEM } from "./PEM";
@@ -14,7 +16,7 @@ export type ExportableKey = ExportableKey.All;
 /**
  * Factory options to customise export / import functions
  */
-interface Options {
+export interface Options {
   pemLabel: string;
 }
 

@@ -3,7 +3,7 @@ import { Context } from "../plugin";
 import * as Domain from "../../../../domain";
 import * as Utils from "../../../../utils";
 
-interface Args {
+export interface FetchAuthServerMetaArgs {
   serverUri: string | URL,
   algorithm?: string;
 }
@@ -15,7 +15,7 @@ interface Args {
  * @param uri 
  * @returns {Promise<AuthServerMetadata>}
  */
-export class FetchAuthServerMeta extends Utils.Task<Domain.ApiResponse<AuthServerMetadata>, Args> {
+export class FetchAuthServerMeta extends Utils.Task<Domain.ApiResponse<AuthServerMetadata>, FetchAuthServerMetaArgs> {
   async run(ctx: Context) {
     const serverUrl = new URL(this.args.serverUri);
     const url = new URL(serverUrl);

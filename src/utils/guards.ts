@@ -77,9 +77,14 @@ export const isArray = (value: unknown): value is unknown[] => Array.isArray(val
  *   - nullish returns empty array
  *   - single item returns array with item
  *   - array returns array
- * @param guard? - optional Typeguard to filter items ensuring item types
  */
 export function asArray<T>(items: T | T[] | Nil): T[];
+/**
+ * asArray
+ * convert a value to an array with type guard
+ * @param items - the value to be converted
+ * @param guard - Typeguard to filter items ensuring item types
+ */
 export function asArray<T, U extends T>(items: T | T[] | Nil, guard: (item: unknown) => item is U): U[];
 export function asArray<T>(items: T | T[] | Nil, guard?: (item: unknown) => item is T): T[] {
   if (isNil(items)) {
@@ -109,7 +114,7 @@ export const asJsonObj = (value: unknown): JsonObj => {
  * panic otherwise
  * 
  * @param value - the value to check
- * @param error? - custom error
+ * @param error - custom error
  */
 export function expect<T>(value: T, error?: string | Ctor<Error> | Error): Exclude<T, Nil> {
   if (isNil(value)) {

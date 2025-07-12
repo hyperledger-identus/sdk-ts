@@ -7,7 +7,7 @@ import { MediationKeysUpdateList } from "../../plugins/internal/didcomm/protocol
 /**
  * Asyncronously create and store a new peer did
  *
- * @async
+ * 
  * @param {Service[]} services
  * @param {boolean} [updateMediator=false]
  * @returns {Promise<DID>}
@@ -69,7 +69,7 @@ export class CreatePeerDID extends Task<Domain.DID, Args> {
   /**
    * Asyncronously update the mediator with the new keyList, used during the mediation process or during DID Rotation
    *
-   * @async
+   * 
    * @param {DID[]} did
    * @returns {Promise<void>}
    */

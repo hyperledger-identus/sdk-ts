@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 
 
 
@@ -41,12 +42,32 @@ import { Query } from "./types";
  * - crud interactions
  * - only use Models
  * 
- * 
- * Future:
- *  - versioning
- *  - migrations
  */
 export namespace Pluto {
+  /**
+   * Store interface for Pluto persistence layer
+   * 
+   * This interface defines the contract for database operations on Models.
+   * Implementations must handle CRUD operations for all supported model types.
+   * 
+   * Supported Models:
+   * - Models.Credential - Verifiable credentials
+   * - Models.CredentialMetadata - Metadata for credential schemas
+   * - Models.DID - Decentralized identifiers
+   * - Models.Key - Private keys
+   * - Models.Message - DIDComm messages
+   * - Models.DIDKeyLink - Links between DIDs and keys
+   * - Models.DIDLink - Links between DIDs (pairs, mediators, routing)
+   * 
+   * Supported Tables:
+   * - "credentials" - Stores credential data
+   * - "credential-metadata" - Stores credential metadata
+   * - "dids" - Stores DID documents
+   * - "keys" - Stores private keys
+   * - "messages" - Stores DIDComm messages
+   * - "didkey-link" - Stores DID-key relationships
+   * - "did-link" - Stores DID-DID relationships
+   */
   export interface Store {
     /**
      * Handle any necessary startup.
@@ -62,51 +83,110 @@ export namespace Pluto {
     /**
      * Run a query to fetch data from the Store
      * 
-     * @param table table name
-     * @param query a Query object, a set of values and operators defining the query
+     * @template T - The model type that extends Models.Model (e.g., Models.Credential, Models.DID, Models.Key, etc.)
+     * @param table - Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages"
+     * @param query - Optional Query object with selector conditions and operators for filtering results
      * 
-     * properties within an object will be AND'ed
-     * different objects will be OR'd
+     * Query behavior:
+     * - Properties within an object will be AND'ed together
+     * - Different objects in $or array will be OR'd together
+     * - Omit query parameter to fetch all records from the table
      * 
      * @example
-     * search for a model in TableOne with uuid and name
+     * Search for credentials by uuid and issuer
      * ```ts
-     *   store.query("TableOne", { selector: { uuid: "1", name: "eg" }})
+     *   store.query<Models.Credential>("credentials", { 
+     *     selector: { uuid: "credential-123", issuer: "did:example:issuer" }
+     *   })
      * ```
      * @example
-     * search for models in TableOne with uuid of 1 or 2
+     * Search for DIDs with method "prism" OR "peer"
      * ```ts
-     *   store.query("TableOne", { selector: { $or: [{ uuid: "1" }, { uuid: "2" }] }})
+     *   store.query<Models.DID>("dids", { 
+     *     selector: { $or: [{ method: "prism" }, { method: "peer" }] }
+     *   })
      * ```
      * @example
-     * search for all models in TableOne
+     * Fetch all messages from the table
      * ```ts
-     *   store.query("TableOne")
+     *   store.query<Models.Message>("messages")
      * ```
      * 
-     * @returns relevant Models
+     * @returns Promise resolving to array of models matching the query criteria
      */
     query<T extends Models.Model>(table: string, query?: Query<T>): Promise<T[]>;
 
     /**
      * Persist new data in the Store.
      * 
-     * @param table table name
-     * @param model object to save
+     * @template T - The model type that extends Models.Model (e.g., Models.Credential, Models.DID, Models.Key, etc.)
+     * @param table - Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages"
+     * @param model - The model instance to persist. Must include all required properties and should have a valid uuid
+     * 
+     * @example
+     * Insert a new credential
+     * ```ts
+     *   const credential: Models.Credential = {
+     *     uuid: "credential-123",
+     *     recoveryId: "jwt",
+     *     dataJson: JSON.stringify(credentialData),
+     *     id: "credential-id",
+     *     issuer: "did:example:issuer"
+     *   };
+     *   await store.insert<Models.Credential>("credentials", credential);
+     * ```
+     * 
+     * @returns Promise that resolves when the model is successfully persisted
+     * @throws Error if the model is invalid or table name is not recognized
      */
     insert<T extends Models.Model>(table: string, model: T): Promise<void>;
 
     /**
-     * Updating a new row in the Store
-     * @param table 
-     * @param model 
+     * Update an existing row in the Store
+     * 
+     * @template T - The model type that extends Models.Model (e.g., Models.Credential, Models.DID, Models.Key, etc.)
+     * @param table - Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages"
+     * @param model - The model instance with updated data. Must include the uuid to identify the record to update
+     * 
+     * @example
+     * Update a credential to mark it as revoked
+     * ```ts
+     *   const updatedCredential: Models.Credential = {
+     *     uuid: "credential-123",
+     *     recoveryId: "jwt",
+     *     dataJson: JSON.stringify(updatedCredentialData),
+     *     id: "credential-id",
+     *     issuer: "did:example:issuer",
+     *     revoked: true
+     *   };
+     *   await store.update<Models.Credential>("credentials", updatedCredential);
+     * ```
+     * 
+     * @returns Promise that resolves when the model is successfully updated
+     * @throws Error if the model with the given uuid is not found or table name is not recognized
      */
     update<T extends Models.Model>(table: string, model: T): Promise<void>;
 
     /**
-     * Deleting a  row in the Store
-     * @param table 
-     * @param model 
+     * Delete a row from the Store
+     * 
+     * @param table - Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages"
+     * @param uuid - The unique identifier of the record to delete
+     * 
+     * @example
+     * Delete a credential by its uuid
+     * ```ts
+     *   await store.delete("credentials", "credential-123");
+     * ```
+     * 
+     * @example
+     * Delete a DID by its uuid
+     * ```ts
+     *   await store.delete("dids", "did:example:123");
+     * ```
+     * 
+     * @returns Promise that resolves when the record is successfully deleted
+     * @throws Error if the record with the given uuid is not found or table name is not recognized
      */
     delete(table: string, uuid: string): Promise<void>;
   }

@@ -2,13 +2,13 @@ import { AuthServerMetadata } from "../types";
 import { AuthorizationResponse } from "../protocols/AuthorizationResponse";
 import * as Utils from "../../../../utils";
 
-interface Args {
+export interface ProcessCallbackUrlArgs {
   authServerMeta: AuthServerMetadata;
   callbackUrl: URL;
   expectedState?: "none" | "skip" | string;
 }
 
-export class ProcessCallbackUrl extends Utils.Task<AuthorizationResponse, Args> {
+export class ProcessCallbackUrl extends Utils.Task<AuthorizationResponse, ProcessCallbackUrlArgs> {
   async run() {
     const callbackUrl = this.args.callbackUrl;
     const error = callbackUrl.searchParams.get('error');
