@@ -29,9 +29,9 @@ export abstract class MapperRepository<T extends Model, D extends Domain.Pluto.S
   /**
    * Search the Store, mapping any found to Domain
    * 
-   * @param selector either an object or array of objects with matchable properties
+   * @param query either an object or array of objects with matchable properties
    * @returns {T[]} Array of matched Domain instances
-   * @throws {@link StoreQueryFailed} if the query fails
+   * @throws {@link Domain.PlutoError.StoreQueryFailed} if the query fails
    */
   async get(query?: Query<T>): Promise<D[]> {
     const result = await this.getModels(query);
@@ -43,7 +43,7 @@ export abstract class MapperRepository<T extends Model, D extends Domain.Pluto.S
    * 
    * @param selector object with matchable properties
    * @returns all found Domain instances
-   * @throws {@link StoreQueryFailed} if the query fails
+   * @throws {@link Domain.PlutoError.StoreQueryFailed} if the query fails
    */
   async find(selector?: Partial<T>): Promise<D[]> {
     const query = selector ? { selector } : undefined;
@@ -56,7 +56,7 @@ export abstract class MapperRepository<T extends Model, D extends Domain.Pluto.S
    * 
    * @param selector object with matchable properties
    * @returns first found Domain instance or null
-   * @throws {@link StoreQueryFailed} if the query fails
+   * @throws {@link Domain.PlutoError.StoreQueryFailed} if the query fails
    */
   async findOne(selector?: Partial<T>): Promise<D | null> {
     const result = await this.find(selector);
@@ -70,7 +70,7 @@ export abstract class MapperRepository<T extends Model, D extends Domain.Pluto.S
    * 
    * @param uuid 
    * @returns first found Domain instance or undefined
-   * @throws {@link StoreQueryFailed} if the query fails
+   * @throws {@link Domain.PlutoError.StoreQueryFailed} if the query fails
    */
   async byUUID(uuid: string) {
     // ? casting because TS isnt recognising {uuid} as Partial<T>
@@ -84,8 +84,7 @@ export abstract class MapperRepository<T extends Model, D extends Domain.Pluto.S
    * 
    * Will be mapped to relevant Model for persistance
    * @see {@link BaseRepository.insert}
-   * @throws {@link StoreInsertError} if insert fails
-   * @throws {@link StoreUUIDNotReturned} if UUID not returned
+   * @throws {@link Domain.PlutoError.StoreInsertError} if insert fails
    */
   async save(domain: D): Promise<void> {
     const model = this.toModel(domain);

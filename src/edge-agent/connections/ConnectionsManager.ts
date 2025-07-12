@@ -41,8 +41,8 @@ export class ConnectionsManager {
   /**
    * add a Connection
    *
-   * @async
-   * @param {DIDPair} paired
+   * 
+   * @param {Connection} connection
    * @returns {Promise<void>}
    */
   add(connection: Connection): void {
@@ -62,8 +62,8 @@ export class ConnectionsManager {
    * Remove a Connection
    * this but just means the connection will be removed from the current storage
    *
-   * @async
-   * @param {DIDPair} pair
+   * 
+   * @param {Connection} connection
    * @returns {Promise<void>}
    */
   async remove(connection: Connection | string): Promise<void> {

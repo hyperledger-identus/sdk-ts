@@ -1,4 +1,9 @@
+/** 
+ * @packageDocumentation
+ * 
+ */
 export * as Backup from "./backup";
+export * from "./backup/v0_0_1";
 export * as Protocols from "./protocols";
 export * from "./models";
 export * from "./protocols";

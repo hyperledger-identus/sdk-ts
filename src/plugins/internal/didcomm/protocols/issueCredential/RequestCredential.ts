@@ -8,12 +8,12 @@ import { ProtocolIds } from "../../types";
  * https://github.com/decentralized-identity/waci-didcomm/tree/main/issue_credential#request-credential
  */
 
-interface CredentialFormat {
+export interface CredentialFormat {
   attach_id: string;
   format: string;
 }
 
-interface RequestCredentialBody {
+export interface RequestCredentialBody {
   // optional field that indicates the goal of the message sender
   goal_code?: string;
   // optional field that provides human readable information about this Credential Request

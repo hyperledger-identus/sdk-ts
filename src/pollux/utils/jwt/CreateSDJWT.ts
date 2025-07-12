@@ -9,7 +9,7 @@ import { expect } from "../../../utils";
 /**
  * Asyncronously sign with a DID
  *
- * @async
+ * 
  * @param {DID} did
  * @param payload
  * @param header

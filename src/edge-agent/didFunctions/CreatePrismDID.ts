@@ -8,7 +8,7 @@ import { Task } from "../../utils/tasks";
 import { AgentContext } from "../Context";
 import { PrismKeyPathIndexTask } from "./PrismKeyPathIndex";
 
-interface Args {
+export interface Args {
   authenticationKeyCurve?: Domain.Curve;
   services?: Domain.DIDDocument.Service[];
   alias?: string;

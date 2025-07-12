@@ -1,7 +1,7 @@
 import { CredentialType } from "./VerifiableCredential";
 import { Pluto } from "../buildingBlocks/Pluto";
 
-type Claim = Record<string, any>;
+export type Claim = Record<string, any>;
 
 export abstract class Credential implements Pluto.Storable {
   abstract credentialType: CredentialType;

@@ -29,7 +29,7 @@ import ProtosPk = Protos.io.iohk.atala.prism.protos.PublicKey;
 import ProtosECKeyData = Protos.io.iohk.atala.prism.protos.ECKeyData;
 import ProtosCompressedECKeyData = Protos.io.iohk.atala.prism.protos.CompressedECKeyData;
 
-type ExtraResolver = new (apollo: Domain.Apollo) => Domain.DIDResolver;
+export type ExtraResolver = new (apollo: Domain.Apollo) => Domain.DIDResolver;
 
 /**
  * Castor is a powerful and flexible library for working with DIDs. Whether you are building a decentralised application
@@ -46,7 +46,6 @@ export default class Castor implements Domain.Castor {
   /**
    * Creates an instance of Castor as soon as a valid cryptographic interface is provided (Apollo).
    *
-   * @constructor
    * @param {Apollo} apollo
    * @param {ExtraResolver[]} extraResolvers
    */
@@ -82,9 +81,7 @@ export default class Castor implements Domain.Castor {
   /**
    * Creates a Prism DID Atala Object, a buffer contained the prism did create operation.
    * @param {PrivateKey} key
-   * @param {Service[]} services
-   * @param {PublicKey[]} authenticationKeys
-   * @param {PublicKey[]} issuanceKeys
+   * @param {DID} did
    * @returns {Promise<{operationHex: string, metadataBody: {v: number, c: string[]}, did: DID}>}
    */
   async createPrismDIDAtalaObject(
@@ -155,8 +152,8 @@ export default class Castor implements Domain.Castor {
    * );
    * ```
    *
-   * @async
-   * @param {PrivateKey | KeyPair} masterPublicKey
+   * 
+   * @param {PublicKey | KeyPair} key
    * @param {?(Service[] | undefined)} [services]
    * @param {?(PublicKey[] | undefined)} [authenticationKeys]
    * @param {?(PublicKey[] | undefined)} [issuanceKeys]
@@ -233,7 +230,7 @@ export default class Castor implements Domain.Castor {
    * );
    * ```
    *
-   * @async
+   * 
    * @param {PublicKey[]} publicKeys
    * @param {Service[]} services
    * @returns {Promise<DID>}
@@ -259,8 +256,8 @@ export default class Castor implements Domain.Castor {
    * const didDocument = await castor.resolveDID("did:prism:123456")
    * ```
    *
-   * @async
-   * @param {string} did
+   * 
+   * @param {DID | string} didstr
    * @returns {Promise<DIDDocument>}
    */
   async resolveDID(didstr: Domain.DID | string): Promise<DIDDocument> {
@@ -327,7 +324,7 @@ export default class Castor implements Domain.Castor {
    * }
    * ```
    *
-   * @async
+   * 
    * @param {DID} did
    * @param {Uint8Array} challenge
    * @param {Uint8Array} signature
@@ -478,7 +475,7 @@ export default class Castor implements Domain.Castor {
   /**
    * Return usage from a verification method id
    * 
-   * @param id: string - verification method id string
+   * @param id - verification method id string
    * @returns {Usage}
    */
   private getUsageFromId(id: string): {

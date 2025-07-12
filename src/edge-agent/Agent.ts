@@ -44,7 +44,6 @@ import { HandleOOBInvitation } from "../plugins/internal/didcomm/tasks/HandleOOB
 /**
  * Edge agent implementation
  *
- * @export
  * @class Agent
  * @typedef {Agent}
  */
@@ -58,7 +57,6 @@ export default class Agent extends Startable.Controller {
   /**
    * Creates an instance of Agent.
    *
-   * @constructor
    */
   constructor(
     public readonly apollo: Domain.Apollo,
@@ -130,9 +128,6 @@ export default class Agent extends Startable.Controller {
 
   /**
    * Asyncronously start the agent
-   *
-   * @async
-   * @returns {Promise<AgentState>}
    */
   protected async _start() {
     await this.pluto.start();
@@ -168,7 +163,6 @@ export default class Agent extends Startable.Controller {
 
   /**
    * Remove event listener, used by stop procedure
-   * @date 20/06/2023 - 14:31:30
    *
    * @param {ListenerKey} eventName
    * @param {EventCallback} callback
@@ -223,7 +217,7 @@ export default class Agent extends Startable.Controller {
   /**
    * Asyncronously create a new PrismDID
    *
-   * @async
+   * 
    * @param {string} alias
    * @param {DIDDocumentService[]} [services=[]]
    * @param {?number} [keyPathIndex]
@@ -241,7 +235,7 @@ export default class Agent extends Startable.Controller {
   /**
    * Asyncronously Create a new PeerDID
    *
-   * @async
+   * 
    * @param {DIDDocumentService[]} [services=[]]
    * @param {boolean} [updateMediator=true]
    * @returns {Promise<DID>}
@@ -257,7 +251,7 @@ export default class Agent extends Startable.Controller {
   /**
    * Asyncronously sign a message with a DID
    *
-   * @async
+   * 
    * @param {DID} did
    * @param {Uint8Array} message
    * @returns {Promise<Signature>}
@@ -270,7 +264,7 @@ export default class Agent extends Startable.Controller {
   /**
    * Asyncronously parse an invitation from a valid json string
    *
-   * @async
+   * 
    * @param {string} str
    * @returns {Promise<InvitationType>}
    */
@@ -287,7 +281,7 @@ export default class Agent extends Startable.Controller {
    *     - no Attachment: creates a new connection
    *     - with Attachment: stores / emits the attached message
    * 
-   * @async
+   * 
    * @param {InvitationType} invitation - an OOB or PrismOnboarding invitation
    * @returns {Promise<void>}
    */
@@ -306,7 +300,7 @@ export default class Agent extends Startable.Controller {
   /**
    * Asyncronously parse a prismOnboarding invitation from a string
    *
-   * @async
+   * 
    * @param {string} str
    * @returns {Promise<PrismOnboardingInvitation>}
    */
@@ -318,7 +312,7 @@ export default class Agent extends Startable.Controller {
   /**
    * Asyncronously accept an onboarding invitation, used to onboard the current DID in the Cloud Agent.
    *
-   * @async
+   * 
    * @param {PrismOnboardingInvitation} invitation
    * @returns {Promise<void>}
    */
@@ -345,7 +339,7 @@ export default class Agent extends Startable.Controller {
   /**
    * Asyncronously parse an out of band invitation from a URI as the oob come in format of valid URL
    *
-   * @async
+   * 
    * @param {URL} url
    * @returns {Promise<OutOfBandInvitation>}
    */
@@ -365,7 +359,7 @@ export default class Agent extends Startable.Controller {
    *  its connecting with and the current owner's did
    *
    * @deprecated - use `acceptInvitation`
-   * @async
+   * 
    * @param {OutOfBandInvitation} invitation
    * @returns {*}
    */
@@ -382,7 +376,7 @@ export default class Agent extends Startable.Controller {
    * 
    * sends a PickupRequest to all mediator connections
    * 
-   * @param {number} iterationPeriod
+   * @param {number} period
    */
   startFetchingMessages(period?: number): Promise<void> {
     const useSockets = this.options?.experiments?.liveMode;
@@ -469,7 +463,7 @@ export default class Agent extends Startable.Controller {
   async revealCredentialFields(
     credential: Domain.Credential,
     fields: string[],
-     
+
     linkSecret: string
   ) {
     const task = new RevealCredentialFields({ credential, fields });
@@ -488,7 +482,7 @@ export default class Agent extends Startable.Controller {
   /**
    * Asyncronously prepare a request credential message from a valid offerCredential for now supporting w3c verifiable credentials offers.
    *
-   * @async
+   * 
    * @param {OfferCredential} offer
    * @returns {Promise<RequestCredential>}
    */
@@ -503,8 +497,8 @@ export default class Agent extends Startable.Controller {
   /**
    * Extract the verifiableCredential object from the Issue credential message asyncronously
    *
-   * @async
-   * @param {IssueCredential} message
+   * 
+   * @param {IssueCredential} issueCredential
    * @returns {Promise<VerifiableCredential>}
    */
   async processIssuedCredentialMessage(
@@ -520,7 +514,7 @@ export default class Agent extends Startable.Controller {
    * This is used when the verified requests a specific verifiable credential, this will create the actual
    * instance of the presentation which we can share with the verifier.
    *
-   * @async
+   * 
    * @param {RequestPresentation} request
    * @param {VerifiableCredential} credential
    * @returns {Promise<Presentation>}
@@ -537,7 +531,7 @@ export default class Agent extends Startable.Controller {
    * Initiate a PresentationRequest from the SDK, to create oob Verification Requests
    * @param {Domain.CredentialType} type 
    * @param {Domain.DID} toDID 
-   * @param {ProofTypes[]} proofTypes[]
+   * @param {Domain.PresentationClaims} presentationClaims
    * @returns 
    * 
    * 1. Example use-case: Send a Presentation Request for a JWT credential issued by a specific issuer

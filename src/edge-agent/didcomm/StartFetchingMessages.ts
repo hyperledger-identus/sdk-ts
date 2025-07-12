@@ -10,7 +10,6 @@ import { PickupRequest } from "../../plugins/internal/didcomm/protocols/pickup/P
 /**
  * Handle the setup of fetching messages from the Mediator
  */
-
 interface Args {
   period?: number;
   useSockets?: boolean;

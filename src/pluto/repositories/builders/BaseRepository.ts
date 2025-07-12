@@ -27,8 +27,7 @@ export abstract class BaseRepository<T extends Model> {
    * 
    * @param model
    * @returns {T}
-   * @throws {@link StoreInsertError} if insert fails
-   * @throws {@link StoreUUIDNotReturned} if UUID not returned
+   * @throws {@link Domain.PlutoError.StoreInsertError} if insert fails
    */
   async insert(model: T): Promise<T> {
     const obj = { ...model, ...this.baseModel };
@@ -82,7 +81,7 @@ export abstract class BaseRepository<T extends Model> {
    * ```
    * 
    * @returns {T[]} Array of matched Models
-   * @throws {@link StoreQueryFailed} if the query fails
+   * @throws {@link Domain.Models} if the query fails
    */
   async getModels(query?: Query<T>): Promise<T[]> {
     // const queryObj = typeof query === "function"
@@ -95,9 +94,9 @@ export abstract class BaseRepository<T extends Model> {
   /**
    * Handle internal logic for running a query
    * 
-   * @param builder
+   * @param query
    * @returns {T[]}
-   * @throws {@link StoreQueryFailed}
+   * @throws {@link Domain.PlutoError.StoreQueryFailed}
    */
   private async runQuery(query?: Query<T>): Promise<T[]> {
     // const query = builder?.merge(this.baseModel).toJSON().query;

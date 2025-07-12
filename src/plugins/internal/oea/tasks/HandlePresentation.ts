@@ -4,7 +4,7 @@ import { expect, Task } from "../../../../utils";
 import { RunProtocol } from "../../../../edge-agent/helpers/RunProtocol";
 import { OEA } from "../types";
 
-interface Args {
+export interface Args {
   message: Domain.Message;
 }
 

@@ -35,7 +35,6 @@ const BigIntegerWrapper = ApolloSDK.derivation.BigIntegerWrapper;
 /**
  * Apollo defines the set of cryptographic operations.
  *
- * @Abstraction
  * We by default are implementing Secp256k1, Ed25519 and X25519 Private and Public key from our generic abstractions.
  * When you are using one of those type of keys, for example with:
  *
@@ -197,7 +196,7 @@ export default class Apollo implements ApolloInterface, KeyRestoration {
   *  });
   * ```
   *
-  * @param {PrivateKey} privateKey
+  * @param parameters
   * @returns {KeyPair}
   */
   createPublicKey(parameters: {
@@ -286,7 +285,7 @@ export default class Apollo implements ApolloInterface, KeyRestoration {
    *  });
    * ```
    *
-   * @param {PrivateKey} privateKey
+   * @param parameters
    * @returns {KeyPair}
    */
   createPrivateKey(parameters: {

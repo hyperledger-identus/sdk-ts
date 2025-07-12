@@ -89,37 +89,37 @@ export class HolderDIDAlreadyPairingError extends Error {
 }
 
 export class RestoreCredentialInvalidError extends Error {
-  constructor() {
-    super("Pluto Restore - Credential invalid");
-  }
+    constructor() {
+        super("Pluto Restore - Credential invalid");
+    }
 }
 
 export class RestoreJWKInvalidError extends Error {
-  constructor() {
-    super("Pluto Restore - JWK invalid");
-  }
+    constructor() {
+        super("Pluto Restore - JWK invalid");
+    }
 }
 
 export class RestoreKeyInvalidError extends Error {
-  constructor() {
-    super("Pluto Restore - Key invalid");
-  }
+    constructor() {
+        super("Pluto Restore - Key invalid");
+    }
 }
 
 export class BackupNotFoundError extends Error {
-  constructor() {
-    super("Pluto Backup - Version not found");
-  }
+    constructor() {
+        super("Pluto Backup - Version not found");
+    }
 }
 
 export class RestoreNotFoundError extends Error {
-  constructor() {
-    super("Pluto Restore - Version not found");
-  }
+    constructor() {
+        super("Pluto Restore - Version not found");
+    }
 }
 
 export class StoreNotEmptyError extends Error {
-  constructor() {
-    super("Pluto Store not empty");
-  }
+    constructor() {
+        super("Pluto Store not empty");
+    }
 }
