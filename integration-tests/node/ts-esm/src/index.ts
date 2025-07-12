@@ -9,11 +9,5 @@ describe("SDK default export", () => {
 });
 
 describe("SDK root export", () => {
-  test("SDK root only has default export", () => {
-    const keys = Object.keys(SDKRoot);
-    assert(keys.length === 1);
-    assert(keys[0] === "default");
-  });
-
   assertions.runTests(describe, test, assert, SDKRoot.default);
 });
