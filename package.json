@@ -2,42 +2,42 @@
   "name": "@hyperledger/identus-sdk",
   "version": "6.5.1",
   "description": "Identus SDK - Typescript",
-  "main": "./index.cjs",
-  "module": "./index.mjs",
+  "main": "./build/index.js",
+  "module": "./build/index.mjs",
   "exports": {
     ".": {
-      "types": "./index.d.ts",
-      "import": "./index.mjs",
-      "require": "./index.cjs",
-      "default": "./index.mjs"
+      "types": "./build/index.d.ts",
+      "import": "./build/index.mjs",
+      "require": "./build/index.js",
+      "default": "./build/index.js"
     },
     "./plugins/anoncreds": {
       "types": "./build/plugins/internal/anoncreds/index.d.ts",
-      "import": "./build/plugins/internal/anoncreds/index.js",
+      "import": "./build/plugins/internal/anoncreds/index.mjs",
       "require": "./build/plugins/internal/anoncreds/index.js",
       "default": "./build/plugins/internal/anoncreds/index.js"
     },
     "./plugins/didcomm": {
       "types": "./build/plugins/internal/didcomm/index.d.ts",
-      "import": "./build/plugins/internal/didcomm/index.js",
+      "import": "./build/plugins/internal/didcomm/index.mjs",
       "require": "./build/plugins/internal/didcomm/index.js",
       "default": "./build/plugins/internal/didcomm/index.js"
     },
     "./plugins/oidc": {
       "types": "./build/plugins/internal/oidc/index.d.ts",
-      "import": "./build/plugins/internal/oidc/index.js",
+      "import": "./build/plugins/internal/oidc/index.mjs",
       "require": "./build/plugins/internal/oidc/index.js",
       "default": "./build/plugins/internal/oidc/index.js"
     },
     "./plugins/dif": {
       "types": "./build/plugins/internal/dif/index.d.ts",
-      "import": "./build/plugins/internal/dif/index.js",
+      "import": "./build/plugins/internal/dif/index.mjs",
       "require": "./build/plugins/internal/dif/index.js",
       "default": "./build/plugins/internal/dif/index.js"
     },
     "./plugins/oea": {
       "types": "./build/plugins/internal/oea/index.d.ts",
-      "import": "./build/plugins/internal/oea/index.js",
+      "import": "./build/plugins/internal/oea/index.mjs",
       "require": "./build/plugins/internal/oea/index.js",
       "default": "./build/plugins/internal/oea/index.js"
     }
@@ -52,14 +52,17 @@
       ],
       "plugins/oidc": [
         "./build/plugins/internal/oidc/index.d.ts"
+      ],
+      "plugins/dif": [
+        "./build/plugins/internal/dif/index.d.ts"
+      ],
+      "plugins/oea": [
+        "./build/plugins/internal/oea/index.d.ts"
       ]
     }
   },
-  "types": "./index.d.ts",
+  "types": "./build/index.d.ts",
   "files": [
-    "index.d.ts",
-    "index.mjs",
-    "index.cjs",
     "build/**/*",
     "README.MD",
     "preinstall.sh",
@@ -78,7 +81,7 @@
     "externals:update": "./externals/run.sh -x update",
     "build": "npm run externals:update && rm -rf build/* && npm run build:agnostic && npm run types",
     "build:dev": "npm run externals:check && rm -rf build/* && npm run build:agnostic && npm run types",
-    "build:agnostic": "tsup",
+    "build:agnostic": "tsup --format esm,cjs",
     "types": "rm -rf build/**/*.d.ts && tsc",
     "test": "npx vitest --config vitest.config.mjs --run",
     "coverage": "npm run test -- --coverage",

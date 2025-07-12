@@ -3,38 +3,38 @@
  */
 import * as TB from "@sinclair/typebox";
 
-const credential = TB.Object({
+export const credential = TB.Object({
   recovery_id: TB.String(),
   data: TB.String(),
 });
 
-const did = TB.Object({
+export const did = TB.Object({
   did: TB.String(),
   alias: TB.Optional(TB.String()),
 });
 
-const didpair = TB.Object({
+export const didpair = TB.Object({
   holder: TB.String(),
   recipient: TB.String(),
   alias: TB.String(),
 });
 
-const key = TB.Object({
+export const key = TB.Object({
   recovery_id: TB.String(),
   key: TB.String(),
   did: TB.Optional(TB.String()),
   index: TB.Optional(TB.Number()),
 });
 
-const mediator = TB.Object({
+export const mediator = TB.Object({
   holder_did: TB.String(),
   mediator_did: TB.String(),
   routing_did: TB.String(),
 });
 
-const message = TB.String();
+export const message = TB.String();
 
-const linksecret = TB.Optional(TB.String());
+export const linksecret = TB.Optional(TB.String());
 
 export const Schema = TB.Object({
   version: TB.Optional(TB.Literal("0.0.1")),

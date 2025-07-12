@@ -1,3 +1,22 @@
+/** 
+ * @packageDocumentation
+ * 
+ * This export contains the DIF plugin for the Identus SDK
+ * Please use the following export
+ * 
+ * ## How to use
+ * Typescript / esmodules
+ * 
+ * ```typescript
+ * import * as DIF from "@hyperledger/identus-sdk/plugins/dif";
+ * ```
+ * 
+ * Or with cjs modules
+ * 
+ * ```typescript
+ * const DIF = require("@hyperledger/identus-sdk/plugins/dif");
+ * ```
+ */
 import { Plugin } from "../../Plugin";
 import { Plugins } from "../../types";
 import { IsCredentialRevoked } from "./IsCredentialRevoked";
@@ -19,3 +38,4 @@ const plugin = new Plugin()
 
 export default plugin;
 export * from "./types";
+export { DIFModule } from "./module";

@@ -5,7 +5,7 @@ import { AgentContext } from "../Context";
 /**
  * Asyncronously sign with a DID
  *
- * @async
+ * 
  * @param {DID} did
  * @param {Uint8Array} message
  * @returns {Promise<Signature>}

@@ -3,9 +3,8 @@ import { schemaFactory } from "./Schema";
 
 /**
  * Definition for CredentialMetadata model
- * Represents {@link Domain!CredentialMetadata}
+ * Represents {@link Domain.CredentialMetadata CredentialMetadata}
  * 
- * @see Domain.CredentialMetadata
  */
 export interface CredentialMetadata extends Model {
   /**

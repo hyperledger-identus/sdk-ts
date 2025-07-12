@@ -47,7 +47,7 @@ export class StartMediator extends Task<void, Args> {
    * Asyncronously achieve mediation by specifying the HOST DID, this will
    * exchange the mediation protocol messages between the user and the mediator until established
    *
-   * @async
+   * 
    * @param {DID} host
    * @returns {Promise<Mediator>}
    */

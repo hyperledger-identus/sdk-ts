@@ -1,14 +1,14 @@
 import { AuthServerMetadata, IssuerMetadata } from "../types";
 import * as Utils from "../../../../utils";
 
-interface Metadata {
+export interface AuthorizationRequestMetadata {
   codeVerifier?: string;
   nonce?: string;
 }
 
 export class AuthorizationRequest {
   public url: URL;
-  public readonly meta: Metadata = {};
+  public readonly meta: AuthorizationRequestMetadata = {};
 
   constructor(
     public readonly authServerMeta: AuthServerMetadata,

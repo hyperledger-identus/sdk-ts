@@ -3,7 +3,7 @@ import { schemaFactory } from "./Schema";
 
 /**
  * Definition for DID model
- * Represents {@link Domain!DID}
+ * Represents {@link Domain.DID DID}
  * 
  * @typedef {Object} DIDModel
  * @see Domain.DID

@@ -3,16 +3,16 @@ import { Task } from "../../../../utils";
 import { Context } from "../../didcomm/plugin";
 import { RevocationNotification } from "../protocols/RevocationNotfiication";
 import { HandleIssueCredential } from "../../didcomm/tasks/HandleIssueCredential";
-import { ListenerKey } from "../../../..";
 import { OEA } from "../types";
 import { ProtocolIds } from "../../didcomm/types";
+import { ListenerKey } from "../../../../edge-agent/types";
 
 /**
  * Asyncronously prepare a request credential message from a valid offerCredential
  * for now supporting w3c verifiable credentials offers.
  */
 
-interface Args {
+export interface Args {
   message: Domain.Message;
 }
 

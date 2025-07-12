@@ -1,5 +1,5 @@
 import * as sha256 from '@stablelib/sha256';
-
+import * as Domain from "../../domain";
 import type { Model } from "./Model";
 import { schemaFactory } from "./Schema";
 import { JWTVerifiableCredentialRecoveryId } from "../../pollux/models/JWTVerifiableCredential";
@@ -9,10 +9,9 @@ import { MigrationStrategies } from '../types';
 
 /**
  * Definition for Storable Credential model
- * Represents {@link Domain!Credential}
+ * Represents {@link Domain.Credential Credential}
  * 
  * @typedef {Object} CredentialModel
- * @see Domain.Credential
  */
 export interface Credential extends Model {
   /**

@@ -6,10 +6,10 @@ import * as Utils from "../../../../utils";
 /**
  * attempt to extract a Credential Offer from the given value
  * 
- * @link https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-credential-offer
+ * @see [OIDC Credential Offer](https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-credential-offer)
  */
 
-interface Args {
+export interface ParseCredentialOfferArgs {
   value: unknown;
 }
 
@@ -20,7 +20,7 @@ interface Args {
  * @param offer - json object
  * @returns {CredentialOffer}
  */
-export class ParseCredentialOffer extends Utils.Task<CredentialOffer, Args> {
+export class ParseCredentialOffer extends Utils.Task<CredentialOffer, ParseCredentialOfferArgs> {
   async run(ctx: Context) {
     try {
       const json = await this.extractJson(ctx);

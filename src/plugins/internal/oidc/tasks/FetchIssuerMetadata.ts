@@ -2,7 +2,7 @@ import { IssuerMetadata } from "../types";
 import { Context } from "../plugin";
 import * as Utils from "../../../../utils";
 
-interface Args {
+export interface FetchIssuerMetadataArgs {
   uri: string | URL,
 }
 
@@ -10,12 +10,12 @@ interface Args {
  * try to retrieve Issuer Metadata from the given URI
  * `/.well-known/openid-credential-issuer` will be appended to the uri
  * 
- * @link https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-credential-issuer-metadata
+ * @see [OIDC Issuer Metadata](https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-credential-issuer-metadata) 
  * 
  * @param uri
  * @returns {Promise<IssuerMetadata>}
  */
-export class FetchIssuerMetadata extends Utils.Task<IssuerMetadata, Args> {
+export class FetchIssuerMetadata extends Utils.Task<IssuerMetadata, FetchIssuerMetadataArgs> {
   async run(ctx: Context) {
     const url = new URL(this.args.uri.toString());
     const agent_url = `${url}/.well-known/openid-credential-issuer`;
