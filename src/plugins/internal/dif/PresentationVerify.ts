@@ -221,52 +221,59 @@ export class PresentationVerify extends Plugins.Task<Args> {
     path: string | undefined,
     field: DIF.Presentation.Definition.Field,
   ) {
-    if (!path) {
-      throw new Domain.PolluxError.InvalidVerifyCredentialError(
-        vc,
-        `Invalid Claim: Expected one of the paths ${field.path.join(", ")} to exist.`
-      );
-    }
-
-    const value = mapper.getValue(path);
-
-    if (field.filter && value !== null) {
-      const filter = field.filter;
-
-      if (filter.pattern) {
-        const pattern = new RegExp(filter.pattern);
-        if (!pattern.test(value) && value !== filter.pattern) {
-          throw new Domain.PolluxError.InvalidVerifyCredentialError(
-            vc, `Invalid Claim: Expected the ${path} field to be "${filter.pattern}" but got "${value}"`
-          )
-        } else {
-          return true;
-        }
-
-      } else if (filter.enum) {
-        if (!filter.enum.includes(value)) {
-          throw new Domain.PolluxError.InvalidVerifyCredentialError(
-            vc, `Invalid Claim: Expected the ${path} field to be one of ${filter.enum.join(", ")} but got ${value}`
-          )
-        } else {
-          return true
-        }
-
-      } else if (filter.const && value === filter.pattern) {
-        if (value !== filter.const) {
-          throw new Domain.PolluxError.InvalidVerifyCredentialError(
-            vc, `Invalid Claim: Expected the ${path} field to be "${filter.const}" but got "${value}"`
-          )
-        } else {
-          return true;
-        }
-
+    try {
+      if (!path) {
+        throw new Domain.PolluxError.InvalidVerifyCredentialError(
+          vc,
+          `Invalid Claim: Expected one of the paths ${field.path.join(", ")} to exist.`
+        );
       }
-    }
 
-    throw new Domain.PolluxError.InvalidVerifyCredentialError(
-      vc, `Invalid Claim: Expected one of the paths ${field.path.join(", ")} to exist.`
-    )
+      const value = mapper.getValue(path);
+
+      if (field.filter && value !== null) {
+        const filter = field.filter;
+
+        if (filter.pattern) {
+          const pattern = new RegExp(filter.pattern);
+          if (!pattern.test(value) && value !== filter.pattern) {
+            throw new Domain.PolluxError.InvalidVerifyCredentialError(
+              vc, `Invalid Claim: Expected the ${path} field to be "${filter.pattern}" but got "${value}"`
+            )
+          } else {
+            return true;
+          }
+
+        } else if (filter.enum) {
+          if (!filter.enum.includes(value)) {
+            throw new Domain.PolluxError.InvalidVerifyCredentialError(
+              vc, `Invalid Claim: Expected the ${path} field to be one of ${filter.enum.join(", ")} but got ${value}`
+            )
+          } else {
+            return true
+          }
+
+        } else if (filter.const && value === filter.pattern) {
+          if (value !== filter.const) {
+            throw new Domain.PolluxError.InvalidVerifyCredentialError(
+              vc, `Invalid Claim: Expected the ${path} field to be "${filter.const}" but got "${value}"`
+            )
+          } else {
+            return true;
+          }
+
+        }
+      }
+
+      throw new Domain.PolluxError.InvalidVerifyCredentialError(
+        vc, `Invalid Claim: Expected one of the paths ${field.path.join(", ")} to exist.`
+      )
+    } catch (err) {
+      if (err instanceof Domain.PolluxError.InvalidVerifyCredentialError) {
+        return err as Domain.PolluxError.InvalidVerifyCredentialError;
+      }
+      return err as Error;
+    }
   }
 
   private validateInputDescriptor(
@@ -281,23 +288,18 @@ export class PresentationVerify extends Plugins.Task<Args> {
       const requiredFields = fields.filter((field) => !field.optional);
 
       for (const field of requiredFields) {
-        const paths = [...field.path];
-        let error: Error | undefined;
-        while (paths.length) {
-          const [path] = paths.splice(0, 1);
-          try {
-            //throws an exception or returns true if it's valid
-            this.validateField(vc, descriptorMapper, path, field);
-            error = undefined;
-            break;
-          } catch (err) {
-            //set error and continue to see if other paths succeed
-            error ??= err as Error;
-          }
+        const validatedPaths = field.path.map((path) => this.validateField(vc, descriptorMapper, path, field));
+        const hasValid = validatedPaths.some((path) => path === true);
+        if (hasValid) {
+          continue;
         }
+        const errors: Domain.PolluxError.InvalidVerifyCredentialError[] = validatedPaths.filter((path) => path instanceof Domain.PolluxError.InvalidVerifyCredentialError);
+        const [notFound] = errors.filter((error) => error.reason === `Invalid Claim: Expected one of the paths ${field.path.join(", ")} to exist.`);
+        const [error] = errors.filter((error) => error.reason !== `Invalid Claim: Expected one of the paths ${field.path.join(", ")} to exist.`);
         if (error) {
-          throw error
+          throw error;
         }
+        throw notFound;
       }
     }
 
