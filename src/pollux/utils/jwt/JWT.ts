@@ -19,9 +19,10 @@ export class JWT extends Task.Runner {
   /**
    * Creates a signed JWT from a DID and Key
    * 
-   * @param issuer 
-   * @param privateKey 
+   * @param did 
    * @param payload 
+   * @param header 
+   * @param privateKey 
    * @returns 
    */
   signWithDID(

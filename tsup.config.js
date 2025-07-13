@@ -18,5 +18,8 @@ export default defineConfig({
     '.wasm': 'binary'
   },
   inject: ['anoncreds-wasm/anoncreds_wasm_bg.wasm', 'didcomm-wasm/didcomm_js_bg.wasm', 'jwe-wasm/jwe_rust_bg.wasm'],
-  external: ['buffer']
+  external: ['buffer'],
+  minifyWhitespace: true,
+  minifyIdentifiers: true,
+  minifySyntax: false
 });

@@ -6,9 +6,7 @@ import { EventCallback, ListenerKey } from "./types";
  * creating listeners for specific events and also emitting or notifying any listener available with the
  * new event.
  *
- * @export
- * @class AgentMessageEvents
- * @typedef {EventsManager}
+ * @class EventsManager
  */
 export class EventsManager {
   private events: Map<ListenerKey, Set<EventCallback<any>>> = new Map();

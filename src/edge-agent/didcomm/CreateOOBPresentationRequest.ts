@@ -9,13 +9,13 @@ import { RequestPresentation } from "../../plugins/internal/oea/protocols/Reques
 /**
  * Asyncronously create and store a new peer did
  *
- * @async
+ * 
  * @param {Service[]} services
  * @param {boolean} [updateMediator=false]
  * @returns {Promise<DID>}
  */
 
-interface Args {
+export interface Args {
     baseUrl?: string,
     from: Domain.DID,
     goalCode?: string,

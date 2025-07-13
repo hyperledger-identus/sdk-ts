@@ -7,44 +7,44 @@ import { OEA } from "../types";
  */
 
 export interface PrismRevocationBody {
-  issueCredentialProtocolThreadId: string;
-  comment?: string;
+    issueCredentialProtocolThreadId: string;
+    comment?: string;
 }
 
 export class RevocationNotification {
-  public static type = OEA.ProtocolIds.PrismRevocation;
+    public static type = OEA.ProtocolIds.PrismRevocation;
 
-  constructor(
-    public body: PrismRevocationBody,
-    public from: DID,
-    public to: DID
-  ) {}
+    constructor(
+        public body: PrismRevocationBody,
+        public from: DID,
+        public to: DID
+    ) { }
 
-  makeMessage(): Message {
-    const body = JSON.stringify(this.body);
-    const message = new Message(
-      body,
-      undefined,
-      RevocationNotification.type,
-      this.from,
-      this.to
-    );
-    return message;
-  }
-
-  static fromMessage(message: Message): RevocationNotification {
-    if (!message.from || !message.to) {
-      throw new Error("Invalid RevocationNotificationMessage (from or to) are undefined or invalid.");
+    makeMessage(): Message {
+        const body = JSON.stringify(this.body);
+        const message = new Message(
+            body,
+            undefined,
+            RevocationNotification.type,
+            this.from,
+            this.to
+        );
+        return message;
     }
 
-    if (isNil(message.body.issueCredentialProtocolThreadId) || !isString(message.body.issueCredentialProtocolThreadId)) {
-      throw new Error("Invalid PrismRevocation message");
-    }
+    static fromMessage(message: Message): RevocationNotification {
+        if (!message.from || !message.to) {
+            throw new Error("Invalid RevocationNotificationMessage (from or to) are undefined or invalid.");
+        }
 
-    return new RevocationNotification(
-      message.body as PrismRevocationBody,
-      message.from,
-      message.to
-    );
-  }
+        if (isNil(message.body.issueCredentialProtocolThreadId) || !isString(message.body.issueCredentialProtocolThreadId)) {
+            throw new Error("Invalid PrismRevocation message");
+        }
+
+        return new RevocationNotification(
+            message.body as PrismRevocationBody,
+            message.from,
+            message.to
+        );
+    }
 }

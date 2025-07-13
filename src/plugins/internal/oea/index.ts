@@ -1,3 +1,22 @@
+/** 
+ * @packageDocumentation
+ * 
+ * This export contains the OEA plugin for the Identus SDK
+ * Please use the following export
+ * 
+ * ## How to use
+ * Typescript / esmodules
+ * 
+ * ```typescript
+ * import * as OEA from "@hyperledger/identus-sdk/plugins/oea";
+ * ```
+ * 
+ * Or with cjs modules
+ * 
+ * ```typescript
+ * const OEA = require("@hyperledger/identus-sdk/plugins/oea");
+ * ```
+ */
 import { Plugin } from "../../../plugins";
 import { OEA } from "./types";
 import * as jwt from "./jwt";
@@ -25,4 +44,9 @@ plugin.register(`presentation-request/${OEA.PRISM_SDJWT}`, sdjwt.PresentationReq
 
 export default plugin;
 export * from "./types";
-
+export * from "./tasks";
+export * from "./protocols/HandshakeRequest";
+export * from "./protocols/Presentation";
+export * from "./protocols/ProposePresentation";
+export * from "./protocols/RequestPresentation";
+export * from "./protocols/RevocationNotfiication";

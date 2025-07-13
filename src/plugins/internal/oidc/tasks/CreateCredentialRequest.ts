@@ -7,7 +7,7 @@ import { OIDCConnection } from "../connection/OIDCConnection";
 import * as Utils from "../../../../utils";
 import { CreatePrismDID } from "../../../../edge-agent/didFunctions";
 
-interface Args {
+export interface CreateCredentialRequestArgs {
   offer: CredentialOffer;
   clientId?: string;
   issuerMeta?: IssuerMetadata;
@@ -23,7 +23,7 @@ interface Args {
  * @param clientId 
  * @returns 
  */
-export class CreateCredentialRequest extends Utils.Task<CredentialRequest, Args> {
+export class CreateCredentialRequest extends Utils.Task<CredentialRequest, CreateCredentialRequestArgs> {
   async run(ctx: Context) {
     const clientId = Utils.expect(this.args.clientId ?? ctx.OIDC.clientId);
     const credentialIssuer = this.args.offer.credential_issuer;
