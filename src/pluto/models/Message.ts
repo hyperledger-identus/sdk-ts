@@ -3,7 +3,7 @@ import { schemaFactory } from "./Schema";
 
 /**
  * Definition for Message model
- * Represents {@link Domain!Message}
+ * Represents {@link Domain.Message Message}
  * 
  * @typedef {Object} MessageModel
  * @see Domain.Message

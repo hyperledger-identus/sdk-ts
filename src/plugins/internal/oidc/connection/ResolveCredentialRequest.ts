@@ -6,7 +6,7 @@ import { CreateCredentialRequest } from "../tasks/CreateCredentialRequest";
 import { JWTCredential } from "../../../../pollux/models/JWTVerifiableCredential";
 import * as Utils from "../../../../utils";
 
-interface Args {
+export interface ResolveCredentialRequestArgs {
   offer: CredentialOffer;
   clientId?: string;
   issuerMeta?: IssuerMetadata;
@@ -25,7 +25,7 @@ interface Args {
  *   - send CredentialRequest 
  *   - store Credential
  */
-export class ResolveCredentialRequest extends Utils.Task<JWTCredential, Args> {
+export class ResolveCredentialRequest extends Utils.Task<JWTCredential, ResolveCredentialRequestArgs> {
   async run(ctx: Context) {
     const issuerMeta = await this.getIssuerMetadata(ctx);
     const connection = Utils.expect(ctx.Connections.find(issuerMeta.credential_endpoint));

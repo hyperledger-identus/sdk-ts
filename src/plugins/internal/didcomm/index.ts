@@ -1,3 +1,8 @@
+/** 
+ * @packageDocumentation
+ * 
+ * This export contains the DIDComm plugin for the Identus SDK
+ */
 export * from "./plugin";
 export * from "./types";
 

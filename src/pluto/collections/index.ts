@@ -2,7 +2,7 @@ import * as Models from "../models";
 import type { MigrationStrategies } from "../types";
 import type { SchemaType } from '@trust0/ridb-core';
 
-type CollectionCreate = {
+export type CollectionCreate = {
   schema: SchemaType;
   migrationStrategies?:
   | MigrationStrategies;

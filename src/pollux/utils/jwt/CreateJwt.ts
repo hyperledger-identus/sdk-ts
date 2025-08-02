@@ -9,7 +9,7 @@ import { FindSigningKeys } from "../../../edge-agent/didFunctions/FindDIDSigning
 /**
  * Asyncronously sign with a DID
  *
- * @async
+ * 
  * @param {DID} did
  * @param payload
  * @param header

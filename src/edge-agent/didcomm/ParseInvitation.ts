@@ -11,15 +11,32 @@ import { OEA } from "../../plugins/internal/oea/types";
 import { ProtocolIds } from "../../plugins/internal/didcomm/types";
 
 /**
- * Attempt to parse a given invitation based on its Type
- * handle different encodings
+ * Arguments for parsing an invitation
  */
-
 interface Args {
+  /** The invitation value to parse - can be a string, URL, or JSON object */
   value: string | URL | JsonObj;
 }
 
+/**
+ * Task class for parsing different types of invitations.
+ * 
+ * This class attempts to parse a given invitation based on its type and handles
+ * different encodings including URLs with query parameters, base64-encoded strings,
+ * and plain JSON objects. It supports Prism onboarding invitations and out-of-band
+ * (OOB) invitations.
+ */
 export class ParseInvitation extends Task<InvitationType, Args> {
+  /**
+   * Executes the invitation parsing task.
+   * 
+   * This method decodes the invitation value, determines its type based on the
+   * `type` or `piuri` field, and delegates to the appropriate specialized parser.
+   * 
+   * @param ctx - The agent context for running sub-tasks
+   * @returns A Promise that resolves to the parsed invitation of the appropriate type
+   * @throws {Domain.AgentError.UnknownInvitationTypeError} When the invitation type is not supported
+   */
   async run(ctx: AgentContext) {
     const json = this.decode();
     const type = json.type ?? json.piuri;
@@ -34,6 +51,17 @@ export class ParseInvitation extends Task<InvitationType, Args> {
     throw new Domain.AgentError.UnknownInvitationTypeError();
   }
 
+  /**
+   * Decodes the invitation value based on its type.
+   * 
+   * This method handles different input formats:
+   * - URL objects or strings with '_oob' query parameter
+   * - Plain JSON objects (returned as-is)
+   * - Base64-encoded strings
+   * 
+   * @returns The decoded JSON object
+   * @throws {InvitationIsInvalidError} When the invitation cannot be decoded
+   */
   private decode() {
     if (this.args.value instanceof URL) {
       return expect(this.tryDecodeUrl(this.args.value), InvitationIsInvalidError);
@@ -53,6 +81,12 @@ export class ParseInvitation extends Task<InvitationType, Args> {
     throw new InvitationIsInvalidError();
   }
 
+  /**
+   * Attempts to decode a URL by extracting the '_oob' query parameter.
+   * 
+   * @param value - The URL string or URL object to decode
+   * @returns The decoded JSON object or null if decoding fails
+   */
   private tryDecodeUrl(value: string | URL) {
     try {
       const url = new URL(value);
@@ -64,6 +98,12 @@ export class ParseInvitation extends Task<InvitationType, Args> {
     }
   }
 
+  /**
+   * Attempts to decode a base64-encoded string.
+   * 
+   * @param value - The base64-encoded string to decode
+   * @returns The decoded JSON object or null if decoding fails
+   */
   private tryDecodeB64(value: string) {
     try {
       const decoded = base64.baseDecode(value);

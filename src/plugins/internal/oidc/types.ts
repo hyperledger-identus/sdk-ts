@@ -1,7 +1,7 @@
 /**
  * Types and Schema definitions for OIDC
  * 
- * @link https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html
+ * @see [OIDC VCI](https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html)
  */
 import * as TB from "@sinclair/typebox";
 

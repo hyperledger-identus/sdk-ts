@@ -7,9 +7,9 @@ import type { Plugins } from "../../../types";
 import { CreatePeerDID } from "../../../../edge-agent/didcomm/CreatePeerDID";
 import { RequestPresentation } from "../protocols/RequestPresentation";
 
-type TaskContext = Plugins.Context & ACContext & DIFContext;
+export type TaskContext = Plugins.Context & ACContext & DIFContext;
 
-interface Args {
+export interface Args {
   type: Domain.CredentialType;
   toDID: Domain.DID;
   claims: Domain.PresentationClaims<Domain.CredentialType>;

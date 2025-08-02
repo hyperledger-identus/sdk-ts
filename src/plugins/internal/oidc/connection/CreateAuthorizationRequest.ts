@@ -6,7 +6,7 @@ import {
   AuthServerMetadata,
 } from "../types";
 
-interface Args {
+export interface CreateAuthorizationRequestArgs {
   issuerMeta: IssuerMetadata;
   authServerMeta: AuthServerMetadata;
   clientId: string;
@@ -26,7 +26,7 @@ interface Args {
  * @param scopes 
  * @returns {AuthorizationRequest}
  */
-export class CreateAuthorizationRequest extends Utils.Task<AuthorizationRequest, Args> {
+export class CreateAuthorizationRequest extends Utils.Task<AuthorizationRequest, CreateAuthorizationRequestArgs> {
   async run() {
     const issuerState = this.args.offer?.grants?.authorization_code?.issuer_state;
     const authRequest = new AuthorizationRequest(this.args.authServerMeta, this.args.issuerMeta);

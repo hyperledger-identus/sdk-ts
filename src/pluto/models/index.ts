@@ -4,5 +4,4 @@ export * from "./DID";
 export * from "./Key";
 export * from "./Message";
 export * from "./Model";
-
 export * from "./relationships";

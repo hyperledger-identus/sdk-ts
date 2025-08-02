@@ -1,7 +1,7 @@
 export type QuerySortDirection = 'asc' | 'desc';
-export type StringKeys<X> = Extract<keyof X, string>;
-export type QuerySortPart<RxDocType = any> = {
-    [k in StringKeys<RxDocType> | string]: QuerySortDirection;
+export type StringKeys<T> = Exclude<Extract<keyof T, string>, "uuid">;
+export type QuerySortPart<Doc = any> = {
+    [k in StringKeys<Doc> | string]: QuerySortDirection;
 };
 export type PropertyType<Type, Property extends string> = string extends Property
     ? unknown
@@ -41,11 +41,11 @@ export interface QueryOperators<PathValueType> {
     $size?: number;
     $elemMatch?: QuerySelector<PathValueType>;
 }
-type Join<K, P> = K extends string | number ?
+export type Join<K, P> = K extends string | number ?
     P extends string | number ?
     `${K}${'' extends P ? '' : '.'}${P}`
     : never : never;
-type Prev = [never, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+export type Prev = [never, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
     11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...0[]];
 export type Paths<T, D extends number = 10> = [D] extends [never] ? never : T extends object ?
     { [K in keyof T]-?: K extends string | number ?
@@ -61,16 +61,19 @@ export type QuerySelector<DocType> = Partial<{
     $nor?: QuerySelector<DocType>[];
 };
 
-export type QuerySelectorAndIndex<RxDocType = any> = {
-    selector?: QuerySelector<RxDocType>;
+export type QuerySelectorAndIndex<Doc = any> = {
+    selector?: QuerySelector<Doc>;
     index?: string | string[];
 };
 
-export type QueryNoLimit<RxDocType> = QuerySelectorAndIndex<RxDocType> & {
-    sort?: QuerySortPart<RxDocType>[];
+export type QueryNoLimit<Doc> = QuerySelectorAndIndex<Doc> & {
+    sort?: QuerySortPart<Doc>[];
 };
 
-export type Query<RxDocType = any> = QueryNoLimit<RxDocType> & {
+/**
+ * Query type for Pluto
+ */
+export type Query<Doc = any> = QueryNoLimit<Doc> & {
     skip?: number;
     limit?: number;
 };

@@ -1,6 +1,6 @@
 import { DID } from "../../../../../domain";
 
-enum InvitationTypes {
+export enum InvitationTypes {
   OUTOFBAND,
   PRISM_ONBOARD,
 }

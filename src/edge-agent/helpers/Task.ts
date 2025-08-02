@@ -1,6 +1,6 @@
-type Task<T> = (signal: AbortSignal) => Promise<T>;
+export type Task<T> = (signal: AbortSignal) => Promise<T>;
 
-class AbortError extends Error {}
+class AbortError extends Error { }
 
 export class CancellableTask<T> {
   private period?: number;

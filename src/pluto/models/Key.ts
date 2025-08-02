@@ -3,7 +3,7 @@ import { schemaFactory } from "./Schema";
 
 /**
  * Definition for Key model
- * Represents {@link Domain!PrivateKey}
+ * Represents {@link Domain.PrivateKey PrivateKey}
  * 
  * @typedef {Object} KeyModel
  * @see Domain.Key

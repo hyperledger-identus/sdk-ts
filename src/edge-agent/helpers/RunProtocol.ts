@@ -1,6 +1,6 @@
 import { JsonObj, expect, Task } from "../../utils";
 import { AgentContext } from "../Context";
-import { Domain } from "../..";
+import { Domain } from "../../exports";
 import { SdJwtVcPayload, } from "@sd-jwt/sd-jwt-vc";
 import type { DisclosureFrame } from '@sd-jwt/types';
 
@@ -11,7 +11,7 @@ import type { DisclosureFrame } from '@sd-jwt/types';
  * When the abstraction happens this should be removable
  */
 
-interface IArgs<T extends string, D extends JsonObj> {
+export interface IArgs<T extends string, D extends JsonObj> {
   // generalized type of protocol
   type: T;
   // protocol identifier
@@ -19,7 +19,7 @@ interface IArgs<T extends string, D extends JsonObj> {
   // relevant protocol data
   data: D;
 }
-interface Args_RequestCredentialJWT {
+export interface Args_RequestCredentialJWT {
   issuerDID: Domain.DID,
   holderDID: Domain.DID,
   message: Domain.Message;
@@ -27,7 +27,7 @@ interface Args_RequestCredentialJWT {
   claims: { name: string, value: string, type: string }[];
 }
 
-interface Args_RequestCredentialSDJWT {
+export interface Args_RequestCredentialSDJWT {
   issuerDID: Domain.DID,
   holderDID: Domain.DID,
   message: Domain.Message;
@@ -36,31 +36,31 @@ interface Args_RequestCredentialSDJWT {
   disclosureFrame?: DisclosureFrame<SdJwtVcPayload>;
 }
 
-type Args_RequestCredential = IArgs<"credential-request", Args_RequestCredentialJWT | Args_RequestCredentialSDJWT>;
+export type Args_RequestCredential = IArgs<"credential-request", Args_RequestCredentialJWT | Args_RequestCredentialSDJWT>;
 
 
-type Args_CredentialIssue = IArgs<"credential-issue", {
+export type Args_CredentialIssue = IArgs<"credential-issue", {
   data: any;
   thid?: string;
 }>;
-type Args_CredentialOffer = IArgs<"credential-offer", {
+export type Args_CredentialOffer = IArgs<"credential-offer", {
   offer: any;
   thid?: string;
 }>;
-type Args_PresentationRequest = IArgs<"presentation-request", {
+export type Args_PresentationRequest = IArgs<"presentation-request", {
   credential: Domain.Credential;
   presentationRequest: any;
 }>;
-type Args_PresentationVerify = IArgs<"presentation-verify", {
+export type Args_PresentationVerify = IArgs<"presentation-verify", {
   presentation: any;
   presentationRequest: any;
   thid?: string;
 }>;
-type Args_RevocationCheck = IArgs<"revocation-check", { credential: Domain.Credential; }>;
-type Args_Message = IArgs<"message", { message: Domain.Message; }>;
-type Args_Unknown = IArgs<"unknown", JsonObj>;
+export type Args_RevocationCheck = IArgs<"revocation-check", { credential: Domain.Credential; }>;
+export type Args_Message = IArgs<"message", { message: Domain.Message; }>;
+export type Args_Unknown = IArgs<"unknown", JsonObj>;
 
-type Args =
+export type Args =
   | Args_RequestCredential
   | Args_CredentialIssue
   | Args_CredentialOffer

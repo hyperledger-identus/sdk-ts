@@ -139,9 +139,18 @@ const sidebars = {
           type: 'doc',
           id: 'decisions/sdk-package-release',
         }
-
       ]
     },
+    {
+      type: 'category',
+      label: 'Migration',
+      items: [
+        {
+          type: 'doc',
+          id: 'migration/migrating_6x_to_7x'
+        }
+      ]
+    }
   ]
 }
 

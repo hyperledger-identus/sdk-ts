@@ -1,4 +1,4 @@
-import { Domain } from "../../..";
+import { Domain } from "../../../exports";
 import { expect, Task } from "../../../utils";
 
 import { base64url } from "multiformats/bases/base64";
