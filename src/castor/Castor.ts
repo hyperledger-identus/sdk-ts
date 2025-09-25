@@ -9,6 +9,7 @@ import { DIDDocument, } from "../domain/models";
 import { PeerDIDResolver } from "./resolver/PeerDIDResolver";
 import { PeerDIDCreate } from "../peer-did/PeerDIDCreate";
 import { LongFormPrismDIDResolver } from "./resolver/LongFormPrismDIDResolver";
+import { DIDResolverHttpProxy } from "./resolver/DIDResolverHttpProxy";
 import { JWKHelper } from "../peer-did/helpers/JWKHelper";
 import {
   VerificationMaterialAgreement,
@@ -53,6 +54,7 @@ export default class Castor implements Domain.Castor {
     this.apollo = apollo;
     this.resolvers = [
       new PeerDIDResolver(),
+      new DIDResolverHttpProxy("URL"),
       new LongFormPrismDIDResolver(this.apollo),
       ...extraResolvers.map((Resolver) => new Resolver(apollo))
     ];
