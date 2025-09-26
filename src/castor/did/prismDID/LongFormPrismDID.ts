@@ -9,15 +9,14 @@ export class LongFormPrismDID {
 
   constructor(public readonly did: DID) {
     const methodId = new PrismDIDMethodId(did.methodId);
-    const stateHash = methodId.sections.at(0);
     const encodedState = methodId.sections.at(1);
 
-    if (methodId.sections.length !== 2 || stateHash === undefined || encodedState === undefined) {
+    if (methodId.sections.length !== 2 || encodedState === undefined) {
       throw new CastorError.InvalidLongFormDID();
     }
 
     this.prismMethodId = methodId;
-    this.stateHash = stateHash;
+    this.stateHash = methodId.stateHash;
     this.encodedState = encodedState;
   }
 }

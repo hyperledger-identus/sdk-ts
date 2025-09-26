@@ -10,8 +10,8 @@ export class DIDResolverHttpProxy implements DIDResolver {
   resolverEndpoint: string;
 
   constructor(
-    resolverEndpoint: string = "https://raw.githubusercontent.com/blockfrost/prism-vdr/refs/heads/main/mainnet/diddoc/",
-    method: string = "prism"
+    resolverEndpoint: string,
+    method: string,
   ) {
     this.resolverEndpoint = resolverEndpoint;
     this.method = method
