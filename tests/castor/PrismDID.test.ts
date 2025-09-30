@@ -312,5 +312,28 @@ describe("PrismDID",
           ECConfig.PUBLIC_KEY_BYTE_SIZE
         );
       });
+
+      it("Should resolve prismDID (short form did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae) correctly", async () => {
+
+        const did = "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae";
+        const resolved = await castor.resolveDID(did);
+
+        const verificationMethod = resolved.coreProperties.find(
+          (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
+        );
+
+        const resolvedPublicKeyBase64 =
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
+          verificationMethod?.values.at(0)?.publicKeyMultibase!;
+
+        const resolvedPublicKeyBuffer = Buffer.from(
+          base58btc.decode(resolvedPublicKeyBase64)
+        );
+
+        resolvedPublicKeyBuffer.length;
+        expect(resolvedPublicKeyBuffer.length).toEqual(
+          ECConfig.PUBLIC_KEY_BYTE_SIZE
+        );
+      });
     });
   });

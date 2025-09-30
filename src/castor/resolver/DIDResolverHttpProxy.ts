@@ -34,8 +34,9 @@ export class DIDResolverHttpProxy implements DIDResolver {
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }
-    const data = await response.json();
-    const didDocument = data.didDocument;
+    const didDocument = await response.json();
+    console.log("############## " + didString)
+    console.log(didDocument)
 
     const servicesProperty = new DIDDocument.Services(
       didDocument.service
@@ -43,9 +44,15 @@ export class DIDResolverHttpProxy implements DIDResolver {
     const verificationMethodsProperty = new DIDDocument.VerificationMethods(
       didDocument.verificationMethod
     )
+
+    console.log("############## 1111 " + didString)
+
     const coreProperties: DIDDocument.CoreProperty[] = [];
     const authenticate: DIDDocument.Authentication[] = [];
-    const assertion: DIDDocument.AssertionMethod[] = [];
+    const assertion: DIDDocument.AssertionMethod[] = []; //didDocument.assertionMethod;
+
+    console.log("############## 2222 " + didDocument.verificationMethod) /// undefined
+
 
     for (const verificationMethod of didDocument.verificationMethod) {
       const isAssertion = didDocument.assertionMethod.find((method: any) => method === verificationMethod.id)
@@ -58,6 +65,9 @@ export class DIDResolverHttpProxy implements DIDResolver {
       }
     }
 
+    console.log("############## 3333 " + didString)
+
+
     coreProperties.push(...authenticate);
     coreProperties.push(servicesProperty);
     coreProperties.push(verificationMethodsProperty);
@@ -66,6 +76,8 @@ export class DIDResolverHttpProxy implements DIDResolver {
       DID.fromString(didString),
       coreProperties
     );
+
+    console.log(resolved)
 
     return resolved;
   }
