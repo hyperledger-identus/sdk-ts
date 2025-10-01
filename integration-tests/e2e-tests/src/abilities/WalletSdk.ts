@@ -2,7 +2,7 @@ import { Ability, Discardable, Initialisable, Interaction, Question, QuestionAda
 import SDK from "@hyperledger/identus-sdk";
 import * as Anoncreds from "@hyperledger/identus-sdk/plugins/anoncreds";
 import axios from "axios"
-import { CloudAgentConfiguration } from "../configuration/CloudAgentConfiguration"
+import { Setup } from "../configuration/Setup"
 import { randomUUID, UUID } from "crypto"
 import { PrismShortFormDIDResolver } from "../resolvers/PrismShortFormDIDResolver"
 import { RxdbStore } from "@trust0/identus-store-rxdb"
@@ -22,7 +22,7 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
   }
 
   private static async getMediatorDidThroughOob(): Promise<string> {
-    const response = await axios.get(CloudAgentConfiguration.mediatorOobUrl)
+    const response = await axios.get(Setup.mediator.url)
     const encodedData = response.data.split("?_oob=")[1]
     const oobData = JSON.parse(Buffer.from(encodedData, "base64").toString())
     return oobData.from

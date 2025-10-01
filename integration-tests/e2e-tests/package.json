@@ -16,7 +16,7 @@
     "@cucumber/cucumber": "^10.3.1",
     "@cucumber/pretty-formatter": "^1.0.0",
     "@hyperledger/identus-cloud-agent-client": "^1.40.1-4106e54",
-    "@hyperledger/identus-sdk": "../..",
+    "@hyperledger/identus-sdk": "file:../../hyperledger-identus-sdk-6.5.1.tgz",
     "@serenity-js/assertions": "^3.31.13",
     "@serenity-js/console-reporter": "^3.31.13",
     "@serenity-js/core": "^3.31.13",

@@ -1,12 +1,12 @@
 import SDK from "@hyperledger/identus-sdk";
-import { axiosInstance } from "../configuration/CloudAgentConfiguration";
+import { cloudAgentApi } from "../configuration/Setup";
 import { DIDDocument, DIDResolutionResult } from "@hyperledger/identus-cloud-agent-client";
 
 export class PrismShortFormDIDResolver implements SDK.Domain.DIDResolver {
   method: string = "prism";
 
   async resolve(didString: string): Promise<SDK.Domain.DIDDocument> {
-    const response = await axiosInstance.get<DIDResolutionResult>(`dids/${didString}`, {
+    const response = await cloudAgentApi.get<DIDResolutionResult>(`dids/${didString}`, {
       headers: {
         Accept: "*/*"
       }

@@ -1,5 +1,5 @@
 import SDK from "@hyperledger/identus-sdk"
-import { Actor, Duration, Notepad, TakeNotes, Wait } from "@serenity-js/core"
+import { Actor, Duration, notes, TakeNotes, Wait } from "@serenity-js/core"
 import { Ensure, equals } from "@serenity-js/assertions"
 import { WalletSdk } from "../abilities/WalletSdk"
 import { Utils } from "../Utils"
@@ -7,10 +7,9 @@ import { randomUUID } from "crypto"
 import _ from "lodash"
 import { assert } from "chai"
 
-
 export class EdgeAgentWorkflow {
   static async connect(edgeAgent: Actor) {
-    const url = await edgeAgent.answer<string>(Notepad.notes().get("invitation"))
+    const url = await edgeAgent.answer<string>(notes().get("invitation"))
     await edgeAgent.attemptsTo(
       WalletSdk.execute(async (sdk) => {
         const oobInvitation = await sdk.parseOOBInvitation(new URL(url))
@@ -43,7 +42,7 @@ export class EdgeAgentWorkflow {
         const issuedCredential = messages.issuedCredentialStack.shift()!
         const issueCredential = SDK.IssueCredential.fromMessage(issuedCredential)
         const credential = await sdk.processIssuedCredentialMessage(issueCredential)
-        await edgeAgent.attemptsTo(Notepad.notes().set(recordId, credential.id))
+        await edgeAgent.attemptsTo(notes().set(recordId, credential.id))
       })
     )
   }
@@ -177,13 +176,13 @@ export class EdgeAgentWorkflow {
 
   static async waitUntilCredentialIsRevoked(edgeAgent: Actor, revokedRecordIdList: string[]) {
     const revokedIdList = await Promise.all(revokedRecordIdList.map(async recordId => {
-      return await edgeAgent.answer(Notepad.notes().get(recordId))
+      return await edgeAgent.answer(notes().get(recordId))
     }))
     await edgeAgent.attemptsTo(
       WalletSdk.execute(async (sdk, messages) => {
         const revokes = messages.revocationStack;
         await sdk.handle(revokes.at(0));
-        
+
         const credentials = await sdk.verifiableCredentials()
         const revokedCredentials = await Utils.asyncFilter(credentials, async credential => {
           // checks if it's revoked and part of the revoked ones
@@ -205,7 +204,7 @@ export class EdgeAgentWorkflow {
         await Utils.repeat(numberOfDids, async () => {
           const did = await sdk.createNewPeerDID()
           await edgeAgent.attemptsTo(
-            Notepad.notes().set("lastPeerDID", did)
+            notes().set("lastPeerDID", did)
           )
         })
       })
@@ -278,16 +277,16 @@ export class EdgeAgentWorkflow {
       WalletSdk.execute(async (sdk) => {
         const backup = await sdk.backup.createJWE()
         await edgeAgent.attemptsTo(
-          Notepad.notes().set("backup", backup),
-          Notepad.notes().set("seed", sdk.seed)
+          notes().set("backup", backup),
+          notes().set("seed", sdk.seed)
         )
       })
     )
   }
 
   static async createNewWalletFromBackup(edgeAgent: Actor) {
-    const backup = await edgeAgent.answer(Notepad.notes().get("backup"))
-    const seed = await edgeAgent.answer(Notepad.notes().get("seed"))
+    const backup = await edgeAgent.answer(notes().get("backup"))
+    const seed = await edgeAgent.answer(notes().get("seed"))
     const walletSdk = new WalletSdk()
     await walletSdk.createSdk(seed)
     await walletSdk.sdk.pluto.start()
@@ -297,7 +296,7 @@ export class EdgeAgentWorkflow {
   }
 
   static async createNewWalletFromBackupWithWrongSeed(edgeAgent: Actor) {
-    const backup = await edgeAgent.answer(Notepad.notes().get("backup"))
+    const backup = await edgeAgent.answer(notes().get("backup"))
     const walletSdk = new WalletSdk()
     const seed = new SDK.Apollo().createRandomSeed().seed
     await walletSdk.createSdk(seed)
@@ -312,8 +311,8 @@ export class EdgeAgentWorkflow {
   }
 
   static async backupAndRestoreToNewAgent(newAgent: Actor, edgeAgent: Actor) {
-    const backup = await edgeAgent.answer(Notepad.notes().get("backup"))
-    const seed = await edgeAgent.answer(Notepad.notes().get("seed"))
+    const backup = await edgeAgent.answer(notes().get("backup"))
+    const seed = await edgeAgent.answer(notes().get("seed"))
     const walletSdk = new WalletSdk()
     await walletSdk.createSdk(seed)
     await walletSdk.sdk.pluto.start()
