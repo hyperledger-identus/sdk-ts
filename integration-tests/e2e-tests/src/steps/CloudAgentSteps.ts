@@ -3,7 +3,6 @@ import { Actor, notes } from "@serenity-js/core"
 import { CloudAgentWorkflow } from "../workflow/CloudAgentWorkflow"
 import { EdgeAgentWorkflow } from "../workflow/EdgeAgentWorkflow"
 import { Utils } from "../Utils"
-import { credential } from "@hyperledger/identus-sdk/build/domain"
 import { Setup } from "../configuration/Setup"
 import { assert } from "console"
 
@@ -27,7 +26,7 @@ Given("{actor} is connected to {actor}", async function (cloudAgent: Actor, edge
 })
 
 Given("{actor} is not connected to {actor}", async function (cloudAgent: Actor, edgeAgent: Actor) {
-  await CloudAgentWorkflow.hasNoConnection(cloudAgent)
+  await CloudAgentWorkflow.hasNoConnection(cloudAgent, edgeAgent)
 })
 
 Given("{actor} shares invitation to {actor}", async function (cloudAgent: Actor, edgeAgent: Actor) {
@@ -46,21 +45,20 @@ Given("{actor} has a connectionless jwt verification invite", async function (cl
 
 Given("{actor} uses did='{}' and kid='{}' for issuance", async function (cloudAgent: Actor, did: string, kid: string) {
   assert(Setup[did])
-  await cloudAgent.attemptsTo(notes().set('kid', kid))
-  await cloudAgent.attemptsTo(notes().set('did', Setup[did].did))
+  await cloudAgent.attemptsTo(notes().set("kid", kid))
+  await cloudAgent.attemptsTo(notes().set("did", Setup[did].did))
 })
 
 Given("{actor} uses jwt schema issued with did='{}'", async function (cloudAgent: Actor, did: string) {
   assert(Setup[did])
-  await cloudAgent.attemptsTo(notes().set('schema_guid', Setup[did].jwtSchema))
-  await cloudAgent.attemptsTo(notes().set('schema_url', Setup[did].jwtSchema.url()))
+  await cloudAgent.attemptsTo(notes().set("schema_guid", Setup[did].jwtSchema.guid))
+  await cloudAgent.attemptsTo(notes().set("schema_url", Setup[did].jwtSchema.url))
 })
 
 Given("{actor} uses definition='{}' issued with did='{}'", async function (cloudAgent: Actor, def: string, did: string) {
   assert(Setup[did][def])
-  let a = Setup[did][def]
-  await cloudAgent.attemptsTo(notes().set('definition_guid', Setup[did][def].guid))
-  await cloudAgent.attemptsTo(notes().set('definition_id', Setup[did][def].id()))
+  await cloudAgent.attemptsTo(notes().set("definition_guid", Setup[did][def].guid))
+  await cloudAgent.attemptsTo(notes().set("definition_id", Setup[did][def].id))
 })
 
 When("{actor} offers '{int}' jwt credentials", async function (cloudAgent: Actor, numberOfCredentials: number) {

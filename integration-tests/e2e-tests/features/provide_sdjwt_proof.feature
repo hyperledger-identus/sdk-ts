@@ -14,3 +14,4 @@ Feature: Provide sdjwt proof
     Examples:
       | did     | kid     | did_schema |
       | ed25519 | assert1 | secp256k1  |
+      | ed25519 | assert1 | ed25519    |

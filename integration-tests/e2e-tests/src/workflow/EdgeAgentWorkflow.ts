@@ -55,7 +55,7 @@ export class EdgeAgentWorkflow {
         const requestCredentialMessage = requestCredential.makeMessage()
         try {
           await sdk.sendMessage(requestCredentialMessage)
-        } catch (e) {
+        } catch {
           //
         }
       })
@@ -85,7 +85,7 @@ export class EdgeAgentWorkflow {
         )
         try {
           await sdk.sendMessage(presentation.makeMessage())
-        } catch (e) {
+        } catch {
           //
         }
       })
@@ -148,7 +148,7 @@ export class EdgeAgentWorkflow {
         )
         try {
           await sdk.sendMessage(presentation.makeMessage())
-        } catch (e) {
+        } catch {
           //
         }
       }
@@ -180,16 +180,16 @@ export class EdgeAgentWorkflow {
     }))
     await edgeAgent.attemptsTo(
       WalletSdk.execute(async (sdk, messages) => {
-        const revokes = messages.revocationStack;
-        await sdk.handle(revokes.at(0));
+        const revokes = messages.revocationStack
+        await sdk.handle(revokes.at(0))
 
         const credentials = await sdk.verifiableCredentials()
         const revokedCredentials = await Utils.asyncFilter(credentials, async credential => {
           // checks if it's revoked and part of the revoked ones
-          const check1 = await sdk.isCredentialRevoked(credential);
-          const check2 = credential.isRevoked();
-          const check3 = revokedIdList.includes(credential.id);
-          return check1 && check2 && check3;
+          const check1 = await sdk.isCredentialRevoked(credential)
+          const check2 = credential.isRevoked()
+          const check3 = revokedIdList.includes(credential.id)
+          return check1 && check2 && check3
         })
         await edgeAgent.attemptsTo(
           Ensure.that(revokedCredentials.length, equals(revokedRecordIdList.length))

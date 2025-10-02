@@ -31,7 +31,7 @@ Feature: Backup
       | secp256k1 | assert1 | secp256k1  |
       | ed25519   | assert1 | ed25519    |
 
-  @broken
+  @disabled
   Scenario Outline: Restored backup should be functional for sd+jwt credential
     Given Cloud Agent is connected to Edge Agent
     And Cloud Agent uses did='<did>' and kid='<kid>' for issuance
@@ -51,3 +51,23 @@ Feature: Backup
     Examples:
       | did     | kid     | did_schema |
       | ed25519 | assert1 | secp256k1  |
+
+  Scenario Outline: Restored backup should be functional for anoncred credential
+    Given Cloud Agent is connected to Edge Agent
+    And Cloud Agent uses did='<did>' and kid='<kid>' for issuance
+    And Cloud Agent uses definition='<definition>' issued with did='<did_definition>'
+    And Edge Agent has '1' anonymous credentials issued by Cloud Agent
+    And Edge Agent creates '5' peer DIDs
+    And Edge Agent creates '3' prism DIDs
+    And Edge Agent has created a backup
+    Then a new Restored Agent is restored from Edge Agent
+    And Restored Agent should have the expected values from Edge Agent
+    And Edge Agent is dismissed
+    Given Cloud Agent is connected to Restored Agent
+    And Cloud Agent asks for presentation of AnonCred proof
+    And Restored Agent sends the present-proof
+    Then Cloud Agent should see the present-proof is verified
+
+    Examples:
+      | did       | kid     | definition | did_definition |
+      | secp256k1 | assert1 | credDefUrl | secp256k1      |

@@ -16,7 +16,7 @@
     "@cucumber/cucumber": "^10.3.1",
     "@cucumber/pretty-formatter": "^1.0.0",
     "@hyperledger/identus-cloud-agent-client": "^1.40.1-4106e54",
-    "@hyperledger/identus-sdk": "file:../../hyperledger-identus-sdk-6.5.1.tgz",
+    "@hyperledger/identus-sdk": "../..",
     "@serenity-js/assertions": "^3.31.13",
     "@serenity-js/console-reporter": "^3.31.13",
     "@serenity-js/core": "^3.31.13",
@@ -24,7 +24,8 @@
     "@serenity-js/rest": "^3.31.13",
     "@serenity-js/serenity-bdd": "^3.31.13",
     "@trust0/identus-store-rxdb": "^0.0.2",
-    "@trust0/ridb-core": "^1.7.17"
+    "@trust0/ridb-core": "^1.7.17",
+    "typescript-eslint": "^8.45.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
@@ -34,7 +35,7 @@
     "chai": "^4.5.0",
     "cliui": "^8.0.1",
     "dotenv": "^16.4.1",
-    "eslint": "^9.23.0",
+    "eslint": "^9.36.0",
     "lodash": "^4.17.21",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",

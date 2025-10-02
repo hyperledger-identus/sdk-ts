@@ -8,7 +8,6 @@ import { randomUUID } from "crypto"
 import {
   CreateConnectionRequest,
   CreateIssueCredentialRecordRequest,
-  Options,
   ProofRequestAux,
   RequestPresentationInput,
 } from "@hyperledger/identus-cloud-agent-client"
@@ -17,13 +16,12 @@ import { Utils } from "../Utils"
 import SDK from "@hyperledger/identus-sdk"
 
 export class CloudAgentWorkflow {
-  static async hasNoConnection(cloudAgent: Actor) {
-    const connectionId = await cloudAgent.answer(
-      notes().has("connectionId")
-    )
-
+  static async hasNoConnection(cloudAgent: Actor, edgeAgent: Actor) {
     await cloudAgent.attemptsTo(
-      Ensure.that(connectionId, equals(false))
+      Ensure.that(await cloudAgent.answer(notes().has("connectionId")), equals(false))
+    )
+    await edgeAgent.attemptsTo(
+      Ensure.that(await edgeAgent.answer(notes().has("connectionId")), equals(false))
     )
   }
 
@@ -82,16 +80,16 @@ export class CloudAgentWorkflow {
   }
 
   static async offerJwtCredential(cloudAgent: Actor) {
-    let did = await cloudAgent.answer<string>(notes().get("did"))
-    let kid = await cloudAgent.answer<string>(notes().get("kid"))
-    let schema = await cloudAgent.answer<string>(notes().get("schema"))
-    let connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
+    const did = await cloudAgent.answer<string>(notes().get("did"))
+    const kid = await cloudAgent.answer<string>(notes().get("kid"))
+    const schemaUrl = await cloudAgent.answer<string>(notes().get("schema_url"))
+    const connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
 
     const credential: CreateIssueCredentialRecordRequest = {
       claims: {
         "automation-required": "required value",
       },
-      schemaId: schema,
+      schemaId: schemaUrl,
       automaticIssuance: true,
       issuingDID: did,
       issuingKid: kid,
@@ -106,13 +104,13 @@ export class CloudAgentWorkflow {
   }
 
   static async offerSDJWTCredential(cloudAgent: Actor) {
-    let did = await cloudAgent.answer<string>(notes().get("did"))
-    let kid = await cloudAgent.answer<string>(notes().get("kid"))
-    let schema = await cloudAgent.answer<string>(notes().get("schema"))
-    let connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
+    const did = await cloudAgent.answer<string>(notes().get("did"))
+    const kid = await cloudAgent.answer<string>(notes().get("kid"))
+    const schemaUrl = await cloudAgent.answer<string>(notes().get("schema_url"))
+    const connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
 
     const credential: CreateIssueCredentialRecordRequest = {
-      schemaId: schema,
+      schemaId: schemaUrl,
       validityPeriod: 36000,
       claims: {
         "automation-required": "required value",
@@ -132,10 +130,10 @@ export class CloudAgentWorkflow {
   }
 
   static async offerAnonymousCredential(cloudAgent: Actor) {
-    let did = await cloudAgent.answer<string>(notes().get("did"))
-    let kid = await cloudAgent.answer<string>(notes().get("kid"))
-    let definition = await cloudAgent.answer<string>(notes().get("schema"))
-    let connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
+    const did = await cloudAgent.answer<string>(notes().get("did"))
+    const kid = await cloudAgent.answer<string>(notes().get("kid"))
+    const definitionGuid = await cloudAgent.answer<string>(notes().get("definition_guid"))
+    const connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
 
     const credential: CreateIssueCredentialRecordRequest = {
       claims: {
@@ -148,7 +146,7 @@ export class CloudAgentWorkflow {
       connectionId: connectionId,
       issuingKid: kid,
       credentialFormat: "AnonCreds",
-      credentialDefinitionId: definition
+      credentialDefinitionId: definitionGuid
     }
 
     await cloudAgent.attemptsTo(
@@ -159,11 +157,11 @@ export class CloudAgentWorkflow {
   }
 
   static async createJwtConnectionlessCredentialOfferInvitation(cloudAgent: Actor,) {
-    let did = await cloudAgent.answer<string>(notes().get("did"))
-    let kid = await cloudAgent.answer<string>(notes().get("kid"))
-    let schema = await cloudAgent.answer<string>(notes().get("schema"))
+    const did = await cloudAgent.answer<string>(notes().get("did"))
+    const kid = await cloudAgent.answer<string>(notes().get("kid"))
+    const schemaUrl = await cloudAgent.answer<string>(notes().get("schema_url"))
 
-    let offer = {
+    const offer = {
       validityPeriod: 3600,
       credentialFormat: "JWT",
       claims: {
@@ -172,7 +170,7 @@ export class CloudAgentWorkflow {
       automaticIssuance: true,
       issuingDID: did,
       issuingKid: kid,
-      schemaId: schema,
+      schemaId: schemaUrl,
       goalCode: "automation-connectionless-jwt-issuance",
       goal: "automation",
     }
@@ -186,11 +184,11 @@ export class CloudAgentWorkflow {
   }
 
   static async createJwtConnectionlessVerificationInvite(cloudAgent: Actor) {
-    let did = await cloudAgent.answer<string>(notes().get("did"))
-    let schema = await cloudAgent.answer<string>(notes().get("schema"))
+    const did = await cloudAgent.answer<string>(notes().get("did"))
+    const schemaUrl = await cloudAgent.answer<string>(notes().get("schema_url"))
 
     const proof = new ProofRequestAux()
-    proof.schemaId = schema
+    proof.schemaId = schemaUrl
     proof.trustIssuers = [did]
 
     const presentProofRequest = {
@@ -198,9 +196,9 @@ export class CloudAgentWorkflow {
         challenge: randomUUID(),
         domain: Setup.agent.url
       },
-      goalCode: 'automation-connectionless-jwt-verification',
-      goal: 'automation',
-      credentialFormat: 'JWT',
+      goalCode: "automation-connectionless-jwt-verification",
+      goal: "automation",
+      credentialFormat: "JWT",
       proofs: [
         proof
       ]
@@ -215,9 +213,9 @@ export class CloudAgentWorkflow {
   }
 
   static async askForPresentProof(cloudAgent: Actor) {
-    let did = await cloudAgent.answer<string>(notes().get("did"))
-    let schema = await cloudAgent.answer<string>(notes().get("schema"))
-    let connectionId = await cloudAgent.answer(notes().get("connectionId"))
+    const did = await cloudAgent.answer<string>(notes().get("did"))
+    const schemaUrl = await cloudAgent.answer<string>(notes().get("schema_url"))
+    const connectionId = await cloudAgent.answer(notes().get("connectionId"))
 
     const presentProofRequest: RequestPresentationInput = {
       options: {
@@ -225,7 +223,7 @@ export class CloudAgentWorkflow {
         domain: Setup.agent.url
       },
       proofs: [{
-        schemaId: schema,
+        schemaId: schemaUrl,
         trustIssuers: [did]
       }],
       credentialFormat: "JWT",
@@ -240,9 +238,9 @@ export class CloudAgentWorkflow {
   }
 
   static async askForSDJWTPresentProof(cloudAgent: Actor) {
-    let did = await cloudAgent.answer<string>(notes().get("did"))
-    let schema = await cloudAgent.answer<string>(notes().get("schema"))
-    let connectionId = await cloudAgent.answer(notes().get("connectionId"))
+    const did = await cloudAgent.answer<string>(notes().get("did"))
+    const schemaUrl = await cloudAgent.answer<string>(notes().get("schema_url"))
+    const connectionId = await cloudAgent.answer(notes().get("connectionId"))
 
     const presentProofRequest: RequestPresentationInput = {
       options: {
@@ -250,7 +248,7 @@ export class CloudAgentWorkflow {
         domain: Setup.agent.url
       },
       proofs: [{
-        schemaId: schema,
+        schemaId: schemaUrl,
         trustIssuers: [did],
       }],
       credentialFormat: "SDJWT",
@@ -266,8 +264,8 @@ export class CloudAgentWorkflow {
   }
 
   static async askForPresentProofAnonCreds(cloudAgent: Actor) {
-    let definition = await cloudAgent.answer<string>(notes().get("schema"))
-    let connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
+    const definitionId = await cloudAgent.answer<string>(notes().get("definition_id"))
+    const connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
 
     const presentationRequest = {
       connectionId: connectionId,
@@ -278,7 +276,7 @@ export class CloudAgentWorkflow {
             name: "gender",
             restrictions: [{
               "attr::gender::value": "M",
-              cred_def_id: definition
+              cred_def_id: definitionId
             }]
           }
         },
@@ -288,7 +286,7 @@ export class CloudAgentWorkflow {
             p_type: ">=",
             p_value: 18,
             restrictions: [{
-              cred_def_id: definition
+              cred_def_id: definitionId
             }]
           }
         },
