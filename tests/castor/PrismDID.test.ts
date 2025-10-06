@@ -9,6 +9,7 @@ import * as Protos from "../../src/castor/protos/node_models";
 import { ed25519, x25519 } from "../fixtures/keys";
 import {
   Curve,
+  DID,
   DIDDocument,
   KeyTypes,
 } from "../../src/domain";
@@ -318,22 +319,100 @@ describe("PrismDID",
         const did = "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae";
         const resolved = await castor.resolveDID(did);
 
-        const verificationMethod = resolved.coreProperties.find(
-          (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
+        // {
+        //   "id" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae",
+        //   "assertionMethod" : [
+        //     {
+        //       "id" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0",
+        //       "controller" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae",
+        //       "type" : "JsonWebKey2020",
+        //       "publicKeyJwk" : {
+        //         "kty" : "EC",
+        //         "crv" : "secp256k1",
+        //         "x" : "poDxfZtoOpBDtFqJmJ03_tei3ooCXrGXkJM_WUErZPM",
+        //         "y" : "M6WTO1raVf2TNHO7t0IpiurajRo6k12HbJvNa2L-8sA",
+        //         "kid" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0"
+        //       }
+        //     }
+        //   ]
+        // }
+
+        const assertionMethod = resolved.coreProperties.find((prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod);
+        expect(assertionMethod?.verificationMethods.at(0)?.id!).toEqual("did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0");
+
+        const pk = assertionMethod?.verificationMethods.at(0)?.publicKeyJwk!;
+        expect(pk.kid).toEqual("did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0");
+        expect(pk.x).toEqual("poDxfZtoOpBDtFqJmJ03_tei3ooCXrGXkJM_WUErZPM");
+      });
+
+      it("Should parse DIDDocument from JSON correctly", async () => {
+        const diddoc = DIDDocument.fromJSON(
+          JSON.parse(
+            `{
+              "id" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae",
+              "assertionMethod" : [
+                {
+                  "id" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0",
+                  "controller" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae",
+                  "type" : "JsonWebKey2020",
+                  "publicKeyJwk" : {
+                    "kty" : "EC",
+                    "crv" : "secp256k1",
+                    "x" : "poDxfZtoOpBDtFqJmJ03_tei3ooCXrGXkJM_WUErZPM",
+                    "y" : "M6WTO1raVf2TNHO7t0IpiurajRo6k12HbJvNa2L-8sA",
+                    "kid" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0"
+                  }
+                }
+              ]
+            }`
+          )
         );
 
-        const resolvedPublicKeyBase64 =
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-          verificationMethod?.values.at(0)?.publicKeyMultibase!;
+        const assertionMethod = diddoc.coreProperties.find((prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod);
+        expect(assertionMethod?.verificationMethods.at(0)?.id!).toEqual("did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0");
+        const pk = assertionMethod?.verificationMethods.at(0)?.publicKeyJwk!;
+        expect(pk.kid).toEqual("did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0");
+        expect(pk.x).toEqual("poDxfZtoOpBDtFqJmJ03_tei3ooCXrGXkJM_WUErZPM");
+      });
 
-        const resolvedPublicKeyBuffer = Buffer.from(
-          base58btc.decode(resolvedPublicKeyBase64)
+
+      it("Method DIDDocument.cloneWithNewDID MUST replace the DID identifier correctly in the whole document", async () => {
+        const diddoc = DIDDocument.fromJSON(
+          JSON.parse(
+            `{
+              "id" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae",
+              "assertionMethod" : [
+                {
+                  "id" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0",
+                  "controller" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae",
+                  "type" : "JsonWebKey2020",
+                  "publicKeyJwk" : {
+                    "kty" : "EC",
+                    "crv" : "secp256k1",
+                    "x" : "poDxfZtoOpBDtFqJmJ03_tei3ooCXrGXkJM_WUErZPM",
+                    "y" : "M6WTO1raVf2TNHO7t0IpiurajRo6k12HbJvNa2L-8sA",
+                    "kid" : "did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0"
+                  }
+                }
+              ]
+            }`
+          )
         );
 
-        resolvedPublicKeyBuffer.length;
-        expect(resolvedPublicKeyBuffer.length).toEqual(
-          ECConfig.PUBLIC_KEY_BYTE_SIZE
-        );
+        const cloneDiddoc = DIDDocument.cloneWithNewDID(diddoc, DID.fromString("did:example:test"))
+        // console.log(cloneDiddoc)
+
+        const assertionMethod = diddoc.coreProperties.find((prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod);
+        expect(assertionMethod?.verificationMethods.at(0)?.id!).toEqual("did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0");
+        const pk = assertionMethod?.verificationMethods.at(0)?.publicKeyJwk!;
+        expect(pk.kid).toEqual("did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0");
+        expect(pk.x).toEqual("poDxfZtoOpBDtFqJmJ03_tei3ooCXrGXkJM_WUErZPM");
+
+        const clonedAssertionMethod = cloneDiddoc.coreProperties.find((prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod);
+        expect(clonedAssertionMethod?.verificationMethods.at(0)?.id!).toEqual("did:example:test#issuing0");
+        const clonedPk = clonedAssertionMethod?.verificationMethods.at(0)?.publicKeyJwk!;
+        expect(clonedPk.kid).toEqual("did:example:test#issuing0");
+        expect(clonedPk.x).toEqual("poDxfZtoOpBDtFqJmJ03_tei3ooCXrGXkJM_WUErZPM");
       });
     });
   });

@@ -16,7 +16,7 @@ export class PrismDIDResolver implements DIDResolver {
 
   constructor(
     private apollo: Apollo,
-    prismResolverEndpoint: string = "https://raw.githubusercontent.com/blockfrost/prism-vdr/refs/heads/main/mainnet/diddoc/",
+    prismResolverEndpoint: string = "https://raw.githubusercontent.com/FabioPinheiro/prism-vdr/refs/heads/main/mainnet/diddoc/",
   ) {
     this.longFormPrismDIDResolver = new LongFormPrismDIDResolver(apollo);
     this.proxyPrismDIDResolver = new DIDResolverHttpProxy(prismResolverEndpoint, "prism");
@@ -30,10 +30,9 @@ export class PrismDIDResolver implements DIDResolver {
       this.proxyPrismDIDResolver.resolve(methodId.shortfrom())
     ) : (async () => { // long from of did prism
       try {
-        const didDoc = await this.proxyPrismDIDResolver.resolve(methodId.shortfrom());
-        didDoc.id = did; // replace with the long form
-        //FIXME didDoc.verificationMethods = ??? // replace with the long form did
-        return didDoc;
+        const didDocShortForm = await this.proxyPrismDIDResolver.resolve(methodId.shortfrom());
+        const didDocLongForm = DIDDocument.cloneWithNewDID(didDocShortForm, did)
+        return didDocLongForm;
       } catch {
         return await this.longFormPrismDIDResolver.resolve(didString);
       }

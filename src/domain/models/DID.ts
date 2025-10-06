@@ -76,4 +76,9 @@ export class DID implements Pluto.Storable {
     const split = text.split(":");
     return split.slice(2).join(":");
   }
+
+  /** replace with a new DID */
+  static replaceDID(oldStr: string, did: DID) {
+    return oldStr.replace(/^.*?(?=#)/, did.toString());
+  };
 }

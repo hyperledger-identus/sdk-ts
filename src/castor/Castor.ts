@@ -53,7 +53,7 @@ export default class Castor implements Domain.Castor {
    */
   constructor(apollo: Domain.Apollo,
     extraResolvers: ExtraResolver[] = [],
-    prismResolverEndpoint: string = "https://raw.githubusercontent.com/blockfrost/prism-vdr/refs/heads/main/mainnet/diddoc/",
+    prismResolverEndpoint: string = "https://raw.githubusercontent.com/FabioPinheiro/prism-vdr/refs/heads/main/mainnet/diddoc/",
   ) {
     this.apollo = apollo;
     this.resolvers = [
