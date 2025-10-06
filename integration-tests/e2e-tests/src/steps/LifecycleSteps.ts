@@ -3,11 +3,11 @@ import { Actor, actorCalled, Cast, engage, TakeNotes } from "@serenity-js/core"
 import { CallAnApi } from "@serenity-js/rest"
 import { Utils } from "../Utils"
 import { agentList, WalletSdk } from "../abilities/WalletSdk"
-import { axiosInstance, CloudAgentConfiguration } from "../configuration/CloudAgentConfiguration"
+import { cloudAgentApi, Setup } from "../configuration/Setup"
 
 BeforeAll(async () => {
   Utils.prepareNotes()
-  await CloudAgentConfiguration.prepare()
+  await Setup.init()
 })
 
 Before(async () => {
@@ -31,7 +31,7 @@ class Actors implements Cast {
     const actors = new Actors()
 
     const cloudAgent = actorCalled("Cloud Agent").whoCan(
-      CallAnApi.using(axiosInstance),
+      CallAnApi.using(cloudAgentApi),
       TakeNotes.usingAnEmptyNotepad()
     )
 

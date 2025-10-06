@@ -1,5 +1,5 @@
 import { Given, Then, When } from "@cucumber/cucumber"
-import { Actor, Notepad } from "@serenity-js/core"
+import { Actor, notes } from "@serenity-js/core"
 import { EdgeAgentWorkflow } from "../workflow/EdgeAgentWorkflow"
 import { CloudAgentWorkflow } from "../workflow/CloudAgentWorkflow"
 import { Utils } from "../Utils"
@@ -9,16 +9,16 @@ Given("{actor} has '{int}' jwt credentials issued by {actor}",
   async function (edgeAgent: Actor, numberOfIssuedCredentials: number, cloudAgent: Actor) {
     const recordIdList = []
     await Utils.repeat(numberOfIssuedCredentials, async () => {
-      await CloudAgentWorkflow.offerCredential(cloudAgent)
+      await CloudAgentWorkflow.offerJwtCredential(cloudAgent)
       await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, 1)
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
-      const recordId = await cloudAgent.answer(Notepad.notes().get("recordId"))
+      const recordId = await cloudAgent.answer(notes().get("recordId"))
       recordIdList.push(recordId)
       await CloudAgentWorkflow.verifyCredentialState(cloudAgent, recordId, "CredentialSent")
       await EdgeAgentWorkflow.waitToReceiveCredentialIssuance(edgeAgent, 1)
       await EdgeAgentWorkflow.processIssuedCredential(edgeAgent, recordId)
     })
-    await cloudAgent.attemptsTo(Notepad.notes().set("recordIdList", recordIdList))
+    await cloudAgent.attemptsTo(notes().set("recordIdList", recordIdList))
   })
 
 Given("{actor} has '{int}' sd+jwt credentials issued by {actor}",
@@ -28,13 +28,13 @@ Given("{actor} has '{int}' sd+jwt credentials issued by {actor}",
       await CloudAgentWorkflow.offerSDJWTCredential(cloudAgent)
       await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, 1)
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
-      const recordId = await cloudAgent.answer(Notepad.notes().get("recordId"))
+      const recordId = await cloudAgent.answer(notes().get("recordId"))
       recordIdList.push(recordId)
       await CloudAgentWorkflow.verifyCredentialState(cloudAgent, recordId, "CredentialSent")
       await EdgeAgentWorkflow.waitToReceiveCredentialIssuance(edgeAgent, 1)
       await EdgeAgentWorkflow.processIssuedCredential(edgeAgent, recordId)
     })
-    await cloudAgent.attemptsTo(Notepad.notes().set("recordIdList", recordIdList))
+    await cloudAgent.attemptsTo(notes().set("recordIdList", recordIdList))
   })
 
 Given("{actor} has '{int}' anonymous credentials issued by {actor}",
@@ -44,15 +44,31 @@ Given("{actor} has '{int}' anonymous credentials issued by {actor}",
       await CloudAgentWorkflow.offerAnonymousCredential(cloudAgent)
       await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, 1)
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
-      const recordId = await cloudAgent.answer(Notepad.notes().get("recordId"))
+      const recordId = await cloudAgent.answer(notes().get("recordId"))
       recordIdList.push(recordId)
       await CloudAgentWorkflow.verifyCredentialState(cloudAgent, recordId, "CredentialSent")
       await EdgeAgentWorkflow.waitToReceiveCredentialIssuance(edgeAgent, 1)
       await EdgeAgentWorkflow.processIssuedCredential(edgeAgent, recordId)
     })
-    await cloudAgent.attemptsTo(Notepad.notes().set("recordIdList", recordIdList))
+    await cloudAgent.attemptsTo(notes().set("recordIdList", recordIdList))
   }
 )
+
+Given("{actor} has '{int}' connectionless jwt credentials issued by {actor}",
+  async function (edgeAgent: Actor, numberOfIssuedCredentials: number, cloudAgent: Actor) {
+    const recordIdList = []
+    await Utils.repeat(numberOfIssuedCredentials, async () => {
+      await CloudAgentWorkflow.createJwtConnectionlessCredentialOfferInvitation(cloudAgent)
+      await CloudAgentWorkflow.shareInvitation(cloudAgent, edgeAgent)
+      await EdgeAgentWorkflow.connect(edgeAgent)
+      recordIdList.push("connectionless")
+      await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, 1)
+      await EdgeAgentWorkflow.acceptCredential(edgeAgent)
+      await EdgeAgentWorkflow.waitToReceiveCredentialIssuance(edgeAgent, 1)
+      await EdgeAgentWorkflow.processIssuedCredential(edgeAgent, "connectionless")
+    })
+    await cloudAgent.attemptsTo(notes().set("recordIdList", recordIdList))
+  })
 
 Given("{actor} has created a backup",
   async function (edgeAgent: Actor) {
@@ -79,11 +95,11 @@ When("{actor} accepts {int} sd+jwt credential offer sequentially from {actor}",
       await CloudAgentWorkflow.offerSDJWTCredential(cloudAgent)
       await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, 1)
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
-      const recordId = await cloudAgent.answer(Notepad.notes().get("recordId"))
+      const recordId = await cloudAgent.answer(notes().get("recordId"))
       await CloudAgentWorkflow.verifyCredentialState(cloudAgent, recordId, "CredentialSent")
       recordIdList.push(recordId)
     })
-    await cloudAgent.attemptsTo(Notepad.notes().set("recordIdList", recordIdList))
+    await cloudAgent.attemptsTo(notes().set("recordIdList", recordIdList))
   }
 )
 
@@ -91,14 +107,14 @@ When("{actor} accepts {int} jwt credential offer sequentially from {actor}",
   async function (edgeAgent: Actor, numberOfCredentialOffers: number, cloudAgent: Actor) {
     const recordIdList: string[] = []
     await Utils.repeat(numberOfCredentialOffers, async () => {
-      await CloudAgentWorkflow.offerCredential(cloudAgent)
+      await CloudAgentWorkflow.offerJwtCredential(cloudAgent)
       await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, 1)
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
-      const recordId = await cloudAgent.answer(Notepad.notes().get("recordId"))
+      const recordId = await cloudAgent.answer(notes().get("recordId"))
       await CloudAgentWorkflow.verifyCredentialState(cloudAgent, recordId, "CredentialSent")
       recordIdList.push(recordId)
     })
-    await cloudAgent.attemptsTo(Notepad.notes().set("recordIdList", recordIdList))
+    await cloudAgent.attemptsTo(notes().set("recordIdList", recordIdList))
   }
 )
 
@@ -106,11 +122,11 @@ When("{actor} accepts {int} jwt credentials offer at once from {actor}",
   async function (edgeAgent: Actor, numberOfCredentials: number, cloudAgent: Actor) {
     const recordIdList: string[] = []
     await Utils.repeat(numberOfCredentials, async () => {
-      await CloudAgentWorkflow.offerCredential(cloudAgent)
-      const recordId = await cloudAgent.answer(Notepad.notes().get("recordId"))
+      await CloudAgentWorkflow.offerJwtCredential(cloudAgent)
+      const recordId = await cloudAgent.answer(notes().get("recordId"))
       recordIdList.push(recordId)
     })
-    await cloudAgent.attemptsTo(Notepad.notes().set("recordIdList", recordIdList))
+    await cloudAgent.attemptsTo(notes().set("recordIdList", recordIdList))
 
     await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, numberOfCredentials)
 
@@ -125,10 +141,10 @@ When("{actor} accepts {int} sd+jwt credentials offer at once from {actor}",
     const recordIdList: string[] = []
     await Utils.repeat(numberOfCredentials, async () => {
       await CloudAgentWorkflow.offerSDJWTCredential(cloudAgent)
-      const recordId = await cloudAgent.answer(Notepad.notes().get("recordId"))
+      const recordId = await cloudAgent.answer(notes().get("recordId"))
       recordIdList.push(recordId)
     })
-    await cloudAgent.attemptsTo(Notepad.notes().set("recordIdList", recordIdList))
+    await cloudAgent.attemptsTo(notes().set("recordIdList", recordIdList))
 
     await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, numberOfCredentials)
 
@@ -147,7 +163,7 @@ When("{actor} connects through the invite",
 
 When("{actor} accepts the credentials offer from {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
-    const recordIdList = await cloudAgent.answer(Notepad.notes().get("recordIdList"))
+    const recordIdList = await cloudAgent.answer(notes().get("recordIdList"))
     Utils.repeat(recordIdList.length, async () => {
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
     })
@@ -163,28 +179,28 @@ When("{actor} sends the present-proof",
 
 Then("{actor} should receive the credentials offer from {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
-    const recordIdList = await cloudAgent.answer(Notepad.notes().get("recordIdList"))
+    const recordIdList = await cloudAgent.answer(notes().get("recordIdList"))
     await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, recordIdList.length)
   }
 )
 
 Then("{actor} waits to receive the revocation notifications from {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
-    const revokedRecordIdList = await cloudAgent.answer(Notepad.notes().get("revokedRecordIdList"))
+    const revokedRecordIdList = await cloudAgent.answer(notes().get("revokedRecordIdList"))
     await EdgeAgentWorkflow.waitForCredentialRevocationMessage(edgeAgent, revokedRecordIdList.length)
   }
 )
 
 Then("{actor} should see the credentials were revoked by {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
-    const revokedRecordIdList = await cloudAgent.answer(Notepad.notes().get("revokedRecordIdList"))
+    const revokedRecordIdList = await cloudAgent.answer(notes().get("revokedRecordIdList"))
     await EdgeAgentWorkflow.waitUntilCredentialIsRevoked(edgeAgent, revokedRecordIdList)
   }
 )
 
 Then("{actor} process issued credentials from {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
-    const recordIdList = await cloudAgent.answer<string[]>(Notepad.notes().get("recordIdList"))
+    const recordIdList = await cloudAgent.answer<string[]>(notes().get("recordIdList"))
     for (const recordId of recordIdList) {
       await EdgeAgentWorkflow.processIssuedCredential(edgeAgent, recordId)
     }
@@ -193,7 +209,7 @@ Then("{actor} process issued credentials from {actor}",
 
 Then("{actor} wait to receive issued credentials from {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
-    const recordIdList = await cloudAgent.answer(Notepad.notes().get("recordIdList"))
+    const recordIdList = await cloudAgent.answer(notes().get("recordIdList"))
     await EdgeAgentWorkflow.waitToReceiveCredentialIssuance(edgeAgent, recordIdList.length)
   }
 )
@@ -231,7 +247,7 @@ Then("{actor} is dismissed",
 Then("{actor} will request {actor} to verify the anonymous credential",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
-    const holderDID = await holderEdgeAgent.answer(Notepad.notes().get("lastPeerDID"))
+    const holderDID = await holderEdgeAgent.answer(notes().get("lastPeerDID"))
     const claims = {
       attributes: {
         name: {
@@ -248,7 +264,7 @@ Then("{actor} will request {actor} to verify the anonymous credential",
 Then("{actor} will request {actor} to verify the JWT credential",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
-    const holderDID = await holderEdgeAgent.answer(Notepad.notes().get("lastPeerDID"))
+    const holderDID = await holderEdgeAgent.answer(notes().get("lastPeerDID"))
     const claims = {
       claims: {
         "automation-required": {
@@ -265,7 +281,7 @@ Then("{actor} will request {actor} to verify the JWT credential",
 Then("{actor} will request {actor} to verify the SD+JWT credential",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
-    const holderDID = await holderEdgeAgent.answer(Notepad.notes().get("lastPeerDID"))
+    const holderDID = await holderEdgeAgent.answer(notes().get("lastPeerDID"))
     const claims = {
       claims: {
         "automation-required": {
@@ -281,7 +297,7 @@ Then("{actor} will request {actor} to verify the SD+JWT credential",
 Then("{actor} will request {actor} to verify the SD+JWT credential with non-existing claims",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
-    const holderDID = await holderEdgeAgent.answer(Notepad.notes().get("lastPeerDID"))
+    const holderDID = await holderEdgeAgent.answer(notes().get("lastPeerDID"))
     const claims = {
       claims: {
         doesNotExist: {

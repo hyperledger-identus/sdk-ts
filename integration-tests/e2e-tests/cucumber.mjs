@@ -17,6 +17,6 @@ export default {
   require: [
     "src/**/*.ts"
   ],
-  retry: 1,
+  retry: 0,
   tags: "not @disabled",
 }
