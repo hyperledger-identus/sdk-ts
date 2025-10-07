@@ -254,21 +254,17 @@ export namespace DIDDocument {
     ) { }
 
     public cloneWithNewId(did: DID): VerificationMethod {
-      console.log("cloneWithNewId")
-
       if (this.publicKeyJwk) {
         const newKid = (this.publicKeyJwk.kid) ? DID.replaceDID(this.publicKeyJwk.kid, did) : this.publicKeyJwk.kid;
         const newPublicKeyJwk = structuredClone(this.publicKeyJwk);
         newPublicKeyJwk.kid = newKid;
-        const tmp = new VerificationMethod(
+        return new VerificationMethod(
           DID.replaceDID(this.id, did),
           this.controller,
           this.type,
           newPublicKeyJwk,
           this.publicKeyMultibase,
         );
-        console.log(tmp);
-        return tmp;
       }
       else {
         return new VerificationMethod(

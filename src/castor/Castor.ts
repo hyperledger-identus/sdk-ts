@@ -9,8 +9,6 @@ import { DIDDocument, } from "../domain/models";
 import { PeerDIDResolver } from "./resolver/PeerDIDResolver";
 import { PeerDIDCreate } from "../peer-did/PeerDIDCreate";
 import { PrismDIDResolver } from "./resolver/PrismDIDResolver";
-// import { LongFormPrismDIDResolver } from "./resolver/LongFormPrismDIDResolver";
-// import { DIDResolverHttpProxy } from "./resolver/DIDResolverHttpProxy";
 import { JWKHelper } from "../peer-did/helpers/JWKHelper";
 import {
   VerificationMaterialAgreement,
@@ -58,9 +56,6 @@ export default class Castor implements Domain.Castor {
     this.apollo = apollo;
     this.resolvers = [
       new PeerDIDResolver(),
-      // new DIDResolverHttpProxy(prismResolverEndpoint, "prism"), // PRISM DID shortform
-      // // TODO try to resolve the shortform of the longform did:prism
-      // new LongFormPrismDIDResolver(this.apollo),
       new PrismDIDResolver(this.apollo, prismResolverEndpoint),
       ...extraResolvers.map((Resolver) => new Resolver(apollo))
     ];
@@ -278,7 +273,7 @@ export default class Castor implements Domain.Castor {
         console.log(`Failed resolving did ${did.toString()}`);
       }
     }
-    throw new Error("Non of the available Castor resolvers could resolve the did");
+    throw new Error(`Non of the available Castor resolvers could resolve the DID '${didstr.toString()}'`);
   }
 
   /**
