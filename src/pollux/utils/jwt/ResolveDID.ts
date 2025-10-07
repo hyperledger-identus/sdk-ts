@@ -27,21 +27,23 @@ export class ResolveDID extends Task<DIDResolver.DIDResolutionResult, Args> {
 
     const verificationMethod = asArray(verificationMethods?.values).map((vm) => {
       if (vm.publicKeyMultibase) {
-        return {
-          id: vm.id,
-          type: vm.type,
-          controller: vm.controller,
-          publicKeyMultibase: vm.publicKeyMultibase,
-        };
+        return new Domain.DIDDocument.VerificationMethod(
+          vm.id,
+          vm.controller,
+          vm.type,
+          undefined,// publicKeyJwk 
+          vm.publicKeyMultibase,
+        );
       }
 
       if (vm.publicKeyJwk) {
-        return {
-          id: vm.id,
-          type: "JsonWebKey2020" as Domain.DIDDocument.VerificationMethod.Type,
-          controller: vm.controller,
-          publicKeyJwk: vm.publicKeyJwk,
-        };
+        return new Domain.DIDDocument.VerificationMethod(
+          vm.id,
+          vm.controller,
+          "JsonWebKey2020" as Domain.DIDDocument.VerificationMethod.Type,
+          vm.publicKeyJwk,
+          undefined // publicKeyMultibase
+        );
       }
 
       throw new Error("Invalid KeyType");

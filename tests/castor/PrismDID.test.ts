@@ -400,7 +400,6 @@ describe("PrismDID",
         );
 
         const cloneDiddoc = DIDDocument.cloneWithNewDID(diddoc, DID.fromString("did:example:test"))
-        // console.log(cloneDiddoc)
 
         const assertionMethod = diddoc.coreProperties.find((prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod);
         expect(assertionMethod?.verificationMethods.at(0)?.id!).toEqual("did:prism:00592a141a4c2bcb7a6aa691750511e2e9b048231820125e15ab70b12a210aae#issuing0");
