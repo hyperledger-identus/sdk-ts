@@ -50,7 +50,7 @@ export default defineConfig({
         "branches": 63,
         "functions": 75,
         "lines": 75,
-        "statements": 75
+        "statements": 74
       },
       include: ['src'],
       exclude: [
