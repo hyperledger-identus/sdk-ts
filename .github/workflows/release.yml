@@ -3,6 +3,10 @@ name: Release wallet-sdk-ts
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write # Required for npm trusted publishing (OIDC)
+
 jobs:
   release:
     runs-on: ubuntu-latest
