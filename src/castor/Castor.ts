@@ -8,7 +8,7 @@ import * as ECConfig from "../domain/models/ECConfig";
 import { DIDDocument, } from "../domain/models";
 import { PeerDIDResolver } from "./resolver/PeerDIDResolver";
 import { PeerDIDCreate } from "../peer-did/PeerDIDCreate";
-import { LongFormPrismDIDResolver } from "./resolver/LongFormPrismDIDResolver";
+import { PrismDIDResolver } from "./resolver/PrismDIDResolver";
 import { JWKHelper } from "../peer-did/helpers/JWKHelper";
 import {
   VerificationMaterialAgreement,
@@ -49,11 +49,14 @@ export default class Castor implements Domain.Castor {
    * @param {Apollo} apollo
    * @param {ExtraResolver[]} extraResolvers
    */
-  constructor(apollo: Domain.Apollo, extraResolvers: ExtraResolver[] = []) {
+  constructor(apollo: Domain.Apollo,
+    extraResolvers: ExtraResolver[] = [],
+    prismResolverEndpoint: string = "https://raw.githubusercontent.com/FabioPinheiro/prism-vdr/refs/heads/main/mainnet/diddoc/",
+  ) {
     this.apollo = apollo;
     this.resolvers = [
       new PeerDIDResolver(),
-      new LongFormPrismDIDResolver(this.apollo),
+      new PrismDIDResolver(this.apollo, prismResolverEndpoint),
       ...extraResolvers.map((Resolver) => new Resolver(apollo))
     ];
   }
@@ -270,7 +273,7 @@ export default class Castor implements Domain.Castor {
         console.log(`Failed resolving did ${did.toString()}`);
       }
     }
-    throw new Error("Non of the available Castor resolvers could resolve the did");
+    throw new Error(`Non of the available Castor resolvers could resolve the DID '${didstr.toString()}'`);
   }
 
   /**

@@ -107,7 +107,7 @@ export default class Agent extends Startable.Controller {
     const pluto = params.pluto;
     const api = params.api ?? new FetchApi();
     const apollo = params.apollo ?? new Apollo();
-    const castor = params.castor ?? new Castor(apollo);
+    const castor = params.castor ?? new Castor(apollo, undefined, params.options?.resolverEndpoint);
     const didcomm = new DIDCommWrapper(apollo, castor, pluto);
     const mercury = params.mercury ?? new Mercury(castor, didcomm, api);
     const seed = params.seed ?? apollo.createRandomSeed().seed;

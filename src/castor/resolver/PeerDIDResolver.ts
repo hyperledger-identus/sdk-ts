@@ -195,12 +195,13 @@ export class PeerDIDResolver implements DIDResolver {
     // jsonObject["kid"] = did.toString() + "#" + decodedEncnumbasis[0]; //Before https://github.com/decentralized-identity/peer-did-method-spec/pull/62
     jsonObject["kid"] = did.toString() + "#" + keyId;
 
-    return {
-      id: new DIDUrl(did, [], new Map(), keyId).string(),
-      controller: did.toString(),
-      type: 'JsonWebKey2020',
-      publicKeyJwk: jsonObject,
-    };
+    return new DIDDocument.VerificationMethod(
+      new DIDUrl(did, [], new Map(), keyId).string(),
+      did.toString(),
+      'JsonWebKey2020',
+      jsonObject,
+      undefined
+    );
   }
 
   public decodeService(did: DID, encodedString: string): DIDDocument.Service[] {

@@ -48,6 +48,8 @@ export type AgentOptions = {
   experiments?: {
     liveMode?: boolean;
   };
+  //optional string
+  resolverEndpoint?: string;
 };
 
 export type InvitationType = PrismOnboardingInvitation | OutOfBandInvitation;
