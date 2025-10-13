@@ -47,7 +47,6 @@ jobs:
           git_commit_gpgsign: true
           git_config_global: true
           git_tag_gpgsign: false
-
       - name: Release
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -57,5 +56,6 @@ jobs:
           GIT_COMMITTER_NAME: ${{ steps.import_gpg.outputs.name }}
         run: |
           echo "Using npm version: $(npm -v)"
+          npm ci 
           npm audit signatures
           npx semantic-release
