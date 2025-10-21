@@ -1,6 +1,5 @@
 import {
   CreateManagedDidRequest,
-  CreateManagedDidRequestDocumentTemplate,
   CreateManagedDIDResponse,
   CredentialDefinitionInput,
   CredentialDefinitionResponse,
@@ -9,12 +8,11 @@ import {
   Curve,
   DIDOperationResponse,
   DIDResolutionResult,
-  ManagedDIDKeyTemplate,
   PrismEnvelopeResponse,
   Purpose
 } from "@hyperledger/identus-cloud-agent-client"
 import { randomUUID } from "crypto"
-import axios, { AxiosResponse } from "axios"
+import axios from "axios"
 import { configDotenv } from "dotenv"
 import assert from "assert"
 
@@ -69,7 +67,6 @@ export class Setup {
       this.agent.url = this.agent.url.slice(0, -1)
     }
     this.secp256k1.did = await this.verifyDidSetup(this.secp256k1.did, Curve.Secp256k1)
-    await this.verifyJwtSchemaSetupDid("", this.secp256k1.did)
     this.secp256k1.jwtSchema = await this.verifyJwtSchemaSetupUrl(this.secp256k1.jwtSchema.guid, this.secp256k1.did)
     this.secp256k1.credDefUrl = await this.verifyAnoncredDefinitionUrl(
       this.secp256k1.credDefUrl.guid,
@@ -95,43 +92,28 @@ export class Setup {
       assert(initialDid != "")
       const didDocumentResponse = await cloudAgentApi.get<DIDResolutionResult>(`dids/${initialDid}`)
       const assertionKeys = didDocumentResponse.data.didDocument.assertionMethod.filter(am => am.includes("#assert1"))
-      const authenticationKeys = didDocumentResponse.data.didDocument.authentication.filter(a => a.includes("#key-authentication-1"))
+      const authenticationKeys = didDocumentResponse.data.didDocument.authentication.filter(a => a.includes("#auth1"))
       assert(assertionKeys.length == 1, "Expected 'assert1' to be part of provided did")
       assert(authenticationKeys.length == 1, "Expected 'key-authentication-1' to be part of provided did")
       return initialDid
     } catch {
-      const creationData = new CreateManagedDidRequest()
-      creationData.documentTemplate = new CreateManagedDidRequestDocumentTemplate()
-
-      const assertionKey = new ManagedDIDKeyTemplate()
-      assertionKey.id = "assert1"
-      assertionKey.purpose = Purpose.AssertionMethod
-      assertionKey.curve = curve
-
-      const authenticationKey = new ManagedDIDKeyTemplate()
-      authenticationKey.id = "key-authentication-1"
-      authenticationKey.purpose = Purpose.Authentication
-      assertionKey.curve = curve
-
-      creationData.documentTemplate.publicKeys = [
-        assertionKey,
-        authenticationKey
-      ]
-      creationData.documentTemplate.services = []
-
-      let creationResponse: AxiosResponse<CreateManagedDIDResponse>
-      try {
-        creationResponse = await cloudAgentApi.post<CreateManagedDIDResponse>("did-registrar/dids", creationData)
-      } catch (e) {
-        console.log(e)
+      const creationData: CreateManagedDidRequest = {
+        documentTemplate: {
+          publicKeys: [
+            { id: "assert1", purpose: Purpose.AssertionMethod, curve: curve },
+            { id: "auth1", purpose: Purpose.Authentication, curve: curve }
+          ],
+          services: [
+          ]
+        }
       }
 
+      const creationResponse = await cloudAgentApi.post<CreateManagedDIDResponse>("did-registrar/dids", creationData)
       const longFormDid = creationResponse.data.longFormDid
       const publicationResponse = await cloudAgentApi.post<DIDOperationResponse>(
         `did-registrar/dids/${longFormDid}/publications`
       )
       const shortFormDid = publicationResponse.data.scheduledOperation.didRef
-
       const abortController = new AbortController()
       setTimeout(() => { abortController.abort() }, 60000)
 
@@ -158,6 +140,8 @@ export class Setup {
       assert(jwtSchemaGuid != null)
       assert(jwtSchemaGuid != "")
       const schemaResponse = await cloudAgentApi.get<CredentialSchemaResponse>(`schema-registry/schemas/${jwtSchemaGuid}`)
+      assert(schemaResponse.data.schema.properties["automation-optional"] != null)
+      assert(schemaResponse.data.schema.properties["automation-required"] != null)
       return {
         guid: jwtSchemaGuid,
         url: `${Setup.agent.url}${schemaResponse.data.self}`
@@ -195,21 +179,20 @@ export class Setup {
 
       return {
         guid: schemaResponse.data.guid,
-        url: `${Setup.agent.url}${schemaResponse.data.self}`
+        url: `${Setup.agent.url}/${schemaResponse.data.self}`
       }
     }
   }
 
   private static async verifyJwtSchemaSetupDid(jwtSchemaGuid: string, did: string): Promise<{ guid: string, url: string }> {
     try {
-      throw "forced"
-      // assert(jwtSchemaGuid != null)
-      // assert(jwtSchemaGuid != "")
-      // let schemaResponse = await cloudAgentApi.get<CredentialSchemaResponse>(`schema-registry/schemas/${jwtSchemaGuid}`)
-      // return {
-      //   guid: jwtSchemaGuid,
-      //   url: `${Setup.agent.url}${schemaResponse.data.self}`
-      // }
+      assert(jwtSchemaGuid != null)
+      assert(jwtSchemaGuid != "")
+      const schemaResponse = await cloudAgentApi.get<CredentialSchemaResponse>(`schema-registry/schemas/${jwtSchemaGuid}`)
+      return {
+        guid: jwtSchemaGuid,
+        url: `${Setup.agent.url}/${schemaResponse.data.self}`
+      }
     } catch {
       const credentialSchemaInput: CredentialSchemaInput = {
         author: did,
@@ -243,7 +226,7 @@ export class Setup {
 
       return {
         guid: schemaResponse.data.resource,
-        url: `${Setup.agent.url}${schemaResponse.data.resource}`
+        url: `${Setup.agent.url}/${schemaResponse.data.resource}`
       }
     }
   }
@@ -262,18 +245,16 @@ export class Setup {
         id: `${Setup.agent.url}/credential-definition-registry/definitions/${initialAnoncredDefinition}/definition`
       }
     } catch {
-      const schema = {
-        name: "Automation Anoncred",
-        version: "1.0",
-        issuerId: schemaDid,
-        attrNames: ["name", "age", "gender"]
-      }
-
       const credentialSchemaInput: CredentialSchemaInput = {
         name: "automation-anoncred-schema-" + randomUUID(),
         version: "2.0.0",
         type: "AnoncredSchemaV1",
-        schema: schema,
+        schema: {
+          name: "Automation Anoncred",
+          version: "1.0",
+          issuerId: schemaDid,
+          attrNames: ["name", "age", "gender"]
+        },
         author: did,
         tags: ["automation"],
         description: "Anoncred Schema for TS"
@@ -291,7 +272,7 @@ export class Setup {
         version: "1.0.0",
         tag: "automation-test",
         author: did,
-        schemaId: `${this.agent.url}schema-registry/schemas/${newSchemaGuid}/schema`,
+        schemaId: `${this.agent.url}/schema-registry/schemas/${newSchemaGuid}/schema`,
         signatureType: "CL",
         supportRevocation: false,
         description: "Test Automation Auto-Generated TS"
@@ -304,7 +285,7 @@ export class Setup {
 
       return {
         guid: credentialDefinition.data.guid,
-        id: `${Setup.agent.url}credential-definition-registry/definitions/${credentialDefinition.data.guid}/definition`
+        id: `${Setup.agent.url}/credential-definition-registry/definitions/${credentialDefinition.data.guid}/definition`
       }
     }
   }
