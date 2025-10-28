@@ -13,7 +13,7 @@ An SDK specific interface, detailing all the necessary storage functions for ope
 This interface defines the specific functions requried by the SDK, and while it's input and output are all Domain classes, it provides no opinion on how they are handled internally.
 This approach allows for maximum customisation, constrained only by the interface contract.
 
-The top level interface can be found at [SDK.Domain.Pluto](../sdk/interfaces/Domain.Pluto-1.md) alongside our other top level interfaces.
+The top level interface can be found at [SDK.Domain.Pluto](../sdk/overview/namespaces/Domain/namespaces/Pluto.md) alongside our other top level interfaces.
 
 
 ```TS
@@ -42,7 +42,7 @@ A general purpose CRUD interface, with a pre-designed Table structure and signif
 Designed to be used with the existing Pluto implementation, where Pluto handles the logic and orchestration from Domain classes to Storable models, and the Store handles the persistence of those models.
 
 The Store revolves around a storable object, which is an arbitrary object with a `uuid` property that uniquely identifies the object. 
-The interface can be found at [SDK.Pluto.Store](../sdk/interfaces/Pluto.Store.md)
+The interface can be found at [SDK.Pluto.Store](../sdk/overview/namespaces/Pluto.md#store)
 
 ```TS
   import SDK from "@hyperledger/identus-edge-agent-sdk";
@@ -73,7 +73,7 @@ The interface can be found at [SDK.Pluto.Store](../sdk/interfaces/Pluto.Store.md
 ## RxDB storage
 
 An implementation of the [RxStorage](https://rxdb.info/rx-storage.html) interface, allowing the choice and customisation of data layer using RxDB implementations.
-The SDK exports an [implementation](../sdk/classes/Store.md) of the Store interface using RxDB, which only requires the storage, name and password to run.
+The SDK exports an [implementation](../sdk/overview/namespaces/Pluto.md#store) of the Store interface using RxDB, which only requires the storage, name and password to run.
 
 > Note: the composed storage requires encryption capabilities.
 

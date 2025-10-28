@@ -15,10 +15,10 @@ Start a verification flow from an Edge Agent (holder wallet) and another holder 
 
 How to handle a Connectionless Credential Offer.
 
-[Start tutorial](./ConnectionlessOffer.md)
+[Start tutorial](./connectionless/ConnectionlessOffer.md)
 
 ### Connectionless presentation
 
 Trigger the verifier to generate an out of band verification request. It will work exactly as the didcomm connection invitation links
 
-[Start tutorial](./ConnectionlessPresentation.md)
+[Start tutorial](./connectionless/ConnectionlessPresentation.md)
