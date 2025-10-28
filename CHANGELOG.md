@@ -1,3 +1,82 @@
+## [7.0.0](https://github.com/hyperledger-identus/sdk-ts/compare/v6.3.3...v7.0.0) (2025-10-28)
+
+### ⚠ BREAKING CHANGES
+
+* Revocation no longer handled automatically, Revocation message now needs to be passed to agent.handle function.
+
+
+Signed-off-by: Curtish <ch@curtish.me>
+* Anoncreds no longer exported in core bundle.
+
+Signed-off-by: Curtish <ch@curtish.me>
+* updating DIDComm connection protocols (#400)
+* **Pluto:** Pluto.stop is now a required function 
+
+Signed-off-by: Curtish <ch@curtish.me>
+* updating DIDComm other protocols (#397)
+* refactor JWK implementation into a pollux task (#386)
+* refactor ConnectionManager (#394)
+* updating DIDComm presentation protocols (#383)
+* updating DIDComm protocols closer to specification (#373)
+* **Pollux:** plugins (#349)
+
+### Features
+
+* Anoncreds moving to plugin export ([#420](https://github.com/hyperledger-identus/sdk-ts/issues/420)) ([66a92cd](https://github.com/hyperledger-identus/sdk-ts/commit/66a92cd097975f8028d23bece2789d8f2d1cd1de))
+* **backup:** introduce new schema to minimize backup length ([#333](https://github.com/hyperledger-identus/sdk-ts/issues/333)) ([2aa27f8](https://github.com/hyperledger-identus/sdk-ts/commit/2aa27f855168ba65bc7db2d6f29bd24827feb181))
+* castor create signed prism did operation ([#347](https://github.com/hyperledger-identus/sdk-ts/issues/347)) ([9b59124](https://github.com/hyperledger-identus/sdk-ts/commit/9b59124cb4fe62221f1db7144f97e488cc5c15ad))
+* CreateJWT use ES256KSigner ([#422](https://github.com/hyperledger-identus/sdk-ts/issues/422)) ([3e60ac9](https://github.com/hyperledger-identus/sdk-ts/commit/3e60ac9a3a9a924d49110a2c46ec0534f49804ba))
+* CreatePrismDID use and key finding ([#424](https://github.com/hyperledger-identus/sdk-ts/issues/424)) ([032ec6a](https://github.com/hyperledger-identus/sdk-ts/commit/032ec6a50e73f4feb7eb9be81c2b08c31b17a2e0))
+* creating oob offers for credential issuance ([#428](https://github.com/hyperledger-identus/sdk-ts/issues/428)) ([33f1c2f](https://github.com/hyperledger-identus/sdk-ts/commit/33f1c2f4fc0ad9fa06ff38c120b28c989044935c))
+* DIDResolverHttpProxy for [#459](https://github.com/hyperledger-identus/sdk-ts/issues/459) ([#460](https://github.com/hyperledger-identus/sdk-ts/issues/460)) ([340209d](https://github.com/hyperledger-identus/sdk-ts/commit/340209d73ac559daeaf052586872b180096dcfd0))
+* export tasks ([#406](https://github.com/hyperledger-identus/sdk-ts/issues/406)) ([268ebbe](https://github.com/hyperledger-identus/sdk-ts/commit/268ebbe923a9d7a776d63275c7880a5adcdda6f0))
+* implementing Startable and propagating stop() ([#309](https://github.com/hyperledger-identus/sdk-ts/issues/309)) ([9e459c5](https://github.com/hyperledger-identus/sdk-ts/commit/9e459c504f075ac4ea839fd3d5bb36dc6579da18))
+* making didcomm plugin ([#425](https://github.com/hyperledger-identus/sdk-ts/issues/425)) ([6dfcdf2](https://github.com/hyperledger-identus/sdk-ts/commit/6dfcdf2ce5c3a23d04a05fb29306d85315af4b62))
+* OIDC moving to plugin ([#415](https://github.com/hyperledger-identus/sdk-ts/issues/415)) ([c6b2b54](https://github.com/hyperledger-identus/sdk-ts/commit/c6b2b54da8d5dc0849f9dac1f578dd136db9fdb0))
+* **Pluto:** updating Pluto to extend Startable ([#399](https://github.com/hyperledger-identus/sdk-ts/issues/399)) ([3f9579c](https://github.com/hyperledger-identus/sdk-ts/commit/3f9579c2ff366b1aa5e6241644e84c4b5f175ee5))
+* **Pollux:** plugins ([#349](https://github.com/hyperledger-identus/sdk-ts/issues/349)) ([e2bf9bc](https://github.com/hyperledger-identus/sdk-ts/commit/e2bf9bc06cbdba0f238aa56513a8e8d5a67d0905))
+* refactor ConnectionManager ([#394](https://github.com/hyperledger-identus/sdk-ts/issues/394)) ([82f29c3](https://github.com/hyperledger-identus/sdk-ts/commit/82f29c39dff214b0dc7c4c988b647e037f392b29))
+* update DIDComm json message types ([#375](https://github.com/hyperledger-identus/sdk-ts/issues/375)) ([a291e25](https://github.com/hyperledger-identus/sdk-ts/commit/a291e252b7dfdcd7167fb5d15425d82bda1f9d09))
+* updating DIDComm connection protocols ([#400](https://github.com/hyperledger-identus/sdk-ts/issues/400)) ([949d8cc](https://github.com/hyperledger-identus/sdk-ts/commit/949d8cc23b6d4f3b75fbf8ca70aaa681e1eccf4d))
+* updating DIDComm other protocols ([#397](https://github.com/hyperledger-identus/sdk-ts/issues/397)) ([ab7e808](https://github.com/hyperledger-identus/sdk-ts/commit/ab7e8084bd630f6a99dcd6f11073e7981d299090))
+* updating DIDComm presentation protocols ([#383](https://github.com/hyperledger-identus/sdk-ts/issues/383)) ([fc9b17b](https://github.com/hyperledger-identus/sdk-ts/commit/fc9b17ba675efa7ca10775ac027e7d2a9ab93f89))
+* updating DIDComm protocols closer to specification ([#373](https://github.com/hyperledger-identus/sdk-ts/issues/373)) ([9f85fac](https://github.com/hyperledger-identus/sdk-ts/commit/9f85fac1bbb8b309f86b264c74a0c7bda78f76f8))
+
+### Bug Fixes
+
+* add deprecation warning for rxdb ([#401](https://github.com/hyperledger-identus/sdk-ts/issues/401)) ([114e021](https://github.com/hyperledger-identus/sdk-ts/commit/114e021bf6c92ace76cb15df3b9c41ac6b112499))
+* add information for GHRC ([#337](https://github.com/hyperledger-identus/sdk-ts/issues/337)) ([01105a0](https://github.com/hyperledger-identus/sdk-ts/commit/01105a0950c8202a4339f96c04423ff939e482e8))
+* add listener async + wait time for presentation verified ([#336](https://github.com/hyperledger-identus/sdk-ts/issues/336)) ([80f3370](https://github.com/hyperledger-identus/sdk-ts/commit/80f33700fe20d22919b7cd476fea79ee2862ea97))
+* adding backwards compatibility to manage key curve Secp256k1 and… ([#372](https://github.com/hyperledger-identus/sdk-ts/issues/372)) ([ebe1c80](https://github.com/hyperledger-identus/sdk-ts/commit/ebe1c80c81c0286ea8fedd184aa821d7aa2d22f8))
+* better type listeners ([#430](https://github.com/hyperledger-identus/sdk-ts/issues/430)) ([1723d46](https://github.com/hyperledger-identus/sdk-ts/commit/1723d461f27bb49dd1ac12e027f516cf1dc59059))
+* clean error instances if we find a valid path + add test rotating paths ([#414](https://github.com/hyperledger-identus/sdk-ts/issues/414)) ([509bd9b](https://github.com/hyperledger-identus/sdk-ts/commit/509bd9b000fa05228aea7b4894d3e7acac100d42))
+* commonJs default export ([#339](https://github.com/hyperledger-identus/sdk-ts/issues/339)) ([00ddc08](https://github.com/hyperledger-identus/sdk-ts/commit/00ddc08e461ab83b62fa15edea4a34a8560c8d78))
+* Credential Issuance for SD+JWT is broken because the HandleReque… ([#449](https://github.com/hyperledger-identus/sdk-ts/issues/449)) ([51d8e8b](https://github.com/hyperledger-identus/sdk-ts/commit/51d8e8b90b30c76c26af560e6a8d2cc704c9779d))
+* db improvements and inference ([#442](https://github.com/hyperledger-identus/sdk-ts/issues/442)) ([b30b6e9](https://github.com/hyperledger-identus/sdk-ts/commit/b30b6e90cb2e93f0d7a6a38e7455370211ad1b4c))
+* export DIDCommConnection class on the SDK back to have the ability to establish connections with dids and oob codes ([#412](https://github.com/hyperledger-identus/sdk-ts/issues/412)) ([94c70cf](https://github.com/hyperledger-identus/sdk-ts/commit/94c70cf09cf6046df720f3089a251dd9a76fd399))
+* exposing plugins dif + oea types ([#446](https://github.com/hyperledger-identus/sdk-ts/issues/446)) ([bf273c0](https://github.com/hyperledger-identus/sdk-ts/commit/bf273c0942450d2efc0f6e7d0094f2e270e0bacf))
+* exposing task to create OOB Presentation request ([#445](https://github.com/hyperledger-identus/sdk-ts/issues/445)) ([e991d00](https://github.com/hyperledger-identus/sdk-ts/commit/e991d00a6a2e6f5869c8ad4b857cb931c45fa16c))
+* exposing tasks and implement handleRequestCredential ([#441](https://github.com/hyperledger-identus/sdk-ts/issues/441)) ([7729d06](https://github.com/hyperledger-identus/sdk-ts/commit/7729d0615724debe8f1fff8ab7a7089e48a7c9cf))
+* improve and standardize the DIF Presentation Exchange implementation ([#396](https://github.com/hyperledger-identus/sdk-ts/issues/396)) ([dd1c9a1](https://github.com/hyperledger-identus/sdk-ts/commit/dd1c9a1819f769e83e38d23e838f38798d090adc))
+* Improve Connectionless flows and documentation ([#470](https://github.com/hyperledger-identus/sdk-ts/issues/470)) ([4243600](https://github.com/hyperledger-identus/sdk-ts/commit/4243600f6763168a55268042deaef84553d9c943))
+* improve disclosures ([1977bd6](https://github.com/hyperledger-identus/sdk-ts/commit/1977bd60c97b47cc56627678819a2f2b21b7ca7c))
+* improve documentation ([#453](https://github.com/hyperledger-identus/sdk-ts/issues/453)) ([a4a9d0b](https://github.com/hyperledger-identus/sdk-ts/commit/a4a9d0b23122a246efedd701176a33fd8a4a51db))
+* improve documentation didprism resolver ([#469](https://github.com/hyperledger-identus/sdk-ts/issues/469)) ([c109e0e](https://github.com/hyperledger-identus/sdk-ts/commit/c109e0e18cc2b40df3a9cb33215c7aa3bc332065))
+* improve presentation verify to provide more accurate error handling ([0aaf408](https://github.com/hyperledger-identus/sdk-ts/commit/0aaf408baa314535b91d4fd60f4098961d13ab30))
+* improve types ([#448](https://github.com/hyperledger-identus/sdk-ts/issues/448)) ([3b35504](https://github.com/hyperledger-identus/sdk-ts/commit/3b35504759aa30bf1996787381932ea69f7a2efe))
+* improving presentation exchange verification flow ([#387](https://github.com/hyperledger-identus/sdk-ts/issues/387)) ([b74536f](https://github.com/hyperledger-identus/sdk-ts/commit/b74536f86641d3b031d019937b0d0bc6c188831e))
+* incorrect handling of verification method affecting did resolution ([#410](https://github.com/hyperledger-identus/sdk-ts/issues/410)) ([d265d5a](https://github.com/hyperledger-identus/sdk-ts/commit/d265d5a35984e39cac26af36f7ec4ffc406a7605))
+* manage short form dids during credential issuance correctly. ([#452](https://github.com/hyperledger-identus/sdk-ts/issues/452)) ([77b239d](https://github.com/hyperledger-identus/sdk-ts/commit/77b239d59416ad3548d51bcad502833e25a93337))
+* prevent disclosing iss, exp, nbf and vct in disclosure frame ([9a06d61](https://github.com/hyperledger-identus/sdk-ts/commit/9a06d61e83f0ded924a43fd50d4f749dee5629c3))
+* refactor JWK implementation into a pollux task ([#386](https://github.com/hyperledger-identus/sdk-ts/issues/386)) ([b0f742b](https://github.com/hyperledger-identus/sdk-ts/commit/b0f742b5589376dc3d80e36238144bb0b8067dba))
+* release issue with trusted publishing on npm release ([#466](https://github.com/hyperledger-identus/sdk-ts/issues/466)) ([91da913](https://github.com/hyperledger-identus/sdk-ts/commit/91da9134c118b8d4cbc751f03ef1e02282bfee7b))
+* removed duplicated entries in eslint config ([#436](https://github.com/hyperledger-identus/sdk-ts/issues/436)) ([62ed4d6](https://github.com/hyperledger-identus/sdk-ts/commit/62ed4d62c7cd3bb5f96a68126e743df65b975f21))
+* removing rxdb from our main bundle, linting and test improvements ([#433](https://github.com/hyperledger-identus/sdk-ts/issues/433)) ([79c5953](https://github.com/hyperledger-identus/sdk-ts/commit/79c59531e200f0f435157d4698ef7b3be7bffd23))
+* required to install the modules before running npm audit signatures ([#465](https://github.com/hyperledger-identus/sdk-ts/issues/465)) ([5b55c8a](https://github.com/hyperledger-identus/sdk-ts/commit/5b55c8a096e002ffeeb5765cc1340631a0d223ec))
+* sdjwt issuance payload ([f318d76](https://github.com/hyperledger-identus/sdk-ts/commit/f318d763121ccffb5c1ecec77bf6389330be211e))
+* set requirements for workshop ([#335](https://github.com/hyperledger-identus/sdk-ts/issues/335)) ([eff3cf3](https://github.com/hyperledger-identus/sdk-ts/commit/eff3cf3284335f3af73d70294a9b26623ee0298d))
+* update signature encoding to follow JWS specification ([#402](https://github.com/hyperledger-identus/sdk-ts/issues/402)) ([6ad04c0](https://github.com/hyperledger-identus/sdk-ts/commit/6ad04c0a523b7670a39d97807906845f6cb9c301))
+
 ## [6.5.1](https://github.com/hyperledger-identus/sdk-ts/compare/v6.5.0...v6.5.1) (2025-02-06)
 
 ### Bug Fixes

@@ -1,4 +1,6 @@
-@hyperledger/identus-sdk / [Exports](modules.md)
+**@hyperledger/identus-sdk**
+
+***
 
 # Identus TypeScript SDK
 
@@ -60,7 +62,7 @@ Clone and build:
 ```bash
 git clone git@github.com:hyperledger-identus/sdk-ts.git --recurse-submodules
 cd sdk-ts
-npm i
+yarn
 npm run build
 ```
 
@@ -79,3 +81,14 @@ cd demos/next
 npm i
 npm run dev
 ```
+
+## Modules
+
+| Module | Description |
+| ------ | ------ |
+| [overview](overview/README.md) | - |
+| [plugins/internal/anoncreds](plugins/internal/anoncreds.md) | This export contains the Anoncreds plugin for the Identus SDK. |
+| [plugins/internal/didcomm](plugins/internal/didcomm.md) | This export contains the DIDComm plugin for the Identus SDK |
+| [plugins/internal/dif](plugins/internal/dif/README.md) | This export contains the DIF plugin for the Identus SDK Please use the following export |
+| [plugins/internal/oea](plugins/internal/oea/README.md) | This export contains the OEA plugin for the Identus SDK Please use the following export |
+| [plugins/internal/oidc](plugins/internal/oidc/README.md) | This export contains the OIDC plugin for the Identus SDK Please use the following export |
