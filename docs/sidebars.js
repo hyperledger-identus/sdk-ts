@@ -115,11 +115,6 @@ const sidebars = {
             {
               type: 'doc',
               id: 'prism/publishing-did'
-            },
-            {
-              type: 'doc',
-              label: "Community",
-              id: 'prism/endpoints'
             }
           ]
         },
@@ -140,16 +135,15 @@ const sidebars = {
             {
               type: 'doc',
               label: "Credential Offer",
-              id: 'examples/ConnectionlessOffer',
+              id: 'examples/connectionless/ConnectionlessOffer',
             },
             {
               type: 'doc',
               label: "Presentation",
-              id: 'examples/ConnectionlessPresentation',
-            },
+              id: 'examples/connectionless/ConnectionlessPresentation',
+            }
           ]
         },
-
       ]
     },
 
