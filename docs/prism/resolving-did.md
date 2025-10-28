@@ -12,7 +12,7 @@ If you have an `Agent` instance, you can use its `castor` instance to resolve a 
 Here's an example of how to resolve a `did:prism` DID using the `Agent`:
 
 ```typescript
-import { Agent } from '@atala/prism-wallet-sdk';
+import { Agent } from '@hyperledger/identus-sdk';
 
 const agent = Agent.initialize({
   pluto: myPlutoInstance,
@@ -33,7 +33,7 @@ If you are using `Castor` directly, you can use the `resolveDID` method to resol
 Here's an example of how to resolve a `did:prism` DID using `Castor`:
 
 ```typescript
-import { Apollo, Castor } from '@atala/prism-wallet-sdk';
+import { Apollo, Castor } from '@hyperledger/identus-sdk';
 
 const apollo = new Apollo();
 const castor = new Castor(apollo);

@@ -12,7 +12,7 @@ The easiest way to configure the `did:prism` resolver is to provide the `resolve
 Here's an example of how to configure the `Agent` to use a custom resolver endpoint:
 
 ```typescript
-import { Agent } from '@atala/prism-wallet-sdk';
+import { Agent } from '@hyperledger/identus-sdk';
 
 const agent = Agent.initialize({
   pluto: myPlutoInstance,
@@ -31,7 +31,7 @@ The default resolver endpoint is `https://raw.githubusercontent.com/FabioPinheir
 If you are using `Castor` directly, you can configure the resolver endpoint in the `Castor` constructor:
 
 ```typescript
-import { Apollo, Castor } from '@atala/prism-wallet-sdk';
+import { Apollo, Castor } from '@hyperledger/identus-sdk';
 
 const apollo = new Apollo();
 const castor = new Castor(apollo, [], 'https://my-custom-resolver.com/dids/');
