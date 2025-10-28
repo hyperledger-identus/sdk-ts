@@ -9,50 +9,10 @@ const sidebars = {
       type: "doc",
       id: "sdk/README"
     },
+
     {
       type: 'category',
-      label: 'Examples',
-      link: {
-        type: 'doc',
-        id: 'examples/index',
-      },
-      items: [
-        {
-          type: 'doc',
-          label: "Backup",
-          id: 'examples/Backup',
-        },
-        {
-          type: 'doc',
-          label: "OIDC",
-          id: 'examples/OIDC',
-        },
-        {
-          type: 'doc',
-          label: "Verification",
-          id: 'examples/SDKVerification',
-        },
-        {
-          type: 'category',
-          label: 'Connectionless',
-          items: [
-            {
-              type: 'doc',
-              label: "Credential Offer",
-              id: 'examples/ConnectionlessOffer',
-            },
-            {
-              type: 'doc',
-              label: "Presentation",
-              id: 'examples/ConnectionlessPresentation',
-            },
-          ]
-        },
-      ]
-    },
-    {
-      type: 'category',
-      label: 'Modules',
+      label: 'Building Blocks',
       link: {
         type: 'doc',
         id: 'sdk/modules',
@@ -131,26 +91,97 @@ const sidebars = {
         }
       ]
     },
+
     {
       type: 'category',
-      label: 'Decision records',
+      label: 'Guides',
       items: [
         {
+          type: 'category',
+          label: "DID PRISM",
+          items: [
+            {
+              type: 'doc',
+              id: 'prism/what-is-did-prism'
+            },
+            {
+              type: 'doc',
+              id: 'prism/configuration'
+            },
+            {
+              type: 'doc',
+              id: 'prism/resolving-did'
+            },
+            {
+              type: 'doc',
+              id: 'prism/publishing-did'
+            },
+            {
+              type: 'doc',
+              label: "Community",
+              id: 'prism/endpoints'
+            }
+          ]
+        },
+        {
           type: 'doc',
-          id: 'decisions/sdk-package-release',
-        }
+          label: "Backup",
+          id: 'examples/Backup',
+        },
+        {
+          type: 'doc',
+          label: "Verification",
+          id: 'examples/SDKVerification',
+        },
+        {
+          type: 'category',
+          label: 'Connectionless',
+          items: [
+            {
+              type: 'doc',
+              label: "Credential Offer",
+              id: 'examples/ConnectionlessOffer',
+            },
+            {
+              type: 'doc',
+              label: "Presentation",
+              id: 'examples/ConnectionlessPresentation',
+            },
+          ]
+        },
+
       ]
     },
+
     {
       type: 'category',
-      label: 'Migration',
+      label: 'Architecture',
       items: [
         {
-          type: 'doc',
-          id: 'migration/migrating_6x_to_7x'
+          type: 'category',
+          label: 'Decision records',
+          items: [
+            {
+              type: 'doc',
+              id: 'decisions/sdk-package-release',
+            }
+          ]
+        },
+        {
+          type: 'category',
+          label: 'Migration',
+          items: [
+            {
+              type: 'doc',
+              id: 'migration/migrating_6x_to_7x'
+            }
+          ]
         }
       ]
     }
+
+
+
   ]
 }
 
