@@ -128,8 +128,8 @@
     "protoc-gen-ts": "^0.8.7",
     "semantic-release": "^24.2.5",
     "tsup": "^8.4.0",
-    "typedoc": "^0.28.4",
-    "typedoc-plugin-markdown": "^4.6.3",
+    "typedoc": "^0.28.14",
+    "typedoc-plugin-markdown": "^4.9.0",
     "typedoc-plugin-rename-defaults": "^0.7.3",
     "typedoc-theme-hierarchy": "^6.0.0",
     "typescript": "^5.8.3",
@@ -137,6 +137,7 @@
   },
   "dependencies": {
     "@hyperledger/identus-apollo": "^1.4.5",
+    "@mdx-js/mdx": "^3.1.1",
     "@noble/ciphers": "^0.6.0",
     "@scure/bip39": "^1.1.1",
     "@sd-jwt/sd-jwt-vc": "^0.7.1",
@@ -154,6 +155,11 @@
     "pako": "^2.1.0",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
+    "remark-gfm": "^4.0.1",
+    "remark-mdx": "^3.1.1",
+    "typedoc-plugin-md": "^0.7.1",
+    "unified": "^11.0.5",
+    "vfile": "^6.0.3",
     "ws": "^8.17.1"
   },
   "peerDependencies": {

@@ -1,4 +1,4 @@
-**@hyperledger/identus-sdk**
+**@hyperledger/identus-sdk v7.0.0**
 
 ***
 
@@ -87,8 +87,8 @@ npm run dev
 | Module | Description |
 | ------ | ------ |
 | [overview](overview/README.md) | - |
-| [plugins/internal/anoncreds](plugins/internal/anoncreds.md) | This export contains the Anoncreds plugin for the Identus SDK. |
-| [plugins/internal/didcomm](plugins/internal/didcomm.md) | This export contains the DIDComm plugin for the Identus SDK |
+| [plugins/internal/anoncreds](plugins/internal/anoncreds/README.md) | This export contains the Anoncreds plugin for the Identus SDK. |
+| [plugins/internal/didcomm](plugins/internal/didcomm/README.md) | This export contains the DIDComm plugin for the Identus SDK |
 | [plugins/internal/dif](plugins/internal/dif/README.md) | This export contains the DIF plugin for the Identus SDK Please use the following export |
 | [plugins/internal/oea](plugins/internal/oea/README.md) | This export contains the OEA plugin for the Identus SDK Please use the following export |
 | [plugins/internal/oidc](plugins/internal/oidc/README.md) | This export contains the OIDC plugin for the Identus SDK Please use the following export |

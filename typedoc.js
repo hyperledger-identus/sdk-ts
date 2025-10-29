@@ -1,7 +1,7 @@
-const packageJson = require("./package.json");
-
-module.exports = {
-    "$schema": "https://typedoc.org/schema.json",
+/**
+ * @type {import("typedoc").TypeDocOptions}
+ */
+const typedocOptions = {
     "entryPoints": [
         "./src/index.ts",
         "./src/plugins/internal/anoncreds/index.ts",
@@ -16,15 +16,19 @@ module.exports = {
         "typedoc-plugin-markdown",
         "typedoc-plugin-rename-defaults"
     ],
+    "strikeDeprecatedPageTitles": true,
     "useTsLinkResolution": true,
     "hideGenerator": true,
     "excludePrivate": true,
+    "useCodeBlocks": false,
     "excludeReferences": false,
     "excludeProtected": true,
     "excludeInternal": true,
     "excludeNotDocumented": false,
     "theme": "markdown",
-    "includeVersion": false,
+    "includeVersion": true,
+    "customAnchorsFormat": "curlyBrace",
+    "useCustomAnchors": true,
     "mergeReadme": true,
     "readme": "./README.md",
     "expandObjects": true,
@@ -38,19 +42,13 @@ module.exports = {
     "typeDeclarationFormat": "table",
     "propertyMembersFormat": "table",
     "searchInComments": true,
-    "excludeExternals": true,
+    "excludeExternals": false,
     "exclude": ["node_modules", "build"],
-    "navigation": {
-        "includeCategories": false,
-        "includeGroups": false,
-        "includeFolders": false,
-        "compactFolders": false,
-        "excludeReferences": false
-    },
-    "categorizeByGroup": true,
-    "outputFileStrategy": "modules",
+    "categorizeByGroup": false,
+    "outputFileStrategy": "Members",
     "fileExtension": ".md",
     "modulesFileName": "modules.md",
-    "entryFileName": "README.md",
-    "flattenOutputFiles": false
+    "entryFileName": "README.md"
 }
+
+export default typedocOptions;
