@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk**](../../../../../README.md)
+[**@hyperledger/identus-sdk v7.0.0**](../../../../../README.md)
 
 ***
 
@@ -10,4 +10,4 @@
 
 | Namespace | Description |
 | ------ | ------ |
-| [Attachment](namespaces/Attachment.md) | - |
+| [Attachment](namespaces/Attachment/README.md) | - |
