@@ -1,56 +1,62 @@
 version: 2
 updates:
-  - package-ecosystem: github-actions
-    directory: /
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: daily
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      actions-deps:
+        patterns:
+          - "*"
 
-  - package-ecosystem: npm
-    directory: /demos/next-oidc
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: daily
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      npm-sdk-deps:
+        patterns:
+          - "*"
 
-  - package-ecosystem: npm
-    directory: /demos/next-sdjwt-workshop
+  - package-ecosystem: "npm"
+    directories:
+      - "/demos/next"
+      - "/demos/next-oidc"
+      - "/demos/next-sdjwt-workshop"
+      - "/demos/node"
     schedule:
-      interval: daily
+      interval: "monthly"
+      day: "monday"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      npm-demo-deps:
+        patterns:
+          - "*"
 
-  - package-ecosystem: npm
-    directory: /demos/next
+  - package-ecosystem: "npm"
+    directories:
+      - "/integration-tests/e2e-tests"
+      - "/integration-tests/node/cjs"
+      - "/integration-tests/node/esm"
+      - "/integration-tests/node/ts-cjs"
+      - "/integration-tests/node/ts-esm"
     schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /demos/node
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /integration-tests/e2e-tests
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /integration-tests/node/cjs
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /integration-tests/node/esm
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /integration-tests/node/ts-cjs
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /integration-tests/node/ts-esm
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /
-    schedule:
-      interval: daily
+      interval: "monthly"
+      day: "monday"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      npm-test-deps:
+        patterns:
+          - "*"
