@@ -1,0 +1,56 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /demos/next-oidc
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /demos/next-sdjwt-workshop
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /demos/next
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /demos/node
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /integration-tests/e2e-tests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /integration-tests/node/cjs
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /integration-tests/node/esm
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /integration-tests/node/ts-cjs
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /integration-tests/node/ts-esm
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: daily
