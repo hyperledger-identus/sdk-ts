@@ -17,18 +17,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2 # v2.13.3
+        with:
+          egress-policy: audit
+
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           submodules: "true"
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "lts/*"
 
       - name: Install Rust toolchain
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1.0.7
         with:
           toolchain: nightly
           override: true
@@ -66,7 +71,7 @@ jobs:
         run: npm i && npm run build && npm t
 
       - name: Npm audit
-        uses: oke-py/npm-audit-action@v2.4.4
+        uses: oke-py/npm-audit-action@2c6b2da234031fbf72af81a04c76b3a152bb2222 # v2.4.4
         with:
           audit_level: moderate
           create_issues: false
@@ -76,19 +81,19 @@ jobs:
       - name: Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
         with:
           file: "coverage/lcov.info"
 
       - name: Jest Coverage Comment
-        uses: MishaKav/jest-coverage-comment@v1.0.23
+        uses: MishaKav/jest-coverage-comment@41b5ca01d1250de84537448d248b8d18152cb277 # v1.0.23
         with:
           coverage-summary-path: coverage/coverage-summary.json
           junitxml-path: coverage/junit.xml
           junitxml-title: JUnit
 
       - name: Publish lcov report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: lcov-report.zip
           path: coverage/lcov-report
