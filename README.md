@@ -51,7 +51,7 @@ This repository also includes a browser and a Node.js demo application
 #### Build demo dependencies
 The demos assume building this repo from source, so you will need the following:
 * Bash
-* Rust ([cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)) and [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) installed.
+* Rust ([cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)) and [wasm-pack](https://drager.github.io/wasm-pack/) installed.
 * Node JS Version (20/LTS Recommended)
 
 Clone and build:
