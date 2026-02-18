@@ -21,29 +21,25 @@ This guide shows you how to run the end-to-end tests
 | ED25519_SCHEMA_GUID                | (Optional) Existing jwt schema guid using Ed25519            |
 | ED25519_ANONCRED_DEFINITION_GUID   | (Optional) Existing anoncred definition guid using Ed25519   |
 
-### Compile the SDK
-
-To test the changes you'll need to build the SDK. Refer to [README](/../../README.md#building-from-source) for
-further instructions.
-
 ### Installing dependencies
 
 ```bash
 npm install
 ```
 
-### Running the tests
+### Running tests
 
-To run the full end-to-end regression test suite
+To test the changes you'll need to build the SDK. Refer to [README](/../../README.md#building-from-source) for
+further instructions.
 
 ```bash
-npm run test:sdk
+npm run test [-- --tags "@mytag and @anothertag]
 ```
 
-To run a specific tagged scenario
+### Running tests with local build sourcemap files (for debugging)
 
 ```bash
-npm run test:sdk --tags "@mytag and @anothertag"
+npm run test:debug [-- --tags "@mytag and "@anothertag"]
 ```
 
 After the execution is done, it will generate the report inside the `target` folder.

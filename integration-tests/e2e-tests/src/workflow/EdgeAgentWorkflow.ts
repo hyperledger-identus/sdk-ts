@@ -1,6 +1,6 @@
 import { type Domain, type PeerDID, Apollo } from "@hyperledger/identus-sdk"
 import { type PresentationClaims, RequestPresentation, Presentation } from "@hyperledger/identus-sdk/plugins/oea"
-import { type Actor, Duration, notes, TakeNotes, Wait } from "@serenity-js/core"
+import { Actor, Duration, TakeNotes, Wait } from "@serenity-js/core"
 import { Ensure, equals } from "@serenity-js/assertions"
 import { WalletSdk } from "../abilities/WalletSdk"
 import { Utils } from "../Utils"
@@ -8,6 +8,7 @@ import { randomUUID } from "crypto"
 import _ from "lodash"
 import { assert } from "chai"
 import { IssueCredential, OfferCredential } from "@hyperledger/identus-sdk/plugins/didcomm"
+import { notes } from "../abilities/NoteAdapter"
 
 export class EdgeAgentWorkflow {
   static async connect(edgeAgent: Actor) {

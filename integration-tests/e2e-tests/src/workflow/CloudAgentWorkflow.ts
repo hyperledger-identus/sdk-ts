@@ -1,4 +1,4 @@
-import { type Actor, Duration, notes, Wait } from "@serenity-js/core"
+import { Actor, Duration, Wait } from "@serenity-js/core"
 import { GetRequest, LastResponse, PatchRequest, PostRequest, Send } from "@serenity-js/rest"
 import { Ensure, equals } from "@serenity-js/assertions"
 import { HttpStatusCode } from "axios"
@@ -14,6 +14,7 @@ import {
 import { Setup } from "../configuration/Setup"
 import { Utils } from "../Utils"
 import * as SDK from "@hyperledger/identus-sdk"
+import { notes } from "../abilities/NoteAdapter"
 
 export class CloudAgentWorkflow {
   static async hasNoConnection(cloudAgent: Actor, edgeAgent: Actor) {

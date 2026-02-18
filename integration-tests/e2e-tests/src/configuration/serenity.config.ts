@@ -22,7 +22,8 @@ BeforeAll(function () {
 
 defineParameterType({
   // regexp: /[A-Z][a-z]+/,
-  regexp: /.*/,
+  regexp: /[A-Za-z0-9]+(?: [A-Za-z0-9]+)*/,
+  // regexp: /.*/,
   transformer(name: string) {
     return actorCalled(name)
   },
