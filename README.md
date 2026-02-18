@@ -6,7 +6,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/hyperledger/identus-edge-agent-sdk-ts/badge.svg?branch=main)](https://coveralls.io/github/hyperledger/identus-edge-agent-sdk-ts?branch=main)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=hyperledger-identus_sdk-swift&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=hyperledger-identus_sdk-ts)
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11733/badge)](https://www.bestpractices.dev/projects/11734)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11733/badge)](https://www.bestpractices.dev/projects/11733)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/hyperledger-identus/sdk-swift/badge)](https://scorecard.dev/viewer/?uri=github.com/hyperledger-identus/sdk-swift)
 
 # Identus TypeScript SDK
