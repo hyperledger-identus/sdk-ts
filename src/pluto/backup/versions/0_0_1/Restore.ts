@@ -7,6 +7,7 @@ import { JWTCredential } from "../../../../pollux/models/JWTVerifiableCredential
 import { notEmptyString, notNil, validate } from "../../../../utils";
 import { IRestoreTask } from "../interfaces";
 import { base64url } from "multiformats/bases/base64";
+import { SDJWTCredential } from "../../../../pollux/models/SDJWTVerifiableCredential";
 
 export class RestoreTask implements IRestoreTask {
   constructor(
@@ -33,6 +34,9 @@ export class RestoreTask implements IRestoreTask {
       }
       if (item.recovery_id === "anoncred") {
         return AnonCredsCredential.fromJson(decoded);
+      }
+      if (item.recovery_id === "sdjwt") {
+        return SDJWTCredential.fromJWS(decoded);
       }
       throw new Domain.PlutoError.RestoreCredentialInvalidError();
     });

@@ -1,5 +1,7 @@
 import { defineConfig } from 'tsup'
 
+const debugBuild = process.env.SDK_DEBUG_BUILD === 'true'
+
 export default defineConfig({
   entry: [
     'src/index.ts',
@@ -12,14 +14,14 @@ export default defineConfig({
   outDir: "build",
   clean: true,
   splitting: true,
-  sourcemap: false,
+  sourcemap: debugBuild,
   skipNodeModulesBundle: false,
   loader: {
     '.wasm': 'binary'
   },
   inject: ['anoncreds-wasm/anoncreds_wasm_bg.wasm', 'didcomm-wasm/didcomm_js_bg.wasm', 'jwe-wasm/jwe_rust_bg.wasm'],
   external: ['buffer'],
-  minifyWhitespace: true,
-  minifyIdentifiers: true,
+  minifyWhitespace: !debugBuild,
+  minifyIdentifiers: !debugBuild,
   minifySyntax: false
 });
