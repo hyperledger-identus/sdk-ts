@@ -66,12 +66,7 @@ jobs:
         run: npm i && npm run build && npm t
 
       - name: Npm audit
-        uses: oke-py/npm-audit-action@v2.4.4
-        with:
-          audit_level: moderate
-          create_issues: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          production_flag: true
+        run: npm audit --omit=dev --audit-level moderate
 
       - name: Coveralls
         env:
