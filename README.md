@@ -11,7 +11,7 @@
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/hyperledger-identus/sdk-ts/badge)](https://scorecard.dev/viewer/?uri=github.com/hyperledger-identus/sdk-ts)
 
 [![GitHub release](https://img.shields.io/github/release/hyperledger-identus/sdk-ts.svg)](https://github.com/hyperledger-identus/sdk-ts/releases)
-![NPM Downloads](https://img.shields.io/npm/d18m/%40hyperledger%2Fidentus-sdk)
+[![NPM Downloads](https://img.shields.io/npm/d18m/%40hyperledger%2Fidentus-sdk)](https://www.npmjs.com/package/@hyperledger/identus-sdk)
 [![Discord](https://img.shields.io/discord/905194001349627914?label=discord)](https://discord.com/channels/905194001349627914/1230596020790886490)
 
 # Identus TypeScript SDK
