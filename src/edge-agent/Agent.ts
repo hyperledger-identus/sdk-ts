@@ -213,10 +213,26 @@ export default class Agent extends Startable.Controller {
     return ctx.run(task);
   }
 
+  /**
+   * Asyncronously create a new PrismDID
+   * 
+   * @param {string} alias
+   * @param {DIDDocumentService[]} [services=[]]
+   * @param {?number} [keyPathIndex]
+   * @returns {Promise<DID>}
+   */
+  async createPrismDID(
+    alias: string,
+    services: Domain.DIDDocument.Service[] = [],
+    keyPathIndex?: number
+  ): Promise<Domain.DID> {
+    const task = new DIDfns.CreatePrismDID({ alias, services, keyPathIndex });
+    return this.runTask(task);
+  }
 
   /**
    * Asyncronously create a new PrismDID
-   *
+   * @deprecated Use createPrismDID instead, this method will be removed in a future release
    * 
    * @param {string} alias
    * @param {DIDDocumentService[]} [services=[]]
@@ -228,13 +244,27 @@ export default class Agent extends Startable.Controller {
     services: Domain.DIDDocument.Service[] = [],
     keyPathIndex?: number
   ): Promise<Domain.DID> {
-    const task = new DIDfns.CreatePrismDID({ alias, services, keyPathIndex });
+    return this.createPrismDID(alias, services, keyPathIndex)
+  }
+
+  /**
+   * Asyncronously Create a new PeerDID
+   * 
+   * @param {DIDDocumentService[]} [services=[]]
+   * @param {boolean} [updateMediator=true]
+   * @returns {Promise<DID>}
+   */
+  async createPeerDID(
+    services: Domain.DIDDocument.Service[] = [],
+    updateMediator = true
+  ): Promise<Domain.DID> {
+    const task = new CreatePeerDID({ services, updateMediator });
     return this.runTask(task);
   }
 
   /**
    * Asyncronously Create a new PeerDID
-   *
+   * @deprecated Use createPeerDID instead, this method will be removed in a future release
    * 
    * @param {DIDDocumentService[]} [services=[]]
    * @param {boolean} [updateMediator=true]
@@ -244,8 +274,7 @@ export default class Agent extends Startable.Controller {
     services: Domain.DIDDocument.Service[] = [],
     updateMediator = true
   ): Promise<Domain.DID> {
-    const task = new CreatePeerDID({ services, updateMediator });
-    return this.runTask(task);
+    return this.createPeerDID(services, updateMediator)
   }
 
   /**
