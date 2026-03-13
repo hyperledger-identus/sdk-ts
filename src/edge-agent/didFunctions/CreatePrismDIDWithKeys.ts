@@ -47,6 +47,5 @@ export class CreatePrismDIDWithKeys extends Task<DID, Args> {
     return did;
   }
 
-
 }
 
