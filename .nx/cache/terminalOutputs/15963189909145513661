@@ -1,0 +1,3 @@
+> tsup && tsc -p tsconfig.lib.json
+
+

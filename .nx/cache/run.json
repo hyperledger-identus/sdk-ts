@@ -1,0 +1,21 @@
+{
+  "run": {
+    "command": "nx run e2e:test",
+    "startTime": "2026-03-17T17:40:33.007Z",
+    "endTime": "2026-03-17T17:40:36.179Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "e2e:test",
+      "target": "test",
+      "projectName": "e2e",
+      "hash": "17883008399104062442",
+      "startTime": "2026-03-17T17:40:33.045Z",
+      "endTime": "2026-03-17T17:40:36.178Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 1
+    }
+  ]
+}

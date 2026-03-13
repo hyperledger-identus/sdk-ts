@@ -1,0 +1,15 @@
+> npm run protos
+
+
+> @hyperledger/identus-protos@0.0.0 protos
+> npm run protos:node && npm run protos:common && npx tsc -p tsconfig.lib.json
+
+
+> @hyperledger/identus-protos@0.0.0 protos:node
+> protoc -I=src --proto_path=src --ts_out=src  src/node_models.proto
+
+⠙[1G[0K
+> @hyperledger/identus-protos@0.0.0 protos:common
+> protoc -I=src --proto_path=src --ts_out=src  src/common_models.proto
+
+⠙[1G[0K⠙[1G[0K⠙[1G[0K

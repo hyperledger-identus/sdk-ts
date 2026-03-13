@@ -1,0 +1,16 @@
+> tsup
+
+[34mCLI[39m Building entry: src/index.ts
+[34mCLI[39m Using tsconfig: tsconfig.lib.json
+[34mCLI[39m tsup v8.5.1
+[34mCLI[39m Using tsup config: /Users/ribo/Projects/iohk/atala-prism-wallet-sdk-ts/packages/wasm/anoncreds/tsup.config.ts
+[34mCLI[39m Target: es2022
+[34mCLI[39m Cleaning output folder
+[34mESM[39m Build start
+[32mESM[39m [1mbuild/identus-anoncreds-3YU73DAW.js [22m[32m29.14 KB[39m
+[32mESM[39m [1mbuild/chunk-AV33OSJO.js             [22m[32m90.00 B[39m
+[32mESM[39m [1mbuild/index.js                      [22m[32m3.25 MB[39m
+[32mESM[39m ⚡️ Build success in 51ms
+[34mDTS[39m Build start
+[32mDTS[39m ⚡️ Build success in 622ms
+[32mDTS[39m [1mbuild/index.d.ts [22m[32m29.65 KB[39m
