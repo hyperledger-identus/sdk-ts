@@ -457,7 +457,7 @@ export default class Castor implements Domain.Castor {
   private getUsageId(keyUsage: PrismDIDKeyUsage, index = 0): string {
     switch (keyUsage) {
       case PrismDIDKeyUsage.MASTER_KEY:
-        return `master-${index}`;
+        return `master`;
       case PrismDIDKeyUsage.ISSUING_KEY:
         return `issuing-${index}`;
       case PrismDIDKeyUsage.KEY_AGREEMENT_KEY:
@@ -485,12 +485,28 @@ export default class Castor implements Domain.Castor {
     usage: PrismDIDKeyUsage,
     index: number;
   } {
-    const regex = /#([a-zA-Z]+)-(\d+)/;
-    const [_, methodId, methodIndex] = id.match(regex) || [];
-    if (methodId === undefined || methodIndex === undefined) {
+    // Support both new format without index (e.g., "#master") and old format with index (e.g., "#master-0")
+    const oldFormatRegex = /#([a-zA-Z]+)-(\d+)/;
+    const newFormatRegex = /#([a-zA-Z]+)$/;
+
+    const oldMatch = id.match(oldFormatRegex);
+    const newMatch = id.match(newFormatRegex);
+
+    let methodId: string | undefined;
+    let index = 0;
+
+    if (oldMatch) {
+      methodId = oldMatch[1];
+      index = parseInt(oldMatch[2]);
+    } else if (newMatch) {
+      methodId = newMatch[1];
+      index = 0;
+    }
+
+    if (methodId === undefined) {
       throw new Domain.CastorError.MethodIdIsDoesNotSatisfyRegex("Verification method id does not contain fragment");
     }
-    const index = parseInt(methodIndex);
+
     if (methodId === "master") {
       return { usage: PrismDIDKeyUsage.MASTER_KEY, index };
     }
@@ -519,17 +535,16 @@ export default class Castor implements Domain.Castor {
     const id = this.getUsageId(usage, index);
 
     if (publicKey.curve === Domain.Curve.SECP256K1) {
-      const encoded = publicKey.getEncoded();
-      const xBytes = encoded.slice(1, 1 + ECConfig.PRIVATE_KEY_BYTE_SIZE);
-      const yBytes = encoded.slice(1 + ECConfig.PRIVATE_KEY_BYTE_SIZE, encoded.length);
+      const compressedBytes = publicKey instanceof Secp256k1PublicKey
+        ? publicKey.getEncodedCompressed()
+        : publicKey.raw;
 
       return new ProtosPk({
         id: id,
         usage: usage,
-        ec_key_data: new ProtosECKeyData({
+        compressed_ec_key_data: new ProtosCompressedECKeyData({
           curve: publicKey.curve.toLocaleLowerCase(),
-          x: xBytes,
-          y: yBytes,
+          data: compressedBytes,
         }),
       });
     }

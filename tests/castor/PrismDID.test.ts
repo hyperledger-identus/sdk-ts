@@ -18,12 +18,16 @@ describe("PrismDID",
   () => {
     let apollo: Apollo;
     let castor: Castor;
-    const secpDid = "did:prism:032e7383265cab026f4bdf8b903f8f78840fefc5b201ccce06fc263f7b3be5df:CskBCsYBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSZQoQYXV0aGVudGljYXRpb24tMBAEQk8KCXNlY3AyNTZrMRIg_SAyFMBU6TtKBZGW7OZ4kiO2bb5gxzoBusPd48olCP4aINmWxrmlC5cbMq-ArXQPxLO4O-Hv27mgwHv5l4k0CH6L";
+    // New DID values use CompressedECKeyData for secp256k1 and "master" key ID (no index)
+    const secpDid = "did:prism:4ff7cddab05d9fddf9ced1634081ebec8f485db413c37b4aa31c7294700b01a4:CoUBCoIBEjoKBm1hc3RlchABSi4KCXNlY3AyNTZrMRIhA_0gMhTAVOk7SgWRluzmeJIjtm2-YMc6AbrD3ePKJQj-EkQKEGF1dGhlbnRpY2F0aW9uLTAQBEouCglzZWNwMjU2azESIQP9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_g";
     const secpMultibase = "zSXxpYB6edvxvWxRTo3kMUoTTQVHpbNnXo2Z1AjLA78iqLdK2kVo5xw9rGg8uoEgmhxYahNur3RvV7HnaktWBqkXt";
-    const ed25519Did = "did:prism:fc9fcaead407285991cdf1d27819720d8923e96274794c24977045e00b72e4c7:CqUBCqIBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSQQoQYXV0aGVudGljYXRpb24tMBAESisKB0VkMjU1MTkSIHZuX9hnUeQWh6UcQfG0xJbxP9ICAtqeNODLMfbMCfde";
+    const ed25519Did = "did:prism:83170e10538a6416414e5b007049f221bfee250d660fa7c5bbc8d5c4c05d1ce1:CoEBCn8SOgoGbWFzdGVyEAFKLgoJc2VjcDI1NmsxEiED_SAyFMBU6TtKBZGW7OZ4kiO2bb5gxzoBusPd48olCP4SQQoQYXV0aGVudGljYXRpb24tMBAESisKB0VkMjU1MTkSIHZuX9hnUeQWh6UcQfG0xJbxP9ICAtqeNODLMfbMCfde";
     const ed25519Multibase = "z8yJizaEga14wo4pHUDBXCnrp5A9WbFDuk5DZnPq5mCHK";
-    const x25519Did = "did:prism:5911e7a69ef3d1af144fa2192190c3576ce8087e2444f93b5b6cf12a71156e5f:CqQBCqEBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSQAoQYXV0aGVudGljYXRpb24tMBAESioKBlgyNTUxORIg_PjHefFh9H7qH3Vt7MO8VEN-F2PlWcXzdxw6LPkxEGE";
+    const x25519Did = "did:prism:e01964c0427de0c4335d791c192950280dda3392dae5bd3be2d4087f4f1b5843:CoABCn4SOgoGbWFzdGVyEAFKLgoJc2VjcDI1NmsxEiED_SAyFMBU6TtKBZGW7OZ4kiO2bb5gxzoBusPd48olCP4SQAoQYXV0aGVudGljYXRpb24tMBAESioKBlgyNTUxORIg_PjHefFh9H7qH3Vt7MO8VEN-F2PlWcXzdxw6LPkxEGE";
     const x25519Multibase = "zJ2VmASEaRF41F4BQSydGNi7zd5ud5YhqXxTKicPGd5FN";
+
+    // Old DID values (ECKeyData uncompressed + "master-0" key ID) for backward compat tests
+    const legacySecpDid = "did:prism:032e7383265cab026f4bdf8b903f8f78840fefc5b201ccce06fc263f7b3be5df:CskBCsYBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSZQoQYXV0aGVudGljYXRpb24tMBAEQk8KCXNlY3AyNTZrMRIg_SAyFMBU6TtKBZGW7OZ4kiO2bb5gxzoBusPd48olCP4aINmWxrmlC5cbMq-ArXQPxLO4O-Hv27mgwHv5l4k0CH6L";
 
     beforeEach(async () => {
       apollo = new Apollo();
@@ -77,8 +81,10 @@ describe("PrismDID",
 
     describe("Integration Tests", () => {
       describe("DIDDocument", () => {
-        test("real example resolves correctly", async () => {
-          const didStr = "did:prism:032e7383265cab026f4bdf8b903f8f78840fefc5b201ccce06fc263f7b3be5df:CskBCsYBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSZQoQYXV0aGVudGljYXRpb24tMBAEQk8KCXNlY3AyNTZrMRIg_SAyFMBU6TtKBZGW7OZ4kiO2bb5gxzoBusPd48olCP4aINmWxrmlC5cbMq-ArXQPxLO4O-Hv27mgwHv5l4k0CH6L";
+        test("backward compat: resolve legacy DID with ECKeyData and master-0 key ID", async () => {
+          // This tests backward compatibility: resolving a DID created with old encoding
+          // (ECKeyData uncompressed + "master-0" key ID) should still work correctly
+          const didStr = legacySecpDid;
           const sut = await castor.resolveDID(didStr);
 
           expect(sut).toBeInstanceOf(DIDDocument);
@@ -105,11 +111,6 @@ describe("PrismDID",
           expect(cp0v1?.publicKeyMultibase).toEqual("zSXxpYB6edvxvWxRTo3kMUoTTQVHpbNnXo2Z1AjLA78iqLdK2kVo5xw9rGg8uoEgmhxYahNur3RvV7HnaktWBqkXt");
           expect(cp0v1?.type).toEqual("EcdsaSecp256k1VerificationKey2019");
 
-          // no services
-          // const cp1 = sut.coreProperties.at(1) as Services;
-          // expect(cp1).toBeInstanceOf(Services);
-          // expect(cp1.values).toHaveLength(0);
-
           const cp1 = sut.coreProperties.at(1) as DIDDocument.Authentication;
           expect(cp1).toBeInstanceOf(DIDDocument.Authentication);
           expect(cp1.urls).to.include(`${didStr}#authentication-0`);
@@ -123,7 +124,7 @@ describe("PrismDID",
           expect(cp1vm0?.type).toEqual("EcdsaSecp256k1VerificationKey2019");
         });
 
-        const masterKeyId = `master-0`;
+        const masterKeyId = `master`;
         const authenticationKeyId = `authentication-0`;
 
         const testVerificationMethod = (sut: any, didStr: string, keyId: string, keyMultibase: string, curve: DIDDocument.VerificationMethod.Type) => {
@@ -171,7 +172,7 @@ describe("PrismDID",
         });
 
         test("issuing keys", async () => {
-          const expectedDid = "did:prism:4bc64000a571d546caa789e24c1ad58eb13a06ce597f475b533a164fe969ac52:CucBCuQBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSQQoQYXV0aGVudGljYXRpb24tMBAESisKB0VkMjU1MTkSIHZuX9hnUeQWh6UcQfG0xJbxP9ICAtqeNODLMfbMCfdeEkAKEGF1dGhlbnRpY2F0aW9uLTEQBEoqCgZYMjU1MTkSIPz4x3nxYfR-6h91bezDvFRDfhdj5VnF83ccOiz5MRBh";
+          const expectedDid = "did:prism:e8b46cbd9b98343e14f8aae4471389fce3587c3d25409cb7b9203173740b4332:CsQBCsEBEjoKBm1hc3RlchABSi4KCXNlY3AyNTZrMRIhA_0gMhTAVOk7SgWRluzmeJIjtm2-YMc6AbrD3ePKJQj-EkEKEGF1dGhlbnRpY2F0aW9uLTAQBEorCgdFZDI1NTE5EiB2bl_YZ1HkFoelHEHxtMSW8T_SAgLanjTgyzH2zAn3XhJAChBhdXRoZW50aWNhdGlvbi0xEARKKgoGWDI1NTE5EiD8-Md58WH0fuofdW3sw7xUQ34XY-VZxfN3HDos-TEQYQ";
           const prismDid = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [ed25519, x25519]);
           const sut = await castor.resolveDID(prismDid.toString());
 
@@ -208,7 +209,7 @@ describe("PrismDID",
       });
 
       it("Should correctly create a prismDID from an existing HexKey", async () => {
-        const didExample = "did:prism:4a1525a94cc3d91af5584c2335e57969c10fe945a8b665d0bdadabbfc5f6ec99:CmEKXxJdCghtYXN0ZXItMBABQk8KCXNlY3AyNTZrMRIgNLnN5hSQsJIAksjpotdFM9HGy0Is9QQjpOAGsBUIeTAaIOT59-SWscgVbukqRPyL5iSxeL5deLmHfVzNQxpUKVyn";
+        const didExample = "did:prism:21348949d33d3a504b71d9870139373494e0e7aac69182cf2f034007d15c723b:Cj4KPBI6CgZtYXN0ZXIQAUouCglzZWNwMjU2azESIQM0uc3mFJCwkgCSyOmi10Uz0cbLQiz1BCOk4AawFQh5MA";
         const resolvedDID = await castor.resolveDID(didExample);
 
         const pubHex = "0434b9cde61490b0920092c8e9a2d74533d1c6cb422cf50423a4e006b015087930e4f9f7e496b1c8156ee92a44fc8be624b178be5d78b9877d5ccd431a54295ca7";

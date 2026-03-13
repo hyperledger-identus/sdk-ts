@@ -29,7 +29,7 @@ describe("AtalaOperation", () => {
     expect(atalaObject.block_content.operations[0].operation.create_did.did_data).toHaveProperty("public_keys");
     expect(atalaObject.block_content.operations[0].operation.create_did.did_data.public_keys).toHaveLength(1);
     expect(atalaObject.block_content.operations[0].operation.create_did.did_data.public_keys[0]).toHaveProperty("id");
-    expect(atalaObject.block_content.operations[0].operation.create_did.did_data.public_keys[0].id).to.equal(`master-0`);
+    expect(atalaObject.block_content.operations[0].operation.create_did.did_data.public_keys[0].id).to.equal(`master`);
     const signedOperation = atalaObject.block_content.operations[0];
     const signature = Buffer.from(signedOperation.signature);
     const keyId = signedOperation.signed_with;

@@ -233,6 +233,26 @@ export default class Agent extends Startable.Controller {
   }
 
   /**
+   * Create a deterministic PrismDID from a BIP-39 mnemonic.
+   *
+   * The same mnemonic + passphrase + didIndex will always produce the same DID.
+   * Only a master key is derived at path m/29'/29'/didIndex'/1'/0'.
+   *
+   * @param {MnemonicWordList} mnemonic - 24-word BIP-39 mnemonic
+   * @param {string} [passphrase] - optional BIP-39 passphrase
+   * @param {number} [didIndex=0] - DID index in the derivation path
+   * @returns {Promise<DID>}
+   */
+  async createDeterministicPrismDID(
+    mnemonic: Domain.MnemonicWordList,
+    passphrase?: string,
+    didIndex?: number
+  ): Promise<Domain.DID> {
+    const task = new DIDfns.CreateDeterministicPrismDID({ mnemonic, passphrase, didIndex });
+    return this.runTask(task);
+  }
+
+  /**
    * Asyncronously Create a new PeerDID
    *
    * 
