@@ -101,7 +101,7 @@ export type {
 // Tasks
 export {
   CreatePrismDID,
-  type Args as CreatePrismDIDArgs
+  type CreatePrismDIDArgs
 } from "./edge-agent/didFunctions";
 
 export {
