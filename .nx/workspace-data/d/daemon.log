@@ -1467,3 +1467,29 @@ Time for 'nx/js/dependencies-and-lockfile:createNodes' 0.5361659999999944
 [NX v22.5.4 Daemon Server] - 2026-03-17T17:44:48.733Z - [SYNC]: collect registered sync generators
 [NX v22.5.4 Daemon Server] - 2026-03-17T17:44:48.734Z - [SYNC]: project graph hash is the same, not collecting task sync generators
 [NX v22.5.4 Daemon Server] - 2026-03-17T17:44:48.734Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:51.314Z - [WATCHER]: Processing file changes in outputs
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:51.314Z - [WATCHER]: tests/castor/PrismDID.test.ts was created or restored
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:51.314Z - [SYNC]: clearing sync generators cache due to file changes
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:51.416Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:51.416Z - [REQUEST]: tests/castor/PrismDID.test.ts
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:51.416Z - [REQUEST]: 
+Time for 'plugin worker 83901 code loading' 3.3665839999999996
+Time for 'plugin worker 83902 code loading' 3.0945839999999993
+Time for 'plugin worker 83903 code loading' 3.0688750000000002
+Time for 'nx/js/dependencies-and-lockfile:createNodes' 0.5129170000000016
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:51.533Z - [SYNC]: collect registered sync generators
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:51.533Z - [SYNC]: project graph hash is the same, not collecting task sync generators
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:51.533Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:59.131Z - [WATCHER]: Processing file changes in outputs
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:59.131Z - [WATCHER]: tests/castor/PrismDID.test.ts was modified
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:59.131Z - [SYNC]: clearing sync generators cache due to file changes
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:59.335Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:59.335Z - [REQUEST]: tests/castor/PrismDID.test.ts
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:59.336Z - [REQUEST]: 
+Time for 'plugin worker 13775 code loading' 3.197958
+Time for 'plugin worker 13794 code loading' 4.045040999999999
+Time for 'plugin worker 13804 code loading' 3.1270419999999994
+Time for 'nx/js/dependencies-and-lockfile:createNodes' 0.5218330000000009
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:59.455Z - [SYNC]: collect registered sync generators
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:59.455Z - [SYNC]: project graph hash is the same, not collecting task sync generators
+[NX v22.5.4 Daemon Server] - 2026-03-17T17:44:59.455Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
