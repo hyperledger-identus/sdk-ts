@@ -3,7 +3,7 @@ import { ApolloError } from "../../Errors";
 import { DerivationAxis } from "../DerivationAxis";
 import * as Protos from "../../../../castor/protos/node_models";
 
-export type PrismDIDKeyUsage = Protos.io.iohk.atala.prism.protos.KeyUsage;
+export type PrismDIDKeyUsageType = Protos.io.iohk.atala.prism.protos.KeyUsage;
 export const PrismDIDKeyUsage = Protos.io.iohk.atala.prism.protos.KeyUsage;
 export const PRISM_IDENTIFIER = 0x1D;
 export const PRISM_WALLET_PURPOSE = PRISM_IDENTIFIER;

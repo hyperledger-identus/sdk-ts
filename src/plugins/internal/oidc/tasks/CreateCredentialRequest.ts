@@ -52,7 +52,9 @@ export class CreateCredentialRequest extends Utils.Task<CredentialRequest, Creat
           iat: Date.now(),
           nonce: tokenResponse.c_nonce,
         },
-        { typ: "openid4vci-proof+jwt" }
+        { typ: "openid4vci-proof+jwt" },
+        undefined,
+        'AUTHENTICATION_KEY',
       );
 
       body.proof = { proof_type: "jwt", jwt };

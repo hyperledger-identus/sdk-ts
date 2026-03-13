@@ -29,7 +29,7 @@ export class PresentationRequest extends Plugins.Task<Args> {
       iss: subjectDID.toString(),
       aud: presentationRequest.options.domain,
       nonce: presentationRequest.options.challenge,
-    });
+    }, undefined, undefined, 'AUTHENTICATION_KEY');
 
     return Payload.make(OEA.PRISM_JWT, jwt);
   }

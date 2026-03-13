@@ -157,10 +157,6 @@ describe("CreatePrismDID", () => {
 
     test("create -> resolve > expected keys", async () => {
       mockTask(PrismKeyPathIndexTask, 4);
-      // vi.spyOn(apollo, "createPrivateKey")
-      //   .mockReturnValueOnce(Fixtures.Keys.secp256K1.privateKey)
-      //   .mockReturnValueOnce(Fixtures.Keys.ed25519.privateKey);
-      // vi.spyOn(castor, "createPrismDID").mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
       vi.spyOn(pluto, "storeDID").mockResolvedValue();
 
       const result = await ctx.run(new CreatePrismDID({}));

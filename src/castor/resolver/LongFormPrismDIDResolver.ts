@@ -74,8 +74,7 @@ export class LongFormPrismDIDResolver implements DIDResolver {
 
       // verification methods + groupings
       const authenticationMethods = new DIDDocument.Authentication();
-      // ?? assertionMethods not handled
-      // const assertionMethods = new DIDDocument.AssertionMethod();
+      const assertionMethods = new DIDDocument.AssertionMethod();
       const keyAgreementMethods = new DIDDocument.KeyAgreement();
       const capabilityInvocationMethods = new DIDDocument.CapabilityInvocation();
       const capabilityDelegationMethods = new DIDDocument.CapabilityDelegation();
@@ -115,15 +114,20 @@ export class LongFormPrismDIDResolver implements DIDResolver {
           case PrismDIDKeyUsage.CAPABILITY_INVOCATION_KEY:
             capabilityInvocationMethods.add(method);
             break;
+          case PrismDIDKeyUsage.ISSUING_KEY:
+            assertionMethods.add(method);
+            break;
           case PrismDIDKeyUsage.UNKNOWN_KEY:
           case PrismDIDKeyUsage.MASTER_KEY:
-          case PrismDIDKeyUsage.ISSUING_KEY:
           case PrismDIDKeyUsage.REVOCATION_KEY: break;
         }
       });
 
       if (authenticationMethods.urls.length > 0) {
         coreProperties.push(authenticationMethods);
+      }
+      if (assertionMethods.urls.length > 0) {
+        coreProperties.push(assertionMethods);
       }
       if (keyAgreementMethods.urls.length > 0) {
         coreProperties.push(keyAgreementMethods);

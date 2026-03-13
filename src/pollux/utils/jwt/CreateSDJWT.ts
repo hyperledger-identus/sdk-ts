@@ -22,6 +22,7 @@ interface Args {
   header?: Partial<Domain.JWT.Header>;
   disclosureFrame: DisclosureFrame<SdJwtVcPayload>;
   privateKey?: Domain.PrivateKey;
+  purpose?: keyof Pick<Domain.PrismDIDKeys, "AUTHENTICATION_KEY" | "ISSUING_KEY">;
 }
 
 export class CreateSDJWT extends Task<string, Args> {
@@ -30,7 +31,8 @@ export class CreateSDJWT extends Task<string, Args> {
     const signingKeys = await ctx.run(
       new FindSigningKeys({
         did: this.args.did,
-        privateKey: this.args.privateKey
+        privateKey: this.args.privateKey,
+        purpose: this.args.purpose ?? "ISSUING_KEY",
       })
     );
     const signingKey = signingKeys.at(0);

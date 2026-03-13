@@ -8,6 +8,7 @@ import { base64url } from "multiformats/bases/base64";
 interface Args {
   did: Domain.DID;
   privateKey?: Domain.PrivateKey;
+  purpose: keyof Pick<Domain.PrismDIDKeys, "AUTHENTICATION_KEY" | "ISSUING_KEY">;
 }
 
 export interface SigningKeyData {
@@ -22,6 +23,7 @@ export interface SigningKeyData {
  * 
  * @param {Domain.DID} did subject of the search
  * @param {Domain.PrivateKey} [privateKey] optional filter search to only this PrivateKey
+ * @param {"AUTHENTICATION_KEY" | "ISSUING_KEY"} [purpose] which verification relationship to search (default: "assertionMethod")
  * 
  */
 export class FindSigningKeys extends Task<SigningKeyData[], Args> {
@@ -37,7 +39,18 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
       return { privateKey, publicKey, encoded, encodedBase64Url };
     });
 
-    const signingKeyData = didDoc.authentication.reduce<SigningKeyData[]>((acc, method) => {
+    const verificationMethod = this.args.purpose === 'AUTHENTICATION_KEY' ? 'authentication' : 'assertionMethod';
+    const primaryMethods = didDoc[verificationMethod];
+    const signingKeyData = this.matchKeys(primaryMethods, keyData);
+
+    return signingKeyData;
+  }
+
+  private matchKeys(
+    methods: Domain.DIDDocument.VerificationMethod[],
+    keyData: { privateKey: any; publicKey: any; encoded: string; encodedBase64Url: string }[]
+  ): SigningKeyData[] {
+    return methods.reduce<SigningKeyData[]>((acc, method) => {
       const data = keyData.find(x => {
         if (method.publicKeyMultibase) {
           return x.encoded === method.publicKeyMultibase
@@ -67,7 +80,6 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
         privateKey: data.privateKey
       });
     }, []);
-    return signingKeyData;
   }
 
 
@@ -79,22 +91,17 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
   }
 
   private async getKeys(ctx: AgentContext): Promise<Domain.PrivateKey[]> {
-    if (notNil(this.args.privateKey)) {
-      return [this.args.privateKey];
-    }
+    if (notNil(this.args.privateKey)) return [this.args.privateKey];
 
     const privateKeys = await ctx.Pluto.getDIDPrivateKeysByDID(this.args.did);
-
-    if (privateKeys.length) {
+    if (privateKeys?.length) {
       return privateKeys;
     }
 
     const prismDIDs = await this.getKeysFromPrismDIDs(ctx);
-
-    if (prismDIDs.length) {
+    if (prismDIDs?.length) {
       return prismDIDs;
     }
-
 
     return []
   }

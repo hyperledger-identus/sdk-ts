@@ -528,7 +528,7 @@ describe("HandleRequestCredential", () => {
                 shortFormDID,
                 [
                     new Domain.DIDDocument.VerificationMethods(verificationMethods),
-                    new Domain.DIDDocument.Authentication(
+                    new Domain.DIDDocument.AssertionMethod(
                         [
                             "key-1"
                         ],

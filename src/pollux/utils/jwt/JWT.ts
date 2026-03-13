@@ -23,15 +23,17 @@ export class JWT extends Task.Runner {
    * @param payload 
    * @param header 
    * @param privateKey 
+   * @param purpose which verification relationship to use for key lookup (default: "assertionMethod")
    * @returns 
    */
   signWithDID(
     did: Domain.DID,
     payload: Partial<Domain.JWT.Payload>,
     header?: Partial<Domain.JWT.Header>,
-    privateKey?: Domain.PrivateKey
+    privateKey?: Domain.PrivateKey,
+    purpose?: keyof Pick<Domain.PrismDIDKeys, "AUTHENTICATION_KEY" | "ISSUING_KEY">,
   ): Promise<string> {
-    return this.runTask(new CreateJWT({ did, payload, header, privateKey }));
+    return this.runTask(new CreateJWT({ did, payload, header, privateKey, purpose }));
   }
 
   async verify(options: {

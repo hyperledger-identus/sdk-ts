@@ -21,13 +21,15 @@ interface Args {
   payload: Partial<Domain.JWT.Payload>;
   header?: Partial<Domain.JWT.Header>;
   privateKey?: Domain.PrivateKey;
+  purpose?: keyof Pick<Domain.PrismDIDKeys, "AUTHENTICATION_KEY" | "ISSUING_KEY">;
 }
 
 export class CreateJWT extends Task<string, Args> {
   async run(ctx: AgentContext) {
     const signingKeys = await ctx.run(new FindSigningKeys({
       did: this.args.did,
-      privateKey: this.args.privateKey
+      privateKey: this.args.privateKey,
+      purpose: this.args.purpose ?? "ISSUING_KEY"
     }));
     const signingKey = signingKeys.at(0);
     const keyId = signingKey?.kid;

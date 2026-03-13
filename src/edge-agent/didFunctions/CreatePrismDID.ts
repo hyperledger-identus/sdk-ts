@@ -16,6 +16,7 @@ export interface Args {
 }
 
 /**
+ * @deprecated will be removed in a later release, please use CreatePrismDIDWithKeys
  * Handle the creation of a PrismDID
  * 
  * Calculate and use the latest Prism DID KeyPathIndex.
