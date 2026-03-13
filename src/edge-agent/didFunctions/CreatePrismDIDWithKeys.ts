@@ -5,17 +5,10 @@ import {
   RequiredPrismDIDKeys,
   RequiredPrismDIDSecretKeys
 } from "../../domain";
-import {
-  PrismDIDKeyUsage
-} from "../../domain/models/derivation/schemas/PrismDerivation";
+
 import { Arrayable } from "../../utils";
 import { Task } from "../../utils/tasks";
 import { AgentContext } from "../Context";
-
-
-
-
-
 
 export interface Args {
   keys: RequiredPrismDIDSecretKeys;
@@ -37,42 +30,26 @@ export class CreatePrismDIDWithKeys extends Task<DID, Args> {
 
   async run(ctx: AgentContext) {
 
-    for (const keyUsage of this.keyUsagesWithoutMasterKey) {
-      if (!this.publicKeys[keyUsage]) this.publicKeys[keyUsage] = []
-      const privateKey = this.args.keys[keyUsage];
-      if (privateKey) {
-        this.secretKeys.push(privateKey);
-        this.publicKeys[keyUsage].push(privateKey.publicKey())
-      }
+    if (!this.args.keys?.MASTER_KEY) {
+      throw new Error("MASTER_KEY is required");
     }
 
+    const { MASTER_KEY: masterSK, ...keys } = this.args.keys;
+
+    const publicKeys = Object.fromEntries(Object.entries(keys).map(([keyUsage, secretKeys]) => [keyUsage, secretKeys.map((sk) => sk.publicKey())]));
+    const secretKeys = [masterSK, ...Object.values(keys).flat()];
+
     const did = await ctx.Castor.createPrismDID(
-      this.args.keys.MASTER_KEY.publicKey(),
+      masterSK.publicKey(),
       this.args.services,
-      this.publicKeys
+      publicKeys
     );
 
-    await ctx.Pluto.storeDID(did, this.secretKeys, this.args.alias);
+    await ctx.Pluto.storeDID(did, secretKeys, this.args.alias);
 
     return did;
   }
 
-  private get keyUsage() {
-    return Object.keys(this.args.keys) as Array<keyof typeof PrismDIDKeyUsage>;
-  }
 
-  private get keyUsagesWithoutMasterKey() {
-    return this.keyUsage.filter((usage) => usage !== 'MASTER_KEY');
-  }
-
-  private get publicKeys() {
-    const keys: RequiredPrismDIDKeys = { 'MASTER_KEY': [this.args.keys.MASTER_KEY.publicKey()] }
-    return keys;
-  }
-
-  private get secretKeys() {
-    const secretKeys: Arrayable<PrivateKey> = [this.args.keys.MASTER_KEY]
-    return secretKeys;
-  }
 }
 

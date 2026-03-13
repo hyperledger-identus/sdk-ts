@@ -26,7 +26,7 @@ export class CredentialOffer extends Plugins.Task<Args> {
       },
     };
 
-    const signedJWT = await ctx.JWT.signWithDID(did, payload);
+    const signedJWT = await ctx.JWT.signWithDID(did, payload, undefined, undefined, 'AUTHENTICATION_KEY');
 
     return Payload.make(OEA.PRISM_SDJWT, signedJWT);
   }

@@ -40,13 +40,15 @@ export class SDJWT extends Task.Runner {
     payload: E,
     disclosureFrame: DisclosureFrame<E>;
     kid?: string | undefined;
+    purpose?: keyof Pick<Domain.PrismDIDKeys, "AUTHENTICATION_KEY" | "ISSUING_KEY">;
   }): Promise<string> {
     return this.runTask(
       new CreateSDJWT({
         did: options.issuerDID,
         payload: options.payload,
         disclosureFrame: options.disclosureFrame,
-        privateKey: options.privateKey
+        privateKey: options.privateKey,
+        purpose: options.purpose,
       }));
   }
 

@@ -23,7 +23,7 @@ import { Secp256k1PublicKey } from "../apollo/utils/Secp256k1PublicKey";
 import { X25519PublicKey } from "../apollo/utils/X25519PublicKey";
 import { Ed25519PublicKey } from "../apollo/utils/Ed25519PublicKey";
 import { Secp256k1PrivateKey } from "../apollo/utils/Secp256k1PrivateKey";
-import { PrismDIDKeyUsage } from "../domain/models/derivation/schemas/PrismDerivation";
+import { PrismDIDKeyUsage, PrismDIDKeyUsageType } from "../domain/models/derivation/schemas/PrismDerivation";
 
 import * as Protos from "./protos/node_models";
 import ProtosPk = Protos.io.iohk.atala.prism.protos.PublicKey;
@@ -135,6 +135,10 @@ export default class Castor implements Domain.Castor {
     throw new Domain.CastorError.InvalidKeyError("Cannot sign with this key");
   }
 
+  private legacyPath(keysOrAuthenticationKeys: (Domain.PublicKey | Domain.KeyPair)[] | PrismDIDKeys): keysOrAuthenticationKeys is Array<Domain.PublicKey | Domain.KeyPair> {
+    return Array.isArray(keysOrAuthenticationKeys);
+  }
+
   /**
    * Creates a DID for a prism (a device or server that acts as a DID owner and controller) using a
    * given master public key and list of services.
@@ -170,37 +174,36 @@ export default class Castor implements Domain.Castor {
     keysOrAuthenticationKeys?: (Domain.PublicKey | Domain.KeyPair)[] | PrismDIDKeys,
     issuanceKeys?: (Domain.PublicKey | Domain.KeyPair)[],
   ): Promise<Domain.DID> {
+    const keys = keysOrAuthenticationKeys ?? {} as PrismDIDKeys;
     const didPublicKeys: Protos.io.iohk.atala.prism.protos.PublicKey[] = [];
     const masterPublicKey = "publicKey" in key ? key.publicKey : key;
     const masterPk = this.createProtos(masterPublicKey, PrismDIDKeyUsage.MASTER_KEY);
 
     didPublicKeys.push(masterPk);
 
-    if (keysOrAuthenticationKeys) {
-      if (Array.isArray(keysOrAuthenticationKeys)) {
-        // Legacy path: plain array treated as AUTHENTICATION_KEY
-        for (const [index, authKey] of keysOrAuthenticationKeys.entries()) {
-          const pk = "publicKey" in authKey ? authKey.publicKey : authKey;
-          const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.AUTHENTICATION_KEY, index);
+    if (this.legacyPath(keys)) {
+      for (const [index, authKey] of keys.entries()) {
+        const pk = "publicKey" in authKey ? authKey.publicKey : authKey;
+        const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.AUTHENTICATION_KEY, index);
+        didPublicKeys.push(prismDIDPublicKey);
+      }
+      if (issuanceKeys?.length) {
+        for (const [index, issuanceKey] of issuanceKeys.entries()) {
+          const pk = "publicKey" in issuanceKey ? issuanceKey.publicKey : issuanceKey;
+          const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.ISSUING_KEY, index);
           didPublicKeys.push(prismDIDPublicKey);
         }
-        // Legacy 4th arg: issuance keys
-        if (issuanceKeys?.length) {
-          for (const [index, issuanceKey] of issuanceKeys.entries()) {
-            const pk = "publicKey" in issuanceKey ? issuanceKey.publicKey : issuanceKey;
-            const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.ISSUING_KEY, index);
-            didPublicKeys.push(prismDIDPublicKey);
-          }
+      }
+    } else {
+      for (const [usageName, keyList] of Object.entries(keys)) {
+        const usage = PrismDIDKeyUsage[usageName as keyof typeof PrismDIDKeyUsage];
+        if (usage === undefined) {
+          throw new Error(`Invalid key usage: ${usageName}`);
         }
-      } else {
-        // Usage-keyed object: route each key to the correct usage
-        for (const [usageName, keyList] of Object.entries(keysOrAuthenticationKeys)) {
-          const usage = PrismDIDKeyUsage[usageName as keyof typeof PrismDIDKeyUsage];
-          for (const [index, keyOrPair] of keyList.entries()) {
-            const pk = "publicKey" in keyOrPair ? keyOrPair.publicKey : keyOrPair;
-            const prismDIDPublicKey = this.createProtos(pk, usage, index);
-            didPublicKeys.push(prismDIDPublicKey);
-          }
+        for (const [index, keyOrPair] of keyList.entries()) {
+          const pk = "publicKey" in keyOrPair ? keyOrPair.publicKey : keyOrPair;
+          const prismDIDPublicKey = this.createProtos(pk, usage, index);
+          didPublicKeys.push(prismDIDPublicKey);
         }
       }
     }
@@ -221,16 +224,20 @@ export default class Castor implements Domain.Castor {
       new Protos.io.iohk.atala.prism.protos.CreateDIDOperation({
         did_data: didCreationData,
       });
+
     const operation = new Protos.io.iohk.atala.prism.protos.AtalaOperation({
       create_did: didOperation,
     });
+
     const encodedState = operation.serializeBinary();
     const sha256 = new SHA256();
     const stateHash = Buffer.from(
       sha256.update(encodedState).digest()
     ).toString("hex");
+
     const base64State = base64.base64url.baseEncode(encodedState);
     const methodSpecificId = Domain.PrismDID.parseMethodId([stateHash, base64State]);
+
     return new Domain.DID("did", "prism", methodSpecificId.toString());
   }
 
@@ -469,7 +476,7 @@ export default class Castor implements Domain.Castor {
    * @param index - occurrence of this keyUsage
    * @returns {string}
    */
-  private getUsageId(keyUsage: PrismDIDKeyUsage, index = 0): string {
+  private getUsageId(keyUsage: PrismDIDKeyUsageType, index = 0): string {
     switch (keyUsage) {
       case PrismDIDKeyUsage.MASTER_KEY:
         return `master-${index}`;
@@ -497,7 +504,7 @@ export default class Castor implements Domain.Castor {
    * @returns {Usage}
    */
   private getUsageFromId(id: string): {
-    usage: PrismDIDKeyUsage,
+    usage: PrismDIDKeyUsageType,
     index: number;
   } {
     const regex = /#([a-zA-Z]+)-(\d+)/;
@@ -530,7 +537,7 @@ export default class Castor implements Domain.Castor {
     return { usage: PrismDIDKeyUsage.UNKNOWN_KEY, index };
   }
 
-  private createProtos(publicKey: Domain.PublicKey, usage: PrismDIDKeyUsage, index?: number) {
+  private createProtos(publicKey: Domain.PublicKey, usage: PrismDIDKeyUsageType, index?: number) {
     const id = this.getUsageId(usage, index);
 
     if (publicKey.curve === Domain.Curve.SECP256K1) {

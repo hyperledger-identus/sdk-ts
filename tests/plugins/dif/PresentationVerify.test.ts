@@ -248,17 +248,17 @@ describe("Plugins - DIF", () => {
           const issuerDID = await ctx.Castor.createPrismDID(
             issuerMasterSK.publicKey(),
             [],
-            [
-              issuerAuthenticationSK.publicKey()
-            ]
+            {
+              ISSUING_KEY: [issuerAuthenticationSK.publicKey()]
+            }
           );
 
           const holderDID = await ctx.Castor.createPrismDID(
             holderMasterSK.publicKey(),
             [],
-            [
-              holderAuthenticationSK.publicKey()
-            ]
+            {
+              ISSUING_KEY: [holderAuthenticationSK.publicKey()]
+            }
           );
 
           const currentDate = new Date();
@@ -431,17 +431,17 @@ describe("Plugins - DIF", () => {
           const issuerDID = await ctx.Castor.createPrismDID(
             issuerMasterSK.publicKey(),
             [],
-            [
-              issuerAuthenticationSK.publicKey()
-            ]
+            {
+              ISSUING_KEY: [issuerAuthenticationSK.publicKey()]
+            }
           );
 
           const holderDID = await ctx.Castor.createPrismDID(
             holderMasterSK.publicKey(),
             [],
-            [
-              holderAuthenticationSK.publicKey()
-            ]
+            {
+              ISSUING_KEY: [holderAuthenticationSK.publicKey()]
+            }
           );
 
           const currentDate = new Date();
@@ -616,17 +616,17 @@ describe("Plugins - DIF", () => {
           const issuerDID = await ctx.Castor.createPrismDID(
             issuerMasterSK.publicKey(),
             [],
-            [
-              issuerAuthenticationSK.publicKey()
-            ]
+            {
+              ISSUING_KEY: [issuerAuthenticationSK.publicKey()]
+            }
           );
 
           const holderDID = await ctx.Castor.createPrismDID(
             holderMasterSK.publicKey(),
             [],
-            [
-              holderAuthenticationSK.publicKey()
-            ]
+            {
+              ISSUING_KEY: [holderAuthenticationSK.publicKey()]
+            }
           );
 
           const presentationRequest: DIF.Presentation.Request = {
@@ -774,17 +774,17 @@ describe("Plugins - DIF", () => {
           const issuerDID = await ctx.Castor.createPrismDID(
             issuerMasterSK.publicKey(),
             [],
-            [
-              issuerAuthenticationSK.publicKey()
-            ]
+            {
+              ISSUING_KEY: [issuerAuthenticationSK.publicKey()]
+            }
           );
 
           const holderDID = await ctx.Castor.createPrismDID(
             holderMasterSK.publicKey(),
             [],
-            [
-              holderAuthenticationSK.publicKey()
-            ]
+            {
+              ISSUING_KEY: [holderAuthenticationSK.publicKey()]
+            }
           );
 
           const presentationRequest: DIF.Presentation.Request = {
@@ -1071,17 +1071,17 @@ describe("Plugins - DIF", () => {
           const issuerDID = await ctx.Castor.createPrismDID(
             issuerMasterSK.publicKey(),
             [],
-            [
-              issuerAuthenticationSK.publicKey()
-            ]
+            {
+              ISSUING_KEY: [issuerAuthenticationSK.publicKey()]
+            }
           );
 
           const holderDID = await ctx.Castor.createPrismDID(
             holderMasterSK.publicKey(),
             [],
-            [
-              holderAuthenticationSK.publicKey()
-            ]
+            {
+              ISSUING_KEY: [holderAuthenticationSK.publicKey()]
+            }
           );
 
           const presentationRequest: DIF.Presentation.Request = {
@@ -1392,9 +1392,9 @@ describe("Plugins - DIF", () => {
       const issuerDID = await ctx.Castor.createPrismDID(
         issuerMasterSK.publicKey(),
         [],
-        [
-          issuerAuthenticationSK.publicKey()
-        ]
+        {
+          ISSUING_KEY: [issuerAuthenticationSK.publicKey()]
+        }
       );
 
       const holderDID = await ctx.Castor.createPrismDID(
@@ -1507,6 +1507,48 @@ describe("Plugins - DIF", () => {
 
       await expect(sut).rejects.toThrow('Verification failed for credential (eyJ0eXAiOi...): reason -> Invalid Claim: Expected one of the paths $.vc.credentialSubject.email, $.credentialSubject.email, $.email to exist.');
 
+    });
+
+    test("Should throw 'key not found' when DID has no ISSUING_KEY and default purpose is used", async () => {
+      const issuerSeed = ctx.Apollo.createRandomSeed().seed;
+
+      const issuerMasterSK = ctx.Apollo.createPrivateKey({
+        type: KeyTypes.EC,
+        curve: Curve.SECP256K1,
+        seed: Buffer.from(issuerSeed.value).toString("hex"),
+      });
+      const issuerAuthenticationSK = ctx.Apollo.createPrivateKey({
+        type: KeyTypes.EC,
+        curve: Curve.ED25519,
+        seed: Buffer.from(issuerSeed.value).toString("hex"),
+      });
+
+      // Legacy API: key goes into AUTHENTICATION_KEY only, not ISSUING_KEY
+      const issuerDID = await ctx.Castor.createPrismDID(
+        issuerMasterSK.publicKey(),
+        [],
+        [
+          issuerAuthenticationSK.publicKey()
+        ]
+      );
+
+      const payload = {
+        iss: issuerDID.toString(),
+        vct: issuerDID.toString(),
+        iat: Math.floor(Date.now() / 1000),
+      };
+
+      const disclosureFrame = { _sd: [] as (keyof typeof payload)[] };
+
+      // Default purpose is ISSUING_KEY → looks at assertionMethod → no key → throws
+      await expect(
+        ctx.SDJWT.sign({
+          issuerDID,
+          payload,
+          disclosureFrame,
+          privateKey: issuerAuthenticationSK,
+        })
+      ).rejects.toThrow("key not found");
     });
   });
 });

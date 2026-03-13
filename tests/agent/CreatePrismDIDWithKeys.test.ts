@@ -25,7 +25,13 @@ describe("CreatePrismDIDWithKeys", () => {
       });
     });
 
-    test("MASTER_KEY only - creates DID with master key", async () => {
+    test("Passing MASTER_KEY is required or will throw an error", async () => {
+      await expect(
+        ctx.run(new CreatePrismDIDWithKeys({} as any))
+      ).rejects.toThrow("MASTER_KEY is required");
+    });
+
+    test("MASTER_KEY only - creates DID with master key only", async () => {
       const masterKey = Fixtures.Keys.secp256K1.privateKey;
       vi.spyOn(masterKey, "publicKey").mockReturnValue(Fixtures.Keys.secp256K1.publicKey);
       const spyCreatePrismDID = vi.spyOn(castor, "createPrismDID")
@@ -40,9 +46,9 @@ describe("CreatePrismDIDWithKeys", () => {
 
       expect(spyCreatePrismDID).toHaveBeenCalledOnce();
       expect(spyCreatePrismDID).toHaveBeenCalledWith(
-        Fixtures.Keys.secp256K1.publicKey,
+        masterKey.publicKey(),
         undefined,
-        expect.objectContaining({ MASTER_KEY: [Fixtures.Keys.secp256K1.publicKey] })
+        expect.objectContaining({})
       );
 
       expect(spyStoreDID).toHaveBeenCalledOnce();
@@ -53,45 +59,36 @@ describe("CreatePrismDIDWithKeys", () => {
       );
     });
 
-    test("MASTER_KEY + ISSUING_KEY - crashes due to getter-based publicKeys (known bug)", async () => {
-      // BUG: publicKeys getter returns a new object every call,
-      // so `this.publicKeys[keyUsage]` is undefined for non-MASTER_KEY entries
-      // because the `if (!this.publicKeys[keyUsage]) this.publicKeys[keyUsage] = []`
-      // assignment goes to a throwaway object
+    test("Providing MASTER_KEY and AUTHENTICATION_KEY, creates DID with master and authentication keys", async () => {
+
       const masterKey = Fixtures.Keys.secp256K1.privateKey;
-      const issuingKey = Fixtures.Keys.ed25519.privateKey;
       vi.spyOn(masterKey, "publicKey").mockReturnValue(Fixtures.Keys.secp256K1.publicKey);
-      vi.spyOn(issuingKey, "publicKey").mockReturnValue(Fixtures.Keys.ed25519.publicKey);
-      vi.spyOn(castor, "createPrismDID").mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
-      vi.spyOn(pluto, "storeDID").mockResolvedValue();
 
-      await expect(
-        ctx.run(new CreatePrismDIDWithKeys({
-          keys: {
-            MASTER_KEY: masterKey,
-            ISSUING_KEY: issuingKey,
-          },
-        }))
-      ).rejects.toThrow("Cannot read properties of undefined (reading 'push')");
-    });
+      const authenticationKey = Fixtures.Keys.ed25519.privateKey;
+      vi.spyOn(authenticationKey, "publicKey").mockReturnValue(Fixtures.Keys.ed25519.publicKey);
 
-    test("MASTER_KEY + AUTHENTICATION_KEY - crashes due to getter-based publicKeys (known bug)", async () => {
-      // Same getter bug as above
-      const masterKey = Fixtures.Keys.secp256K1.privateKey;
-      const authKey = Fixtures.Keys.ed25519.privateKey;
-      vi.spyOn(masterKey, "publicKey").mockReturnValue(Fixtures.Keys.secp256K1.publicKey);
-      vi.spyOn(authKey, "publicKey").mockReturnValue(Fixtures.Keys.ed25519.publicKey);
-      vi.spyOn(castor, "createPrismDID").mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
-      vi.spyOn(pluto, "storeDID").mockResolvedValue();
+      const spyCreatePrismDID = vi.spyOn(castor, "createPrismDID").mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
+      const spyStoreDID = vi.spyOn(pluto, "storeDID").mockResolvedValue();
 
-      await expect(
-        ctx.run(new CreatePrismDIDWithKeys({
-          keys: {
-            MASTER_KEY: masterKey,
-            AUTHENTICATION_KEY: authKey,
-          },
-        }))
-      ).rejects.toThrow("Cannot read properties of undefined (reading 'push')");
+      const result = await ctx.run(new CreatePrismDIDWithKeys({
+        keys: { MASTER_KEY: masterKey, AUTHENTICATION_KEY: [authenticationKey] },
+      }));
+
+      expect(result).toBe(Fixtures.DIDs.prismDIDDefault);
+
+      expect(spyCreatePrismDID).toHaveBeenCalledOnce();
+      expect(spyCreatePrismDID).toHaveBeenCalledWith(
+        masterKey.publicKey(),
+        undefined,
+        expect.objectContaining({ AUTHENTICATION_KEY: [authenticationKey.publicKey()] })
+      );
+
+      expect(spyStoreDID).toHaveBeenCalledOnce();
+      expect(spyStoreDID).toHaveBeenCalledWith(
+        Fixtures.DIDs.prismDIDDefault,
+        expect.arrayContaining([masterKey, authenticationKey]),
+        undefined
+      );
     });
 
     test("services - passed to createPrismDID", async () => {
@@ -166,7 +163,7 @@ describe("CreatePrismDIDWithKeys", () => {
       });
     });
 
-    test("create with MASTER_KEY only -> resolve > valid DID document", async () => {
+    test("create with MASTER_KEY only -> resolve > valid DID document with no authentication or issuing keys", async () => {
       // Use real key fixtures directly (they have the correct byte size)
       const masterKey = Fixtures.Keys.secp256K1.privateKey;
       vi.spyOn(pluto, "storeDID").mockResolvedValue();
@@ -182,6 +179,9 @@ describe("CreatePrismDIDWithKeys", () => {
 
       const doc = await castor.resolveDID(result);
       expect(doc).not.toBeNull();
+
+      expect(doc.assertionMethod).toEqual([]);
+      expect(doc.authentication).toEqual([]);
     });
   });
 });

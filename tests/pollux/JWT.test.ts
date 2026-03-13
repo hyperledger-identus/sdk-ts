@@ -1,10 +1,11 @@
-import { describe, expect, test, beforeEach, vi } from 'vitest';
+import { describe, expect, test, beforeEach, vi, afterEach, MockInstance } from 'vitest';
 import { base64url } from "multiformats/bases/base64";
 import { JWT } from "../../src/pollux/utils/jwt/JWT";
 import { Apollo, Castor, Domain, Secp256k1PrivateKey } from "../../src";
 import * as Fixtures from "../fixtures";
 import { Task } from '../../src/utils';
 import { InvalidJWTString } from '../../src/domain/models/errors/Pollux';
+import { FindSigningKeys } from '../../src/edge-agent/didFunctions/FindDIDSigningKeys';
 
 describe("Domain - JWT", () => {
   let sut: JWT;
@@ -25,19 +26,63 @@ describe("Domain - JWT", () => {
   });
 
   describe("sign", () => {
-    test("returns JWS string", async () => {
-      const result = await sut.signWithDID(Fixtures.DIDs.prismDIDDefault, { a: 1, b: 2 }, {}, Fixtures.Keys.secp256K1.privateKey);
+    test("returns signed jws string, if a specific key is provided", async () => {
+      const result = await sut.signWithDID(
+        Fixtures.DIDs.prismDIDDefault,
+        { a: 1, b: 2 },
+        {},
+        Fixtures.Keys.secp256K1.privateKey
+      );
 
       expect(result).to.be.a("string");
       expect(result.split(".")).to.have.length(3);
     });
 
-    test("no privateKey given - looks for in Pluto", async () => {
-      vi.spyOn(plutoMock, "getDIDPrivateKeysByDID").mockResolvedValue([Fixtures.Keys.secp256K1.privateKey]);
-      const result = await sut.signWithDID(Fixtures.DIDs.prismDIDDefault, { a: 1, b: 2 });
+    test("throws an exception if no authentication key is provided for an authentication signature", async () => {
+      vi.spyOn(plutoMock, "getDIDPrivateKeysByDID").mockResolvedValue([]);
+      vi.spyOn(plutoMock, "getAllPrismDIDs").mockResolvedValue([]);
 
-      expect(result).to.be.a("string");
-      expect(result.split(".")).to.have.length(3);
+      const result = sut.signWithDID(
+        Fixtures.DIDs.prismDIDOnlyMaster,
+        { a: 1, b: 2 },
+        undefined,
+        undefined,
+        "AUTHENTICATION_KEY"
+      );
+      await expect(result).rejects.toThrow("-1: key not found");
+
+      const result2 = sut.signWithDID(
+        Fixtures.DIDs.prismDIDIssuerOnly,
+        { a: 1, b: 2 },
+        undefined,
+        undefined,
+        "AUTHENTICATION_KEY"
+      );
+      await expect(result2).rejects.toThrow("-1: key not found");
+
+    });
+
+    test("throws an exception if no issuer key is provider for an issuance signature", async () => {
+      vi.spyOn(plutoMock, "getDIDPrivateKeysByDID").mockResolvedValue([]);
+      vi.spyOn(plutoMock, "getAllPrismDIDs").mockResolvedValue([]);
+
+      const result = sut.signWithDID(
+        Fixtures.DIDs.prismDIDOnlyMaster,
+        { a: 1, b: 2 },
+        undefined,
+        undefined,
+        "ISSUING_KEY"
+      );
+      await expect(result).rejects.toThrow("-1: key not found");
+
+      const result2 = sut.signWithDID(
+        Fixtures.DIDs.prismDIDAuthenticationKeyOnly,
+        { a: 1, b: 2 },
+        undefined,
+        undefined,
+        "ISSUING_KEY"
+      );
+      await expect(result2).rejects.toThrow("-1: key not found");
     });
 
     test("no key found - throws", async () => {
@@ -52,6 +97,47 @@ describe("Domain - JWT", () => {
       const result = sut.signWithDID(Fixtures.DIDs.prismDIDDefault, { payload: 123 }, {}, Fixtures.Keys.x25519.privateKey);
 
       await expect(result).rejects.toThrow("Key is not signable");
+    });
+
+    describe("purpose", () => {
+      let findSigningKeysSpy: ReturnType<typeof vi.spyOn>;
+
+      beforeEach(() => {
+        findSigningKeysSpy = vi.spyOn(FindSigningKeys.prototype, "run");
+        findSigningKeysSpy.mockResolvedValue([{
+          kid: "key-1",
+          publicKey: Fixtures.Keys.secp256K1.publicKey,
+          privateKey: Fixtures.Keys.secp256K1.privateKey,
+        }]);
+      });
+
+      afterEach(() => {
+        findSigningKeysSpy.mockRestore();
+      });
+
+      test("no purpose given - defaults to ISSUING_KEY", async () => {
+        await sut.signWithDID(Fixtures.DIDs.prismDIDDefault, { a: 1 }, {}, Fixtures.Keys.secp256K1.privateKey);
+
+        expect(findSigningKeysSpy).toHaveBeenCalledOnce();
+        const instance = findSigningKeysSpy.mock.instances[0] as any;
+        expect(instance.args.purpose).toBe("ISSUING_KEY");
+      });
+
+      test("explicit ISSUING_KEY purpose", async () => {
+        await sut.signWithDID(Fixtures.DIDs.prismDIDDefault, { a: 1 }, {}, Fixtures.Keys.secp256K1.privateKey, "ISSUING_KEY");
+
+        expect(findSigningKeysSpy).toHaveBeenCalledOnce();
+        const instance = findSigningKeysSpy.mock.instances[0] as any;
+        expect(instance.args.purpose).toBe("ISSUING_KEY");
+      });
+
+      test("explicit AUTHENTICATION_KEY purpose", async () => {
+        await sut.signWithDID(Fixtures.DIDs.prismDIDDefault, { a: 1 }, {}, Fixtures.Keys.secp256K1.privateKey, "AUTHENTICATION_KEY");
+
+        expect(findSigningKeysSpy).toHaveBeenCalledOnce();
+        const instance = findSigningKeysSpy.mock.instances[0] as any;
+        expect(instance.args.purpose).toBe("AUTHENTICATION_KEY");
+      });
     });
   });
 
@@ -122,19 +208,26 @@ describe("Domain - JWT", () => {
   });
 
   describe("round trip", () => {
-    const privateKey = Secp256k1PrivateKey.from.String("8bfd5ff83034bbc004950de2b3a02cdafbbff9faebcb63640c895959a2d3da24", "hex");
-    const issuerDID = Domain.DID.from('did:prism:9e93a84d492c62e03ab114e0b7a7b4a6880cd0e079f358d2196dc9c312dadb90:Co0CCooCElwKB21hc3RlcjAQAUJPCglzZWNwMjU2azESIBG7LMd7RA5-ckcPQICROrUbKx35x4aFAXjt_zIoWKAbGiD9WlLNP0Lr7JyQ7Q6uoY-m2TnygmAf8EBBTHGYzxm4exJkCg9hdXRoZW50aWNhdGlvbjAQBEJPCglzZWNwMjU2azESIBG7LMd7RA5-ckcPQICROrUbKx35x4aFAXjt_zIoWKAbGiD9WlLNP0Lr7JyQ7Q6uoY-m2TnygmAf8EBBTHGYzxm4exJECghpc3N1aW5nMBACSjYKB0VkMjU1MTkSKzh0dUVjUDRsZFhMQlV6US1YdEpDS1AwUC14QU5acV9SUnZQSDBIYXFWTjg');
+    const masterKey = Fixtures.Keys.secp256K1.privateKey;
+    const authenticationKey = Fixtures.Keys.ed25519.privateKey;
+    const issuanceKey = Fixtures.Keys.ed25519.privateKey;
     const header = { kid: 123, abc: "456" };
+    const issuerDID = Fixtures.DIDs.prismDIDDefault;
+    let spy: MockInstance<(did: Domain.DID) => Promise<Array<Domain.PrivateKey>>>
 
     beforeEach(() => {
-      vi.spyOn(plutoMock, "getDIDPrivateKeysByDID").mockResolvedValue([privateKey]);
+      spy = vi.spyOn(plutoMock, "getDIDPrivateKeysByDID").mockResolvedValue([masterKey, authenticationKey, issuanceKey]);
     });
+
+    afterEach(() => {
+      spy.mockClear()
+    })
 
     test("headers - default values", async () => {
       const jws = await sut.signWithDID(issuerDID, {});
       const decoded = await sut.decode(jws);
 
-      expect(decoded.header).toHaveProperty('alg', 'ES256K');
+      expect(decoded.header).toHaveProperty('alg', 'EdDSA');
       expect(decoded.header).toHaveProperty('typ', 'JWT');
     });
 
@@ -149,29 +242,16 @@ describe("Domain - JWT", () => {
       expect(decoded.payload).to.have.property("round", payload.round);
     });
 
-    test("signature - verifies", async () => {
-      const jws = await sut.signWithDID(issuerDID, { shouldbe: true });
-      const decoded = await sut.decode(jws);
-      const verified = await privateKey.publicKey().verify(
-        Buffer.from(decoded.data),
-        Buffer.from(base64url.baseDecode(decoded.signature))
-      );
-
-      expect(verified).to.be.true;
-    });
-
-    test("sign > decode - Secp256k1 - expected values and verifies", async () => {
-      const payload = { round: "trip" };
-
-      const jws = await sut.signWithDID(issuerDID, payload, header);
+    test("signature - verifies when signature is created with specific key, without did resolution", async () => {
+      const jws = await sut.signWithDID(issuerDID, { shouldbe: true }, header, masterKey);
       const decoded = await sut.decode(jws);
 
       expect(decoded).to.be.an("object");
       expect(decoded.header).to.deep.eq({ alg: 'ES256K', typ: 'JWT', ...header });
-      expect(decoded.payload).to.have.property("round", payload.round);
+      expect(decoded.payload).to.have.property("shouldbe", true);
       expect(decoded.payload).to.have.property("iss", issuerDID.toString());
 
-      const verified = await privateKey.publicKey().verify(
+      const verified = await masterKey.publicKey().verify(
         Buffer.from(decoded.data),
         Buffer.from(base64url.baseDecode(decoded.signature))
       );
@@ -179,10 +259,30 @@ describe("Domain - JWT", () => {
     });
 
     test("sign > decode - Ed25519 - expected values and verifies", async () => {
-      const ed25519Did = Domain.DID.from("did:prism:fc9fcaead407285991cdf1d27819720d8923e96274794c24977045e00b72e4c7:CqUBCqIBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSQQoQYXV0aGVudGljYXRpb24tMBAESisKB0VkMjU1MTkSIHZuX9hnUeQWh6UcQfG0xJbxP9ICAtqeNODLMfbMCfde");
+      const ed25519Did = Domain.DID.from(Fixtures.DIDs.prismDIDDefault);
       const payload = { round: "trip" };
 
       const jws = await sut.signWithDID(ed25519Did, payload, header, Fixtures.Keys.ed25519.privateKey);
+      const decoded = await sut.decode(jws);
+
+      expect(decoded).to.be.an("object");
+      expect(decoded.header).to.deep.eq({ alg: 'EdDSA', typ: 'JWT', ...header });
+      expect(decoded.payload).to.have.property("round", payload.round);
+      expect(decoded.payload).to.have.property("iss", ed25519Did.toString());
+
+      const verified = await Fixtures.Keys.ed25519.privateKey.publicKey().verify(
+        Buffer.from(decoded.data),
+        Buffer.from(base64url.baseDecode(decoded.signature))
+      );
+      expect(verified).to.be.true;
+    });
+
+    test("sign(Authentication) > decode - Ed25519 - expected values and verifies", async () => {
+
+      const ed25519Did = Fixtures.DIDs.prismDIDDefault;
+      const payload = { round: "trip" };
+
+      const jws = await sut.signWithDID(ed25519Did, payload, header, undefined, 'AUTHENTICATION_KEY');
       const decoded = await sut.decode(jws);
 
       expect(decoded).to.be.an("object");

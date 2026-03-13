@@ -19,8 +19,12 @@ export type RequiredPrismDIDKeys<
   T = Required<Pick<PrismDIDKeys, RequiredKeys>> & Omit<PrismDIDKeys, RequiredKeys>
 > = T
 
+
+
 export type RequiredPrismDIDSecretKeys = {
-  [key in keyof RequiredPrismDIDKeys]: PrivateKey
+  [key in Exclude<keyof RequiredPrismDIDKeys, 'MASTER_KEY'>]?: PrivateKey[]
+} & {
+  MASTER_KEY: PrivateKey
 }
 
 
