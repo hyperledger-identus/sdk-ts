@@ -205,6 +205,106 @@ describe("PrismDID",
           const services = sut.coreProperties.at(2);
           expect(services).toBeUndefined();
         });
+
+        test("ISSUING_KEY (secp256k1) appears in AssertionMethod via usage-keyed API", async () => {
+          const prismDid = await castor.createPrismDID(
+            Fixtures.Keys.secp256K1,
+            [],
+            { ISSUING_KEY: [Fixtures.Keys.secp256K1.publicKey] }
+          );
+          const sut = await castor.resolveDID(prismDid.toString());
+
+          // master + issuing = 2 verification methods
+          const verificationMethods = sut.coreProperties.find(
+            (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
+          );
+          expect(verificationMethods).toBeInstanceOf(DIDDocument.VerificationMethods);
+          expect(verificationMethods!.values).toHaveLength(2);
+
+          // ISSUING_KEY must produce an AssertionMethod entry, NOT Authentication
+          const assertionMethod = sut.coreProperties.find(
+            (prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod
+          );
+          expect(assertionMethod).toBeInstanceOf(DIDDocument.AssertionMethod);
+          expect(assertionMethod!.verificationMethods).toHaveLength(1);
+          expect(assertionMethod!.urls[0]).toContain("#issuing-0");
+
+          // no authentication should exist
+          const authentication = sut.coreProperties.find(
+            (prop): prop is DIDDocument.Authentication => prop instanceof DIDDocument.Authentication
+          );
+          expect(authentication).toBeUndefined();
+        });
+
+        test("ISSUING_KEY (Ed25519) appears in AssertionMethod via usage-keyed API", async () => {
+          const prismDid = await castor.createPrismDID(
+            Fixtures.Keys.secp256K1,
+            [],
+            { ISSUING_KEY: [ed25519.publicKey] }
+          );
+          const sut = await castor.resolveDID(prismDid.toString());
+
+          const assertionMethod = sut.coreProperties.find(
+            (prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod
+          );
+          expect(assertionMethod).toBeInstanceOf(DIDDocument.AssertionMethod);
+          expect(assertionMethod!.verificationMethods).toHaveLength(1);
+          expect(assertionMethod!.urls[0]).toContain("#issuing-0");
+
+          const issuingVM = assertionMethod!.verificationMethods[0];
+          expect(issuingVM.type).toEqual("Ed25519VerificationKey2020");
+        });
+
+        test("ISSUING_KEY + AUTHENTICATION_KEY appear in separate core properties", async () => {
+          const prismDid = await castor.createPrismDID(
+            Fixtures.Keys.secp256K1,
+            [],
+            {
+              AUTHENTICATION_KEY: [Fixtures.Keys.secp256K1.publicKey],
+              ISSUING_KEY: [ed25519.publicKey],
+            }
+          );
+          const sut = await castor.resolveDID(prismDid.toString());
+
+          // master + authentication + issuing = 3 verification methods
+          const verificationMethods = sut.coreProperties.find(
+            (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
+          );
+          expect(verificationMethods!.values).toHaveLength(3);
+
+          // Authentication bucket
+          const authentication = sut.coreProperties.find(
+            (prop): prop is DIDDocument.Authentication => prop instanceof DIDDocument.Authentication
+          );
+          expect(authentication).toBeInstanceOf(DIDDocument.Authentication);
+          expect(authentication!.verificationMethods).toHaveLength(1);
+          expect(authentication!.urls[0]).toContain("#authentication-0");
+
+          // AssertionMethod bucket
+          const assertionMethod = sut.coreProperties.find(
+            (prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod
+          );
+          expect(assertionMethod).toBeInstanceOf(DIDDocument.AssertionMethod);
+          expect(assertionMethod!.verificationMethods).toHaveLength(1);
+          expect(assertionMethod!.urls[0]).toContain("#issuing-0");
+        });
+
+        test("multiple ISSUING_KEYs all appear in AssertionMethod", async () => {
+          const prismDid = await castor.createPrismDID(
+            Fixtures.Keys.secp256K1,
+            [],
+            { ISSUING_KEY: [Fixtures.Keys.secp256K1.publicKey, ed25519.publicKey] }
+          );
+          const sut = await castor.resolveDID(prismDid.toString());
+
+          const assertionMethod = sut.coreProperties.find(
+            (prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod
+          );
+          expect(assertionMethod).toBeInstanceOf(DIDDocument.AssertionMethod);
+          expect(assertionMethod!.verificationMethods).toHaveLength(2);
+          expect(assertionMethod!.urls[0]).toContain("#issuing-0");
+          expect(assertionMethod!.urls[1]).toContain("#issuing-1");
+        });
       });
 
       it("Should correctly create a prismDID from an existing HexKey", async () => {
