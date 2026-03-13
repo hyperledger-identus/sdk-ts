@@ -4,6 +4,7 @@ import * as base64 from "multiformats/bases/base64";
 import * as base58 from "multiformats/bases/base58";
 import * as DIDParser from "./parser/DIDParser";
 import * as Domain from "../domain";
+import type { PrismDIDKeys } from "../domain/buildingBlocks/Castor";
 import * as ECConfig from "../domain/models/ECConfig";
 import { DIDDocument, } from "../domain/models";
 import { PeerDIDResolver } from "./resolver/PeerDIDResolver";
@@ -151,22 +152,23 @@ export default class Castor implements Domain.Castor {
    * });
    * const prismDid = await castor.createPrismDID(
    *  keyPairFromCurveSecp256K1.publicKey,
-   *  [exampleServiceEndpoint]
+   *  [exampleServiceEndpoint],
+   *  { ISSUING_KEY: [issuingPublicKey] }
    * );
    * ```
    *
    * 
    * @param {PublicKey | KeyPair} key
    * @param {?(Service[] | undefined)} [services]
-   * @param {?(PublicKey[] | undefined)} [authenticationKeys]
-   * @param {?(PublicKey[] | undefined)} [issuanceKeys]
+   * @param {?((PublicKey | KeyPair)[] | PrismDIDKeys)} [keysOrAuthenticationKeys] either a legacy array (treated as AUTHENTICATION_KEY) or a usage-keyed object
+   * @param {?((PublicKey | KeyPair)[])} [issuanceKeys] legacy positional param – use PrismDIDKeys instead
    * @returns {Promise<DID>}
    */
   async createPrismDID(
     key: Domain.PublicKey | Domain.KeyPair,
     services?: DIDDocument.Service[] | undefined,
-    authenticationKeys: (Domain.PublicKey | Domain.KeyPair)[] = [],
-    issuanceKeys: (Domain.PublicKey | Domain.KeyPair)[] = [],
+    keysOrAuthenticationKeys?: (Domain.PublicKey | Domain.KeyPair)[] | PrismDIDKeys,
+    issuanceKeys?: (Domain.PublicKey | Domain.KeyPair)[],
   ): Promise<Domain.DID> {
     const didPublicKeys: Protos.io.iohk.atala.prism.protos.PublicKey[] = [];
     const masterPublicKey = "publicKey" in key ? key.publicKey : key;
@@ -174,19 +176,32 @@ export default class Castor implements Domain.Castor {
 
     didPublicKeys.push(masterPk);
 
-    if (authenticationKeys.length) {
-      for (const [index, authenticationKey] of authenticationKeys.entries()) {
-        const pk = "publicKey" in authenticationKey ? authenticationKey.publicKey : authenticationKey;
-        const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.AUTHENTICATION_KEY, index);
-        didPublicKeys.push(prismDIDPublicKey);
-      }
-    }
-
-    if (issuanceKeys.length) {
-      for (const [index, issuanceKey] of issuanceKeys.entries()) {
-        const pk = "publicKey" in issuanceKey ? issuanceKey.publicKey : issuanceKey;
-        const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.ISSUING_KEY, index);
-        didPublicKeys.push(prismDIDPublicKey);
+    if (keysOrAuthenticationKeys) {
+      if (Array.isArray(keysOrAuthenticationKeys)) {
+        // Legacy path: plain array treated as AUTHENTICATION_KEY
+        for (const [index, authKey] of keysOrAuthenticationKeys.entries()) {
+          const pk = "publicKey" in authKey ? authKey.publicKey : authKey;
+          const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.AUTHENTICATION_KEY, index);
+          didPublicKeys.push(prismDIDPublicKey);
+        }
+        // Legacy 4th arg: issuance keys
+        if (issuanceKeys?.length) {
+          for (const [index, issuanceKey] of issuanceKeys.entries()) {
+            const pk = "publicKey" in issuanceKey ? issuanceKey.publicKey : issuanceKey;
+            const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.ISSUING_KEY, index);
+            didPublicKeys.push(prismDIDPublicKey);
+          }
+        }
+      } else {
+        // Usage-keyed object: route each key to the correct usage
+        for (const [usageName, keyList] of Object.entries(keysOrAuthenticationKeys)) {
+          const usage = PrismDIDKeyUsage[usageName as keyof typeof PrismDIDKeyUsage];
+          for (const [index, keyOrPair] of keyList.entries()) {
+            const pk = "publicKey" in keyOrPair ? keyOrPair.publicKey : keyOrPair;
+            const prismDIDPublicKey = this.createProtos(pk, usage, index);
+            didPublicKeys.push(prismDIDPublicKey);
+          }
+        }
       }
     }
 

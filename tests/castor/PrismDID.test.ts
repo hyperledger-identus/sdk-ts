@@ -305,6 +305,155 @@ describe("PrismDID",
           expect(assertionMethod!.urls[0]).toContain("#issuing-0");
           expect(assertionMethod!.urls[1]).toContain("#issuing-1");
         });
+
+        test("usage-keyed API with only AUTHENTICATION_KEY produces Authentication, no AssertionMethod", async () => {
+          const prismDid = await castor.createPrismDID(
+            Fixtures.Keys.secp256K1,
+            [],
+            { AUTHENTICATION_KEY: [ed25519.publicKey] }
+          );
+          const sut = await castor.resolveDID(prismDid.toString());
+
+          // master + auth = 2 verification methods
+          const verificationMethods = sut.coreProperties.find(
+            (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
+          );
+          expect(verificationMethods!.values).toHaveLength(2);
+
+          // Authentication bucket must be present
+          const authentication = sut.coreProperties.find(
+            (prop): prop is DIDDocument.Authentication => prop instanceof DIDDocument.Authentication
+          );
+          expect(authentication).toBeInstanceOf(DIDDocument.Authentication);
+          expect(authentication!.verificationMethods).toHaveLength(1);
+          expect(authentication!.urls[0]).toContain("#authentication-0");
+
+          // No AssertionMethod
+          const assertionMethod = sut.coreProperties.find(
+            (prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod
+          );
+          expect(assertionMethod).toBeUndefined();
+        });
+
+        test("empty PrismDIDKeys object produces DID with only master key", async () => {
+          const prismDid = await castor.createPrismDID(
+            Fixtures.Keys.secp256K1,
+            [],
+            {}
+          );
+          const sut = await castor.resolveDID(prismDid.toString());
+
+          const verificationMethods = sut.coreProperties.find(
+            (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
+          );
+          expect(verificationMethods).toBeInstanceOf(DIDDocument.VerificationMethods);
+          // Only the master key
+          expect(verificationMethods!.values).toHaveLength(1);
+          expect(verificationMethods!.values[0].id).toContain("#master-0");
+
+          // No authentication or assertion
+          const authentication = sut.coreProperties.find(
+            (prop): prop is DIDDocument.Authentication => prop instanceof DIDDocument.Authentication
+          );
+          expect(authentication).toBeUndefined();
+
+          const assertionMethod = sut.coreProperties.find(
+            (prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod
+          );
+          expect(assertionMethod).toBeUndefined();
+        });
+
+        test("legacy array API still works and routes to AUTHENTICATION_KEY", async () => {
+          const prismDid = await castor.createPrismDID(
+            Fixtures.Keys.secp256K1,
+            [],
+            [ed25519.publicKey]
+          );
+          const sut = await castor.resolveDID(prismDid.toString());
+
+          const authentication = sut.coreProperties.find(
+            (prop): prop is DIDDocument.Authentication => prop instanceof DIDDocument.Authentication
+          );
+          expect(authentication).toBeInstanceOf(DIDDocument.Authentication);
+          expect(authentication!.verificationMethods).toHaveLength(1);
+          expect(authentication!.urls[0]).toContain("#authentication-0");
+        });
+
+        test("legacy array API with 4th arg routes to ISSUING_KEY", async () => {
+          const prismDid = await castor.createPrismDID(
+            Fixtures.Keys.secp256K1,
+            [],
+            [Fixtures.Keys.secp256K1.publicKey],
+            [ed25519.publicKey]
+          );
+          const sut = await castor.resolveDID(prismDid.toString());
+
+          // master + auth + issuing = 3 VMs
+          const verificationMethods = sut.coreProperties.find(
+            (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
+          );
+          expect(verificationMethods!.values).toHaveLength(3);
+
+          // Authentication bucket
+          const authentication = sut.coreProperties.find(
+            (prop): prop is DIDDocument.Authentication => prop instanceof DIDDocument.Authentication
+          );
+          expect(authentication).toBeInstanceOf(DIDDocument.Authentication);
+          expect(authentication!.urls[0]).toContain("#authentication-0");
+
+          // AssertionMethod bucket
+          const assertionMethod = sut.coreProperties.find(
+            (prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod
+          );
+          expect(assertionMethod).toBeInstanceOf(DIDDocument.AssertionMethod);
+          expect(assertionMethod!.urls[0]).toContain("#issuing-0");
+        });
+
+        test("usage-keyed API with X25519 AUTHENTICATION_KEY", async () => {
+          const prismDid = await castor.createPrismDID(
+            Fixtures.Keys.secp256K1,
+            [],
+            { AUTHENTICATION_KEY: [x25519.publicKey] }
+          );
+          const sut = await castor.resolveDID(prismDid.toString());
+
+          const authentication = sut.coreProperties.find(
+            (prop): prop is DIDDocument.Authentication => prop instanceof DIDDocument.Authentication
+          );
+          expect(authentication).toBeInstanceOf(DIDDocument.Authentication);
+          expect(authentication!.verificationMethods).toHaveLength(1);
+
+          const authVM = authentication!.verificationMethods[0];
+          expect(authVM.type).toEqual("X25519KeyAgreementKey2020");
+        });
+
+        test("usage-keyed API with services", async () => {
+          const service = new DIDDocument.Service(
+            "#test-service",
+            ["DIDCommMessaging"],
+            new DIDDocument.ServiceEndpoint("https://example.com")
+          );
+          const prismDid = await castor.createPrismDID(
+            Fixtures.Keys.secp256K1,
+            [service],
+            { ISSUING_KEY: [ed25519.publicKey] }
+          );
+          const sut = await castor.resolveDID(prismDid.toString());
+
+          // AssertionMethod
+          const assertionMethod = sut.coreProperties.find(
+            (prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod
+          );
+          expect(assertionMethod).toBeInstanceOf(DIDDocument.AssertionMethod);
+          expect(assertionMethod!.verificationMethods).toHaveLength(1);
+
+          // Service should be present
+          const services = sut.coreProperties.find(
+            (prop): prop is DIDDocument.Services => prop instanceof DIDDocument.Services
+          );
+          expect(services).toBeInstanceOf(DIDDocument.Services);
+          expect(services!.values).toHaveLength(1);
+        });
       });
 
       it("Should correctly create a prismDID from an existing HexKey", async () => {
