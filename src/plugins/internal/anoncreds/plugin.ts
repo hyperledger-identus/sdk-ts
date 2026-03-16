@@ -1,4 +1,4 @@
-import { Plugin, Plugins } from "../..";
+import { Plugin, type Plugins } from "../..";
 import * as Types from "./types";
 import { AnoncredsLoader } from "./module/AnoncredsLoader";
 import { CredentialIssue } from "./CredentialIssue";

@@ -1,15 +1,15 @@
 import BN from "bn.js";
-import BigInteger from "bn.js";
+import type BigInteger from "bn.js";
 
 import * as ECConfig from "../../domain/models/ECConfig";
-import { ECPoint } from "./ec/ECPoint";
+import { type ECPoint } from "./ec/ECPoint";
 import { ApolloError, Curve, KeyProperties, KeyTypes, } from "../../domain";
 import {
   PublicKey,
   ExportableKey,
   ImportableKey,
   StorableKey,
-  VerifiableKey
+  type VerifiableKey
 } from "../../domain/models/keyManagement";
 
 import ApolloPKG from "@hyperledger/identus-apollo";

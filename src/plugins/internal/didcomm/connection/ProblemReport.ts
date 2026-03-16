@@ -1,7 +1,7 @@
-import * as Domain from "../../../../domain";
+import type * as Domain from "../../../../domain";
 import { Task } from "../../../../utils";
 import { ListenerKey } from "../../../../edge-agent/types";
-import { AgentContext } from "../../../../edge-agent/Context";
+import { type AgentContext } from "../../../../edge-agent/Context";
 
 /**
  * Problem Report

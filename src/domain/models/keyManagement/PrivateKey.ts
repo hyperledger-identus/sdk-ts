@@ -1,6 +1,6 @@
 import { Key } from "./Key";
 import { KeyProperties } from "../KeyProperties";
-import { PublicKey } from "./PublicKey";
+import { type PublicKey } from "./PublicKey";
 import { Pluto } from "../../buildingBlocks/Pluto";
 
 export abstract class PrivateKey extends Key implements Pluto.Storable {

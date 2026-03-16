@@ -1,14 +1,14 @@
-import { CredentialMetadata, DID, LinkSecret, PrismDID } from "../models";
-import { DIDPair } from "../models/DIDPair";
-import { PrivateKey } from "../models";
-import { Mediator } from "../models/Mediator";
-import { Message } from "../models/Message";
-import { Credential } from "../models/Credential";
-import { PeerDID } from "../../peer-did/PeerDID";
+import { type CredentialMetadata, type DID, type LinkSecret, type PrismDID } from "../models";
+import { type DIDPair } from "../models/DIDPair";
+import { type PrivateKey } from "../models";
+import { type Mediator } from "../models/Mediator";
+import { type Message } from "../models/Message";
+import { type Credential } from "../models/Credential";
+import { type PeerDID } from "../../peer-did/PeerDID";
 import { uuid } from "@stablelib/uuid";
-import { Arrayable } from "../../utils";
-import * as Backup from "../backup";
-import { Startable } from "../protocols";
+import { type Arrayable } from "../../utils";
+import type * as Backup from "../backup";
+import { type Startable } from "../protocols";
 
 export namespace Pluto {
   /**

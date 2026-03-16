@@ -55,19 +55,19 @@ export class Bitstring {
     }
 
     async encodeBits(): Promise<string> {
-        return base64url.baseEncode(gzip(this.bits));
+        return Promise.resolve(base64url.baseEncode(gzip(this.bits)));
     }
 
     static async decodeBits(encoded: string): Promise<Uint8Array> {
-        return ungzip(base64url.baseDecode(encoded));
+        return Promise.resolve(ungzip(base64url.baseDecode(encoded)));
     }
 
     async compressBits(): Promise<Uint8Array> {
-        return gzip(this.bits);
+        return Promise.resolve(gzip(this.bits));
     }
 
     static async uncompressBits(compressed: Uint8Array): Promise<Uint8Array> {
-        return ungzip(compressed);
+        return Promise.resolve(ungzip(compressed));
     }
 
     private parsePosition(position: number): { index: number; bit: number } {

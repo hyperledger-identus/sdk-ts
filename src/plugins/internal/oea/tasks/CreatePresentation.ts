@@ -1,9 +1,9 @@
 import { uuid } from "@stablelib/uuid";
 import * as Domain from "../../../../domain";
 import { expect, isString, Task } from "../../../../utils";
-import { Plugins } from "../../../types";
+import { type Plugins } from "../../../types";
 import { RunProtocol } from "../../../../edge-agent/helpers/RunProtocol";
-import { RequestPresentation } from "../protocols/RequestPresentation";
+import { type RequestPresentation } from "../protocols/RequestPresentation";
 import { Presentation } from "../protocols/Presentation";
 
 /**

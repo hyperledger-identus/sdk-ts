@@ -1,4 +1,4 @@
-import { JsonObj } from "../../../utils";
+import { type JsonObj } from "../../../utils";
 
 // Open Enterprise Agent specific
 export namespace OEA {

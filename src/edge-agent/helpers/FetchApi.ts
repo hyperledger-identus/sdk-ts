@@ -1,4 +1,4 @@
-import { Api, HttpMethod, ApiResponse, ApiError } from "../../domain/models/Api";
+import { type Api, type HttpMethod, ApiResponse, ApiError } from "../../domain/models/Api";
 
 /**
  * Implement API using built in fetch

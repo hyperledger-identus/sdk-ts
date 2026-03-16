@@ -13,7 +13,9 @@ export class JWT extends Task.Runner {
   }
 
   async decode(jws: string) {
-    return Domain.JWT.decode(jws);
+    return Promise.resolve(
+      Domain.JWT.decode(jws)
+    );
   }
 
   /**

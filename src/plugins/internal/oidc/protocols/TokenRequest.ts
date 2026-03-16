@@ -1,5 +1,5 @@
 import * as Domain from "../../../../domain";
-import * as Utils from "../../../../utils";
+import type * as Utils from "../../../../utils";
 
 export class TokenRequest extends Domain.ApiRequest {
   constructor(

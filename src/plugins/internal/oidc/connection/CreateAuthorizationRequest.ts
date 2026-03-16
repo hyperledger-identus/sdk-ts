@@ -1,9 +1,9 @@
 import { AuthorizationRequest } from "../protocols/AuthorizationRequest";
 import * as Utils from "../../../../utils";
 import {
-  CredentialOffer,
-  IssuerMetadata,
-  AuthServerMetadata,
+  type CredentialOffer,
+  type IssuerMetadata,
+  type AuthServerMetadata,
 } from "../types";
 
 export interface CreateAuthorizationRequestArgs {
@@ -39,21 +39,7 @@ export class CreateAuthorizationRequest extends Utils.Task<AuthorizationRequest,
       authRequest.params.set('issuer_state', issuerState);
     }
 
-    // TODO find library for full Authorization support
-    // if (authServerConfig.code_challenge_methods_supported?.includes('S256')) {
-    //   const code_verifier = generateRandomCodeVerifier();
-    //   const code_challenge = await calculatePKCECodeChallenge(code_verifier);
-    //   authRequest.setCodeChallenge("S256", code_challenge, code_verifier);
-    // }
-    // else {
-    //   const nonce = generateRandomNonce();
-    //   authRequest.setNonce(nonce);
-
-    //   if (authServerConfig.code_challenge_methods_supported?.includes("plain")) {
-    //   }
-    // }
-
-    return authRequest;
+    return Promise.resolve(authRequest);
   }
 
   private processScopes() {

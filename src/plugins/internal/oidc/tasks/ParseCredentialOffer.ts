@@ -1,5 +1,5 @@
 import { CredentialOffer } from "../types";
-import { Context } from "../plugin";
+import { type Context } from "../plugin";
 import { InvalidOffer } from "../errors";
 import * as Utils from "../../../../utils";
 

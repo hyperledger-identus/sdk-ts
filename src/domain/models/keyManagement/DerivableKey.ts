@@ -1,4 +1,4 @@
-import { PrivateKey } from "./PrivateKey";
+import { type PrivateKey } from "./PrivateKey";
 
 export abstract class DerivableKey {
   abstract derive(derivationPath: string): PrivateKey;

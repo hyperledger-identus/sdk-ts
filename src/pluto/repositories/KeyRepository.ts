@@ -1,7 +1,7 @@
 import * as Domain from "../../domain";
 import type * as Models from "../models";
 import type { Pluto } from "../Pluto";
-import { Query } from "../types";
+import { type Query } from "../types";
 import { MapperRepository } from "./builders/MapperRepository";
 
 export class KeyRepository extends MapperRepository<Models.Key, Domain.PrivateKey> {

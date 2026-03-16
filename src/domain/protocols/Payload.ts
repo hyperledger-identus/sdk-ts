@@ -1,5 +1,5 @@
-/* eslint-disable no-redeclare */
-/* eslint-disable @typescript-eslint/no-namespace */
+ 
+ 
 /**
  * General purpose struct to pass data around
  * 

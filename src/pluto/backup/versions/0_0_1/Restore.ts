@@ -5,7 +5,7 @@ import { X25519PrivateKey } from "../../../../apollo/utils/X25519PrivateKey";
 import { AnonCredsCredential } from "../../../../pollux/models/AnonCredsVerifiableCredential";
 import { JWTCredential } from "../../../../pollux/models/JWTVerifiableCredential";
 import { notEmptyString, notNil, validate } from "../../../../utils";
-import { IRestoreTask } from "../interfaces";
+import { type IRestoreTask } from "../interfaces";
 import { base64url } from "multiformats/bases/base64";
 
 export class RestoreTask implements IRestoreTask {
@@ -79,10 +79,10 @@ export class RestoreTask implements IRestoreTask {
         case Domain.Curve.SECP256K1.toLowerCase():
           return Secp256k1PrivateKey.from.String(jwk.d, "base64url");
 
-        case Domain.Curve.ED25519:
+        case Domain.Curve.ED25519.toString():
           return Ed25519PrivateKey.from.String(jwk.d, "base64url");
 
-        case Domain.Curve.X25519:
+        case Domain.Curve.X25519.toString():
           return X25519PrivateKey.from.String(jwk.d, "base64url");
       }
 

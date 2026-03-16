@@ -1,4 +1,4 @@
-import { Static, TObject } from "@sinclair/typebox";
+import { type Static, type TObject } from "@sinclair/typebox";
 import { Value } from '@sinclair/typebox/value';
 import { ValidationError } from "../domain/models/errors/Common";
 

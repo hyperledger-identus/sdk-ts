@@ -1,5 +1,5 @@
 import { uuid } from "@stablelib/uuid";
-import { AgentError, AttachmentDescriptor, JsonString } from "../../../../../domain";
+import { AgentError, type AttachmentDescriptor, type JsonString } from "../../../../../domain";
 import { PrismOnboardingInvitation } from "./PrismOnboardingInvitation";
 import { ProtocolIds } from "../../types";
 

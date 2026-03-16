@@ -1,7 +1,7 @@
 import * as Domain from "../../../../domain";
 import { RunProtocol } from "../../../../edge-agent/helpers/RunProtocol";
 import { expect, Task } from "../../../../utils";
-import { Context } from "../plugin";
+import { type Context } from "../plugin";
 
 /**
  * Extract the verifiableCredential object from the Issue credential message asyncronously

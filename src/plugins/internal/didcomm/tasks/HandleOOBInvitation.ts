@@ -1,8 +1,8 @@
 import * as Domain from "../../../../domain";
 import { asArray, isNil, notNil, Task } from "../../../../utils";
-import { OutOfBandInvitation } from "../protocols/invitation/OutOfBandInvitation";
+import { type OutOfBandInvitation } from "../protocols/invitation/OutOfBandInvitation";
 import { HandshakeRequest } from "../../oea/protocols/HandshakeRequest";
-import { Plugins } from "../../../types";
+import { type Plugins } from "../../../types";
 import { CreatePeerDID } from "../../../../edge-agent/didcomm/CreatePeerDID";
 import { DIDCommConnection } from "../connection/DIDCommConnection";
 import { ListenerKey } from "../../../../edge-agent/types";
@@ -48,7 +48,7 @@ export class HandleOOBInvitation extends Task<void, Args> {
     }
     else {
       await ctx.Pluto.storeMessage(attachedMsg);
-      await ctx.Events.emit(ListenerKey.MESSAGE, [attachedMsg]);
+      ctx.Events.emit(ListenerKey.MESSAGE, [attachedMsg]);
     }
   }
 }

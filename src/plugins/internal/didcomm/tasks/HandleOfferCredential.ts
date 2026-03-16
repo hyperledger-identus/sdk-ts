@@ -2,7 +2,7 @@ import { base64 } from "multiformats/bases/base64";
 import * as Domain from "../../../../domain";
 import { expect, isString, Task } from "../../../../utils";
 import { RunProtocol } from "../../../../edge-agent/helpers/RunProtocol";
-import { Context } from "../plugin";
+import { type Context } from "../plugin";
 import { ProtocolIds } from "../types";
 import { RequestCredential } from "../protocols/issueCredential/RequestCredential";
 

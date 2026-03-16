@@ -1,12 +1,12 @@
 import { base64 } from "multiformats/bases/base64";
 import * as Domain from "../../domain";
-import { JsonObj, asJsonObj, expect, isObject, isString } from "../../utils";
+import { type JsonObj, asJsonObj, expect, isObject, isString } from "../../utils";
 import { Task } from "../../utils/tasks";
 import { ParsePrismInvitation } from "./ParsePrismInvitation";
 import { InvalidURLError, InvitationIsInvalidError } from "../../domain/models/errors/Agent";
 import { ParseOOBInvitation } from "./ParseOOBInvitation";
-import { InvitationType } from "../types";
-import { AgentContext } from "../Context";
+import { type InvitationType } from "../types";
+import { type AgentContext } from "../Context";
 import { OEA } from "../../plugins/internal/oea/types";
 import { ProtocolIds } from "../../plugins/internal/didcomm/types";
 

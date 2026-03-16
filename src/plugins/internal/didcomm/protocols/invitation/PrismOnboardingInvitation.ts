@@ -1,4 +1,4 @@
-import { DID } from "../../../../../domain";
+import { type DID } from "../../../../../domain";
 
 export enum InvitationTypes {
   OUTOFBAND,

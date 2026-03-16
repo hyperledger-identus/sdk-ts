@@ -1,10 +1,10 @@
 import * as Domain from "../../domain";
 import * as Versions from "./versions";
-import { Pluto } from "../Pluto";
-import { PlutoRepositories } from "../repositories";
+import { type Pluto } from "../Pluto";
+import { type PlutoRepositories } from "../repositories";
 import { isEmpty } from "../../utils";
-import { IBackupTask, IRestoreTask } from "./versions/interfaces";
-import { Version } from "../../domain/backup";
+import { type IBackupTask, type IRestoreTask } from "./versions/interfaces";
+import { type Version } from "../../domain/backup";
 
 /**
  * BackupManager

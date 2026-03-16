@@ -5,7 +5,7 @@ import {
   VerificationMaterialFormatPeerDID,
   VerificationMaterialAuthentication,
   VerificationMaterialAgreement,
-  VerificationMaterialPeerDID,
+  type VerificationMaterialPeerDID,
   VerificationMethodTypeAgreement,
   VerificationMethodTypeAuthentication,
   Numalgo2Prefix,
@@ -15,7 +15,7 @@ import { base58btc } from "multiformats/bases/base58";
 import {
   DID,
   DIDDocument,
-  DIDResolver,
+  type DIDResolver,
   DIDUrl,
 } from "../../domain/models";
 import { JWKHelper } from "../../peer-did/helpers/JWKHelper";
@@ -29,9 +29,11 @@ export class PeerDIDResolver implements DIDResolver {
     if (did.method !== "peer" || did.methodId.slice(0, 1) !== "2") {
       throw new CastorError.NotPossibleToResolveDID();
     }
-    return this.buildDIDDocumentAlgo2(
-      did,
-      VerificationMaterialFormatPeerDID.JWK
+    return Promise.resolve(
+      this.buildDIDDocumentAlgo2(
+        did,
+        VerificationMaterialFormatPeerDID.JWK
+      )
     );
   }
 
@@ -52,18 +54,18 @@ export class PeerDIDResolver implements DIDResolver {
       const type = part.slice(0, 1);
 
       switch (type) {
-        case Numalgo2Prefix.authentication:
+        case Numalgo2Prefix.authentication.toString():
           decoded = this.decodeMultibaseEncnumbasisAuth(part.slice(1), format);
           authenticationMethods.push(this.getVerificationMethod(did, decoded, index));
           break;
-        case Numalgo2Prefix.keyAgreement:
+        case Numalgo2Prefix.keyAgreement.toString():
           decoded = this.decodeMultibaseEcnumbasisAgreement(
             part.slice(1),
             format
           );
           keyAgreementMethods.push(this.getVerificationMethod(did, decoded, index));
           break;
-        case Numalgo2Prefix.service:
+        case Numalgo2Prefix.service.toString():
           services.push(...this.decodeService(did, part.slice(1)));
       }
     });
@@ -153,7 +155,7 @@ export class PeerDIDResolver implements DIDResolver {
             format
           ),
         ];
-      } catch (err) {
+      } catch {
         throw new CastorError.InvalidJWKKeysError();
       }
     } else if (codec === Codec.ed25519) {
@@ -171,7 +173,7 @@ export class PeerDIDResolver implements DIDResolver {
             format
           ),
         ];
-      } catch (err) {
+      } catch {
         throw new CastorError.InvalidJWKKeysError();
       }
     }
@@ -228,7 +230,7 @@ export class PeerDIDResolver implements DIDResolver {
         );
       });
       return didcommServices;
-    } catch (e) {
+    } catch {
       throw new CastorError.NotPossibleToResolveDID();
     }
   }

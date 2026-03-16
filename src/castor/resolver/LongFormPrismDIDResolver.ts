@@ -1,13 +1,13 @@
 import { SHA256 } from "@stablelib/sha256";
 import { CastorError } from "../../domain/models/Errors";
-import { Apollo } from "../../domain/buildingBlocks/Apollo";
+import { type Apollo } from "../../domain/buildingBlocks/Apollo";
 import { LongFormPrismDID } from "../../castor/did/prismDID/LongFormPrismDID";
 import {
-  DIDResolver,
+  type DIDResolver,
   DIDDocument,
-  DID,
+  type DID,
   DIDUrl,
-  PublicKey,
+  type PublicKey,
   Curve,
 } from "../../domain/models";
 
@@ -23,7 +23,7 @@ import { PrismDIDKeyUsage } from "../../domain/models/derivation/schemas/PrismDe
 export class LongFormPrismDIDResolver implements DIDResolver {
   method = "prism";
 
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo) { }
 
   async resolve(didString: string): Promise<DIDDocument> {
     const did = DIDParser.parse(didString);
@@ -31,7 +31,7 @@ export class LongFormPrismDIDResolver implements DIDResolver {
     const state = prismDID.encodedState;
     const base64State = base64.base64url.decode(`u${state}`);
     const coreProperties = this.decodeState(did, base64State);
-    return new DIDDocument(did, coreProperties);
+    return Promise.resolve(new DIDDocument(did, coreProperties));
   }
 
   private getProtoCurve(proto: Protos.io.iohk.atala.prism.protos.PublicKey) {
@@ -140,7 +140,7 @@ export class LongFormPrismDIDResolver implements DIDResolver {
       }
 
       return coreProperties;
-    } catch (err) {
+    } catch {
       throw new CastorError.InitialStateOfDIDChanged();
     }
   }
@@ -149,7 +149,7 @@ export class LongFormPrismDIDResolver implements DIDResolver {
     curve: string,
     key: Protos.io.iohk.atala.prism.protos.PublicKey
   ): PublicKey {
-    if (curve === Curve.SECP256K1) {
+    if (curve === Curve.SECP256K1.toString()) {
       return key.has_compressed_ec_key_data
         ? Secp256k1PublicKey.secp256k1FromBytes(key.compressed_ec_key_data.data)
         : Secp256k1PublicKey.secp256k1FromByteCoordinates(key.ec_key_data.x, key.ec_key_data.y);
@@ -159,10 +159,10 @@ export class LongFormPrismDIDResolver implements DIDResolver {
       throw new Error("Expected compressed compressed key");
     }
 
-    if (curve === Curve.ED25519) {
+    if (curve === Curve.ED25519.toString()) {
       return Ed25519PublicKey.from.Buffer(Buffer.from(key.compressed_ec_key_data.data));
     }
-    if (curve === Curve.X25519) {
+    if (curve === Curve.X25519.toString()) {
       return X25519PublicKey.from.Buffer(Buffer.from(key.compressed_ec_key_data.data));
     }
 
@@ -171,11 +171,11 @@ export class LongFormPrismDIDResolver implements DIDResolver {
 
   private getVerificationMethodType(curve: string): DIDDocument.VerificationMethod.Type {
     switch (curve) {
-      case Curve.SECP256K1:
+      case Curve.SECP256K1.toString():
         return "EcdsaSecp256k1VerificationKey2019";
-      case Curve.ED25519:
+      case Curve.ED25519.toString():
         return "Ed25519VerificationKey2020";
-      case Curve.X25519:
+      case Curve.X25519.toString():
         return "X25519KeyAgreementKey2020";
       default:
         return "JsonWebKey2020";

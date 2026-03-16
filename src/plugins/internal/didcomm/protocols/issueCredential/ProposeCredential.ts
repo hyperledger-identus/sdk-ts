@@ -1,6 +1,6 @@
 import { uuid } from "@stablelib/uuid";
-import { AgentError, AttachmentDescriptor, DID, Message } from "../../../../../domain";
-import { CredentialPreview } from "./CredentialPreview";
+import { AgentError, type AttachmentDescriptor, type DID, Message } from "../../../../../domain";
+import { type CredentialPreview } from "./CredentialPreview";
 import { isNil } from "../../../../../utils";
 import { ProtocolIds } from "../../types";
 

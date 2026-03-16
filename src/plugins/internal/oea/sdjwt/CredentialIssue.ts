@@ -11,7 +11,7 @@ export class CredentialIssue extends Plugins.Task<Args> {
     const jws = this.getJWS();
     // ??? use context.SDJWT
     const wrapCredential = SDJWTCredential.fromJWS(jws);
-    return Payload.make("credential", wrapCredential);
+    return Promise.resolve(Payload.make("credential", wrapCredential));
   }
 
   private getJWS(): string {

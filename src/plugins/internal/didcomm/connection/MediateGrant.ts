@@ -1,6 +1,6 @@
 import * as Domain from "../../../../domain";
 import { Task, expect } from "../../../../utils";
-import { AgentContext } from "../../../../edge-agent/Context";
+import { type AgentContext } from "../../../../edge-agent/Context";
 import { Connection } from "../../../../edge-agent/connections/Connection";
 
 /**
@@ -32,6 +32,6 @@ export class MediateGrant extends Task<void, Args> {
     connection.state = Connection.State.GRANTED;
     await ctx.Pluto.storeMediator(mediator);
 
-    ctx.logger.info(`Mediation Granted: ${uri}`);
+    ctx.logger.info(`Mediation Granted: ${uri.toString()}`);
   }
 }

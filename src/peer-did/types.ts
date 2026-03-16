@@ -1,4 +1,4 @@
-import { DIDDocument } from "../domain/models/DIDDocument";
+import { type DIDDocument } from "../domain/models/DIDDocument";
 
 export enum VerificationMaterialFormatPeerDID {
   JWK = "jwk",

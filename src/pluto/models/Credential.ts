@@ -1,11 +1,10 @@
 import * as sha256 from '@stablelib/sha256';
-import * as Domain from "../../domain";
 import type { Model } from "./Model";
 import { schemaFactory } from "./Schema";
 import { JWTVerifiableCredentialRecoveryId } from "../../pollux/models/JWTVerifiableCredential";
 import { AnonCredsRecoveryId } from "../../pollux/models/AnonCredsVerifiableCredential";
 import { PlutoError } from '../../domain';
-import { MigrationStrategies } from '../types';
+import { type MigrationStrategies } from '../types';
 
 /**
  * Definition for Storable Credential model

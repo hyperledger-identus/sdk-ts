@@ -1,4 +1,4 @@
-import { PrivateKey, PublicKey, StorableKey } from "../models";
+import { type PrivateKey, type PublicKey, type StorableKey } from "../models";
 
 /**
  * KeyRestoration protocol defines methods for verifying and restoring cryptographic keys from raw data.

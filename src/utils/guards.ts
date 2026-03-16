@@ -1,5 +1,5 @@
 import { ExpectError } from "../domain/models/errors/Common";
-import { Ctor, JsonObj, Nil } from "./types";
+import { type Ctor, type JsonObj, type Nil } from "./types";
 
 /**
  * isNullish

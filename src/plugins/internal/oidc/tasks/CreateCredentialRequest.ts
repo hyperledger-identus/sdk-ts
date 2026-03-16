@@ -1,9 +1,9 @@
-import { CredentialOffer, IssuerMetadata, TokenResponse } from "../types";
-import { Context } from "../plugin";
+import { type CredentialOffer, type IssuerMetadata, type TokenResponse } from "../types";
+import { type Context } from "../plugin";
 import { InvalidCredentialConfigurationIds } from "../errors";
 import { CredentialRequest } from "../protocols/CredentialRequest";
 import { FetchIssuerMetadata } from "./FetchIssuerMetadata";
-import { OIDCConnection } from "../connection/OIDCConnection";
+import { type OIDCConnection } from "../connection/OIDCConnection";
 import * as Utils from "../../../../utils";
 import { CreatePrismDID } from "../../../../edge-agent/didFunctions";
 

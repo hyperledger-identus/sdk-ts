@@ -18,7 +18,7 @@
  * ```
  */
 import { Plugin } from "../../Plugin";
-import { Plugins } from "../../types";
+import { type Plugins } from "../../types";
 import { IsCredentialRevoked } from "./IsCredentialRevoked";
 import { PresentationRequest } from "./PresentationRequest";
 import { PresentationVerify } from "./PresentationVerify";

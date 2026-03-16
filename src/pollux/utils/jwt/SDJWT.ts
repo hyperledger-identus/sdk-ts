@@ -1,10 +1,10 @@
 import Hashing from "hash.js";
 import { base64url } from "multiformats/bases/base64";
-import { SDJWTVCConfig, SDJwtVcInstance, SdJwtVcPayload, } from '@sd-jwt/sd-jwt-vc';
-import { Disclosure } from '@sd-jwt/utils';
+import { type SDJWTVCConfig, SDJwtVcInstance, type SdJwtVcPayload, } from '@sd-jwt/sd-jwt-vc';
+import { type Disclosure } from '@sd-jwt/utils';
 import { decodeSdJwtSync, getClaimsSync } from '@sd-jwt/decode';
 import type { DisclosureFrame, PresentationFrame } from '@sd-jwt/types';
-import * as Domain from '../../../domain';
+import type * as Domain from '../../../domain';
 import { SDJWTCredential } from '../../models/SDJWTVerifiableCredential';
 import { Task, notNil } from "../../../utils";
 import { ResolveDID } from "./ResolveDID";
@@ -64,7 +64,7 @@ export class SDJWT extends Task.Runner {
     if (!verificationMethods) {
       throw new Error("Invalid did document");
     }
-    const jwtObject = await SDJWTCredential.fromJWS(jws);
+    const jwtObject = SDJWTCredential.fromJWS(jws);
 
     if (jwtObject.issuer && jwtObject.issuer !== issuerDID.toString()) {
       throw new Error("Invalid issuer");
@@ -109,10 +109,12 @@ export class SDJWT extends Task.Runner {
     disclosedPayload: Record<string, unknown>,
     disclosures: Disclosure[]
   ) {
-    return getClaimsSync(
-      disclosedPayload,
-      disclosures,
-      defaultHashConfig.hasher
+    return Promise.resolve(
+      getClaimsSync(
+        disclosedPayload,
+        disclosures,
+        defaultHashConfig.hasher
+      )
     );
   }
 
@@ -126,7 +128,9 @@ export class SDJWT extends Task.Runner {
           throw new Error("Cannot verify with this key");
         }
         const signature = Buffer.from(base64url.baseDecode(signatureEncoded));
-        return publicKey.verify(Buffer.from(data), signature);
+        return Promise.resolve(
+          publicKey.verify(Buffer.from(data), signature)
+        );
       },
       saltGenerator: (length: number) => this.saltGenerator(length)
     };
@@ -161,7 +165,9 @@ export class SDJWT extends Task.Runner {
         }
         const signature = privateKey.sign(Buffer.from(data));
         const signatureEncoded = base64url.baseEncode(signature);
-        return signatureEncoded;
+        return Promise.resolve(
+          signatureEncoded
+        );
       },
       saltGenerator: (length: number) => this.saltGenerator(length)
     };

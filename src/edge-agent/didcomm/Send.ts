@@ -1,8 +1,8 @@
 import * as Domain from "../../domain";
 import { expect, notNil } from "../../utils";
 import { Task } from "../../utils/tasks";
-import { AgentContext } from "../Context";
-import { Connection } from "../connections";
+import { type AgentContext } from "../Context";
+import { type Connection } from "../connections";
 import { DIDCommConnection } from "../../plugins/internal/didcomm";
 
 /**

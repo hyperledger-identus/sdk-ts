@@ -1,4 +1,4 @@
-import { Curve } from "./Curve";
+import { type Curve } from "./Curve";
 
 export interface KeyCurve {
   curve: Curve;

@@ -1,7 +1,7 @@
 import * as TB from "@sinclair/typebox";
 import type * as Anoncreds from "anoncreds-wasm";
 import * as sha256 from '@stablelib/sha256';
-import { Credential, StorableCredential } from "../../domain/models/Credential";
+import { Credential, type StorableCredential } from "../../domain/models/Credential";
 import { CredentialType } from "../../domain/models/VerifiableCredential";
 import { isString, validate } from "../../utils";
 

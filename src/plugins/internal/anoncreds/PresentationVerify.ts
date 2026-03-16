@@ -4,7 +4,7 @@ import { fetchSchema } from "./FetchSchema";
 import { Payload } from "../../../domain/protocols/Payload";
 import { notNil } from "../../../utils";
 import type { Context } from "./plugin";
-import * as Types from "./types";
+import type * as Types from "./types";
 import { Plugins } from "../../../plugins";
 import { OEA } from "../oea/types";
 

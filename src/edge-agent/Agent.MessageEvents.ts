@@ -1,5 +1,5 @@
 import { expect, notNil } from "../utils";
-import { EventCallback, ListenerKey } from "./types";
+import { type EventCallback, type ListenerKey } from "./types";
 
 /**
  * An extension for the Edge agent that gives it capability of

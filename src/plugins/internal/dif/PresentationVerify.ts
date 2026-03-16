@@ -5,7 +5,7 @@ import { Payload } from "../../../domain/protocols/Payload";
 import { JWTCredential } from "../../../pollux/models/JWTVerifiableCredential";
 import { SDJWTCredential } from "../../../pollux/models/SDJWTVerifiableCredential";
 import { DescriptorPath } from "../../../pollux/utils/DescriptorPath";
-import { DIF } from "./types";
+import { type DIF } from "./types";
 import type { Context } from "./index";
 import { Plugins } from "../../../plugins";
 
@@ -94,7 +94,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
     }
 
     throw new Domain.PolluxError.InvalidVerifyFormatError(
-      `Invalid Submission, ${descriptorItem.path} expected to have one of the following formats ${this.knownFormats.join(", ")} but got ${descriptorItem.format}`
+      `Invalid Submission, ${descriptorItem.path} expected to have one of the following formats ${this.knownFormats.join(", ")} but got ${descriptorItem.format as string}`
     );
   }
 
@@ -256,7 +256,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
         } else if (filter.const && value === filter.pattern) {
           if (value !== filter.const) {
             throw new Domain.PolluxError.InvalidVerifyCredentialError(
-              vc, `Invalid Claim: Expected the ${path} field to be "${filter.const}" but got "${value}"`
+              vc, `Invalid Claim: Expected the ${path} field to be "${JSON.stringify(filter.const)}" but got "${value}"`
             )
           } else {
             return true;
@@ -270,7 +270,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
       )
     } catch (err) {
       if (err instanceof Domain.PolluxError.InvalidVerifyCredentialError) {
-        return err as Domain.PolluxError.InvalidVerifyCredentialError;
+        return err;
       }
       return err as Error;
     }

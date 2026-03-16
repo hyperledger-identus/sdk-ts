@@ -1,9 +1,9 @@
-import { Domain } from "../../../exports";
+import { type Domain } from "../../../exports";
 import { expect, Task } from "../../../utils";
 
 import { base64url } from "multiformats/bases/base64";
-import { ApolloError, Curve, JWK, KeyPair, KeyProperties, PolluxError, PrivateKey, PublicKey } from "../../../domain";
-import { AgentContext } from "../../../edge-agent/Context";
+import { ApolloError, Curve, type JWK, type KeyPair, KeyProperties, PolluxError, type PrivateKey, type PublicKey } from "../../../domain";
+import { type AgentContext } from "../../../edge-agent/Context";
 
 export interface Args {
   jwk: Domain.JWK;
@@ -40,7 +40,7 @@ export class FromJWK extends Task<Domain.PublicKey | Domain.KeyPair, Args> {
       }
       const decoded = base64url.baseDecode(coordinateValue);
       return new Uint8Array(decoded);
-    } catch (err) {
+    } catch {
       throw new PolluxError.InvalidJWKParameters(coordinate, `Invalid JWK Parameter, not base64url encoded`);
     }
   }
@@ -131,10 +131,10 @@ export class FromJWK extends Task<Domain.PublicKey | Domain.KeyPair, Args> {
     const isEC = this.isECJWK(jwk);
     const isOKP = this.isOKPJWK(jwk);
     if (isEC) {
-      return this.fromJWKEC(ctx.Apollo, jwk);
+      return Promise.resolve(this.fromJWKEC(ctx.Apollo, jwk));
     }
     if (isOKP) {
-      return this.fromJWKOKP(ctx.Apollo, jwk);
+      return Promise.resolve(this.fromJWKOKP(ctx.Apollo, jwk));
     }
     throw new PolluxError.InvalidJWKParameters(["kty"], "The kty field must be EC or OKP");
   }

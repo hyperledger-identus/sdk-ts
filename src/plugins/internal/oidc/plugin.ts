@@ -1,5 +1,5 @@
 import { Plugin } from "../../Plugin";
-import { Plugins } from "../../types";
+import { type Plugins } from "../../types";
 import { OIDCModule } from "./module";
 
 export type Modules = { OIDC: OIDCModule; };

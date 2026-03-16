@@ -1,6 +1,6 @@
-import { Task } from "../utils";
+import { type Task } from "../utils";
 import { asArray } from "../utils/guards";
-import { Arrayable, Ctor } from "../utils/types";
+import { type Arrayable, type Ctor } from "../utils/types";
 
 /**
  * Provide interface to augment the SDK.

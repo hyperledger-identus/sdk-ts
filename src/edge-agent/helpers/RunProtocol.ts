@@ -1,7 +1,7 @@
-import { JsonObj, expect, Task } from "../../utils";
-import { AgentContext } from "../Context";
-import { Domain } from "../../exports";
-import { SdJwtVcPayload, } from "@sd-jwt/sd-jwt-vc";
+import { type JsonObj, expect, Task } from "../../utils";
+import { type AgentContext } from "../Context";
+import { type Domain } from "../../exports";
+import { type SdJwtVcPayload, } from "@sd-jwt/sd-jwt-vc";
 import type { DisclosureFrame } from '@sd-jwt/types';
 
 /**

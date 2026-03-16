@@ -1,6 +1,6 @@
 import { Task } from "../../../utils";
 import type { Context } from "./plugin";
-import * as Types from "./types";
+import type * as Types from "./types";
 
 export interface FetchCredentialDefinitionArgs {
   uri: string;

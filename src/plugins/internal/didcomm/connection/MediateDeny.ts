@@ -1,6 +1,6 @@
-import * as Domain from "../../../../domain";
+import type * as Domain from "../../../../domain";
 import { Task, expect } from "../../../../utils";
-import { AgentContext } from "../../../../edge-agent/Context";
+import { type AgentContext } from "../../../../edge-agent/Context";
 import { Connection } from "../../../../edge-agent/connections/Connection";
 
 /**
@@ -20,5 +20,6 @@ export class MediateDeny extends Task<void, Args> {
     const uri = expect(this.args.message.from);
     const connection = expect(ctx.Connections.find(uri.toString()));
     connection.state = Connection.State.DENIED;
+    return Promise.resolve()
   }
 }

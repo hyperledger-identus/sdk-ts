@@ -5,10 +5,10 @@ import { Secp256k1PublicKey } from "./Secp256k1PublicKey";
 import { ApolloError, Curve, KeyTypes, KeyProperties, } from "../../domain";
 import {
   PrivateKey,
-  DerivableKey,
+  type DerivableKey,
   ExportableKey,
   ImportableKey,
-  SignableKey,
+  type SignableKey,
   StorableKey,
 } from "../../domain/models/keyManagement";
 

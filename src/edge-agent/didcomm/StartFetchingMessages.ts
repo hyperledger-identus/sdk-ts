@@ -3,7 +3,7 @@ import * as Domain from "../../domain";
 import { expect, isNil, notNil } from "../../utils";
 import { Task } from "../../utils/tasks";
 import { CancellableTask } from "../helpers/Task";
-import { AgentContext } from "../Context";
+import { type AgentContext } from "../Context";
 import { ProtocolIds } from "../../plugins/internal/didcomm/types";
 import { PickupRequest } from "../../plugins/internal/didcomm/protocols/pickup/PickupRequest";
 
@@ -36,18 +36,21 @@ export class StartFetchingMessages extends Task<void, Args> {
         mediator.mediatorDID,
       );
 
-      connection.useLiveMode(socket);
+      await connection.useLiveMode(socket);
 
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       socket.addEventListener("open", async () => {
         // ? connection.send
         const packedMessage = await ctx.Mercury.packMessage(message);
         socket.send(packedMessage);
         // ? supposed to ack message
+        return Promise.resolve();
       });
 
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       socket.addEventListener("message", async (event) => {
         const message = await ctx.Mercury.unpackMessage(event.data);
-        connection.receive(message, ctx);
+        await connection.receive(message, ctx);
       });
     }
     else {

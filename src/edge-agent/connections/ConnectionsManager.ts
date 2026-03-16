@@ -1,5 +1,5 @@
-import { Nil, isString } from "../../utils";
-import { Connection } from "./Connection";
+import { type Nil, isString } from "../../utils";
+import { type Connection } from "./Connection";
 import { MediatorConnection } from "../../plugins/internal/didcomm";
 
 /**
@@ -74,6 +74,8 @@ export class ConnectionsManager {
       this.mediators.delete(uri);
       this.connections.splice(index, 1);
     }
+
+    return Promise.resolve()
   }
 
   /**

@@ -1,4 +1,4 @@
-import { DID } from "./DID";
+import { type DID } from "./DID";
 
 export class DIDPair {
   constructor(

@@ -1,7 +1,7 @@
-import { CredentialOffer, IssuerMetadata } from "../types";
-import { Context } from "../plugin";
+import { type CredentialOffer, type IssuerMetadata } from "../types";
+import { type Context } from "../plugin";
 import { CreateAuthorizationRequest } from "./CreateAuthorizationRequest";
-import { AuthorizationRequest } from "../protocols/AuthorizationRequest";
+import { type AuthorizationRequest } from "../protocols/AuthorizationRequest";
 import { FetchIssuerMetadata } from "../tasks/FetchIssuerMetadata";
 import { FetchAuthServerMeta } from "../tasks/FetchAuthServerMeta";
 import { InvalidCredentialConfigurationIds, MissingAuthorizationServerUri } from "../errors";
@@ -99,6 +99,6 @@ export class ResolveAuthorizationRequest extends Utils.Task<AuthorizationRequest
       }
     });
 
-    return { scopes, configurationIds };
+    return Promise.resolve({ scopes, configurationIds });
   }
 }

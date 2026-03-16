@@ -1,8 +1,7 @@
 
 import {
-  DIDResolver,
+  type DIDResolver,
   DIDDocument,
-  DID,
 } from "../../domain/models";
 
 export class DIDResolverHttpProxy implements DIDResolver {

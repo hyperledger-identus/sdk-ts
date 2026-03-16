@@ -5,7 +5,7 @@ import { expect } from "../../../utils";
 import { GetLinkSecret } from "./GetLinkSecret";
 import { FetchCredentialDefinition } from "./FetchCredentialDefinition";
 import type { Context } from "./plugin";
-import * as Types from "./types";
+import type * as Types from "./types";
 import { Plugins } from "../../../plugins";
 
 export interface Args {

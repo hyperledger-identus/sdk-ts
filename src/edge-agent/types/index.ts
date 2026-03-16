@@ -1,11 +1,11 @@
 import {
-  DID,
-  DIDPair,
-  Message,
-  Credential,
+  type DID,
+  type DIDPair,
+  type Message,
+  type Credential,
 } from "../../domain";
-import { PrismOnboardingInvitation } from "../../plugins/internal/didcomm/protocols/invitation/PrismOnboardingInvitation";
-import { OutOfBandInvitation } from "../../plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation";
+import { type PrismOnboardingInvitation } from "../../plugins/internal/didcomm/protocols/invitation/PrismOnboardingInvitation";
+import { type OutOfBandInvitation } from "../../plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation";
 import { OEA } from "../../plugins/internal/oea/types";
 import { ProtocolIds } from "../../plugins/internal/didcomm/types";
 

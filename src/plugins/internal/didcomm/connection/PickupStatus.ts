@@ -1,4 +1,4 @@
-import * as Domain from "../../../../domain";
+import type * as Domain from "../../../../domain";
 import { Task } from "../../../../utils";
 
 /**

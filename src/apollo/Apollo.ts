@@ -1,4 +1,4 @@
-import { Apollo as ApolloInterface } from "../domain/buildingBlocks/Apollo";
+import { type Apollo as ApolloInterface } from "../domain/buildingBlocks/Apollo";
 import * as bip39 from "@scure/bip39";
 import { wordlist } from "@scure/bip39/wordlists/english";
 
@@ -6,13 +6,13 @@ import {
   ApolloError,
   Curve,
   KeyProperties,
-  MnemonicWordList,
-  PrivateKey,
-  PublicKey,
-  Seed,
-  SeedWords,
-  StorableKey,
-  KeyRestoration,
+  type MnemonicWordList,
+  type PrivateKey,
+  type PublicKey,
+  type Seed,
+  type SeedWords,
+  type StorableKey,
+  type KeyRestoration,
 } from "../domain";
 
 import { Ed25519PrivateKey } from "./utils/Ed25519PrivateKey";

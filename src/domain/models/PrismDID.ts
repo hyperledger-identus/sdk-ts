@@ -1,6 +1,6 @@
-import { DID } from "./DID";
+import { type DID } from "./DID";
 import { CastorError } from "./Errors";
-import { PrivateKey } from "./keyManagement";
+import { type PrivateKey } from "./keyManagement";
 
 export class PrismDID {
   constructor(

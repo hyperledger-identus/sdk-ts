@@ -1,11 +1,11 @@
-import { DerivableKey } from "./DerivableKey";
+import { type DerivableKey } from "./DerivableKey";
 import { KeyProperties } from "../KeyProperties";
-import { SignableKey } from "./SignableKey";
-import { StorableKey } from "./StorableKey";
-import { VerifiableKey } from "./VerifiableKey";
+import { type SignableKey } from "./SignableKey";
+import { type StorableKey } from "./StorableKey";
+import { type VerifiableKey } from "./VerifiableKey";
 import { Curve } from "./Curve";
-import { KeyTypes } from "./KeyTypes";
-import { ExportableKey } from "./exportable";
+import { type KeyTypes } from "./KeyTypes";
+import { type ExportableKey } from "./exportable";
 import { JWT_ALG } from "../VerifiableCredential";
 
 export abstract class Key {

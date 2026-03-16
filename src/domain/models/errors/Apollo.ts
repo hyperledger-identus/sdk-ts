@@ -1,5 +1,5 @@
 import { SDKError } from "./Common";
-import { Curve, KeyTypes, StorableKey } from "../keyManagement";
+import { Curve, KeyTypes, type StorableKey } from "../keyManagement";
 import { asArray } from "../../../utils";
 
 /**

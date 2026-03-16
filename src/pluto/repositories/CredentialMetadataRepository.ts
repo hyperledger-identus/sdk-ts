@@ -27,10 +27,10 @@ export class CredentialMetadataRepository extends MapperRepository<Models.Creden
 
   parseCredentialType(model: Models.CredentialMetadata): Domain.CredentialType {
     switch (model.recoveryId) {
-      case Domain.CredentialType.AnonCreds:
+      case Domain.CredentialType.AnonCreds.toString():
         return Domain.CredentialType.AnonCreds;
 
-      case Domain.CredentialType.JWT:
+      case Domain.CredentialType.JWT.toString():
         return Domain.CredentialType.JWT;
 
     }

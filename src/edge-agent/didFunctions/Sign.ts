@@ -1,6 +1,6 @@
 import * as Domain from "../../domain";
 import { Task } from "../../utils/tasks";
-import { AgentContext } from "../Context";
+import { type AgentContext } from "../Context";
 
 /**
  * Asyncronously sign with a DID

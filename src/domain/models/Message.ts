@@ -1,14 +1,13 @@
 import { DID } from "./DID";
 import {
-  AttachmentBase64,
-  AttachmentData,
+  type AttachmentBase64,
   AttachmentDescriptor,
-  AttachmentJsonData,
+  type AttachmentJsonData,
 } from "./MessageAttachment";
 import { AgentError } from "./Errors";
-import { JsonString } from ".";
+import { type JsonString } from ".";
 import { Pluto } from "../buildingBlocks/Pluto";
-import { JsonObj, asJsonObj, isArray, isNil, isObject, isString, notEmptyString, notNil } from "../../utils";
+import { type JsonObj, asJsonObj, isArray, isNil, isObject, isString, notEmptyString, notNil } from "../../utils";
 
 export enum MessageDirection {
   SENT = 0,

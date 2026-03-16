@@ -1,6 +1,6 @@
 import * as Domain from "../../domain";
 import { CreatePeerDID } from "./CreatePeerDID";
-import { AgentContext } from "../Context";
+import { type AgentContext } from "../Context";
 import { Task } from "../../utils/tasks";
 import { expect } from "../../utils";
 import { Connection } from "../connections";

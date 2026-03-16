@@ -1,8 +1,8 @@
-import * as Domain from "../../../domain";
+import type * as Domain from "../../../domain";
 import { Task } from "../../../utils/tasks";
-import { SDJwtVcInstance, SdJwtVcPayload, } from "@sd-jwt/sd-jwt-vc";
+import { SDJwtVcInstance, type SdJwtVcPayload, } from "@sd-jwt/sd-jwt-vc";
 import type { DisclosureFrame } from '@sd-jwt/types';
-import { Plugins } from "../../../plugins";
+import { type Plugins } from "../../../plugins";
 import { FindSigningKeys } from "../../../edge-agent/didFunctions/FindDIDSigningKeys";
 import { expect } from "../../../utils";
 

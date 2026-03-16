@@ -1,9 +1,6 @@
-import { SHA256 } from "@stablelib/sha256";
-import { CastorError } from "../../domain/models/Errors";
-import { Apollo } from "../../domain/buildingBlocks/Apollo";
-import { LongFormPrismDID } from "../../castor/did/prismDID/LongFormPrismDID";
+import { type Apollo } from "../../domain/buildingBlocks/Apollo";
 import { PrismDIDMethodId } from "../../castor/did/prismDID/PrismDIDMethodId";
-import { DIDResolver, DIDDocument } from "../../domain/models";
+import { type DIDResolver, DIDDocument } from "../../domain/models";
 
 import * as DIDParser from "../parser/DIDParser";
 import { LongFormPrismDIDResolver } from "./LongFormPrismDIDResolver";

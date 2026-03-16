@@ -1,7 +1,7 @@
-import * as Domain from "../../../../domain";
+import type * as Domain from "../../../../domain";
 import { Task, expect } from "../../../../utils";
 import { ListenerKey } from "../../../../edge-agent/types";
-import { Context } from "../plugin";
+import { type Context } from "../plugin";
 import { PickupReceived } from "../protocols/pickup/PickupReceived";
 
 /**

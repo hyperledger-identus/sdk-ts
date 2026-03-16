@@ -1,6 +1,6 @@
 import { uuid } from "@stablelib/uuid";
 import { base64, base64url } from "multiformats/bases/base64";
-import { Message } from "..";
+
 export interface AttachmentHeader {
   children: string;
 }
@@ -32,7 +32,7 @@ export type AttachmentJsonData = {
 const decodeBase64 = (data: string) => {
   try {
     return base64url.baseDecode(data);
-  } catch (err) {
+  } catch {
     return base64.baseDecode(data);
   }
 };
@@ -69,7 +69,7 @@ export class AttachmentDescriptor {
       const decoded = Buffer.from(decodeBase64(attachment.data.base64)).toString();
       try {
         return JSON.parse(decoded);
-      } catch (err) {
+      } catch {
         return decoded;
       }
     }

@@ -1,5 +1,5 @@
 import { notNil } from "../utils";
-import { Plugin } from ".";
+import { type Plugin } from ".";
 
 export class PluginManager {
   private readonly plugins: Plugin[] = [];

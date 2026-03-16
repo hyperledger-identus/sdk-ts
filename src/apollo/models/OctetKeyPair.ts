@@ -1,4 +1,4 @@
-import { KeyPair } from "../../domain";
+import { type KeyPair } from "../../domain";
 
 interface PublicJson {
   kty: string;

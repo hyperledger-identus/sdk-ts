@@ -1,5 +1,5 @@
 import { uuid } from "@stablelib/uuid";
-import { DID, Message } from "../../../../../domain";
+import { type DID, Message } from "../../../../../domain";
 import { ProtocolIds } from "../../types";
 
 export class MediationRequest {

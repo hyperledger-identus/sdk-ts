@@ -1,4 +1,4 @@
-import { DID, Message } from "../../../../domain";
+import { type DID, Message } from "../../../../domain";
 import { isNil, isString } from "../../../../utils";
 import { OEA } from "../types";
 

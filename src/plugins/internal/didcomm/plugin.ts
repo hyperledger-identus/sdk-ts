@@ -1,5 +1,5 @@
 import { Plugin } from "../../Plugin";
-import { Plugins } from "../../types";
+import { type Plugins } from "../../types";
 import { HandleOOBInvitation } from "./tasks/HandleOOBInvitation";
 import { HandleIssueCredential } from "./tasks/HandleIssueCredential";
 import { HandleOfferCredential } from "./tasks/HandleOfferCredential";

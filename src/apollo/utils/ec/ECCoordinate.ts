@@ -1,4 +1,4 @@
-import BN from "bn.js";
+import type BN from "bn.js";
 
 export class ECCoordinate {
   private static PRIVATE_KEY_BYTE_SIZE = 32;

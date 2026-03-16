@@ -1,5 +1,5 @@
 import * as Domain from "../../../../domain";
-import { Plugins } from "../../../../plugins";
+import { type Plugins } from "../../../../plugins";
 import { expect, Task } from "../../../../utils";
 import { RunProtocol } from "../../../../edge-agent/helpers/RunProtocol";
 import { OEA } from "../types";

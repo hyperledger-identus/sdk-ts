@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-namespace */
+/* eslint-disable @typescript-eslint/unbound-method */
+
 
 
 
@@ -6,11 +7,11 @@ import * as Domain from "../domain";
 import * as Models from "./models";
 import { PeerDID } from "../peer-did/PeerDID";
 import { BackupManager } from "./backup/BackupManager";
-import { PlutoRepositories, repositoryFactory } from "./repositories";
-import { Arrayable, asArray, notNil } from "../utils";
+import { type PlutoRepositories, repositoryFactory } from "./repositories";
+import { type Arrayable, asArray, notNil } from "../utils";
 import { Startable } from "../domain/protocols/Startable";
-import { Version } from "../domain/backup";
-import { Query } from "./types";
+import { type Version } from "../domain/backup";
+import { type Query } from "./types";
 
 
 /**
@@ -250,7 +251,7 @@ export class Pluto extends Startable.Controller implements Domain.Pluto {
       throw new Error("Credential not found or invalid");
     }
     credential.properties.set("revoked", true);
-    const credentialModel = await this.Repositories.Credentials.toModel(credential);
+    const credentialModel = this.Repositories.Credentials.toModel(credential);
     await this.Repositories.Credentials.update(credentialModel);
   }
 
@@ -367,11 +368,11 @@ export class Pluto extends Startable.Controller implements Domain.Pluto {
 
     const getKeyCurveByNameAndIndex = (name: string, index?: number): Domain.KeyCurve => {
       switch (name) {
-        case Domain.Curve.X25519:
+        case Domain.Curve.X25519.toString():
           return { curve: Domain.Curve.X25519 };
-        case Domain.Curve.ED25519:
+        case Domain.Curve.ED25519.toString():
           return { curve: Domain.Curve.ED25519 };
-        case Domain.Curve.SECP256K1:
+        case Domain.Curve.SECP256K1.toString():
           return { curve: Domain.Curve.SECP256K1, index };
         default:
           throw new Domain.ApolloError.InvalidKeyCurve(name);
@@ -498,8 +499,8 @@ export class Pluto extends Startable.Controller implements Domain.Pluto {
 
     const result = await Promise.all(
       hostIds.map(async hostId => {
-        const mediatorLink = links.find(x => x.hostId === hostId && x.role === Models.DIDLink.role.mediator);
-        const routingLink = links.find(x => x.hostId === hostId && x.role === Models.DIDLink.role.routing);
+        const mediatorLink = links.find(x => x.hostId === hostId && x.role === Models.DIDLink.role.mediator.valueOf());
+        const routingLink = links.find(x => x.hostId === hostId && x.role === Models.DIDLink.role.routing.valueOf());
 
         if (!mediatorLink || !routingLink) {
           throw new Error();

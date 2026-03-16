@@ -1,4 +1,4 @@
-import { DerivationAxis } from "./DerivationAxis";
+import { type DerivationAxis } from "./DerivationAxis";
 
 export class AxesArray extends Array<DerivationAxis> {
     override toString(): string {

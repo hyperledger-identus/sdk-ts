@@ -1,4 +1,4 @@
-import { DID } from "./DID";
+import { type DID } from "./DID";
 
 export class DIDUrl {
   did: DID;
@@ -19,7 +19,7 @@ export class DIDUrl {
   }
 
   string(): string {
-    return `${this.did}${this.fragmentString()}`;
+    return `${this.did.toString()}${this.fragmentString()}`;
   }
 
   pathString(): string {

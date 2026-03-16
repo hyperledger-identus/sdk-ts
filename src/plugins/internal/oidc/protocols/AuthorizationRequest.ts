@@ -1,4 +1,4 @@
-import { AuthServerMetadata, IssuerMetadata } from "../types";
+import { type AuthServerMetadata, type IssuerMetadata } from "../types";
 import * as Utils from "../../../../utils";
 
 export interface AuthorizationRequestMetadata {
