@@ -2,7 +2,7 @@ import { uuid } from "@stablelib/uuid";
 import { AgentError, DID, Message } from "../../../../domain";
 import { isArray, isString, notNil } from "../../../../utils";
 import { OEA } from "../types";
-import { OutOfBandInvitation } from "../../didcomm/protocols/invitation/OutOfBandInvitation";
+import { type OutOfBandInvitation } from "../../didcomm/protocols/invitation/OutOfBandInvitation";
 
 /**
  * No specification available

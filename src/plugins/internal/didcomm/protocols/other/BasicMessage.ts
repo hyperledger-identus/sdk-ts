@@ -1,4 +1,4 @@
-import { DID, Message } from "../../../../../domain";
+import { type DID, Message } from "../../../../../domain";
 import { ProtocolIds } from "../../types";
 
 /**

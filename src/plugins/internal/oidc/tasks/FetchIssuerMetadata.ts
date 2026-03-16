@@ -1,5 +1,5 @@
 import { IssuerMetadata } from "../types";
-import { Context } from "../plugin";
+import { type Context } from "../plugin";
 import * as Utils from "../../../../utils";
 
 export interface FetchIssuerMetadataArgs {

@@ -1,6 +1,6 @@
 import * as TB from "@sinclair/typebox";
-import { CredentialOffer, IssuerMetadata, TokenResponse } from "../types";
-import { Context } from "../plugin";
+import { type CredentialOffer, type IssuerMetadata, type TokenResponse } from "../types";
+import { type Context } from "../plugin";
 import { FetchIssuerMetadata } from "../tasks/FetchIssuerMetadata";
 import { CreateCredentialRequest } from "../tasks/CreateCredentialRequest";
 import { JWTCredential } from "../../../../pollux/models/JWTVerifiableCredential";

@@ -1,4 +1,4 @@
-import { CredentialType } from "./VerifiableCredential";
+import { type CredentialType } from "./VerifiableCredential";
 import { Pluto } from "../buildingBlocks/Pluto";
 
 export type Claim = Record<string, any>;

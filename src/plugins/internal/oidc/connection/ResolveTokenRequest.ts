@@ -1,7 +1,7 @@
 import * as Errors from "../errors";
 import { TokenResponse } from "../types";
-import { Context } from "../plugin";
-import { AuthorizationRequest, TokenRequest } from "../protocols";
+import { type Context } from "../plugin";
+import { type AuthorizationRequest, TokenRequest } from "../protocols";
 import { ProcessCallbackUrl } from "./ProcessCallbackUrl";
 import { OIDCConnection } from "./OIDCConnection";
 import * as Utils from "../../../../utils";

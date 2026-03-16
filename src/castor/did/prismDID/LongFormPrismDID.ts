@@ -1,4 +1,4 @@
-import { DID } from "../../../domain/models";
+import { type DID } from "../../../domain/models";
 import { CastorError } from "../../../domain/models/Errors";
 import { PrismDIDMethodId } from "./PrismDIDMethodId";
 

@@ -1,7 +1,7 @@
 import { uuid } from "@stablelib/uuid";
 import * as Domain from "../../../../domain";
-import { DIF } from "../types";
-import { JsonObj } from "../../../../utils";
+import { type DIF } from "../types";
+import { type JsonObj } from "../../../../utils";
 import { Payload } from "../../../../domain/protocols/Payload";
 import { Plugins } from "../../../../plugins";
 
@@ -69,6 +69,8 @@ export class CreatePresentationDefinition extends Plugins.Task<Args> {
       }
     };
 
-    return Payload.make("presentation-definition", request);
+    return Promise.resolve(
+      Payload.make("presentation-definition", request)
+    );
   }
 }

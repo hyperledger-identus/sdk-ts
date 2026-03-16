@@ -1,6 +1,6 @@
 import { uuid } from "@stablelib/uuid";
 import { base64url } from "multiformats/bases/base64";
-import { AgentError, AttachmentDescriptor, DID, Message } from "../../../../../domain";
+import { AgentError, type AttachmentDescriptor, type DID, Message } from "../../../../../domain";
 import { isNil } from "../../../../../utils";
 import { ProtocolIds } from "../../types";
 

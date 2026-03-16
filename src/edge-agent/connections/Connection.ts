@@ -1,5 +1,5 @@
-import * as Domain from "../../domain";
-import { Task } from "../../utils";
+import type * as Domain from "../../domain";
+import { type Task } from "../../utils";
 
 /**
  * Define the structure of a Connection

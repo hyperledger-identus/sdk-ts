@@ -1,14 +1,14 @@
-import { JWT, Pluto } from "../../domain";
+import { JWT, type Pluto } from "../../domain";
 import {
   Credential,
-  ProvableCredential,
-  StorableCredential,
+  type ProvableCredential,
+  type StorableCredential,
 } from "../../domain/models/Credential";
 import { InvalidCredentialError } from "../../domain/models/errors/Pollux";
 import {
   CredentialType,
-  W3CVerifiableCredential,
-  W3CVerifiablePresentation,
+  type W3CVerifiableCredential,
+  type W3CVerifiablePresentation,
 } from "../../domain/models/VerifiableCredential";
 
 export const JWTVerifiableCredentialRecoveryId = "jwt+credential";

@@ -1,14 +1,14 @@
 import * as base64 from "multiformats/bases/base64";
 
-import { Curve, DID, DIDDocument } from "../domain/models";
+import { Curve, DID, type DIDDocument } from "../domain/models";
 
 import { CastorError } from "../domain/models/Errors";
-import { JWKHelper, VerificationMaterial } from "./helpers/JWKHelper";
+import { JWKHelper, type VerificationMaterial } from "./helpers/JWKHelper";
 import { MultiCodec } from "./helpers/Multicodec";
-import { PeerDID, PeerDIDEncoded, PeerDIDService } from "./PeerDID";
+import { PeerDID, type PeerDIDEncoded, PeerDIDService } from "./PeerDID";
 import {
   Numalgo2Prefix,
-  OctetPublicKey,
+  type OctetPublicKey,
   VerificationMaterialAgreement,
   VerificationMaterialAuthentication,
   VerificationMaterialFormatPeerDID,
@@ -17,10 +17,10 @@ import {
 } from "./types";
 
 import { base58btc } from "multiformats/bases/base58";
-import { Ed25519PublicKey } from "../apollo/utils/Ed25519PublicKey";
-import { X25519PublicKey } from "../apollo/utils/X25519PublicKey";
+import { type Ed25519PublicKey } from "../apollo/utils/Ed25519PublicKey";
+import { type X25519PublicKey } from "../apollo/utils/X25519PublicKey";
 import { KeyProperties } from "../domain/models/KeyProperties";
-import { PublicKey } from "../domain/models";
+import { type PublicKey } from "../domain/models";
 
 /**
  * PeerDID Creation wrapper class
@@ -71,12 +71,14 @@ export class PeerDIDCreate {
     const encodedEncryptionKeysStr = encryptionKeys
       .map(this.keyAgreementFromPublicKey.bind(this))
       .map(this.createMultibaseEncnumbasis.bind(this))
-      .map((value) => `.${Numalgo2Prefix.keyAgreement}${value}`);
+      .map((value) => `.${Numalgo2Prefix.keyAgreement}${value}`)
+      .join("");
 
     const encodedSigningKeysStr = signingKeys
       .map(this.authenticationFromPublicKey.bind(this))
       .map(this.createMultibaseEncnumbasis.bind(this))
-      .map((value) => `.${Numalgo2Prefix.authentication}${value}`);
+      .map((value) => `.${Numalgo2Prefix.authentication}${value}`)
+      .join("");
 
     const encodedService = this.encodeService(services);
 

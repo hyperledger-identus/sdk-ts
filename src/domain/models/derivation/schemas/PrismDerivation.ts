@@ -1,4 +1,4 @@
-import { AxesArray, BaseSchema, DerivationPathBase } from "..";
+import { AxesArray, type BaseSchema, DerivationPathBase } from "..";
 import { ApolloError } from "../../Errors";
 import { DerivationAxis } from "../DerivationAxis";
 import * as Protos from "../../../../castor/protos/node_models";

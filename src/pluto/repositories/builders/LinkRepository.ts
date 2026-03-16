@@ -1,5 +1,5 @@
 import * as Domain from "../../../domain";
-import { BaseRepository, OptionalId } from "./BaseRepository";
+import { BaseRepository, type OptionalId } from "./BaseRepository";
 
 /**
  * @class LinkRepository

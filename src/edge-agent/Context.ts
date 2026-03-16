@@ -1,10 +1,10 @@
 import type * as Domain from "../domain";
-import { PluginManager } from "../plugins";
-import { JWT, SDJWT } from "../pollux/utils/jwt";
+import { type PluginManager } from "../plugins";
+import { type JWT, type SDJWT } from "../pollux/utils/jwt";
 import { Task } from "../utils/tasks";
-import { EventsManager } from "./Agent.MessageEvents";
-import { ConnectionsManager } from "./connections/ConnectionsManager";
-import { JobManager } from "./connections/JobManager";
+import { type EventsManager } from "./Agent.MessageEvents";
+import { type ConnectionsManager } from "./connections/ConnectionsManager";
+import { type JobManager } from "./connections/JobManager";
 
 export class AgentContext extends Task.Context<{
   // Agent modules

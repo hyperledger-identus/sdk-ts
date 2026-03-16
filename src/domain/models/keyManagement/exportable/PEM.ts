@@ -1,4 +1,4 @@
-import { Key } from "../Key";
+import { type Key } from "../Key";
 
 export namespace PEM {
   const syntax = {

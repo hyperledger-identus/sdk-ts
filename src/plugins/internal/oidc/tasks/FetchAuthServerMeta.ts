@@ -1,6 +1,6 @@
 import { AuthServerMetadata } from "../types";
-import { Context } from "../plugin";
-import * as Domain from "../../../../domain";
+import { type Context } from "../plugin";
+import type * as Domain from "../../../../domain";
 import * as Utils from "../../../../utils";
 
 export interface FetchAuthServerMetaArgs {

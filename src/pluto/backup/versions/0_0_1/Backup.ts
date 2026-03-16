@@ -1,8 +1,8 @@
-import * as Domain from "../../../../domain";
+import type * as Domain from "../../../../domain";
 import * as Models from "../../../models";
 import { JWTVerifiableCredentialRecoveryId } from "../../../../pollux/models/JWTVerifiableCredential";
-import { repositoryFactory } from "../../../repositories/builders/factory";
-import { IBackupTask } from "../interfaces";
+import { type repositoryFactory } from "../../../repositories/builders/factory";
+import { type IBackupTask } from "../interfaces";
 import { SDJWTVerifiableCredentialRecoveryId } from "../../../../pollux/models/SDJWTVerifiableCredential";
 import { base64url } from "multiformats/bases/base64";
 

@@ -8,8 +8,8 @@ import {
   KeyTypes,
   PrivateKey,
   StorableKey,
-  SignableKey,
-  DerivableKey,
+  type SignableKey,
+  type DerivableKey,
   ApolloError
 } from "../../domain";
 

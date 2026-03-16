@@ -1,5 +1,5 @@
 import { ApolloError } from "../../../domain";
-import { DerivationClass, DerivationPathBase } from "../../../domain/models/derivation";
+import { type DerivationClass, type DerivationPathBase } from "../../../domain/models/derivation";
 import { DerivationAxis } from "../../../domain/models/derivation/DerivationAxis";
 
 export class DerivationPath {
@@ -71,7 +71,7 @@ export class DerivationPath {
       if (splitPath.at(0)?.trim().toLowerCase() !== "m") {
         throw new ApolloError.InvalidDerivationPath("Path needs to start with m or M");
       }
-      const paths = splitPath.slice(1).map(DerivationPath.parseAxis).map((a) => a.number);
+      const paths = splitPath.slice(1).map((axis) => DerivationPath.parseAxis(axis)).map((a) => a.number);
       return DerivationPath.callBackOrThrow(
         derivations,
         paths,

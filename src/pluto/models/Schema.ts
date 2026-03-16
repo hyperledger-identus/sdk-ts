@@ -1,5 +1,5 @@
 import type { SchemaType } from '@trust0/ridb-core';
-import { StringKeys } from '../types';
+import { type StringKeys } from '../types';
 
 // Helper types for extracting properties from the interface
 export type ExtractModelProperties<T> = Omit<T, 'uuid'>;

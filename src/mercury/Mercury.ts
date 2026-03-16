@@ -1,10 +1,10 @@
-import * as Domain from "../domain";
+import type * as Domain from "../domain";
 import { MercuryError } from "../domain/models/Errors";
-import { Mercury as MercuryInterface } from "../domain/buildingBlocks/Mercury";
-import { DIDCommProtocol } from "./DIDCommProtocol";
-import { Api, DID } from "../domain";
+import { type Mercury as MercuryInterface } from "../domain/buildingBlocks/Mercury";
+import { type DIDCommProtocol } from "./DIDCommProtocol";
+import { type Api, type DID } from "../domain";
 import { MediaType } from "./helpers/MediaType";
-import { Castor } from "../domain/buildingBlocks/Castor";
+import { type Castor } from "../domain/buildingBlocks/Castor";
 import { ForwardMessage } from "./forward/ForwardMessage";
 
 /**
@@ -132,7 +132,7 @@ export default class Mercury implements MercuryInterface {
     try {
       const responseJSON = JSON.stringify(responseBody);
       return await this.unpackMessage(responseJSON);
-    } catch (err) {
+    } catch {
       return undefined;
     }
   }

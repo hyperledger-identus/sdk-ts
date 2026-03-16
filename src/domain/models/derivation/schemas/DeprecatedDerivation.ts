@@ -1,4 +1,4 @@
-import { BaseSchema, DerivationPathBase, AxesArray } from "..";
+import { type BaseSchema, DerivationPathBase, AxesArray } from "..";
 import { ApolloError } from "../../Errors";
 import { DerivationAxis } from "../DerivationAxis";
 

@@ -1,5 +1,5 @@
 import type * as Domain from "../../../domain";
-import { Pluto } from "../../Pluto";
+import { type Pluto } from "../../Pluto";
 import {
   CredentialMetadataRepository,
   CredentialRepository,

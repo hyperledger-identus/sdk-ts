@@ -1,4 +1,4 @@
-import { Message } from "../models/Message";
+import { type Message } from "../models/Message";
 
 export interface Mercury {
   packMessage(message: Message): Promise<string>;

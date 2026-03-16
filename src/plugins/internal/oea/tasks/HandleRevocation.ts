@@ -1,6 +1,6 @@
-import * as Domain from "../../../../domain";
+import type * as Domain from "../../../../domain";
 import { Task } from "../../../../utils";
-import { Context } from "../../didcomm/plugin";
+import { type Context } from "../../didcomm/plugin";
 import { RevocationNotification } from "../protocols/RevocationNotfiication";
 import { HandleIssueCredential } from "../../didcomm/tasks/HandleIssueCredential";
 import { OEA } from "../types";

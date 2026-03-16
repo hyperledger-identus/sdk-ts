@@ -2,7 +2,7 @@ import { CreatePrismDID } from "../../../../edge-agent/didFunctions";
 import { Payload } from "../../../../domain/protocols/Payload";
 import { OEA } from "../types";
 import { Plugins } from "../../../../plugins";
-import { JWTPresentationPayload } from "../../../../pollux/models/JWTVerifiableCredential";
+import { type JWTPresentationPayload } from "../../../../pollux/models/JWTVerifiableCredential";
 
 interface Args {
   offer: OEA.CredentialOffer;

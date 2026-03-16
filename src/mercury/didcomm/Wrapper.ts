@@ -13,12 +13,13 @@ import wasmBuffer from "didcomm-wasm/didcomm_js_bg.wasm";
 import * as Domain from "../../domain";
 import { DIDCommDIDResolver } from "./DIDResolver";
 import { DIDCommSecretsResolver } from "./SecretsResolver";
-import { DIDCommProtocol } from "../DIDCommProtocol";
+import { type DIDCommProtocol } from "../DIDCommProtocol";
 import { MercuryError } from "../../domain/models/Errors";
 import { isObject } from "../../utils";
 import { ProtocolIds } from "../../plugins/internal/didcomm/types";
 
 export class DIDCommWrapper implements DIDCommProtocol {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   public static didcomm: typeof import("didcomm-wasm");
   private readonly didResolver: DIDResolver;
   private readonly secretsResolver: SecretsResolver;

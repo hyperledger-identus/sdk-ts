@@ -2,8 +2,8 @@
 import { uuid } from "@stablelib/uuid";
 import * as Domain from "../../domain";
 import { Task } from "../../utils/tasks";
-import { OfferCredential, OutOfBandInvitation } from "../../plugins/internal/didcomm";
-import { AgentContext } from "../Context";
+import { OutOfBandInvitation } from "../../plugins/internal/didcomm";
+import { type AgentContext } from "../Context";
 import { RequestPresentation } from "../../plugins/internal/oea/protocols/RequestPresentation";
 
 /**
@@ -82,6 +82,8 @@ export class CreateOOBPresentationRequest extends Task<string, Args> {
             oobId,
             this.attachments
         );
-        return Buffer.from(JSON.stringify(oob)).toString("base64")
+        return Promise.resolve(
+            Buffer.from(JSON.stringify(oob)).toString("base64")
+        )
     }
 }

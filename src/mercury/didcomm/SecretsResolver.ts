@@ -1,7 +1,7 @@
 import type { Secret, SecretsResolver } from "didcomm-wasm";
 import * as Domain from "../../domain";
 import * as DIDURLParser from "../../castor/parser/DIDUrlParser";
-import { PeerDID } from "../../peer-did/PeerDID";
+import { type PeerDID } from "../../peer-did/PeerDID";
 
 export class DIDCommSecretsResolver implements SecretsResolver {
   constructor(

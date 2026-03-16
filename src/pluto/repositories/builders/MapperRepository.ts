@@ -1,6 +1,6 @@
 import type * as Domain from "../../../domain";
-import { Model } from "../../models";
-import { Query } from "../../types";
+import { type Model } from "../../models";
+import { type Query } from "../../types";
 import { BaseRepository } from "./BaseRepository";
 
 

@@ -17,7 +17,7 @@ export class PresentationRequest extends Plugins.Task<Args> {
     if (credential instanceof SDJWTCredential) {
       const subjectDID = Domain.DID.from(credential.subject);
       const keys = await ctx.Pluto.getDIDPrivateKeysByDID(subjectDID);
-      const privateKey = keys.find((key) => key.curve === Domain.Curve.ED25519);
+      const privateKey = keys.find((key) => key.curve === Domain.Curve.ED25519.toString());
 
       if (privateKey === undefined) {
         throw new Domain.AgentError.CannotFindDIDPrivateKey();

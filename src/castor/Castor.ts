@@ -23,7 +23,7 @@ import { Secp256k1PublicKey } from "../apollo/utils/Secp256k1PublicKey";
 import { X25519PublicKey } from "../apollo/utils/X25519PublicKey";
 import { Ed25519PublicKey } from "../apollo/utils/Ed25519PublicKey";
 import { Secp256k1PrivateKey } from "../apollo/utils/Secp256k1PrivateKey";
-import { PrismDIDKeyUsage, PrismDIDKeyUsageType } from "../domain/models/derivation/schemas/PrismDerivation";
+import { PrismDIDKeyUsage, type PrismDIDKeyUsageType } from "../domain/models/derivation/schemas/PrismDerivation";
 
 import * as Protos from "./protos/node_models";
 import ProtosPk = Protos.io.iohk.atala.prism.protos.PublicKey;
@@ -170,7 +170,7 @@ export default class Castor implements Domain.Castor {
    */
   async createPrismDID(
     key: Domain.PublicKey | Domain.KeyPair,
-    services?: DIDDocument.Service[] | undefined,
+    services?: DIDDocument.Service[],
     keysOrAuthenticationKeys?: (Domain.PublicKey | Domain.KeyPair)[] | PrismDIDKeys,
     issuanceKeys?: (Domain.PublicKey | Domain.KeyPair)[],
   ): Promise<Domain.DID> {
@@ -238,7 +238,7 @@ export default class Castor implements Domain.Castor {
     const base64State = base64.base64url.baseEncode(encodedState);
     const methodSpecificId = Domain.PrismDID.parseMethodId([stateHash, base64State]);
 
-    return new Domain.DID("did", "prism", methodSpecificId.toString());
+    return Promise.resolve(new Domain.DID("did", "prism", methodSpecificId.toString()));
   }
 
   /**
@@ -266,7 +266,7 @@ export default class Castor implements Domain.Castor {
   ): Promise<Domain.DID> {
     const peerDIDOperation = new PeerDIDCreate();
     const peerDID = peerDIDOperation.createPeerDID(publicKeys, services);
-    return peerDID.did;
+    return Promise.resolve(peerDID.did);
   }
 
   /**
@@ -291,7 +291,7 @@ export default class Castor implements Domain.Castor {
     for (const resolver of resolvers) {
       try {
         return await resolver.resolve(did.toString());
-      } catch (err) {
+      } catch {
         console.log(`Failed resolving did ${did.toString()}`);
       }
     }
@@ -398,7 +398,7 @@ export default class Castor implements Domain.Castor {
               return true;
             }
           }
-        } catch (err) {
+        } catch {
           console.debug("checking next key for verification");
         }
       }
@@ -540,7 +540,7 @@ export default class Castor implements Domain.Castor {
   private createProtos(publicKey: Domain.PublicKey, usage: PrismDIDKeyUsageType, index?: number) {
     const id = this.getUsageId(usage, index);
 
-    if (publicKey.curve === Domain.Curve.SECP256K1) {
+    if (publicKey.curve === Domain.Curve.SECP256K1.toString()) {
       const encoded = publicKey.getEncoded();
       const xBytes = encoded.slice(1, 1 + ECConfig.PRIVATE_KEY_BYTE_SIZE);
       const yBytes = encoded.slice(1 + ECConfig.PRIVATE_KEY_BYTE_SIZE, encoded.length);

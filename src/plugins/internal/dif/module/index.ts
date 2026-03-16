@@ -1,6 +1,6 @@
-import { JsonObj, Task, asJsonObj } from "../../../../utils";
+import { type JsonObj, Task, asJsonObj } from "../../../../utils";
 import { CreatePresentationDefinition } from "./CreatePresentationDefinition";
-import { DIF } from "../types";
+import { type DIF } from "../types";
 
 export class DIFModule extends Task.Runner {
   clone() {

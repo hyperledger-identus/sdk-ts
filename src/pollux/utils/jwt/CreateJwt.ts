@@ -1,8 +1,8 @@
-import { ES256KSigner, Signer, createJWT } from "did-jwt";
+import { ES256KSigner, type Signer, createJWT } from "did-jwt";
 import * as Domain from "../../../domain";
 import { asJsonObj, expect } from "../../../utils";
 import { Task } from "../../../utils/tasks";
-import { AgentContext } from "../../../edge-agent/Context";
+import { type AgentContext } from "../../../edge-agent/Context";
 import { base64url } from "multiformats/bases/base64";
 import { FindSigningKeys } from "../../../edge-agent/didFunctions/FindDIDSigningKeys";
 
@@ -45,7 +45,7 @@ export class CreateJWT extends Task<string, Args> {
       : async (data: string | Uint8Array) => {
         const signature = privateKey.sign(Buffer.from(data));
         const encoded = base64url.baseEncode(signature);
-        return encoded;
+        return Promise.resolve(encoded);
       };
 
     const jwt = await createJWT(

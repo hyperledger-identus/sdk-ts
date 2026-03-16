@@ -1,7 +1,7 @@
-import { PrivateKey, PublicKey, Seed, SeedWords } from "../models";
+import { type PrivateKey, type PublicKey, type Seed, type SeedWords } from "../models";
 
-import { KeyProperties } from "../models/KeyProperties";
-import { MnemonicWordList } from "../models/WordList";
+import { type KeyProperties } from "../models/KeyProperties";
+import { type MnemonicWordList } from "../models/WordList";
 
 export interface Apollo {
   createRandomMnemonics(): MnemonicWordList;

@@ -1,9 +1,9 @@
-import * as Domain from "../../domain";
-import { Plugins } from "../../plugins";
+import type * as Domain from "../../domain";
+import { type Plugins } from "../../plugins";
 import { AnonCredsCredential } from "../../pollux/models/AnonCredsVerifiableCredential";
 import { JWTCredential } from "../../pollux/models/JWTVerifiableCredential";
 import { SDJWTCredential } from "../../pollux/models/SDJWTVerifiableCredential";
-import { Task, JsonObj, asJsonObj, expect, isObject, notNil } from "../../utils";
+import { Task, type JsonObj, asJsonObj, expect, isObject, notNil } from "../../utils";
 
 interface Args {
   credential: Domain.Credential;
@@ -29,7 +29,7 @@ export class RevealCredentialFields extends Task<JsonObj, Args> {
 
   async runJWT() {
     const claim = expect(this.args.credential.claims.at(0), "Invalid Claims");
-    return claim;
+    return Promise.resolve(claim);
   }
 
   async runSDJWT(ctx: Plugins.Context) {
@@ -55,6 +55,6 @@ export class RevealCredentialFields extends Task<JsonObj, Args> {
       return notNil(claim) ? { ...acc, [field]: claim[field].raw } : acc;
     }, {});
 
-    return revealed;
+    return Promise.resolve(revealed);
   }
 }

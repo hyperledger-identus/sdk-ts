@@ -1,5 +1,5 @@
-import { IssuerMetadata, TokenResponse } from "../types";
-import { Context } from "../plugin";
+import { type IssuerMetadata, type TokenResponse } from "../types";
+import { type Context } from "../plugin";
 import * as Domain from "../../../../domain";
 import * as Utils from "../../../../utils";
 import { Connection } from "../../../../edge-agent/connections";

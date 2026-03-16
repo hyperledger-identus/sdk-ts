@@ -1,6 +1,6 @@
-import { DID, DIDDocument, KeyPair, PrivateKey } from "../models";
-import { PublicKey } from "../models";
-import { PrismDIDKeyUsage } from "../models/derivation/schemas/PrismDerivation";
+import { type DID, type DIDDocument, type KeyPair, type PrivateKey } from "../models";
+import { type PublicKey } from "../models";
+import { type PrismDIDKeyUsage } from "../models/derivation/schemas/PrismDerivation";
 
 export type RequiredKeys = 'MASTER_KEY';
 

@@ -1,5 +1,5 @@
 import { uuid } from "@stablelib/uuid";
-import { AgentError, AttachmentDescriptor, DID, Message } from "../../../../../domain";
+import { AgentError, type AttachmentDescriptor, type DID, Message } from "../../../../../domain";
 import { isArray, isNil, isObject, notNil } from "../../../../../utils";
 import { ProtocolIds } from "../../types";
 

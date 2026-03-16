@@ -1,4 +1,4 @@
-import { Nil, isArray, isObject, notEmptyString } from "../../../../../utils";
+import { type Nil, isArray, isObject, notEmptyString } from "../../../../../utils";
 
 /**
  * Specification:

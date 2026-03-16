@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 import Pako from "pako";
 // @ts-ignore
 import jweWasm from "jwe-wasm/jwe_rust_bg.wasm";
 import * as Domain from "../domain";
-import Agent from "./Agent";
-import { Version } from "../domain/backup";
+import type Agent from "./Agent";
+import { type Version } from "../domain/backup";
 import { isNil, isObject, notNil, validateSafe } from "../utils";
 
 
@@ -52,7 +53,7 @@ export class AgentBackup {
     }
 
     const backupStr = options?.compress ? this.compress(JSON.stringify(backup)) : JSON.stringify(backup);
-    const masterSk = await this.masterSk(options);
+    const masterSk = this.masterSk(options);
     const jwk = masterSk.to.JWK();
     const JWE = await this.getJWE();
     const encrypted = JWE.encrypt(
@@ -79,7 +80,7 @@ export class AgentBackup {
    * @see createJWE - Method to create a JWE from the stored backup data.
    */
   async restore(jwe: string, options?: BackupOptions) {
-    const masterSk = await this.masterSk(options);
+    const masterSk = this.masterSk(options);
     const jwk = masterSk.to.JWK();
     const JWE = await this.getJWE();
     const decoded = JWE.decrypt(
@@ -146,7 +147,7 @@ export class AgentBackup {
    * create a JWK for the MasterKey (X25519)
    * @returns JWK
    */
-  private async masterSk(options?: BackupOptions) {
+  private masterSk(options?: BackupOptions) {
     const optKey = options?.key;
     if (notNil(optKey)) {
       return optKey;

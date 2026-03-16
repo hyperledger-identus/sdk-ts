@@ -2,11 +2,11 @@ import { base64url } from "multiformats/bases/base64";
 
 import { CastorError } from "../../domain/models/Errors";
 import {
-  VerificationMaterialAgreement,
-  VerificationMaterialAuthentication,
+  type VerificationMaterialAgreement,
+  type VerificationMaterialAuthentication,
   VerificationMethodTypeAgreement,
   VerificationMethodTypeAuthentication,
-  VerificationMethodTypePeerDID,
+  type VerificationMethodTypePeerDID,
 } from "../types";
 
 export type VerificationMaterial =

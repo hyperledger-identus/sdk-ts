@@ -1,10 +1,10 @@
-/* eslint-disable no-redeclare */
-/* eslint-disable @typescript-eslint/no-namespace */
-import { Key } from "../Key";
+ 
+ 
+import { type Key } from "../Key";
 import { JWK as _JWK } from "./JWK";
 import { PEM as _PEM } from "./PEM";
-import { PrivateKey } from "../PrivateKey";
-import { PublicKey } from "../PublicKey";
+import { type PrivateKey } from "../PrivateKey";
+import { type PublicKey } from "../PublicKey";
 import { base64url } from "multiformats/bases/base64";
 
 /**

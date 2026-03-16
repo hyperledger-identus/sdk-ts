@@ -1,6 +1,6 @@
 import { Protocols } from "../types";
 import * as Domain from "../../../../domain";
-import * as Utils from "../../../../utils";
+import type * as Utils from "../../../../utils";
 
 export class CredentialRequest extends Domain.ApiRequest {
   public readonly ProtocolId = Protocols.CredentialRequest;

@@ -1,33 +1,15 @@
 import { uuid } from '@stablelib/uuid';
-import { SdJwtVcPayload, } from "@sd-jwt/sd-jwt-vc";
 import type { DisclosureFrame } from '@sd-jwt/types';
 
 import * as Domain from "../../../../domain";
 import { Task } from "../../../../utils/tasks";
-import { Plugins } from "../../../../plugins";
-import { FindSigningKeys } from "../../../../edge-agent/didFunctions/FindDIDSigningKeys";
-import { expect } from "../../../../utils";
+import { type Plugins } from "../../../../plugins";
 import { base64 } from "multiformats/bases/base64";
 import { ProtocolType } from '../../../../edge-agent/types';
 import { IssueCredential } from '../protocols/issueCredential/IssueCredential';
 
 type Claim = { name: string, value: string, type: string };
 type ClaimArray = Claim[];
-type Claims<A extends ClaimArray> = {
-    [K in A[number]['name']]: Extract<A[number], { name: K }>['value']
-}
-
-type VC<A extends ClaimArray> = {
-    vc: {
-        "@context": string[],
-        "type": string[],
-        "issuanceDate": Date,
-        "issuer": string,
-        credentialSubject: Claims<A>
-    }
-}
-type Payload<A extends ClaimArray> = VC<A> & SdJwtVcPayload
-
 
 
 interface ArgsJWT<T extends ClaimArray> {

@@ -1,6 +1,6 @@
 import * as Domain from "../../../../domain";
 import { notNil } from "../../../../utils";
-import { AgentContext } from "../../../../edge-agent/Context";
+import { type AgentContext } from "../../../../edge-agent/Context";
 import { Connection } from "../../../../edge-agent/connections/Connection";
 import { RunProtocol } from "../../../../edge-agent/helpers/RunProtocol";
 import { ProtocolIds } from "../types";

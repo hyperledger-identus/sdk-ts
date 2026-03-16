@@ -1,4 +1,4 @@
-import { DIDDocument } from "./DIDDocument";
+import { type DIDDocument } from "./DIDDocument";
 
 export abstract class DIDResolver {
   abstract method: string;

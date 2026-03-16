@@ -1,5 +1,5 @@
 import * as Domain from "../../domain";
-import { JsonObj, asArray, asJsonObj, isArray, isObject, notEmptyString } from "../../utils";
+import { type JsonObj, asArray, asJsonObj, isArray, isObject, notEmptyString } from "../../utils";
 import { Task } from "../../utils/tasks";
 import { InvitationIsInvalidError } from "../../domain/models/errors/Agent";
 import { OutOfBandInvitation } from "../../plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation";
@@ -21,7 +21,7 @@ export class ParseOOBInvitation extends Task<OutOfBandInvitation, Args> {
       throw new InvitationIsInvalidError('expired');
     }
 
-    return invitation;
+    return Promise.resolve(invitation);
   }
 
   private safeParseBody(): OutOfBandInvitation {

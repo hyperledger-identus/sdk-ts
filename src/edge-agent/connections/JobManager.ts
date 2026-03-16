@@ -1,4 +1,4 @@
-import { CancellableTask } from "../helpers/Task";
+import { type CancellableTask } from "../helpers/Task";
 
 export class JobManager {
   /**

@@ -1,7 +1,7 @@
 import * as Domain from "../../../domain";
 import type { Model } from "../../models";
 import type { Pluto } from "../../Pluto";
-import { Query } from "../../types";
+import { type Query } from "../../types";
 
 export type OptionalId<T extends Model> = Omit<T, "uuid"> & { uuid?: string; };
 export type WithId<T> = T & Required<Domain.Pluto.Storable>;
@@ -35,7 +35,7 @@ export abstract class BaseRepository<T extends Model> {
       await this.store.insert(this.name, obj);
       return obj;
     }
-    catch (e) {
+    catch {
       throw new Domain.PlutoError.StoreInsertError();
     }
   }
@@ -44,7 +44,7 @@ export abstract class BaseRepository<T extends Model> {
     try {
       await this.store.update(this.name, model)
     }
-    catch (e) {
+    catch {
       throw new Domain.PlutoError.StoreUpdateError();
     }
   }
@@ -53,7 +53,7 @@ export abstract class BaseRepository<T extends Model> {
     try {
       await this.store.delete(this.name, uuid)
     }
-    catch (e) {
+    catch {
       throw new Domain.PlutoError.StoreDeleteError();
     }
   }
@@ -105,7 +105,7 @@ export abstract class BaseRepository<T extends Model> {
     try {
       return this.store.query(this.name, mQuery);
     }
-    catch (e) {
+    catch {
       throw new Domain.PlutoError.StoreQueryFailed();
     }
   }

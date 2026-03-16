@@ -1,6 +1,6 @@
 import * as Domain from "../../domain";
 import { Task } from "../../utils/tasks";
-import { AgentContext } from "../Context";
+import { type AgentContext } from "../Context";
 import { Send } from "./Send";
 import { MediationKeysUpdateList } from "../../plugins/internal/didcomm/protocols/mediation/MediationKeysUpdateList";
 

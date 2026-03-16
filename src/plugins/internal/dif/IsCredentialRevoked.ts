@@ -1,7 +1,7 @@
 import { ungzip } from 'pako';
 import { base64, base64url } from "multiformats/bases/base64";
 import * as  jsonld from 'jsonld';
-import { JsonLd, RemoteDocument } from "jsonld/jsonld-spec";
+import { type JsonLd, type RemoteDocument } from "jsonld/jsonld-spec";
 import * as Domain from "../../../domain";
 import { revocationJsonldDocuments } from "../../../domain/models/revocation";
 import { isObject } from "../../../utils";

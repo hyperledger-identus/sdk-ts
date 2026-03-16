@@ -1,4 +1,4 @@
-import * as Domain from "../domain";
+import type * as Domain from "../domain";
 
 export interface DIDCommProtocol {
   packEncrypted(

@@ -1,3 +1,4 @@
+import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 import js from "@eslint/js";
 
@@ -30,7 +31,7 @@ const errorRules = {
 const warnRules = {
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-unused-vars": [
-        "warn",
+        "error",
         {
             argsIgnorePattern: "^_",
             varsIgnorePattern: "^_",
@@ -48,7 +49,7 @@ const warnRules = {
     ],
     "@typescript-eslint/no-unnecessary-type-assertion": "warn",
     "@typescript-eslint/consistent-type-imports": [
-        "warn",
+        "error",
         { prefer: "type-imports", fixStyle: "inline-type-imports" },
     ],
     "@typescript-eslint/no-empty-object-type": "warn",
@@ -92,6 +93,9 @@ export const commonIgnores = [
     "**/coverage/**",
     "**/*.d.ts",
     "**/generated/**",
+    "externals/**",
+    "integration-tests/**",
+    "src/castor/protos/**",
 ];
 
 /**
@@ -101,7 +105,7 @@ export const commonIgnores = [
  *   export default createPackageConfig(import.meta.dirname);
  */
 export function createPackageConfig(dirname, extraIgnores = [], extraRules = {}) {
-    return tseslint.config(
+    return defineConfig(
         { ignores: [...commonIgnores, ...extraIgnores] },
 
         // Type-checked TS rules scoped to source files only
@@ -127,8 +131,4 @@ export function createPackageConfig(dirname, extraIgnores = [], extraRules = {})
     );
 }
 
-export default createPackageConfig(import.meta.dirname, [
-    "externals/**",
-    "integration-tests/**",
-    "src/castor/protos/**",
-]);
+export default createPackageConfig(import.meta.dirname);

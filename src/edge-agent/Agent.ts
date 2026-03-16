@@ -1,10 +1,10 @@
 import * as Domain from "../domain";
 import Mercury from "../mercury";
 import {
-  AgentOptions,
-  EventCallback,
-  InvitationType,
-  ListenerKey,
+  type AgentOptions,
+  type EventCallback,
+  type InvitationType,
+  type ListenerKey,
 } from "./types";
 
 import { AgentBackup } from "./Agent.Backup";
@@ -14,7 +14,7 @@ import { CreatePeerDID } from "./didcomm/CreatePeerDID";
 import Apollo from "../apollo";
 import Castor from "../castor";
 import * as DIDfns from "./didFunctions";
-import { Task } from "../utils/tasks";
+import { type Task } from "../utils/tasks";
 import { FetchApi } from "./helpers/FetchApi";
 import { ParsePrismInvitation } from "./didcomm/ParsePrismInvitation";
 import { ParseInvitation } from "./didcomm/ParseInvitation";
@@ -35,8 +35,8 @@ import DIFPlugin from "../plugins/internal/dif";
 
 import { CreatePresentationRequest } from "../plugins/internal/oea/tasks/CreatePresentationRequest";
 import { CreatePresentation } from "../plugins/internal/oea/tasks/CreatePresentation";
-import { RequestPresentation } from "../plugins/internal/oea/protocols/RequestPresentation";
-import { Presentation } from "../plugins/internal/oea/protocols/Presentation";
+import { type RequestPresentation } from "../plugins/internal/oea/protocols/RequestPresentation";
+import { type Presentation } from "../plugins/internal/oea/protocols/Presentation";
 
 import * as DIDComm from "../plugins/internal/didcomm";
 import { HandleOOBInvitation } from "../plugins/internal/didcomm/tasks/HandleOOBInvitation";
@@ -144,8 +144,9 @@ export default class Agent extends Startable.Controller {
 
   protected async _stop() {
     await this.connections.stop();
-    await this.jobs.stop();
+    this.jobs.stop();
 
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     if (notNil(this.pluto.stop)) {
       await this.pluto.stop();
     }
@@ -491,9 +492,7 @@ export default class Agent extends Startable.Controller {
    */
   async revealCredentialFields(
     credential: Domain.Credential,
-    fields: string[],
-
-    linkSecret: string
+    fields: string[]
   ) {
     const task = new RevealCredentialFields({ credential, fields });
     return this.runTask(task);

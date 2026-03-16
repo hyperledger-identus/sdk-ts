@@ -1,4 +1,4 @@
-import { Pluto } from "../buildingBlocks/Pluto";
+import { type Pluto } from "../buildingBlocks/Pluto";
 import { InvalidDIDString } from "./errors/Castor";
 
 export class DID implements Pluto.Storable {

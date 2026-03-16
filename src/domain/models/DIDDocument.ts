@@ -1,6 +1,6 @@
 import { isString } from "../../utils";
 import { DID } from "./DID";
-import { JWK } from "./keyManagement";
+import { type JWK } from "./keyManagement";
 
 export class DIDDocument {
   constructor(

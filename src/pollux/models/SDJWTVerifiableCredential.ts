@@ -2,12 +2,12 @@ import { uuid } from "@stablelib/uuid";
 import { SDJwt, Jwt } from "@sd-jwt/core";
 import { Disclosure } from '@sd-jwt/utils';
 import {
-    Pluto,
-    StorableCredential,
+    type Pluto,
+    type StorableCredential,
     Credential,
     CredentialType,
-    ProvableCredential,
-    W3CVerifiablePresentation,
+    type ProvableCredential,
+    type W3CVerifiablePresentation,
     PolluxError,
     JWT
 } from "../../domain";

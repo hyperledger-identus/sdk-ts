@@ -6,7 +6,7 @@ import {
   KeyTypes,
   PublicKey,
   StorableKey,
-  VerifiableKey
+  type VerifiableKey
 } from "../../domain";
 
 import ApolloPKG from "@hyperledger/identus-apollo";

@@ -1,14 +1,11 @@
 import {
-  DIDDocument,
-  PrivateKey,
-  DID,
-  RequiredPrismDIDKeys,
-  RequiredPrismDIDSecretKeys
+  type DIDDocument,
+  type DID,
+  type RequiredPrismDIDSecretKeys
 } from "../../domain";
 
-import { Arrayable } from "../../utils";
 import { Task } from "../../utils/tasks";
-import { AgentContext } from "../Context";
+import { type AgentContext } from "../Context";
 
 export interface Args {
   keys: RequiredPrismDIDSecretKeys;

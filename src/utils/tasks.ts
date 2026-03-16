@@ -1,6 +1,6 @@
-import { ConsoleLogger, Logger } from "./logger";
+import { ConsoleLogger, type Logger } from "./logger";
 import { expect } from "./guards";
-import { JsonObj } from "./types";
+import { type JsonObj } from "./types";
 
 /**
  * A Task encapsulates a unit of work
