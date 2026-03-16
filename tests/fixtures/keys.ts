@@ -6,6 +6,7 @@ import { Secp256k1KeyPair } from "../../src/apollo/utils/Secp256k1KeyPair";
 import { Secp256k1PrivateKey } from "../../src/apollo/utils/Secp256k1PrivateKey";
 import { X25519KeyPair } from "../../src/apollo/utils/X25519KeyPair";
 import { X25519PrivateKey } from "../../src/apollo/utils/X25519PrivateKey";
+import { Secp256k1PublicKey } from "../../src";
 
 const secpPrivateKey = new Secp256k1PrivateKey(
   new Uint8Array([
@@ -16,6 +17,11 @@ const secpPrivateKey = new Secp256k1PrivateKey(
 export const secp256K1 = new Secp256k1KeyPair(
   secpPrivateKey,
   secpPrivateKey.publicKey()
+);
+
+export const secp256K1Compressed = new Secp256k1KeyPair(
+  secpPrivateKey,
+  new Secp256k1PublicKey(secpPrivateKey.publicKey().getEncodedCompressed())
 );
 
 const ed25519PrivateKey = new Ed25519PrivateKey(

@@ -214,28 +214,27 @@ message DeactivateDIDOperation {
 }
 
 // The possible operations affecting the blockchain.
+// Multiple operations can be combined in a single AtalaOperation.
 message AtalaOperation {
-    // The actual operation.
-    oneof operation {
-        // Used to create a public DID.
-        CreateDIDOperation create_did = 1;
+    // Used to create a public DID.
+    CreateDIDOperation create_did = 1;
 
-        // Used to update an existing public DID.
-        UpdateDIDOperation update_did = 2;
+    // Used to update an existing public DID.
+    UpdateDIDOperation update_did = 2;
 
-        // Used to issue a batch of credentials.
-        IssueCredentialBatchOperation issue_credential_batch = 3;
+    // Used to issue a batch of credentials.
+    IssueCredentialBatchOperation issue_credential_batch = 3;
 
-        // Used to revoke a credential batch.
-        RevokeCredentialsOperation revoke_credentials = 4;
+    // Used to revoke a credential batch.
+    RevokeCredentialsOperation revoke_credentials = 4;
 
-        // Used to announce new protocol update
-        ProtocolVersionUpdateOperation protocol_version_update = 5;
+    // Used to announce new protocol update
+    ProtocolVersionUpdateOperation protocol_version_update = 5;
 
-        // Used to deactivate DID
-        DeactivateDIDOperation deactivate_did = 6;
-    };
+    // Used to deactivate DID
+    DeactivateDIDOperation deactivate_did = 6;
 }
+
 
 // A signed operation, necessary to post anything on the blockchain.
 message SignedAtalaOperation {

@@ -89,8 +89,8 @@
     "docs": "npx typedoc --options typedoc.js",
     "prepare": "npx husky",
     "protos": "npm run protos:node && npm run protos:common",
-    "protos:node": "protoc -I=src --proto_path=castor/protos --ts_out=castor/protos  castor/protos/node_models.proto",
-    "protos:common": "protoc -I=src --proto_path=castor/protos --ts_out=castor/protos  castor/protos/common_models.proto"
+    "protos:node": "protoc -I=src/castor/protos --proto_path=. --ts_out=.  node_models.proto",
+    "protos:common": "protoc -I=src/castor/protos --proto_path=. --ts_out=.  common_models.proto"
   },
   "author": "IOHK",
   "repository": {
