@@ -1,5 +1,5 @@
 import { AfterAll, Before, BeforeAll } from "@cucumber/cucumber"
-import { Actor, actorCalled, Cast, engage, TakeNotes } from "@serenity-js/core"
+import { type Actor, actorCalled, type Cast, engage, TakeNotes } from "@serenity-js/core"
 import { CallAnApi } from "@serenity-js/rest"
 import { Utils } from "../Utils"
 import { agentList, WalletSdk } from "../abilities/WalletSdk"
@@ -10,24 +10,24 @@ BeforeAll(async () => {
   await Setup.init()
 })
 
-Before(async () => {
-  await Actors.createAndEngageActors()
+Before(() => {
+  Actors.createAndEngageActors()
 })
 
-AfterAll(async () => {
+AfterAll(() => {
   if (agentList.size > 0) {
     console.warn("Found dangling agents in the end of execution. Explicitly removing them, please check lifecycle.")
     console.warn([...agentList.keys()])
-    new Map(agentList).forEach((v) => {
-      v.discard()
-    })
+    for (const v of new Map(agentList).values()) {
+      void v.discard()
+    }
   }
 })
 
 class Actors implements Cast {
   actors = new Map<string, Actor>()
 
-  static async createAndEngageActors() {
+  static createAndEngageActors() {
     const actors = new Actors()
 
     const cloudAgent = actorCalled("Cloud Agent").whoCan(
@@ -37,12 +37,12 @@ class Actors implements Cast {
 
     const edgeAgent = actorCalled("Edge Agent").whoCan(
       TakeNotes.usingAnEmptyNotepad(),
-      await WalletSdk.withANewInstance()
+      WalletSdk.withANewInstance()
     )
 
     const verifierEdgeAgent = actorCalled("Verifier Edge Agent").whoCan(
       TakeNotes.usingAnEmptyNotepad(),
-      await WalletSdk.withANewInstance()
+      WalletSdk.withANewInstance()
     )
 
     actors.add(cloudAgent)

@@ -1,5 +1,5 @@
 import SDK from "@hyperledger/identus-sdk"
-import { Actor, Duration, notes, TakeNotes, Wait } from "@serenity-js/core"
+import { type Actor, Duration, notes, TakeNotes, Wait } from "@serenity-js/core"
 import { Ensure, equals } from "@serenity-js/assertions"
 import { WalletSdk } from "../abilities/WalletSdk"
 import { Utils } from "../Utils"
@@ -100,7 +100,7 @@ export class EdgeAgentWorkflow {
 
         try {
           const verified = await sdk.handlePresentation(presentationMessage)
-          edgeAgent.attemptsTo(
+          await edgeAgent.attemptsTo(
             Ensure.that(verified, equals(expected))
           )
         } catch (e) {

@@ -1,4 +1,4 @@
-import { Question, QuestionAdapter } from "@serenity-js/core"
+import { Question, type QuestionAdapter } from "@serenity-js/core"
 import { GetRequest, LastResponse, Send } from "@serenity-js/rest"
 
 export class Questions {

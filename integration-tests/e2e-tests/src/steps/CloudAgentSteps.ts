@@ -1,5 +1,5 @@
 import { Given, Then, When } from "@cucumber/cucumber"
-import { Actor, notes } from "@serenity-js/core"
+import { type Actor, notes } from "@serenity-js/core"
 import { CloudAgentWorkflow } from "../workflow/CloudAgentWorkflow"
 import { EdgeAgentWorkflow } from "../workflow/EdgeAgentWorkflow"
 import { Utils } from "../Utils"

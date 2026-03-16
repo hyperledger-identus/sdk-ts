@@ -1,14 +1,14 @@
 import {
-  CreateManagedDidRequest,
-  CreateManagedDIDResponse,
-  CredentialDefinitionInput,
-  CredentialDefinitionResponse,
-  CredentialSchemaInput,
-  CredentialSchemaResponse,
+  type CreateManagedDidRequest,
+  type CreateManagedDIDResponse,
+  type CredentialDefinitionInput,
+  type CredentialDefinitionResponse,
+  type CredentialSchemaInput,
+  type CredentialSchemaResponse,
   Curve,
-  DIDOperationResponse,
-  DIDResolutionResult,
-  PrismEnvelopeResponse,
+  type DIDOperationResponse,
+  type DIDResolutionResult,
+  type PrismEnvelopeResponse,
   Purpose
 } from "@hyperledger/identus-cloud-agent-client"
 import { randomUUID } from "crypto"
@@ -120,16 +120,17 @@ export class Setup {
       return new Promise<string>((resolve, reject) => {
         if (!abortController.signal.aborted) {
           abortController.signal.onabort = () =>
-            reject("[60s] Timeout waiting for the publication")
+            reject(new Error("[60s] Timeout waiting for the publication"))
         }
-        const interval = setInterval(async () => {
-          const didResponse = await cloudAgentApi.get(
+        const interval = setInterval(() => {
+          void cloudAgentApi.get(
             `did-registrar/dids/${shortFormDid}`
-          )
-          if (didResponse.data.status == "PUBLISHED") {
-            clearInterval(interval)
-            resolve(didResponse.data.did)
-          }
+          ).then((didResponse) => {
+            if (didResponse.data.status == "PUBLISHED") {
+              clearInterval(interval)
+              resolve(didResponse.data.did)
+            }
+          })
         }, 1000)
       })
     }

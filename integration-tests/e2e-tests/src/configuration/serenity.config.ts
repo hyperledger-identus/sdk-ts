@@ -4,7 +4,7 @@ import { resolve } from "node:path"
 
 setDefaultTimeout(5 * 60 * 1000)
 
-BeforeAll(async function () {
+BeforeAll(function () {
   // Configure Serenity/JS
   configure({
     crew: [

@@ -1,9 +1,9 @@
-import { Ability, Discardable, Initialisable, Interaction, Question, QuestionAdapter } from "@serenity-js/core"
+import { Ability, type Discardable, type Initialisable, Interaction, Question, type QuestionAdapter } from "@serenity-js/core"
 import SDK from "@hyperledger/identus-sdk"
 import * as Anoncreds from "@hyperledger/identus-sdk/plugins/anoncreds"
 import axios from "axios"
 import { Setup } from "../configuration/Setup"
-import { randomUUID, UUID } from "crypto"
+import { randomUUID, type UUID } from "crypto"
 import { PrismShortFormDIDResolver } from "../resolvers/PrismShortFormDIDResolver"
 import { Utils } from "../Utils"
 
@@ -16,7 +16,7 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
   messages: MessageQueue = new MessageQueue()
   id: UUID = randomUUID()
 
-  static async withANewInstance(): Promise<Ability> {
+  static withANewInstance(): Ability {
     return new WalletSdk()
   }
 
@@ -101,9 +101,9 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     this.sdk.plugins.register(Anoncreds.plugin)
 
     this.sdk.addListener(
-      SDK.ListenerKey.MESSAGE, async (messages: SDK.Domain.Message[]) => {
+      SDK.ListenerKey.MESSAGE, (messages: SDK.Domain.Message[]) => {
         for (const message of messages) {
-          await this.messages.enqueue(message)
+          this.messages.enqueue(message)
         }
       }
     )
@@ -124,7 +124,7 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     if (!this.sdk) {
       return false
     }
-    return this.sdk.state != "stopped"
+    return this.sdk.state !== SDK.Domain.Startable.State.STOPPED
   }
 }
 
@@ -143,12 +143,12 @@ class MessageQueue {
 
   receivedMessages: string[] = []
 
-  async enqueue(message: SDK.Domain.Message) {
+  enqueue(message: SDK.Domain.Message) {
     this.queue.push(message)
 
     // auto start processing messages
     if (!this.processingId) {
-      await this.processMessages()
+      this.processMessages()
     }
   }
 
@@ -166,7 +166,7 @@ class MessageQueue {
     return this.queue.length
   }
 
-  async processMessages() {
+  processMessages() {
     this.processingId = setInterval(() => {
       if (!this.isEmpty()) {
         const message: SDK.Domain.Message = this.dequeue()
