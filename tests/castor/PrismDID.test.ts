@@ -401,6 +401,12 @@ describe("PrismDID",
         // Create DID — deterministic from spec seed
         const did = await castor.createPrismDID(masterSK.publicKey());
 
+        // Verify the canonical DID (short-form hash) matches the spec test vector exactly
+        const expectedCanonicalDID = "did:prism:35fbaf7f8a68e927feb89dc897f4edc24ca8d7510261829e4834d931e947e6ca";
+        const parts = did.toString().split(":");
+        const canonicalDID = `${parts[0]}:${parts[1]}:${parts[2]}`;
+        expect(canonicalDID).toEqual(expectedCanonicalDID);
+
         // Verify it's deterministic
         const did2 = await castor.createPrismDID(masterSK.publicKey());
         expect(did.toString()).toEqual(did2.toString());
