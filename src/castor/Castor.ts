@@ -1,11 +1,8 @@
-import { secp256k1 } from "@noble/curves/secp256k1";
-import { SHA256 } from "@stablelib/sha256";
 import * as base64 from "multiformats/bases/base64";
 import * as base58 from "multiformats/bases/base58";
 import * as DIDParser from "./parser/DIDParser";
 import * as Domain from "../domain";
 import type { PrismDIDKeys } from "../domain/buildingBlocks/Castor";
-import * as ECConfig from "../domain/models/ECConfig";
 import { DIDDocument, } from "../domain/models";
 import { PeerDIDResolver } from "./resolver/PeerDIDResolver";
 import { PeerDIDCreate } from "../peer-did/PeerDIDCreate";
@@ -24,11 +21,7 @@ import { X25519PublicKey } from "../apollo/utils/X25519PublicKey";
 import { Ed25519PublicKey } from "../apollo/utils/Ed25519PublicKey";
 import { Secp256k1PrivateKey } from "../apollo/utils/Secp256k1PrivateKey";
 import { PrismDIDKeyUsage, PrismDIDKeyUsageType } from "../domain/models/derivation/schemas/PrismDerivation";
-
-import * as Protos from "./protos/node_models";
-import ProtosPk = Protos.io.iohk.atala.prism.protos.PublicKey;
-import ProtosECKeyData = Protos.io.iohk.atala.prism.protos.ECKeyData;
-import ProtosCompressedECKeyData = Protos.io.iohk.atala.prism.protos.CompressedECKeyData;
+import { PrismDIDFactory } from "./protos";
 
 export type ExtraResolver = new (apollo: Domain.Apollo) => Domain.DIDResolver;
 
@@ -82,55 +75,66 @@ export default class Castor implements Domain.Castor {
     return DIDParser.parse(did);
   }
 
+  private getKeyFromVerificationMethod(verificationMethod: Domain.DIDDocument.VerificationMethod) {
+    if (verificationMethod.publicKeyJwk) {
+      // TODO need to properly parse JWK into key / raw
+      const raw = base64.base64url.baseDecode(verificationMethod.publicKeyJwk.x as any);
+
+      if (verificationMethod.publicKeyJwk.crv === Domain.Curve.SECP256K1) {
+        return new Secp256k1PublicKey(raw);
+      }
+
+      if (verificationMethod.publicKeyJwk.crv === Domain.Curve.ED25519) {
+        return new Ed25519PublicKey(raw);
+      }
+
+      if (verificationMethod.publicKeyJwk.crv === Domain.Curve.X25519) {
+        return new X25519PublicKey(raw);
+      }
+    }
+    else if (verificationMethod.publicKeyMultibase) {
+      const raw = base58.base58btc.decode(verificationMethod.publicKeyMultibase);
+
+      if (verificationMethod.type === "EcdsaSecp256k1VerificationKey2019") {
+        return new Secp256k1PublicKey(raw);
+      }
+
+      if (verificationMethod.type === "Ed25519VerificationKey2018" || verificationMethod.type === "Ed25519VerificationKey2020") {
+        return new Ed25519PublicKey(raw);
+      }
+
+      if (verificationMethod.type === "X25519KeyAgreementKey2019" || verificationMethod.type === "X25519KeyAgreementKey2020") {
+        return new X25519PublicKey(raw);
+      }
+    }
+
+    throw new Error("No public key found in verification method");
+  }
+
   /**
    * Creates a Prism DID Atala Object, a buffer contained the prism did create operation.
    * @param {PrivateKey} key
    * @param {DID} did
-   * @returns {Promise<{operationHex: string, metadataBody: {v: number, c: string[]}, did: DID}>}
+   * @returns {Promise<Uint8Array> The atalaObject serialized as a binary buff}
    */
   async createPrismDIDAtalaObject(
     key: Domain.PrivateKey,
     did: Domain.DID,
   ) {
+    const builder = new PrismDIDFactory();
+
     if (key.isSignable() && key instanceof Secp256k1PrivateKey) {
       const resolved = await this.resolveDID(did.toString());
-      const didPublicKeys = resolved.verificationMethods.map(x => this.getPrismDIDKeyFromVerificationMethod(x));
-      const didCreationData = new Protos.io.iohk.atala.prism.protos.CreateDIDOperation.DIDCreationData({
-        public_keys: didPublicKeys,
-        services: resolved.services?.map((service) => {
-          return new Protos.io.iohk.atala.prism.protos.Service({
-            service_endpoint: [service.serviceEndpoint.uri],
-            id: service.id,
-            type: service.type.at(0),
-          });
-        }),
-      });
-      const didOperation = new Protos.io.iohk.atala.prism.protos.CreateDIDOperation({
-        did_data: didCreationData,
-      });
-      const operation = new Protos.io.iohk.atala.prism.protos.AtalaOperation({
-        create_did: didOperation,
-      });
-      const encodedState = operation.serializeBinary();
-      const encodedStateHash = (new SHA256()).update(encodedState).digest();
-      const signature = secp256k1.sign(
-        encodedStateHash,
-        key.raw
-      );
-      const signedOperation = Protos.io.iohk.atala.prism.protos.SignedAtalaOperation.fromObject({
-        signature: signature.toDERRawBytes(),
-        operation,
-        signed_with: this.getUsageId(PrismDIDKeyUsage.MASTER_KEY, 0)
-      });
-      const block = Protos.io.iohk.atala.prism.protos.AtalaBlock.fromObject({
-        operations: [
-          signedOperation
-        ]
-      });
-      const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.fromObject({
-        block_content: block
-      });
-      return atalaObject.serialize();
+
+      for (let verificationMethod of resolved.verificationMethods) {
+        const { usage, index } = this.getUsageFromId(verificationMethod.id);
+        const key = this.getKeyFromVerificationMethod(verificationMethod)
+        builder.addKey(key, usage, index);
+      }
+
+      builder.sign(key)
+
+      return builder.serializedAtalaObject;
     }
     throw new Domain.CastorError.InvalidKeyError("Cannot sign with this key");
   }
@@ -160,7 +164,6 @@ export default class Castor implements Domain.Castor {
    *  { ISSUING_KEY: [issuingPublicKey] }
    * );
    * ```
-   *
    * 
    * @param {PublicKey | KeyPair} key
    * @param {?(Service[] | undefined)} [services]
@@ -174,24 +177,21 @@ export default class Castor implements Domain.Castor {
     keysOrAuthenticationKeys?: (Domain.PublicKey | Domain.KeyPair)[] | PrismDIDKeys,
     issuanceKeys?: (Domain.PublicKey | Domain.KeyPair)[],
   ): Promise<Domain.DID> {
+    const builder = new PrismDIDFactory();
     const keys = keysOrAuthenticationKeys ?? {} as PrismDIDKeys;
-    const didPublicKeys: Protos.io.iohk.atala.prism.protos.PublicKey[] = [];
     const masterPublicKey = "publicKey" in key ? key.publicKey : key;
-    const masterPk = this.createProtos(masterPublicKey, PrismDIDKeyUsage.MASTER_KEY);
 
-    didPublicKeys.push(masterPk);
+    builder.addKey(masterPublicKey, PrismDIDKeyUsage.MASTER_KEY, 0);
 
     if (this.legacyPath(keys)) {
       for (const [index, authKey] of keys.entries()) {
         const pk = "publicKey" in authKey ? authKey.publicKey : authKey;
-        const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.AUTHENTICATION_KEY, index);
-        didPublicKeys.push(prismDIDPublicKey);
+        builder.addKey(pk, PrismDIDKeyUsage.AUTHENTICATION_KEY, index);
       }
       if (issuanceKeys?.length) {
         for (const [index, issuanceKey] of issuanceKeys.entries()) {
           const pk = "publicKey" in issuanceKey ? issuanceKey.publicKey : issuanceKey;
-          const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.ISSUING_KEY, index);
-          didPublicKeys.push(prismDIDPublicKey);
+          builder.addKey(pk, PrismDIDKeyUsage.ISSUING_KEY, index);
         }
       }
     } else {
@@ -202,43 +202,16 @@ export default class Castor implements Domain.Castor {
         }
         for (const [index, keyOrPair] of keyList.entries()) {
           const pk = "publicKey" in keyOrPair ? keyOrPair.publicKey : keyOrPair;
-          const prismDIDPublicKey = this.createProtos(pk, usage, index);
-          didPublicKeys.push(prismDIDPublicKey);
+          builder.addKey(pk, usage, index);
         }
       }
     }
 
-    const didCreationData =
-      new Protos.io.iohk.atala.prism.protos.CreateDIDOperation.DIDCreationData({
-        public_keys: didPublicKeys,
-        services: services?.map((service) => {
-          return new Protos.io.iohk.atala.prism.protos.Service({
-            service_endpoint: [service.serviceEndpoint.uri],
-            id: service.id,
-            type: service.type.at(0),
-          });
-        }),
-      });
+    for (let service of services ?? []) {
+      builder.addService(service)
+    }
 
-    const didOperation =
-      new Protos.io.iohk.atala.prism.protos.CreateDIDOperation({
-        did_data: didCreationData,
-      });
-
-    const operation = new Protos.io.iohk.atala.prism.protos.AtalaOperation({
-      create_did: didOperation,
-    });
-
-    const encodedState = operation.serializeBinary();
-    const sha256 = new SHA256();
-    const stateHash = Buffer.from(
-      sha256.update(encodedState).digest()
-    ).toString("hex");
-
-    const base64State = base64.base64url.baseEncode(encodedState);
-    const methodSpecificId = Domain.PrismDID.parseMethodId([stateHash, base64State]);
-
-    return new Domain.DID("did", "prism", methodSpecificId.toString());
+    return builder.did
   }
 
   /**
@@ -468,34 +441,7 @@ export default class Castor implements Domain.Castor {
     return new PeerDIDCreate().computeEncnumbasis(did, publicKey);
   }
 
-  /**
-   * create an identifier for keys within a DID Document
-   * should be unique within the Document
-   * 
-   * @param keyUsage - maps to a prefix word
-   * @param index - occurrence of this keyUsage
-   * @returns {string}
-   */
-  private getUsageId(keyUsage: PrismDIDKeyUsageType, index = 0): string {
-    switch (keyUsage) {
-      case PrismDIDKeyUsage.MASTER_KEY:
-        return `master-${index}`;
-      case PrismDIDKeyUsage.ISSUING_KEY:
-        return `issuing-${index}`;
-      case PrismDIDKeyUsage.KEY_AGREEMENT_KEY:
-        return `agreement-${index}`;
-      case PrismDIDKeyUsage.AUTHENTICATION_KEY:
-        return `authentication-${index}`;
-      case PrismDIDKeyUsage.REVOCATION_KEY:
-        return `revocation-${index}`;
-      case PrismDIDKeyUsage.CAPABILITY_DELEGATION_KEY:
-        return `delegation-${index}`;
-      case PrismDIDKeyUsage.CAPABILITY_INVOCATION_KEY:
-        return `invocation-${index}`;
-      default:
-        return `unknown-${index}`;
-    }
-  }
+
 
   /**
    * Return usage from a verification method id
@@ -507,8 +453,8 @@ export default class Castor implements Domain.Castor {
     usage: PrismDIDKeyUsageType,
     index: number;
   } {
-    const regex = /#([a-zA-Z]+)-(\d+)/;
-    const [_, methodId, methodIndex] = id.match(regex) || [];
+    const regex = /#([a-zA-Z]+)(-\d+)?/;
+    const [_, methodId, methodIndex = '0'] = id.match(regex) || [];
     if (methodId === undefined || methodIndex === undefined) {
       throw new Domain.CastorError.MethodIdIsDoesNotSatisfyRegex("Verification method id does not contain fragment");
     }
@@ -537,70 +483,4 @@ export default class Castor implements Domain.Castor {
     return { usage: PrismDIDKeyUsage.UNKNOWN_KEY, index };
   }
 
-  private createProtos(publicKey: Domain.PublicKey, usage: PrismDIDKeyUsageType, index?: number) {
-    const id = this.getUsageId(usage, index);
-
-    if (publicKey.curve === Domain.Curve.SECP256K1) {
-      const encoded = publicKey.getEncoded();
-      const xBytes = encoded.slice(1, 1 + ECConfig.PRIVATE_KEY_BYTE_SIZE);
-      const yBytes = encoded.slice(1 + ECConfig.PRIVATE_KEY_BYTE_SIZE, encoded.length);
-
-      return new ProtosPk({
-        id: id,
-        usage: usage,
-        ec_key_data: new ProtosECKeyData({
-          curve: publicKey.curve.toLocaleLowerCase(),
-          x: xBytes,
-          y: yBytes,
-        }),
-      });
-    }
-
-    return new ProtosPk({
-      id: id,
-      usage: usage,
-      compressed_ec_key_data: new ProtosCompressedECKeyData({
-        curve: publicKey.curve,
-        data: publicKey.raw,
-      }),
-    });
-  }
-
-  private getPrismDIDKeyFromVerificationMethod(verificationMethod: DIDDocument.VerificationMethod) {
-    const { usage, index } = this.getUsageFromId(verificationMethod.id);
-
-    if (verificationMethod.publicKeyJwk) {
-      // TODO need to properly parse JWK into key / raw
-      const raw = base64.base64url.baseDecode(verificationMethod.publicKeyJwk.x as any);
-
-      if (verificationMethod.publicKeyJwk.crv === Domain.Curve.SECP256K1) {
-        return this.createProtos(new Secp256k1PublicKey(raw), usage, index);
-      }
-
-      if (verificationMethod.publicKeyJwk.crv === Domain.Curve.ED25519) {
-        return this.createProtos(new Ed25519PublicKey(raw), usage, index);
-      }
-
-      if (verificationMethod.publicKeyJwk.crv === Domain.Curve.X25519) {
-        return this.createProtos(new X25519PublicKey(raw), usage, index);
-      }
-    }
-    else if (verificationMethod.publicKeyMultibase) {
-      const raw = base58.base58btc.decode(verificationMethod.publicKeyMultibase);
-
-      if (verificationMethod.type === "EcdsaSecp256k1VerificationKey2019") {
-        return this.createProtos(new Secp256k1PublicKey(raw), usage, index);
-      }
-
-      if (verificationMethod.type === "Ed25519VerificationKey2018" || verificationMethod.type === "Ed25519VerificationKey2020") {
-        return this.createProtos(new Ed25519PublicKey(raw), usage, index);
-      }
-
-      if (verificationMethod.type === "X25519KeyAgreementKey2019" || verificationMethod.type === "X25519KeyAgreementKey2020") {
-        return this.createProtos(new X25519PublicKey(raw), usage, index);
-      }
-    }
-
-    throw new Error("No public key found in verification method");
-  }
 }
