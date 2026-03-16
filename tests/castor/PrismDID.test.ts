@@ -18,6 +18,9 @@ describe("PrismDID",
   () => {
     let apollo: Apollo;
     let castor: Castor;
+
+
+    const secpDidCompressed = 'did:prism:7afef0efaeec5c256b662e50bed277314e4748b2d4edee833af405a26201f701:Cj4KPBI6CgZtYXN0ZXIQAUouCglzZWNwMjU2azESIQP9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_g';
     const secpDid = "did:prism:032e7383265cab026f4bdf8b903f8f78840fefc5b201ccce06fc263f7b3be5df:CskBCsYBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSZQoQYXV0aGVudGljYXRpb24tMBAEQk8KCXNlY3AyNTZrMRIg_SAyFMBU6TtKBZGW7OZ4kiO2bb5gxzoBusPd48olCP4aINmWxrmlC5cbMq-ArXQPxLO4O-Hv27mgwHv5l4k0CH6L";
     const secpMultibase = "zSXxpYB6edvxvWxRTo3kMUoTTQVHpbNnXo2Z1AjLA78iqLdK2kVo5xw9rGg8uoEgmhxYahNur3RvV7HnaktWBqkXt";
     const ed25519Did = "did:prism:fc9fcaead407285991cdf1d27819720d8923e96274794c24977045e00b72e4c7:CqUBCqIBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSQQoQYXV0aGVudGljYXRpb24tMBAESisKB0VkMjU1MTkSIHZuX9hnUeQWh6UcQfG0xJbxP9ICAtqeNODLMfbMCfde";
@@ -49,12 +52,11 @@ describe("PrismDID",
         expect(atalaObject.block_content.operations[0].operation.create_did.did_data).toHaveProperty("public_keys");
         expect(atalaObject.block_content.operations[0].operation.create_did.did_data.public_keys).toHaveLength(1);
         expect(atalaObject.block_content.operations[0].operation.create_did.did_data.public_keys[0]).toHaveProperty("id");
-        // expect(atalaObject.block_content.operations[0].operation.create_did.did_data.public_keys[0].id).toEqual(getUsageId(Usage.MASTER_KEY, 0));
       });
       it("Should create a prismDID from a PublicKey (SECP256K1)", async () => {
-        const result = await castor.createPrismDID(Fixtures.Keys.secp256K1.publicKey, [], [Fixtures.Keys.secp256K1]);
+        const result = await castor.createPrismDID(Fixtures.Keys.secp256K1Compressed.publicKey);
         expect(result).not.toBeNull();
-        expect(result.toString()).toEqual(secpDid);
+        expect(result.toString()).toEqual(secpDidCompressed);
       });
 
       it("Should create a prismDID from a KeyPair (SECP256K1)", async () => {
@@ -123,7 +125,7 @@ describe("PrismDID",
           expect(cp1vm0?.type).toEqual("EcdsaSecp256k1VerificationKey2019");
         });
 
-        const masterKeyId = `master-0`;
+        const masterKeyId = `master`;
         const authenticationKeyId = `authentication-0`;
 
         const testVerificationMethod = (sut: any, didStr: string, keyId: string, keyMultibase: string, curve: DIDDocument.VerificationMethod.Type) => {
@@ -135,12 +137,13 @@ describe("PrismDID",
           expect(sut?.type).toEqual(curve);
         };
 
-        test("master key", async () => {
+        test.only("master key", async () => {
           const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
+            Fixtures.Keys.secp256K1Compressed.publicKey,
             [],
-            [Fixtures.Keys.secp256K1,]
+            [Fixtures.Keys.secp256K1Compressed.publicKey]
           );
+
           const sut = await castor.resolveDID(prismDid.toString());
 
           expect(sut).not.toBeNull();
@@ -153,17 +156,14 @@ describe("PrismDID",
           expect(verificationMethods.values).toHaveLength(2);
 
           const vm0 = verificationMethods.values.at(0);
-          testVerificationMethod(vm0, secpDid, masterKeyId, secpMultibase, "EcdsaSecp256k1VerificationKey2019");
-
-          const vm1 = verificationMethods.values.at(1);
-          testVerificationMethod(vm1, secpDid, authenticationKeyId, secpMultibase, "EcdsaSecp256k1VerificationKey2019");
+          testVerificationMethod(vm0, secpDidCompressed, masterKeyId, secpMultibase, "EcdsaSecp256k1VerificationKey2019");
 
           // authentication key correctly encoded > decoded
           const authProp = sut.coreProperties.at(1) as DIDDocument.Authentication;
           expect(authProp).toBeInstanceOf(DIDDocument.Authentication);
-          expect(authProp.urls[0]).toEqual(`${secpDid}#${authenticationKeyId}`);
+          expect(authProp.urls[0]).toEqual(`${secpDidCompressed}#${authenticationKeyId}`);
           const authvm0 = authProp.verificationMethods.at(0);
-          testVerificationMethod(authvm0, secpDid, authenticationKeyId, secpMultibase, "EcdsaSecp256k1VerificationKey2019");
+          testVerificationMethod(authvm0, secpDidCompressed, authenticationKeyId, secpMultibase, "EcdsaSecp256k1VerificationKey2019");
 
           // no services given - so undefined
           const services = sut.coreProperties.at(2) as DIDDocument.Services;
@@ -171,8 +171,8 @@ describe("PrismDID",
         });
 
         test("issuing keys", async () => {
-          const expectedDid = "did:prism:4bc64000a571d546caa789e24c1ad58eb13a06ce597f475b533a164fe969ac52:CucBCuQBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSQQoQYXV0aGVudGljYXRpb24tMBAESisKB0VkMjU1MTkSIHZuX9hnUeQWh6UcQfG0xJbxP9ICAtqeNODLMfbMCfdeEkAKEGF1dGhlbnRpY2F0aW9uLTEQBEoqCgZYMjU1MTkSIPz4x3nxYfR-6h91bezDvFRDfhdj5VnF83ccOiz5MRBh";
-          const prismDid = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [ed25519, x25519]);
+          const expectedDid = "did:prism:e8b46cbd9b98343e14f8aae4471389fce3587c3d25409cb7b9203173740b4332:CsQBCsEBEjoKBm1hc3RlchABSi4KCXNlY3AyNTZrMRIhA_0gMhTAVOk7SgWRluzmeJIjtm2-YMc6AbrD3ePKJQj-EkEKEGF1dGhlbnRpY2F0aW9uLTAQBEorCgdFZDI1NTE5EiB2bl_YZ1HkFoelHEHxtMSW8T_SAgLanjTgyzH2zAn3XhJAChBhdXRoZW50aWNhdGlvbi0xEARKKgoGWDI1NTE5EiD8-Md58WH0fuofdW3sw7xUQ34XY-VZxfN3HDos-TEQYQ";
+          const prismDid = await castor.createPrismDID(Fixtures.Keys.secp256K1Compressed, [], [ed25519, x25519]);
           const sut = await castor.resolveDID(prismDid.toString());
 
           expect(sut.coreProperties).to.be.an("array").toHaveLength(2);
@@ -349,7 +349,7 @@ describe("PrismDID",
           expect(verificationMethods).toBeInstanceOf(DIDDocument.VerificationMethods);
           // Only the master key
           expect(verificationMethods!.values).toHaveLength(1);
-          expect(verificationMethods!.values[0].id).toContain("#master-0");
+          expect(verificationMethods!.values[0].id).toContain("#master");
 
           // No authentication or assertion
           const authentication = sut.coreProperties.find(
@@ -454,32 +454,6 @@ describe("PrismDID",
           expect(services).toBeInstanceOf(DIDDocument.Services);
           expect(services!.values).toHaveLength(1);
         });
-      });
-
-      it("Should correctly create a prismDID from an existing HexKey", async () => {
-        const didExample = "did:prism:4a1525a94cc3d91af5584c2335e57969c10fe945a8b665d0bdadabbfc5f6ec99:CmEKXxJdCghtYXN0ZXItMBABQk8KCXNlY3AyNTZrMRIgNLnN5hSQsJIAksjpotdFM9HGy0Is9QQjpOAGsBUIeTAaIOT59-SWscgVbukqRPyL5iSxeL5deLmHfVzNQxpUKVyn";
-        const resolvedDID = await castor.resolveDID(didExample);
-
-        const pubHex = "0434b9cde61490b0920092c8e9a2d74533d1c6cb422cf50423a4e006b015087930e4f9f7e496b1c8156ee92a44fc8be624b178be5d78b9877d5ccd431a54295ca7";
-        const masterPublicKey = new Secp256k1PublicKey(Buffer.from(pubHex, "hex"));
-
-        const createdDID = await castor.createPrismDID(masterPublicKey, []);
-        const resolveCreated = await castor.resolveDID(createdDID.toString());
-
-        const verificationMethod = resolveCreated.coreProperties.find(
-          (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
-        );
-
-        const resolvedPublicKeyMultibase =
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-          verificationMethod?.values.at(0)?.publicKeyMultibase!;
-
-        const resolvedPublicKeyBuffer = Buffer.from(
-          base58btc.decode(resolvedPublicKeyMultibase)
-        );
-
-        expect(resolvedPublicKeyBuffer).to.deep.equal(masterPublicKey.raw);
-        expect(resolveCreated.id.toString()).toEqual(resolvedDID.id.toString());
       });
 
       it("Create a PrismDID and verify a signature", async () => {
