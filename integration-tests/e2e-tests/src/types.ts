@@ -1,4 +1,4 @@
-import { Apollo, makeCollections } from "@hyperledger/identus-sdk";
+import { type Apollo, type makeCollections } from "@hyperledger/identus-sdk";
 
 export type MakeCollections = ReturnType<typeof makeCollections>
 

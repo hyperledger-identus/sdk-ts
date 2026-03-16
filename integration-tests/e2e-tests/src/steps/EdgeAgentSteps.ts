@@ -1,5 +1,5 @@
 import { Given, Then, When } from "@cucumber/cucumber"
-import { Actor, notes } from "@serenity-js/core"
+import { type Actor, notes } from "@serenity-js/core"
 import { EdgeAgentWorkflow } from "../workflow/EdgeAgentWorkflow"
 import { CloudAgentWorkflow } from "../workflow/CloudAgentWorkflow"
 import { Utils } from "../Utils"
@@ -164,7 +164,7 @@ When("{actor} connects through the invite",
 When("{actor} accepts the credentials offer from {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
     const recordIdList = await cloudAgent.answer(notes().get("recordIdList"))
-    Utils.repeat(recordIdList.length, async () => {
+    await Utils.repeat(recordIdList.length, async () => {
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
     })
   }

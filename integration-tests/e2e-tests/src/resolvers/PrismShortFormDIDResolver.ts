@@ -1,6 +1,6 @@
 import SDK from "@hyperledger/identus-sdk"
 import { cloudAgentApi } from "../configuration/Setup"
-import { DIDDocument, DIDResolutionResult } from "@hyperledger/identus-cloud-agent-client"
+import { type DIDDocument, type DIDResolutionResult } from "@hyperledger/identus-cloud-agent-client"
 
 export class PrismShortFormDIDResolver implements SDK.Domain.DIDResolver {
   method: string = "prism"

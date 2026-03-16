@@ -5,9 +5,9 @@ import crypto from "crypto"
 import { Buffer } from "buffer"
 
 import { RIDB, StorageType } from "@trust0/ridb";
-import { Property } from "@trust0/ridb-core";
+import { type Property } from "@trust0/ridb-core";
 import { Apollo, makeCollections, Pluto } from "@hyperledger/identus-sdk";
-import { CollectionSchema, CreateInstanceArgs } from "./types";
+import { type CollectionSchema, type CreateInstanceArgs } from "./types";
 import { createStore } from "@trust0/identus-store";
 
 
@@ -23,7 +23,7 @@ export class Utils {
       return all;
     }, { schemas: {}, migrations: {} });
 
-    let db: RIDB<typeof converted['schemas']> = new RIDB({
+    const db: RIDB<typeof converted['schemas']> = new RIDB({
       dbName: "test-index" + randomUUID(),
       ...converted
     });

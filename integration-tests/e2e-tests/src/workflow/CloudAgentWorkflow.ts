@@ -1,4 +1,4 @@
-import { Actor, Duration, notes, Wait } from "@serenity-js/core"
+import { type Actor, Duration, notes, Wait } from "@serenity-js/core"
 import { GetRequest, LastResponse, PatchRequest, PostRequest, Send } from "@serenity-js/rest"
 import { Ensure, equals } from "@serenity-js/assertions"
 import { HttpStatusCode } from "axios"
@@ -7,9 +7,9 @@ import { Questions } from "../screenplay/Questions"
 import { randomUUID } from "crypto"
 import {
   CreateConnectionRequest,
-  CreateIssueCredentialRecordRequest,
+  type CreateIssueCredentialRecordRequest,
   ProofRequestAux,
-  RequestPresentationInput,
+  type RequestPresentationInput,
 } from "@hyperledger/identus-cloud-agent-client"
 import { Setup } from "../configuration/Setup"
 import { Utils } from "../Utils"
@@ -306,7 +306,7 @@ export class CloudAgentWorkflow {
   }
 
   static async askForPresentProofAnonCredsWithUnexpectedAttributes(cloudAgent: Actor) {
-    const anoncredGuid = Setup.secp256k1
+    const anoncredGuid = Setup.secp256k1.credDefUrl.guid
     const definitionUrl = `${Setup.agent.url}/credential-definition-registry/definitions/${anoncredGuid}/definition`
     const connectionId = await cloudAgent.answer(notes().get("connectionId"))
 
