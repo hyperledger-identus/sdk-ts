@@ -168,38 +168,15 @@ export default class Castor implements Domain.Castor {
     authenticationKeys: (Domain.PublicKey | Domain.KeyPair)[] = [],
     issuanceKeys: (Domain.PublicKey | Domain.KeyPair)[] = [],
   ): Promise<Domain.DID> {
-    const didPublicKeys: Protos.io.iohk.atala.prism.protos.PublicKey[] = [];
     const masterPublicKey = "publicKey" in key ? key.publicKey : key;
     const masterPk = this.createProtos(masterPublicKey, PrismDIDKeyUsage.MASTER_KEY);
 
-    didPublicKeys.push(masterPk);
-
-    if (authenticationKeys.length) {
-      for (const [index, authenticationKey] of authenticationKeys.entries()) {
-        const pk = "publicKey" in authenticationKey ? authenticationKey.publicKey : authenticationKey;
-        const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.AUTHENTICATION_KEY, index);
-        didPublicKeys.push(prismDIDPublicKey);
-      }
-    }
-
-    if (issuanceKeys.length) {
-      for (const [index, issuanceKey] of issuanceKeys.entries()) {
-        const pk = "publicKey" in issuanceKey ? issuanceKey.publicKey : issuanceKey;
-        const prismDIDPublicKey = this.createProtos(pk, PrismDIDKeyUsage.ISSUING_KEY, index);
-        didPublicKeys.push(prismDIDPublicKey);
-      }
-    }
-
+    // CreateDIDOperation only contains the master key with CompressedECKeyData.
+    // All other keys (authentication, issuance), services, and context
+    // must be added via subsequent UpdateDIDOperation.
     const didCreationData =
       new Protos.io.iohk.atala.prism.protos.CreateDIDOperation.DIDCreationData({
-        public_keys: didPublicKeys,
-        services: services?.map((service) => {
-          return new Protos.io.iohk.atala.prism.protos.Service({
-            service_endpoint: [service.serviceEndpoint.uri],
-            id: service.id,
-            type: service.type.at(0),
-          });
-        }),
+        public_keys: [masterPk],
       });
 
     const didOperation =

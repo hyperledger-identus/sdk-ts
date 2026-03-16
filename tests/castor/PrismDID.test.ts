@@ -18,15 +18,12 @@ describe("PrismDID",
   () => {
     let apollo: Apollo;
     let castor: Castor;
-    // New DID values use CompressedECKeyData for secp256k1 and "master" key ID (no index)
-    const secpDid = "did:prism:4ff7cddab05d9fddf9ced1634081ebec8f485db413c37b4aa31c7294700b01a4:CoUBCoIBEjoKBm1hc3RlchABSi4KCXNlY3AyNTZrMRIhA_0gMhTAVOk7SgWRluzmeJIjtm2-YMc6AbrD3ePKJQj-EkQKEGF1dGhlbnRpY2F0aW9uLTAQBEouCglzZWNwMjU2azESIQP9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_g";
+    // CreateDIDOperation now only contains master key with CompressedECKeyData and "master" label.
+    // All DIDs using the same master key produce the same DID regardless of auth/issuing keys.
+    const masterOnlyDid = "did:prism:7afef0efaeec5c256b662e50bed277314e4748b2d4edee833af405a26201f701:Cj4KPBI6CgZtYXN0ZXIQAUouCglzZWNwMjU2azESIQP9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_g";
     const secpMultibase = "zSXxpYB6edvxvWxRTo3kMUoTTQVHpbNnXo2Z1AjLA78iqLdK2kVo5xw9rGg8uoEgmhxYahNur3RvV7HnaktWBqkXt";
-    const ed25519Did = "did:prism:83170e10538a6416414e5b007049f221bfee250d660fa7c5bbc8d5c4c05d1ce1:CoEBCn8SOgoGbWFzdGVyEAFKLgoJc2VjcDI1NmsxEiED_SAyFMBU6TtKBZGW7OZ4kiO2bb5gxzoBusPd48olCP4SQQoQYXV0aGVudGljYXRpb24tMBAESisKB0VkMjU1MTkSIHZuX9hnUeQWh6UcQfG0xJbxP9ICAtqeNODLMfbMCfde";
-    const ed25519Multibase = "z8yJizaEga14wo4pHUDBXCnrp5A9WbFDuk5DZnPq5mCHK";
-    const x25519Did = "did:prism:e01964c0427de0c4335d791c192950280dda3392dae5bd3be2d4087f4f1b5843:CoABCn4SOgoGbWFzdGVyEAFKLgoJc2VjcDI1NmsxEiED_SAyFMBU6TtKBZGW7OZ4kiO2bb5gxzoBusPd48olCP4SQAoQYXV0aGVudGljYXRpb24tMBAESioKBlgyNTUxORIg_PjHefFh9H7qH3Vt7MO8VEN-F2PlWcXzdxw6LPkxEGE";
-    const x25519Multibase = "zJ2VmASEaRF41F4BQSydGNi7zd5ud5YhqXxTKicPGd5FN";
 
-    // Old DID values (ECKeyData uncompressed + "master-0" key ID) for backward compat tests
+    // Old DID values (ECKeyData uncompressed + "master-0" key ID + all keys in CreateDID) for backward compat tests
     const legacySecpDid = "did:prism:032e7383265cab026f4bdf8b903f8f78840fefc5b201ccce06fc263f7b3be5df:CskBCsYBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSZQoQYXV0aGVudGljYXRpb24tMBAEQk8KCXNlY3AyNTZrMRIg_SAyFMBU6TtKBZGW7OZ4kiO2bb5gxzoBusPd48olCP4aINmWxrmlC5cbMq-ArXQPxLO4O-Hv27mgwHv5l4k0CH6L";
 
     beforeEach(async () => {
@@ -56,26 +53,28 @@ describe("PrismDID",
         // expect(atalaObject.block_content.operations[0].operation.create_did.did_data.public_keys[0].id).toEqual(getUsageId(Usage.MASTER_KEY, 0));
       });
       it("Should create a prismDID from a PublicKey (SECP256K1)", async () => {
+        // CreateDID only contains master key; auth keys go in UpdateDID
         const result = await castor.createPrismDID(Fixtures.Keys.secp256K1.publicKey, [], [Fixtures.Keys.secp256K1]);
         expect(result).not.toBeNull();
-        expect(result.toString()).toEqual(secpDid);
+        expect(result.toString()).toEqual(masterOnlyDid);
       });
 
       it("Should create a prismDID from a KeyPair (SECP256K1)", async () => {
         const result = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [Fixtures.Keys.secp256K1]);
         expect(result).not.toBeNull();
-        expect(result.toString()).toEqual(secpDid);
+        expect(result.toString()).toEqual(masterOnlyDid);
       });
 
-      it("Should create a prismDID from a KeyPair (Ed25519)", async () => {
+      it("Should create same DID regardless of auth key type (Ed25519)", async () => {
+        // Same master key → same DID, auth keys don't affect CreateDID operation
         const result = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [Fixtures.Keys.ed25519]);
         expect(result).not.toBeNull();
-        expect(result.toString()).toEqual(ed25519Did);
+        expect(result.toString()).toEqual(masterOnlyDid);
       });
 
-      it("Should create a prismDID from a KeyPair (X25519)", async () => {
+      it("Should create same DID regardless of auth key type (X25519)", async () => {
         const result = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [Fixtures.Keys.x25519]);
-        expect(result.toString()).toEqual(x25519Did);
+        expect(result.toString()).toEqual(masterOnlyDid);
       });
     });
 
@@ -125,7 +124,6 @@ describe("PrismDID",
         });
 
         const masterKeyId = `master`;
-        const authenticationKeyId = `authentication-0`;
 
         const testVerificationMethod = (sut: any, didStr: string, keyId: string, keyMultibase: string, curve: DIDDocument.VerificationMethod.Type) => {
           expect(sut).toBeInstanceOf(DIDDocument.VerificationMethod);
@@ -136,7 +134,8 @@ describe("PrismDID",
           expect(sut?.type).toEqual(curve);
         };
 
-        test("master key", async () => {
+        test("master key only in CreateDID operation", async () => {
+          // CreateDID only includes master key — auth/issuing keys go in UpdateDID
           const prismDid = await castor.createPrismDID(
             Fixtures.Keys.secp256K1,
             [],
@@ -145,66 +144,26 @@ describe("PrismDID",
           const sut = await castor.resolveDID(prismDid.toString());
 
           expect(sut).not.toBeNull();
-          // master key correctly encoded > decoded
-          expect(sut.coreProperties).to.be.an("array").toHaveLength(2);
+          // Only master key in CreateDID operation
+          expect(sut.coreProperties).to.be.an("array").toHaveLength(1);
 
-          // no issuing keys given - so only master and authentication keys
           const verificationMethods = sut.coreProperties.at(0) as DIDDocument.VerificationMethods;
           expect(verificationMethods).toBeInstanceOf(DIDDocument.VerificationMethods);
-          expect(verificationMethods.values).toHaveLength(2);
+          expect(verificationMethods.values).toHaveLength(1);
 
           const vm0 = verificationMethods.values.at(0);
-          testVerificationMethod(vm0, secpDid, masterKeyId, secpMultibase, "EcdsaSecp256k1VerificationKey2019");
-
-          const vm1 = verificationMethods.values.at(1);
-          testVerificationMethod(vm1, secpDid, authenticationKeyId, secpMultibase, "EcdsaSecp256k1VerificationKey2019");
-
-          // authentication key correctly encoded > decoded
-          const authProp = sut.coreProperties.at(1) as DIDDocument.Authentication;
-          expect(authProp).toBeInstanceOf(DIDDocument.Authentication);
-          expect(authProp.urls[0]).toEqual(`${secpDid}#${authenticationKeyId}`);
-          const authvm0 = authProp.verificationMethods.at(0);
-          testVerificationMethod(authvm0, secpDid, authenticationKeyId, secpMultibase, "EcdsaSecp256k1VerificationKey2019");
-
-          // no services given - so undefined
-          const services = sut.coreProperties.at(2) as DIDDocument.Services;
-          expect(services).toBeUndefined();
+          testVerificationMethod(vm0, masterOnlyDid, masterKeyId, secpMultibase, "EcdsaSecp256k1VerificationKey2019");
         });
 
-        test("issuing keys", async () => {
-          const expectedDid = "did:prism:e8b46cbd9b98343e14f8aae4471389fce3587c3d25409cb7b9203173740b4332:CsQBCsEBEjoKBm1hc3RlchABSi4KCXNlY3AyNTZrMRIhA_0gMhTAVOk7SgWRluzmeJIjtm2-YMc6AbrD3ePKJQj-EkEKEGF1dGhlbnRpY2F0aW9uLTAQBEorCgdFZDI1NTE5EiB2bl_YZ1HkFoelHEHxtMSW8T_SAgLanjTgyzH2zAn3XhJAChBhdXRoZW50aWNhdGlvbi0xEARKKgoGWDI1NTE5EiD8-Md58WH0fuofdW3sw7xUQ34XY-VZxfN3HDos-TEQYQ";
-          const prismDid = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [ed25519, x25519]);
-          const sut = await castor.resolveDID(prismDid.toString());
+        test("auth/issuing keys do not affect CreateDID operation hash", async () => {
+          // Passing different auth keys produces the same DID (same master key → same hash)
+          const did1 = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [ed25519, x25519]);
+          const did2 = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [Fixtures.Keys.secp256K1]);
+          const did3 = await castor.createPrismDID(Fixtures.Keys.secp256K1);
 
-          expect(sut.coreProperties).to.be.an("array").toHaveLength(2);
-
-          // 2 issuing keys given
-          const verificationMethods = sut.coreProperties.at(0) as DIDDocument.VerificationMethods;
-          expect(verificationMethods).toBeInstanceOf(DIDDocument.VerificationMethods);
-          expect(verificationMethods.values).toHaveLength(3);
-
-          const vm0 = verificationMethods.values.at(0);
-          testVerificationMethod(vm0, expectedDid, masterKeyId, secpMultibase, "EcdsaSecp256k1VerificationKey2019");
-
-          const vm2 = verificationMethods.values.at(1);
-          testVerificationMethod(vm2, expectedDid, `authentication-0`, ed25519Multibase, "Ed25519VerificationKey2020");
-
-          const vm3 = verificationMethods.values.at(2);
-          testVerificationMethod(vm3, expectedDid, `authentication-1`, x25519Multibase, "X25519KeyAgreementKey2020");
-
-          const authentication = sut.coreProperties.at(1) as DIDDocument.Authentication;
-          expect(authentication).toBeInstanceOf(DIDDocument.Authentication);
-          expect(authentication.verificationMethods).toHaveLength(2);
-
-          const au0 = authentication.verificationMethods.at(0);
-          testVerificationMethod(au0, expectedDid, `authentication-0`, ed25519Multibase, "Ed25519VerificationKey2020");
-
-          const au1 = authentication.verificationMethods.at(1);
-          testVerificationMethod(au1, expectedDid, `authentication-1`, x25519Multibase, "X25519KeyAgreementKey2020");
-
-          // no services given - so empty
-          const services = sut.coreProperties.at(2);
-          expect(services).toBeUndefined();
+          expect(did1.toString()).toEqual(masterOnlyDid);
+          expect(did2.toString()).toEqual(masterOnlyDid);
+          expect(did3.toString()).toEqual(masterOnlyDid);
         });
       });
 
@@ -259,25 +218,20 @@ describe("PrismDID",
         }
       });
 
-      it("Create a ED25519 PrismDID and verify a signature", async () => {
-
+      it("Create a PrismDID and verify signature with master key (CreateDID only has master)", async () => {
+        // CreateDID only contains master key — verify signature using master key
         const issuerSeed = apollo.createRandomSeed().seed;
 
-        const sk = apollo.createPrivateKey({
-          type: KeyTypes.EC,
-          curve: Curve.ED25519,
-          seed: Buffer.from(issuerSeed.value).toString("hex"),
-        });
         const masterSk = apollo.createPrivateKey({
           type: KeyTypes.EC,
           curve: Curve.SECP256K1,
           seed: Buffer.from(issuerSeed.value).toString("hex"),
         });
 
-        const did = await castor.createPrismDID(masterSk.publicKey(), [], [sk.publicKey()]);
+        const did = await castor.createPrismDID(masterSk.publicKey());
         const text = "The quick brown fox jumps over the lazy dog";
         const signature =
-          sk.isSignable() && sk.sign(Buffer.from(text));
+          masterSk.isSignable() && masterSk.sign(Buffer.from(text));
 
         expect(signature).not.toEqual(false);
 
@@ -376,6 +330,90 @@ describe("PrismDID",
         expect(pk.x).toEqual("poDxfZtoOpBDtFqJmJ03_tei3ooCXrGXkJM_WUErZPM");
       });
 
+
+      it("Spec test vector: deterministic DID from mnemonic", async () => {
+        // Test vector from the deterministic DID creation specification
+        const mnemonic = "vacuum only object oxygen sell engine firm fiscal shiver finish village clock limit unable reject lawn hard adapt plunge between lawsuit stuff educate knock".split(" ");
+
+        // Derive seed from mnemonic via Apollo (handles BIP-39 internally)
+        const seed = apollo.createSeed(mnemonic as any, "");
+        const seedHex = Buffer.from(seed.value).toString("hex");
+
+        // Derive master key at m/29'/29'/0'/1'/0'
+        const { PrismDerivationPath, PrismDIDKeyUsage: PrismKeyUsage, PrismDerivationPathSchema } = await import(
+          "../../src/domain/models/derivation/schemas/PrismDerivation"
+        );
+        const masterKeyPath = PrismDerivationPath.init(0, PrismKeyUsage.MASTER_KEY, 0);
+        const masterSK = apollo.createPrivateKey({
+          type: KeyTypes.EC,
+          curve: Curve.SECP256K1,
+          seed: seedHex,
+          derivationPath: masterKeyPath.toString(),
+          derivationSchema: PrismDerivationPathSchema,
+        });
+
+        // Create DID via Castor — master-key-only CreateDID
+        const did = await castor.createPrismDID(masterSK.publicKey());
+
+        // Determinism: same mnemonic + same derivation → same DID every time
+        const did2 = await castor.createPrismDID(masterSK.publicKey());
+        expect(did.toString()).toEqual(did2.toString());
+
+        // Verify the DID is a valid long-form prism DID
+        expect(did.toString()).toMatch(/^did:prism:[0-9a-f]{64}:/);
+
+        // Resolve to verify it's well-formed
+        const resolved = await castor.resolveDID(did.toString());
+        expect(resolved).toBeInstanceOf(DIDDocument);
+
+        // Verify the resolved DID only contains the master key
+        const verificationMethods = resolved.coreProperties.find(
+          (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
+        );
+        expect(verificationMethods?.values).toHaveLength(1);
+        expect(verificationMethods?.values.at(0)?.id).toContain("#master");
+      });
+
+      it("Spec test vector: raw seed produces expected key and deterministic DID", async () => {
+        // Use the raw seed hex from the spec directly (bypassing BIP-39 passphrase handling)
+        const specSeedHex = "3b32a5049f2b4e3af31ec5c1ae75fada1ad2eb8be5accf56ada343ad89eeb083208e538b3b97836e3bd7048c131421bf5bea9e3a1d25812a2d831e2bab89e058";
+
+        const { PrismDerivationPath, PrismDIDKeyUsage: PrismKeyUsage, PrismDerivationPathSchema } = await import(
+          "../../src/domain/models/derivation/schemas/PrismDerivation"
+        );
+        const masterKeyPath = PrismDerivationPath.init(0, PrismKeyUsage.MASTER_KEY, 0);
+        const masterSK = apollo.createPrivateKey({
+          type: KeyTypes.EC,
+          curve: Curve.SECP256K1,
+          seed: specSeedHex,
+          derivationPath: masterKeyPath.toString(),
+          derivationSchema: PrismDerivationPathSchema,
+        });
+
+        // Verify the derived compressed public key matches the spec test vector
+        const compressedPubkey = (masterSK.publicKey() as any).getEncodedCompressed
+          ? (masterSK.publicKey() as any).getEncodedCompressed()
+          : masterSK.publicKey().raw;
+        expect(Buffer.from(compressedPubkey).toString("hex")).toEqual(
+          "023f7c75c9e5fba08fea1640d6faa3f8dc0151261d2b56026d46ddcbe1fc5a5bbb"
+        );
+
+        // Create DID — deterministic from spec seed
+        const did = await castor.createPrismDID(masterSK.publicKey());
+
+        // Verify it's deterministic
+        const did2 = await castor.createPrismDID(masterSK.publicKey());
+        expect(did.toString()).toEqual(did2.toString());
+
+        // Resolve and verify structure
+        const resolved = await castor.resolveDID(did.toString());
+        expect(resolved).toBeInstanceOf(DIDDocument);
+        const vms = resolved.coreProperties.find(
+          (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
+        );
+        expect(vms?.values).toHaveLength(1);
+        expect(vms?.values.at(0)?.id).toContain("#master");
+      });
 
       it("Method DIDDocument.cloneWithNewDID MUST replace the DID identifier correctly in the whole document", async () => {
         const diddoc = DIDDocument.fromJSON(
