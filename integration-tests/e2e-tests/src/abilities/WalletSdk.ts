@@ -5,8 +5,7 @@ import axios from "axios"
 import { Setup } from "../configuration/Setup"
 import { randomUUID, UUID } from "crypto"
 import { PrismShortFormDIDResolver } from "../resolvers/PrismShortFormDIDResolver"
-import { RxdbStore } from "@trust0/identus-store-rxdb"
-import InMemory from "@pluto-encrypted/inmemory"
+import { Utils } from "../Utils"
 
 // fallback in any case of dangling sdk agents
 export const agentList: Map<string, WalletSdk> = new Map()
@@ -88,15 +87,9 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     const resolvers = [PrismShortFormDIDResolver]
     const apollo = new SDK.Apollo()
     const castor = new SDK.Castor(apollo, resolvers)
-
-    this.store = new RxdbStore({
-      name: [...Array(30)].map(() => Math.random().toString(36)[2]).join(""),
-      storage: InMemory,
-      password: "random12434",
-      ignoreDuplicate: true
-    })
-    const pluto = new SDK.Pluto(this.store, apollo)
+    const pluto = Utils.createPlutoInstance();
     const mediatorDID = SDK.Domain.DID.fromString(await WalletSdk.getMediatorDidThroughOob())
+
     this.sdk = SDK.Agent.initialize({
       seed,
       apollo,
@@ -104,6 +97,7 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
       mediatorDID,
       castor
     })
+
     this.sdk.plugins.register(Anoncreds.plugin)
 
     this.sdk.addListener(
