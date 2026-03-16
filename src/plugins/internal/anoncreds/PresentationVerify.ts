@@ -60,7 +60,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
       if (!attachment) {
         throw new Domain.AgentError.UnsupportedAttachmentType("Invalid presentation message, attachment missing");
       }
-      const presentationDefinitionRequest = Domain.Message.Attachment.extractJSON(attachment);
+      const presentationDefinitionRequest = Domain.AttachmentDescriptor.extractJSON(attachment);
       return presentationDefinitionRequest;
     }
 

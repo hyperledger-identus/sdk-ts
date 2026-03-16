@@ -1,5 +1,5 @@
 import { uuid } from "@stablelib/uuid";
-import { base64url } from "multiformats/bases/base64";
+import { base64, base64url } from "multiformats/bases/base64";
 import { Message } from "..";
 export interface AttachmentHeader {
   children: string;
@@ -29,6 +29,14 @@ export type AttachmentJsonData = {
   json: any;
 };
 
+const decodeBase64 = (data: string) => {
+  try {
+    return base64url.baseDecode(data);
+  } catch (err) {
+    return base64.baseDecode(data);
+  }
+};
+
 export type AttachmentData =
   | AttachmentJsonData
   | AttachmentLinkData
@@ -47,10 +55,36 @@ export class AttachmentDescriptor {
     public readonly lastModTime?: string,
     public readonly byteCount?: number,
     public readonly description?: string
-  ) {}
+  ) { }
 
   get payload() {
-    return Message.Attachment.extractJSON(this);
+    return AttachmentDescriptor.extractJSON(this);
+  }
+
+  static extractJSON(attachment: AttachmentDescriptor): any {
+    const isBase64 = (data: AttachmentData): data is AttachmentBase64 => "base64" in data;
+
+    const isJson = (data: AttachmentData): data is AttachmentJsonData => "json" in data || "data" in data;
+    if (isBase64(attachment.data)) {
+      const decoded = Buffer.from(decodeBase64(attachment.data.base64)).toString();
+      try {
+        return JSON.parse(decoded);
+      } catch (err) {
+        return decoded;
+      }
+    }
+
+    if (isJson(attachment.data)) {
+      // data.data handled for backwards compatibility
+      const decoded = attachment.data.json ?? (attachment.data as any).data;
+
+      return typeof decoded === "object"
+        ? decoded
+        : JSON.parse(decoded);
+    }
+
+    // TODO better error
+    throw new Error("Unhandled attachment");
   }
 
   static build<T>(

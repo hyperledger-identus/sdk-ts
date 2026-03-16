@@ -1,4 +1,3 @@
- 
 import { DID } from "./DID";
 import {
   AttachmentBase64,
@@ -10,7 +9,6 @@ import { AgentError } from "./Errors";
 import { JsonString } from ".";
 import { Pluto } from "../buildingBlocks/Pluto";
 import { JsonObj, asJsonObj, isArray, isNil, isObject, isString, notEmptyString, notNil } from "../../utils";
-import { base64, base64url } from "multiformats/bases/base64";
 
 export enum MessageDirection {
   SENT = 0,
@@ -144,55 +142,5 @@ export class Message implements Pluto.Storable {
   static isJsonAttachment(data: any): data is AttachmentJsonData {
     // data.data handled for backwards compatibility with stored messages
     return data.json !== undefined || data.data !== undefined;
-  }
-}
-
-const decodeBase64 = (data: string) => {
-  try {
-    return base64url.baseDecode(data);
-  } catch (err) {
-    return base64.baseDecode(data);
-  }
-};
-
-export namespace Message {
-  export namespace Attachment {
-    /**
-     * Get the presumed JSON from the attachment
-     * 
-     * @param {AttachmentDescriptor} attachment 
-     * @returns 
-     */
-    export const extractJSON = (attachment: AttachmentDescriptor) => {
-      if (isBase64(attachment.data)) {
-        const decoded = Buffer.from(decodeBase64(attachment.data.base64)).toString();
-        try {
-          return JSON.parse(decoded);
-        } catch (err) {
-          return decoded;
-        }
-      }
-
-      if (isJson(attachment.data)) {
-        // data.data handled for backwards compatibility
-        const decoded = attachment.data.json ?? (attachment.data as any).data;
-
-        return typeof decoded === "object"
-          ? decoded
-          : JSON.parse(decoded);
-      }
-
-      // TODO better error
-      throw new Error("Unhandled attachment");
-    };
-
-    const isBase64 = (data: AttachmentData): data is AttachmentBase64 => {
-      return "base64" in data;
-    };
-
-    const isJson = (data: AttachmentData): data is AttachmentJsonData => {
-      // data.data handled for backwards compatibility
-      return "json" in data || "data" in data;
-    };
   }
 }
