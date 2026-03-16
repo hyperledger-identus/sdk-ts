@@ -47,7 +47,7 @@ export class HandlePresentation extends Task<boolean, Args> {
       if (!attachment) {
         throw new Domain.AgentError.UnsupportedAttachmentType("Invalid presentation message, attachment missing");
       }
-      const presentationRequest = Domain.Message.Attachment.extractJSON(attachment);
+      const presentationRequest = Domain.AttachmentDescriptor.extractJSON(attachment);
       return presentationRequest;
     }
 
