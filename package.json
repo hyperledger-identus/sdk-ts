@@ -1,97 +1,18 @@
 {
-  "name": "@hyperledger/identus-sdk",
+  "name": "identus",
   "version": "7.0.0",
-  "description": "Identus SDK - Typescript",
-  "main": "./build/index.js",
-  "module": "./build/index.mjs",
-  "exports": {
-    ".": {
-      "types": "./build/index.d.ts",
-      "import": "./build/index.mjs",
-      "require": "./build/index.js",
-      "default": "./build/index.js"
-    },
-    "./plugins/anoncreds": {
-      "types": "./build/plugins/internal/anoncreds/index.d.ts",
-      "import": "./build/plugins/internal/anoncreds/index.mjs",
-      "require": "./build/plugins/internal/anoncreds/index.js",
-      "default": "./build/plugins/internal/anoncreds/index.js"
-    },
-    "./plugins/didcomm": {
-      "types": "./build/plugins/internal/didcomm/index.d.ts",
-      "import": "./build/plugins/internal/didcomm/index.mjs",
-      "require": "./build/plugins/internal/didcomm/index.js",
-      "default": "./build/plugins/internal/didcomm/index.js"
-    },
-    "./plugins/oidc": {
-      "types": "./build/plugins/internal/oidc/index.d.ts",
-      "import": "./build/plugins/internal/oidc/index.mjs",
-      "require": "./build/plugins/internal/oidc/index.js",
-      "default": "./build/plugins/internal/oidc/index.js"
-    },
-    "./plugins/dif": {
-      "types": "./build/plugins/internal/dif/index.d.ts",
-      "import": "./build/plugins/internal/dif/index.mjs",
-      "require": "./build/plugins/internal/dif/index.js",
-      "default": "./build/plugins/internal/dif/index.js"
-    },
-    "./plugins/oea": {
-      "types": "./build/plugins/internal/oea/index.d.ts",
-      "import": "./build/plugins/internal/oea/index.mjs",
-      "require": "./build/plugins/internal/oea/index.js",
-      "default": "./build/plugins/internal/oea/index.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "plugins/anoncreds": [
-        "./build/plugins/internal/anoncreds/index.d.ts"
-      ],
-      "plugins/didcomm": [
-        "./build/plugins/internal/didcomm/index.d.ts"
-      ],
-      "plugins/oidc": [
-        "./build/plugins/internal/oidc/index.d.ts"
-      ],
-      "plugins/dif": [
-        "./build/plugins/internal/dif/index.d.ts"
-      ],
-      "plugins/oea": [
-        "./build/plugins/internal/oea/index.d.ts"
-      ]
-    }
-  },
-  "types": "./build/index.d.ts",
-  "files": [
-    "build/**/*",
-    "README.MD",
-    "preinstall.sh",
-    "postinstall.sh",
-    "patches/*.patch"
-  ],
-  "browserslist": [
-    "last 2 chrome version",
-    "last 2 firefox version",
-    "last 2 safari version",
-    "last 2 edge version"
-  ],
+  "private": true,
   "scripts": {
-    "externals:check": "./externals/run.sh -x check",
-    "externals:build": "./externals/run.sh -x build",
-    "externals:update": "./externals/run.sh -x update",
-    "build": "npm run externals:update && rm -rf build/* && npm run build:agnostic && npm run types",
-    "build:dev": "npm run externals:check && rm -rf build/* && npm run build:agnostic && npm run types",
-    "build:agnostic": "tsup --format esm,cjs",
-    "types": "rm -rf build/**/*.d.ts && tsc",
-    "test": "npx vitest --config vitest.config.mjs --run",
-    "coverage": "npm run test -- --coverage",
-    "lint": "npx eslint .",
-    "docs": "npx typedoc --options typedoc.js",
-    "prepare": "npx husky",
-    "protos": "npm run protos:node && npm run protos:common",
-    "protos:node": "protoc -I=src --proto_path=castor/protos --ts_out=castor/protos  castor/protos/node_models.proto",
-    "protos:common": "protoc -I=src --proto_path=castor/protos --ts_out=castor/protos  castor/protos/common_models.proto"
+    "build": "npm run clean && npx nx run-many --targets=build --all",
+    "clean": "npm run clean:generated && npm run clean:build && npm run clean:reset",
+    "clean:reset": "npx nx reset",
+    "clean:generated": "find packages g -name generated -type d -not -path '*/node_modules/*' -exec rm -rf {} + 2>/dev/null; echo 'All generated folders cleaned'",
+    "clean:build": "find packages g -name build -type d -not -path '*/node_modules/*' -exec rm -rf {} + 2>/dev/null; echo 'All build folders cleaned'",
+    "test": "nx run-many --target=test",
+    "lint": "nx run-many --target=lint",
+    "lint:fix": "nx run-many --target=lint -- --fix"
   },
+  "description": "Identus SDK - Typescript",
   "author": "IOHK",
   "repository": {
     "type": "git",
@@ -99,14 +20,14 @@
   },
   "license": "Apache-2.0",
   "keywords": [],
+  "workspaces": [
+    "packages/lib/*",
+    "packages/shared/*",
+    "packages/wasm/*",
+    "integration-tests/*"
+  ],
   "devDependencies": {
     "@eslint/eslintrc": "3",
-    "@typescript-eslint/eslint-plugin": "^8.31.1",
-    "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^9.26.0",
-    "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-jest": "^28.11.0",
-    "typescript-eslint": "^8.45.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^7.1.0",
@@ -120,49 +41,30 @@
     "@types/jsonld": "^1.5.14",
     "@types/node": "^22",
     "@types/pako": "^2.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
     "@vitest/browser": "^3.1.2",
     "@vitest/coverage-istanbul": "^3.1.2",
+    "@vitest/coverage-v8": "^4.0.18",
     "conventional-changelog-conventionalcommits": "^9.0.0",
+    "eslint": "^9.26.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-jest": "^28.11.0",
     "husky": "^9.0.11",
     "jsdom": "^24.1.0",
+    "nx": "22.4.4",
     "prettier": "^3.5.3",
     "protoc-gen-ts": "^0.8.7",
     "semantic-release": "^25.0.2",
     "tsup": "^8.4.0",
-    "typedoc": "^0.28.14",
-    "typedoc-plugin-markdown": "^4.9.0",
-    "typedoc-plugin-rename-defaults": "^0.7.3",
-    "typedoc-theme-hierarchy": "^6.0.0",
-    "typescript": "^5.8.3",
-    "uuid": "^13.0.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.45.0",
     "vitest": "^3.1.2"
   },
   "dependencies": {
-    "@hyperledger/identus-apollo": "^1.4.5",
-    "@mdx-js/mdx": "^3.1.1",
-    "@noble/ciphers": "^0.6.0",
-    "@scure/bip39": "^1.1.1",
-    "@sd-jwt/sd-jwt-vc": "^0.7.1",
-    "@sinclair/typebox": "^0.32.31",
-    "@stablelib/sha256": "^1.0.1",
-    "@stablelib/uuid": "^1.0.2",
-    "bn.js": "^5.2.1",
-    "did-jwt": "^8.0.4",
-    "did-resolver": "^4.1.0",
-    "google-protobuf": "^3.21.2",
-    "hash.js": "1.1.7",
-    "isows": "^1.0.3",
-    "jsonld": "^9.0.0",
-    "multiformats": "^9.9.0",
-    "pako": "^2.1.0",
-    "patch-package": "^8.0.0",
-    "postinstall-postinstall": "^2.1.0",
-    "remark-gfm": "^4.0.1",
-    "remark-mdx": "^3.1.1",
-    "typedoc-plugin-md": "^0.7.1",
-    "unified": "^11.0.5",
-    "vfile": "^6.0.3",
-    "ws": "^8.17.1"
+    "@trust0/identus-store": "^2.0.0",
+    "@types/node": "^25.5.0",
+    "multiformats": "^13.4.2"
   },
   "peerDependencies": {
     "@types/elliptic": "^6.4.16",

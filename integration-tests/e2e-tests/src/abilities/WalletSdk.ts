@@ -1,18 +1,24 @@
 import { Ability, type Discardable, type Initialisable, Interaction, Question, type QuestionAdapter } from "@serenity-js/core"
-import SDK from "@hyperledger/identus-sdk"
+
+import {
+  Agent,
+  type Pluto,
+  Apollo,
+  Domain,
+  ListenerKey,
+  Castor,
+  ProtocolType
+} from "@hyperledger/identus-sdk"
 import * as Anoncreds from "@hyperledger/identus-sdk/plugins/anoncreds"
 import axios from "axios"
 import { Setup } from "../configuration/Setup"
 import { randomUUID, type UUID } from "crypto"
 import { PrismShortFormDIDResolver } from "../resolvers/PrismShortFormDIDResolver"
 import { Utils } from "../Utils"
-
-// fallback in any case of dangling sdk agents
 export const agentList: Map<string, WalletSdk> = new Map()
-
 export class WalletSdk extends Ability implements Initialisable, Discardable {
-  sdk!: SDK.Agent
-  store: SDK.Pluto.Store
+  sdk!: Agent
+  store: Pluto.Store
   messages: MessageQueue = new MessageQueue()
   id: UUID = randomUUID()
 
@@ -21,9 +27,11 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
   }
 
   private static async getMediatorDidThroughOob(): Promise<string> {
-    const response = await axios.get(Setup.mediator.url)
+    const response = await axios.get<string>(Setup.mediator.url)
     const encodedData = response.data.split("?_oob=")[1]
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const oobData = JSON.parse(Buffer.from(encodedData, "base64").toString())
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
     return oobData.from
   }
 
@@ -57,13 +65,12 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     })
   }
 
-  static execute(callback: (sdk: SDK.Agent, messages: {
-    credentialOfferStack: SDK.Domain.Message[]
-    issuedCredentialStack: SDK.Domain.Message[]
-    proofRequestStack: SDK.Domain.Message[]
-    revocationStack: SDK.Domain.Message[],
-    presentationMessagesStack: SDK.Domain.Message[]
-
+  static execute(callback: (sdk: Agent, messages: {
+    credentialOfferStack: Domain.Message[]
+    issuedCredentialStack: Domain.Message[]
+    proofRequestStack: Domain.Message[]
+    revocationStack: Domain.Message[],
+    presentationMessagesStack: Domain.Message[]
   }) => Promise<void>): Interaction {
     return Interaction.where("#actor uses wallet sdk", async actor => {
       await callback(WalletSdk.as(actor).sdk, {
@@ -83,14 +90,14 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     }
   }
 
-  async createSdk(seed: SDK.Domain.Seed = undefined) {
+  async createSdk(seed: Domain.Seed = undefined) {
     const resolvers = [PrismShortFormDIDResolver]
-    const apollo = new SDK.Apollo()
-    const castor = new SDK.Castor(apollo, resolvers)
-    const pluto = Utils.createPlutoInstance();
-    const mediatorDID = SDK.Domain.DID.fromString(await WalletSdk.getMediatorDidThroughOob())
+    const apollo = new Apollo()
+    const castor = new Castor(apollo, resolvers)
 
-    this.sdk = SDK.Agent.initialize({
+    const pluto = await Utils.createPlutoInstance()
+    const mediatorDID = Domain.DID.fromString(await WalletSdk.getMediatorDidThroughOob())
+    this.sdk = Agent.initialize({
       seed,
       apollo,
       pluto,
@@ -101,7 +108,7 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     this.sdk.plugins.register(Anoncreds.plugin)
 
     this.sdk.addListener(
-      SDK.ListenerKey.MESSAGE, (messages: SDK.Domain.Message[]) => {
+      ListenerKey.MESSAGE, (messages: Domain.Message[]) => {
         for (const message of messages) {
           this.messages.enqueue(message)
         }
@@ -124,7 +131,7 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     if (!this.sdk) {
       return false
     }
-    return this.sdk.state !== SDK.Domain.Startable.State.STOPPED
+    return this.sdk.state !== Domain.Startable.State.STOPPED
   }
 }
 
@@ -133,17 +140,17 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
  */
 class MessageQueue {
   private processingId: NodeJS.Timeout | null = null
-  private queue: SDK.Domain.Message[] = []
+  private queue: Domain.Message[] = []
 
-  credentialOfferStack: SDK.Domain.Message[] = []
-  proofRequestStack: SDK.Domain.Message[] = []
-  issuedCredentialStack: SDK.Domain.Message[] = []
-  revocationStack: SDK.Domain.Message[] = []
-  presentationMessagesStack: SDK.Domain.Message[] = []
+  credentialOfferStack: Domain.Message[] = []
+  proofRequestStack: Domain.Message[] = []
+  issuedCredentialStack: Domain.Message[] = []
+  revocationStack: Domain.Message[] = []
+  presentationMessagesStack: Domain.Message[] = []
 
   receivedMessages: string[] = []
 
-  enqueue(message: SDK.Domain.Message) {
+  enqueue(message: Domain.Message) {
     this.queue.push(message)
 
     // auto start processing messages
@@ -152,8 +159,8 @@ class MessageQueue {
     }
   }
 
-  dequeue(): SDK.Domain.Message {
-    return this.queue.shift()!
+  dequeue(): Domain.Message {
+    return this.queue.shift()
   }
 
   // Check if the queue is empty
@@ -169,7 +176,7 @@ class MessageQueue {
   processMessages() {
     this.processingId = setInterval(() => {
       if (!this.isEmpty()) {
-        const message: SDK.Domain.Message = this.dequeue()
+        const message: Domain.Message = this.dequeue()
         const piUri = message.piuri
 
         // checks if sdk already received message
@@ -179,23 +186,23 @@ class MessageQueue {
 
         this.receivedMessages.push(message.id)
 
-        if (piUri === SDK.ProtocolType.DidcommOfferCredential) {
+        if (piUri === ProtocolType.DidcommOfferCredential) {
           this.credentialOfferStack.push(message)
-        } else if (piUri === SDK.ProtocolType.DidcommRequestPresentation) {
+        } else if (piUri === ProtocolType.DidcommRequestPresentation) {
           this.proofRequestStack.push(message)
-        } else if (piUri === SDK.ProtocolType.DidcommIssueCredential) {
+        } else if (piUri === ProtocolType.DidcommIssueCredential) {
           this.issuedCredentialStack.push(message)
-        } else if (piUri === SDK.ProtocolType.PrismRevocation) {
+        } else if (piUri === ProtocolType.PrismRevocation) {
           this.revocationStack.push(message)
-        } else if (piUri === SDK.ProtocolType.DidcommPresentation) {
+        } else if (piUri === ProtocolType.DidcommPresentation) {
           this.presentationMessagesStack.push(message)
-        } else if (piUri == SDK.ProtocolType.ProblemReporting) {
+        } else if (piUri == ProtocolType.ProblemReporting) {
           console.error("Received problem report", message)
         } else {
           console.log(piUri)
         }
       } else {
-        clearInterval(this.processingId!)
+        clearInterval(this.processingId)
         this.processingId = null
       }
     }, 50)

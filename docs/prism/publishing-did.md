@@ -120,7 +120,7 @@ export function PublishDidComponent() {
                 seed: Buffer.from(apollo.createRandomSeed().seed.value).toString("hex"),
             });
             
-            const services: SDK.Domain.Service[] = []; // Add any services if needed
+            const services: SDK.Domain.DIDDocument.Service[] = []; // Add any services if needed
             const newDid = await castor.createPrismDID(masterPrivateKey, services);
             setDid(newDid);
 

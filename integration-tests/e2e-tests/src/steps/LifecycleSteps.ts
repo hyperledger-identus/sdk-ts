@@ -14,12 +14,14 @@ Before(() => {
   Actors.createAndEngageActors()
 })
 
-AfterAll(() => {
+AfterAll(async () => {
   if (agentList.size > 0) {
     console.warn("Found dangling agents in the end of execution. Explicitly removing them, please check lifecycle.")
     console.warn([...agentList.keys()])
-    for (const v of new Map(agentList).values()) {
-      void v.discard()
+
+    const agents = new Map(agentList)
+    for (const value of agents.values()) {
+      await value.discard()
     }
   }
 })
@@ -59,6 +61,6 @@ class Actors implements Cast {
     if (!this.actors.has(actor.name)) {
       return actor
     }
-    return this.actors.get(actor.name)!
+    return this.actors.get(actor.name)
   }
 }

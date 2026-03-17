@@ -1,0 +1,54 @@
+{
+  "projectType": "library",
+  "tags": [
+    "scope:building-block"
+  ],
+  "implicitDependencies": [
+    "@hyperledger/identus-domain"
+  ],
+  "targets": {
+    "externals": {
+      "cache": true,
+      "inputs": [
+        "{workspaceRoot}/externals/anoncreds/**/*",
+        "{workspaceRoot}/externals/identus-anoncreds.commit"
+      ],
+      "outputs": [
+        "{projectRoot}/generated"
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "./externals/run.sh -x build",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "lint": {},
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config=vitest.config.js --coverage",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "test-watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest watch --config=vitest.config.js",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "build": {
+      "dependsOn": [
+        "externals"
+      ],
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{projectRoot}/build"
+      ],
+      "options": {
+        "command": "tsup",
+        "cwd": "{projectRoot}"
+      }
+    }
+  }
+}

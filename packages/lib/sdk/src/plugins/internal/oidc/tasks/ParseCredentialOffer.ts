@@ -1,0 +1,64 @@
+import { CredentialOffer } from "../types";
+import { type Context } from "../plugin";
+import { InvalidOffer } from "../errors";
+import { Task } from "../../../../utils";
+
+import { isObject, isString, notNil, asJsonObj, validate } from "@hyperledger/identus-domain";
+
+/**
+ * attempt to extract a Credential Offer from the given value
+ * 
+ * @see [OIDC Credential Offer](https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-credential-offer)
+ */
+
+export interface ParseCredentialOfferArgs {
+  value: unknown;
+}
+
+/**
+ * validates the offer is correctly formed OIDC Credential Offer
+ * returns the offer Typed as such
+ * 
+ * @param offer - json object
+ * @returns {CredentialOffer}
+ */
+export class ParseCredentialOffer extends Task<CredentialOffer, ParseCredentialOfferArgs> {
+  async run(ctx: Context) {
+    try {
+      const json = await this.extractJson(ctx);
+      validate(json, CredentialOffer);
+
+      return json;
+    }
+    catch (e) {
+      const msg = e instanceof Error ? e.message : "";
+      throw new InvalidOffer(msg);
+    }
+  }
+
+  private async extractJson(ctx: Context) {
+    if (isObject(this.args.value)) {
+      return this.args.value;
+    }
+
+    if (isString(this.args.value)) {
+      const url = new URL(this.args.value);
+      const offerParam = url.searchParams.get("credential_offer");
+      const uriParam = url.searchParams.get("credential_offer_uri");
+
+      if (notNil(offerParam) && notNil(uriParam)) {
+        throw new Error("`credential_offer` and `credential_offer_uri` must not both be present");
+      }
+
+      if (notNil(uriParam)) {
+        const response = await ctx.Api.request("GET", uriParam);
+        return response.body;
+      }
+
+      const json = asJsonObj(offerParam);
+      return json;
+    }
+
+    throw new Error("Unknown value");
+  }
+}

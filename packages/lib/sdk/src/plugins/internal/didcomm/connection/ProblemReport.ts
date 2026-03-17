@@ -1,0 +1,21 @@
+import type * as Domain from "@hyperledger/identus-domain";
+import { Task } from "../../../../utils";
+import { ListenerKey } from "../../../../edge-agent/types";
+import { type AgentContext } from "../../../../edge-agent/Context";
+
+/**
+ * Problem Report
+ */
+
+interface Args {
+  message: Domain.Message;
+}
+
+export class ProblemReport extends Task<void, Args> {
+  async run(ctx: AgentContext) {
+    const msgs = [this.args.message];
+    await ctx.Pluto.storeMessages(msgs);
+    ctx.Events.emit(ListenerKey.MESSAGE, msgs);
+    ctx.logger.warn(`Problem Reported ${this.args.message.from?.toString()}`);
+  }
+}

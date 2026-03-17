@@ -1,0 +1,47 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "target": "ES2022",
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@hyperledger/identus-didcomm": [
+        "./packages/wasm/didcomm/build/index.d.ts"
+      ],
+      "@hyperledger/identus-anoncreds": [
+        "./packages/wasm/anoncreds/build/index.d.ts"
+      ],
+      "@hyperledger/identus-jwe": [
+        "./packages/wasm/jwe/build/index.d.ts"
+      ],
+      "@hyperledger/identus-domain": [
+        "./packages/shared/domain/build/index.d.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "tmp",
+    "build"
+  ]
+}
