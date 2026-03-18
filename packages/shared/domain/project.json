@@ -1,5 +1,8 @@
 {
   "projectType": "library",
+  "implicitDependencies": [
+    "@hyperledger/identus-protos"
+  ],
   "tags": [
     "scope:building-block"
   ],
