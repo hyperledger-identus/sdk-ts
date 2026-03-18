@@ -41,6 +41,9 @@ jobs:
         run: |
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
+      - name: Install protoc
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
       - uses: crazy-max/ghaction-import-gpg@v5
         id: import_gpg
         with:
