@@ -43,6 +43,7 @@ export default defineConfig({
     },
   },
   test: {
+    testTimeout: 12_000,
     setupFiles: ['./tests/setup.ts'],
     reporters: ['verbose'],
     environment: 'jsdom',
