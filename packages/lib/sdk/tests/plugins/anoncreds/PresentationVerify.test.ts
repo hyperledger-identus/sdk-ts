@@ -1742,14 +1742,14 @@ describe("Plugins - Anoncreds", () => {
       const testPresentation = {} as any;
       const sut = ctx.run(new PresentationVerify({ presentationRequest, presentation: testPresentation, thid }));
 
-      expect(sut).rejects.toThrow("Presentation is invalid");
+      await expect(sut).rejects.toThrow("Presentation is invalid");
     });
 
     test("no presentationRequest - throws", async () => {
       vi.spyOn(pluto, "getAllMessages").mockResolvedValue([]);
       const sut = ctx.run(new PresentationVerify({ presentation, thid }));
 
-      expect(sut).rejects.toThrow("Cannot find any message with that threadID");
+      await expect(sut).rejects.toThrow("Cannot find any message with that threadID");
     });
 
     test("presentationRequest message in Pluto - runs as expected", async () => {
@@ -1790,7 +1790,7 @@ describe("Plugins - Anoncreds", () => {
 
       const sut = ctx.run(new PresentationVerify({ presentation, thid }));
 
-      expect(sut).rejects.toThrow("Invalid presentation message, attachment missing");
+      await expect(sut).rejects.toThrow("Invalid presentation message, attachment missing");
     });
 
     test("no message in Pluto - throws", async () => {
@@ -1798,7 +1798,7 @@ describe("Plugins - Anoncreds", () => {
 
       const sut = ctx.run(new PresentationVerify({ presentation, thid }));
 
-      expect(sut).rejects.toThrow("Cannot find any message with that threadID");
+      await expect(sut).rejects.toThrow("Cannot find any message with that threadID");
     });
   });
 });

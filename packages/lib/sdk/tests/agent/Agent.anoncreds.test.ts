@@ -126,12 +126,12 @@ describe("Agent Tests", () => {
         );
       };
 
-      it("Should throw when linkSecret is not found - Anoncreds", () => {
+      it("Should throw when linkSecret is not found - Anoncreds", async () => {
         const offer = createOffer(CredentialType.AnonCreds);
         vi.spyOn(pluto, "getLinkSecret").mockResolvedValue(null);
         const sut = agent.prepareRequestCredentialWithIssuer(offer);
 
-        expect(sut).rejects.toThrow("-1: Invalid attachment format");
+        await expect(sut).rejects.toThrow("-1: Invalid attachment format");
       });
 
       it("Should create a credential request from a valid didcomm CredentialOffer Message", async () => {
@@ -172,7 +172,7 @@ describe("Agent Tests", () => {
 
 
 
-      it("no attachment - throws", () => {
+      it("no attachment - throws", async () => {
         const issueCredential = new IssueCredential(
           {},
           [],
@@ -182,7 +182,7 @@ describe("Agent Tests", () => {
 
         const result = agent.processIssuedCredentialMessage(issueCredential);
 
-        expect(result).rejects.toThrow("-1: Invalid attachment");
+        await expect(result).rejects.toThrow("-1: Invalid attachment");
       });
 
       it("Pluto.getCredentialMetadata returns nullish - throws", async () => {
@@ -199,7 +199,7 @@ describe("Agent Tests", () => {
 
         const result = agent.processIssuedCredentialMessage(issueCredential);
 
-        expect(result).rejects.toThrow("Invalid credential metadata");
+        await expect(result).rejects.toThrow("Invalid credential metadata");
       });
 
       it("Should be able to parse a creential and convert it into a storable object from a valid didcomm CredentialIssue Message", async () => {

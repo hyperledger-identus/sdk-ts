@@ -399,7 +399,7 @@ describe("Agent Tests", () => {
     });
 
     describe("processIssuedCredentialMessage", () => {
-      it("no attachment - throws", () => {
+      it("no attachment - throws", async () => {
         const issueCredential = new IssueCredential(
           {},
           [],
@@ -409,7 +409,7 @@ describe("Agent Tests", () => {
 
         const result = agent.processIssuedCredentialMessage(issueCredential);
 
-        expect(result).rejects.toThrow();
+        await expect(result).rejects.toThrow();
       });
 
       describe("JWTCredential", () => {
@@ -522,7 +522,7 @@ describe("Agent Tests", () => {
           );
 
           const sut = agent.processIssuedCredentialMessage(issueCredential);
-          expect(sut).rejects.toThrow();
+          await expect(sut).rejects.toThrow();
         });
       });
     });
@@ -550,7 +550,7 @@ describe("Agent Tests", () => {
           );
 
           const sut = agent.createPresentationForRequestProof(request, credential);
-          expect(sut).rejects.toThrow();
+          await expect(sut).rejects.toThrow();
         });
       });
 
@@ -602,7 +602,7 @@ describe("Agent Tests", () => {
 
           const result = agent.createPresentationForRequestProof(request, credential);
 
-          expect(result).rejects.toThrow();
+          await expect(result).rejects.toThrow();
         });
 
         test("Credential.subjectDID - invalid - throws", async () => {
@@ -623,7 +623,7 @@ describe("Agent Tests", () => {
 
           const sut = agent.createPresentationForRequestProof(request, credential);
 
-          expect(sut).rejects.toThrow();
+          await expect(sut).rejects.toThrow();
         });
 
         test("Credential.subjectDID - doesn't match PrivateKey - throws", async () => {
@@ -646,7 +646,7 @@ describe("Agent Tests", () => {
 
           const sut = agent.createPresentationForRequestProof(request, credential);
 
-          expect(sut).rejects.toThrow();
+          await expect(sut).rejects.toThrow();
         });
       });
 
@@ -662,7 +662,7 @@ describe("Agent Tests", () => {
 
           const result = agent.createPresentationForRequestProof(request, credential);
 
-          expect(result).rejects.toThrow();
+          await expect(result).rejects.toThrow();
         });
 
         test("Credential - not matched - throws", async () => {
@@ -675,7 +675,7 @@ describe("Agent Tests", () => {
 
           const credential = JWTCredential.fromJWS(Fixtures.Credentials.JWT.credentialPayloadEncoded);
           const result = agent.createPresentationForRequestProof(request, credential);
-          expect(result).rejects.toThrow();
+          await expect(result).rejects.toThrow();
         });
       });
     });

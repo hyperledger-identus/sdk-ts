@@ -445,48 +445,6 @@ describe("Plugins - DIF", () => {
       await expect(sut).rejects.toThrowError("CredentialStatus invalid signature");
     });
 
-    /*
-        it("Should throw an error if we cannot decode the revocation registry correctly ", async () => {
-    
-    
-          (pollux as any)._pako = {
-            ungzip: vi.fn(() => {
-              throw new Error('whatever');
-            }),
-          };
-    
-          const fetchRevocationRegistryStub = vi.spyOn(api, "request").mockResolvedValue(new ApiResponse({
-            "proof": {
-              "type": "EcdsaSecp256k1Signature2019",
-              "proofPurpose": "assertionMethod",
-              "verificationMethod": "data:application/json;base64,eyJAY29udGV4dCI6WyJodHRwczovL3czaWQub3JnL3NlY3VyaXR5L3YxIl0sInR5cGUiOiJFY2RzYVNlY3AyNTZrMVZlcmlmaWNhdGlvbktleTIwMTkiLCJwdWJsaWNLZXlKd2siOnsiY3J2Ijoic2VjcDI1NmsxIiwia2V5X29wcyI6WyJ2ZXJpZnkiXSwia3R5IjoiRUMiLCJ4IjoiVFlCZ21sM1RpUWRSX1lRRDFoSXVOTzhiUnluU0otcmxQcWFVd3JXa3EtRT0iLCJ5IjoiVjBnVFlBM0xhbFd3Q3hPZHlqb2ZoR2JkYVFEd3EwQXdCblNodFJLXzNYZz0ifX0=",
-              "created": "2024-06-14T10:56:59.948091Z",
-              "jws": "eyJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdLCJhbGciOiJFUzI1NksifQ..Q1mj3jMf5DWK83E55r6vNUPpsYYgclgwYoNFBSYBzA5x6fI_2cPHJsXECnQlG1XMj2ifldngpJXegTpwe3Fgwg"
-            },
-            "@context": [
-              "https://www.w3.org/2018/credentials/v1",
-              "https://w3id.org/vc/status-list/2021/v1"
-            ],
-            "type": [
-              "VerifiableCredential",
-              "StatusList2021Credential"
-            ],
-            "id": "http://localhost:8085/credential-status/575092c2-7eb0-40ae-8f41-3b499f45f3dc",
-            "issuer": "did:prism:462c4811bf61d7de25b3baf86c5d2f0609b4debe53792d297bf612269bf8593a",
-            "issuanceDate": 1717714047,
-            "credentialSubject": {
-              "type": "StatusList2021",
-              "statusPurpose": "Revocation",
-              "encodedList": "H4sIAAAAAAAA_-3BMQ0AAAACIGf_0MbwARoAAAAAAAAAAAAAAAAAAADgbbmHB0sAQAAA"
-            }
-          }, 200));
-    
-          await expect(pollux.isCredentialRevoked(JWTCredential.fromJWS(revocableJWTCredential)))
-            .rejects.toThrowError(`Couldn't ungzip base64 encoded list, err: whatever`);
-    
-          fetchRevocationRegistryStub.mockRestore();
-        });
-    //*/
     it("Should throw an error if the status proof type is invalid", async () => {
       const encoded6 = base64.baseEncode(Buffer.from(JSON.stringify({
         type: "EcdsaSecp256k1VerificationKey2019",
