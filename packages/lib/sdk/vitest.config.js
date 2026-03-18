@@ -59,7 +59,8 @@ export default defineConfig({
       },
       include: ['src'],
       exclude: [
-        'src/domain/models/errors'
+        //TODO: remove these exclusion (pluto) once the store is ported
+        'src/pluto',
       ]
     },
   },

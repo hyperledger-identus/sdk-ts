@@ -17,7 +17,8 @@ export default defineConfig({
       reporter: ['json-summary', 'lcov'],
       include: ['src'],
       exclude: [
-        'src/castor/protos',
+        //TODO: remove these exclusion (pluto) once the store is ported
+        'src/pluto',
         'src/domain/models/errors'
       ]
     },
