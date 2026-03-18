@@ -30,9 +30,14 @@ export type DataByDid = {
   }
 }
 export class Setup {
-  public static agent = {
-    url: process.env.AGENT_URL,
-    apikey: process.env.APIKEY
+  static get agent() {
+    if (!process.env.AGENT_URL) {
+      throw new Error("AGENT_URL is not defined, configure .env file")
+    }
+    return {
+      url: process.env.AGENT_URL,
+      apikey: process.env.APIKEY
+    }
   }
   public static mediator = {
     url: process.env.MEDIATOR_OOB_URL
