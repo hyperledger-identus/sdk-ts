@@ -176,8 +176,8 @@ export class Secp256k1PublicKey extends PublicKey implements StorableKey, Export
     x: BigInteger,
     y: BigInteger
   ): Secp256k1PublicKey {
-    const xCoord = Buffer.from(x.toArray());
-    const yCoord = Buffer.from(y.toArray());
+    const xCoord = Buffer.from(x.toArray("be", 32));
+    const yCoord = Buffer.from(y.toArray("be", 32));
     const publicKey =
       ApolloSDK.utils.KMMECSecp256k1PublicKey.Companion.secp256k1FromByteCoordinates(
         Int8Array.from(xCoord),

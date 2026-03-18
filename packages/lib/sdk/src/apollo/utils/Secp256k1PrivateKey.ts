@@ -98,7 +98,7 @@ export class Secp256k1PrivateKey
 
   // ?? move to `from` property
   static secp256k1FromBigInteger(bigInteger: BN): Secp256k1PrivateKey {
-    return new Secp256k1PrivateKey(Uint8Array.from(bigInteger.toArray()));
+    return new Secp256k1PrivateKey(Uint8Array.from(bigInteger.toArray("be", 32)));
   }
 
   static secp256k1FromBytes(encoded: Uint8Array): Secp256k1PrivateKey {
@@ -106,6 +106,6 @@ export class Secp256k1PrivateKey
       throw new ApolloError.KeyInitializationError(`Invalid byte size: ${ECConfig.PRIVATE_KEY_BYTE_SIZE} exptected, ${encoded.length} given`);
     }
     const bnprv = new BN(encoded);
-    return new Secp256k1PrivateKey(Uint8Array.from(bnprv.toArray()));
+    return new Secp256k1PrivateKey(Uint8Array.from(bnprv.toArray("be", 32)));
   }
 }
