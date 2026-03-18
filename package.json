@@ -10,7 +10,7 @@
     "clean:generated": "find packages g -name generated -type d -not -path '*/node_modules/*' -exec rm -rf {} + 2>/dev/null; echo 'All generated folders cleaned'",
     "clean:build": "find packages g -name build -type d -not -path '*/node_modules/*' -exec rm -rf {} + 2>/dev/null; echo 'All build folders cleaned'",
     "test": "nx run-many --target=test",
-    "coverage": "nx run-many --target=test -- --coverage",
+    "coverage": "nx run-many --target=coverage",
     "lint": "nx run-many --target=lint",
     "lint:fix": "nx run-many --target=lint -- --fix"
   },
@@ -47,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
     "@vitest/browser": "^3.1.1",
+    "@vitest/coverage-istanbul": "^3.1.1",
     "@vitest/coverage-v8": "^3.1.1",
     "conventional-changelog-conventionalcommits": "^9.0.0",
     "eslint": "^9.26.0",

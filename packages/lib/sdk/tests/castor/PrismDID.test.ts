@@ -5,7 +5,7 @@ import { Castor } from "../../src/castor";
 import { ECConfig } from "@hyperledger/identus-domain";
 import { Secp256k1PublicKey } from "../../src/apollo/utils/Secp256k1PublicKey";
 import * as Fixtures from "../fixtures";
-import * as Protos from "../../src/castor/protos/node_models";
+import * as Protos from "@hyperledger/identus-protos";
 import { ed25519, x25519 } from "../fixtures/keys";
 import {
   Curve,
