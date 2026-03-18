@@ -81,7 +81,7 @@ export class AttachmentDescriptor {
       const decoded = Buffer.from(decodeBase64(attachment.data.base64)).toString();
       try {
         return JSON.parse(decoded);
-      } catch (err) {
+      } catch {
         return decoded;
       }
     }

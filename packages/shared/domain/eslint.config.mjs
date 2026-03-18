@@ -1,3 +1,3 @@
-import { createPackageConfig } from "../../../eslint.config.mjs";
+import config from "../../../eslint.config.mjs";
 
-export default createPackageConfig(import.meta.dirname);
+export default config;

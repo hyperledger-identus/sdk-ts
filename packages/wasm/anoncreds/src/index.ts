@@ -29,16 +29,11 @@ export class AnoncredsLoader {
     }
 
     private async load() {
-        try {
-            this.pkg ??= await import("@hyperledger/identus-anoncreds-wasm").then(async module => {
-                const wasmInstance = module.initSync({ module: wasmBuffer });
-                await module.default(wasmInstance);
-                return module;
-            });
-        }
-        catch (e) {
-            throw new Error();
-        }
+        this.pkg ??= await import("@hyperledger/identus-anoncreds-wasm").then(async module => {
+            const wasmInstance = module.initSync({ module: wasmBuffer });
+            await module.default(wasmInstance);
+            return module;
+        });
     }
 
     private async wasm() {
@@ -221,7 +216,7 @@ export class AnoncredsLoader {
             const wasm = await this.wasm();
             wasm.Presentation.from(presentation);
             return true;
-        } catch (err) {
+        } catch {
             return false;
         }
     }

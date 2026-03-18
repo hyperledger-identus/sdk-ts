@@ -1,5 +1,5 @@
 import { PrismDIDMethodId } from "../../castor/did/prismDID/PrismDIDMethodId";
-import { type DIDResolver, DIDDocument, type Apollo } from "@hyperledger/identus-domain";
+import { type DIDResolver, type DIDDocument, type Apollo } from "@hyperledger/identus-domain";
 
 import * as DIDParser from "../parser/DIDParser";
 import { LongFormPrismDIDResolver } from "./LongFormPrismDIDResolver";

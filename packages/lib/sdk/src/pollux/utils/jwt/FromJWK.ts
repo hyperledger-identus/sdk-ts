@@ -1,15 +1,14 @@
-import { Domain } from "@hyperledger/identus-domain";
 import { expect, Task } from "../../../utils";
 
 import { base64url } from "multiformats/bases/base64";
-import { ApolloError, Curve, type JWK, type KeyPair, KeyProperties, PolluxError, type PrivateKey, type PublicKey } from "@hyperledger/identus-domain";
+import { type Apollo, ApolloError, Curve, type JWK, type KeyPair, KeyProperties, PolluxError, type PrivateKey, type PublicKey } from "@hyperledger/identus-domain";
 import { type AgentContext } from "../../../edge-agent/Context";
 
 export interface Args {
-  jwk: Domain.JWK;
+  jwk: JWK;
 }
 
-export class FromJWK extends Task<Domain.PublicKey | Domain.KeyPair, Args> {
+export class FromJWK extends Task<PublicKey | KeyPair, Args> {
 
   private isECJWK(jwk: JWK): jwk is JWK.EC {
     if (jwk.kty !== "EC") {
@@ -53,7 +52,7 @@ export class FromJWK extends Task<Domain.PublicKey | Domain.KeyPair, Args> {
     }
   }
 
-  private fromJWKEC(apollo: Domain.Apollo, jwk: JWK.EC): KeyPair | PrivateKey | PublicKey {
+  private fromJWKEC(apollo: Apollo, jwk: JWK.EC): KeyPair | PrivateKey | PublicKey {
     const crv = expect(jwk.crv, new PolluxError.InvalidJWKParameters(['crv'], 'Missing JWK Parameter'));
     this.isSupportedCurve(crv);
 
@@ -78,7 +77,7 @@ export class FromJWK extends Task<Domain.PublicKey | Domain.KeyPair, Args> {
           [KeyProperties.rawKey]: decodedD
         });
 
-        const keypair: Domain.KeyPair = {
+        const keypair: KeyPair = {
           privateKey: sk,
           publicKey: pk,
           curve: crv
@@ -99,7 +98,7 @@ export class FromJWK extends Task<Domain.PublicKey | Domain.KeyPair, Args> {
     throw new PolluxError.InvalidJWK('Required property x+y or d is missing in EC JWK');
   }
 
-  private fromJWKOKP(apollo: Domain.Apollo, jwk: JWK.OKP): KeyPair | PublicKey {
+  private fromJWKOKP(apollo: Apollo, jwk: JWK.OKP): KeyPair | PublicKey {
     const crv = expect(jwk.crv, new PolluxError.InvalidJWKParameters(['crv']));
     this.isSupportedCurve(crv);
 
@@ -115,7 +114,7 @@ export class FromJWK extends Task<Domain.PublicKey | Domain.KeyPair, Args> {
         [KeyProperties.curve]: crv,
         [KeyProperties.rawKey]: this.decodeJWKParameter('d', jwk)
       });
-      const keypair: Domain.KeyPair = {
+      const keypair: KeyPair = {
         privateKey: sk,
         publicKey: pk,
         curve: crv
@@ -126,7 +125,7 @@ export class FromJWK extends Task<Domain.PublicKey | Domain.KeyPair, Args> {
     return pk;
   }
 
-  async run(ctx: AgentContext): Promise<Domain.PublicKey | Domain.KeyPair> {
+  async run(ctx: AgentContext): Promise<PublicKey | KeyPair> {
     const jwk = this.args.jwk;
     const isEC = this.isECJWK(jwk);
     const isOKP = this.isOKPJWK(jwk);

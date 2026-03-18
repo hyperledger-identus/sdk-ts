@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
+ 
 import * as Domain from "@hyperledger/identus-domain";
 import * as Models from "./models";
 import { PeerDID } from "../peer-did/PeerDID";

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 import type * as DIDComm from "@hyperledger/identus-didcomm-wasm";
 
 const DIDCommMessagingKey = "DIDCommMessaging";

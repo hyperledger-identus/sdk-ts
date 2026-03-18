@@ -39,7 +39,7 @@ export class StartFetchingMessages extends Task<void, Args> {
 
       await connection.useLiveMode(socket);
 
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+       
       socket.addEventListener("open", async () => {
         // ? connection.send
         const packedMessage = await ctx.Mercury.packMessage(message);
@@ -48,7 +48,7 @@ export class StartFetchingMessages extends Task<void, Args> {
         return Promise.resolve();
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+       
       socket.addEventListener("message", async (event) => {
         const message = await ctx.Mercury.unpackMessage(event.data);
         await connection.receive(message, ctx);

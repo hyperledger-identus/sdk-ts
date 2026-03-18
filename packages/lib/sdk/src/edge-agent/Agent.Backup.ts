@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/consistent-type-imports */
+ 
 import Pako from "pako";
 import * as Domain from "@hyperledger/identus-domain";
 import type { Agent } from "./Agent";

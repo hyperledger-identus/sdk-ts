@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
+ 
 import * as Domain from "@hyperledger/identus-domain";
 import type * as Models from "../models";
 import type { Pluto } from "../Pluto";

@@ -2,7 +2,6 @@ import type * as Domain from "@hyperledger/identus-domain";
 import { Task, expect } from "../../../../utils";
 import { type AgentContext } from "../../../../edge-agent/Context";
 import { Connection } from "../../../../edge-agent/connections/Connection";
-import { Payload } from "@hyperledger/identus-domain";
 
 /**
  * Mediation Denied

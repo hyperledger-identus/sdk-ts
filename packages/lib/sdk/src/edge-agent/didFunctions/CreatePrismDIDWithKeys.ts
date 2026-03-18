@@ -1,8 +1,6 @@
 import {
   type DIDDocument,
-  PrivateKey,
   type DID,
-  RequiredPrismDIDKeys,
   type RequiredPrismDIDSecretKeys
 } from "@hyperledger/identus-domain";
 

@@ -2,6 +2,7 @@ import type * as JWEModule from "@hyperledger/identus-jwe-wasm";
 // @ts-ignore – binary loader inlines the .wasm as a Buffer at build time
 import jweWasm from "@hyperledger/identus-jwe-wasm/identus-jwe_bg.wasm";
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 let jwe: typeof import("@hyperledger/identus-jwe-wasm") | undefined;
 
 /**

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 import type * as DIDComm from "@hyperledger/identus-didcomm-wasm";
 // @ts-ignore
 import wasmBuffer from "@hyperledger/identus-didcomm-wasm/identus-didcomm_bg.wasm";
 
-import { Message, type AttachmentData as DomainAttachmentData, type DID, type AttachmentDescriptor } from "@hyperledger/identus-domain";
+import { type Message, type AttachmentData as DomainAttachmentData, type DID, type AttachmentDescriptor } from "@hyperledger/identus-domain";
 import { DIDCommDIDResolver } from "./DIDResolver";
 import { DIDCommSecretsResolver } from "./SecretsResolver";
 
