@@ -22,17 +22,11 @@ export class PrismDIDResolver implements DIDResolver {
     const did = DIDParser.parse(didString);
     const methodId = new PrismDIDMethodId(did.methodId);
 
-    return (methodId.isShortform()) ? ( // short form of did prism
-      this.proxyPrismDIDResolver.resolve(methodId.shortfrom())
-    ) : (async () => { // long from of did prism
-      try {
-        const didDocShortForm = await this.proxyPrismDIDResolver.resolve(methodId.shortfrom());
-        const didDocLongForm = DIDDocument.cloneWithNewDID(didDocShortForm, did)
-        return didDocLongForm;
-      } catch {
-        return await this.longFormPrismDIDResolver.resolve(didString);
-      }
-    })()
+    if (methodId.isShortform()) {
+      return this.proxyPrismDIDResolver.resolve(methodId.shortfrom());
+    }
+
+    return this.longFormPrismDIDResolver.resolve(didString);
   }
 
 }
