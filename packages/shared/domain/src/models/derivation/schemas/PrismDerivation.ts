@@ -2,7 +2,7 @@ import { AxesArray, type BaseSchema, DerivationPathBase } from "../base";
 import { ApolloError } from "../../Errors";
 import { DerivationAxis } from "../DerivationAxis";
 // import type is erased from .d.ts — rollup-plugin-dts never sees the proto namespace
-import type * as Protos from "../../../buildingBlocks/castor/protos/node_models";
+import type * as Protos from "@hyperledger/identus-protos";
 
 /**
  * Mirrors `io.iohk.atala.prism.protos.KeyUsage` from the auto-generated
