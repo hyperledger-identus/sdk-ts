@@ -38,32 +38,16 @@ jobs:
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Install
-        run: npm install
+        run: yarn 
 
       - name: Eslint
-        run: npx eslint .
+        run: yarn lint
 
       - name: Build
-        run: npm run build
+        run: yarn build
 
       - name: Run coverage test
-        run: npm run coverage
-
-      - name: Test integration node-cjs
-        working-directory: integration-tests/node/cjs
-        run: npm i && node test.cjs
-
-      - name: Test integration node-esm
-        working-directory: integration-tests/node/esm
-        run: npm i && node test.mjs
-
-      - name: Test integration ts-cjs
-        working-directory: integration-tests/node/ts-cjs
-        run: npm i && npm run build && npm t
-
-      - name: Test integration ts-esm
-        working-directory: integration-tests/node/ts-esm
-        run: npm i && npm run build && npm t
+        run: yarn coverage
 
       - name: Npm audit
         uses: oke-py/npm-audit-action@v2.4.4

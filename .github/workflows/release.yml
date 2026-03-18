@@ -57,6 +57,6 @@ jobs:
           GIT_COMMITTER_NAME: ${{ steps.import_gpg.outputs.name }}
         run: |
           echo "Using npm version: $(npm -v)"
-          npm ci 
+          yarn install
           npm audit signatures
           npx semantic-release

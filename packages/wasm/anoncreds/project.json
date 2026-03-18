@@ -38,6 +38,10 @@
       }
     },
     "build": {
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/generated/**/*"
+      ],
       "dependsOn": [
         "externals"
       ],

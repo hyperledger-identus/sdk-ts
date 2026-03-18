@@ -17,6 +17,7 @@ import { PrismShortFormDIDResolver } from "../resolvers/PrismShortFormDIDResolve
 import { Utils } from "../Utils"
 export const agentList: Map<string, WalletSdk> = new Map()
 export class WalletSdk extends Ability implements Initialisable, Discardable {
+  seed!: Domain.Seed
   sdk!: Agent
   store: Pluto.Store
   messages: MessageQueue = new MessageQueue()
@@ -90,20 +91,22 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     }
   }
 
-  async createSdk(seed: Domain.Seed = undefined) {
+  async createSdk(inputSeed: Domain.Seed = undefined) {
     const resolvers = [PrismShortFormDIDResolver]
     const apollo = new Apollo()
     const castor = new Castor(apollo, resolvers)
 
     const pluto = await Utils.createPlutoInstance()
-    const mediatorDID = Domain.DID.fromString(await WalletSdk.getMediatorDidThroughOob())
+    const mediatorDID = Domain.DID.fromString(await WalletSdk.getMediatorDidThroughOob());
+
     this.sdk = Agent.initialize({
-      seed,
+      seed: inputSeed || this.seed,
       apollo,
       pluto,
       mediatorDID,
       castor
     })
+    this.seed = this.sdk.seed;
 
     this.sdk.plugins.register(Anoncreds.plugin)
 
