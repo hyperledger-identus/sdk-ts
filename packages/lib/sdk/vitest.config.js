@@ -50,7 +50,7 @@ export default defineConfig({
     include: ['tests/**/*.test.ts'],
     coverage: {
       provider: 'istanbul',
-      reporter: isCI ? ['json-summary', 'lcov'] : ['text', 'lcov', 'html'],
+      reporter: isCI ? ['json-summary', 'lcov'] : ['text', 'lcov'],
       thresholds: {
         "branches": 63,
         "functions": 75,

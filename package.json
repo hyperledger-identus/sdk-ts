@@ -3,16 +3,16 @@
   "version": "7.0.0",
   "private": true,
   "scripts": {
-    "build": "npx nx run-many --targets=build --all",
-    "build:clean": "npm run clean && npx nx run-many --targets=build --all --skip-nx-cache",
+    "build": "npx nx run-many --target=build",
+    "build:clean": "npm run clean && npx nx run-many --target=build --skip-nx-cache",
     "clean": "npm run clean:generated && npm run clean:build && npm run clean:reset",
     "clean:reset": "npx nx reset",
     "clean:generated": "find packages g -name generated -type d -not -path '*/node_modules/*' -exec rm -rf {} + 2>/dev/null; echo 'All generated folders cleaned'",
     "clean:build": "find packages g -name build -type d -not -path '*/node_modules/*' -exec rm -rf {} + 2>/dev/null; echo 'All build folders cleaned'",
-    "test": "nx run-many --target=test",
-    "coverage": "nx run-many --target=coverage",
-    "lint": "nx run-many --target=lint",
-    "lint:fix": "nx run-many --target=lint -- --fix"
+    "test": "npx nx run-many --target=test",
+    "coverage": "npx nx run-many --target=coverage",
+    "lint": "npx nx run-many --target=lint",
+    "lint:fix": "npx nx run-many --target=lint -- --fix"
   },
   "description": "Identus SDK - Typescript",
   "author": "IOHK",
