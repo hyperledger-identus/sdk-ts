@@ -43,7 +43,8 @@
         "{projectRoot}/generated/**/*"
       ],
       "dependsOn": [
-        "externals"
+        "externals",
+        "^build"
       ],
       "executor": "nx:run-commands",
       "outputs": [
