@@ -14,8 +14,8 @@ export const revocationJsonldDocuments = {
                     "id": "@id",
                     "type": "@type",
 
-                    "description": "http://schema.org/description",
-                    "name": "http://schema.org/name"
+                    "description": "https://schema.org/description",
+                    "name": "https://schema.org/name"
                 }
             },
 
