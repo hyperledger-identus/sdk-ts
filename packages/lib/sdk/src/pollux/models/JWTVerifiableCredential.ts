@@ -292,11 +292,7 @@ export class JWTCredential
   }
 
   get id() {
-    if (this.isCredentialPayload(Object.fromEntries(this.properties))) {
-      return this.properties.get(JWT.Claims.jti);
-    } else {
-      return this.properties.get(JWT.Claims.jti);
-    }
+    return this.properties.get(JWT.Claims.jti);
   }
 
   get vc(): W3CVerifiableCredential | undefined {
@@ -345,30 +341,22 @@ export class JWTCredential
   }
 
   get expirationDate() {
-    const exp = this.isCredentialPayload(Object.fromEntries(this.properties)) ?
-      this.properties.get(JWT.Claims.exp) :
-      this.properties.get(JWT.Claims.exp);
+    const exp = this.properties.get(JWT.Claims.exp);
     return exp ? new Date(exp * 1000).toISOString() : undefined;
   }
 
   get issuanceDate() {
-    const nbf = this.isCredentialPayload(Object.fromEntries(this.properties)) ?
-      this.properties.get(JWT.Claims.nbf) :
-      this.properties.get(JWT.Claims.nbf);
+    const nbf = this.properties.get(JWT.Claims.nbf);
     return new Date(nbf * 1000).toISOString();
   }
 
   get audience() {
-    const aud = this.isCredentialPayload(Object.fromEntries(this.properties)) ?
-      this.properties.get(JWT.Claims.aud) :
-      this.properties.get(JWT.Claims.aud);
+    const aud = this.properties.get(JWT.Claims.aud);
     return aud;
   }
 
   get issuer() {
-    const iss: string = this.isCredentialPayload(Object.fromEntries(this.properties)) ?
-      this.properties.get(JWT.Claims.iss) :
-      this.properties.get(JWT.Claims.iss);
+    const iss: string = this.properties.get(JWT.Claims.iss);
     return iss;
   }
 
