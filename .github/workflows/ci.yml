@@ -55,13 +55,8 @@ jobs:
       - name: Run coverage test
         run: yarn coverage
 
-      - name: Npm audit
-        uses: oke-py/npm-audit-action@v2.4.4
-        with:
-          audit_level: moderate
-          create_issues: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          production_flag: true
+      - name: Yarn audit
+        run: yarn npm audit --environment production --severity moderate
 
       - name: Coveralls
         env:
