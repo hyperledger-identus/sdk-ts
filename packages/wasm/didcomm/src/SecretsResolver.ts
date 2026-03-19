@@ -11,7 +11,7 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
   private async parseDIDUrl(didString: string): Promise<import("@hyperledger/identus-domain").DIDUrl> {
     const { DIDUrl, DID } = await import("@hyperledger/identus-domain");
     const regex =
-      /^did:(?<method>[a-z0-9]+(:[a-z0-9]+)*):(?<idstring>[^#?/]*)(?<path>[^#?]+)?(?<query>\?[^#]*)?(?<fragment>#.*)?$/gi;
+      /^did:(?<method>[a-z0-9]+):(?<idstring>[a-z0-9.\-_%]+(?::[a-z0-9.\-_%]+)*)(?<path>\/[^#?]*)?(?<query>\?[^#]*)?(?<fragment>#.*)?$/gi;
     const match = regex.exec(didString);
     if (!match || !match.groups) {
       throw new Error("Invalid DID string");
