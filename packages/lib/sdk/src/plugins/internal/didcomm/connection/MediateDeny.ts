@@ -20,6 +20,5 @@ export class MediateDeny extends Task<void, Args> {
     const uri = expect(this.args.message.from);
     const connection = expect(ctx.Connections.find(uri.toString()));
     connection.state = Connection.State.DENIED;
-    return Promise.resolve()
   }
 }

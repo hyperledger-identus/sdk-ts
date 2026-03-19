@@ -74,8 +74,6 @@ export class ConnectionsManager {
       this.mediators.delete(uri);
       this.connections.splice(index, 1);
     }
-
-    return Promise.resolve();
   }
 
   /**

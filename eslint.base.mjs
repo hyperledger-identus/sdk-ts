@@ -76,6 +76,7 @@ const offRules = {
     "no-unused-vars": "off",
     // TypeScript handles this
     "no-undef": "off",
+    '@typescript-eslint/require-await': 'off'
 };
 
 /** Combined production rule set — exported for sub-package reuse */

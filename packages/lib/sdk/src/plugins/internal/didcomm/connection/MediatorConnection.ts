@@ -29,12 +29,10 @@ export class MediatorConnection extends DIDCommConnection {
   async close() {
     this.socket?.close();
     this.state = Connection.State.CLOSED;
-    return Promise.resolve()
   }
 
   useLiveMode(socket: WebSocket) {
     this.socket = socket;
-    return Promise.resolve()
 
   }
 }

@@ -39,16 +39,14 @@ export class StartFetchingMessages extends Task<void, Args> {
 
       await connection.useLiveMode(socket);
 
-       
+
       socket.addEventListener("open", async () => {
         // ? connection.send
         const packedMessage = await ctx.Mercury.packMessage(message);
         socket.send(packedMessage);
-        // ? supposed to ack message
-        return Promise.resolve();
       });
 
-       
+
       socket.addEventListener("message", async (event) => {
         const message = await ctx.Mercury.unpackMessage(event.data);
         await connection.receive(message, ctx);
