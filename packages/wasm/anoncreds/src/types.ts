@@ -42,9 +42,3 @@ export interface AnoncredsInputFieldFilter {
     $lte?: PredicateType;
 }
 export type PredicateType = string | number;
-
-export const CREDENTIAL_OFFER = "anoncreds/credential-offer@v1.0";
-export const CREDENTIAL_REQUEST = "anoncreds/credential-request@v1.0";
-export const CREDENTIAL_ISSUE = "anoncreds/credential@v1.0";
-export const PRESENTATION_REQUEST = "anoncreds/proof-request@v1.0";
-export const PRESENTATION = "anoncreds/proof@v1.0";
