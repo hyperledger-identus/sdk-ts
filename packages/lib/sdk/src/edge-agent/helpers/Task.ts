@@ -57,10 +57,6 @@ export class CancellableTask<T> {
 
   }
 
-  async then(): Promise<T> {
-    return this.cancellationToken;
-  }
-
   callback(fn: (response: T) => void) {
     if (this.period) {
       throw new Error("Can't call callback on non periodic cancellable task");
