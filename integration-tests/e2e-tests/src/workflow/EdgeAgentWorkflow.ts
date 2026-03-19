@@ -267,9 +267,12 @@ export class EdgeAgentWorkflow {
           Ensure.that(didPairs.length, equals(expectedDidPairs.length)),
         )
 
+        const mapSortPeer = (dids: Domain.PeerDID[]) => dids.map(it => it.did.uuid).sort()
+        const mapSortPrism = (dids: Domain.PrismDID[]) => dids.map(it => it.did.uuid).sort()
+
         assert.isTrue(_.isEqual(expectedCredentials.map(it => it.id), credentials.map(it => it.id)))
-        assert.isTrue(_.isEqual(expectedPeerDids.map(it => it.did.uuid), peerDids.map(it => it.did.uuid)))
-        assert.isTrue(_.isEqual(expectedPrismDids.map(it => it.did.uuid), prismDids.map(it => it.did.uuid)))
+        assert.isTrue(_.isEqual(mapSortPeer(expectedPeerDids), mapSortPeer(peerDids)))
+        assert.isTrue(_.isEqual(mapSortPrism(expectedPrismDids), mapSortPrism(prismDids)))
         assert.isTrue(_.isEqual(expectedDidPairs.map(it => it.name), expectedDidPairs.map(it => it.name)))
       })
     )

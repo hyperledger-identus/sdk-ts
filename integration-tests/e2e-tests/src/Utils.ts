@@ -1,6 +1,6 @@
 import { appendFile, writeFileSync } from "fs"
 
-import crypto from "crypto"
+import crypto, { randomUUID } from "node:crypto"
 import { Buffer } from "buffer"
 
 import { StorageType } from "@trust0/ridb"
@@ -15,7 +15,7 @@ export class Utils {
   static async createPlutoInstance() {
     const apollo = new Apollo()
     const store = await createStore({
-      dbName: "test-index",
+      dbName: "test-index" + randomUUID(),
       password: Buffer.from("demoapp").toString("hex"),
       storageType: StorageType.InMemory,
     })

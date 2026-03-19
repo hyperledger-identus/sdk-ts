@@ -100,13 +100,12 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     const mediatorDID = Domain.DID.fromString(await WalletSdk.getMediatorDidThroughOob());
 
     this.sdk = Agent.initialize({
-      seed: inputSeed || this.seed,
+      seed: inputSeed,
       apollo,
       pluto,
       mediatorDID,
       castor
     })
-    this.seed = this.sdk.seed;
 
     this.sdk.plugins.register(Anoncreds.plugin)
 
