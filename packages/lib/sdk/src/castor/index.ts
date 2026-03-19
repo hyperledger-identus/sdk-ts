@@ -234,7 +234,7 @@ export class Castor implements Domain.Castor {
     const base64State = base64.base64url.baseEncode(encodedState);
     const methodSpecificId = Domain.PrismDID.parseMethodId([stateHash, base64State]);
 
-    return Promise.resolve(new Domain.DID("did", "prism", methodSpecificId.toString()));
+    return new Domain.DID("did", "prism", methodSpecificId.toString())
   }
 
   /**
@@ -262,7 +262,7 @@ export class Castor implements Domain.Castor {
   ): Promise<Domain.DID> {
     const peerDIDOperation = new PeerDIDCreate();
     const peerDID = peerDIDOperation.createPeerDID(publicKeys, services);
-    return Promise.resolve(peerDID.did);
+    return peerDID.did;
   }
 
   /**

@@ -21,7 +21,7 @@ export class ParseOOBInvitation extends Task<OutOfBandInvitation, Args> {
       throw new InvitationIsInvalidError('expired');
     }
 
-    return Promise.resolve(invitation);
+    return invitation;
   }
 
   private safeParseBody(): OutOfBandInvitation {

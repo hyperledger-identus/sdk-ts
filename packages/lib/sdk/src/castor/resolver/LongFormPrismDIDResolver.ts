@@ -33,7 +33,7 @@ export class LongFormPrismDIDResolver implements DIDResolver {
     const state = prismDID.encodedState;
     const base64State = base64.base64url.decode(`u${state}`);
     const coreProperties = this.decodeState(did, base64State);
-    return Promise.resolve(new DIDDocument(did, coreProperties));
+    return new DIDDocument(did, coreProperties);
   }
 
   private getProtoCurve(proto: Protos.io.iohk.atala.prism.protos.PublicKey) {

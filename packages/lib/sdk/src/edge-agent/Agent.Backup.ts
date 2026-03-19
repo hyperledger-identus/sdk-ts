@@ -1,4 +1,4 @@
- 
+
 import Pako from "pako";
 import * as Domain from "@hyperledger/identus-domain";
 import type { Agent } from "./Agent";
@@ -135,7 +135,7 @@ export class AgentBackup {
   private masterSk(options?: BackupOptions) {
     const optKey = options?.key;
     if (notNil(optKey)) {
-      return Promise.resolve(optKey);
+      return optKey
     }
 
     const masterKey = this.Agent.apollo.createPrivateKey({
@@ -148,7 +148,7 @@ export class AgentBackup {
       throw new Domain.AgentError.KeyNotExportableError();
     }
 
-    return Promise.resolve(masterKey);
+    return masterKey
   }
 
   /**

@@ -53,7 +53,7 @@ export class CreateAuthorizationRequest extends Utils.Task<AuthorizationRequest,
     //   }
     // }
 
-    return Promise.resolve(authRequest);
+    return authRequest
   }
 
   private processScopes() {

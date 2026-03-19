@@ -69,6 +69,6 @@ export class CreatePresentationDefinition extends Plugins.Task<Args> {
       }
     };
 
-    return Promise.resolve(Payload.make("presentation-definition", request));
+    return Payload.make("presentation-definition", request);
   }
 }

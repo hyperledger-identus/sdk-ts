@@ -81,7 +81,7 @@ export class CreateOOBOffer extends Task<string, Args> {
             oobId,
             this.attachments
         );
-        return Promise.resolve(Buffer.from(JSON.stringify(oob)).toString("base64"))
+        return Buffer.from(JSON.stringify(oob)).toString("base64")
     }
 }
 

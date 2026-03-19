@@ -1,4 +1,4 @@
- 
+
 import {
   CastorError, DID,
   DIDDocument,
@@ -29,12 +29,10 @@ export class PeerDIDResolver implements DIDResolver {
     if (did.method !== "peer" || did.methodId.slice(0, 1) !== "2") {
       throw new CastorError.NotPossibleToResolveDID();
     }
-    return Promise.resolve(
-      this.buildDIDDocumentAlgo2(
-        did,
-        VerificationMaterialFormatPeerDID.JWK
-      )
-    );
+    return this.buildDIDDocumentAlgo2(
+      did,
+      VerificationMaterialFormatPeerDID.JWK
+    )
   }
 
   private async buildDIDDocumentAlgo2(
@@ -69,24 +67,21 @@ export class PeerDIDResolver implements DIDResolver {
           services.push(...this.decodeService(did, part.slice(1)));
       }
     });
-    return Promise.resolve(
-
-      new DIDDocument(did, [
-        new DIDDocument.VerificationMethods([
-          ...authenticationMethods,
-          ...keyAgreementMethods,
-        ]),
-        new DIDDocument.Authentication(
-          authenticationMethods.map(({ id }) => id),
-          authenticationMethods
-        ),
-        new DIDDocument.KeyAgreement(
-          keyAgreementMethods.map(({ id }) => id),
-          keyAgreementMethods
-        ),
-        new DIDDocument.Services(services),
-      ])
-    );
+    return new DIDDocument(did, [
+      new DIDDocument.VerificationMethods([
+        ...authenticationMethods,
+        ...keyAgreementMethods,
+      ]),
+      new DIDDocument.Authentication(
+        authenticationMethods.map(({ id }) => id),
+        authenticationMethods
+      ),
+      new DIDDocument.KeyAgreement(
+        keyAgreementMethods.map(({ id }) => id),
+        keyAgreementMethods
+      ),
+      new DIDDocument.Services(services),
+    ])
   }
 
   public decodeMultibaseEncnumbasisAuth(

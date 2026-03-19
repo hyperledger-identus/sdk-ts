@@ -21,15 +21,15 @@ export const CastorMock: Castor & typeof castorVars = {
   parseDID(did: string): DID {
     throw new Error("Method not implemented.");
   },
-  createPrismDID(
+  async createPrismDID(
     masterPublicKey: PublicKey,
     services?: DIDDocument.Service[] | undefined
   ): Promise<DID> {
-    return Promise.resolve(castorVars._prismDID)
+    return castorVars._prismDID
   },
 
-  createPeerDID(publicKeys: PublicKey[], services: DIDDocument.Service[]): Promise<DID> {
-    return Promise.resolve(castorVars._peerDID);
+  async createPeerDID(publicKeys: PublicKey[], services: DIDDocument.Service[]): Promise<DID> {
+    return castorVars._peerDID;
   },
 
   resolveDID(did: string): Promise<DIDDocument> {

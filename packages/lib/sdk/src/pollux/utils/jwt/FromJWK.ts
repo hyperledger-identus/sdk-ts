@@ -130,10 +130,10 @@ export class FromJWK extends Task<PublicKey | KeyPair, Args> {
     const isEC = this.isECJWK(jwk);
     const isOKP = this.isOKPJWK(jwk);
     if (isEC) {
-      return Promise.resolve(this.fromJWKEC(ctx.Apollo, jwk));
+      return this.fromJWKEC(ctx.Apollo, jwk);
     }
     if (isOKP) {
-      return Promise.resolve(this.fromJWKOKP(ctx.Apollo, jwk));
+      return this.fromJWKOKP(ctx.Apollo, jwk);
     }
     throw new PolluxError.InvalidJWKParameters(["kty"], "The kty field must be EC or OKP");
   }

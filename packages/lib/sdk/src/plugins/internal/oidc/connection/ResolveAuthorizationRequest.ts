@@ -99,6 +99,6 @@ export class ResolveAuthorizationRequest extends Utils.Task<AuthorizationRequest
       }
     });
 
-    return Promise.resolve({ scopes, configurationIds });
+    return { scopes, configurationIds }
   }
 }

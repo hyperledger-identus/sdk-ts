@@ -68,6 +68,6 @@ export class ProcessCallbackUrl extends Utils.Task<AuthorizationResponse, Proces
     //   throw new Error('implicit and hybrid flows are not supported')
     // }
 
-    return Promise.resolve(authGrant);
+    return authGrant
   }
 }

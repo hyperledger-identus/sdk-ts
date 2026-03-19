@@ -20,9 +20,7 @@ export class Utils {
       storageType: StorageType.InMemory,
     })
 
-    return Promise.resolve(
-      new Pluto(store, apollo)
-    )
+    return new Pluto(store, apollo)
   }
 
   static async asyncFilter<T>(arr: T[], predicate: (value: T, index: number, array: T[]) => Promise<boolean>) {

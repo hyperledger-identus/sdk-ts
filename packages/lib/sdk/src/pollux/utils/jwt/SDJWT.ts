@@ -110,12 +110,10 @@ export class SDJWT extends Task.Runner {
     disclosedPayload: Record<string, unknown>,
     disclosures: Disclosure[]
   ) {
-    return Promise.resolve(
-      getClaimsSync(
-        disclosedPayload,
-        disclosures,
-        defaultHashConfig.hasher
-      )
+    return getClaimsSync(
+      disclosedPayload,
+      disclosures,
+      defaultHashConfig.hasher
     )
   }
 
@@ -129,9 +127,7 @@ export class SDJWT extends Task.Runner {
           throw new Error("Cannot verify with this key");
         }
         const signature = Buffer.from(base64url.baseDecode(signatureEncoded));
-        return Promise.resolve(
-          publicKey.verify(Buffer.from(data), signature)
-        );
+        return publicKey.verify(Buffer.from(data), signature)
       },
       saltGenerator: (length: number) => this.saltGenerator(length)
     };
@@ -166,7 +162,7 @@ export class SDJWT extends Task.Runner {
         }
         const signature = privateKey.sign(Buffer.from(data));
         const signatureEncoded = base64url.baseEncode(signature);
-        return Promise.resolve(signatureEncoded);
+        return signatureEncoded
       },
       saltGenerator: (length: number) => this.saltGenerator(length)
     };

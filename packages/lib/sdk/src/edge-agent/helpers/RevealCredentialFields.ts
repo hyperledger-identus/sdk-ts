@@ -29,7 +29,7 @@ export class RevealCredentialFields extends Task<JsonObj, Args> {
 
   async runJWT() {
     const claim = expect(this.args.credential.claims.at(0), "Invalid Claims");
-    return Promise.resolve(claim);
+    return claim;
   }
 
   async runSDJWT(ctx: Plugins.Context) {
@@ -56,6 +56,6 @@ export class RevealCredentialFields extends Task<JsonObj, Args> {
       return notNil(claim) ? { ...acc, [field]: claim[field].raw } : acc;
     }, {});
 
-    return Promise.resolve(revealed);
+    return revealed
   }
 }

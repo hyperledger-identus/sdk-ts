@@ -45,7 +45,7 @@ export class CreateJWT extends Task<string, Args> {
       : async (data: string | Uint8Array) => {
         const signature = privateKey.sign(Buffer.from(data));
         const encoded = base64url.baseEncode(signature);
-        return Promise.resolve(encoded);
+        return encoded
       };
 
     const jwt = await createJWT(
