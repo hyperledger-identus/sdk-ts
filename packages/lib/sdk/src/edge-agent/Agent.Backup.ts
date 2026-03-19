@@ -38,7 +38,7 @@ export class AgentBackup {
     }
 
     const backupStr = options?.compress ? this.compress(JSON.stringify(backup)) : JSON.stringify(backup);
-    const masterSk = await this.masterSk(options);
+    const masterSk = this.masterSk(options);
     const jwk = masterSk.to.JWK();
     const JWE = await getJWE();
     const encrypted = JWE.encrypt(
@@ -65,7 +65,7 @@ export class AgentBackup {
    * @see createJWE - Method to create a JWE from the stored backup data.
    */
   async restore(jwe: string, options?: BackupOptions) {
-    const masterSk = await this.masterSk(options);
+    const masterSk = this.masterSk(options);
     const jwk = masterSk.to.JWK();
     const JWE = await getJWE();
     const decoded = JWE.decrypt(
