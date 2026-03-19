@@ -32,6 +32,9 @@ export class RestoreTask implements IRestoreTask {
       if (item.recovery_id === "jwt") {
         return JWTCredential.fromJWS(decoded);
       }
+      if (item.recovery_id === "sdjwt") {
+        return JWTCredential.fromJWS(decoded);
+      }
       if (item.recovery_id === "anoncred") {
         return AnonCredsCredential.fromJson(decoded);
       }

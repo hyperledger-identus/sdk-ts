@@ -256,6 +256,25 @@ describe("Agent Tests", () => {
       });
     });
 
+    describe("Backup/Restore :: KMP interoperability", () => {
+      test("restore kmp backup jwe", async () => {
+        const kmpJwe = Fixtures.Backup.interoperabilityBackupTest.kotlin;
+        const stubRestore = vi.spyOn(pluto, "restore");
+
+        await agent.backup.restore(kmpJwe);
+
+        expect(stubRestore).toHaveBeenCalledTimes(1);
+        const [backupSchema] = stubRestore.mock.calls[0];
+        expect(backupSchema.keys).toHaveLength(16);
+        expect(backupSchema.mediators).toHaveLength(1);
+        expect(backupSchema.credentials).toHaveLength(3);
+        expect(backupSchema.dids).toHaveLength(9);
+        expect(backupSchema.did_pairs).toHaveLength(1);
+        expect(backupSchema.messages).toHaveLength(15);
+        expect(backupSchema.link_secret).toBeDefined();
+      });
+    });
+
     describe("prepareRequestCredentialWithIssuer", () => {
       const credential_preview: CredentialPreview = {
         type: ProtocolType.DidcommCredentialPreview,
@@ -611,7 +630,11 @@ describe("Agent Tests", () => {
             sub: undefined,
             nbf: 23456754321,
             exp: 2134564321,
-            vc: {}
+            vc: {
+              "@context": ["https://www.w3.org/2018/credentials/v1"],
+              type: ["VerifiableCredential"],
+              credentialSubject: {}
+            }
           } as any);
 
           const request = new RequestPresentation(
@@ -634,7 +657,11 @@ describe("Agent Tests", () => {
             sub: undefined,
             nbf: 23456754321,
             exp: 2134564321,
-            vc: {}
+            vc: {
+              "@context": ["https://www.w3.org/2018/credentials/v1"],
+              type: ["VerifiableCredential"],
+              credentialSubject: {}
+            }
           } as any);
 
           const request = new RequestPresentation(
