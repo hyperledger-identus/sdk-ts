@@ -37,7 +37,7 @@ export class StartFetchingMessages extends Task<void, Args> {
         mediator.mediatorDID,
       );
 
-      await connection.useLiveMode(socket);
+      connection.useLiveMode(socket);
 
 
       socket.addEventListener("open", async () => {
