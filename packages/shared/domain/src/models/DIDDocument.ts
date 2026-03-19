@@ -59,113 +59,41 @@ export class DIDDocument {
 
 
 
+  private static parseVerificationMethodGroup(
+    methodsFromJson: any[] = [],
+    availableMethods: any[] = [],
+    targetGroup: { add(method: DIDDocument.VerificationMethod): void }
+  ): void {
+    for (const method of methodsFromJson || []) {
+      if (typeof method === "string") {
+        const tmp = availableMethods?.find((m: any) => m.id === method);
+        if (tmp) {
+          Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
+          targetGroup.add(tmp);
+        }
+      } else if (typeof method === "object") {
+        const tmp: DIDDocument.VerificationMethod = method; // TODO a bit unsafe
+        Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
+        targetGroup.add(tmp);
+      } else {
+        throw new Error('Fail to decode VerificationMethod:' + method);
+      }
+    }
+  }
+
   static fromJSON(didDocumentJson: any): DIDDocument {
 
     const authentication: DIDDocument.Authentication = new DIDDocument.Authentication();
-    const capabilityInvocation: DIDDocument.CapabilityDelegation = new DIDDocument.CapabilityDelegation();
+    const capabilityInvocation: DIDDocument.CapabilityInvocation = new DIDDocument.CapabilityInvocation();
     const capabilityDelegation: DIDDocument.CapabilityDelegation = new DIDDocument.CapabilityDelegation();
     const assertionMethod: DIDDocument.AssertionMethod = new DIDDocument.AssertionMethod();
     const keyAgreement: DIDDocument.KeyAgreement = new DIDDocument.KeyAgreement();
 
-    for (const method of didDocumentJson.authentication ?? []) {
-      if (typeof method === "string") {
-        if (method.startsWith("#")) { // TODO the verificationMethod may or may not use the canonical name
-          const tmp = didDocumentJson.verificationMethod.find((m: DIDDocument.VerificationMethod) => m.id === method);
-          Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-          if (tmp) { authentication.add(tmp); }
-        } else {
-          const tmp = didDocumentJson.verificationMethod.find((m: DIDDocument.VerificationMethod) => m.id === method);
-          Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-          if (tmp) { authentication.add(tmp); }
-        }
-      } else if (typeof method === "object") {
-        const tmp: DIDDocument.VerificationMethod = method // TODO a bit unsafe
-        Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-        authentication.add(tmp);
-      } else {
-        throw new Error('Fail to decode VerificationMethod:' + method);
-      }
-    };
-
-    for (const method of didDocumentJson.capabilityInvocation ?? []) {
-      if (typeof method === "string") {
-        if (method.startsWith("#")) { // TODO the verificationMethod may or may not use the canonical name
-          const tmp = didDocumentJson.verificationMethod.find((m: DIDDocument.VerificationMethod) => m.id === method);
-          Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-          if (tmp) { capabilityInvocation.add(tmp); }
-        } else {
-          const tmp = didDocumentJson.verificationMethod.find((m: DIDDocument.VerificationMethod) => m.id === method);
-          Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-          if (tmp) { capabilityInvocation.add(tmp); }
-        }
-      } else if (typeof method === "object") {
-        const tmp: DIDDocument.VerificationMethod = method // TODO a bit unsafe
-        Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-        capabilityInvocation.add(tmp);
-      } else {
-        throw new Error('Fail to decode VerificationMethod:' + method);
-      }
-    };
-
-    for (const method of didDocumentJson.capabilityDelegation ?? []) {
-      if (typeof method === "string") {
-        if (method.startsWith("#")) { // TODO the verificationMethod may or may not use the canonical name
-          const tmp = didDocumentJson.verificationMethod.find((m: DIDDocument.VerificationMethod) => m.id === method);
-          Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-          if (tmp) { capabilityDelegation.add(tmp); }
-        } else {
-          const tmp = didDocumentJson.verificationMethod.find((m: DIDDocument.VerificationMethod) => m.id === method);
-          Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-          if (tmp) { capabilityDelegation.add(tmp); }
-        }
-      } else if (typeof method === "object") {
-        const tmp: DIDDocument.VerificationMethod = method // TODO a bit unsafe
-        Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-        capabilityDelegation.add(tmp);
-      } else {
-        throw new Error('Fail to decode VerificationMethod:' + method);
-      }
-    };
-
-    for (const method of didDocumentJson.assertionMethod ?? []) {
-      if (typeof method === "string") {
-        if (method.startsWith("#")) { // TODO the verificationMethod may or may not use the canonical name
-          const tmp = didDocumentJson.verificationMethod.find((m: DIDDocument.VerificationMethod) => m.id === method);
-          Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-          if (tmp) { assertionMethod.add(tmp); }
-        } else {
-          const tmp = didDocumentJson.verificationMethod.find((m: DIDDocument.VerificationMethod) => m.id === method);
-          Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-          if (tmp) { assertionMethod.add(tmp); }
-        }
-      } else if (typeof method === "object") {
-        const tmp: DIDDocument.VerificationMethod = method // TODO a bit unsafe
-        Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-        assertionMethod.add(tmp);
-      } else {
-        throw new Error('Fail to decode VerificationMethod:' + method);
-      }
-    };
-
-    for (const method of didDocumentJson.keyAgreement ?? []) {
-      if (typeof method === "string") {
-        if (method.startsWith("#")) { // TODO the verificationMethod may or may not use the canonical name
-          const tmp = didDocumentJson.verificationMethod.find((m: DIDDocument.VerificationMethod) => m.id === method);
-          Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-          if (tmp) { keyAgreement.add(tmp); }
-        } else {
-          const tmp = didDocumentJson.verificationMethod.find((m: DIDDocument.VerificationMethod) => m.id === method);
-          Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-          if (tmp) { keyAgreement.add(tmp); }
-        }
-      } else if (typeof method === "object") {
-        const tmp: DIDDocument.VerificationMethod = method // TODO a bit unsafe
-        Object.setPrototypeOf(tmp, DIDDocument.VerificationMethod.prototype);
-        keyAgreement.add(tmp);
-      } else {
-        throw new Error('Fail to decode VerificationMethod:' + method);
-      }
-    };
+    DIDDocument.parseVerificationMethodGroup(didDocumentJson.authentication, didDocumentJson.verificationMethod, authentication);
+    DIDDocument.parseVerificationMethodGroup(didDocumentJson.capabilityInvocation, didDocumentJson.verificationMethod, capabilityInvocation);
+    DIDDocument.parseVerificationMethodGroup(didDocumentJson.capabilityDelegation, didDocumentJson.verificationMethod, capabilityDelegation);
+    DIDDocument.parseVerificationMethodGroup(didDocumentJson.assertionMethod, didDocumentJson.verificationMethod, assertionMethod);
+    DIDDocument.parseVerificationMethodGroup(didDocumentJson.keyAgreement, didDocumentJson.verificationMethod, keyAgreement);
 
     const servicesProperty =
       new DIDDocument.Services(didDocumentJson.service);
