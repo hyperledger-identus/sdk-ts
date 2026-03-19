@@ -12,14 +12,6 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['tests/**/*.test.ts'],
     passWithNoTests: true,
-    coverage: {
-      provider: 'istanbul',
-      reporter: ['json-summary', 'lcov'],
-      include: ['src'],
-      exclude: [
-        'src/castor/protos',
-        'src/domain/models/errors'
-      ]
-    },
+
   },
 });

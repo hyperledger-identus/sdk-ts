@@ -12,15 +12,6 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['tests/**/*.test.ts'],
     passWithNoTests: true,
-    coverage: {
-      provider: 'istanbul',
-      reporter: ['json-summary', 'lcov'],
-      include: ['src'],
-      exclude: [
-        //TODO: remove these exclusion (pluto) once the store is ported
-        'src/pluto',
-        'src/domain/models/errors'
-      ]
-    },
+
   },
 });

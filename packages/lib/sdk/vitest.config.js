@@ -33,13 +33,14 @@ export default defineConfig({
     mainFields: ['module', 'main'],
     alias: {
       // Add path aliases to match tsconfig.json
-      '@hyperledger/identus-jwe/identus-jwe_bg.wasm': path.resolve(rootPath, './jwe/identus-jwe_bg.wasm'),
-      '@hyperledger/identus-anoncreds/identus-anoncreds_bg.wasm': path.resolve(rootPath, './anoncreds/identus-anoncreds_bg.wasm'),
-      '@hyperledger/identus-didcomm/identus-didcomm_bg.wasm': path.resolve(rootPath, './didcomm/identus-didcomm_bg.wasm'),
-      '@hyperledger/identus-anoncreds': path.resolve(rootPath, './anoncreds'),
-      '@hyperledger/identus-didcomm': path.resolve(rootPath, './didcomm'),
-      '@hyperledger/identus-jwe': path.resolve(rootPath, './jwe'),
+      '@hyperledger/identus-jwe-wasm': path.resolve(rootPath, './jwe/generated'),
+      '@hyperledger/identus-anoncreds-wasm': path.resolve(rootPath, './anoncreds/generated'),
+      '@hyperledger/identus-didcomm-wasm': path.resolve(rootPath, './didcomm/generated'),
+      '@hyperledger/identus-anoncreds': path.resolve(rootPath, './anoncreds/src'),
+      '@hyperledger/identus-didcomm': path.resolve(rootPath, './didcomm/src'),
+      '@hyperledger/identus-jwe': path.resolve(rootPath, './jwe/src'),
       '@hyperledger/identus-protos': path.resolve(libPath, './protos'),
+      '@hyperledger/identus-domain': path.resolve(libPath, '../shared/domain/src'),
     },
   },
   test: {
@@ -48,20 +49,6 @@ export default defineConfig({
     reporters: ['verbose'],
     environment: 'jsdom',
     include: ['tests/**/*.test.ts'],
-    coverage: {
-      provider: 'istanbul',
-      reporter: isCI ? ['json-summary', 'lcov'] : ['text', 'lcov'],
-      thresholds: {
-        "branches": 63,
-        "functions": 75,
-        "lines": 75,
-        "statements": 74
-      },
-      include: ['src'],
-      exclude: [
-        //TODO: remove these exclusion (pluto) once the store is ported
-        'src/pluto',
-      ]
-    },
+
   },
 })

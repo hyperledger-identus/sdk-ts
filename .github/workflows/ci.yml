@@ -63,16 +63,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: coverallsapp/github-action@v2
         with:
-          file: "packages/lib/sdk/coverage/lcov.info"
+          file: "coverage/lcov.info"
 
       - name: Coverage Comment
         uses: MishaKav/jest-coverage-comment@v1.0.23
         with:
-          coverage-summary-path: packages/lib/sdk/coverage/coverage-summary.json
+          coverage-summary-path: coverage/coverage-summary.json
 
       - name: Publish lcov report
         uses: actions/upload-artifact@v4
         with:
           name: lcov-report.zip
-          path: packages/lib/sdk/coverage/lcov-report
+          path: coverage/lcov-report
           if-no-files-found: error

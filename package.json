@@ -10,7 +10,8 @@
     "clean:generated": "find packages g -name generated -type d -not -path '*/node_modules/*' -exec rm -rf {} + 2>/dev/null; echo 'All generated folders cleaned'",
     "clean:build": "find packages g -name build -type d -not -path '*/node_modules/*' -exec rm -rf {} + 2>/dev/null; echo 'All build folders cleaned'",
     "test": "npx nx run-many --target=test",
-    "coverage": "npx nx run-many --target=coverage",
+    "coverage": "vitest run --coverage",
+    "coverage:nx": "npx nx run-many --target=coverage",
     "lint": "npx nx run-many --target=lint",
     "lint:fix": "npx nx run-many --target=lint -- --fix"
   },

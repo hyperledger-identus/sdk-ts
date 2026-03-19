@@ -6,10 +6,7 @@ export default defineConfig({
   ...baseConfig,
   test: {
     ...baseConfig.test,
-    coverage: {
-      ...baseConfig.test.coverage,
-      reportsDirectory: __dirname + "/coverage",
-    },
+
     include: [__dirname + "/**/*.test.ts"],
   },
 });
