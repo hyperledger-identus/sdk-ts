@@ -3,7 +3,7 @@ import { CastorError } from "@hyperledger/identus-domain";
 
 export function parse(didString: string): DIDUrl {
   const regex =
-    /^did:(?<method>[a-z0-9]+(:[a-z0-9]+)*):(?<idstring>[^#?/]*)(?<path>[^#?]*)?(?<query>\?[^#]*)?(?<fragment>#.*)?$/gi;
+    /^did:(?<method>[a-z0-9]+(:[a-z0-9]+)*):(?<idstring>[^#?/]*)(?<path>[^#?]+)?(?<query>\?[^#]*)?(?<fragment>#.*)?$/gi;
   const match = regex.exec(didString);
   if (!match || !match.groups) {
     throw new CastorError.InvalidDIDString("Invalid did string");
