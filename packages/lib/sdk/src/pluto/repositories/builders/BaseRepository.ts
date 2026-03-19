@@ -103,7 +103,7 @@ export abstract class BaseRepository<T extends Model> {
     const mQuery = this.makeMangoQuery(query);
 
     try {
-      return this.store.query(this.name, mQuery);
+      return await this.store.query(this.name, mQuery);
     }
     catch {
       throw new Domain.PlutoError.StoreQueryFailed();
