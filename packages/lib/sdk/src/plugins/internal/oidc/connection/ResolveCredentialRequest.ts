@@ -1,0 +1,54 @@
+import * as TB from "@sinclair/typebox";
+import { type CredentialOffer, type IssuerMetadata, type TokenResponse } from "../types";
+import { type Context } from "../plugin";
+import { FetchIssuerMetadata } from "../tasks/FetchIssuerMetadata";
+import { CreateCredentialRequest } from "../tasks/CreateCredentialRequest";
+import { JWTCredential } from "../../../../pollux/models/JWTVerifiableCredential";
+import { Task } from "../../../../utils";
+import { expect, isNil, validate } from "@hyperledger/identus-domain";
+
+export interface ResolveCredentialRequestArgs {
+  offer: CredentialOffer;
+  clientId?: string;
+  issuerMeta?: IssuerMetadata;
+  tokenResponse?: TokenResponse;
+}
+
+/**
+ * OIDC Convenience Task
+ * Credential Offer to issued Credential
+ * 
+ * OIDC Credential Issuance flow 3/3
+ * 
+ * steps
+ *   - fetchIssuerMetadata
+ *   - CreateCredentialRequest
+ *   - send CredentialRequest 
+ *   - store Credential
+ */
+export class ResolveCredentialRequest extends Task<JWTCredential, ResolveCredentialRequestArgs> {
+  async run(ctx: Context) {
+    const issuerMeta = await this.getIssuerMetadata(ctx);
+    const connection = expect(ctx.Connections.find(issuerMeta.credential_endpoint));
+
+    const request = await ctx.run(new CreateCredentialRequest({
+      offer: this.args.offer,
+      clientId: this.args.clientId,
+      issuerMeta: issuerMeta,
+    }));
+
+    const response = await connection.send(request, ctx);
+    validate(response.body, TB.Object({ credential: TB.String() }));
+
+    const credential = JWTCredential.fromJWS(response.body.credential);
+    await ctx.Pluto.storeCredential(credential);
+
+    return credential;
+  }
+
+  private async getIssuerMetadata(ctx: Context) {
+    return isNil(this.args.issuerMeta)
+      ? ctx.run(new FetchIssuerMetadata({ uri: this.args.offer.credential_issuer }))
+      : this.args.issuerMeta;
+  }
+}

@@ -2,13 +2,19 @@
 
 cwd=`pwd`
 ExternalsDir="${cwd}/externals"
-GeneratedDir="${ExternalsDir}/generated"
-AnonCreds=anoncreds
-AnonCredsDir="${ExternalsDir}/${AnonCreds}"
-DIDComm=didcomm
-DIDCommDir="${ExternalsDir}/${DIDComm}"
-JWERust=jwe
-JWERustDir="${ExternalsDir}/${JWERust}"
+GeneratedDir="${cwd}/packages"
+
+# Source directory names (actual submodule folder names on disk)
+AnonCredsSrc=anoncreds
+DIDCommSrc=didcomm
+
+# Output package names (for generated wasm packages)
+AnonCredsOut=identus-anoncreds
+DIDCommOut=identus-didcomm
+JWEOut=identus-jwe
+
+AnonCredsDir="${ExternalsDir}/${AnonCredsSrc}"
+DIDCommDir="${ExternalsDir}/${DIDCommSrc}"
 
 BOLD='\033[1m'
 BLUE='\033[33m'
@@ -17,12 +23,12 @@ RED='\033[31m'
 END='\033[0m'
 
 
-didcommNewCommit=$(git submodule | grep $DIDComm | awk '{print $1}')
-didcommOldCommit=$(cat "${ExternalsDir}/${DIDComm}.commit" 2>/dev/null)
+didcommNewCommit=$(git submodule | grep $DIDCommSrc | awk '{print $1}')
+didcommOldCommit=$(cat "${ExternalsDir}/${DIDCommOut}.commit" 2>/dev/null)
 didcommRequired=$?
 
-anoncredsNewCommit=$(git submodule | grep $AnonCreds | awk '{print $1}')
-anoncredsOldCommit=$(cat "${ExternalsDir}/${AnonCreds}.commit" 2>/dev/null)
+anoncredsNewCommit=$(git submodule | grep $AnonCredsSrc | awk '{print $1}')
+anoncredsOldCommit=$(cat "${ExternalsDir}/${AnonCredsOut}.commit" 2>/dev/null)
 anoncredsRequired=$?
 
 is_mac() {
@@ -32,81 +38,94 @@ is_mac() {
 buildDIDComm() {
   echo "Build DIDComm"
 
-  local GenDIDComm="${GeneratedDir}/${DIDComm}"
+  local GenDIDComm="${GeneratedDir}/wasm/didcomm/generated"
   # remove previous generated
   rm -rfv "${GenDIDComm}*"
   # generate new
   cd "${DIDCommDir}/wasm"
-  wasm-pack build --target=web --out-dir="${GenDIDComm}-wasm"
-  cd "${GenDIDComm}-wasm"
+  wasm-pack build --scope hyperledger --out-name identus-didcomm --target=web --out-dir="${GenDIDComm}"
+  cd "${GenDIDComm}"
+  # Fix package name (wasm-pack uses crate name from Cargo.toml)
   if is_mac; then
-    sed -i '' 's/"module": "didcomm_js.js",/"main": "didcomm_js.js",/' package.json
-    sed -i '' "/if (typeof input === 'undefined') {/,/}/d" didcomm_js.js;
-    sed -i '' "/if (typeof module_or_path === 'undefined') {/,/}/d" didcomm_js.js;
+    sed -i '' 's/"name": "@hyperledger\/didcomm-js"/"name": "@hyperledger\/identus-didcomm-wasm"/' package.json;
   else
-    sed -i  's/"module": "didcomm_js.js",/"main": "didcomm_js.js",/' package.json
-    sed -i "/if (typeof input === 'undefined') {/,/}/d" didcomm_js.js;
-    sed -i "/if (typeof module_or_path === 'undefined') {/,/}/d" didcomm_js.js;
+    sed -i 's/"name": "@hyperledger\/didcomm-js"/"name": "@hyperledger\/identus-didcomm-wasm"/' package.json;
+  fi
+  if is_mac; then
+    sed -i '' 's/"module": "identus-didcomm.js",/"main": "identus-didcomm.js",/' package.json;
+    sed -i '' "/if (typeof input === 'undefined') {/,/}/d" "./identus-didcomm.js";
+    sed -i '' "/if (typeof module_or_path === 'undefined') {/,/}/d" "./identus-didcomm.js";
+  else
+    sed -i 's/"module": "identus-didcomm.js",/"main": "identus-didcomm.js",/' package.json;
+    sed -i "/if (typeof input === 'undefined') {/,/}/d" "./identus-didcomm.js";
+    sed -i "/if (typeof module_or_path === 'undefined') {/,/}/d" "./identus-didcomm.js";
   fi
   cd $ExternalsDir
-  git submodule | grep $DIDComm | awk '{print $1}' > "./${DIDComm}.commit"
+  git submodule | grep $DIDCommSrc | awk '{print $1}' > "./${DIDCommOut}.commit"
 }
 
 buildJWT() {
   echo "Build JWT"
 
-  local GenJWERust="${GeneratedDir}/${JWERust}"
+  local GenJWERust="${GeneratedDir}/wasm/jwe/generated"
   # remove previous generated
   rm -rfv "${GenJWERust}*"
   # generate new
   cd "${DIDCommDir}/wasm-jwe"
-  wasm-pack build --target=web --out-dir="${GenJWERust}-wasm"
-
-  #TODO: find better way to approach this
-  #This code fails on browser when wasm is first loaded, it can just be ignored
-  #The code will fully work
-
-  cd "${GenJWERust}-wasm"
+  wasm-pack build --scope hyperledger --out-name identus-jwe --target=web --out-dir="${GenJWERust}"
+  cd "${GenJWERust}"
+  # Fix package name (wasm-pack uses crate name from Cargo.toml)
   if is_mac; then
-    sed -i '' 's/"module": "jwe_rust.js",/"main": "jwe_rust.js",/' package.json;
-     sed -i '' "/if (typeof input === 'undefined') {/,/}/d" jwe_rust.js;
-    sed -i '' "/if (typeof module_or_path === 'undefined') {/,/}/d" jwe_rust.js;
+    sed -i '' 's/"name": "@hyperledger\/jwe-rust"/"name": "@hyperledger\/identus-jwe-wasm"/' package.json;
   else
-    sed -i 's/"module": "jwe_rust.js",/"main": "jwe_rust.js",/' package.json;
-    sed -i "/if (typeof input === 'undefined') {/,/}/d" jwe_rust.js;
-    sed -i "/if (typeof module_or_path === 'undefined') {/,/}/d" jwe_rust.js;
+    sed -i 's/"name": "@hyperledger\/jwe-rust"/"name": "@hyperledger\/identus-jwe-wasm"/' package.json;
+  fi
+  if is_mac; then
+    sed -i '' 's/"module": "identus-jwe.js",/"main": "identus-jwe.js",/' package.json;
+    sed -i '' "/if (typeof input === 'undefined') {/,/}/d" identus-jwe.js;
+    sed -i '' "/if (typeof module_or_path === 'undefined') {/,/}/d" identus-jwe.js;
+  else
+    sed -i 's/"module": "identus-jwe.js",/"main": "identus-jwe.js",/' package.json;
+    sed -i "/if (typeof input === 'undefined') {/,/}/d" identus-jwe.js;
+    sed -i "/if (typeof module_or_path === 'undefined') {/,/}/d" identus-jwe.js;
   fi
 
   cd $ExternalsDir
-  git submodule | grep $DIDComm | awk '{print $1}' > "./${DIDComm}.commit"
+  git submodule | grep $DIDCommSrc | awk '{print $1}' > "./${DIDCommOut}.commit"
 }
 
 buildAnonCreds() {
   echo "Build AnonCreds"
 
-  GenAnonCreds="${GeneratedDir}/${AnonCreds}"
+  GenAnonCreds="${GeneratedDir}/wasm/anoncreds/generated"
   rm -rfv "${GenAnonCreds}*"
 
   cd $AnonCredsDir/wasm
 
-  RUSTFLAGS='-C target-feature=+bulk-memory' wasm-pack build --target=web --out-dir="${GenAnonCreds}-wasm"
+  RUSTFLAGS='-C target-feature=+bulk-memory' wasm-pack build --scope hyperledger --out-name identus-anoncreds --target=web --out-dir="${GenAnonCreds}"
   
   #TODO: find better way to approach this
   #This code fails on browser when wasm is first loaded, it can just be ignored
   #The code will fully work
-  cd "${GenAnonCreds}-wasm"
+  cd "${GenAnonCreds}"
+  # Fix package name (wasm-pack uses crate name from Cargo.toml)
   if is_mac; then
-    sed -i '' 's/"module": "anoncreds_wasm.js",/"main": "anoncreds_wasm.js",/' package.json;
-    sed -i '' "/if (typeof input === 'undefined') {/,/}/d" "./${AnonCreds}_wasm.js";
-    sed -i '' "/if (typeof module_or_path === 'undefined') {/,/}/d" "./${AnonCreds}_wasm.js";
+    sed -i '' 's/"name": "@hyperledger\/anoncreds-wasm"/"name": "@hyperledger\/identus-anoncreds-wasm"/' package.json;
   else
-    sed -i 's/"module": "anoncreds_wasm.js",/"main": "anoncreds_wasm.js",/' package.json;
-    sed -i "/if (typeof input === 'undefined') {/,/}/d" "./${AnonCreds}_wasm.js";
-    sed -i "/if (typeof module_or_path === 'undefined') {/,/}/d" "./${AnonCreds}_wasm.js";
+    sed -i 's/"name": "@hyperledger\/anoncreds-wasm"/"name": "@hyperledger\/identus-anoncreds-wasm"/' package.json;
+  fi
+  if is_mac; then
+    sed -i '' 's/"module": "identus-anoncreds.js",/"main": "identus-anoncreds.js",/' package.json;
+    sed -i '' "/if (typeof input === 'undefined') {/,/}/d" "./identus-anoncreds.js";
+    sed -i '' "/if (typeof module_or_path === 'undefined') {/,/}/d" "./identus-anoncreds.js";
+  else
+    sed -i 's/"module": "identus-anoncreds.js",/"main": "identus-anoncreds.js",/' package.json;
+    sed -i "/if (typeof input === 'undefined') {/,/}/d" "./identus-anoncreds.js";
+    sed -i "/if (typeof module_or_path === 'undefined') {/,/}/d" "./identus-anoncreds.js";
   fi
 
   cd $ExternalsDir
-  git submodule | grep $AnonCreds | awk '{print $1}' > "./${AnonCreds}.commit"
+  git submodule | grep $AnonCredsSrc | awk '{print $1}' > "./${AnonCredsOut}.commit"
 }
 
 checkDIDComm() {
@@ -118,7 +137,7 @@ checkDIDComm() {
      [ -z "$(find "$DIDCommDir" -maxdepth 1 -type f)" ]; then
     return 2
   # generated folder missing - build
-  elif [ -z "$(find "${GeneratedDir}" -name "${DIDComm}*" -maxdepth 1 -type d 2>/dev/null)" ]; then
+  elif [ -z "$(find "${GeneratedDir}" -name "${DIDCommOut}*" -maxdepth 1 -type d 2>/dev/null)" ]; then
     return 1
   else
     return 0
@@ -134,7 +153,7 @@ checkAnonCreds() {
      [ -z "$(find "$AnonCredsDir" -maxdepth 1 -type f)" ]; then
     return 2
   # generated folder missing - build
-  elif [ -z "$(find "${GeneratedDir}" -name "${AnonCreds}*" -maxdepth 1 -type d 2>/dev/null)" ]; then
+  elif [ -z "$(find "${GeneratedDir}" -name "${AnonCredsOut}*" -maxdepth 1 -type d 2>/dev/null)" ]; then
     return 1
   else
     return 0
@@ -147,8 +166,8 @@ checkSubmodules() {
   echo 
 
   # update latest commit after sync
-  didcommNewCommit=$(git submodule | grep $DIDComm | awk '{print $1}')
-  anoncredsNewCommit=$(git submodule | grep $AnonCreds | awk '{print $1}')
+  didcommNewCommit=$(git submodule | grep $DIDCommSrc | awk '{print $1}')
+  anoncredsNewCommit=$(git submodule | grep $AnonCredsSrc | awk '{print $1}')
 
   checkAnonCreds
   anoncredsResult=$?

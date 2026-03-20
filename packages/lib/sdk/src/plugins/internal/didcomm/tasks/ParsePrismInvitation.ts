@@ -1,0 +1,37 @@
+import * as Domain from "@hyperledger/identus-domain";
+import { type JsonObj, asJsonObj, expect } from "../../../../utils";
+import { Task } from "../../../../utils/tasks";
+import { AgentError } from "@hyperledger/identus-domain";
+import { CreatePeerDID } from "../../../../edge-agent/didFunctions";
+import { type AgentContext } from "../../../../edge-agent/Context";
+import { PrismOnboardingInvitation } from "../../../../plugins/internal/didcomm/protocols/invitation/PrismOnboardingInvitation";
+
+/**
+ * parse a prismOnboarding invitation
+ */
+
+export interface Args {
+  value: string | JsonObj;
+}
+
+export class ParsePrismInvitation extends Task<PrismOnboardingInvitation, Args> {
+  async run(ctx: AgentContext) {
+    const json = asJsonObj(this.args.value);
+    const endpoint = expect(json.onboardEndpoint, new AgentError.InvitationIsInvalidError("Undefined PrismOnboardingInvitation onboardEndpoint"));
+    const type = expect(json.type, new AgentError.InvitationIsInvalidError("Undefined PrismOnboardingInvitation type"));
+    const from = json.from;
+    const invitation = new PrismOnboardingInvitation(endpoint, from, type);
+    const serviceEndpoint = new Domain.DIDDocument.ServiceEndpoint(invitation.onboardEndpoint, ["DIDCommMessaging"]);
+    const service = new Domain.DIDDocument.Service("#didcomm-1", ["DIDCommMessaging"], serviceEndpoint);
+
+    const did = await ctx.run(
+      new CreatePeerDID({
+        services: [service],
+        updateMediator: true
+      })
+    );
+
+    invitation.from = did;
+    return invitation;
+  }
+}

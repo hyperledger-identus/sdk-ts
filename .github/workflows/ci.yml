@@ -27,6 +27,9 @@ jobs:
         with:
           node-version: "lts/*"
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -37,41 +40,23 @@ jobs:
         run: |
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
+      - name: Install protoc
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
       - name: Install
-        run: npm install
+        run: yarn 
 
       - name: Eslint
-        run: npx eslint .
+        run: yarn lint
 
       - name: Build
-        run: npm run build
+        run: yarn build
 
       - name: Run coverage test
-        run: npm run coverage
+        run: yarn coverage
 
-      - name: Test integration node-cjs
-        working-directory: integration-tests/node/cjs
-        run: npm i && node test.cjs
-
-      - name: Test integration node-esm
-        working-directory: integration-tests/node/esm
-        run: npm i && node test.mjs
-
-      - name: Test integration ts-cjs
-        working-directory: integration-tests/node/ts-cjs
-        run: npm i && npm run build && npm t
-
-      - name: Test integration ts-esm
-        working-directory: integration-tests/node/ts-esm
-        run: npm i && npm run build && npm t
-
-      - name: Npm audit
-        uses: oke-py/npm-audit-action@v2.4.4
-        with:
-          audit_level: moderate
-          create_issues: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          production_flag: true
+      - name: Yarn audit
+        run: yarn npm audit --environment production --severity moderate
 
       - name: Coveralls
         env:
@@ -80,12 +65,10 @@ jobs:
         with:
           file: "coverage/lcov.info"
 
-      - name: Jest Coverage Comment
+      - name: Coverage Comment
         uses: MishaKav/jest-coverage-comment@v1.0.23
         with:
           coverage-summary-path: coverage/coverage-summary.json
-          junitxml-path: coverage/junit.xml
-          junitxml-title: JUnit
 
       - name: Publish lcov report
         uses: actions/upload-artifact@v4

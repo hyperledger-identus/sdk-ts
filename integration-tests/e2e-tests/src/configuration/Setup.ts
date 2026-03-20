@@ -18,7 +18,7 @@ import assert from "assert"
 
 configDotenv()
 
-type DataByDid = {
+export type DataByDid = {
   did: string
   jwtSchema: {
     guid: string
@@ -30,9 +30,14 @@ type DataByDid = {
   }
 }
 export class Setup {
-  public static agent = {
-    url: process.env.AGENT_URL,
-    apikey: process.env.APIKEY
+  static get agent() {
+    if (!process.env.AGENT_URL) {
+      throw new Error("AGENT_URL is not defined, configure .env file")
+    }
+    return {
+      url: process.env.AGENT_URL,
+      apikey: process.env.APIKEY
+    }
   }
   public static mediator = {
     url: process.env.MEDIATOR_OOB_URL
@@ -123,13 +128,16 @@ export class Setup {
             reject(new Error("[60s] Timeout waiting for the publication"))
         }
         const interval = setInterval(() => {
-          void cloudAgentApi.get(
+          cloudAgentApi.get<{ status: string, did: string }>(
             `did-registrar/dids/${shortFormDid}`
           ).then((didResponse) => {
             if (didResponse.data.status == "PUBLISHED") {
               clearInterval(interval)
               resolve(didResponse.data.did)
             }
+          }).catch((error: Error) => {
+            clearInterval(interval)
+            reject(error)
           })
         }, 1000)
       })
@@ -141,7 +149,9 @@ export class Setup {
       assert(jwtSchemaGuid != null)
       assert(jwtSchemaGuid != "")
       const schemaResponse = await cloudAgentApi.get<CredentialSchemaResponse>(`schema-registry/schemas/${jwtSchemaGuid}`)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       assert(schemaResponse.data.schema.properties["automation-optional"] != null)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       assert(schemaResponse.data.schema.properties["automation-required"] != null)
       return {
         guid: jwtSchemaGuid,
@@ -261,7 +271,7 @@ export class Setup {
         description: "Anoncred Schema for TS"
       }
 
-      const newSchema = await cloudAgentApi.post(
+      const newSchema = await cloudAgentApi.post<{ guid: string }>(
         "schema-registry/schemas",
         credentialSchemaInput
       )

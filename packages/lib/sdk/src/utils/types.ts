@@ -1,0 +1,34 @@
+/**
+ * Constructor for T
+ */
+export interface Ctor<T = unknown> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- constructor args are contravariant
+  new(...args: any[]): T;
+}
+
+/**
+ * no value shorthand
+ */
+export type Nil = undefined | null;
+
+/**
+ * T is either an Array or a single item
+ * 
+ * meant for use with function parameters to pass one or many items
+ * @see asArray
+ */
+export type Arrayable<T> = T | T[];
+
+/**
+ * Construct a Type with a set of string Keys of type T | undefined
+ * To be used in place of Record for arbitrary data structs
+ * where the key does not definitely result in a T
+ */
+export type JsonObj<T = unknown> = Record<string, T | undefined>;
+
+/**
+ * Flatten intersect to show single interface
+ * 
+ * Usage: `type flat = Normalize<A & B>`
+ */
+export type Normalize<T> = T extends object ? { [P in keyof T]: T[P] } : T;

@@ -13,7 +13,7 @@ import {
 } from "@hyperledger/identus-cloud-agent-client"
 import { Setup } from "../configuration/Setup"
 import { Utils } from "../Utils"
-import SDK from "@hyperledger/identus-sdk"
+import * as SDK from "@hyperledger/identus-sdk"
 
 export class CloudAgentWorkflow {
   static async hasNoConnection(cloudAgent: Actor, edgeAgent: Actor) {
@@ -34,20 +34,20 @@ export class CloudAgentWorkflow {
     await cloudAgent.attemptsTo(
       Send.a(PostRequest.to("connections").with(createConnection)),
       Ensure.that(LastResponse.status(), equals(HttpStatusCode.Created)),
-      notes().set("invitation", LastResponse.body().invitation.invitationUrl),
+      notes().set("invitation", LastResponse.body<{ invitation: { invitationUrl: string } }>().invitation.invitationUrl),
       notes().set("connectionId", LastResponse.body().connectionId)
     )
   }
 
   static async shareInvitation(cloudAgent: Actor, edgeAgent: Actor) {
-    const oobInvitation = await cloudAgent.answer(
+    const oobInvitation = await cloudAgent.answer<string>(
       notes().get("invitation")
     )
     await edgeAgent.attemptsTo(notes().set("invitation", oobInvitation))
   }
 
   static async waitForConnectionState(cloudAgent: Actor, state: string) {
-    const connectionId = await cloudAgent.answer(
+    const connectionId = await cloudAgent.answer<string>(
       notes().get("connectionId")
     )
     await cloudAgent.attemptsTo(
@@ -68,7 +68,7 @@ export class CloudAgentWorkflow {
   }
 
   static async verifyPresentProof(cloudAgent: Actor, state: string) {
-    const presentationId = await cloudAgent.answer(
+    const presentationId = await cloudAgent.answer<string>(
       notes().get("presentationId")
     )
     await cloudAgent.attemptsTo(
@@ -178,7 +178,7 @@ export class CloudAgentWorkflow {
     await cloudAgent.attemptsTo(
       Send.a(PostRequest.to("issue-credentials/credential-offers/invitation").with(offer)),
       Ensure.that(LastResponse.status(), equals(HttpStatusCode.Created)),
-      notes().set("invitation", LastResponse.body().invitation.invitationUrl),
+      notes().set("invitation", LastResponse.body<{ invitation: { invitationUrl: string } }>().invitation.invitationUrl),
       notes().set("recordId", LastResponse.body().recordId)
     )
   }
@@ -207,7 +207,7 @@ export class CloudAgentWorkflow {
     await cloudAgent.attemptsTo(
       Send.a(PostRequest.to("present-proof/presentations/invitation").with(presentProofRequest)),
       Ensure.that(LastResponse.status(), equals(HttpStatusCode.Created)),
-      notes().set("invitation", LastResponse.body().invitation.invitationUrl),
+      notes().set("invitation", LastResponse.body<{ invitation: { invitationUrl: string } }>().invitation.invitationUrl),
       notes().set("presentationId", LastResponse.body().presentationId)
     )
   }
@@ -215,7 +215,7 @@ export class CloudAgentWorkflow {
   static async askForPresentProof(cloudAgent: Actor) {
     const did = await cloudAgent.answer<string>(notes().get("did"))
     const schemaUrl = await cloudAgent.answer<string>(notes().get("schema_url"))
-    const connectionId = await cloudAgent.answer(notes().get("connectionId"))
+    const connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
 
     const presentProofRequest: RequestPresentationInput = {
       options: {
@@ -240,7 +240,7 @@ export class CloudAgentWorkflow {
   static async askForSDJWTPresentProof(cloudAgent: Actor) {
     const did = await cloudAgent.answer<string>(notes().get("did"))
     const schemaUrl = await cloudAgent.answer<string>(notes().get("schema_url"))
-    const connectionId = await cloudAgent.answer(notes().get("connectionId"))
+    const connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
 
     const presentProofRequest: RequestPresentationInput = {
       options: {
@@ -306,9 +306,9 @@ export class CloudAgentWorkflow {
   }
 
   static async askForPresentProofAnonCredsWithUnexpectedAttributes(cloudAgent: Actor) {
-    const anoncredGuid = Setup.secp256k1.credDefUrl.guid
+    const anoncredGuid = Setup.secp256k1.did
     const definitionUrl = `${Setup.agent.url}/credential-definition-registry/definitions/${anoncredGuid}/definition`
-    const connectionId = await cloudAgent.answer(notes().get("connectionId"))
+    const connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
 
     const presentationRequest = {
       connectionId: connectionId,
@@ -342,7 +342,7 @@ export class CloudAgentWorkflow {
   static async askForPresentProofAnonCredsWithUnexpectedValues(cloudAgent: Actor) {
     const anoncredGuid = Setup.secp256k1.did
     const definitionUrl = `${Setup.agent.url}/credential-definition-registry/definitions/${anoncredGuid}/definition`
-    const connectionId = await cloudAgent.answer(notes().get("connectionId"))
+    const connectionId = await cloudAgent.answer<string>(notes().get("connectionId"))
 
     const presentationRequest = {
       connectionId: connectionId,
@@ -378,7 +378,7 @@ export class CloudAgentWorkflow {
       Send.a(GetRequest.to(`issue-credentials/records/${recordId}`)),
       Ensure.that(LastResponse.status(), equals(HttpStatusCode.Ok))
     )
-    return await LastResponse.body().answeredBy(cloudAgent)
+    return await LastResponse.body<{ credential: string }>().answeredBy(cloudAgent)
   }
 
   static async getCredentialStatusList(cloudAgent: Actor, recordIdList: string[]): Promise<Map<string, string>> {
@@ -387,28 +387,30 @@ export class CloudAgentWorkflow {
       const credentialResponse = await this.getCredential(cloudAgent, recordId)
       const jwtString = Utils.decodeBase64URL(credentialResponse.credential)
       const decoded = SDK.JWTCredential.fromJWS(jwtString)
-      const credentialStatus = decoded.vc.credentialStatus as any
-      const statusList = credentialStatus.statusListCredential
-      statusRegistry.set(recordId, statusList)
+      const credentialStatus = decoded.vc.credentialStatus
+      if (!credentialStatus?.statusListCredential) {
+        throw new Error("Credential status list not found")
+      }
+      statusRegistry.set(recordId, credentialStatus.statusListCredential)
     }
     return statusRegistry
   }
 
   static async revokeCredential(cloudAgent: Actor, numberOfRevokedCredentials: number) {
-    const revokedRecordIdList = []
-    const recordIdList = await cloudAgent.answer(notes().get("recordIdList"))
+    const revokedRecordIdList: string[] = []
+    const recordIdList = await cloudAgent.answer<string[]>(notes().get("recordIdList"))
     const statusesList = await this.getCredentialStatusList(cloudAgent, recordIdList)
     await Utils.repeat(numberOfRevokedCredentials, async () => {
-      const recordId = recordIdList.shift()!
+      const recordId = recordIdList.shift()
       await cloudAgent.attemptsTo(
         Send.a(GetRequest.to(statusesList.get(recordId))),
-        notes().set("statusListEncoded", LastResponse.body().credentialSubject.encodedList),
+        notes().set("statusListEncoded", LastResponse.body<{ credentialSubject: { encodedList: string } }>().credentialSubject.encodedList),
         Send.a(PatchRequest.to(`credential-status/revoke-credential/${recordId}`)),
         Ensure.that(LastResponse.status(), equals(HttpStatusCode.Ok)),
         Wait.upTo(Duration.ofSeconds(60)).until(
           Questions.httpGet(statusesList.get(recordId)),
           Expectations.propertyIsMetFor("credentialSubject.encodedList", async (property) => {
-            return property != await cloudAgent.answer(notes().get("statusListEncoded"))
+            return property != await cloudAgent.answer<string>(notes().get("statusListEncoded"))
           })
         )
       )

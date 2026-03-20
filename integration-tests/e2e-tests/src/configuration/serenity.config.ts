@@ -9,7 +9,7 @@ BeforeAll(function () {
   configure({
     crew: [
       ["@serenity-js/console-reporter", { theme: "auto" }],
-      [ "@serenity-js/core:ArtifactArchiver", { outputDirectory: resolve(__dirname, "../../target/site/serenity") } ],
+      ["@serenity-js/core:ArtifactArchiver", { outputDirectory: resolve(__dirname, "../../target/site/serenity") }],
       ["@serenity-js/serenity-bdd", {
         reporter: {
           specDirectory: resolve(__dirname),

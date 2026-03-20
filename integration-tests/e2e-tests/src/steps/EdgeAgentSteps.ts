@@ -3,16 +3,16 @@ import { type Actor, notes } from "@serenity-js/core"
 import { EdgeAgentWorkflow } from "../workflow/EdgeAgentWorkflow"
 import { CloudAgentWorkflow } from "../workflow/CloudAgentWorkflow"
 import { Utils } from "../Utils"
-import SDK from "@hyperledger/identus-sdk"
+import * as SDK from "@hyperledger/identus-sdk"
 
 Given("{actor} has '{int}' jwt credentials issued by {actor}",
   async function (edgeAgent: Actor, numberOfIssuedCredentials: number, cloudAgent: Actor) {
-    const recordIdList = []
+    const recordIdList: string[] = []
     await Utils.repeat(numberOfIssuedCredentials, async () => {
       await CloudAgentWorkflow.offerJwtCredential(cloudAgent)
       await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, 1)
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
-      const recordId = await cloudAgent.answer(notes().get("recordId"))
+      const recordId = await cloudAgent.answer<string>(notes().get("recordId"))
       recordIdList.push(recordId)
       await CloudAgentWorkflow.verifyCredentialState(cloudAgent, recordId, "CredentialSent")
       await EdgeAgentWorkflow.waitToReceiveCredentialIssuance(edgeAgent, 1)
@@ -23,12 +23,12 @@ Given("{actor} has '{int}' jwt credentials issued by {actor}",
 
 Given("{actor} has '{int}' sd+jwt credentials issued by {actor}",
   async function (edgeAgent: Actor, numberOfIssuedCredentials: number, cloudAgent: Actor) {
-    const recordIdList = []
+    const recordIdList: string[] = []
     await Utils.repeat(numberOfIssuedCredentials, async () => {
       await CloudAgentWorkflow.offerSDJWTCredential(cloudAgent)
       await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, 1)
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
-      const recordId = await cloudAgent.answer(notes().get("recordId"))
+      const recordId = await cloudAgent.answer<string>(notes().get("recordId"))
       recordIdList.push(recordId)
       await CloudAgentWorkflow.verifyCredentialState(cloudAgent, recordId, "CredentialSent")
       await EdgeAgentWorkflow.waitToReceiveCredentialIssuance(edgeAgent, 1)
@@ -39,12 +39,12 @@ Given("{actor} has '{int}' sd+jwt credentials issued by {actor}",
 
 Given("{actor} has '{int}' anonymous credentials issued by {actor}",
   async function (edgeAgent: Actor, numberOfIssuedCredentials: number, cloudAgent: Actor) {
-    const recordIdList = []
+    const recordIdList: string[] = []
     await Utils.repeat(numberOfIssuedCredentials, async () => {
       await CloudAgentWorkflow.offerAnonymousCredential(cloudAgent)
       await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, 1)
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
-      const recordId = await cloudAgent.answer(notes().get("recordId"))
+      const recordId = await cloudAgent.answer<string>(notes().get("recordId"))
       recordIdList.push(recordId)
       await CloudAgentWorkflow.verifyCredentialState(cloudAgent, recordId, "CredentialSent")
       await EdgeAgentWorkflow.waitToReceiveCredentialIssuance(edgeAgent, 1)
@@ -56,7 +56,7 @@ Given("{actor} has '{int}' anonymous credentials issued by {actor}",
 
 Given("{actor} has '{int}' connectionless jwt credentials issued by {actor}",
   async function (edgeAgent: Actor, numberOfIssuedCredentials: number, cloudAgent: Actor) {
-    const recordIdList = []
+    const recordIdList: string[] = []
     await Utils.repeat(numberOfIssuedCredentials, async () => {
       await CloudAgentWorkflow.createJwtConnectionlessCredentialOfferInvitation(cloudAgent)
       await CloudAgentWorkflow.shareInvitation(cloudAgent, edgeAgent)
@@ -95,7 +95,7 @@ When("{actor} accepts {int} sd+jwt credential offer sequentially from {actor}",
       await CloudAgentWorkflow.offerSDJWTCredential(cloudAgent)
       await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, 1)
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
-      const recordId = await cloudAgent.answer(notes().get("recordId"))
+      const recordId = await cloudAgent.answer<string>(notes().get("recordId"))
       await CloudAgentWorkflow.verifyCredentialState(cloudAgent, recordId, "CredentialSent")
       recordIdList.push(recordId)
     })
@@ -110,7 +110,7 @@ When("{actor} accepts {int} jwt credential offer sequentially from {actor}",
       await CloudAgentWorkflow.offerJwtCredential(cloudAgent)
       await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, 1)
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
-      const recordId = await cloudAgent.answer(notes().get("recordId"))
+      const recordId = await cloudAgent.answer<string>(notes().get("recordId"))
       await CloudAgentWorkflow.verifyCredentialState(cloudAgent, recordId, "CredentialSent")
       recordIdList.push(recordId)
     })
@@ -123,7 +123,7 @@ When("{actor} accepts {int} jwt credentials offer at once from {actor}",
     const recordIdList: string[] = []
     await Utils.repeat(numberOfCredentials, async () => {
       await CloudAgentWorkflow.offerJwtCredential(cloudAgent)
-      const recordId = await cloudAgent.answer(notes().get("recordId"))
+      const recordId = await cloudAgent.answer<string>(notes().get("recordId"))
       recordIdList.push(recordId)
     })
     await cloudAgent.attemptsTo(notes().set("recordIdList", recordIdList))
@@ -141,7 +141,7 @@ When("{actor} accepts {int} sd+jwt credentials offer at once from {actor}",
     const recordIdList: string[] = []
     await Utils.repeat(numberOfCredentials, async () => {
       await CloudAgentWorkflow.offerSDJWTCredential(cloudAgent)
-      const recordId = await cloudAgent.answer(notes().get("recordId"))
+      const recordId = await cloudAgent.answer<string>(notes().get("recordId"))
       recordIdList.push(recordId)
     })
     await cloudAgent.attemptsTo(notes().set("recordIdList", recordIdList))
@@ -163,7 +163,7 @@ When("{actor} connects through the invite",
 
 When("{actor} accepts the credentials offer from {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
-    const recordIdList = await cloudAgent.answer(notes().get("recordIdList"))
+    const recordIdList = await cloudAgent.answer<string[]>(notes().get("recordIdList"))
     await Utils.repeat(recordIdList.length, async () => {
       await EdgeAgentWorkflow.acceptCredential(edgeAgent)
     })
@@ -179,21 +179,21 @@ When("{actor} sends the present-proof",
 
 Then("{actor} should receive the credentials offer from {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
-    const recordIdList = await cloudAgent.answer(notes().get("recordIdList"))
+    const recordIdList = await cloudAgent.answer<string[]>(notes().get("recordIdList"))
     await EdgeAgentWorkflow.waitForCredentialOffer(edgeAgent, recordIdList.length)
   }
 )
 
 Then("{actor} waits to receive the revocation notifications from {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
-    const revokedRecordIdList = await cloudAgent.answer(notes().get("revokedRecordIdList"))
+    const revokedRecordIdList = await cloudAgent.answer<string[]>(notes().get("revokedRecordIdList"))
     await EdgeAgentWorkflow.waitForCredentialRevocationMessage(edgeAgent, revokedRecordIdList.length)
   }
 )
 
 Then("{actor} should see the credentials were revoked by {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
-    const revokedRecordIdList = await cloudAgent.answer(notes().get("revokedRecordIdList"))
+    const revokedRecordIdList = await cloudAgent.answer<string[]>(notes().get("revokedRecordIdList"))
     await EdgeAgentWorkflow.waitUntilCredentialIsRevoked(edgeAgent, revokedRecordIdList)
   }
 )
@@ -209,7 +209,7 @@ Then("{actor} process issued credentials from {actor}",
 
 Then("{actor} wait to receive issued credentials from {actor}",
   async function (edgeAgent: Actor, cloudAgent: Actor) {
-    const recordIdList = await cloudAgent.answer(notes().get("recordIdList"))
+    const recordIdList = await cloudAgent.answer<string[]>(notes().get("recordIdList"))
     await EdgeAgentWorkflow.waitToReceiveCredentialIssuance(edgeAgent, recordIdList.length)
   }
 )
@@ -247,7 +247,7 @@ Then("{actor} is dismissed",
 Then("{actor} will request {actor} to verify the anonymous credential",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
-    const holderDID = await holderEdgeAgent.answer(notes().get("lastPeerDID"))
+    const holderDID = await holderEdgeAgent.answer<SDK.Domain.DID>(notes().get("lastPeerDID"))
     const claims = {
       attributes: {
         name: {
@@ -264,7 +264,7 @@ Then("{actor} will request {actor} to verify the anonymous credential",
 Then("{actor} will request {actor} to verify the JWT credential",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
-    const holderDID = await holderEdgeAgent.answer(notes().get("lastPeerDID"))
+    const holderDID = await holderEdgeAgent.answer<SDK.Domain.DID>(notes().get("lastPeerDID"))
     const claims = {
       claims: {
         "automation-required": {
@@ -281,7 +281,7 @@ Then("{actor} will request {actor} to verify the JWT credential",
 Then("{actor} will request {actor} to verify the SD+JWT credential",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
-    const holderDID = await holderEdgeAgent.answer(notes().get("lastPeerDID"))
+    const holderDID = await holderEdgeAgent.answer<SDK.Domain.DID>(notes().get("lastPeerDID"))
     const claims = {
       claims: {
         "automation-required": {
@@ -297,7 +297,7 @@ Then("{actor} will request {actor} to verify the SD+JWT credential",
 Then("{actor} will request {actor} to verify the SD+JWT credential with non-existing claims",
   async function (verifierEdgeAgent: Actor, holderEdgeAgent: Actor) {
     await EdgeAgentWorkflow.createPeerDids(holderEdgeAgent, 1)
-    const holderDID = await holderEdgeAgent.answer(notes().get("lastPeerDID"))
+    const holderDID = await holderEdgeAgent.answer<SDK.Domain.DID>(notes().get("lastPeerDID"))
     const claims = {
       claims: {
         doesNotExist: {

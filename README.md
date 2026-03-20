@@ -1,12 +1,20 @@
-# Identus TypeScript SDK
-
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/gh/hyperledger/identus@latest/resources/images/hyperledger-identus.svg" />
+    <a href="https://www.lfdecentralizedtrust.org/projects/identus">
+        <img src="https://raw.githubusercontent.com/hyperledger-identus/docs/refs/heads/main/static/img/graphics/identus-hero.svg" alt="identus-logo" height="99px" />
+    </a>
 </p>
 
+[![Checks](https://img.shields.io/github/actions/workflow/status/hyperledger-identus/sdk-ts/ci.yml?branch=main&label=checks)](https://github.com/hyperledger-identus/sdk-ts/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/hyperledger-identus/sdk-ts/badge.svg?branch=main)](https://coveralls.io/github/hyperledger-identus/sdk-ts?branch=main)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=hyperledger-identus_sdk-ts&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=hyperledger-identus_sdk-ts)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11733/badge)](https://www.bestpractices.dev/projects/11733)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/hyperledger-identus/sdk-ts/badge)](https://scorecard.dev/viewer/?uri=github.com/hyperledger-identus/sdk-ts)
 
----
+[![GitHub release](https://img.shields.io/github/release/hyperledger-identus/sdk-ts.svg)](https://github.com/hyperledger-identus/sdk-ts/releases)
+[![NPM Downloads](https://img.shields.io/npm/d18m/%40hyperledger%2Fidentus-sdk)](https://www.npmjs.com/package/@hyperledger/identus-sdk)
+[![Discord](https://img.shields.io/discord/905194001349627914?label=discord)](https://discord.com/channels/905194001349627914/1230596020790886490)
+
+# Identus TypeScript SDK
 
 Identus is a self-sovereign identity (SSI) platform and service suite for
 verifiable data and digital identity. Built on Cardano, as a distributed ledger, 

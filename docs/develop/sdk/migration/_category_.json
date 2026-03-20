@@ -1,0 +1,10 @@
+{
+  "label": "Migration guides",
+  "position": 2,
+  "collapsed": true,
+  "collapsible": true,
+  "link": {
+    "type": "generated-index",
+    "title": "TS SDK"
+  }
+}

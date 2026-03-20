@@ -24,6 +24,9 @@ jobs:
           node-version: 22
           registry-url: "https://registry.npmjs.org/"
 
+      - name: Enable Corepack
+        run: corepack enable
+
       # Ensure npm version >= 11.5.1 (lowest supporting trusted publishing)
       - name: Upgrade npm
         run: npm install -g npm@^11.5.1
@@ -37,6 +40,9 @@ jobs:
       - name: Install wasm-pack
         run: |
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Install protoc
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
 
       - uses: crazy-max/ghaction-import-gpg@v5
         id: import_gpg
@@ -57,6 +63,6 @@ jobs:
           GIT_COMMITTER_NAME: ${{ steps.import_gpg.outputs.name }}
         run: |
           echo "Using npm version: $(npm -v)"
-          npm ci 
+          yarn install
           npm audit signatures
           npx semantic-release

@@ -6,11 +6,13 @@ node_modules
 .pnp.js
 generated
 # testing
-/coverage
+coverage
 .nyc_output
 .yarn/
 .yarn
-
+/.nx
+/.nx/*
+.nx
 # misc
 .DS_Store
 .env.local

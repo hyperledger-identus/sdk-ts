@@ -52,7 +52,7 @@ export default MyApp;
 **Example Publishing Component:**
 ```typescript
 import React, { useState, useCallback } from "react";
-import SDK from "@hyperledger/identus-sdk";
+import * as SDK from "@hyperledger/identus-sdk";
 import { useWallet, CardWallet } from "@meshsdk/react";
 import { Transaction } from "@meshsdk/core";
 
@@ -120,7 +120,7 @@ export function PublishDidComponent() {
                 seed: Buffer.from(apollo.createRandomSeed().seed.value).toString("hex"),
             });
             
-            const services: SDK.Domain.Service[] = []; // Add any services if needed
+            const services: SDK.Domain.DIDDocument.Service[] = []; // Add any services if needed
             const newDid = await castor.createPrismDID(masterPrivateKey, services);
             setDid(newDid);
 

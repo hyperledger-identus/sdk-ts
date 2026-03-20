@@ -1,11 +1,12 @@
-import SDK from "@hyperledger/identus-sdk"
+import * as SDK from "@hyperledger/identus-sdk"
+import type { DIDDocument, JWK } from "@hyperledger/identus-domain"
 import { cloudAgentApi } from "../configuration/Setup"
-import { type DIDDocument, type DIDResolutionResult } from "@hyperledger/identus-cloud-agent-client"
+import { type DIDDocument as CloudDIDDocument, type DIDResolutionResult } from "@hyperledger/identus-cloud-agent-client"
 
 export class PrismShortFormDIDResolver implements SDK.Domain.DIDResolver {
   method: string = "prism"
 
-  async resolve(didString: string): Promise<SDK.Domain.DIDDocument> {
+  async resolve(didString: string): Promise<DIDDocument> {
     const response = await cloudAgentApi.get<DIDResolutionResult>(`dids/${didString}`, {
       headers: {
         Accept: "*/*"
@@ -15,7 +16,7 @@ export class PrismShortFormDIDResolver implements SDK.Domain.DIDResolver {
       throw new Error("Failed to fetch data")
     }
     const data = response.data
-    const didDocument: DIDDocument = data.didDocument
+    const didDocument: CloudDIDDocument = data.didDocument
 
     const servicesProperty = new SDK.Domain.DIDDocument.Services(
       didDocument.service.map((service) => {
@@ -23,7 +24,7 @@ export class PrismShortFormDIDResolver implements SDK.Domain.DIDResolver {
           service.id,
           service.type,
           new SDK.Domain.DIDDocument.ServiceEndpoint(
-            service.serviceEndpoint as any
+            service.serviceEndpoint as string
           )
         )
       })
@@ -34,14 +35,14 @@ export class PrismShortFormDIDResolver implements SDK.Domain.DIDResolver {
         return new SDK.Domain.DIDDocument.VerificationMethod(
           verificationMethod.id,
           verificationMethod.controller,
-          verificationMethod.type as any,
-          verificationMethod.publicKeyJwk as any
+          verificationMethod.type as DIDDocument.VerificationMethod.Type,
+          verificationMethod.publicKeyJwk as unknown as JWK
         )
       })
     )
 
-    const authenticate: SDK.Domain.DIDDocument.Authentication[] = []
-    const assertion: SDK.Domain.DIDDocument.AssertionMethod[] = []
+    const authenticate: DIDDocument.Authentication[] = []
+    const assertion: DIDDocument.AssertionMethod[] = []
 
     for (const verificationMethod of didDocument.verificationMethod) {
       const isAssertion = didDocument.assertionMethod.find((method) => method === verificationMethod.id)
@@ -64,7 +65,7 @@ export class PrismShortFormDIDResolver implements SDK.Domain.DIDResolver {
       }
     }
 
-    const coreProperties: SDK.Domain.DIDDocument.CoreProperty[] = []
+    const coreProperties: DIDDocument.CoreProperty[] = []
     coreProperties.push(...authenticate)
     coreProperties.push(...assertion)
     coreProperties.push(servicesProperty)
