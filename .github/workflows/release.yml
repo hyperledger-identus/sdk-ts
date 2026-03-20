@@ -53,16 +53,32 @@ jobs:
           git_commit_gpgsign: true
           git_config_global: true
           git_tag_gpgsign: false
-      - name: Release
+
+      - name: Build and version
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GIT_AUTHOR_EMAIL: ${{ steps.import_gpg.outputs.email }}
           GIT_COMMITTER_EMAIL: ${{ steps.import_gpg.outputs.email }}
           GIT_AUTHOR_NAME: ${{ steps.import_gpg.outputs.name }}
           GIT_COMMITTER_NAME: ${{ steps.import_gpg.outputs.name }}
+          NPM_CONFIG_PROVENANCE: true
         run: |
           echo "Using npm version: $(npm -v)"
           yarn install
           npm audit signatures
-          npx semantic-release
+          yarn build
+
+          if [[ "$GITHUB_REF" == *"refs/heads/beta"* ]]; then
+            npx nx release version --preid rc
+          else
+            npx nx release version
+          fi
+          
+          if [[ $GITHUB_REF == *"refs/heads/beta"* ]]; then
+            echo "Publishing with RC tag for beta branch"
+            npx nx release publish --tag rc
+          else
+            echo "Publishing without RC tag for main branch"
+            npx nx release publish
+          fi
+          

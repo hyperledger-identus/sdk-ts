@@ -1,7 +1,10 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "sharedGlobals": [],
     "production": [
       "default",
@@ -11,18 +14,57 @@
       "!{projectRoot}/jest.config.[jt]s"
     ]
   },
+  "release": {
+    "releaseTagPattern": "{projectName}@{version}",
+    "projectsRelationship": "independent",
+    "versionPlans": false,
+    "version": {
+      "preVersionCommand": "sh release.sh",
+      "conventionalCommits": true,
+      "preserveLocalDependencyProtocols": true,
+      "fallbackCurrentVersionResolver": "disk"
+    },
+    "changelog": {
+      "workspaceChangelog": {
+        "createRelease": "github"
+      },
+      "git": {
+        "commit": true,
+        "commitMessage": "chore(release): {version} [skip ci]"
+      },
+      "projectChangelogs": {
+        "createRelease": "github"
+      },
+      "github": {
+        "repo": "hyperledger-identus/sdk-ts"
+      }
+    },
+    "projects": [
+      "packages/**/*"
+    ]
+  },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"],
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ],
       "cache": true
     },
     "test": {
-      "inputs": ["default", "^production"],
+      "inputs": [
+        "default",
+        "^production"
+      ],
       "cache": true
     },
     "lint": {
-      "inputs": ["default"],
+      "inputs": [
+        "default"
+      ],
       "cache": true
     }
   }
