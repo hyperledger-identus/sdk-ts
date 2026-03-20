@@ -1857,7 +1857,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hyperledger/identus-anoncreds@workspace:packages/wasm/anoncreds"
   dependencies:
-    "@hyperledger/identus-domain": "npm:*"
+    "@hyperledger/identus-domain": "workspace:*"
   languageName: unknown
   linkType: soft
 
@@ -1892,11 +1892,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hyperledger/identus-didcomm@workspace:packages/wasm/didcomm"
   dependencies:
-    "@hyperledger/identus-domain": "npm:*"
+    "@hyperledger/identus-domain": "workspace:*"
   languageName: unknown
   linkType: soft
 
-"@hyperledger/identus-domain@npm:*, @hyperledger/identus-domain@workspace:packages/shared/domain":
+"@hyperledger/identus-domain@workspace:*, @hyperledger/identus-domain@workspace:packages/shared/domain":
   version: 0.0.0-use.local
   resolution: "@hyperledger/identus-domain@workspace:packages/shared/domain"
   languageName: unknown
