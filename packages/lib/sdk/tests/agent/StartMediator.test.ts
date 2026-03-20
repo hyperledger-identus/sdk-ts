@@ -1,11 +1,12 @@
-import { vi, describe, expect, test, beforeEach, afterEach } from 'vitest';
+import { vi, describe, expect, test, beforeEach } from 'vitest';
 import * as Domain from '@hyperledger/identus-domain';
 import { Task } from '../../src/utils';
-import { Apollo, ConnectionsManager, Mercury, ProtocolType } from '../../src';
-import { StartMediator } from '../../src/edge-agent/didcomm/StartMediator';
+import { Apollo, ConnectionsManager, CreatePeerDID, ProtocolType } from '../../src';
+
+import { StartMediator } from '../../src/plugins/internal/didcomm';
+
 import * as Fixtures from "../fixtures";
 import { mockTask } from '../testFns';
-import { CreatePeerDID } from '../../src/edge-agent/didcomm/CreatePeerDID';
 import { Connection } from '../../src/edge-agent/connections';
 import { PluginManager } from '../../src/plugins';
 import * as DIDComm from "../../src/plugins/internal/didcomm";

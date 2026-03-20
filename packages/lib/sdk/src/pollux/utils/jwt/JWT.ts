@@ -3,8 +3,8 @@ import * as Domain from "@hyperledger/identus-domain";
 import { JWTCredential } from "../../models/JWTVerifiableCredential";
 import { Task, isNil } from "../../../utils";
 import { CreateJWT } from "./CreateJwt";
-import { PKInstance } from "./PKInstance";
 import { ResolveDID } from "./ResolveDID";
+import { PKInstance } from "../../../edge-agent/didFunctions/PKInstance";
 
 
 export class JWT extends Task.Runner {

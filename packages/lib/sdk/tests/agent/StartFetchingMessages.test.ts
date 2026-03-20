@@ -1,7 +1,7 @@
 import { vi, describe, expect, test, beforeEach, afterEach, Mock } from 'vitest';
 import * as Domain from '@hyperledger/identus-domain';
 import { Task } from '../../src/utils';
-import { StartFetchingMessages } from '../../src/edge-agent/didcomm/StartFetchingMessages';
+import { StartFetchingMessages } from '../../src/plugins/internal/didcomm';
 import { JobManager } from '../../src/edge-agent/connections/JobManager';
 import { CancellableTask } from '../../src/edge-agent/helpers/Task';
 import { ConnectionsManager } from '../../src/edge-agent/connections';

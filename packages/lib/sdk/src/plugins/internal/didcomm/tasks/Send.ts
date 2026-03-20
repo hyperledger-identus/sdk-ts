@@ -1,9 +1,9 @@
 import * as Domain from "@hyperledger/identus-domain";
-import { expect, notNil } from "../../utils";
-import { Task } from "../../utils/tasks";
-import { type AgentContext } from "../Context";
-import { type Connection } from "../connections";
-import { DIDCommConnection } from "../../plugins/internal/didcomm";
+import { expect, notNil } from "../../../../utils";
+import { Task } from "../../../../utils/tasks";
+import { type AgentContext } from "../../../../edge-agent/Context";
+import { type Connection } from "../../../../edge-agent/connections";
+import { DIDCommConnection } from "../../../../plugins/internal/didcomm";
 
 /**
  * attempt to deliver a Message across a Connection
@@ -12,7 +12,7 @@ import { DIDCommConnection } from "../../plugins/internal/didcomm";
  * in ctx.Connections
  */
 
-interface Args {
+export interface Args {
   /**
    * Message to be delivered
    */

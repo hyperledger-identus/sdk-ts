@@ -3,7 +3,7 @@ import { asArray, isNil, notNil, Task } from "../../../../utils";
 import { type OutOfBandInvitation } from "../protocols/invitation/OutOfBandInvitation";
 import { HandshakeRequest } from "../../oea/protocols/HandshakeRequest";
 import { type Plugins } from "../../../types";
-import { CreatePeerDID } from "../../../../edge-agent/didcomm/CreatePeerDID";
+import { CreatePeerDID } from "../../../../edge-agent/didFunctions";
 import { DIDCommConnection } from "../connection/DIDCommConnection";
 import { ListenerKey } from "../../../../edge-agent/types";
 import { Connection } from "../../../../edge-agent/connections";

@@ -10,7 +10,7 @@ import { type AgentContext } from "../Context";
  * @returns number
  */
 
-interface Args {
+export interface Args {
   index?: number;
 }
 

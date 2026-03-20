@@ -1,13 +1,13 @@
 import * as Domain from "@hyperledger/identus-domain";
 import { Task } from "../../utils/tasks";
-import { type AgentContext } from "../Context";
-import { Send } from "./Send";
+import { type AgentContext } from "../../edge-agent/Context";
+import { Send } from "../../plugins/internal/didcomm";
 import { MediationKeysUpdateList } from "../../plugins/internal/didcomm/protocols/mediation/MediationKeysUpdateList";
 
 /**
  * Arguments for creating a new peer DID
  */
-interface Args {
+export interface Args {
   /** Array of services to include in the DID document */
   services: Domain.DIDDocument.Service[];
   /** Whether to update the mediator with the new DID's key list */

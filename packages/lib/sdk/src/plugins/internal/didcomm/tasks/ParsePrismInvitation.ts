@@ -1,16 +1,16 @@
 import * as Domain from "@hyperledger/identus-domain";
-import { type JsonObj, asJsonObj, expect } from "../../utils";
-import { Task } from "../../utils/tasks";
+import { type JsonObj, asJsonObj, expect } from "../../../../utils";
+import { Task } from "../../../../utils/tasks";
 import { AgentError } from "@hyperledger/identus-domain";
-import { CreatePeerDID } from "./CreatePeerDID";
-import { type AgentContext } from "../Context";
-import { PrismOnboardingInvitation } from "../../plugins/internal/didcomm/protocols/invitation/PrismOnboardingInvitation";
+import { CreatePeerDID } from "../../../../edge-agent/didFunctions";
+import { type AgentContext } from "../../../../edge-agent/Context";
+import { PrismOnboardingInvitation } from "../../../../plugins/internal/didcomm/protocols/invitation/PrismOnboardingInvitation";
 
 /**
  * parse a prismOnboarding invitation
  */
 
-interface Args {
+export interface Args {
   value: string | JsonObj;
 }
 

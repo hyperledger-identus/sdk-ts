@@ -4,11 +4,11 @@ import { Task } from "../../../../utils/tasks";
 import type { Context as ACContext } from "../../anoncreds/plugin";
 import type { Context as DIFContext } from "../../dif";
 import type { Plugins } from "../../../types";
-import { CreatePeerDID } from "../../../../edge-agent/didcomm/CreatePeerDID";
+import { CreatePeerDID } from "../../../../edge-agent/didFunctions";
 import { RequestPresentation } from "../protocols/RequestPresentation";
 import { type PresentationClaims } from "../types";
 
-export type TaskContext = Plugins.Context & ACContext & DIFContext;
+export type CreatePresentationRequestTaskContext = Plugins.Context & ACContext & DIFContext;
 
 export interface Args {
   type: Domain.CredentialType;
@@ -17,7 +17,7 @@ export interface Args {
 }
 
 export class CreatePresentationRequest extends Task<RequestPresentation, Args> {
-  async run(ctx: TaskContext) {
+  async run(ctx: CreatePresentationRequestTaskContext) {
     const { claims, toDID, type } = this.args;
     const didDocument = await ctx.Castor.resolveDID(toDID.toString());
     const peerDIDTask = new CreatePeerDID({ services: didDocument.services, updateMediator: true });

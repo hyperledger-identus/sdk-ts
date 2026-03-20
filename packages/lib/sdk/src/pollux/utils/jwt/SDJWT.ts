@@ -8,8 +8,8 @@ import type * as Domain from '@hyperledger/identus-domain';
 import { SDJWTCredential } from '../../models/SDJWTVerifiableCredential';
 import { Task, notNil } from "../../../utils";
 import { ResolveDID } from "./ResolveDID";
-import { PKInstance } from "./PKInstance";
 import { CreateSDJWT } from "./CreateSDJWT";
+import { PKInstance } from "../../../edge-agent/didFunctions/PKInstance";
 
 export const defaultHashConfig = {
   hasherAlg: 'SHA256',

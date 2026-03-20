@@ -1,9 +1,9 @@
 
 import { uuid } from "@stablelib/uuid";
 import * as Domain from "@hyperledger/identus-domain";
-import { Task } from "../../utils/tasks";
-import { OfferCredential, OutOfBandInvitation } from "../../plugins/internal/didcomm";
-import { type AgentContext } from "../Context";
+import { Task } from "../../../../utils/tasks";
+import { OfferCredential, OutOfBandInvitation } from "../../../../plugins/internal/didcomm";
+import { type AgentContext } from "../../../../edge-agent/Context";
 
 /**
  * Arguments for creating an out-of-band (OOB) offer invitation

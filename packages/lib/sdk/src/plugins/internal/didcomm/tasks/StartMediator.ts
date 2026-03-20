@@ -1,11 +1,11 @@
 import * as Domain from "@hyperledger/identus-domain";
-import { CreatePeerDID } from "./CreatePeerDID";
-import { type AgentContext } from "../Context";
-import { Task } from "../../utils/tasks";
-import { expect } from "../../utils";
-import { Connection } from "../connections";
-import { MediatorConnection } from "../../plugins/internal/didcomm";
-import { MediationRequest } from "../../plugins/internal/didcomm/protocols/mediation/MediationRequest";
+import { CreatePeerDID } from "../../../../edge-agent/didFunctions";
+import { type AgentContext } from "../../../../edge-agent/Context";
+import { Task } from "../../../../utils/tasks";
+import { expect } from "../../../../utils";
+import { Connection } from "../../../../edge-agent/connections";
+import { MediatorConnection } from "../connection/MediatorConnection";
+import { MediationRequest } from "../protocols/mediation/MediationRequest";
 
 /**
  * Handle existing mediator logic
@@ -15,7 +15,7 @@ import { MediationRequest } from "../../plugins/internal/didcomm/protocols/media
  * currently hard limits to a single mediator
  */
 
-interface Args {
+export interface Args {
   mediatorDID: Domain.DID;
 }
 

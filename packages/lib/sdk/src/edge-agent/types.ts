@@ -7,8 +7,6 @@ import {
   type ExportableKey,
   type Backup,
 } from "@hyperledger/identus-domain";
-import { type PrismOnboardingInvitation } from "../plugins/internal/didcomm/protocols/invitation/PrismOnboardingInvitation";
-import { type OutOfBandInvitation } from "../plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation";
 
 import { OEA } from "../plugins/internal/oea/types";
 import { ProtocolIds } from "../plugins/internal/didcomm/types";
@@ -56,7 +54,6 @@ export type AgentOptions = {
   resolverEndpoint?: string;
 };
 
-export type InvitationType = PrismOnboardingInvitation | OutOfBandInvitation;
 export type MessageEventArg = Message[];
 export type ConnectionEventArg = DIDPair;
 export type RevokeEventArg = Credential;

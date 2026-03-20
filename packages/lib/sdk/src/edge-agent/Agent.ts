@@ -4,28 +4,26 @@ import { DIDCommWrapper } from "@hyperledger/identus-didcomm";
 import {
   type AgentOptions,
   type EventCallback,
-  type InvitationType,
   type ListenerKey,
 } from "./types";
 
 import { AgentBackup } from "./Agent.Backup";
 import { ConnectionsManager } from "./connections/ConnectionsManager";
-import { CreatePeerDID } from "./didcomm/CreatePeerDID";
+
+import { ParsePrismInvitation, ParseInvitation, Send, StartMediator, StartFetchingMessages } from '../plugins/internal/didcomm';
+import { type InvitationType } from '../plugins/internal/didcomm/tasks/ParseInvitation';
+
 import { Apollo } from "../apollo";
 import { Castor } from "../castor";
 import * as DIDfns from "./didFunctions";
 import { type Task } from "../utils/tasks";
 import { FetchApi } from "./helpers/FetchApi";
-import { ParsePrismInvitation } from "./didcomm/ParsePrismInvitation";
-import { ParseInvitation } from "./didcomm/ParseInvitation";
+
 import { RevealCredentialFields } from "./helpers/RevealCredentialFields";
 import { RunProtocol } from "./helpers/RunProtocol";
 import { PluginManager } from "../plugins";
 import { EventsManager } from "./Agent.MessageEvents";
 import { JobManager } from "./connections/JobManager";
-import { Send } from "./didcomm/Send";
-import { StartMediator } from "./didcomm/StartMediator";
-import { StartFetchingMessages } from "./didcomm/StartFetchingMessages";
 import { AgentContext } from "./Context";
 import { JWT, SDJWT } from "../pollux/utils/jwt";
 import OEAPlugin, { type PresentationClaims } from "../plugins/internal/oea";
@@ -38,6 +36,7 @@ import { type Presentation } from "../plugins/internal/oea/protocols/Presentatio
 
 import * as DIDComm from "../plugins/internal/didcomm";
 import { HandleOOBInvitation } from "../plugins/internal/didcomm/tasks/HandleOOBInvitation";
+import { CreatePeerDID } from "./didFunctions";
 
 /**
  * Edge agent implementation

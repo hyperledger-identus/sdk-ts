@@ -1,19 +1,24 @@
 import { base64 } from "multiformats/bases/base64";
 import * as Domain from "@hyperledger/identus-domain";
-import { type JsonObj, asJsonObj, expect, isObject, isString } from "../../utils";
-import { Task } from "../../utils/tasks";
+import { type JsonObj, asJsonObj, expect, isObject, isString } from "../../../../utils";
+import { Task } from "../../../../utils/tasks";
 import { ParsePrismInvitation } from "./ParsePrismInvitation";
 import { AgentError } from "@hyperledger/identus-domain";
 import { ParseOOBInvitation } from "./ParseOOBInvitation";
-import { type InvitationType } from "../types";
-import { type AgentContext } from "../Context";
-import { OEA } from "../../plugins/internal/oea/types";
-import { ProtocolIds } from "../../plugins/internal/didcomm/types";
+import { type AgentContext } from "../../../../edge-agent/Context";
+import { OEA } from "../../../../plugins/internal/oea/types";
+import { ProtocolIds } from "../../../../plugins/internal/didcomm/types";
+import { type PrismOnboardingInvitation } from "../protocols/invitation/PrismOnboardingInvitation";
+import { type OutOfBandInvitation } from "../protocols/invitation/OutOfBandInvitation";
+
+
+export type InvitationType = PrismOnboardingInvitation | OutOfBandInvitation;
+
 
 /**
  * Arguments for parsing an invitation
  */
-interface Args {
+export interface Args {
   /** The invitation value to parse - can be a string, URL, or JSON object */
   value: string | URL | JsonObj;
 }

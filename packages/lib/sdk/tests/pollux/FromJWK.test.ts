@@ -1,7 +1,7 @@
 import { describe, expect, beforeEach, it } from 'vitest';
 import { Apollo, Castor, Domain, Secp256k1PrivateKey, Secp256k1PublicKey } from "../../src";
 import { Task } from '../../src/utils';
-import { FromJWK } from '../../src/pollux/utils/jwt/FromJWK';
+import { FromJWK } from '../../src/edge-agent/didFunctions/FromJWK';
 import { ApolloError, Curve, JWK, PolluxError, PrivateKey, PublicKey } from '@hyperledger/identus-domain';
 
 describe("Pollux - JWT FromJWK", async () => {

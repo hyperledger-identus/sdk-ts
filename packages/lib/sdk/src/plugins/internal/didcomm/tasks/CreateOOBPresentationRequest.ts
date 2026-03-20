@@ -1,10 +1,10 @@
 
 import { uuid } from "@stablelib/uuid";
 import * as Domain from "@hyperledger/identus-domain";
-import { Task } from "../../utils/tasks";
-import { OutOfBandInvitation } from "../../plugins/internal/didcomm";
-import { type AgentContext } from "../Context";
-import { RequestPresentation } from "../../plugins/internal/oea/protocols/RequestPresentation";
+import { Task } from "../../../../utils/tasks";
+import { OutOfBandInvitation } from "../../../../plugins/internal/didcomm";
+import { type AgentContext } from "../../../../edge-agent/Context";
+import { RequestPresentation } from "../../../../plugins/internal/oea/protocols/RequestPresentation";
 
 /**
  * Arguments for creating an out-of-band (OOB) presentation request invitation

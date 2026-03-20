@@ -1,8 +1,3 @@
-
-
-
-
-
 export * from "./Agent";
 export * from "./Agent.Backup";
 export * from "./Agent.MessageEvents";
@@ -11,4 +6,4 @@ export { CancellableTask } from "./helpers/Task";
 export { FetchApi as ApiImpl } from "./helpers/FetchApi";
 export * from "./connections";
 export * from "./types";
-
+export * from './didFunctions';

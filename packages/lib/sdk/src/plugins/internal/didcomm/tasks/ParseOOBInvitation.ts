@@ -1,15 +1,15 @@
 import * as Domain from "@hyperledger/identus-domain";
-import { type JsonObj, asArray, asJsonObj, isArray, isObject, notEmptyString } from "../../utils";
-import { Task } from "../../utils/tasks";
+import { type JsonObj, asArray, asJsonObj, isArray, isObject, notEmptyString } from "../../../../utils";
+import { Task } from "../../../../utils/tasks";
 import { InvitationIsInvalidError } from "@hyperledger/identus-domain";
-import { OutOfBandInvitation } from "../../plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation";
-import { ProtocolIds } from "../../plugins/internal/didcomm/types";
+import { OutOfBandInvitation } from "../../../../plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation";
+import { ProtocolIds } from "../../../../plugins/internal/didcomm/types";
 
 /**
- * parse OOB invitation
+ * parse OOB invitation 
  */
 
-interface Args {
+export interface Args {
   value: string | JsonObj;
 }
 

@@ -11,7 +11,7 @@ import { type AgentContext } from "../Context";
  * @returns {Promise<Signature>}
  */
 
-interface Args {
+export interface Args {
   did: Domain.DID;
   message: Uint8Array;
 }

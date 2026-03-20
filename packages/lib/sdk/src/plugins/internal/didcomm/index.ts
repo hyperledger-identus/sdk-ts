@@ -29,3 +29,5 @@ export * from "./protocols/other/ProblemReport";
 
 export * from "./protocols/pickup/PickupReceived";
 export * from "./protocols/pickup/PickupRequest";
+
+export * from "./tasks";

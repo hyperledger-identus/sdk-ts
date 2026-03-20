@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { uuid } from "@stablelib/uuid";
 import * as Domain from "@hyperledger/identus-domain";
-import { expect, isNil, notNil } from "../../utils";
-import { Task } from "../../utils/tasks";
-import { CancellableTask } from "../helpers/Task";
-import { type AgentContext } from "../Context";
-import { ProtocolIds } from "../../plugins/internal/didcomm/types";
-import { PickupRequest } from "../../plugins/internal/didcomm/protocols/pickup/PickupRequest";
+import { expect, isNil, notNil } from "../../../../utils";
+import { Task } from "../../../../utils/tasks";
+import { type AgentContext } from "../../../../edge-agent/Context";
+import { ProtocolIds } from "../../../../plugins/internal/didcomm/types";
+import { PickupRequest } from "../../../../plugins/internal/didcomm/protocols/pickup/PickupRequest";
+import { CancellableTask } from "../../../../edge-agent/helpers/Task";
 
 /**
  * Handle the setup of fetching messages from the Mediator
  */
-interface Args {
+export interface Args {
   period?: number;
   useSockets?: boolean;
 }

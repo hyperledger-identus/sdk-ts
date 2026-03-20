@@ -4,10 +4,8 @@ import { Agent } from "../../../src/edge-agent";
 import { AttachmentDescriptor, DID, MessageDirection, Seed, AgentError } from '@hyperledger/identus-domain';
 import { Apollo, ProtocolType } from "../../../src";
 import { mockTask } from "../../testFns";
-import { StartMediator } from '../../../src/edge-agent/didcomm/StartMediator';
-import { StartFetchingMessages } from '../../../src/edge-agent/didcomm/StartFetchingMessages';
+import { StartMediator, StartFetchingMessages, CreateOOBOffer } from '../../../src/plugins/internal/didcomm';
 import { MediatorConnection, OfferCredential, OutOfBandInvitation } from '../../../src/plugins/internal/didcomm';
-import { CreateOOBOffer } from '../../../src/edge-agent/didcomm/CreateOOBOffer';
 import { createInstance } from '../../fixtures/pluto';
 import { HandshakeRequest } from '../../../src/plugins/internal/oea';
 

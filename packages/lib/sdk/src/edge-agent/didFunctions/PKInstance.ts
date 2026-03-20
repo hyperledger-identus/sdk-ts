@@ -1,8 +1,9 @@
 import { base58btc } from 'multiformats/bases/base58';
 import * as Domain from "@hyperledger/identus-domain";
-import { isObject, notEmptyString, Task } from "../../../utils";
 import { FromJWK } from "./FromJWK";
-import { type AgentContext } from "../../../edge-agent/Context";
+import { Task } from '../../utils/tasks';
+import { type AgentContext } from '../Context';
+import { isObject, notEmptyString } from '@hyperledger/identus-domain';
 
 export interface Args {
   verificationMethod: Domain.DIDDocument.VerificationMethod;

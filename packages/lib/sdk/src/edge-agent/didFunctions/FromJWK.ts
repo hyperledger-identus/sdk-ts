@@ -1,8 +1,8 @@
-import { expect, Task } from "../../../utils";
 
 import { base64url } from "multiformats/bases/base64";
-import { type Apollo, ApolloError, Curve, type JWK, type KeyPair, KeyProperties, PolluxError, type PrivateKey, type PublicKey } from "@hyperledger/identus-domain";
-import { type AgentContext } from "../../../edge-agent/Context";
+import { type Apollo, ApolloError, Curve, expect, type JWK, type KeyPair, KeyProperties, PolluxError, type PrivateKey, type PublicKey } from "@hyperledger/identus-domain";
+import { Task } from "../../utils/tasks";
+import { type AgentContext } from "../Context";
 
 export interface Args {
   jwk: JWK;
