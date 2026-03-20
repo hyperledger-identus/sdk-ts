@@ -90,7 +90,7 @@ ED25519_ANONCRED_DEFINITION_GUID=
 Running the tests is pretty straight forward
 
 ```bash
-npx nx run @hyperledger/identus-sdk:test:e2e
+npx nx run e2e:test
 ```
 
 ### Testing everything
