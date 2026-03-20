@@ -1,3 +1,5 @@
+<!-- sidebar_position: 1 -->
+
 # Tutorials
 
 Here, we have the basic implementations and tutorials for the Identus Edge Agent JS SDK, but most things run cross platform with minor differences.

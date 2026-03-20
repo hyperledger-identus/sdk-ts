@@ -1,0 +1,10 @@
+{
+  "label": "Tutorials",
+  "position": 1,
+  "collapsed": true,
+  "collapsible": true,
+  "link": {
+    "type": "doc",
+    "id": "sdk-ts/docs/develop/sdk/tutorials/index.md"
+  }
+}
