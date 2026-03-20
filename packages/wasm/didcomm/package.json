@@ -24,6 +24,6 @@
     "src"
   ],
   "dependencies": {
-    "@hyperledger/identus-domain": "*"
+    "@hyperledger/identus-domain": "workspace:*"
   }
 }
