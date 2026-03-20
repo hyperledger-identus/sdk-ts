@@ -3991,15 +3991,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.19.14":
-  version: 18.19.130
-  resolution: "@types/node@npm:18.19.130"
-  dependencies:
-    undici-types: "npm:~5.26.4"
-  checksum: 10c0/22ba2bc9f8863101a7e90a56aaeba1eb3ebdc51e847cef4a6d188967ab1acbce9b4f92251372fd0329ecb924bbf610509e122c3dfe346c04dbad04013d4ad7d0
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:^22":
   version: 22.19.15
   resolution: "@types/node@npm:22.19.15"
@@ -5948,7 +5939,7 @@ __metadata:
     "@serenity-js/serenity-bdd": "npm:^3.31.13"
     "@trust0/identus-store": "npm:^2.0.0"
     "@types/lodash": "npm:^4.14.202"
-    "@types/node": "npm:^18.19.14"
+    "@types/node": "npm:^22"
     allure-cucumberjs: "npm:^3.0.0-beta.11"
     axios: "npm:^1.6.7"
     chai: "npm:^4.5.0"
@@ -12892,13 +12883,6 @@ __metadata:
   dependencies:
     multiformats: "npm:^9.4.2"
   checksum: 10c0/9946668e04f29b46bbb73cca3d190f63a2fbfe5452f8e6551ef4257d9d597b72da48fa895c15ef2ef772808a5335b3305f69da5f13a09f8c2924896b409565ff
-  languageName: node
-  linkType: hard
-
-"undici-types@npm:~5.26.4":
-  version: 5.26.5
-  resolution: "undici-types@npm:5.26.5"
-  checksum: 10c0/bb673d7876c2d411b6eb6c560e0c571eef4a01c1c19925175d16e3a30c4c428181fb8d7ae802a261f283e4166a0ac435e2f505743aa9e45d893f9a3df017b501
   languageName: node
   linkType: hard
 
