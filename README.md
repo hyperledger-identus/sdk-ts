@@ -39,49 +39,67 @@ We also have SDKs for other platforms:
 
 ## Getting started
 We highly recommend you check out the [docs](https://hyperledger-identus.github.io/docs/home/) :world_map:
+### Requirements
+You will need the following:
+* Bash
+* Rust ([cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)) and [wasm-pack](https://drager.github.io/wasm-pack/) installed.
+* Node JS Version (20/LTS Recommended)
+* Protobuf compiler (https://protobuf.dev/installation/)
 
 ### Install
 
 **NOTE**: The package was renamed from `@hyperledger/identus-edge-agent-sdk` to `@hyperledger/identus-sdk`. Modify the scripts if you ready to use the new package accordingly.
 
 ```bash
-npm i @hyperledger/identus-edge-agent-sdk
+npm i @hyperledger/identus-sdk
 ```
 
 or
 ```bash
-yarn add @hyperledger/identus-edge-agent-sdk
+yarn add @hyperledger/identus-sdk
 ```
 
-### Demo application
-This repository also includes a browser and a Node.js demo application
+### Building from source
+Please make sure that all the requirements are met, then run the following commands:
 
-#### Build demo dependencies
-The demos assume building this repo from source, so you will need the following:
-* Bash
-* Rust ([cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)) and [wasm-pack](https://drager.github.io/wasm-pack/) installed.
-* Node JS Version (20/LTS Recommended)
-
-Clone and build:
 ```bash
-git clone git@github.com:hyperledger-identus/sdk-ts.git --recurse-submodules
-cd sdk-ts
-yarn
-npm run build
+yarn build
+```
+
+### Testing
+
+```bash
+npx nx run @hyperledger/identus-sdk:test
+```
+
+### Testing e2e
+Requires you to have a Cloud Agent running and to configure the appropiate env vars in ./integration-tests/e2e-tests/.env with the following content:
+
+```
+AGENT_URL=http://localhost:8085
+MEDIATOR_OOB_URL=http://localhost:8080/invitationOOB
+SECP256K1_PUBLISHED_DID=
+SECP256K1_JWT_SCHEMA_GUID=
+SECP256K1_ANONCRED_DEFINITION_GUID=
+ED25519_PUBLISHED_DID=
+ED25519_JWT_SCHEMA_GUID=
+ED25519_ANONCRED_DEFINITION_GUID=
+```
+
+Running the tests is pretty straight forward
+
+```bash
+npx nx run @hyperledger/identus-sdk:test:e2e
+```
+
+### Testing everything
+This still requires the .env var in ./integration-tests/e2e-tests/.env properly configured.
+```bash
+yarn test
 ```
 
 If you have any issues while building you can try building from docker (this runs exaclty the same build):
 ```bash
 docker build -t atalaprismwalletsdkts:latest "." 
 docker run  -v $(pwd)/build:/app/build atalaprismwalletsdkts:latest
-```
-
-#### Run the demos
-Once you have [built the demo dependencies](#build-demo-dependencies), you can try out each of the demos:
-
-Browser React / NextJS
-```bash
-cd demos/next
-npm i
-npm run dev
 ```
