@@ -1,8 +1,8 @@
 {
   "label": "TS SDK",
   "position": 5,
-  "collapsed": false,
-  "collapsible": false,
+  "collapsed": true,
+  "collapsible": true,
   "link": {
     "type": "doc",
     "id": "sdk-ts/docs/sdk/README.md"
