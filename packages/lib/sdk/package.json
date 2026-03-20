@@ -93,7 +93,6 @@
     "@types/jsonld": "^1.5.14",
     "@types/node": "^22",
     "@types/pako": "^2.0.3",
-    "conventional-changelog-conventionalcommits": "^9.0.0",
     "husky": "^9.0.11",
     "jsdom": "^24.1.0",
     "prettier": "^3.5.3",
