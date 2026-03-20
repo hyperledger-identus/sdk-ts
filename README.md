@@ -63,6 +63,7 @@ yarn add @hyperledger/identus-sdk
 Please make sure that all the requirements are met, then run the following commands:
 
 ```bash
+sh externals/run.sh -x update # To fetch and initialize anoncreds and didcomm submodules
 yarn build
 ```
 
