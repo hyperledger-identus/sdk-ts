@@ -69,16 +69,12 @@ jobs:
           yarn build
 
           if [[ "$GITHUB_REF" == *"refs/heads/beta"* ]]; then
-            npx nx release version --preid rc
-          else
-            npx nx release version
-          fi
-          
-          if [[ $GITHUB_REF == *"refs/heads/beta"* ]]; then
             echo "Publishing with RC tag for beta branch"
+            npx nx release version --preid rc
             npx nx release publish --tag rc
           else
             echo "Publishing without RC tag for main branch"
+            npx nx release version
             npx nx release publish
           fi
           
