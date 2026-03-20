@@ -18,7 +18,7 @@
       ],
       "executor": "nx:run-commands",
       "options": {
-        "command": "./externals/run.sh -x build",
+        "command": "./externals/run.sh -x update",
         "cwd": "{workspaceRoot}"
       }
     },

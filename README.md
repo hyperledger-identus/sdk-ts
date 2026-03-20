@@ -63,6 +63,7 @@ yarn add @hyperledger/identus-sdk
 Please make sure that all the requirements are met, then run the following commands:
 
 ```bash
+sh externals/run.sh -x update # To fetch and initialize anoncreds and didcomm submodules
 yarn build
 ```
 
@@ -89,7 +90,7 @@ ED25519_ANONCRED_DEFINITION_GUID=
 Running the tests is pretty straight forward
 
 ```bash
-npx nx run @hyperledger/identus-sdk:test:e2e
+npx nx run e2e:test
 ```
 
 ### Testing everything
