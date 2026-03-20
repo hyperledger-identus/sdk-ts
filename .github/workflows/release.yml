@@ -62,6 +62,7 @@ jobs:
           GIT_AUTHOR_NAME: ${{ steps.import_gpg.outputs.name }}
           GIT_COMMITTER_NAME: ${{ steps.import_gpg.outputs.name }}
           NPM_CONFIG_PROVENANCE: true
+          GITHUB_TOKEN: ${{ secrets.IDENTUS_CI }}
         run: |
           echo "Using npm version: $(npm -v)"
           yarn install
@@ -75,6 +76,8 @@ jobs:
           else
             echo "Publishing without RC tag for main branch"
             npx nx release version
+            npx nx release changelog
             npx nx release publish
+            git push --follow-tags origin HEAD:${GITHUB_REF_NAME}
           fi
           
