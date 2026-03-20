@@ -6,7 +6,7 @@ Here, we have the basic implementations and tutorials for the Identus Edge Agent
 
 Start a verification flow from an Edge Agent (Verifier wallet) and another holder to request (a did) to send you a credential proof for a specific issuer and specific claims.
 
-[Start tutorial](./SDKVerification.md)
+[Start tutorial](./Verification.md)
 
 
 ## Connectionless Credential Offer
@@ -31,4 +31,4 @@ Secure wallet backups through robust encryption using a master key derived from 
 
 How to request and parse connectionless credential offers via OpenID4VCI (OIDC).
 
-[Start tutorial](./oidc/README.md)
+[Start tutorial](./oidc/CredentialOffer.md)
