@@ -52,7 +52,7 @@ export default MyApp;
 **Example Publishing Component:**
 ```typescript
 import React, { useState, useCallback } from "react";
-import SDK from "@hyperledger/identus-sdk";
+import * as SDK from "@hyperledger/identus-sdk";
 import { useWallet, CardWallet } from "@meshsdk/react";
 import { Transaction } from "@meshsdk/core";
 

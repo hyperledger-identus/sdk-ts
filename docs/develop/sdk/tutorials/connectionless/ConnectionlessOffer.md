@@ -45,7 +45,7 @@ The SDK provides everything that is needed by issuers, creating and publishing p
 
 Add the required imports
 ```typescript
-import SDK from "@hyperledger/identus-sdk";
+import * as SDK from "@hyperledger/identus-sdk";
 ```
 
 Here's the types we are going to be using
@@ -120,18 +120,20 @@ Holders will scan the qrcode, and extract the CredentialOffer from the OutOfBand
 Parsing the OOB Url is very easy in the SDK:
 
 ```typescript
-import SDK from "@hyperledger/identus-sdk";
-async function parseOOB(agent: SDK.Agent, url: string): Promise<SDK.InvitationType> {
+import { Agent } from "@hyperledger/identus-sdk";
+import { InvitationType } from "@hyperledger/identus-sdk/plugins/didcomm";
+async function parseOOB(agent: Agent, url: string): Promise<InvitationType> {
     return agent.parseInvitation(url)
 }
 ```
 
 We would then build the complete CredentialOffer message, holder at this point should accept or reject:
 ```typescript
-import SDK from "@hyperledger/identus-sdk";
-const oobMessage: SDK.OutOfBandInvitation = await parseOOB(agent, oobURL);
+import { Domain } from "@hyperledger/identus-sdk";
+import { OutOfBandInvitation } from "@hyperledger/identus-sdk/plugins/didcomm";
+const oobMessage: OutOfBandInvitation = await parseOOB(agent, oobURL);
 const selfPeerDID = await agent.createPeerDID([], true)
-const oobOfferMessage:SDK.Domain.Message = SDK.Domain.Message.fromJSON({
+const oobOfferMessage: Domain.Message = SDK.Domain.Message.fromJSON({
     ...oobMessage.attachments.at(0)?.pasyload,
     from: oobMessage.from,
     to: selfPeerDID

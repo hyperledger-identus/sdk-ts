@@ -17,14 +17,14 @@ The top level interface can be found at [SDK.Domain.Pluto](../sdk/overview/names
 
 
 ```TS
-  import SDK from "@hyperledger/identus-edge-agent-sdk";
+  import { Domain } from "@hyperledger/identus-edge-agent-sdk";
 
-  class CustomPluto implements SDK.Domain.Pluto {
-    storeMessage(message: SDK.Domain.Message): Promise<void> {
+  class CustomPluto implements Domain.Pluto {
+    storeMessage(message: Domain.Message): Promise<void> {
       // implementation
     }
 
-    getAllMessages(): Promise<SDK.Domain.Message[]> {
+    getAllMessages(): Promise<Domain.Message[]> {
       // implementation
     }
 
@@ -45,18 +45,18 @@ The Store revolves around a storable object, which is an arbitrary object with a
 The interface can be found at [SDK.Pluto.Store](../sdk/overview/namespaces/Pluto/interfaces/Store.md)
 
 ```TS
-  import SDK from "@hyperledger/identus-edge-agent-sdk";
+  import { Domain, Pluto, Agent } from "@hyperledger/identus-sdk";
 
-  class CustomStore implements SDK.Pluto.Store {
-    insert<T extends SDK.Domain.Pluto.Storable>(table: string, model: T): Promise<void> {
+  class CustomStore implements Domain.Pluto.Store {
+    insert<T extends Domain.Pluto.Storable>(table: string, model: T): Promise<void> {
       // implementation
     }
 
-    query<T extends SDK.Domain.Pluto.Storable>(table: string, query?: MangoQuery<T>): Promise<T[]> {
+    query<T extends Domain.Pluto.Storable>(table: string, query?: MangoQuery<T>): Promise<T[]> {
       // implementation
     }
 
-    update<T extends SDK.Domain.Pluto.Storable>(table: string, model: T): Promise<void> {
+    update<T extends Domain.Pluto.Storable>(table: string, model: T): Promise<void> {
       // implementation
     }
 
@@ -66,45 +66,6 @@ The interface can be found at [SDK.Pluto.Store](../sdk/overview/namespaces/Pluto
   }
 
   const store = new CustomStore();
-  const pluto = new SDK.Pluto(store, apollo);
+  const pluto = new Pluto(store, apollo);
   const agent = Agent.initialize({ pluto, apollo, ...etc });
 ```
-
-## RxDB storage
-
-An implementation of the [RxStorage](https://rxdb.info/rx-storage.html) interface, allowing the choice and customisation of data layer using RxDB implementations.
-The SDK exports an [implementation](../sdk/overview/namespaces/Pluto/interfaces/Store.md) of the Store interface using RxDB, which only requires the storage, name and password to run.
-
-> Note: the composed storage requires encryption capabilities.
-
-
-```TS
-  import SDK from "@hyperledger/identus-edge-agent-sdk";
-  import { getRxStorageMemory } from 'rxdb/plugins/storage-memory';
-  import { wrappedKeyEncryptionCryptoJsStorage } from 'rxdb/plugins/encryption-crypto-js';
-
-  // custom RxDB inMemory storage
-  const customStorage = wrappedKeyEncryptionCryptoJsStorage({
-    storage: getRxStorageMemory()
-  });
-
-  const store = new SDK.Store({
-    name: `exampledb`,
-    password: 'examplepass',
-    storage: customStorage,
-  });
-  const pluto = new SDK.Pluto(store, apollo);
-  const agent = Agent.initialize({ pluto, apollo, ...etc });
-```
-
-> Read more about RxStorage in the RxDB docs https://rxdb.info/rx-storage.html
-
-## Implementing storage for the SDK
-Pluto, the SDK storage layer, is not a complete solution and requires some work. To make this as simple as possible, there are multiple options of different complexity provided. These options are discussed in more detail in the Pluto module. 
-
-> [!WARNING]  
-> Provided demo implementations are intentionally oversimplified and **should not** be used in production.
-
-
-### Community implementations:
-- [atala-community-projects/pluto-encrypted](https://github.com/atala-community-projects/pluto-encrypted): InMemory, IndexDB, LevelDB, as well as a test-suite to help you build your own.

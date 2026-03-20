@@ -44,17 +44,18 @@ The SDK provides everything that is needed by Verifiers, creating and publishing
 
 Add the required imports
 ```typescript
-import SDK from "@hyperledger/identus-sdk";
+import { Domain, Agent } from "@hyperledger/identus-sdk";
+import { RequestPresentation } from "@hyperledger/identus-sdk/plugins/oea";
 ```
 
 Here's the types we are going to be using
 ```typescript
-async function createRequestPresentationMessage<T extends SDK.Domain.CredentialType>(
-  agent: SDK.Agent,
+async function createRequestPresentationMessage<T extends Domain.CredentialType>(
+  agent: Agent,
   type: T,
-  claims: SDK.Domain.PresentationClaims<T>,
-  toDID?: SDK.Domain.DID,
-): Promise<SDK.Domain.Message>  {
+  claims: Domain.PresentationClaims<T>,
+  toDID?: Domain.DID,
+): Promise<Domain.Message>  {
   if (!agent) {
     throw new Error("No agent found");
   }
@@ -68,7 +69,7 @@ async function createRequestPresentationMessage<T extends SDK.Domain.CredentialT
     claims:claims
   })
 
-  const requestPresentation = await agent.runTask<SDK.RequestPresentation>(task);
+  const requestPresentation = await agent.runTask<RequestPresentation>(task);
   const requestPresentationMessage = requestPresentation.makeMessage();
   if (!toDID) {
     delete (requestPresentationMessage as any).to;
@@ -87,27 +88,29 @@ Holders will scan the qrcode, and extract the PresentationRequest from the OutOf
 Parsing the OOB Url is very easy in the SDK:
 
 ```typescript
-import SDK from "@hyperledger/identus-sdk";
-async function parseOOB(agent: SDK.Agent, url: string): Promise<SDK.InvitationType> {
+import { Agent } from "@hyperledger/identus-sdk";
+import { InvitationType } from '@hyperledger/identus-sdk/plugins/didcomm';
+async function parseOOB(agent: Agent, url: string): Promise<InvitationType> {
     return agent.parseInvitation(url)
 }
 ```
 
 We would then build the complete Presentation message, holder at this point should have accepted or rejected already:
 ```typescript
-import SDK from "@hyperledger/identus-sdk";
+import { Domain } from "@hyperledger/identus-sdk";
+import { RequestPresentation, CreatePresentation } from "@hyperledger/identus-sdk/plugins/oea";
 const selfPeerDID = await agent.createPeerDID([], true)
 const oobMessage = await parseOOB(agent, oobURL);
 const presentationRequestMessage = SDK.Domain.Message.fromJson(
   oobMessage.attachments.at(0)?.payload
 )
-const request = SDK.RequestPresentation.fromMessage(message);
-const credential:SDK.Domain.Credential = //The credential tha the user accepted the PresentaionRequest with
-const task = new SDK.Tasks.CreatePresentation({ request, credential })
+const request = RequestPresentation.fromMessage(message);
+const credential: Domain.Credential = //The credential tha the user accepted the PresentaionRequest with
+const task = new CreatePresentation({ request, credential })
 const presentationMessage = await agent.runTask(task);
 ```
 
-Once the user has accepted the PresentationRequest, it will choose one ```SDK.Domain.Credential``` and reply to the ```SDK.RequestPresentation``` Message with a ```SDK.Presentation``` Message.
+Once the user has accepted the PresentationRequest, it will choose one ```Domain.Credential``` and reply to the ```RequestPresentation``` Message with a ```Presentation``` Message.
 
 ```typescript
 await agent.send(presentationMessage);

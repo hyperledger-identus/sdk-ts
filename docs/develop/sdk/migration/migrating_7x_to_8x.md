@@ -3,7 +3,6 @@
 ## Breaking Changes
 If core internals where not in use, this breaking changes are likely to not affect you, except if you weren't relying on the Agent but using the internals directly for some things.
 
-
 ### Future deprecation notice
 The following items have been marked as deprecated and will be removed in a future version of the SDK, but are still available.
 
@@ -11,6 +10,16 @@ The following items have been marked as deprecated and will be removed in a futu
 
 
 ### Deprecated exports
+- No more default export in @hyperledger/identus-sdk.
+
+```typescript
+// 7.x
+import SDK from "@hyperledger/identus-sdk";
+
+// 8.x
+import * as SDK from "@hyperledger/identus-sdk";
+```
+
 - CreateOOBOffer and CreateOOBOfferArgs from @hyperledger/identus-sdk.
 
 ```typescript
