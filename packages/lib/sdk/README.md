@@ -21,4 +21,3 @@ import { Apollo } from '@hyperledger/identus-sdk';
 
 const apollo = new Apollo();
 ```
-

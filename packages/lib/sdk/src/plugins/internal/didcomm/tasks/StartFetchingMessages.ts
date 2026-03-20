@@ -40,16 +40,17 @@ export class StartFetchingMessages extends Task<void, Args> {
       connection.useLiveMode(socket);
 
 
-      socket.addEventListener("open", async () => {
-        // ? connection.send
-        const packedMessage = await ctx.Mercury.packMessage(message);
-        socket.send(packedMessage);
+      socket.addEventListener("open", () => {
+        ctx.Mercury.packMessage(message)
+          .then((packed) => socket.send(packed))
+          .catch((error) => console.error(error));
       });
 
 
-      socket.addEventListener("message", async (event) => {
-        const message = await ctx.Mercury.unpackMessage(event.data);
-        await connection.receive(message, ctx);
+      socket.addEventListener("message", (event) => {
+        ctx.Mercury.unpackMessage(event.data)
+          .then((message) => connection.receive(message, ctx))
+          .catch((error) => console.error(error));
       });
     }
     else {
