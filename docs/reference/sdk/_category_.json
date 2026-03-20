@@ -1,0 +1,10 @@
+{
+  "label": "TS SDK",
+  "position": 5,
+  "collapsed": false,
+  "collapsible": false,
+  "link": {
+    "type": "doc",
+    "id": "sdk-ts/docs/sdk/README.md"
+  }
+}

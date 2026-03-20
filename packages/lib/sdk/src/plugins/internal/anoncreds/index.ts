@@ -1,4 +1,8 @@
 /** 
+ * <!-- title: Anoncreds -->
+ * <!-- sidebar_label: Anoncreds -->
+ * <!-- sidebar_position: 1 -->
+ * 
  * @packageDocumentation
  * 
  * This export contains the Anoncreds plugin for the Identus SDK.

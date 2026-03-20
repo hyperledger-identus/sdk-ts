@@ -1,4 +1,4 @@
-# Connectionless Presentation
+# Presentation
 
 ## Description
 A Connectionless PresentationRequest is an Out of Band Invitation with a PresentationRequest Attachment.

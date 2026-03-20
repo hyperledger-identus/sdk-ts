@@ -61,10 +61,10 @@
     "docs": {
       "executor": "nx:run-commands",
       "outputs": [
-        "{projectRoot}/docs"
+        "{workspaceRoot}/docs/sdk"
       ],
       "options": {
-        "command": "typedoc --options typedoc.js",
+        "command": "typedoc --options typedoc.js --out ../../../docs/sdk",
         "cwd": "{projectRoot}"
       }
     }

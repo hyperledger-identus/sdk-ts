@@ -1,4 +1,8 @@
 /** 
+ * <!-- title: OIDC -->
+ * <!-- sidebar_label: OIDC -->
+ * <!-- sidebar_position: 5 -->
+ * 
  * @packageDocumentation
  * 
  * This export contains the OIDC plugin for the Identus SDK

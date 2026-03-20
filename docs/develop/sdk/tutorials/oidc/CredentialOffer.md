@@ -1,4 +1,4 @@
-# Edge SDK Connectionless Credential Offer
+# Credential Offer
 
 ## Flow
 1. Obtain a Connectionless Credential Offer from an Issuer.

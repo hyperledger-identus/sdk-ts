@@ -13,7 +13,8 @@
     "coverage": "vitest run --coverage",
     "coverage:nx": "npx nx run-many --target=coverage",
     "lint": "npx nx run-many --target=lint",
-    "lint:fix": "npx nx run-many --target=lint -- --fix"
+    "lint:fix": "npx nx run-many --target=lint -- --fix",
+    "docs": "npx nx run-many --target=docs"
   },
   "description": "Identus SDK - Typescript",
   "author": "IOHK",

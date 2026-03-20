@@ -1,4 +1,4 @@
-# Cross-Platform Edge SDK Verification
+# Verification
 ## Requirements
 1. A working Identus Mediator and an Identus Cloud Agent.
 2. A holder who already has a JWT Credential issued by a known issuer (prism:did) [Holder A]

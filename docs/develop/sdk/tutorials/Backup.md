@@ -1,4 +1,4 @@
-# Edge SDK Backup & Restore
+# Backup
 
 Secure wallet backups through robust encryption using a master key derived from a seed, adhering to
 the BIP32 standard. The backup data, structured as a JSON document, includes keys, DIDs,

@@ -1,4 +1,4 @@
-# Connectionless Credential Offer
+# Credential Offer
 
 ## Description
 A Connectionless Credential Offer is an Out of Band Invitation with a Credential Offer Attachment.

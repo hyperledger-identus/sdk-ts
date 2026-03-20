@@ -1,4 +1,8 @@
 /** 
+ * <!-- title: OEA -->
+ * <!-- sidebar_label: OEA -->
+ * <!-- sidebar_position: 4 -->
+ * 
  * @packageDocumentation
  * 
  * This export contains the OEA plugin for the Identus SDK

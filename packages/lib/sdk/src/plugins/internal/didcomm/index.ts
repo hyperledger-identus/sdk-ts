@@ -1,4 +1,7 @@
 /** 
+ * <!-- title: DIDComm -->
+ * <!-- sidebar_label: DIDComm -->
+ * <!-- sidebar_position: 2 -->
  * @packageDocumentation
  * 
  * This export contains the DIDComm plugin for the Identus SDK

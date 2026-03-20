@@ -1,4 +1,8 @@
 /** 
+ * <!-- title: DIF -->
+ * <!-- sidebar_label: DIF -->
+ * <!-- sidebar_position: 3 -->
+ * 
  * @packageDocumentation
  * 
  * This export contains the DIF plugin for the Identus SDK
