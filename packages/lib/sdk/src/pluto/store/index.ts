@@ -1,9 +1,47 @@
+/**
+ * Default store factory built on top of `@trust0/ridb`.
+ *
+ * Calling {@link createStore} produces a fully-functional {@link Pluto.Store}
+ * backed by RIDB with encrypted collections, schema migrations, and
+ * pluggable storage backends.
+ *
+ * @module Pluto/Store
+ */
 import { type StorageType } from '@trust0/ridb';
 import { type BaseStorage } from '@trust0/ridb-core';
 import { type Pluto } from '../Pluto';
 import { type Query } from '../types';
 import { type StartOptions, type TableName, type CollectionMap, type CollectionSchemas } from '../types';
 
+/**
+ * Create a default {@link Pluto.Store} backed by RIDB.
+ *
+ * The returned store registers all built-in collection schemas and
+ * migrations, and can optionally be encrypted or use a custom
+ * storage backend.
+ *
+ * @param dbName  - Logical database name (e.g. `"identus-pluto"`).
+ * @param options - Control how the database is initialised.
+ *   - Pass {@link WithOptions} to configure encryption or a custom `storageType`.
+ *   - Pass {@link WithStart} to take full control of the startup sequence.
+ *
+ * @returns A `Pluto.Store` instance ready to be passed to {@link Pluto.create}.
+ *
+ * @example
+ * Create a store with default settings
+ * ```ts
+ * import { createStore, Pluto } from "@hyperledger/identus-sdk";
+ *
+ * const store = await createStore("my-db");
+ * const pluto = await Pluto.create({ store, keyRestoration: apollo });
+ * ```
+ *
+ * @example
+ * Create an encrypted store
+ * ```ts
+ * const store = await createStore("my-db", { password: "super-secret" });
+ * ```
+ */
 export const createStore = async (dbName: string, options: StartOptions = {}): Promise<Pluto.Store> => {
     const Models = await import("../models");
     const { WasmInternal, RIDB: DB } = await import('@trust0/ridb');

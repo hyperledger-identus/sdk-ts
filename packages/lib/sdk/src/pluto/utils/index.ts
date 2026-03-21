@@ -1,14 +1,41 @@
+/**
+ * Schema utilities for Pluto models.
+ *
+ * @module Pluto/Utils
+ */
 import { type SchemaType } from '@trust0/ridb-core';
 import { type SchemaGenerator, type PropertyTypes, type TypedSchema } from '../types';
 
-
-
 /**
- * helper for creating Schemas
- * handle repetitive and improve type safety
- * 
- * @param generator 
- * @returns 
+ * Create a typed RIDB schema for a Pluto model.
+ *
+ * Provides a builder-style callback so that schema definitions are
+ * declarative, repetitive boilerplate (e.g. `uuid` primary key) is
+ * handled automatically, and the resulting schema is fully typed
+ * via {@link TypedSchema}.
+ *
+ * @typeParam T - The Model interface this schema describes.
+ * @param generator - Callback that receives a {@link SchemaGenerator}
+ *   and calls its methods to define properties, encryption, and version.
+ * @returns A frozen {@link TypedSchema} ready for use in collection definitions.
+ *
+ * @example
+ * ```ts
+ * import { schemaFactory } from "./utils";
+ *
+ * interface MyModel extends Model {
+ *   name: string;
+ *   secret: string;
+ * }
+ *
+ * const MySchema = schemaFactory<MyModel>(schema => {
+ *   schema.addProperty("string", "name");
+ *   schema.addProperty("string", "secret");
+ *   schema.setRequired("name", "secret");
+ *   schema.setEncrypted("secret");
+ *   schema.setVersion(0);
+ * });
+ * ```
  */
 export const schemaFactory = <T>(
   generator: (schema: SchemaGenerator<T>) => void
