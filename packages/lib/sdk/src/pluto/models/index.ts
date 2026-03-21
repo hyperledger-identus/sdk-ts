@@ -3,5 +3,6 @@ export * from "./CredentialMetadata";
 export * from "./DID";
 export * from "./Key";
 export * from "./Message";
-export * from "./Model";
+export * from "./Settings";
+export * from "./Issuance";
 export * from "./relationships";

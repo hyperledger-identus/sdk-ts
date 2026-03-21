@@ -1,5 +1,5 @@
-import type { Model } from "./Model";
-import { schemaFactory } from "./Schema";
+import type { Model } from "../types";
+import { schemaFactory } from "../utils";
 
 /**
  * Definition for DID model
@@ -19,6 +19,7 @@ export interface DID extends Model {
    * Optional name
    */
   alias?: string;
+  status?: string;
 }
 
 export const DIDSchema = schemaFactory<DID>(schema => {
@@ -26,4 +27,5 @@ export const DIDSchema = schemaFactory<DID>(schema => {
   schema.addProperty("string", "method");
   schema.addProperty("string", "schema");
   schema.addProperty("string", "alias");
+  schema.addProperty("string", "status");
 });

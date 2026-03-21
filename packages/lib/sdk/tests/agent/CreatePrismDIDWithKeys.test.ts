@@ -3,8 +3,8 @@ import * as Domain from '@hyperledger/identus-domain';
 import { CreatePrismDIDWithKeys } from '../../src/edge-agent/didFunctions';
 import { Task } from '../../src/utils';
 import * as Fixtures from "../fixtures";
-import { createInstance } from '../fixtures/pluto';
-import { Apollo, Castor } from '../../src';
+import { Apollo, Castor, Pluto } from '../../src';
+import { randomUUID } from 'node:crypto';
 
 describe("CreatePrismDIDWithKeys", () => {
   let ctx: Task.Context<{
@@ -21,7 +21,10 @@ describe("CreatePrismDIDWithKeys", () => {
   describe("Task Parameters", () => {
     beforeEach(async () => {
       castor = { createPrismDID: vi.fn() } as any;
-      pluto = (await createInstance({ apollo: new Apollo() })).pluto;
+      pluto = await Pluto.create({
+        dbName: "test-" + randomUUID(),
+        keyRestoration: new Apollo(),
+      });
       ctx = new Task.Context({
         Castor: castor,
         Pluto: pluto,
@@ -155,7 +158,10 @@ describe("CreatePrismDIDWithKeys", () => {
     beforeEach(async () => {
       apollo = new Apollo();
       castor = new Castor(apollo);
-      pluto = (await createInstance({ apollo: new Apollo() })).pluto;
+      pluto = await Pluto.create({
+        dbName: "test-" + randomUUID(),
+        keyRestoration: new Apollo(),
+      });
       ctx = new Task.Context({
         Apollo: apollo,
         Castor: castor,

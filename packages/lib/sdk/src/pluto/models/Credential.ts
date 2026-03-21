@@ -1,9 +1,8 @@
 import * as sha256 from '@stablelib/sha256';
-import * as Domain from "@hyperledger/identus-domain";
-import type { Model } from "./Model";
-import { schemaFactory } from "./Schema";
-import { AnonCredsRecoveryId, PlutoError } from '@hyperledger/identus-domain';
-import { type MigrationStrategies } from '../types';
+import type { Model } from "../types";
+import { schemaFactory } from "../utils";
+import { AnonCredsRecoveryId, JWTVerifiableCredentialRecoveryId, PlutoError, SDJWTVerifiableCredentialRecoveryId } from '@hyperledger/identus-domain';
+import { type MigrationPathsForSchema } from '@trust0/ridb-core';
 
 /**
  * Definition for Storable Credential model
@@ -29,7 +28,7 @@ export interface Credential extends Model {
   credentialSchema?: string;
   validUntil?: number;
   revoked?: boolean;
-  // availableClaims?: string[];
+  status?: string;
   id: string;
 }
 
@@ -37,6 +36,7 @@ export const CredentialSchema = schemaFactory<Credential>(schema => {
   schema.addProperty("string", "recoveryId");
   schema.addProperty("string", "dataJson");
 
+  schema.addProperty("string", 'status')
   schema.addProperty("string", "issuer");
   schema.addProperty("string", "subject");
   schema.addProperty("string", "credentialCreated");
@@ -54,10 +54,10 @@ export const CredentialSchema = schemaFactory<Credential>(schema => {
 
 });
 
-export const CredentialMigration: MigrationStrategies = {
+export const CredentialMigration: MigrationPathsForSchema<typeof CredentialSchema> = {
   1: function (document) {
     const recoveryId = document.recoveryId;
-    if (recoveryId == Domain.JWTVerifiableCredentialRecoveryId) {
+    if (recoveryId == JWTVerifiableCredentialRecoveryId || recoveryId == SDJWTVerifiableCredentialRecoveryId) {
       const jwtObj = JSON.parse(document.dataJson);
       return {
         ...document,
@@ -74,14 +74,16 @@ export const CredentialMigration: MigrationStrategies = {
         ...document,
         id: Buffer.from(sha256.hash(Buffer.from(anoncredsStr))).toString('hex')
       }
-
     }
     throw new PlutoError.UnknownCredentialTypeError();
   },
   2: function (document) {
+    if (document.validUntil === undefined) {
+      return document;
+    }
     return {
       ...document,
-      validUntil: document.validUntil ? new Date(document.validUntil).getTime() : undefined
+      validUntil: new Date(document.validUntil as unknown as string | number).getTime()
     }
   }
 }

@@ -2,11 +2,11 @@ import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
 import UUIDLib from "@stablelib/uuid";
 import { Agent } from "../../../src/edge-agent";
 import { AttachmentDescriptor, DID, MessageDirection, Seed, AgentError } from '@hyperledger/identus-domain';
-import { Apollo, ProtocolType } from "../../../src";
+import { Apollo, Pluto, ProtocolType } from "../../../src";
 import { mockTask } from "../../testFns";
 import { StartMediator, StartFetchingMessages, CreateOOBOffer } from '../../../src/plugins/internal/didcomm';
 import { MediatorConnection, OfferCredential, OutOfBandInvitation } from '../../../src/plugins/internal/didcomm';
-import { createInstance } from '../../fixtures/pluto';
+import { randomUUID } from 'node:crypto';
 import { HandshakeRequest } from '../../../src/plugins/internal/oea';
 
 describe("Agent", () => {
@@ -18,7 +18,10 @@ describe("Agent", () => {
   });
 
   beforeEach(async () => {
-    const pluto = (await createInstance({ apollo: new Apollo() })).pluto
+    const pluto = await Pluto.create({
+      dbName: "test-" + randomUUID(),
+      keyRestoration: new Apollo(),
+    })
     const seed: Seed = {
       value: new Uint8Array([69, 191, 35, 232, 213, 102, 3, 93, 180, 106, 224, 144, 79, 171, 79, 223, 154, 217, 235, 232, 96, 30, 248, 92, 100, 38, 38, 42, 101, 53, 2, 247, 56, 111, 148, 220, 237, 122, 15, 120, 55, 82, 89, 150, 35, 45, 123, 135, 159, 140, 52, 127, 239, 148, 150, 109, 86, 145, 77, 109, 47, 60, 20, 16])
     };

@@ -3,7 +3,7 @@ import type * as Models from "../models";
 import type { Pluto } from "../Pluto";
 import { MapperRepository } from "./builders/MapperRepository";
 
-export class MessageRepository extends MapperRepository<Models.Message, Domain.Message> {
+export class MessageRepository extends MapperRepository<"messages", Domain.Message> {
   constructor(store: Pluto.Store) {
     super(store, "messages");
   }
@@ -41,6 +41,7 @@ export class MessageRepository extends MapperRepository<Models.Message, Domain.M
       thid: domain.thid,
       to: domain.to?.toString(),
       piuri: domain.piuri,
+      read: false,
     };
   }
 }

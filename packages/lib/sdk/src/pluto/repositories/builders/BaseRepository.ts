@@ -1,7 +1,7 @@
 import * as Domain from "@hyperledger/identus-domain";
-import type { Model } from "../../models";
 import type { Pluto } from "../../Pluto";
-import { type Query } from "../../types";
+import { type Query, type Model } from "../../types";
+import { type TableName, type CollectionMap, type CollectionSchemas } from "../../types";
 
 export type OptionalId<T extends Model> = Omit<T, "uuid"> & { uuid?: string; };
 export type WithId<T> = T & Required<Domain.Pluto.Storable>;
@@ -11,36 +11,37 @@ export type WithId<T> = T & Required<Domain.Pluto.Storable>;
  * 
  * Encapsulate the functionality for interacting with the Store
  */
-export abstract class BaseRepository<T extends Model> {
+export abstract class BaseRepository<K extends TableName> {
   /**
    * Allows setting of properties to be present in all Models sent to Store
    */
-  protected baseModel: Partial<T> = {};
+  protected baseModel: Partial<CollectionMap[K]> = {};
 
   constructor(
     private readonly store: Pluto.Store,
-    protected readonly name: string,
+    protected readonly name: K,
   ) { }
 
   /**
    * Persist the Model in the Store.
    * 
    * @param model
-   * @returns {T}
+   * @returns {CollectionMap[K]}
    * @throws {@link Domain.PlutoError.StoreInsertError} if insert fails
    */
-  async insert(model: T): Promise<T> {
+  async insert(model: CollectionMap[K]): Promise<CollectionMap[K]> {
     const obj = { ...model, ...this.baseModel };
     try {
       await this.store.insert(this.name, obj);
       return obj;
     }
-    catch {
+    catch (err) {
+      console.log(err)
       throw new Domain.PlutoError.StoreInsertError();
     }
   }
 
-  async update(model: T) {
+  async update(model: CollectionMap[K]) {
     try {
       await this.store.update(this.name, model)
     }
@@ -80,14 +81,10 @@ export abstract class BaseRepository<T extends Model> {
    *   repo.getModels()
    * ```
    * 
-   * @returns {T[]} Array of matched Models
+   * @returns {CollectionMap[K][]} Array of matched Models
    * @throws {@link Domain.Models} if the query fails
    */
-  async getModels(query?: Query<T>): Promise<T[]> {
-    // const queryObj = typeof query === "function"
-    //   ? this.buildQuery(query)
-    //   : new NoSqlQueryBuilderClass(query);
-
+  async getModels(query?: Query<CollectionSchemas[K]>): Promise<CollectionMap[K][]> {
     return this.runQuery(query);
   }
 
@@ -95,15 +92,13 @@ export abstract class BaseRepository<T extends Model> {
    * Handle internal logic for running a query
    * 
    * @param query
-   * @returns {T[]}
+   * @returns {CollectionMap[K][]}
    * @throws {@link Domain.PlutoError.StoreQueryFailed}
    */
-  private async runQuery(query?: Query<T>): Promise<T[]> {
-    // const query = builder?.merge(this.baseModel).toJSON().query;
+  private async runQuery(query?: Query<CollectionSchemas[K]>): Promise<CollectionMap[K][]> {
     const mQuery = this.makeMangoQuery(query);
-
     try {
-      return await this.store.query(this.name, mQuery);
+      return this.store.query(this.name, mQuery);
     }
     catch {
       throw new Domain.PlutoError.StoreQueryFailed();
@@ -116,17 +111,23 @@ export abstract class BaseRepository<T extends Model> {
    * @param query 
    * @returns 
    */
-  private makeMangoQuery(query?: Query<T>): Query<T> | undefined {
+  private makeMangoQuery(query?: Query<CollectionSchemas[K]>): Query<CollectionSchemas[K]> | undefined {
     if (Object.keys(this.baseModel).length > 0) {
-      const baseQuery: Query = {
-        selector: { $and: [this.baseModel] }
-      };
+      const baseSelector = { ...this.baseModel } as Record<string, unknown>;
 
       if (query?.selector) {
-        baseQuery.selector?.$and?.push(query.selector);
+        return {
+          ...query,
+          selector: {
+            $and: [baseSelector, query.selector]
+          } as Query<CollectionSchemas[K]>['selector']
+        };
+      } else {
+        return {
+          ...query,
+          selector: baseSelector as Query<CollectionSchemas[K]>['selector']
+        };
       }
-
-      return Object.assign({}, query, baseQuery);
     }
 
     return query;
@@ -143,7 +144,4 @@ export abstract class BaseRepository<T extends Model> {
     obj.uuid = uuid;
     return obj as WithId<X>;
   }
-
-  // update
-  // delete
 }

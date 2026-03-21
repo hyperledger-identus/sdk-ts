@@ -3,7 +3,7 @@ import type * as Models from "../models";
 import type { Pluto } from "../Pluto";
 import { MapperRepository } from "./builders/MapperRepository";
 
-export class DIDRepository extends MapperRepository<Models.DID, Domain.DID> {
+export class DIDRepository extends MapperRepository<"dids", Domain.DID> {
   constructor(store: Pluto.Store) {
     super(store, "dids");
   }

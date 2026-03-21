@@ -10,7 +10,8 @@ import { PluginManager } from '../../src/plugins';
 import * as DIDComm from "../../src/plugins/internal/didcomm";
 import { ProtocolType } from '../../src/edge-agent/types';
 import { Apollo } from "../../src/apollo/Apollo";
-import { createInstance } from '../fixtures/pluto';
+import { Pluto } from "../../src";
+import { randomUUID } from 'node:crypto';
 import { CastorMock } from './mocks/CastorMock';
 import { SDJWT } from '../../src/pollux/utils/jwt/SDJWT';
 import { JWT } from '../../src/pollux/utils/jwt/JWT';
@@ -126,11 +127,10 @@ describe("HandleRequestCredential", () => {
             privateKey: mockPrivateKey
         };
         const apollo = new Apollo();
-        const instance = await createInstance({
-            apollo,
-            name: "test",
+        pluto = await Pluto.create({
+            dbName: "test-" + randomUUID(),
+            keyRestoration: apollo,
         });
-        pluto = instance.pluto;
         plugins = new PluginManager();
         plugins.register(DIDComm.plugin);
 

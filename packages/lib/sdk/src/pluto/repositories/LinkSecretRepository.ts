@@ -3,7 +3,7 @@ import type * as Models from "../models";
 import type { Pluto } from "../Pluto";
 import { MapperRepository } from "./builders/MapperRepository";
 
-export class LinkSecretRepository extends MapperRepository<Models.Key, Domain.LinkSecret> {
+export class LinkSecretRepository extends MapperRepository<"keys", Domain.LinkSecret> {
   baseModel = {
     recoveryId: "linksecret"
   };

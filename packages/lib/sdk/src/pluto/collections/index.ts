@@ -1,19 +1,15 @@
 import * as Models from "../models";
-import type { MigrationStrategies } from "../types";
-import type { SchemaType } from '@trust0/ridb-core';
+import type { MigrationPathsForSchema, SchemaType } from '@trust0/ridb-core';
 
 export type CollectionCreate = {
   schema: SchemaType;
-  migrationStrategies?:
-  | MigrationStrategies;
+  migrationStrategies?: MigrationPathsForSchema<any>;
 };
 
 
 export type CollectionList = Record<string, CollectionCreate>;
 
-export const makeCollections = (
-  additional: CollectionList = {}
-) => {
+export const makeCollections = (additional: CollectionList = {}) => {
   return {
     credentials: { schema: Models.CredentialSchema, migrationStrategies: Models.CredentialMigration },
     "credential-metadata": { schema: Models.CredentialMetadataSchema },
@@ -21,7 +17,9 @@ export const makeCollections = (
     "did-link": { schema: Models.DIDLinkSchema },
     dids: { schema: Models.DIDSchema },
     keys: { schema: Models.KeySchema },
-    messages: { schema: Models.MessageSchema },
+    messages: { schema: Models.MessageSchema, migrationStrategies: Models.MessageMigration },
+    settings: { schema: Models.SettingsSchema },
+    issuance: { schema: Models.IssuanceSchema },
     ...additional,
   }
 }

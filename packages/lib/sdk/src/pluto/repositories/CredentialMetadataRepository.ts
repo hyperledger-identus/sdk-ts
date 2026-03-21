@@ -4,7 +4,7 @@ import type * as Models from "../models";
 import type { Pluto } from "../Pluto";
 import { MapperRepository } from "./builders/MapperRepository";
 
-export class CredentialMetadataRepository extends MapperRepository<Models.CredentialMetadata, Domain.CredentialMetadata> {
+export class CredentialMetadataRepository extends MapperRepository<"credential-metadata", Domain.CredentialMetadata> {
   constructor(store: Pluto.Store) {
     super(store, "credential-metadata");
   }

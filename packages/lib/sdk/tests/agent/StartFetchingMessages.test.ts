@@ -5,8 +5,8 @@ import { StartFetchingMessages } from '../../src/plugins/internal/didcomm';
 import { JobManager } from '../../src/edge-agent/connections/JobManager';
 import { CancellableTask } from '../../src/edge-agent/helpers/Task';
 import { ConnectionsManager } from '../../src/edge-agent/connections';
-import { Apollo, ProtocolType } from '../../src';
-import { createInstance } from '../fixtures/pluto';
+import { Apollo, Pluto, ProtocolType } from '../../src';
+import { randomUUID } from 'node:crypto';
 
 describe("StartFetchingMessages", () => {
   let ctx: Task.Context<{
@@ -25,7 +25,10 @@ describe("StartFetchingMessages", () => {
     mockMediator = vi.fn();
     connections = { get mediator() { return mockMediator(); } } as any;
     mercury = { sendMessageParseMessage: vi.fn() } as any;
-    pluto = (await createInstance({ apollo: new Apollo() })).pluto
+    pluto = await Pluto.create({
+      dbName: "test-" + randomUUID(),
+      keyRestoration: new Apollo(),
+    })
     ctx = new Task.Context({
       Connections: connections,
       Castor: { resolveDID: vi.fn() } as any,
