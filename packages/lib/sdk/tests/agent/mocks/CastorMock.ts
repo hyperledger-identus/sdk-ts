@@ -3,8 +3,8 @@ import {
   DID,
   DIDDocument,
   PublicKey,
+  Castor
 } from '@hyperledger/identus-domain';
-import { Castor } from "../../../src/domain/buildingBlocks/Castor";
 
 const castorVars = {
   _prismDID: new DID("did", "peer", "test"),

@@ -1,7 +1,7 @@
 import { describe, expect, test, beforeEach, vi, afterEach } from 'vitest';
 import { base64url } from "multiformats/bases/base64";
 import { SDJWT } from "../../src/pollux/utils/jwt/SDJWT";
-import { Apollo, Castor, Domain, Secp256k1PrivateKey } from "../../src";
+import { Apollo, Castor, Domain } from "../../src";
 import * as Fixtures from "../fixtures";
 import { Task } from '../../src/utils';
 import { FindSigningKeys } from '../../src/edge-agent/didFunctions/FindDIDSigningKeys';
@@ -81,7 +81,7 @@ describe("Domain - SDJWT", () => {
   });
 
   describe("purpose", () => {
-    let findSigningKeysSpy: ReturnType<typeof vi.spyOn>;
+    let findSigningKeysSpy: any;
 
     const minimalPayload: SdJwtVcPayload = {
       iss: Fixtures.DIDs.prismDIDDefault.toString(),

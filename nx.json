@@ -55,6 +55,19 @@
       "cache": true
     },
     "test": {
+      "dependsOn": [
+        "typecheck"
+      ],
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "cache": true
+    },
+    "typecheck": {
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "default",
         "^production"

@@ -9,7 +9,13 @@ import { Apollo, ProtocolType } from '../../src';
 import { createInstance } from '../fixtures/pluto';
 
 describe("StartFetchingMessages", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Connections: ConnectionsManager;
+    Castor: Domain.Castor;
+    Jobs: JobManager;
+    Mercury: Domain.Mercury;
+    Pluto: Domain.Pluto;
+  }>;
   let connections: ConnectionsManager;
   let mockMediator: Mock;
   let mercury: Domain.Mercury;
@@ -30,7 +36,7 @@ describe("StartFetchingMessages", () => {
   });
 
   test('should return immediately if already fetching messages', async () => {
-    const fetchObj = { notEmptyObj: true };
+    const fetchObj = { notEmptyObj: true } as unknown as CancellableTask<void>;
     ctx.Jobs.fetchMessages = fetchObj;
 
     await ctx.run(new StartFetchingMessages({}));

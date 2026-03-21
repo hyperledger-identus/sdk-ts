@@ -9,8 +9,14 @@ import * as Fixtures from "../../../fixtures";
 import { createInstance } from '../../../fixtures/pluto';
 
 describe("Plugins - OEA", () => {
-  let ctx: Task.Context;
-  let pluto: Pluto;
+  let ctx: Task.Context<{
+    Apollo: Apollo;
+    Castor: Castor;
+    Pluto: Pluto;
+    JWT: JWT;
+    SDJWT: SDJWT;
+  }>;
+  let pluto: PlutoType;
 
   beforeEach(async () => {
     pluto = (await createInstance({ apollo: new Apollo() })).pluto

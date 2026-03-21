@@ -4,9 +4,12 @@ import { ApiResponse } from "@hyperledger/identus-domain";
 import { ParseCredentialOffer } from "../../../src/plugins/internal/oidc/tasks";
 import { InvalidOffer } from "../../../src/plugins/internal/oidc/errors";
 import * as Fixtures from "../../fixtures";
+import { Api } from "@hyperledger/identus-domain";
 
 describe("OIDC Tasks", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Api: Api;
+  }>;
 
   beforeEach(() => {
     ctx = new Task.Context<any>({

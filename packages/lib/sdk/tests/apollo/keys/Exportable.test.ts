@@ -22,8 +22,7 @@ describe("Keys", () => {
     describe("Exportable", () => {
       test("JWK", () => {
         const key = new Ed25519PrivateKey(raw);
-        const result = key.to.JWK();
-
+        const result = key.to.JWK()
         expect(result).to.eql(jwk);
       });
 

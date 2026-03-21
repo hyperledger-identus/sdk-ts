@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { base64 } from "multiformats/bases/base64";
-import { Message } from '@hyperledger/identus-domain';
-import { Mercury } from "../../../src/domain/buildingBlocks/Mercury";
+import { Message, Mercury } from '@hyperledger/identus-domain';
 
 export class MercuryStub implements Mercury {
   private throwSendMessageError?: Error;

@@ -51,6 +51,13 @@
         "cwd": "{projectRoot}"
       }
     },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tsconfig.test.json",
+        "cwd": "{projectRoot}"
+      }
+    },
     "lint": {
       "executor": "nx:run-commands",
       "options": {

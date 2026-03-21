@@ -1,12 +1,15 @@
 {
-  "extends": "../../../tsconfig.test.json",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts"
+  ],
   "exclude": [
     "node_modules",
-    "dist",
+    "build",
     "coverage"
-  ],
-  "include": [
-    "test/**/*.ts",
-    "vitest.config.js"
   ]
 }

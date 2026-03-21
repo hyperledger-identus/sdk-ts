@@ -8,7 +8,13 @@ import * as Fixtures from "../../fixtures";
 import { createInstance } from '../../fixtures/pluto';
 
 describe("Plugins - DIF", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Apollo: Apollo;
+    Castor: Castor;
+    Pluto: Pluto;
+    JWT: JWT;
+    SDJWT: SDJWT;
+  }>;
 
   beforeEach(async () => {
     const apollo = new Apollo();

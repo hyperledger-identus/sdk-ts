@@ -7,7 +7,12 @@ import { Task } from '../../../../src/utils';
 import * as Fixtures from "../../../fixtures";
 
 describe("Plugins - OEA", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Apollo: Apollo;
+    Castor: Castor;
+    JWT: JWT;
+    SDJWT: SDJWT;
+  }>;
 
   beforeEach(() => {
     const apollo = new Apollo();

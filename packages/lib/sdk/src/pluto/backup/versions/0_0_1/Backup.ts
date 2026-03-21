@@ -60,7 +60,6 @@ export class BackupTask implements IBackupTask {
         const keyLink = didKeyLinks.find(x => x.keyId === key.uuid);
         const did = didModels.find(x => x.uuid === keyLink?.didId);
         const jwk = key.to.JWK();
-
         const backup: Domain.Backup.v0_0_1.Key = {
           recovery_id: key.recoveryId,
           key: base64url.baseEncode(Buffer.from(JSON.stringify(jwk))),

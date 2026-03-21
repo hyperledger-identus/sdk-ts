@@ -7,7 +7,10 @@ import { createInstance } from '../fixtures/pluto';
 import { Apollo, Castor } from '../../src';
 
 describe("CreatePrismDIDWithKeys", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Castor: Domain.Castor;
+    Pluto: Domain.Pluto;
+  }>;
   let castor: Domain.Castor;
   let pluto: Domain.Pluto;
 

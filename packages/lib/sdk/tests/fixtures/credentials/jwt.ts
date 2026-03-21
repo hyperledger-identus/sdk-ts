@@ -33,7 +33,7 @@ export const credentialOfferMessage = new OfferCredential(
   } as any,
   [
     new AttachmentDescriptor({
-      data: JSON.stringify({
+      json: JSON.stringify({
         "options": {
           "challenge": "fedac0c2-3250-4fb1-bfcb-b5e904058e1f",
           "domain": "domain"
