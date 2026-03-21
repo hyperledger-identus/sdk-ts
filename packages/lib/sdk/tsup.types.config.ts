@@ -5,7 +5,7 @@ import Config from './tsup.config';
 
 export default defineConfig({
   ...Config,
-  format: undefined,
+  format: ['esm'],
   dts: {
     resolve: [
       '@hyperledger/identus-anoncreds',

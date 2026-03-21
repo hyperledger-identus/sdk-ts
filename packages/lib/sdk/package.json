@@ -2,43 +2,44 @@
   "name": "@hyperledger/identus-sdk",
   "version": "7.0.0",
   "description": "Identus SDK - Typescript",
-  "main": "./build/index.js",
-  "module": "./build/index.mjs",
+  "type": "module",
+  "main": "./build/index.cjs",
+  "module": "./build/index.js",
   "exports": {
     ".": {
       "types": "./build/index.d.ts",
-      "import": "./build/index.mjs",
-      "require": "./build/index.js",
+      "import": "./build/index.js",
+      "require": "./build/index.cjs",
       "default": "./build/index.js"
     },
     "./plugins/anoncreds": {
       "types": "./build/plugins/internal/anoncreds/index.d.ts",
-      "import": "./build/plugins/internal/anoncreds/index.mjs",
-      "require": "./build/plugins/internal/anoncreds/index.js",
+      "import": "./build/plugins/internal/anoncreds/index.js",
+      "require": "./build/plugins/internal/anoncreds/index.cjs",
       "default": "./build/plugins/internal/anoncreds/index.js"
     },
     "./plugins/didcomm": {
       "types": "./build/plugins/internal/didcomm/index.d.ts",
-      "import": "./build/plugins/internal/didcomm/index.mjs",
-      "require": "./build/plugins/internal/didcomm/index.js",
+      "import": "./build/plugins/internal/didcomm/index.js",
+      "require": "./build/plugins/internal/didcomm/index.cjs",
       "default": "./build/plugins/internal/didcomm/index.js"
     },
     "./plugins/oidc": {
       "types": "./build/plugins/internal/oidc/index.d.ts",
-      "import": "./build/plugins/internal/oidc/index.mjs",
-      "require": "./build/plugins/internal/oidc/index.js",
+      "import": "./build/plugins/internal/oidc/index.js",
+      "require": "./build/plugins/internal/oidc/index.cjs",
       "default": "./build/plugins/internal/oidc/index.js"
     },
     "./plugins/dif": {
       "types": "./build/plugins/internal/dif/index.d.ts",
-      "import": "./build/plugins/internal/dif/index.mjs",
-      "require": "./build/plugins/internal/dif/index.js",
+      "import": "./build/plugins/internal/dif/index.js",
+      "require": "./build/plugins/internal/dif/index.cjs",
       "default": "./build/plugins/internal/dif/index.js"
     },
     "./plugins/oea": {
       "types": "./build/plugins/internal/oea/index.d.ts",
-      "import": "./build/plugins/internal/oea/index.mjs",
-      "require": "./build/plugins/internal/oea/index.js",
+      "import": "./build/plugins/internal/oea/index.js",
+      "require": "./build/plugins/internal/oea/index.cjs",
       "default": "./build/plugins/internal/oea/index.js"
     }
   },

@@ -54,24 +54,21 @@ function wasmPackagesPlugin(): Plugin {
   }
 }
 
+
 export default defineConfig({
-  entry: [
-    'src/index.ts',
-  ],
-  format: ['esm'],
+  entry: ['src/index.ts'],
+  format: ['cjs', 'esm'],
+  tsconfig: 'tsconfig.lib.json',
   outDir: "build",
   clean: true,
   splitting: true,
-  sourcemap: false,
-  // dts handled by separate tsc step (rollup-plugin-dts crashes on protobuf namespaces)
+  dts: false,
+  sourcemap: true,
   skipNodeModulesBundle: false,
-  loader: {
-    '.wasm': 'binary'
-  },
+  loader: { '.wasm': 'binary' },
   esbuildPlugins: [wasmPackagesPlugin()],
   external: ['buffer'],
   minifyWhitespace: true,
   minifyIdentifiers: true,
   minifySyntax: false,
-  dts: true
 });

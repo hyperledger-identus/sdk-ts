@@ -54,12 +54,12 @@ function wasmPackagesPlugin(): Plugin {
 
 export default defineConfig({
   entry: ['src/index.ts'],
-  format: ['esm'],
+  format: ['cjs', 'esm'],
   tsconfig: 'tsconfig.lib.json',
   outDir: "build",
   clean: true,
   splitting: true,
-  dts: true,
+  dts: false,
   sourcemap: true,
   skipNodeModulesBundle: false,
   loader: { '.wasm': 'binary' },

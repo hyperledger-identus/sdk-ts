@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
+ 
 import { uuid } from "@stablelib/uuid";
 import * as Domain from "@hyperledger/identus-domain";
 import { expect, isNil, notNil } from "../../../../utils";
