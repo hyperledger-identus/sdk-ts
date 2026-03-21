@@ -1,12 +1,3 @@
-import { defineConfig } from "vitest/config";
+import { createWasmVitestConfig } from "@hyperledger/identus-wasm-config/vitest.config.js";
 
-import { baseConfig } from "../../../vitest.base.config.mjs";
-
-export default defineConfig({
-  ...baseConfig,
-  test: {
-    ...baseConfig.test,
-
-    include: [__dirname + "/**/*.test.ts"],
-  },
-});
+export default createWasmVitestConfig(__dirname);
