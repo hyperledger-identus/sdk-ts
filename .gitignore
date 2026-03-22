@@ -29,7 +29,7 @@ yarn-error.log*
 didcomm-pkg
 generated-docs
 *.commit
-
+tsconfig.*.tsbuildinfo
 # Environment variables
 .env
 .env.local

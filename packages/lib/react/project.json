@@ -1,0 +1,72 @@
+{
+  "projectType": "library",
+  "implicitDependencies": [
+    "@hyperledger/identus-domain",
+    "@hyperledger/identus-didcomm",
+    "@hyperledger/identus-anoncreds",
+    "@hyperledger/identus-jwe",
+    "@hyperledger/identus-protos"
+  ],
+  "tags": [
+    "scope:building-block"
+  ],
+  "targets": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{projectRoot}/build"
+      ],
+      "options": {
+        "commands": [
+          "rm -rf build/*",
+          "tsup --config tsup.config.ts --format esm,cjs",
+          "tsup --config tsup.types.config.ts --dts-only"
+        ],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest --config=vitest.config.js --run",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "test-watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest watch --config=vitest.config.js",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "coverage": {
+      "dependsOn": [],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest --config=vitest.config.js --run --coverage",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint .",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "docs": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/docs/sdk"
+      ],
+      "options": {
+        "command": "typedoc --options typedoc.js --out ../../../docs/react",
+        "cwd": "{projectRoot}"
+      }
+    }
+  }
+}

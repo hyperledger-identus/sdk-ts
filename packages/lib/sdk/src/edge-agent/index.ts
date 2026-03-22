@@ -4,6 +4,7 @@ export * from "./Agent.MessageEvents";
 export * from "./Context";
 export { CancellableTask } from "./helpers/Task";
 export { FetchApi as ApiImpl } from "./helpers/FetchApi";
+export { RunProtocol } from "./helpers/RunProtocol";
 export * from "./connections";
 export * from "./types";
 export * from './didFunctions';
