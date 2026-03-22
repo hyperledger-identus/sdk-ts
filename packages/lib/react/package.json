@@ -39,7 +39,9 @@
   "license": "Apache-2.0",
   "keywords": [],
   "devDependencies": {
-    "@hyperledger/identus-sdk": "^8.0.0",
+    "@hyperledger/identus-sdk": "workspace:*",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "react": "^18",
@@ -52,8 +54,8 @@
     "uuid": "^11.1.0"
   },
   "peerDependencies": {
+    "@hyperledger/identus-sdk": "workspace:*",
     "react": "^18",
-    "react-dom": "^18",
-    "@hyperledger/identus-sdk": "^8.0.0"
+    "react-dom": "^18"
   }
 }

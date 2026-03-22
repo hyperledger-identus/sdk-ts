@@ -29,7 +29,7 @@ export default defineConfig({
     WasmPlugin(),
   ],
   resolve: {
-    extensions: ['.ts', '.js', '.wasm'],
+    extensions: ['.ts', '.tsx'],
     mainFields: ['module', 'main'],
     alias: {
       // Add path aliases to match tsconfig.json
@@ -48,7 +48,7 @@ export default defineConfig({
     setupFiles: ['./tests/setup.ts'],
     reporters: ['verbose'],
     environment: 'jsdom',
-    include: ['tests/**/*.test.ts'],
+    include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
 
   },
 })

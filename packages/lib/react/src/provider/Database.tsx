@@ -325,23 +325,35 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
         try {
             setState('loading');
 
-            if (!pluto) {
-                const newPluto = await Pluto.create({
+            // Use existing pluto or create a new one.
+            // We keep a local reference so we don't depend on the
+            // stale `pluto` state closure for the queries below.
+            const db = pluto ?? await (async () => {
+                const p = await Pluto.create({
                     dbName: options?.name || "identus",
                     startOptions: options,
                     keyRestoration: apollo
                 });
-                setPluto(newPluto);
-            }
+                setPluto(p);
+                return p;
+            })();
 
-            await getFeatures();
-            await getWallet();
+            // Load features directly using the local `db` reference
+            const featuresRow = await db.store.query("settings", { selector: { key: FEATURES } });
+            const featuresValue = featuresRow.length ? featuresRow[0].value : '';
+            setFeatures(featuresValue.split(','));
+
+            // Load wallet directly using the local `db` reference
+            const walletRow = await db.store.query("settings", { selector: { key: WALLET_NAME } });
+            const walletName = walletRow.length ? walletRow[0].value : null;
+            setCurrentWallet(walletName);
+
             setState('loaded');
         } catch (error) {
             setError(error as Error);
             setState('disconnected');
         }
-    }, [pluto, apollo, getFeatures, getWallet]);
+    }, [pluto, apollo]);
 
     const getCredentials = useCallback(async () => {
         if (state === "loaded" && pluto) {
