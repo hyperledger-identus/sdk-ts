@@ -39,7 +39,7 @@
   "license": "Apache-2.0",
   "keywords": [],
   "devDependencies": {
-    "@hyperledger/identus-sdk": "^7.0.0",
+    "@hyperledger/identus-sdk": "^8.0.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "react": "^18",
@@ -53,6 +53,7 @@
   },
   "peerDependencies": {
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "@hyperledger/identus-sdk": "^8.0.0"
   }
 }
