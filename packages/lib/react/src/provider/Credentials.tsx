@@ -6,6 +6,32 @@ import { useDatabase } from "../hooks";
 import { hasDB } from "../utils";
 
 
+/**
+ * Manages Verifiable Credentials stored in the Pluto database.
+ * 
+ * This provider automatically loads credentials when the database is ready,
+ * and exposes them alongside a `deleteCredential` function via the `useCredentials` hook.
+ *
+ * @example
+ * ```tsx
+ * import { useCredentials } from '@hyperledger/identus-react';
+ * 
+ * function CredentialList() {
+ *   const { credentials, deleteCredential } = useCredentials();
+ *   
+ *   return (
+ *     <ul>
+ *       {credentials.map((cred) => (
+ *         <li key={cred.id}>
+ *           {cred.id}
+ *           <button onClick={() => deleteCredential(cred)}>Delete</button>
+ *         </li>
+ *       ))}
+ *     </ul>
+ *   );
+ * }
+ * ```
+ */
 export function CredentialsProvider({ children }: { children: React.ReactNode }) {
     const { state: dbState, deleteCredential: deleteCredentialDB, getCredentials: getCredentialsDB, pluto } = useDatabase();
     const [credentials, setCredentials] = useState<Domain.Credential[]>([]);

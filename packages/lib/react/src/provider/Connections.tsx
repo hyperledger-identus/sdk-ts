@@ -6,6 +6,32 @@ import { hasDB } from "../utils";
 
 
 
+/**
+ * Manages the agent's DID connections list and listens for internal SDK connection events.
+ * 
+ * This provider automatically refreshes connections when new connections are established
+ * or deleted. Use the `useConnections` hook to consume the connection state.
+ *
+ * @example
+ * ```tsx
+ * import { useConnections } from '@hyperledger/identus-react';
+ * 
+ * function ConnectionsList() {
+ *   const { connections, deleteConnection } = useConnections();
+ *   
+ *   return (
+ *     <ul>
+ *       {connections.map((conn) => (
+ *         <li key={conn.host.toString()}>
+ *           {conn.host.toString()}
+ *           <button onClick={() => deleteConnection(conn)}>Delete</button>
+ *         </li>
+ *       ))}
+ *     </ul>
+ *   );
+ * }
+ * ```
+ */
 export function ConnectionsProvider({ children }: { children: React.ReactNode }) {
     const { agent } = useAgent();
     const { state: dbState, pluto } = useDatabase();

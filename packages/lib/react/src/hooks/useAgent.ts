@@ -2,7 +2,6 @@
  * @packageDocumentation
  * 
  * @module 
- * @mergeModuleWith <project>
  */
 import { useContext } from "react";
 import { AgentContext } from "../context";

@@ -3,7 +3,9 @@
  */
 const typedocOptions = {
     "entryPoints": [
-        "./src/index.tsx"
+        "./src/index.tsx",
+        "./src/hooks/index.ts",
+        "./src/context/index.ts"
     ],
     "entryPointStrategy": "resolve",
     "out": "./docs/sdk",
@@ -11,11 +13,28 @@ const typedocOptions = {
         "typedoc-plugin-markdown",
         "typedoc-plugin-rename-defaults"
     ],
+    "externalSymbolLinkMappings": {
+        "@trust0/ridb": {
+            "RIDB": "https://github.com/trust0-project/RIDB/blob/main/docs/%40trust0/ridb/classes/RIDB.md",
+            "StorageType": "https://github.com/trust0-project/RIDB/blob/main/docs/%40trust0/ridb/enumerations/StorageType.md"
+        },
+        "@trust0/ridb-core": {
+            "Collection": "https://github.com/trust0-project/RIDB/docs/@trust0/ridb-core/classes/Collection.md",
+            "SchemaTypeRecord": "https://github.com/trust0-project/RIDB/blob/main/docs/%40trust0/ridb-core/type-aliases/SchemaTypeRecord.md",
+            "BaseStorage": "https://github.com/trust0-project/RIDB/blob/main/docs/%40trust0/ridb-core/classes/BaseStorage.md"
+        },
+        "@hyperledger/identus-sdk": {
+            "*": "docs/sdk/overview/README.md"
+        },
+        "react": {
+            "React.Context": "https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype"
+        }
+    },
     "strikeDeprecatedPageTitles": true,
     "useTsLinkResolution": true,
     "hideGenerator": true,
     "excludePrivate": true,
-    "useCodeBlocks": false,
+    "useCodeBlocks": true,
     "excludeReferences": false,
     "excludeProtected": true,
     "excludeInternal": true,

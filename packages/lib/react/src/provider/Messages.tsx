@@ -25,6 +25,36 @@ const isPickupDeliveryMessage = (message: Domain.Message): boolean => {
 	return isPickupDelivery;
 };
 
+/**
+ * Integrates directly with the agent's message bus to provide local state for all DIDComm messages.
+ * 
+ * By wrapping your app with this provider, you can seamlessly read, track unread counts,
+ * and delete messages. Consumed via the `useMessages` hook.
+ *
+ * @example
+ * ```tsx
+ * import { useMessages } from '@hyperledger/identus-react';
+ * 
+ * function MessageInbox() {
+ *   const { messages, unreadMessages, readMessage, deleteMessage } = useMessages();
+ *   
+ *   return (
+ *     <div>
+ *       <h3>Inbox ({unreadMessages.length} unread)</h3>
+ *       <ul>
+ *         {messages.map((msgItem) => (
+ *           <li key={msgItem.message.id} style={{ fontWeight: msgItem.read ? 'normal' : 'bold' }}>
+ *             {msgItem.message.type}
+ *             <button onClick={() => readMessage(msgItem.message)}>Mark Read</button>
+ *             <button onClick={() => deleteMessage(msgItem.message)}>Delete</button>
+ *           </li>
+ *         ))}
+ *       </ul>
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
 export function MessagesProvider({ children }: { children: React.ReactNode }) {
 	const { agent, state: agentState } = useAgent();
 	const {

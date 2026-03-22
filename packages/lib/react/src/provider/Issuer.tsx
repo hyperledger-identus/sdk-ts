@@ -11,6 +11,32 @@ type IssuanceFlow = Issuance;
 type Request = IssuanceFlow extends infer T ? T extends null ? never : T : never;
 
 
+/**
+ * Provides context and methods for the Issuer role in the Verifiable Credentials flow.
+ * 
+ * Enables creating credential offers (OOB) and issuing credentials when
+ * requests are received. Consumed via the `useIssuer` hook.
+ *
+ * @example
+ * ```tsx
+ * import { useIssuer } from '@hyperledger/identus-react';
+ * import { Domain } from '@hyperledger/identus-sdk';
+ * 
+ * function CredentialIssuer() {
+ *   const { createOOBOffer } = useIssuer();
+ *   
+ *   const offerCred = () => {
+ *     createOOBOffer(
+ *       Domain.CredentialType.JWT,
+ *       'thread-id-123',
+ *       [{ name: 'Name', value: 'Alice', type: 'String' }]
+ *     ).then((oob) => console.log('OOB URL payload: ', oob));
+ *   };
+ *   
+ *   return <button onClick={offerCred}>Create Credential Offer</button>
+ * }
+ * ```
+ */
 export function IssuerProvider({ children }: { children: React.ReactNode }) {
     const { agent, start, stop, state } = useAgent();
     const { load: reloadMessages, receivedMessages, sentMessages } = useMessages();

@@ -1,6 +1,6 @@
-<!-- title: Introduction -->
-<!-- sidebar_label: Introduction -->
-<!-- sidebar_position: 1 -->
+<!-- title: React -->
+<!-- sidebar_label: React -->
+<!-- sidebar_position: 3 -->
 
 You can install the SDK with npm, yarn, etc.
 

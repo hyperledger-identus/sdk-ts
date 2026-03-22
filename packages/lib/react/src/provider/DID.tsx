@@ -21,6 +21,28 @@ function useDIDCreation<T>(
     return { did, create };
 }
 
+/**
+ * Provides functionality for creating and managing Prism DIDs.
+ * 
+ * Use the `usePrismDID` hook to access the context values, allowing you
+ * to create a new Prism DID and check its published status on the registry.
+ *
+ * @example
+ * ```tsx
+ * import { usePrismDID } from '@hyperledger/identus-react';
+ * 
+ * function PrismDIDCreator() {
+ *   const { prismDID, create, isPublished } = usePrismDID();
+ *   
+ *   return (
+ *     <div>
+ *       {prismDID && <p>Current DID: {prismDID.toString()}</p>}
+ *       <button onClick={() => create()}>Create Prism DID</button>
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
 export function PrismDIDProvider({ children }: { children: React.ReactNode }) {
     const { agent, state } = useAgent();
     const { state: dbState, getGroupedDIDs, pluto } = useDatabase();
@@ -48,6 +70,26 @@ export function PrismDIDProvider({ children }: { children: React.ReactNode }) {
     );
 }
 
+/**
+ * Provides functionality for creating and managing Peer DIDs.
+ * 
+ * Peer DIDs are typically used for direct, point-to-point connections with other agents.
+ * 
+ * @example
+ * ```tsx
+ * import { usePeerDID } from '@hyperledger/identus-react';
+ * 
+ * function PeerDIDCreator() {
+ *   const { peerDID, create } = usePeerDID();
+ *   
+ *   return (
+ *     <button onClick={() => create()}>
+ *       Create new Peer DID
+ *     </button>
+ *   );
+ * }
+ * ```
+ */
 export function PeerDIDProvider({ children }: { children: React.ReactNode }) {
     const { did, create } = useDIDCreation(
         (agent) => agent.createNewPeerDID([], true)

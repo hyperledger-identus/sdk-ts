@@ -1,0 +1,10 @@
+{
+    "label": "Plugins",
+    "position": 2,
+    "collapsed": true,
+    "collapsible": true,
+    "link": {
+        "type": "generated-index",
+        "title": "Plugins"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "label": "DIF",
+    "position": 2,
+    "collapsed": true,
+    "collapsible": true,
+    "link": {
+        "type": "doc",
+        "id": "sdk-ts/docs/sdk/plugins/internal/dif/README.md"
+    }
+}

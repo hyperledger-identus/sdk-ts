@@ -10,6 +10,32 @@ import { hasDB } from "../utils";
 
 export type DIDStatus = 'unpublished' | 'published' | 'deactivated';
 
+/**
+ * Initializes and manages the `Pluto` database instance and its connection state.
+ * 
+ * This provider connects to the local storage Database used by the Identus SDK
+ * for persisting seeds, keys, DIDs, and credentials. Use the `useDatabase` hook
+ * to interact with this context.
+ *
+ * @example
+ * ```tsx
+ * import { useDatabase } from '@hyperledger/identus-react';
+ * 
+ * function DatabaseControls() {
+ *   const { state, start, error } = useDatabase();
+ *   
+ *   if (state === 'disconnected') {
+ *     return <button onClick={() => start()}>Connect DB</button>
+ *   }
+ *   
+ *   if (error) {
+ *     return <p>Error connecting: {error.message}</p>
+ *   }
+ *   
+ *   return <p>Database is {state}</p>
+ * }
+ * ```
+ */
 export function DatabaseProvider({ children }: { children: React.ReactNode }) {
     const apollo = useApollo();
     const [state, setState] = useState<any>('disconnected');

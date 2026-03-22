@@ -2,7 +2,6 @@
  * @packageDocumentation
  * 
  * @module 
- * @mergeModuleWith <project>
  */
 import { type Domain, type Agent, type Pluto, type Issuance, type StartOptions } from "@hyperledger/identus-sdk";
 import { createContext } from "react";

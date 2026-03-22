@@ -131,6 +131,36 @@ function WrappedAgentProvider({ children }: { children: React.ReactNode }) {
     </AgentContext.Provider>
 }
 
+/**
+ * Provides the initialized `Agent` instance and its lifecycle management to the React tree.
+ * 
+ * It automatically wraps the entire application with nested providers for capabilities like
+ * `CredentialsProvider`, `ConnectionsProvider`, `PrismDIDProvider`, etc.
+ *
+ * @example
+ * ```tsx
+ * import { AgentProvider, useAgent } from '@hyperledger/identus-react';
+ * 
+ * function App() {
+ *   return (
+ *     <AgentProvider>
+ *       <AgentControls />
+ *     </AgentProvider>
+ *   );
+ * }
+ * 
+ * function AgentControls() {
+ *   const { agent, start, stop, state } = useAgent();
+ *   
+ *   return (
+ *     <div>
+ *       <p>Agent Status: {state}</p>
+ *       <button onClick={() => start()}>Start Agent</button>
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
 export function AgentProvider({ children }: { children: React.ReactNode }) {
     return <DatabaseProvider>
         <WrappedAgentProvider >

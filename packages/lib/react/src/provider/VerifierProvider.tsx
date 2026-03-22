@@ -8,6 +8,31 @@ import { OutOfBandInvitation } from "@hyperledger/identus-sdk/plugins/didcomm";
 import { VerifierContext } from "../context";
 import { useAgent, usePeerDID } from "../hooks";
 
+/**
+ * Provides Verifier capabilities for requesting and verifying Presentation submissions.
+ * 
+ * Includes functionalities for Out-Of-Band (OOB) requests and verifying DIDComm presentations.
+ * Consumed via the `useVerifier` hook.
+ *
+ * @example
+ * ```tsx
+ * import { useVerifier } from '@hyperledger/identus-react';
+ * import { Domain } from '@hyperledger/identus-sdk';
+ * 
+ * function VerificationStation() {
+ *   const { issueOOBPresentationRequest } = useVerifier();
+ *   
+ *   const requestProof = () => {
+ *     issueOOBPresentationRequest(
+ *       Domain.CredentialType.JWT,
+ *       { claims: { 'Name': { type: 'string' } } }
+ *     ).then((oob) => console.log('OOB URL payload: ', oob));
+ *   };
+ *   
+ *   return <button onClick={requestProof}>Request Presentation</button>
+ * }
+ * ```
+ */
 export function VerifierProvider({ children }: { children: React.ReactNode }) {
     const { agent, start, stop, state } = useAgent();
     const { create: createPeerDID } = usePeerDID();

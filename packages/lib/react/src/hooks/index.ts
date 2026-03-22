@@ -2,8 +2,7 @@
  * @packageDocumentation
  * 
  * @module 
- * @mergeModuleWith <project>
- */ 
+ */
 
 export * from "./useApollo";
 export * from "./useCastor";

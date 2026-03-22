@@ -16,6 +16,17 @@ const typedocOptions = {
         "typedoc-plugin-markdown",
         "typedoc-plugin-rename-defaults"
     ],
+    "externalSymbolLinkMappings": {
+        "@trust0/ridb": {
+            "RIDB": "https://github.com/trust0-project/RIDB/blob/main/docs/%40trust0/ridb/classes/RIDB.md",
+            "StorageType": "https://github.com/trust0-project/RIDB/blob/main/docs/%40trust0/ridb/enumerations/StorageType.md"
+        },
+        "@trust0/ridb-core": {
+            "Collection": "https://github.com/trust0-project/RIDB/docs/@trust0/ridb-core/classes/Collection.md",
+            "SchemaTypeRecord": "https://github.com/trust0-project/RIDB/blob/main/docs/%40trust0/ridb-core/type-aliases/SchemaTypeRecord.md",
+            "BaseStorage": "https://github.com/trust0-project/RIDB/blob/main/docs/%40trust0/ridb-core/classes/BaseStorage.md"
+        }
+    },
     "strikeDeprecatedPageTitles": true,
     "useTsLinkResolution": true,
     "hideGenerator": true,

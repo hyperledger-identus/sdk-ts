@@ -7,6 +7,28 @@ import { RequestPresentation, CreatePresentation } from "@hyperledger/identus-sd
 import { HolderContext } from "../context";
 import { useAgent, useMessages, usePeerDID } from "../hooks";
 
+/**
+ * Exposes methods and state for the Holder role in the Verifiable Credentials flow.
+ * 
+ * Allows a Holder to handle credential offers (OOB), accept offers, and respond
+ * to presentation requests. Use the `useHolder` hook to consume the context.
+ *
+ * @example
+ * ```tsx
+ * import { useHolder } from '@hyperledger/identus-react';
+ * 
+ * function OutOfBandReceiver() {
+ *   const { parseOOB, acceptOOBOffer } = useHolder();
+ *   
+ *   const handleScan = async (scannedUrl: string) => {
+ *     const offerMessage = await parseOOB(scannedUrl);
+ *     await acceptOOBOffer(offerMessage);
+ *   };
+ *   
+ *   return <button onClick={() => handleScan('https://...')}>Simulate Scan</button>
+ * }
+ * ```
+ */
 export function HolderProvider({ children }: { children: React.ReactNode }) {
     const { agent, start, stop, state } = useAgent();
     const { load: reloadMessages } = useMessages();

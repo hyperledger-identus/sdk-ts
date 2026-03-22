@@ -1,0 +1,10 @@
+{
+    "label": "React",
+    "position": 3,
+    "collapsed": true,
+    "collapsible": true,
+    "link": {
+        "type": "doc",
+        "id": "sdk-ts/docs/react/README.md"
+    }
+}

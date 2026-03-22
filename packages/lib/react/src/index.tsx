@@ -1,10 +1,11 @@
 /**
  * @packageDocumentation
  * 
+ * <!-- title: Providers -->
+ * <!-- sidebar_label: Providers -->
+ * <!-- sidebar_position: 1 -->
  * 
- * 
- * @module 
- * @mergeModuleWith <project>
+ * @module provider
  */
 
 export * from "./provider";

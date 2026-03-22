@@ -1,0 +1,10 @@
+{
+    "label": "Anoncreds",
+    "position": 2,
+    "collapsed": true,
+    "collapsible": true,
+    "link": {
+        "type": "doc",
+        "id": "sdk-ts/docs/sdk/plugins/internal/anoncreds/README.md"
+    }
+}
