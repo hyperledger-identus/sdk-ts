@@ -1,0 +1,15 @@
+{
+  "name": "@hyperledger/identus-wasm-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    "./tsup.config": "./tsup.config.ts",
+    "./vitest.wasm-config.js": "./vitest.wasm-config.js",
+    "./eslint.config.mjs": "./eslint.config.mjs",
+    "./tsconfig.wasm.json": "./tsconfig.wasm.json",
+    "./tsconfig.wasm-lib.json": "./tsconfig.wasm-lib.json",
+    "./tsconfig.wasm-eslint.json": "./tsconfig.wasm-eslint.json"
+  }
+}

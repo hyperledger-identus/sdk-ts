@@ -25,6 +25,9 @@
     "isolatedModules": true,
     "resolveJsonModule": true,
     "paths": {
+      "@hyperledger/identus-wasm-config/*": [
+        "./packages/wasm/config/*"
+      ],
       "@hyperledger/identus-didcomm": [
         "./packages/wasm/didcomm/build/index.d.ts"
       ],

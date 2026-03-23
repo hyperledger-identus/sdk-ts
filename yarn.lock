@@ -1973,6 +1973,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@hyperledger/identus-wasm-config@workspace:packages/wasm/config":
+  version: 0.0.0-use.local
+  resolution: "@hyperledger/identus-wasm-config@workspace:packages/wasm/config"
+  languageName: unknown
+  linkType: soft
+
 "@isaacs/balanced-match@npm:^4.0.1":
   version: 4.0.1
   resolution: "@isaacs/balanced-match@npm:4.0.1"

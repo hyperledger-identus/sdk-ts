@@ -51,7 +51,7 @@
         "{projectRoot}/build"
       ],
       "options": {
-        "command": "tsup",
+        "command": "tsup && tsup --format undefined --dts-only",
         "cwd": "{projectRoot}"
       }
     }

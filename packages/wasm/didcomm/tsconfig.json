@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "@hyperledger/identus-wasm-config/tsconfig.wasm.json",
   "include": [
     "src/**/*"
   ],

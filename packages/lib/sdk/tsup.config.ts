@@ -29,6 +29,7 @@ export default defineConfig({
   minifyWhitespace: true,
   minifyIdentifiers: true,
   minifySyntax: false,
+  shims: true,
   noExternal: [
     '@hyperledger/identus-anoncreds',
     '@hyperledger/identus-didcomm',
