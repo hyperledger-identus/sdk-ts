@@ -3397,39 +3397,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trust0/identus-store@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@trust0/identus-store@npm:2.0.0"
-  dependencies:
-    "@trust0/ridb": "npm:^1.5.41"
-    "@trust0/ridb-core": "npm:^1.7.36"
-    uuid: "npm:^11.1.0"
-  peerDependencies:
-    "@hyperledger/identus-sdk": ^7.0.0
-  checksum: 10c0/0b93899cf464e6ee52bc0e5be61a1160ba1e4c530aeb0ff0a6f11b4f11d007543099932a37737558837ede1393d5602631238ab881833642d7c711ccce520c04
-  languageName: node
-  linkType: hard
-
 "@trust0/ridb-core@npm:1.7.39, @trust0/ridb-core@npm:^1.7.39":
   version: 1.7.39
   resolution: "@trust0/ridb-core@npm:1.7.39"
   checksum: 10c0/df31fab1b829b28bf34c4b794342010edae5e717e9855c9a0a989f1c6cfd232cf17426103f6731a70ede15392527104788fa32daeb83395338c49fe8419eee0c
-  languageName: node
-  linkType: hard
-
-"@trust0/ridb-core@npm:^1.7.36":
-  version: 1.7.36
-  resolution: "@trust0/ridb-core@npm:1.7.36"
-  checksum: 10c0/609684efbd35ebcd71e06ae2ee90f8992e969fe94ccab9346c2796c500fa12bb76dc384fae718e3709e9568bb6efaa97edc093917a4928ed62abc0699d78cf3e
-  languageName: node
-  linkType: hard
-
-"@trust0/ridb@npm:^1.5.41":
-  version: 1.5.41
-  resolution: "@trust0/ridb@npm:1.5.41"
-  dependencies:
-    "@trust0/ridb-core": "npm:^1.7.36"
-  checksum: 10c0/e857b6589f9b031396bdf68b6ec96e3cca31ea21223202105ecda6a8ced7d272588768fb93eea533ebe8f06833074adba5241df18d438e17bb28e0cb401e1efa
   languageName: node
   linkType: hard
 
@@ -6390,7 +6361,6 @@ __metadata:
     "@nx/vite": "npm:22.4.4"
     "@swc-node/register": "npm:^1.11.1"
     "@swc/core": "npm:^1.11.24"
-    "@trust0/identus-store": "npm:^2.0.0"
     "@types/google-protobuf": "npm:^3.15.6"
     "@types/jsonld": "npm:^1.5.14"
     "@types/node": "npm:^22"
