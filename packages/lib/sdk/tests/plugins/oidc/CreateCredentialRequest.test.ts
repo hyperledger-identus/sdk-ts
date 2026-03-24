@@ -7,13 +7,16 @@ import { InvalidCredentialConfigurationIds } from '../../../src/plugins/internal
 import { CreatePrismDID } from '../../../src/edge-agent/didFunctions/CreatePrismDID';
 import { mockTask } from "../../testFns";
 import * as Fixtures from "../../fixtures";
+import { JWT } from '../../../src';
 
 describe("OIDC Tasks", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    JWT: JWT;
+  }>;
 
   beforeEach(() => {
     ctx = new Task.Context({
-      JWT: { signWithDID: vi.fn() }
+      JWT: { signWithDID: vi.fn() } as any
     });
   });
 

@@ -15,7 +15,9 @@ import { Setup } from "../configuration/Setup"
 import { randomUUID, type UUID } from "crypto"
 import { PrismShortFormDIDResolver } from "../resolvers/PrismShortFormDIDResolver"
 import { Utils } from "../Utils"
-export const agentList: Map<string, WalletSdk> = new Map()
+
+export const agentList: Map<string, WalletSdk> = new Map();
+
 export class WalletSdk extends Ability implements Initialisable, Discardable {
   seed!: Domain.Seed
   sdk!: Agent

@@ -2,13 +2,19 @@ import { vi, describe, expect, test, beforeEach } from 'vitest';
 import { PresentationRequest } from '../../../src/plugins/internal/dif/PresentationRequest';
 import { DIF } from '../../../src/plugins/internal/dif/types';
 import { Task } from '../../../src/utils';
-import { Apollo, Castor, JWTCredential, SDJWTCredential } from '../../../src';
+import { Apollo, Castor, JWTCredential, Pluto, SDJWTCredential } from '../../../src';
 import { JWT, SDJWT } from "../../../src/pollux/utils/jwt";
 import * as Fixtures from "../../fixtures";
 import { createInstance } from '../../fixtures/pluto';
 
 describe("Plugins - DIF", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Apollo: Apollo;
+    Castor: Castor;
+    Pluto: Pluto;
+    JWT: JWT;
+    SDJWT: SDJWT;
+  }>;
 
   beforeEach(async () => {
     const apollo = new Apollo();

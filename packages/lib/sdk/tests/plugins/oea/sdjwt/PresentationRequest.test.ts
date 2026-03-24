@@ -4,12 +4,18 @@ import { JWT, SDJWT } from "../../../../src/pollux/utils/jwt";
 import { PresentationRequest } from '../../../../src/plugins/internal/oea/sdjwt';
 import { Task } from '../../../../src/utils';
 import { OEA } from '../../../../src/plugins/internal/oea/types';
-import { Pluto, AgentError, PolluxError } from '@hyperledger/identus-domain';
+import { Pluto, AgentError, PolluxError, Castor } from '@hyperledger/identus-domain';
 import * as Fixtures from "../../../fixtures";
 import { createInstance } from '../../../fixtures/pluto';
 
 describe("Plugins - OEA", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Apollo: Apollo;
+    Castor: Castor;
+    Pluto: Pluto;
+    JWT: JWT;
+    SDJWT: SDJWT;
+  }>;
   let pluto: Pluto;
 
   beforeEach(async () => {

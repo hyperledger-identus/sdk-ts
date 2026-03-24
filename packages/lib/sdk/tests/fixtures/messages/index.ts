@@ -10,7 +10,7 @@ const convertDidcomm = (value: any) => new Domain.Message(
   typeof value.from === "string" ? Domain.DID.fromString(value.from) : undefined,
   typeof value.to?.at(0) === "string" ? Domain.DID.fromString(value.to?.at(0)) : undefined,
   // this.parseAttachmentsToDomain(value.attachments ?? []),
-  (value.attachments ?? []).map(x => ({
+  (value.attachments ?? []).map((x: { data: { base64: any; json: any; }; }) => ({
     ...x,
     data: {
       base64: x.data.base64,

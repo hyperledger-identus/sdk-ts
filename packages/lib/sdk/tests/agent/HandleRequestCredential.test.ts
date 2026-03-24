@@ -33,7 +33,13 @@ const atLeastContains = (actual: any, expected: any): boolean => {
 };
 
 describe("HandleRequestCredential", () => {
-    let ctx: Task.Context;
+    let ctx: Task.Context<{
+        Castor: Domain.Castor;
+        Pluto: Domain.Pluto;
+        Plugins: PluginManager;
+        JWT: JWT;
+        SDJWT: SDJWT;
+    }>;
     let pluto: Domain.Pluto;
     let mockJWT: any;
     let mockSDJWT: any;
@@ -72,24 +78,28 @@ describe("HandleRequestCredential", () => {
             },
         };
 
+        const jjj = Fixtures.Keys.secp256K1.publicKey.to.JWK();
+
+        const pubJwk = Fixtures.Keys.secp256K1.publicKey.to.JWK() as unknown as { kty: string; crv: string; x?: string; y?: string; d?: string };
+
         mockPublicKey = {
             canVerify: vi.fn().mockReturnValue(true),
             isExportable: vi.fn().mockReturnValue(true),
             to: {
                 Buffer: vi.fn().mockReturnValue(Fixtures.Keys.secp256K1.publicKey.raw),
-                JWK: vi.fn().mockReturnValue(Fixtures.Keys.secp256K1.publicKey.to.JWK())
+                JWK: vi.fn().mockReturnValue(pubJwk)
             },
             get kty() {
-                return Fixtures.Keys.secp256K1.publicKey.to.JWK().kty
+                return pubJwk.kty
             },
             get crv() {
-                return Fixtures.Keys.secp256K1.publicKey.to.JWK().crv
+                return pubJwk.crv
             },
             get x() {
-                return Fixtures.Keys.secp256K1.publicKey.to.JWK().x
+                return pubJwk.x
             },
             get y() {
-                return Fixtures.Keys.secp256K1.publicKey.to.JWK().y
+                return pubJwk.y
             }
         }
 
@@ -100,13 +110,13 @@ describe("HandleRequestCredential", () => {
             sign: vi.fn(),
             publicKey: vi.fn().mockReturnValue(mockPublicKey),
             get kty() {
-                return Fixtures.Keys.secp256K1.publicKey.to.JWK().kty
+                return pubJwk.kty
             },
             get crv() {
-                return Fixtures.Keys.secp256K1.publicKey.to.JWK().crv
+                return pubJwk.crv
             },
             get d() {
-                return Fixtures.Keys.secp256K1.publicKey.to.JWK().d
+                return pubJwk.d
             }
         }
 

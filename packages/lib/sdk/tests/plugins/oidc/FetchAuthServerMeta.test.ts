@@ -1,11 +1,13 @@
 import { vi, describe, expect, test, beforeEach, afterEach } from 'vitest';
 import { Task } from "../../../src/utils/tasks";
 import { FetchAuthServerMeta } from "../../../src/plugins/internal/oidc";
-import { ApiResponse } from '@hyperledger/identus-domain';
+import { Api, ApiResponse } from '@hyperledger/identus-domain';
 import * as Fixtures from "../../fixtures";
 
 describe("OIDC Tasks", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Api: Api;
+  }>;
 
   beforeEach(() => {
     ctx = new Task.Context({

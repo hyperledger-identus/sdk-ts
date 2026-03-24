@@ -125,7 +125,7 @@ export class FromJWK extends Task<PublicKey | KeyPair, Args> {
     return pk;
   }
 
-  async run(ctx: AgentContext): Promise<PublicKey | KeyPair> {
+  async run(ctx: Pick<AgentContext, "Apollo">): Promise<PublicKey | KeyPair> {
     const jwk = this.args.jwk;
     const isEC = this.isECJWK(jwk);
     const isOKP = this.isOKPJWK(jwk);

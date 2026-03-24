@@ -12,19 +12,19 @@ describe("Mercury DIDComm DIDResolver", () => {
       const vmAuthentication = new Domain.DIDDocument.VerificationMethod(
         "vm-ED25519",
         "1",
-        "type",
+        "Ed25519VerificationKey2018",
         { crv: Domain.Curve.ED25519, kid: "kid", x: "xData" } as any
       );
       const vmKeyAgreements = new Domain.DIDDocument.VerificationMethod(
         "vm-X25519",
         "2",
-        "type",
+        "X25519KeyAgreementKey2019",
         { crv: Domain.Curve.X25519, kid: "kid", x: "xData" } as any
       );
       const vmOther = new Domain.DIDDocument.VerificationMethod(
         "vm-SECP256K1",
         "3",
-        "type",
+        "EcdsaSecp256k1VerificationKey2019",
         { crv: Domain.Curve.SECP256K1, kid: "kid", x: "xData" } as any
       );
       const service = new Domain.DIDDocument.Service(

@@ -9,7 +9,12 @@ import { Apollo, Castor } from '../../src';
 import { createInstance } from '../fixtures/pluto';
 
 describe("CreatePrismDID", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Apollo: Domain.Apollo;
+    Castor: Domain.Castor;
+    Pluto: Domain.Pluto;
+    Seed: { value: Uint8Array };
+  }>;
   let apollo: Domain.Apollo;
   let castor: Domain.Castor;
   let pluto: Domain.Pluto;
@@ -27,7 +32,7 @@ describe("CreatePrismDID", () => {
         Apollo: apollo,
         Castor: castor,
         Pluto: pluto,
-        Seed: { value: "abc" },
+        Seed: { value: Uint8Array.from("abc") },
       });
     });
 

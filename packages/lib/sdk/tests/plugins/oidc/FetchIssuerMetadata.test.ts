@@ -5,9 +5,12 @@ import { ValidationError } from "@hyperledger/identus-domain";
 import { FetchIssuerMetadata } from "../../../src/plugins/internal/oidc/tasks";
 import { TokenResponse } from "../../../src/plugins/internal/oidc/types";
 import * as Fixtures from "../../fixtures";
+import { Api } from "@hyperledger/identus-domain";
 
 describe("OIDC Tasks", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Api: Api;
+  }>;
 
   beforeEach(() => {
     ctx = new Task.Context({

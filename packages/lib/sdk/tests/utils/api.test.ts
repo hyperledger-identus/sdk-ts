@@ -1,7 +1,7 @@
 import { describe, expect, test, beforeEach, beforeAll, afterAll } from 'vitest';
 import { ApiImpl } from "../../src";
 import { ApiError } from '@hyperledger/identus-domain';
-import Server from "./server";
+import { makeServer } from "./server";
 
 describe("Api test", () => {
   const url = 'http://127.0.0.1:3333';
@@ -13,7 +13,7 @@ describe("Api test", () => {
   let api: ApiImpl;
 
   beforeAll(async () => {
-    stopServer = await Server.makeServer();
+    stopServer = await makeServer();
   });
 
   afterAll(() => stopServer());

@@ -6,7 +6,7 @@ import { HandleIssueCredential } from '../../../src/plugins/internal/didcomm/tas
 
 
 describe("Agent", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{}>;
 
   beforeEach(() => {
     ctx = new Task.Context({});

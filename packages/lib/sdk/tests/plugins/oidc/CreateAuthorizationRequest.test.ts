@@ -5,7 +5,7 @@ import { AuthorizationRequest } from '../../../src/plugins/internal/oidc';
 import * as Fixtures from "../../fixtures";
 
 describe("OIDC Tasks", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{}>
 
   beforeEach(() => {
     ctx = new Task.Context({});

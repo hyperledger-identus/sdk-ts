@@ -13,7 +13,12 @@ import * as DIDComm from "../../src/plugins/internal/didcomm";
 import { createInstance } from '../fixtures/pluto';
 
 describe("StartMediator", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Connections: ConnectionsManager;
+    Mercury: Domain.Mercury;
+    Pluto: Domain.Pluto;
+    Plugins: PluginManager;
+  }>;
   let connections: ConnectionsManager;
   let mercury: Domain.Mercury;
   let pluto: Domain.Pluto;

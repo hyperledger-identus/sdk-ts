@@ -5,7 +5,12 @@ import { JWT, SDJWT } from "../../../src/pollux/utils/jwt";
 import { CreatePresentationDefinition } from '../../../src/plugins/internal/dif/module/CreatePresentationDefinition';
 
 describe("Plugins - DIF", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Apollo: Apollo;
+    Castor: Castor;
+    JWT: JWT;
+    SDJWT: SDJWT;
+  }>;
 
   beforeEach(() => {
     const apollo = new Apollo();

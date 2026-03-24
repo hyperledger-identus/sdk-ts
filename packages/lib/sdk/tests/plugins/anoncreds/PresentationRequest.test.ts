@@ -11,7 +11,10 @@ import { createInstance } from '../../fixtures/pluto';
 import { AnonCredsCredential } from '../../../src/plugins/internal/anoncreds';
 
 describe("Plugins - Anoncreds", () => {
-  let ctx: Task.Context;
+  let ctx: Task.Context<{
+    Pluto: Pluto;
+    Anoncreds: AnoncredsLoader;
+  }>;
   let pluto: Pluto;
 
   beforeEach(async () => {
