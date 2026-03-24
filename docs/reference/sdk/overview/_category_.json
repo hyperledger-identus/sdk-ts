@@ -1,0 +1,10 @@
+{
+    "label": "Overview",
+    "position": 1,
+    "collapsed": true,
+    "collapsible": true,
+    "link": {
+        "type": "doc",
+        "id": "sdk-ts/docs/sdk/overview/README.md"
+    }
+}

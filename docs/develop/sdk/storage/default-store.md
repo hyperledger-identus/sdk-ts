@@ -1,6 +1,6 @@
 <!-- sidebar_position: 2 -->
 
-# Default Store (RIDB)
+# Default Store
 
 The SDK ships with a ready-to-use store backed by [RIDB](https://www.npmjs.com/package/@trust0/ridb) — a TypeScript-first reactive database that supports encryption, schema migrations, and pluggable storage backends.
 

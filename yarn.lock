@@ -1918,7 +1918,27 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@hyperledger/identus-sdk@npm:*, @hyperledger/identus-sdk@workspace:packages/lib/sdk":
+"@hyperledger/identus-react@workspace:packages/lib/react":
+  version: 0.0.0-use.local
+  resolution: "@hyperledger/identus-react@workspace:packages/lib/react"
+  dependencies:
+    "@hyperledger/identus-sdk": "workspace:*"
+    "@testing-library/dom": "npm:^10.4.1"
+    "@testing-library/react": "npm:^16"
+    "@types/react": "npm:^18"
+    "@types/react-dom": "npm:^18"
+    multiformats: "npm:^9.9.0"
+    react: "npm:^18"
+    react-dom: "npm:^18"
+    uuid: "npm:^11.1.0"
+  peerDependencies:
+    "@hyperledger/identus-sdk": "workspace:*"
+    react: ^18
+    react-dom: ^18
+  languageName: unknown
+  linkType: soft
+
+"@hyperledger/identus-sdk@npm:*, @hyperledger/identus-sdk@workspace:*, @hyperledger/identus-sdk@workspace:packages/lib/sdk":
   version: 0.0.0-use.local
   resolution: "@hyperledger/identus-sdk@workspace:packages/lib/sdk"
   dependencies:
@@ -3332,7 +3352,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^10.4.0":
+"@testing-library/dom@npm:^10.4.0, @testing-library/dom@npm:^10.4.1":
   version: 10.4.1
   resolution: "@testing-library/dom@npm:10.4.1"
   dependencies:
@@ -3348,6 +3368,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/react@npm:^16":
+  version: 16.3.2
+  resolution: "@testing-library/react@npm:16.3.2"
+  dependencies:
+    "@babel/runtime": "npm:^7.12.5"
+  peerDependencies:
+    "@testing-library/dom": ^10.0.0
+    "@types/react": ^18.0.0 || ^19.0.0
+    "@types/react-dom": ^18.0.0 || ^19.0.0
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/f9c7f0915e1b5f7b750e6c7d8b51f091b8ae7ea99bacb761d7b8505ba25de9cfcb749a0f779f1650fb268b499dd79165dc7e1ee0b8b4cb63430d3ddc81ffe044
+  languageName: node
+  linkType: hard
+
 "@testing-library/user-event@npm:^14.6.1":
   version: 14.6.1
   resolution: "@testing-library/user-event@npm:14.6.1"
@@ -3357,39 +3397,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trust0/identus-store@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@trust0/identus-store@npm:2.0.0"
-  dependencies:
-    "@trust0/ridb": "npm:^1.5.41"
-    "@trust0/ridb-core": "npm:^1.7.36"
-    uuid: "npm:^11.1.0"
-  peerDependencies:
-    "@hyperledger/identus-sdk": ^7.0.0
-  checksum: 10c0/0b93899cf464e6ee52bc0e5be61a1160ba1e4c530aeb0ff0a6f11b4f11d007543099932a37737558837ede1393d5602631238ab881833642d7c711ccce520c04
-  languageName: node
-  linkType: hard
-
 "@trust0/ridb-core@npm:1.7.39, @trust0/ridb-core@npm:^1.7.39":
   version: 1.7.39
   resolution: "@trust0/ridb-core@npm:1.7.39"
   checksum: 10c0/df31fab1b829b28bf34c4b794342010edae5e717e9855c9a0a989f1c6cfd232cf17426103f6731a70ede15392527104788fa32daeb83395338c49fe8419eee0c
-  languageName: node
-  linkType: hard
-
-"@trust0/ridb-core@npm:^1.7.36":
-  version: 1.7.36
-  resolution: "@trust0/ridb-core@npm:1.7.36"
-  checksum: 10c0/609684efbd35ebcd71e06ae2ee90f8992e969fe94ccab9346c2796c500fa12bb76dc384fae718e3709e9568bb6efaa97edc093917a4928ed62abc0699d78cf3e
-  languageName: node
-  linkType: hard
-
-"@trust0/ridb@npm:^1.5.41":
-  version: 1.5.41
-  resolution: "@trust0/ridb@npm:1.5.41"
-  dependencies:
-    "@trust0/ridb-core": "npm:^1.7.36"
-  checksum: 10c0/e857b6589f9b031396bdf68b6ec96e3cca31ea21223202105ecda6a8ced7d272588768fb93eea533ebe8f06833074adba5241df18d438e17bb28e0cb401e1efa
   languageName: node
   linkType: hard
 
@@ -3620,6 +3631,32 @@ __metadata:
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
   checksum: 10c0/b1b863ac34a2c2172fbe0807a1ec4d5cb684e48d422d15ec95980b81475fac4fdb3768a8b13eef39130203a7c04340fc167bae057c7ebcafd7dec9fe6c36aeb1
+  languageName: node
+  linkType: hard
+
+"@types/prop-types@npm:*":
+  version: 15.7.15
+  resolution: "@types/prop-types@npm:15.7.15"
+  checksum: 10c0/b59aad1ad19bf1733cf524fd4e618196c6c7690f48ee70a327eb450a42aab8e8a063fbe59ca0a5701aebe2d92d582292c0fb845ea57474f6a15f6994b0e260b2
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^18":
+  version: 18.3.7
+  resolution: "@types/react-dom@npm:18.3.7"
+  peerDependencies:
+    "@types/react": ^18.0.0
+  checksum: 10c0/8bd309e2c3d1604a28a736a24f96cbadf6c05d5288cfef8883b74f4054c961b6b3a5e997fd5686e492be903c8f3380dba5ec017eff3906b1256529cd2d39603e
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18":
+  version: 18.3.28
+  resolution: "@types/react@npm:18.3.28"
+  dependencies:
+    "@types/prop-types": "npm:*"
+    csstype: "npm:^3.2.2"
+  checksum: 10c0/683e19cd12b5c691215529af2e32b5ffbaccae3bf0ba93bfafa0e460e8dfee18423afed568be2b8eadf4b837c3749dd296a4f64e2d79f68fa66962c05f5af661
   languageName: node
   linkType: hard
 
@@ -4919,6 +4956,13 @@ __metadata:
     "@asamuzakjp/css-color": "npm:^3.2.0"
     rrweb-cssom: "npm:^0.8.0"
   checksum: 10c0/71add1b0ffafa1bedbef6855db6189b9523d3320e015a0bf3fbd504760efb9a81e1f1a225228d5fa892ee58e56d06994ca372e7f4e461cda7c4c9985fe075f65
+  languageName: node
+  linkType: hard
+
+"csstype@npm:^3.2.2":
+  version: 3.2.3
+  resolution: "csstype@npm:3.2.3"
+  checksum: 10c0/cd29c51e70fa822f1cecd8641a1445bed7063697469d35633b516e60fe8c1bde04b08f6c5b6022136bb669b64c63d4173af54864510fbb4ee23281801841a3ce
   languageName: node
   linkType: hard
 
@@ -6317,7 +6361,6 @@ __metadata:
     "@nx/vite": "npm:22.4.4"
     "@swc-node/register": "npm:^1.11.1"
     "@swc/core": "npm:^1.11.24"
-    "@trust0/identus-store": "npm:^2.0.0"
     "@types/google-protobuf": "npm:^3.15.6"
     "@types/jsonld": "npm:^1.5.14"
     "@types/node": "npm:^22"
@@ -6711,7 +6754,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-tokens@npm:^4.0.0":
+"js-tokens@npm:^3.0.0 || ^4.0.0, js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
   checksum: 10c0/e248708d377aa058eacf2037b07ded847790e6de892bbad3dac0abba2e759cb9f121b00099a65195616badcb6eca8d14d975cb3e89eb1cfda644756402c8aeed
@@ -6999,6 +7042,17 @@ __metadata:
   version: 3.1.0
   resolution: "longest-streak@npm:3.1.0"
   checksum: 10c0/7c2f02d0454b52834d1bcedef79c557bd295ee71fdabb02d041ff3aa9da48a90b5df7c0409156dedbc4df9b65da18742652aaea4759d6ece01f08971af6a7eaa
+  languageName: node
+  linkType: hard
+
+"loose-envify@npm:^1.1.0":
+  version: 1.4.0
+  resolution: "loose-envify@npm:1.4.0"
+  dependencies:
+    js-tokens: "npm:^3.0.0 || ^4.0.0"
+  bin:
+    loose-envify: cli.js
+  checksum: 10c0/655d110220983c1a4b9c0c679a2e8016d4b67f6e9c7b5435ff5979ecdb20d0813f4dec0a08674fcbdd4846a3f07edbb50a36811fd37930b94aaa0d9daceb017e
   languageName: node
   linkType: hard
 
@@ -8102,7 +8156,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multiformats@npm:^9.4.2, multiformats@npm:^9.6.2":
+"multiformats@npm:^9.4.2, multiformats@npm:^9.6.2, multiformats@npm:^9.9.0":
   version: 9.9.0
   resolution: "multiformats@npm:9.9.0"
   checksum: 10c0/1fdb34fd2fb085142665e8bd402570659b50a5fae5994027e1df3add9e1ce1283ed1e0c2584a5c63ac0a58e871b8ee9665c4a99ca36ce71032617449d48aa975
@@ -8841,6 +8895,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dom@npm:^18":
+  version: 18.3.1
+  resolution: "react-dom@npm:18.3.1"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+    scheduler: "npm:^0.23.2"
+  peerDependencies:
+    react: ^18.3.1
+  checksum: 10c0/a752496c1941f958f2e8ac56239172296fcddce1365ce45222d04a1947e0cc5547df3e8447f855a81d6d39f008d7c32eab43db3712077f09e3f67c4874973e85
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^17.0.1":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
@@ -8852,6 +8918,15 @@ __metadata:
   version: 18.3.1
   resolution: "react-is@npm:18.3.1"
   checksum: 10c0/f2f1e60010c683479e74c63f96b09fb41603527cd131a9959e2aee1e5a8b0caf270b365e5ca77d4a6b18aae659b60a86150bb3979073528877029b35aecd2072
+  languageName: node
+  linkType: hard
+
+"react@npm:^18":
+  version: 18.3.1
+  resolution: "react@npm:18.3.1"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+  checksum: 10c0/283e8c5efcf37802c9d1ce767f302dd569dd97a70d9bb8c7be79a789b9902451e0d16334b05d73299b20f048cbc3c7d288bbbde10b701fa194e2089c237dbea3
   languageName: node
   linkType: hard
 
@@ -9349,6 +9424,15 @@ __metadata:
   dependencies:
     xmlchars: "npm:^2.2.0"
   checksum: 10c0/3847b839f060ef3476eb8623d099aa502ad658f5c40fd60c105ebce86d244389b0d76fcae30f4d0c728d7705ceb2f7e9b34bb54717b6a7dbedaf5dad2d9a4b74
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.23.2":
+  version: 0.23.2
+  resolution: "scheduler@npm:0.23.2"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+  checksum: 10c0/26383305e249651d4c58e6705d5f8425f153211aef95f15161c151f7b8de885f24751b377e4a0b3dd42cce09aad3f87a61dab7636859c0d89b7daf1a1e2a5c78
   languageName: node
   linkType: hard
 
@@ -10895,12 +10979,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.2.2, yaml@npm:^2.6.0, yaml@npm:^2.8.1":
+"yaml@npm:^2.2.2, yaml@npm:^2.6.0":
   version: 2.8.2
   resolution: "yaml@npm:2.8.2"
   bin:
     yaml: bin.mjs
   checksum: 10c0/703e4dc1e34b324aa66876d63618dcacb9ed49f7e7fe9b70f1e703645be8d640f68ab84f12b86df8ac960bac37acf5513e115de7c970940617ce0343c8c9cd96
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.8.1":
+  version: 2.8.3
+  resolution: "yaml@npm:2.8.3"
+  bin:
+    yaml: bin.mjs
+  checksum: 10c0/ddff0e11c1b467728d7eb4633db61c5f5de3d8e9373cf84d08fb0cdee03e1f58f02b9f1c51a4a8a865751695addbd465a77f73f1079be91fe5493b29c305fd77
   languageName: node
   linkType: hard
 

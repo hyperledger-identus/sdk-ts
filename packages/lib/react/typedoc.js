@@ -3,12 +3,9 @@
  */
 const typedocOptions = {
     "entryPoints": [
-        "./src/index.ts",
-        "./src/plugins/internal/anoncreds/index.ts",
-        "./src/plugins/internal/didcomm/index.ts",
-        "./src/plugins/internal/oidc/index.ts",
-        "./src/plugins/internal/dif/index.ts",
-        "./src/plugins/internal/oea/index.ts"
+        "./src/index.tsx",
+        "./src/hooks/index.ts",
+        "./src/context/index.ts"
     ],
     "entryPointStrategy": "resolve",
     "out": "./docs/sdk",
@@ -25,13 +22,19 @@ const typedocOptions = {
             "Collection": "https://github.com/trust0-project/RIDB/docs/@trust0/ridb-core/classes/Collection.md",
             "SchemaTypeRecord": "https://github.com/trust0-project/RIDB/blob/main/docs/%40trust0/ridb-core/type-aliases/SchemaTypeRecord.md",
             "BaseStorage": "https://github.com/trust0-project/RIDB/blob/main/docs/%40trust0/ridb-core/classes/BaseStorage.md"
+        },
+        "@hyperledger/identus-sdk": {
+            "*": "docs/sdk/overview/README.md"
+        },
+        "react": {
+            "React.Context": "https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype"
         }
     },
     "strikeDeprecatedPageTitles": true,
     "useTsLinkResolution": true,
     "hideGenerator": true,
     "excludePrivate": true,
-    "useCodeBlocks": false,
+    "useCodeBlocks": true,
     "excludeReferences": false,
     "excludeProtected": true,
     "excludeInternal": true,
