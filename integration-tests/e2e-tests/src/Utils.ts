@@ -5,7 +5,6 @@ import { Buffer } from "buffer"
 
 import { StorageType } from "@trust0/ridb"
 import { Apollo, Pluto } from "@hyperledger/identus-sdk"
-import { createStore } from "@trust0/identus-store"
 
 
 
@@ -14,13 +13,14 @@ export class Utils {
 
   static async createPlutoInstance() {
     const apollo = new Apollo()
-    const store = await createStore({
+    return Pluto.create({
       dbName: "test-index" + randomUUID(),
-      password: Buffer.from("demoapp").toString("hex"),
-      storageType: StorageType.InMemory,
+      startOptions: {
+        password: Buffer.from("demoapp").toString("hex"),
+        storageType: StorageType.InMemory,
+      },
+      keyRestoration: apollo
     })
-
-    return new Pluto(store, apollo)
   }
 
   static async asyncFilter<T>(arr: T[], predicate: (value: T, index: number, array: T[]) => Promise<boolean>) {

@@ -2,7 +2,7 @@ import { vi, describe, expect, test, beforeEach } from 'vitest';
 import { Agent } from "../../src/edge-agent/Agent";
 import { DID } from '@hyperledger/identus-domain';
 import { Apollo, Pluto } from "../../src";
-import { createInstance } from '../fixtures/pluto';
+import { randomUUID } from 'node:crypto';
 
 describe("Agent", () => {
   let agent: Agent;
@@ -11,7 +11,10 @@ describe("Agent", () => {
   describe("Functional Tests", () => {
     beforeEach(async () => {
       const apollo = new Apollo();
-      pluto = (await createInstance({ apollo })).pluto
+      pluto = await Pluto.create({
+        dbName: "test-" + randomUUID(),
+        keyRestoration: apollo,
+      })
       const mediatorDID = DID.from("did:peer:2.Ez6LSghwSE437wnDE1pt3X6hVDUQzSjsHzinpX3XFvMjRAm7y.Vz6Mkhh1e5CEYYq6JBUcTZ6Cp2ranCWRrv7Yax3Le4N59R6dd.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6Imh0dHA6Ly8xOTIuMTY4LjEuNDQ6ODA4MCIsImEiOlsiZGlkY29tbS92MiJdfX0.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6IndzOi8vMTkyLjE2OC4xLjQ0OjgwODAvd3MiLCJhIjpbImRpZGNvbW0vdjIiXX19");
       agent = Agent.initialize({ pluto, mediatorDID });
 

@@ -25,8 +25,7 @@
     "@serenity-js/core": "^3.31.13",
     "@serenity-js/cucumber": "^3.31.13",
     "@serenity-js/rest": "^3.31.13",
-    "@serenity-js/serenity-bdd": "^3.31.13",
-    "@trust0/identus-store": "^2.0.0"
+    "@serenity-js/serenity-bdd": "^3.31.13"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",

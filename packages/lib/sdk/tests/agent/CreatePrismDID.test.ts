@@ -5,8 +5,8 @@ import { Task } from '../../src/utils';
 import * as Fixtures from "../fixtures";
 import { mockTask } from '../testFns';
 import { PrismDIDKeyUsage, PrismDerivationPath, PrismDerivationPathSchema } from '@hyperledger/identus-domain';
-import { Apollo, Castor } from '../../src';
-import { createInstance } from '../fixtures/pluto';
+import { Apollo, Castor, Pluto } from '../../src';
+import { randomUUID } from 'node:crypto';
 
 describe("CreatePrismDID", () => {
   let ctx: Task.Context<{
@@ -27,7 +27,10 @@ describe("CreatePrismDID", () => {
     beforeEach(async () => {
       apollo = { createPrivateKey: vi.fn() } as any;
       castor = { createPrismDID: vi.fn() } as any;
-      pluto = (await createInstance({ apollo: new Apollo() })).pluto
+      pluto = await Pluto.create({
+        dbName: "test-" + randomUUID(),
+        keyRestoration: new Apollo(),
+      })
       ctx = new Task.Context({
         Apollo: apollo,
         Castor: castor,
@@ -149,7 +152,10 @@ describe("CreatePrismDID", () => {
     beforeEach(async () => {
       apollo = new Apollo();
       castor = new Castor(apollo);
-      pluto = (await createInstance({ apollo: new Apollo() })).pluto
+      pluto = await Pluto.create({
+        dbName: "test-" + randomUUID(),
+        keyRestoration: new Apollo(),
+      })
       ctx = new Task.Context({
         Apollo: apollo,
         Castor: castor,

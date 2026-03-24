@@ -5,7 +5,7 @@ import { Task } from '../../../src/utils';
 import { Apollo, Castor, JWTCredential, Pluto, SDJWTCredential } from '../../../src';
 import { JWT, SDJWT } from "../../../src/pollux/utils/jwt";
 import * as Fixtures from "../../fixtures";
-import { createInstance } from '../../fixtures/pluto';
+import { randomUUID } from 'node:crypto';
 
 describe("Plugins - DIF", () => {
   let ctx: Task.Context<{
@@ -19,7 +19,10 @@ describe("Plugins - DIF", () => {
   beforeEach(async () => {
     const apollo = new Apollo();
     const castor = new Castor(apollo);
-    const pluto = (await createInstance({ apollo: new Apollo() })).pluto;
+    const pluto = await Pluto.create({
+      dbName: "test-" + randomUUID(),
+      keyRestoration: new Apollo(),
+    });
     ctx = new Task.Context<any>({
       Apollo: apollo,
       Castor: castor,

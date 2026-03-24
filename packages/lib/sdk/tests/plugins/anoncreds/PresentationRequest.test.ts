@@ -7,7 +7,7 @@ import * as FetchSchemaModule from "../../../src/plugins/internal/anoncreds/Fetc
 import * as Fixtures from "../../fixtures";
 import { AnoncredsLoader } from '@hyperledger/identus-anoncreds';
 import * as Anoncreds from "../../../src/plugins/internal/anoncreds/types";
-import { createInstance } from '../../fixtures/pluto';
+import { randomUUID } from 'node:crypto';
 import { AnonCredsCredential } from '../../../src/plugins/internal/anoncreds';
 
 describe("Plugins - Anoncreds", () => {
@@ -18,7 +18,10 @@ describe("Plugins - Anoncreds", () => {
   let pluto: Pluto;
 
   beforeEach(async () => {
-    pluto = (await createInstance({ apollo: new Apollo() })).pluto
+    pluto = await Pluto.create({
+      dbName: "test-" + randomUUID(),
+      keyRestoration: new Apollo(),
+    })
     ctx = new Task.Context({
       Pluto: pluto,
       Anoncreds: new AnoncredsLoader(),

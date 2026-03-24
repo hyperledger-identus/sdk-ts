@@ -14,18 +14,11 @@ export { PluginManager } from "./plugins/PluginManager";
 export { JWT } from "./pollux/utils/jwt/JWT";
 export { SDJWT } from "./pollux/utils/jwt/SDJWT";
 
-
 export * from "./apollo";
 export * from "./castor";
 export * from "./mercury";
 export * from './edge-agent'
-
-// Pluto exports
 export * from "./pluto";
-export * from "./pluto/collections";
-export * from './pluto/models/Schema';
-export * from './pluto/models';
-export * from './pluto/repositories';
 
 // Domain and utilities
 export * as Domain from "@hyperledger/identus-domain";

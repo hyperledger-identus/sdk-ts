@@ -98,7 +98,7 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     const apollo = new Apollo()
     const castor = new Castor(apollo, resolvers)
 
-    const pluto = await Utils.createPlutoInstance()
+    const pluto = await Utils.createPlutoInstance();
     const mediatorDID = Domain.DID.fromString(await WalletSdk.getMediatorDidThroughOob());
 
     this.sdk = Agent.initialize({

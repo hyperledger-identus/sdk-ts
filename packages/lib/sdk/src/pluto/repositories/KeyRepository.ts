@@ -2,9 +2,10 @@ import * as Domain from "@hyperledger/identus-domain";
 import type * as Models from "../models";
 import type { Pluto } from "../Pluto";
 import { type Query } from "../types";
+import type { CollectionSchemas } from "../types";
 import { MapperRepository } from "./builders/MapperRepository";
 
-export class KeyRepository extends MapperRepository<Models.Key, Domain.PrivateKey> {
+export class KeyRepository extends MapperRepository<"keys", Domain.PrivateKey> {
   constructor(
     store: Pluto.Store,
     private readonly keyRestoration: Domain.KeyRestoration
@@ -12,7 +13,7 @@ export class KeyRepository extends MapperRepository<Models.Key, Domain.PrivateKe
     super(store, "keys");
   }
 
-  override async getModels(query?: Query<Models.Key>): Promise<Models.Key[]> {
+  override async getModels(query?: Query<CollectionSchemas['keys']>): Promise<Models.Key[]> {
     const result = await super.getModels(query);
     const filtered = result.filter(x => x.recoveryId !== "linksecret");
 

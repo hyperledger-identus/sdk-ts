@@ -1,7 +1,7 @@
 import { vi, describe, expect, test, beforeEach } from 'vitest';
 import * as Domain from '@hyperledger/identus-domain';
 import { Task } from '../../src/utils';
-import { Apollo, ConnectionsManager, CreatePeerDID, ProtocolType } from '../../src';
+import { Apollo, ConnectionsManager, CreatePeerDID, Pluto, ProtocolType } from '../../src';
 
 import { StartMediator } from '../../src/plugins/internal/didcomm';
 
@@ -10,7 +10,7 @@ import { mockTask } from '../testFns';
 import { Connection } from '../../src/edge-agent/connections';
 import { PluginManager } from '../../src/plugins';
 import * as DIDComm from "../../src/plugins/internal/didcomm";
-import { createInstance } from '../fixtures/pluto';
+import { randomUUID } from 'node:crypto';
 
 describe("StartMediator", () => {
   let ctx: Task.Context<{
@@ -28,7 +28,10 @@ describe("StartMediator", () => {
     mercury = {
       sendMessageParseMessage: vi.fn()
     } as any;
-    pluto = (await createInstance({ apollo: new Apollo() })).pluto
+    pluto = await Pluto.create({
+      dbName: "test-" + randomUUID(),
+      keyRestoration: new Apollo(),
+    })
     const plugins = new PluginManager();
     plugins.register(DIDComm.plugin);
     ctx = new Task.Context({

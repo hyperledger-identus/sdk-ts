@@ -23,7 +23,7 @@ import { Pluto } from "../../src/pluto/Pluto";
 import { Castor, ProtocolType } from "../../src";
 import { plugin as AnoncredsPlugin } from "../../src/plugins/internal/anoncreds/plugin";
 import { CredentialPreview, IssueCredential, OfferCredential, RequestCredential } from '../../src/plugins/internal/didcomm';
-import { createInstance } from '../fixtures/pluto';
+import { randomUUID } from 'node:crypto';
 import { Presentation, RequestPresentation } from '../../src/plugins/internal/oea';
 import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds';
 
@@ -31,7 +31,7 @@ import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds';
 let agent: Agent;
 let pluto: IPluto;
 let castor: CastorType;
-let store: Pluto.Store;
+
 let api: Api;
 
 
@@ -59,9 +59,10 @@ describe("Agent Tests", () => {
       packEncrypted: async () => "",
       unpack: async () => new Message("{}", undefined, "TypeofMessage"),
     };
-    const instance = await createInstance({ apollo })
-    store = instance.store;
-    pluto = instance.pluto;
+    pluto = await Pluto.create({
+      dbName: "test-" + randomUUID(),
+      keyRestoration: apollo,
+    });
     const mercury = new Mercury(castor, didProtocol, api);
     const seed: Seed = {
       value: new Uint8Array([69, 191, 35, 232, 213, 102, 3, 93, 180, 106, 224, 144, 79, 171, 79, 223, 154, 217, 235, 232, 96, 30, 248, 92, 100, 38, 38, 42, 101, 53, 2, 247, 56, 111, 148, 220, 237, 122, 15, 120, 55, 82, 89, 150, 35, 45, 123, 135, 159, 140, 52, 127, 239, 148, 150, 109, 86, 145, 77, 109, 47, 60, 20, 16])

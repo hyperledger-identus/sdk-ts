@@ -25,14 +25,14 @@ import { DIDCommProtocol } from "../../src/mercury/DIDCommProtocol";
 import { base64url } from "multiformats/bases/base64";
 import { JWTCredential } from "../../src/pollux/models/JWTVerifiableCredential";
 import { ApiResponse, Pluto as IPluto, JWT } from '@hyperledger/identus-domain';
-import { Castor, ProtocolType, SDJWTCredential } from "../../src";
+import { Castor, Pluto, ProtocolType, SDJWTCredential } from "../../src";
 import { DIF } from '../../src/plugins/internal/dif/types';
 // import { JWT } from "../../src/pollux/utils/JWT";
 import { StartMediator, StartFetchingMessages } from '../../src/plugins/internal/didcomm';
 import { mockTask } from '../testFns';
 import { CredentialPreview, IssueCredential, MediatorConnection, OfferCredential, RequestCredential } from '../../src/plugins/internal/didcomm';
 import { RevocationNotification } from '../../src/plugins/internal/oea/protocols/RevocationNotfiication';
-import { createInstance } from '../fixtures/pluto';
+import { randomUUID } from 'node:crypto';
 import { HandshakeRequest, Presentation, RequestPresentation } from '../../src/plugins/internal/oea';
 import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds';
 
@@ -69,8 +69,10 @@ describe("Agent Tests", () => {
       packEncrypted: async () => "",
       unpack: async () => new Message("{}", undefined, "TypeofMessage"),
     };
-    const instance = await createInstance({ apollo });
-    pluto = instance.pluto
+    pluto = await Pluto.create({
+      dbName: "test-" + randomUUID(),
+      keyRestoration: new Apollo(),
+    })
     const mercury = new Mercury(castor, didProtocol, api);
     const seed: Seed = {
       value: new Uint8Array([69, 191, 35, 232, 213, 102, 3, 93, 180, 106, 224, 144, 79, 171, 79, 223, 154, 217, 235, 232, 96, 30, 248, 92, 100, 38, 38, 42, 101, 53, 2, 247, 56, 111, 148, 220, 237, 122, 15, 120, 55, 82, 89, 150, 35, 45, 123, 135, 159, 140, 52, 127, 239, 148, 150, 109, 86, 145, 77, 109, 47, 60, 20, 16])

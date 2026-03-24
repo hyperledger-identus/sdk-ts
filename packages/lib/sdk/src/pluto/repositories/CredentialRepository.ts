@@ -7,7 +7,7 @@ import { JWTCredential } from "../../pollux/models/JWTVerifiableCredential";
 import { SDJWTCredential } from "../../pollux/models/SDJWTVerifiableCredential";
 import { AnonCredsRecoveryId, JWTVerifiableCredentialRecoveryId } from "@hyperledger/identus-domain";
 
-export class CredentialRepository extends MapperRepository<Models.Credential, Domain.Credential> {
+export class CredentialRepository extends MapperRepository<"credentials", Domain.Credential> {
   constructor(store: Pluto.Store) {
     super(store, "credentials");
   }

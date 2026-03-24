@@ -1,12 +1,12 @@
 import { vi, describe, expect, test, beforeEach } from 'vitest';
-import { Apollo, JWTCredential, SDJWTCredential } from '../../../../src';
+import { Apollo, JWTCredential, Pluto, SDJWTCredential } from '../../../../src';
 import { JWT, SDJWT } from "../../../../src/pollux/utils/jwt";
 import { PresentationRequest } from '../../../../src/plugins/internal/oea/sdjwt';
 import { Task } from '../../../../src/utils';
 import { OEA } from '../../../../src/plugins/internal/oea/types';
-import { Pluto, AgentError, PolluxError, Castor } from '@hyperledger/identus-domain';
+import { AgentError, PolluxError, Castor } from '@hyperledger/identus-domain';
 import * as Fixtures from "../../../fixtures";
-import { createInstance } from '../../../fixtures/pluto';
+import { randomUUID } from 'node:crypto';
 
 describe("Plugins - OEA", () => {
   let ctx: Task.Context<{
@@ -19,7 +19,10 @@ describe("Plugins - OEA", () => {
   let pluto: Pluto;
 
   beforeEach(async () => {
-    pluto = (await createInstance({ apollo: new Apollo() })).pluto
+    pluto = await Pluto.create({
+      dbName: "test-" + randomUUID(),
+      keyRestoration: new Apollo(),
+    })
 
     ctx = new Task.Context<any>({
       Pluto: pluto,

@@ -1,5 +1,5 @@
-import type { Model } from "./Model";
-import { schemaFactory } from "./Schema";
+import type { Model } from "../types";
+import { schemaFactory } from "../utils";
 
 /**
  * Definition for Key model

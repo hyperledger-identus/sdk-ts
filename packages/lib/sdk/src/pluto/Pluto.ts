@@ -1,11 +1,19 @@
- 
+/**
+ * Pluto — the SDK storage layer.
+ *
+ * Provides a high-level, Domain-oriented API for persisting DIDs,
+ * credentials, keys, messages, and their relationships.  Internally
+ * delegates to a {@link Pluto.Store} via typed Repositories.
+ *
+ * @module Pluto
+ */
 import * as Domain from "@hyperledger/identus-domain";
 import * as Models from "./models";
 import { PeerDID } from "../peer-did/PeerDID";
 import { BackupManager } from "./backup/BackupManager";
 import { type PlutoRepositories, repositoryFactory } from "./repositories";
 import { type Arrayable, asArray, notNil } from "../utils";
-import { type Query } from "./types";
+import { type Query, type TableName, type CollectionMap, type CollectionSchemas, type StartOptions } from "./types";
 
 /**
  * Pluto implementation
@@ -108,13 +116,13 @@ export namespace Pluto {
      * 
      * @returns Promise resolving to array of models matching the query criteria
      */
-    query<T extends Models.Model>(table: string, query?: Query<T>): Promise<T[]>;
+    query<K extends TableName>(table: K, query?: Query<CollectionSchemas[K]>): Promise<CollectionMap[K][]>;
 
     /**
      * Persist new data in the Store.
      * 
-     * @template T - The model type that extends Models.Model (e.g., Models.Credential, Models.DID, Models.Key, etc.)
-     * @param table - Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages"
+     * @template K - Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages"
+     * @param table - The table name
      * @param model - The model instance to persist. Must include all required properties and should have a valid uuid
      * 
      * @example
@@ -127,19 +135,19 @@ export namespace Pluto {
      *     id: "credential-id",
      *     issuer: "did:example:issuer"
      *   };
-     *   await store.insert<Models.Credential>("credentials", credential);
+     *   await store.insert("credentials", credential);
      * ```
      * 
      * @returns Promise that resolves when the model is successfully persisted
      * @throws Error if the model is invalid or table name is not recognized
      */
-    insert<T extends Models.Model>(table: string, model: T): Promise<void>;
+    insert<K extends TableName>(table: K, model: CollectionMap[K]): Promise<void>;
 
     /**
      * Update an existing row in the Store
      * 
-     * @template T - The model type that extends Models.Model (e.g., Models.Credential, Models.DID, Models.Key, etc.)
-     * @param table - Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages"
+     * @template K - Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages"
+     * @param table - The table name
      * @param model - The model instance with updated data. Must include the uuid to identify the record to update
      * 
      * @example
@@ -153,13 +161,13 @@ export namespace Pluto {
      *     issuer: "did:example:issuer",
      *     revoked: true
      *   };
-     *   await store.update<Models.Credential>("credentials", updatedCredential);
+     *   await store.update("credentials", updatedCredential);
      * ```
      * 
      * @returns Promise that resolves when the model is successfully updated
      * @throws Error if the model with the given uuid is not found or table name is not recognized
      */
-    update<T extends Models.Model>(table: string, model: T): Promise<void>;
+    update<K extends TableName>(table: K, model: CollectionMap[K]): Promise<void>;
 
     /**
      * Delete a row from the Store
@@ -182,23 +190,108 @@ export namespace Pluto {
      * @returns Promise that resolves when the record is successfully deleted
      * @throws Error if the record with the given uuid is not found or table name is not recognized
      */
-    delete(table: string, uuid: string): Promise<void>;
+    delete(table: TableName, uuid: string): Promise<void>;
   }
 }
 
+/**
+ * Options for creating a Pluto instance via {@link Pluto.create}.
+ *
+ * Provide **either** a pre-built `store` **or** a `dbName` (in which case
+ * the default RIDB-backed store is created automatically).
+ *
+ * @property keyRestoration - Strategy for restoring private keys from raw bytes.
+ * @property store          - A custom {@link Pluto.Store} implementation.
+ * @property dbName         - Logical database name used by the default store.
+ * @property startOptions   - Configuration forwarded to {@link createStore}.
+ */
+export type CreateOptions = {
+  keyRestoration: Domain.KeyRestoration;
+} & ({ store: Pluto.Store; } | { dbName: string; startOptions?: StartOptions; })
+
+/**
+ * Orchestration layer for SDK persistence.
+ *
+ * `Pluto` translates between Domain classes (e.g. `Domain.DID`,
+ * `Domain.Credential`) and the underlying {@link Pluto.Store},
+ * managing relationships and business logic.
+ *
+ * **Preferred instantiation** is via the static {@link Pluto.create} factory.
+ *
+ * @example
+ * ```ts
+ * const pluto = await Pluto.create({
+ *   dbName: "my-wallet",
+ *   keyRestoration: apollo,
+ * });
+ * ```
+ */
 export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
+  /** Manager for wallet backup and restore operations. */
   public BackupMgr: BackupManager;
   private Repositories: PlutoRepositories;
 
+  static async #createWithStore(store: Pluto.Store, keyRestoration: Domain.KeyRestoration) {
+    const pluto = new Pluto(store, keyRestoration);
+    await pluto.start();
+    return pluto;
+  }
+
+  /**
+   * Create and start a new Pluto instance.
+   *
+   * When a `dbName` is provided (instead of a pre-built `store`), the
+   * default RIDB-backed store is created automatically.
+   *
+   * @param options - See {@link CreateOptions}.
+   * @returns A started Pluto instance ready for use.
+   *
+   * @example
+   * Using the default store
+   * ```ts
+   * const pluto = await Pluto.create({
+   *   dbName: "identus-wallet",
+   *   keyRestoration: apollo,
+   * });
+   * ```
+   *
+   * @example
+   * Using a custom store
+   * ```ts
+   * const pluto = await Pluto.create({
+   *   store: myCustomStore,
+   *   keyRestoration: apollo,
+   * });
+   * ```
+   */
+  static async create(options: CreateOptions) {
+    const { keyRestoration } = options;
+    if ('store' in options) {
+      return Pluto.#createWithStore(options.store, keyRestoration);
+    }
+    const { createStore } = await import("./store");
+    const { dbName, startOptions } = options;
+    const defaultStore = await createStore(dbName, startOptions)
+    const pluto = new Pluto(defaultStore, keyRestoration);
+    await pluto.start();
+    return pluto;
+  }
+
+  /**
+   * @deprecated Use Pluto.create() instead
+   * @param store 
+   * @param keyRestoration 
+   */
   constructor(
-    private readonly store: Pluto.Store,
-    private readonly keyRestoration: Domain.KeyRestoration
+    readonly store: Pluto.Store,
+    keyRestoration: Domain.KeyRestoration
   ) {
     super();
     this.Repositories = repositoryFactory(store, keyRestoration);
     this.BackupMgr = new BackupManager(this, this.Repositories);
   }
 
+  /** @internal Start the underlying store. */
   protected async _start() {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     if (notNil(this.store.start)) {
@@ -206,6 +299,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     }
   }
 
+  /** @internal Stop the underlying store. */
   protected async _stop() {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     if (notNil(this.store.stop)) {
@@ -213,16 +307,31 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     }
   }
 
-  /** Backups **/
+  /**
+   * Create a full backup of the wallet.
+   *
+   * @param version - Optional backup format version.
+   * @returns Serialised backup payload.
+   */
   backup(version?: Domain.Backup.Version) {
     return this.BackupMgr.backup(version);
   }
 
+  /**
+   * Restore wallet data from a backup.
+   *
+   * @param backup - A backup payload previously created by {@link backup}.
+   */
   restore(backup: Domain.Backup.Schema) {
     return this.BackupMgr.restore(backup);
   }
 
-  async deleteMessage(id: string): Promise<void> {
+  /**
+   * Delete a message by its identifier.
+   *
+   * @param id - The message `id` (not the `uuid`).
+   */
+  async deleteMessage(id: string) {
     const message = await this.Repositories.Messages.findOne({ id });
     //TODO: Improve error handling
     if (message) {
@@ -232,16 +341,29 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
 
   /** Credentials **/
 
-  async storeCredential(credential: Domain.Credential): Promise<void> {
+  /**
+   * Persist a credential.
+   * @param credential - The {@link Domain.Credential} to store.
+   */
+  async storeCredential(credential: Domain.Credential) {
     await this.Repositories.Credentials.save(credential);
   }
 
-  async getAllCredentials(): Promise<Domain.Credential[]> {
+  /**
+   * Retrieve all stored credentials.
+   * @returns Array of {@link Domain.Credential} instances.
+   */
+  async getAllCredentials() {
     return this.Repositories.Credentials.get();
   }
 
-
-  async revokeCredential(credential: Domain.Credential): Promise<void> {
+  /**
+   * Mark a credential as revoked.
+   *
+   * @param credential - The credential to revoke. Must be storable.
+   * @throws Error if the credential is null or not storable.
+   */
+  async revokeCredential(credential: Domain.Credential) {
     if (!credential || !credential.isStorable()) {
       throw new Error("Credential not found or invalid");
     }
@@ -253,33 +375,61 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
 
   /** Credential Metadata **/
 
-  async storeCredentialMetadata(metadata: Domain.CredentialMetadata): Promise<void> {
+  /**
+   * Persist credential metadata (e.g. schema information).
+   * @param metadata - The {@link Domain.CredentialMetadata} to store.
+   */
+  async storeCredentialMetadata(metadata: Domain.CredentialMetadata) {
     await this.Repositories.CredentialMetadata.save(metadata);
   }
 
-  async getCredentialMetadata(name: string): Promise<Domain.CredentialMetadata | null> {
+  /**
+   * Retrieve credential metadata by name.
+   * @param name - The metadata name/key.
+   * @returns The matching metadata or `null`.
+   */
+  async getCredentialMetadata(name: string) {
     return await this.Repositories.CredentialMetadata.findOne({ name });
   }
 
 
   /** LinkSecret **/
 
-  async storeLinkSecret(linkSecret: Domain.LinkSecret): Promise<void> {
+  /**
+   * Persist an AnonCreds link secret.
+   * @param linkSecret - The {@link Domain.LinkSecret} to store.
+   */
+  async storeLinkSecret(linkSecret: Domain.LinkSecret) {
     return await this.Repositories.LinkSecrets.save(linkSecret);
   }
 
-  async getLinkSecret(name: string = Domain.LinkSecret.defaultName): Promise<Domain.LinkSecret | null> {
+  /**
+   * Retrieve a link secret by name.
+   * @param name - Defaults to {@link Domain.LinkSecret.defaultName}.
+   * @returns The matching link secret or `null`.
+   */
+  async getLinkSecret(name: string = Domain.LinkSecret.defaultName) {
     return await this.Repositories.LinkSecrets.findOne({ alias: name });
   }
 
 
   /** PrivateKeys **/
 
-  async storePrivateKey(privateKey: Domain.PrivateKey): Promise<void> {
+  /**
+   * Persist a private key.
+   * @param privateKey - The {@link Domain.PrivateKey} to store.
+   */
+  async storePrivateKey(privateKey: Domain.PrivateKey) {
     await this.Repositories.Keys.save(privateKey);
   }
 
-  async getDIDPrivateKeysByDID(did: Domain.DID): Promise<Domain.PrivateKey[]> {
+  /**
+   * Get all private keys linked to a DID.
+   *
+   * @param did - The DID whose keys should be retrieved.
+   * @returns Array of {@link Domain.PrivateKey} instances.
+   */
+  async getDIDPrivateKeysByDID(did: Domain.DID) {
     const links = await this.Repositories.DIDKeyLinks.getModels({ selector: { didId: did.uuid } });
     const $or = links.map(x => ({ uuid: x.keyId }));
     const keys = await this.Repositories.Keys.get({ selector: { $or } });
@@ -289,7 +439,14 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
 
   /** DIDs **/
 
-  async storeDID(did: Domain.DID, keys?: Arrayable<Domain.PrivateKey>, alias?: string): Promise<void> {
+  /**
+   * Store a DID with optional associated keys and alias.
+   *
+   * @param did   - The {@link Domain.DID} to persist.
+   * @param keys  - Optional private key(s) to link to the DID.
+   * @param alias - Optional human-readable name.
+   */
+  async storeDID(did: Domain.DID, keys?: Arrayable<Domain.PrivateKey>, alias?: string) {
     await this.Repositories.DIDs.save(did, alias);
     for (const key of asArray(keys)) {
       await this.Repositories.Keys.save(key);
@@ -303,7 +460,14 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
 
   /** Prism DIDs **/
 
-  async storePrismDID(did: Domain.DID, privateKey: Domain.PrivateKey, alias?: string): Promise<void> {
+  /**
+   * Store a Prism DID and its associated private key.
+   *
+   * @param did        - The Prism {@link Domain.DID}.
+   * @param privateKey - The key used to control the DID.
+   * @param alias      - Optional human-readable name.
+   */
+  async storePrismDID(did: Domain.DID, privateKey: Domain.PrivateKey, alias?: string) {
     await this.Repositories.DIDs.save(did, alias);
     await this.Repositories.Keys.save(privateKey);
 
@@ -314,6 +478,10 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     });
   }
 
+  /**
+   * Retrieve all stored Prism DIDs with their keys.
+   * @returns Array of {@link Domain.PrismDID} instances.
+   */
   async getAllPrismDIDs(): Promise<Domain.PrismDID[]> {
     const dids = await this.Repositories.DIDs.find({ method: "prism" });
     const prismDIDS: Domain.PrismDID[] = [];
@@ -326,7 +494,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     return prismDIDS;
   }
 
-  private async getPrismDIDS(didId: string): Promise<Domain.PrismDID[]> {
+  private async getPrismDIDS(didId: string) {
     const links = await this.Repositories.DIDKeyLinks.getModels({ selector: { didId } });
     return Promise.all(
       links.map(async (link) => {
@@ -344,7 +512,13 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
 
   /** Peer DIDs **/
 
-  async storePeerDID(did: Domain.DID, privateKeys: Domain.PrivateKey[]): Promise<void> {
+  /**
+   * Store a Peer DID and its associated private keys.
+   *
+   * @param did         - The Peer {@link Domain.DID}.
+   * @param privateKeys - The keys that constitute the Peer DID.
+   */
+  async storePeerDID(did: Domain.DID, privateKeys: Domain.PrivateKey[]) {
     await this.Repositories.DIDs.save(did);
     for (const key of privateKeys) {
       await this.Repositories.Keys.save(key);
@@ -352,6 +526,10 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     }
   }
 
+  /**
+   * Retrieve all stored Peer DIDs with their key material.
+   * @returns Array of {@link PeerDID} instances.
+   */
   async getAllPeerDIDs(): Promise<PeerDID[]> {
     const allDids = await this.Repositories.DIDs.find({ method: "peer" });
     const allLinks = await this.Repositories.DIDKeyLinks.getModels({
@@ -396,28 +574,52 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
 
   /** Messages **/
 
-  async storeMessage(message: Domain.Message): Promise<void> {
+  /**
+   * Persist a single DIDComm message.
+   * @param message - The {@link Domain.Message} to store.
+   */
+  async storeMessage(message: Domain.Message) {
     await this.Repositories.Messages.save(message);
   }
 
-  async storeMessages(messages: Domain.Message[]): Promise<void> {
+  /**
+   * Persist multiple DIDComm messages.
+   * @param messages - The messages to store.
+   */
+  async storeMessages(messages: Domain.Message[]) {
     for (const msg of messages) {
       await this.Repositories.Messages.save(msg);
     }
   }
 
-  async getMessage(id: string): Promise<Domain.Message | null> {
+  /**
+   * Retrieve a single message by its protocol-level id.
+   * @param id - The message `id`.
+   * @returns The matching {@link Domain.Message} or `null`.
+   */
+  async getMessage(id: string) {
     return await this.Repositories.Messages.findOne({ id });
   }
 
-  async getAllMessages(): Promise<Domain.Message[]> {
+  /**
+   * Retrieve all stored messages.
+   * @returns Array of {@link Domain.Message} instances.
+   */
+  async getAllMessages() {
     return this.Repositories.Messages.get();
   }
 
 
   /** DID Pairs **/
 
-  async storeDIDPair(host: Domain.DID, receiver: Domain.DID, alias: string): Promise<void> {
+  /**
+   * Store a DID pair relationship.
+   *
+   * @param host     - The local/host DID.
+   * @param receiver - The remote/target DID.
+   * @param alias    - Human-readable name for this pair.
+   */
+  async storeDIDPair(host: Domain.DID, receiver: Domain.DID, alias: string) {
     await this.Repositories.DIDs.save(host);
     await this.Repositories.DIDs.save(receiver);
 
@@ -429,7 +631,11 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     });
   }
 
-  async getAllDidPairs(): Promise<Domain.DIDPair[]> {
+  /**
+   * Retrieve all stored DID pairs.
+   * @returns Array of {@link Domain.DIDPair} instances.
+   */
+  async getAllDidPairs() {
     const links = await this.Repositories.DIDLinks.getModels({ selector: { role: Models.DIDLink.role.pair } });
     const didPairs = await Promise.all(links.map(x => this.mapDIDPairToDomain(x)));
     const filtered = didPairs.filter((x): x is Domain.DIDPair => x != null);
@@ -437,7 +643,13 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     return filtered;
   }
 
-  async getPairByDID(did: Domain.DID): Promise<Domain.DIDPair | null> {
+  /**
+   * Find the DID pair that includes the given DID.
+   *
+   * @param did - Either side of the pair.
+   * @returns The matching {@link Domain.DIDPair} or `null`.
+   */
+  async getPairByDID(did: Domain.DID) {
     const links = await this.Repositories.DIDLinks.getModels({
       selector: {
         $or: [
@@ -454,7 +666,13 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     return didPair;
   }
 
-  async getPairByName(alias: string): Promise<Domain.DIDPair | null> {
+  /**
+   * Find a DID pair by its alias.
+   *
+   * @param alias - The pair alias.
+   * @returns The matching {@link Domain.DIDPair} or `null`.
+   */
+  async getPairByName(alias: string) {
     const links = await this.Repositories.DIDLinks.getModels(
       {
         selector: { alias, role: Models.DIDLink.role.pair }
@@ -465,7 +683,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     return didPair;
   }
 
-  private async mapDIDPairToDomain(link: Models.DIDLink): Promise<Domain.DIDPair | null> {
+  private async mapDIDPairToDomain(link: Models.DIDLink) {
     const hostDID = await this.Repositories.DIDs.byUUID(link.hostId);
     const targetDID = await this.Repositories.DIDs.byUUID(link.targetId);
     const alias = link.alias ?? "";
@@ -481,7 +699,14 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
 
   /** Mediators **/
 
-  async getAllMediators(): Promise<Domain.Mediator[]> {
+  /**
+   * Retrieve all stored mediator configurations.
+   *
+   * Each mediator consists of a host DID, a mediator DID, and a routing DID.
+   *
+   * @returns Array of {@link Domain.Mediator} objects.
+   */
+  async getAllMediators() {
     const links = await this.Repositories.DIDLinks.getModels({
       selector: {
         $or: [
@@ -517,7 +742,15 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     return result;
   }
 
-  async storeMediator(mediator: Domain.Mediator): Promise<void> {
+  /**
+   * Persist a mediator configuration.
+   *
+   * Stores the three DIDs involved (host, mediator, routing) and
+   * creates the internal DID-link relationships.
+   *
+   * @param mediator - The {@link Domain.Mediator} to store.
+   */
+  async storeMediator(mediator: Domain.Mediator) {
     await this.Repositories.DIDs.save(mediator.hostDID);
     await this.Repositories.DIDs.save(mediator.mediatorDID);
     await this.Repositories.DIDs.save(mediator.routingDID);

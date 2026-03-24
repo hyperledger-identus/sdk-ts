@@ -7,7 +7,7 @@ import { AnoncredsLoader } from '@hyperledger/identus-anoncreds';
 import { PresentationVerify } from '../../../src/plugins/internal/anoncreds/PresentationVerify';
 import { Apollo, Pluto } from '../../../src';
 import { AttachmentDescriptor } from '@hyperledger/identus-domain';
-import { createInstance } from '../../fixtures/pluto';
+import { randomUUID } from 'node:crypto';
 import { RequestPresentation } from '../../../src/plugins/internal/oea';
 
 describe("Plugins - Anoncreds", () => {
@@ -15,7 +15,10 @@ describe("Plugins - Anoncreds", () => {
   let pluto: Pluto;
 
   beforeEach(async () => {
-    pluto = (await createInstance({ apollo: new Apollo() })).pluto
+    pluto = await Pluto.create({
+      dbName: "test-" + randomUUID(),
+      keyRestoration: new Apollo(),
+    })
     ctx = new Task.Context({
       Pluto: pluto,
       Anoncreds: new AnoncredsLoader(),
