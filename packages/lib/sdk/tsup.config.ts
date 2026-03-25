@@ -18,8 +18,8 @@ export default defineConfig({
     '.wasm': 'binary'
   },
   external: ['buffer', 'crypto', 'node:crypto', 'node:buffer'],
-  minifyWhitespace: false,
-  minifyIdentifiers: false,
+  minifyWhitespace: true,
+  minifyIdentifiers: true,
   minifySyntax: false,
   shims: true,
   noExternal: [
