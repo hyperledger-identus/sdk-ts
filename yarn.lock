@@ -1930,7 +1930,7 @@ __metadata:
     "@sinclair/typebox": "npm:^0.32.31"
     "@stablelib/sha256": "npm:^1.0.1"
     "@stablelib/uuid": "npm:^1.0.2"
-    "@trust0/ridb": "npm:^1.5.46"
+    "@trust0/ridb": "npm:^1.5.47"
     "@trust0/ridb-core": "npm:^1.7.40"
     "@types/jsonld": "npm:^1.5.14"
     "@types/node": "npm:^22"
@@ -3356,19 +3356,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trust0/ridb-core@npm:1.7.40, @trust0/ridb-core@npm:^1.7.40":
+"@trust0/ridb-core@npm:1.7.41":
+  version: 1.7.41
+  resolution: "@trust0/ridb-core@npm:1.7.41"
+  checksum: 10c0/a7842bcfa217f1a0f1b4251119febf41df5771804b272927bca6f25a9696dca6fb86500be3ef905aa414ccf2e1d2c54b667e12f41ec2a387b9ac37fbf103360a
+  languageName: node
+  linkType: hard
+
+"@trust0/ridb-core@npm:^1.7.40":
   version: 1.7.40
   resolution: "@trust0/ridb-core@npm:1.7.40"
   checksum: 10c0/c4bdd23c35753bf9ff95f788a0b8f4f3b032c54f0bfc79e959ffee93d6cc3ec523b2f1db530daecdf5c7f0188eb90bbfb8939c42310a903b0814c70abf4214e1
   languageName: node
   linkType: hard
 
-"@trust0/ridb@npm:^1.5.46":
-  version: 1.5.46
-  resolution: "@trust0/ridb@npm:1.5.46"
+"@trust0/ridb@npm:^1.5.47":
+  version: 1.5.47
+  resolution: "@trust0/ridb@npm:1.5.47"
   dependencies:
-    "@trust0/ridb-core": "npm:1.7.40"
-  checksum: 10c0/13c99859d07d43db381504a8ec696493b16fe013242fe23b664b769cd3173182ec36fadc6401fefd5b721f7f3597ec934eab5a214cdd8e86d69c28e601bf2a29
+    "@trust0/ridb-core": "npm:1.7.41"
+  checksum: 10c0/dbf098ca44888de474cb7773f7a308fc78fe5bb306ca3e0f23bc2f1526b23474115562628e30b55a21f28533569e3ff6195ed9f652709e6906ed6008084ae1a7
   languageName: node
   linkType: hard
 
