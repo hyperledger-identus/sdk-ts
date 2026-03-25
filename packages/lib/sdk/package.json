@@ -110,7 +110,7 @@
     "@sinclair/typebox": "^0.32.31",
     "@stablelib/sha256": "^1.0.1",
     "@stablelib/uuid": "^1.0.2",
-    "@trust0/ridb": "^1.5.46",
+    "@trust0/ridb": "^1.5.47",
     "@trust0/ridb-core": "^1.7.40",
     "bn.js": "^5.2.1",
     "did-jwt": "^8.0.4",
