@@ -4,6 +4,36 @@ import { type Options } from 'tsup'
 import type { Plugin } from 'esbuild'
 
 /**
+ * esbuild plugin to strip `new URL("*_bg.wasm", import.meta.url)` references
+ * from wasm-bindgen generated JS files.
+ *
+ * esbuild cannot tree-shake the async `default` export (__wbg_init) that
+ * contains this URL reference. If left in, downstream bundlers (Metro, webpack)
+ * try to resolve the .wasm file at build time and fail.
+ *
+ * We replace the URL constructor call with `undefined` so the dead code
+ * path is harmless.
+ */
+function wasmUrlStripPlugin(): Plugin {
+  return {
+    name: 'strip-wasm-url',
+    setup(build) {
+      build.onLoad({ filter: /\.js$/ }, async (args) => {
+        // Only process wasm-bindgen generated files in the generated directory
+        if (!args.path.includes('generated')) return undefined
+        const source = await fs.promises.readFile(args.path, 'utf-8')
+        if (!source.includes('_bg.wasm')) return undefined
+        const stripped = source.replace(
+          /new URL\(["'][^"']*_bg\.wasm["'],\s*import\.meta\.url\)/g,
+          'undefined'
+        )
+        return { contents: stripped, loader: 'js' }
+      })
+    },
+  }
+}
+
+/**
  * esbuild plugin to resolve @hyperledger/identus-* imports
  * to the generated wasm packages (tsconfig paths don't work in esbuild)
  */
@@ -79,7 +109,7 @@ export function createWasmTsupConfig(aliasName: string, projectDir: string): Opt
     sourcemap: true,
     skipNodeModulesBundle: false,
     loader: { '.wasm': 'binary' },
-    esbuildPlugins: [wasmPackagesPlugin(aliasName, generatedDir)],
+    esbuildPlugins: [wasmUrlStripPlugin(), wasmPackagesPlugin(aliasName, generatedDir)],
     external: ['buffer'],
     minifyWhitespace: true,
     minifyIdentifiers: true,
