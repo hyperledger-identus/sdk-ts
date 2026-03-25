@@ -1,10 +1,5 @@
 import { defineConfig } from 'tsup'
 
-const ESM_REQUIRE_SHIM = `
-import { createRequire as __$$createRequire } from 'module';
-const require = __$$createRequire(import.meta.url);
-`.trim();
-
 export default defineConfig({
   entry: [
     'src/index.ts',
@@ -22,12 +17,9 @@ export default defineConfig({
   loader: {
     '.wasm': 'binary'
   },
-  // Inject createRequire shim only in ESM output so bundled CJS deps
-  // (e.g. @stablelib/random → require("crypto")) work in Node ESM.
-  banner: (ctx) => ctx.format === 'esm' ? { js: ESM_REQUIRE_SHIM } : {},
   external: ['buffer', 'crypto', 'node:crypto', 'node:buffer'],
-  minifyWhitespace: true,
-  minifyIdentifiers: true,
+  minifyWhitespace: false,
+  minifyIdentifiers: false,
   minifySyntax: false,
   shims: true,
   noExternal: [

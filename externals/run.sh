@@ -53,12 +53,10 @@ buildDIDComm() {
   fi
   if is_mac; then
     sed -i '' 's/"module": "identus-didcomm.js",/"main": "identus-didcomm.js",/' package.json;
-    sed -i '' "/if (typeof input === 'undefined') {/,/}/d" "./identus-didcomm.js";
-    sed -i '' "/if (typeof module_or_path === 'undefined') {/,/}/d" "./identus-didcomm.js";
+    sed -i '' '/new URL.*_bg\.wasm/d' "./identus-didcomm.js";
   else
     sed -i 's/"module": "identus-didcomm.js",/"main": "identus-didcomm.js",/' package.json;
-    sed -i "/if (typeof input === 'undefined') {/,/}/d" "./identus-didcomm.js";
-    sed -i "/if (typeof module_or_path === 'undefined') {/,/}/d" "./identus-didcomm.js";
+    sed -i '/new URL.*_bg\.wasm/d' "./identus-didcomm.js";
   fi
   cd $ExternalsDir
   git submodule | grep $DIDCommSrc | awk '{print $1}' > "./${DIDCommOut}.commit"
@@ -82,12 +80,10 @@ buildJWT() {
   fi
   if is_mac; then
     sed -i '' 's/"module": "identus-jwe.js",/"main": "identus-jwe.js",/' package.json;
-    sed -i '' "/if (typeof input === 'undefined') {/,/}/d" identus-jwe.js;
-    sed -i '' "/if (typeof module_or_path === 'undefined') {/,/}/d" identus-jwe.js;
+    sed -i '' '/new URL.*_bg\.wasm/d' identus-jwe.js;
   else
     sed -i 's/"module": "identus-jwe.js",/"main": "identus-jwe.js",/' package.json;
-    sed -i "/if (typeof input === 'undefined') {/,/}/d" identus-jwe.js;
-    sed -i "/if (typeof module_or_path === 'undefined') {/,/}/d" identus-jwe.js;
+    sed -i '/new URL.*_bg\.wasm/d' identus-jwe.js;
   fi
 
   cd $ExternalsDir
@@ -116,12 +112,10 @@ buildAnonCreds() {
   fi
   if is_mac; then
     sed -i '' 's/"module": "identus-anoncreds.js",/"main": "identus-anoncreds.js",/' package.json;
-    sed -i '' "/if (typeof input === 'undefined') {/,/}/d" "./identus-anoncreds.js";
-    sed -i '' "/if (typeof module_or_path === 'undefined') {/,/}/d" "./identus-anoncreds.js";
+    sed -i '' '/new URL.*_bg\.wasm/d' "./identus-anoncreds.js";
   else
     sed -i 's/"module": "identus-anoncreds.js",/"main": "identus-anoncreds.js",/' package.json;
-    sed -i "/if (typeof input === 'undefined') {/,/}/d" "./identus-anoncreds.js";
-    sed -i "/if (typeof module_or_path === 'undefined') {/,/}/d" "./identus-anoncreds.js";
+    sed -i '/new URL.*_bg\.wasm/d' "./identus-anoncreds.js";
   fi
 
   cd $ExternalsDir
