@@ -1,4 +1,4 @@
-import { Actor, Duration, Wait } from "@serenity-js/core"
+import { type Actor, Duration, Wait } from "@serenity-js/core"
 import { GetRequest, LastResponse, PatchRequest, PostRequest, Send } from "@serenity-js/rest"
 import { Ensure, equals } from "@serenity-js/assertions"
 import { HttpStatusCode } from "axios"

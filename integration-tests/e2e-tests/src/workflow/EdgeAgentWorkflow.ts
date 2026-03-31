@@ -1,6 +1,6 @@
 import { type Domain, type PeerDID, Apollo } from "@hyperledger/identus-sdk"
 import { type PresentationClaims, RequestPresentation, Presentation } from "@hyperledger/identus-sdk/plugins/oea"
-import { Actor, Duration, TakeNotes, Wait } from "@serenity-js/core"
+import { type Actor, Duration, TakeNotes, Wait } from "@serenity-js/core"
 import { Ensure, equals } from "@serenity-js/assertions"
 import { WalletSdk } from "../abilities/WalletSdk"
 import { Utils } from "../Utils"
