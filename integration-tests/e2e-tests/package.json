@@ -7,8 +7,7 @@
     "clean": "rimraf target",
     "test": "yarn test:sdk",
     "test:sdk": "npm run clean && cucumber-js -b",
-    "lint": "npx eslint .",
-    "test:debug": "npm --prefix ../.. run build:debug && npm run clean && NODE_OPTIONS=--enable-source-maps cucumber-js -b"
+    "lint": "npx eslint ."
   },
   "repository": {
     "type": "git",
