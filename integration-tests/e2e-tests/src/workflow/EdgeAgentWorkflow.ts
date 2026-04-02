@@ -57,7 +57,7 @@ export class EdgeAgentWorkflow {
         const requestCredential = await sdk.prepareRequestCredentialWithIssuer(message)
         const requestCredentialMessage = requestCredential.makeMessage()
         try {
-          await sdk.sendMessage(requestCredentialMessage)
+          await sdk.send(requestCredentialMessage)
         } catch {
           //
         }
@@ -87,7 +87,7 @@ export class EdgeAgentWorkflow {
           credential,
         )
         try {
-          await sdk.sendMessage(presentation.makeMessage())
+          await sdk.send(presentation.makeMessage())
         } catch {
           //
         }
@@ -152,7 +152,7 @@ export class EdgeAgentWorkflow {
           credential,
         )
         try {
-          await sdk.sendMessage(presentation.makeMessage())
+          await sdk.send(presentation.makeMessage())
         } catch {
           //
         }
@@ -233,7 +233,7 @@ export class EdgeAgentWorkflow {
     await edgeAgent.attemptsTo(
       WalletSdk.execute(async sdk => {
         await Utils.repeat(numberOfDids, async () => {
-          await sdk.createNewPrismDID(randomUUID())
+          await sdk.createPrismDID(randomUUID())
         })
       })
     )
