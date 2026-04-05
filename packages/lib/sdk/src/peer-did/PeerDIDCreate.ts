@@ -108,8 +108,10 @@ export class PeerDIDCreate {
         multibaseEcnumbasis = this.createMultibaseEncnumbasis(material);
         return multibaseEcnumbasis.slice(1);
       default:
-        //TODO: Improve this error handling
-        throw new Error("computeEncnumbasis -> InvalidKeyPair Curve");
+        const currentCurve = publicKey.getProperty(KeyProperties.curve);
+        throw new CastorError.InvalidKeyError(
+          `Unsupported curve for PeerDID key derivation: ${currentCurve}. Supported curves: ${Curve.ED25519}, ${Curve.X25519}`
+        );
     }
   }
 
