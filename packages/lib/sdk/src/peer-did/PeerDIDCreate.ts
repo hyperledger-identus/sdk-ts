@@ -86,11 +86,12 @@ export class PeerDIDCreate {
   }
 
   /**
-   * Computes Encnumbasis from a valid did and its keyPair
+   * Computes Encnumbasis from a valid did and its keyPair.
    *
    * @param {DID} did
    * @param {PublicKey} publicKey
    * @returns {string}
+   * @throws {CastorError.InvalidKeyError} if the public key curve is unsupported (only ED25519 and X25519 are supported)
    */
   computeEncnumbasis(did: DID, publicKey: PublicKey): string {
     let material:

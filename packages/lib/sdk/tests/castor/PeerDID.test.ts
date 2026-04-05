@@ -223,6 +223,10 @@ describe("PEERDID CreateTest", () => {
     }
   });
 
+  /**
+   * Verify that we properly throw a domain-specific InvalidKeyError
+   * when an unsupported curve is passed to getEcnumbasis.
+   */
   it("should throw InvalidKeyError for unsupported curve in getEcnumbasis", async () => {
     const apollo = new Apollo();
     const castor = new Castor(apollo);
