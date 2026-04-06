@@ -37,7 +37,8 @@ const plugin = new Plugin()
   .register(DIF.PRESENTATION_REQUEST, PresentationRequest)
   .register(DIF.PRESENTATION, PresentationVerify)
   // ??? tmp workaround Revocation being extracted to separate handlers
-  .register("revocation-check/prism/jwt", IsCredentialRevoked);
+  .register("revocation-check/prism/jwt", IsCredentialRevoked)
+  .register("revocation-check/jwt", IsCredentialRevoked);
 
 
 export default plugin;

@@ -36,10 +36,15 @@ plugin.register(OEA.ProtocolIds.PrismRevocation, HandleRevocation);
 // plugin.register(OEA.ProtocolType.DidcommProposePresentation, HandlePresentation);
 // plugin.register(OEA.ProtocolType.DidcommRequestPresentation, HandlePresentationRequest);
 
-// jwt handlers
+// jwt handlers (prism/jwt - legacy format)
 plugin.register(`credential-issue/${OEA.PRISM_JWT}`, jwt.CredentialIssue);
 plugin.register(`credential-offer/${OEA.PRISM_JWT}`, jwt.CredentialOffer);
 plugin.register(`presentation-request/${OEA.PRISM_JWT}`, jwt.PresentationRequest);
+
+// jwt handlers (jwt - W3C standard format, equivalent to prism/jwt)
+plugin.register(`credential-issue/${OEA.JWT}`, jwt.CredentialIssue);
+plugin.register(`credential-offer/${OEA.JWT}`, jwt.CredentialOffer);
+plugin.register(`presentation-request/${OEA.JWT}`, jwt.PresentationRequest);
 
 // sdjwt handlers
 plugin.register(`credential-issue/${OEA.PRISM_SDJWT}`, sdjwt.CredentialIssue);

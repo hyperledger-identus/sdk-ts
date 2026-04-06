@@ -15,7 +15,22 @@ export namespace OEA {
   } as const;
 
   export const PRISM_JWT = "prism/jwt";
+  /** W3C standard credential format identifier for JWT credentials */
+  export const JWT = "jwt";
   export const PRISM_SDJWT = "vc+sd-jwt";
+
+  /**
+   * Normalizes a credential format string to the canonical format.
+   * Treats "jwt" and "prism/jwt" as equivalent (returns "prism/jwt" for backward compat).
+   * @param format - The credential format string to normalize
+   * @returns The canonical format string
+   */
+  export function normalizeCredentialFormat(format: string): string {
+    if (format === JWT) {
+      return PRISM_JWT;
+    }
+    return format;
+  }
 
   export interface CredentialOffer {
     options: {
