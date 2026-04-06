@@ -20,7 +20,7 @@ export class CryptoWorkerManager {
   private constructor() {
     this.supported =
       typeof Worker !== "undefined" &&
-      typeof globalThis.window !== "undefined";
+      globalThis.window !== undefined;
   }
 
   static getInstance(): CryptoWorkerManager {
