@@ -137,7 +137,7 @@ function handleCreateRandomMnemonics(): string[] {
   return Mnemonic.createRandomMnemonics() as string[];
 }
 
-self.onmessage = (event: MessageEvent<CryptoWorkerRequest>) => {
+globalThis.onmessage = (event: MessageEvent<CryptoWorkerRequest>) => {
   const req = event.data;
   try {
     if (req.type === "sign") {
@@ -147,7 +147,7 @@ self.onmessage = (event: MessageEvent<CryptoWorkerRequest>) => {
         id: req.id,
         signature,
       };
-      self.postMessage(response);
+      globalThis.postMessage(response);
     } else if (req.type === "verify") {
       const result = handleVerify(req.keyType, req.keyRaw, req.message, req.signature);
       const response: CryptoWorkerResponse = {
@@ -155,7 +155,7 @@ self.onmessage = (event: MessageEvent<CryptoWorkerRequest>) => {
         id: req.id,
         result,
       };
-      self.postMessage(response);
+      globalThis.postMessage(response);
     } else if (req.type === "generateKeyPair") {
       const { privateKeyRaw, publicKeyRaw } = handleGenerateKeyPair(req.keyType);
       const response: CryptoWorkerResponse = {
@@ -164,7 +164,7 @@ self.onmessage = (event: MessageEvent<CryptoWorkerRequest>) => {
         privateKeyRaw,
         publicKeyRaw,
       };
-      self.postMessage(response);
+      globalThis.postMessage(response);
     } else if (req.type === "deriveKey") {
       const { derivedKeyRaw, chainCode } = handleDeriveKey(
         req.keyType, req.keyRaw, req.chainCode, req.derivationPath
@@ -175,7 +175,7 @@ self.onmessage = (event: MessageEvent<CryptoWorkerRequest>) => {
         derivedKeyRaw,
         chainCode,
       };
-      self.postMessage(response);
+      globalThis.postMessage(response);
     } else if (req.type === "createSeed") {
       const seed = handleCreateSeed(req.mnemonics, req.passphrase);
       const response: CryptoWorkerResponse = {
@@ -183,7 +183,7 @@ self.onmessage = (event: MessageEvent<CryptoWorkerRequest>) => {
         id: req.id,
         seed,
       };
-      self.postMessage(response);
+      globalThis.postMessage(response);
     } else if (req.type === "createRandomSeed") {
       const { seed, mnemonics } = handleCreateRandomSeed(req.passphrase);
       const response: CryptoWorkerResponse = {
@@ -192,7 +192,7 @@ self.onmessage = (event: MessageEvent<CryptoWorkerRequest>) => {
         seed,
         mnemonics,
       };
-      self.postMessage(response);
+      globalThis.postMessage(response);
     } else if (req.type === "createRandomMnemonics") {
       const mnemonics = handleCreateRandomMnemonics();
       const response: CryptoWorkerResponse = {
@@ -200,7 +200,7 @@ self.onmessage = (event: MessageEvent<CryptoWorkerRequest>) => {
         id: req.id,
         mnemonics,
       };
-      self.postMessage(response);
+      globalThis.postMessage(response);
     }
   } catch (err) {
     const response: CryptoWorkerResponse = {
@@ -208,6 +208,6 @@ self.onmessage = (event: MessageEvent<CryptoWorkerRequest>) => {
       id: req.id,
       message: err instanceof Error ? err.message : String(err),
     };
-    self.postMessage(response);
+    globalThis.postMessage(response);
   }
 };

@@ -14,19 +14,17 @@ export class CryptoWorkerManager {
 
   private worker: Worker | null = null;
   private nextId = 0;
-  private pending = new Map<number, PendingRequest>();
-  private supported: boolean;
+  private readonly pending = new Map<number, PendingRequest>();
+  private readonly supported: boolean;
 
   private constructor() {
     this.supported =
       typeof Worker !== "undefined" &&
-      typeof window !== "undefined";
+      typeof globalThis.window !== "undefined";
   }
 
   static getInstance(): CryptoWorkerManager {
-    if (!CryptoWorkerManager.instance) {
-      CryptoWorkerManager.instance = new CryptoWorkerManager();
-    }
+    CryptoWorkerManager.instance ??= new CryptoWorkerManager();
     return CryptoWorkerManager.instance;
   }
 
