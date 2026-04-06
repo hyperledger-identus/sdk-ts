@@ -61,6 +61,11 @@ export class JWT extends Task.Runner {
 
       const decoded = await this.decode(jws);
 
+      const exp = decoded.payload.exp;
+      if (typeof exp === "number" && Math.floor(Date.now() / 1000) > exp) {
+        return false;
+      }
+
       for (const verificationMethod of verificationMethods) {
         try {
           const pk = await this.runTask(new PKInstance({ verificationMethod }));

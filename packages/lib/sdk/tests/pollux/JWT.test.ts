@@ -204,6 +204,47 @@ describe("Domain - JWT", () => {
 
       expect(result).toBe(false);
     });
+
+    describe("expiration", () => {
+      const privateKey = Fixtures.Keys.secp256K1.privateKey;
+      const issuerDID = Fixtures.DIDs.prismDIDDefault;
+
+      beforeEach(() => {
+        vi.spyOn(plutoMock, "getDIDPrivateKeysByDID").mockResolvedValue([
+          privateKey,
+        ]);
+      });
+
+      test("expired JWT - should return false", async () => {
+        const expiredTimestamp = Math.floor(Date.now() / 1000) - 60; // 60 seconds in the past
+
+        const jws = await sut.signWithDID(
+          issuerDID,
+          { exp: expiredTimestamp },
+          {},
+          privateKey,
+        );
+
+        const result = await sut.verify({ jws, issuerDID });
+
+        expect(result).toBe(false);
+      });
+
+      test("non-expired JWT - should not fail due to expiration", async () => {
+        const futureTimestamp = Math.floor(Date.now() / 1000) + 600; // 10 minutes in the future
+
+        const jws = await sut.signWithDID(
+          issuerDID,
+          { exp: futureTimestamp },
+          {},
+          privateKey,
+        );
+
+        const result = await sut.verify({ jws, issuerDID });
+
+        expect(result).toBe(true);
+      });
+    });
   });
 
   describe("round trip", () => {
