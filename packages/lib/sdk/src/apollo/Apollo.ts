@@ -28,7 +28,8 @@ import { Secp256k1PublicKey } from "./utils/Secp256k1PublicKey";
 import { Ed25519PublicKey } from "./utils/Ed25519PublicKey";
 import { X25519PublicKey } from "./utils/X25519PublicKey";
 
-import { isEmpty } from "../utils";
+import { isEmpty, notEmptyString } from "../utils";
+import { CryptoWorkerManager } from "../workers";
 import ApolloPKG from "@hyperledger/identus-apollo";
 
 const ApolloSDK = ApolloPKG.org.hyperledger.identus.apollo;
@@ -229,6 +230,14 @@ export class Apollo implements ApolloInterface, KeyRestoration {
     return Mnemonic.createRandomMnemonics() as MnemonicWordList;
   }
 
+  async createRandomMnemonicsAsync(): Promise<MnemonicWordList> {
+    const manager = CryptoWorkerManager.getInstance();
+    if (manager.isSupported()) {
+      return await manager.createRandomMnemonics() as MnemonicWordList;
+    }
+    return this.createRandomMnemonics();
+  }
+
   /**
    * Takes in a set of mnemonics and a passphrase, and returns a seed object used to generate a private key.
    *
@@ -261,6 +270,28 @@ export class Apollo implements ApolloInterface, KeyRestoration {
     };
   }
 
+  async createSeedAsync(mnemonics: MnemonicWordList, passphrase?: string): Promise<Seed> {
+    const mnemonicString = mnemonics.join(" ");
+
+    if (mnemonics.length != 12 && mnemonics.length != 24) {
+      throw new ApolloError.MnemonicLengthError();
+    }
+
+    if (!bip39.validateMnemonic(mnemonicString, wordlist)) {
+      throw new ApolloError.MnemonicWordError(mnemonics);
+    }
+
+    const manager = CryptoWorkerManager.getInstance();
+    if (manager.isSupported()) {
+      const seed = await manager.createSeed(
+        mnemonics as unknown as string[],
+        `mnemonic${passphrase}`
+      );
+      return { value: seed };
+    }
+    return this.createSeed(mnemonics, passphrase);
+  }
+
   /**
    * Creates a random seed and a corresponding set of mnemonic phrases.
    *
@@ -283,6 +314,18 @@ export class Apollo implements ApolloInterface, KeyRestoration {
       },
       mnemonics: mnemonics,
     };
+  }
+
+  async createRandomSeedAsync(passphrase?: string): Promise<SeedWords> {
+    const manager = CryptoWorkerManager.getInstance();
+    if (manager.isSupported()) {
+      const { seed, mnemonics } = await manager.createRandomSeed(passphrase);
+      return {
+        seed: { value: seed },
+        mnemonics: mnemonics as MnemonicWordList,
+      };
+    }
+    return this.createRandomSeed(passphrase);
   }
 
   /**
