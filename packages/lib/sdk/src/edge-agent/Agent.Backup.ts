@@ -2,7 +2,7 @@
 import Pako from "pako";
 import * as Domain from "@hyperledger/identus-domain";
 import type { Agent } from "./Agent";
-import { getJWE } from "@hyperledger/identus-jwe";
+// JWE WASM loaded dynamically on first use — see loadJWE()
 import { isObject, notNil, validateSafe } from "@hyperledger/identus-domain";
 import { type BackupOptions, type BackupExclude } from "./types";
 
@@ -13,6 +13,16 @@ export class AgentBackup {
   constructor(
     public readonly Agent: Pick<Agent, "apollo" | "pluto" | "seed">
   ) { }
+
+  /**
+   * Lazily loads the JWE WASM module on first use.
+   * Avoids bundling the JWE WASM binary in the main chunk when
+   * backup functionality is never used.
+   */
+  private async loadJWE() {
+    const { getJWE } = await import("@hyperledger/identus-jwe");
+    return getJWE();
+  }
 
   /**
    * Creates a JWE (JSON Web Encryption) containing the backup data stored in Pluto.
@@ -40,7 +50,7 @@ export class AgentBackup {
     const backupStr = options?.compress ? this.compress(JSON.stringify(backup)) : JSON.stringify(backup);
     const masterSk = this.masterSk(options);
     const jwk = masterSk.to.JWK();
-    const JWE = await getJWE();
+    const JWE = await this.loadJWE();
     const encrypted = JWE.encrypt(
       backupStr,
       JSON.stringify(jwk),
@@ -67,7 +77,7 @@ export class AgentBackup {
   async restore(jwe: string, options?: BackupOptions) {
     const masterSk = this.masterSk(options);
     const jwk = masterSk.to.JWK();
-    const JWE = await getJWE();
+    const JWE = await this.loadJWE();
     const decoded = JWE.decrypt(
       jwe,
       'backup',
