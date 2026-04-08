@@ -1,5 +1,6 @@
 import { base64url } from "multiformats/bases/base64";
 import * as Domain from "@hyperledger/identus-domain";
+import { PolluxError, CastorError } from "@hyperledger/identus-domain";
 import { JWTCredential } from "../../models/JWTVerifiableCredential";
 import { Task, isNil } from "../../../utils";
 import { CreateJWT } from "./CreateJwt";
@@ -47,16 +48,16 @@ export class JWT extends Task.Runner {
       const verificationMethods = resolved.didDocument?.verificationMethod;
 
       if (!verificationMethods) {
-        throw new Error("Invalid did document");
+        throw new CastorError.NotPossibleToResolveDID("Invalid did document: no verification methods found");
       }
 
       const jwtObject = JWTCredential.fromJWS(jws);
       if (jwtObject.issuer !== issuerDID.toString()) {
-        throw new Error("Invalid issuer");
+        throw new PolluxError.InvalidCredentialError("JWT issuer does not match the expected DID");
       }
 
       if (jwtObject.isCredential && holderDID && holderDID.toString() !== jwtObject.subject) {
-        throw new Error("Invalid subject (holder)");
+        throw new PolluxError.InvalidCredentialError("JWT subject (holder) does not match the expected DID");
       }
 
       const decoded = await this.decode(jws);
@@ -66,7 +67,7 @@ export class JWT extends Task.Runner {
           const pk = await this.runTask(new PKInstance({ verificationMethod }));
 
           if (isNil(pk) || !pk.canVerify()) {
-            throw new Error("Invalid key verification method type found");
+            throw new CastorError.InvalidKeyError("Invalid key verification method type found");
           }
 
           const decodedSignature = base64url.baseDecode(decoded.signature);
