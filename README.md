@@ -38,7 +38,7 @@ We also have SDKs for other platforms:
 - Agent: A component using all other building blocks, provides basic edge agent capabilities, including implementing DIDComm V2 protocols.
 
 ## Getting started
-We highly recommend you check out the [docs](https://hyperledger-identus.github.io/docs/home/) :world_map:
+We highly recommend you check out the [docs](https://hyperledger-identus.github.io/docs/sdk-ts/docs/sdk/) :world_map:
 ### Requirements
 You will need the following:
 * Bash
