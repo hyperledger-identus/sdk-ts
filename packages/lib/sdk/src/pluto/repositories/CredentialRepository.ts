@@ -2,10 +2,9 @@ import * as Domain from "@hyperledger/identus-domain";
 import type * as Models from "../models";
 import type { Pluto } from "../Pluto";
 import { MapperRepository } from "./builders/MapperRepository";
-import { AnonCredsCredential } from "../../plugins/internal/anoncreds";
 import { JWTCredential } from "../../pollux/models/JWTVerifiableCredential";
 import { SDJWTCredential } from "../../pollux/models/SDJWTVerifiableCredential";
-import { AnonCredsRecoveryId, JWTVerifiableCredentialRecoveryId } from "@hyperledger/identus-domain";
+import { JWTVerifiableCredentialRecoveryId } from "@hyperledger/identus-domain";
 
 export class CredentialRepository extends MapperRepository<"credentials", Domain.Credential> {
   constructor(store: Pluto.Store) {
@@ -31,17 +30,19 @@ export class CredentialRepository extends MapperRepository<"credentials", Domain
         );
         return this.withId(credential, model.uuid);
       }
-      case AnonCredsRecoveryId: {
-        const json = JSON.parse(model.dataJson);
-        const credential = new AnonCredsCredential(
-          json,
-          json.revoked ?? false
+      default: {
+        const credential = Domain.Credential.restoreFromFactory(
+          model.recoveryId,
+          model.dataJson
         );
-        return this.withId(credential, model.uuid);
+        if (credential) {
+          return this.withId(credential, model.uuid);
+        }
+        throw new Domain.PlutoError.UnknownCredentialTypeError(
+          `No credential factory registered for recoveryId: ${model.recoveryId}`
+        );
       }
     }
-
-    throw new Domain.PlutoError.UnknownCredentialTypeError();
   }
 
   toModel(credential: Domain.Credential): Models.Credential {

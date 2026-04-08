@@ -33,7 +33,7 @@ import { CredentialPreview, IssueCredential, MediatorConnection, OfferCredential
 import { RevocationNotification } from '../../src/plugins/internal/oea/protocols/RevocationNotfiication';
 import { randomUUID } from 'node:crypto';
 import { HandshakeRequest, Presentation, RequestPresentation } from '../../src/plugins/internal/oea';
-import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds';
+import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds/utils';
 
 let agent: Agent;
 let apollo: Apollo;

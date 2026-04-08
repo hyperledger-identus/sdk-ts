@@ -8,7 +8,7 @@ import * as Fixtures from "../../fixtures";
 import { AnoncredsLoader } from '@hyperledger/identus-anoncreds';
 import * as Anoncreds from "../../../src/plugins/internal/anoncreds/types";
 import { randomUUID } from 'node:crypto';
-import { AnonCredsCredential } from '../../../src/plugins/internal/anoncreds';
+import { AnonCredsCredential } from '../../../src/plugins/internal/anoncreds/utils';
 
 describe("Plugins - Anoncreds", () => {
   let ctx: Task.Context<{

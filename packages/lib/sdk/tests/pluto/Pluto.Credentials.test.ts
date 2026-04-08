@@ -1,6 +1,6 @@
-import { describe, expect, test, beforeEach } from 'vitest';
+import { describe, expect, test, beforeEach, beforeAll } from 'vitest';
 import * as SDK from "../../src";
-import { AnonCredsCredential } from "../../src/plugins/internal/anoncreds";
+import { AnonCredsCredential } from "../../src/plugins/internal/anoncreds/utils";
 
 
 import * as Fixtures from "../fixtures";
@@ -18,6 +18,16 @@ describe("Pluto", () => {
 
 
     await instance.start();
+  });
+
+  beforeAll(() => {
+    SDK.Domain.Credential.registerRestoreFactory(
+      SDK.Domain.AnonCredsRecoveryId,
+      (dataJson: string) => {
+        const json = JSON.parse(dataJson);
+        return new AnonCredsCredential(json, json.revoked ?? false);
+      }
+    );
   });
 
   describe("Credentials", () => {
