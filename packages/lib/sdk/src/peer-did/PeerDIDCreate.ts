@@ -108,11 +108,12 @@ export class PeerDIDCreate {
         material = this.authenticationFromPublicKey(publicKey);
         multibaseEcnumbasis = this.createMultibaseEncnumbasis(material);
         return multibaseEcnumbasis.slice(1);
-      default:
+      default: {
         const currentCurve = publicKey.getProperty(KeyProperties.curve);
         throw new CastorError.InvalidKeyError(
           `Unsupported curve for PeerDID key derivation: ${currentCurve}. Supported curves: ${Curve.ED25519}, ${Curve.X25519}`
         );
+      }
     }
   }
 
