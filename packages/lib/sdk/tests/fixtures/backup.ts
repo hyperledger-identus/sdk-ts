@@ -5,7 +5,7 @@ import { LinkSecret, Mediator, Message, Schema } from '@hyperledger/identus-doma
 import { credentialPayloadEncoded } from "./credentials/jwt";
 import { credential as anonCredential } from "./credentials/anoncreds";
 import { peerDID4, peerDID5 } from "./dids";
-import { AnonCredsCredential } from "../../src/plugins/internal/anoncreds";
+import { AnonCredsCredential } from "../../src/plugins/internal/anoncreds/utils";
 
 export const credentialJWT = JWTCredential.fromJWS(credentialPayloadEncoded);
 export const credentialAnoncreds = new AnonCredsCredential(anonCredential);

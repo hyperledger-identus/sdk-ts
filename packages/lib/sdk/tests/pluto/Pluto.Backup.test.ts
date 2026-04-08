@@ -1,11 +1,11 @@
-import { describe, it, expect, test, beforeEach } from 'vitest';
+import { describe, it, expect, test, beforeEach, beforeAll } from 'vitest';
 
 
 import * as Fixtures from "../fixtures";
 import { base64url } from 'multiformats/bases/base64';
 import { randomUUID } from 'node:crypto';
 import { Apollo, Domain, JWTCredential, Pluto } from '../../src';
-import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds';
+import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds/utils';
 
 
 
@@ -19,6 +19,16 @@ describe("Pluto", () => {
       keyRestoration: apollo,
     });
     await instance.start();
+  });
+
+  beforeAll(() => {
+    Domain.Credential.registerRestoreFactory(
+      Domain.AnonCredsRecoveryId,
+      (dataJson: string) => {
+        const json = JSON.parse(dataJson);
+        return new AnonCredsCredential(json, json.revoked ?? false);
+      }
+    );
   });
 
   Fixtures.Backup.backups.forEach(backupFixture => {

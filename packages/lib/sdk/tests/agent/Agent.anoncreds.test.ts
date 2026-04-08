@@ -25,7 +25,7 @@ import { plugin as AnoncredsPlugin } from "../../src/plugins/internal/anoncreds/
 import { CredentialPreview, IssueCredential, OfferCredential, RequestCredential } from '../../src/plugins/internal/didcomm';
 import { randomUUID } from 'node:crypto';
 import { Presentation, RequestPresentation } from '../../src/plugins/internal/oea';
-import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds';
+import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds/utils';
 
 
 let agent: Agent;
