@@ -1,5 +1,9 @@
 export enum KeyProperties {
   /**
+   * The 'type' corresponds to the type of key.
+   */
+  type = "type",
+  /**
    * The 'algorithm' corresponds to the cryptographic algorithm associated with the key.
    */
   algorithm = "algorithm",

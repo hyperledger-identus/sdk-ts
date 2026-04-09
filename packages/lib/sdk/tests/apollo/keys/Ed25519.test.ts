@@ -121,18 +121,18 @@ describe("Keys", () => {
             privateKey.derive(derivationPath.toString());
           }).to.throw;
         });
-        test("DerivationPath - m/0'/0'/0'", () => {
+        test("DerivationPath - m/0'/0'/0'", async () => {
           const path = DerivationPath.fromPath(`m/0'/0'/1'`, [DeprecatedDerivationPath, PrismDerivationPath]);
           const createKeyArgs = {
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: seedHex,
+            seed: new Uint8Array(Buffer.from(seedHex, "hex")),
           };
-          const privateKey = apollo.createPrivateKey(createKeyArgs);
+          const privateKey = await apollo.createPrivateKey(createKeyArgs);
           const derived = privateKey.isDerivable() && privateKey.derive(path.toString());
           expect(derived).to.not.equal(false);
 
-          const withDerivationPath = apollo.createPrivateKey({
+          const withDerivationPath = await apollo.createPrivateKey({
             ...createKeyArgs,
             derivationPath: path.toString()
           });
@@ -143,19 +143,19 @@ describe("Keys", () => {
           expect(raw1).to.equal(raw2);
           expect(raw1).to.not.equal(raw3);
         });
-        test("DerivationPath - m/1'/0'/1'", () => {
+        test("DerivationPath - m/1'/0'/1'", async () => {
           const path = DerivationPath.fromPath(`m/1'/0'/1'`, [DeprecatedDerivationPath, PrismDerivationPath]);
           const createKeyArgs = {
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: seedHex,
+            seed: new Uint8Array(Buffer.from(seedHex, "hex")),
           };
-          const privateKey = apollo.createPrivateKey(createKeyArgs);
+          const privateKey = await apollo.createPrivateKey(createKeyArgs);
 
           const derived = privateKey.isDerivable() && privateKey.derive(path.toString());
           expect(derived).to.not.equal(false);
 
-          const withDerivationPath = apollo.createPrivateKey({
+          const withDerivationPath = await apollo.createPrivateKey({
             ...createKeyArgs,
             derivationPath: path.toString()
           });

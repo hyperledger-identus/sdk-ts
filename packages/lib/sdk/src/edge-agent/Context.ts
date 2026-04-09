@@ -19,7 +19,9 @@ export class AgentContext extends Task.Context<{
   Castor: Domain.Castor;
   Mercury: Domain.Mercury;
   Pluto: Domain.Pluto;
-  Seed: Domain.Seed;
+
+  // Asyncronously fetch the short lived seed
+  Seed: () => Promise<Uint8Array>
 
   // internal modules
   JWT: JWT;

@@ -51,16 +51,12 @@ export class Agent extends Domain.Startable.Controller {
   public readonly jobs: JobManager;
   public readonly plugins: PluginManager;
 
-  /**
-   * Creates an instance of Agent.
-   *
-   */
-  constructor(
+  private constructor(
     public readonly apollo: Domain.Apollo,
     public readonly castor: Domain.Castor,
     public readonly pluto: Domain.Pluto,
     public readonly mercury: Domain.Mercury,
-    public readonly seed: Domain.Seed = apollo.createRandomSeed().seed,
+    public readonly seed: () => Promise<Uint8Array>,
     public readonly api: Domain.Api = new FetchApi(),
     private readonly options?: AgentOptions
   ) {
@@ -98,7 +94,7 @@ export class Agent extends Domain.Startable.Controller {
     apollo?: Domain.Apollo;
     castor?: Domain.Castor;
     mercury?: Domain.Mercury;
-    seed?: Domain.Seed;
+    seed?: () => Promise<Uint8Array>;
     options?: AgentOptions;
   }): Agent {
     const pluto = params.pluto;
@@ -107,8 +103,8 @@ export class Agent extends Domain.Startable.Controller {
     const castor = params.castor ?? new Castor(apollo, undefined, params.options?.resolverEndpoint);
     const didcomm = new DIDCommWrapper(apollo, castor, pluto);
     const mercury = params.mercury ?? new Mercury(castor, didcomm, api);
-    const seed = params.seed ?? apollo.createRandomSeed().seed;
     const mediatorDID = Domain.notNil(params.mediatorDID) ? Domain.DID.from(params.mediatorDID) : undefined;
+    const seed = params.seed ?? (async () => apollo.createRandomSeed().seed.value);
 
     const agent = new Agent(
       apollo,
@@ -184,6 +180,27 @@ export class Agent extends Domain.Startable.Controller {
       : undefined;
   }
 
+  get runtimeContext() {
+    return new AgentContext({
+      Connections: this.connections,
+      Plugins: this.plugins,
+      Events: this.events,
+      Jobs: this.jobs,
+      Mercury: this.mercury,
+      Api: this.api,
+      Apollo: this.apollo,
+      Castor: this.castor,
+      Pluto: this.pluto,
+      Seed: async () => {
+        if (typeof this.seed === 'function') {
+          return this.seed();
+        }
+        return this.apollo.createRandomSeed().seed.value
+      },
+      JWT: new JWT(),
+      SDJWT: new SDJWT(),
+    })
+  }
   /**
    * run the given Task
    * 
@@ -201,8 +218,12 @@ export class Agent extends Domain.Startable.Controller {
       Apollo: this.apollo,
       Castor: this.castor,
       Pluto: this.pluto,
-      Seed: this.seed,
-
+      Seed: async () => {
+        if (typeof this.seed === 'function') {
+          return this.seed();
+        }
+        return this.apollo.createRandomSeed().seed.value
+      },
       JWT: new JWT(),
       SDJWT: new SDJWT(),
     });

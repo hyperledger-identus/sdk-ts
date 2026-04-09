@@ -19,10 +19,10 @@ export const mediator: Mediator = {
 };
 const apollo = new Apollo()
 export const secpPrivateKey = Secp256k1PrivateKey.from.String("LLW8vWvliLTHsW5UYox5VGtps4sOrrE_rY0HdqHAwN0", "base64");
-const masterKeyExample = apollo.createPrivateKey({
+const masterKeyExample = await apollo.createPrivateKey({
   type: Domain.KeyTypes.Curve25519,
   curve: Domain.Curve.X25519,
-  seed: `45bf23e8d566035db46ae0904fab4fdf9ad9ebe8601ef85c6426262a653502f7386f94dced7a0f7837525996232d7b879f8c347fef94966d56914d6d2f3c1411`,
+  seed: new Uint8Array(Buffer.from(`45bf23e8d566035db46ae0904fab4fdf9ad9ebe8601ef85c6426262a653502f7386f94dced7a0f7837525996232d7b879f8c347fef94966d56914d6d2f3c1411`, "hex")),
   derivationPath: "m/0'/0'/0'"
 });
 
