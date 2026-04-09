@@ -2,7 +2,11 @@ import * as Domain from "@hyperledger/identus-domain";
 import { Ed25519PrivateKey } from "../../../../apollo/utils/Ed25519PrivateKey";
 import { Secp256k1PrivateKey } from "../../../../apollo/utils/Secp256k1PrivateKey";
 import { X25519PrivateKey } from "../../../../apollo/utils/X25519PrivateKey";
-import { AnonCredsCredential } from "../../../../plugins/internal/anoncreds";
+
+// JWTCredential is imported directly (not via factory) because:
+// 1. It does not trigger any WASM loading (pure TypeScript)
+// 2. JWT factory registration is not yet available in the registry
+// Future: Route through Domain.Credential.restoreFromFactory() when JWT factory is registered
 import { JWTCredential } from "../../../../pollux/models/JWTVerifiableCredential";
 import { notEmptyString, notNil } from "../../../../utils";
 import { type IRestoreTask } from "../interfaces";
@@ -36,8 +40,11 @@ export class RestoreTask implements IRestoreTask {
         return JWTCredential.fromJWS(decoded);
       }
       if (item.recovery_id === "anoncred") {
-        return AnonCredsCredential.fromJson(decoded);
+        const credential = Domain.Credential.restoreFromFactory(Domain.AnonCredsRecoveryId, decoded);
+        if (credential) return credential;
       }
+      const factoryCredential = Domain.Credential.restoreFromFactory(item.recovery_id, decoded);
+      if (factoryCredential) return factoryCredential;
       throw new Domain.PlutoError.RestoreCredentialInvalidError();
     });
 

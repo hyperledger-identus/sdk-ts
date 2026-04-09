@@ -1,8 +1,6 @@
 import type * as Domain from "@hyperledger/identus-domain";
+import { AnonCredsRecoveryId, JWTVerifiableCredentialRecoveryId, SDJWTVerifiableCredentialRecoveryId } from "@hyperledger/identus-domain";
 import { type Plugins } from "../../plugins";
-import { AnonCredsCredential } from "../../plugins/internal/anoncreds";
-import { JWTCredential } from "../../pollux/models/JWTVerifiableCredential";
-import { SDJWTCredential } from "../../pollux/models/SDJWTVerifiableCredential";
 import { Task, type JsonObj, asJsonObj, expect, isObject, notNil } from "../../utils";
 
 interface Args {
@@ -12,19 +10,20 @@ interface Args {
 
 export class RevealCredentialFields extends Task<JsonObj, Args> {
   async run(ctx: Plugins.Context) {
-    if (this.args.credential instanceof JWTCredential) {
-      return this.runJWT();
+    switch (this.args.credential.recoveryId) {
+      case JWTVerifiableCredentialRecoveryId:
+      case "jwt":
+      case "JWT":
+        return this.runJWT();
+      case SDJWTVerifiableCredentialRecoveryId:
+      case "sdjwt":
+        return this.runSDJWT(ctx);
+      case AnonCredsRecoveryId:
+      case "anoncred":
+        return this.runAnoncreds();
+      default:
+        throw new Error("unhandled credential");
     }
-
-    if (this.args.credential instanceof SDJWTCredential) {
-      return this.runSDJWT(ctx);
-    }
-
-    if (this.args.credential instanceof AnonCredsCredential) {
-      return this.runAnoncreds();
-    }
-
-    throw new Error("unhandled credential");
   }
 
   async runJWT() {

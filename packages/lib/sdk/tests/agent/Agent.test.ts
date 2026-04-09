@@ -1,5 +1,6 @@
-import { vi, describe, it, expect, test, beforeEach, afterEach, MockInstance } from 'vitest';
+import { vi, describe, it, expect, test, beforeEach, afterEach, beforeAll, MockInstance } from 'vitest';
 import * as UUIDLib from "@stablelib/uuid";
+import * as Domain from "@hyperledger/identus-domain";
 
 import { Agent } from "../../src/edge-agent";
 import { Mercury } from "../../src/mercury";
@@ -43,6 +44,15 @@ let api: Api;
 
 
 describe("Agent Tests", () => {
+  beforeAll(() => {
+    Domain.Credential.registerRestoreFactory(
+      Domain.AnonCredsRecoveryId,
+      (dataJson: string) => {
+        const json = JSON.parse(dataJson);
+        return new AnonCredsCredential(json, json.revoked ?? false);
+      }
+    );
+  });
   afterEach(async () => {
     vi.useRealTimers();
 

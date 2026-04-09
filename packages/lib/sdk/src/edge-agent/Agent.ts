@@ -1,6 +1,6 @@
 import * as Domain from "@hyperledger/identus-domain";
 import { Mercury } from "../mercury";
-import { DIDCommWrapper } from "@hyperledger/identus-didcomm";
+
 import {
   type AgentOptions,
   type EventCallback,
@@ -37,6 +37,36 @@ import { type Presentation } from "../plugins/internal/oea/protocols/Presentatio
 import * as DIDComm from "../plugins/internal/didcomm";
 import { HandleOOBInvitation } from "../plugins/internal/didcomm/tasks/HandleOOBInvitation";
 import { CreatePeerDID } from "./didFunctions";
+
+import { type DIDCommProtocol } from "../mercury/DIDCommProtocol";
+
+class LazyDIDCommProtocol implements DIDCommProtocol {
+  private _protocol: DIDCommProtocol | null = null;
+  
+  constructor(
+    private apollo: Domain.Apollo,
+    private castor: Domain.Castor,
+    private pluto: Domain.Pluto
+  ) {}
+
+  private async getInstance(): Promise<DIDCommProtocol> {
+    if (!this._protocol) {
+      const { DIDCommWrapper } = await import("@hyperledger/identus-didcomm");
+      this._protocol = new DIDCommWrapper(this.apollo, this.castor, this.pluto);
+    }
+    return this._protocol;
+  }
+
+  async packEncrypted(message: Domain.Message, to: Domain.DID, from?: Domain.DID): Promise<string> {
+    const instance = await this.getInstance();
+    return instance.packEncrypted(message, to, from);
+  }
+
+  async unpack(message: string): Promise<Domain.Message> {
+    const instance = await this.getInstance();
+    return instance.unpack(message);
+  }
+}
 
 /**
  * Edge agent implementation
@@ -101,7 +131,7 @@ export class Agent extends Domain.Startable.Controller {
     const api = params.api ?? new FetchApi();
     const apollo = params.apollo ?? new Apollo();
     const castor = params.castor ?? new Castor(apollo, undefined, params.options?.resolverEndpoint);
-    const didcomm = new DIDCommWrapper(apollo, castor, pluto);
+    const didcomm = new LazyDIDCommProtocol(apollo, castor, pluto);
     const mercury = params.mercury ?? new Mercury(castor, didcomm, api);
     const mediatorDID = Domain.notNil(params.mediatorDID) ? Domain.DID.from(params.mediatorDID) : undefined;
     const seed = params.seed ?? (async () => apollo.createRandomSeed().seed.value);
