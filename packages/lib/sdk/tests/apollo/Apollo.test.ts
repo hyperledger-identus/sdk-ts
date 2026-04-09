@@ -165,10 +165,10 @@ describe("Apollo", () => {
     const apollo = new Apollo();
     const seed = apollo.createRandomSeed().seed;
 
-    const privateKey = apollo.createPrivateKey({
+    const privateKey = await apollo.createPrivateKey({
       type: KeyTypes.EC,
       curve: Curve.SECP256K1,
-      seed: Buffer.from(seed.value).toString("hex"),
+      seed: seed.value,
     });
 
     const signature =
@@ -187,10 +187,10 @@ describe("Apollo", () => {
   it("Should should normalise SECP256K1 der signature from apollo", async () => {
     const text = Buffer.from("test text");
     const seed = apollo.createRandomSeed();
-    const sk = apollo.createPrivateKey({
+    const sk = await apollo.createPrivateKey({
       type: KeyTypes.EC,
       curve: Curve.SECP256K1,
-      seed: Buffer.from(seed.seed.value).toString('hex'),
+      seed: seed.seed.value,
     });
     const pk = sk.publicKey();
     const nativeSk = ApolloSDK.utils.KMMECSecp256k1PrivateKey.Companion.secp256k1FromByteArray(
@@ -212,16 +212,16 @@ describe("Apollo", () => {
     const apollo = new Apollo();
     const seed = apollo.createRandomSeed().seed;
 
-    const privateKey = apollo.createPrivateKey({
+    const privateKey = await apollo.createPrivateKey({
       type: KeyTypes.EC,
       curve: Curve.SECP256K1,
-      seed: Buffer.from(seed.value).toString("hex"),
+      seed: seed.value,
     });
 
-    const wrongPrivateKey = apollo.createPrivateKey({
+    const wrongPrivateKey = await apollo.createPrivateKey({
       type: KeyTypes.EC,
       curve: Curve.SECP256K1,
-      seed: Buffer.from(apollo.createRandomSeed().seed.value).toString("hex"),
+      seed: apollo.createRandomSeed().seed.value,
     });
 
     const signature = privateKey.isSignable() && privateKey.sign(text);
@@ -241,7 +241,7 @@ describe("Apollo", () => {
     const text = Buffer.from("test text");
     const apollo = new Apollo();
 
-    const privateKey = apollo.createPrivateKey({
+    const privateKey = await apollo.createPrivateKey({
       type: KeyTypes.EC,
       curve: Curve.ED25519,
     });
@@ -260,12 +260,12 @@ describe("Apollo", () => {
     const text = Buffer.from("test text");
     const apollo = new Apollo();
 
-    const privateKey = apollo.createPrivateKey({
+    const privateKey = await apollo.createPrivateKey({
       type: KeyTypes.EC,
       curve: Curve.ED25519,
     });
 
-    const wrongPrivateKey = apollo.createPrivateKey({
+    const wrongPrivateKey = await apollo.createPrivateKey({
       type: KeyTypes.EC,
       curve: Curve.ED25519,
     });
@@ -286,29 +286,23 @@ describe("Apollo", () => {
   it("Should only be derivable if secp256k1 keys is used, others are not derivable.", async () => {
     const apollo = new Apollo();
 
-    expect(
-      apollo
-        .createPrivateKey({
-          type: KeyTypes.EC,
-          curve: Curve.ED25519,
-        })
-        .isDerivable()
-    ).to.be.equal(true);
+    const ed25519Key = await apollo.createPrivateKey({
+      type: KeyTypes.EC,
+      curve: Curve.ED25519,
+    });
+    expect(ed25519Key.isDerivable()).to.be.equal(true);
 
-    expect(
-      apollo
-        .createPrivateKey({
-          type: KeyTypes.Curve25519,
-          curve: Curve.X25519,
-        })
-        .isDerivable()
-    ).to.be.equal(false);
+    const x25519Key = await apollo.createPrivateKey({
+      type: KeyTypes.Curve25519,
+      curve: Curve.X25519,
+    });
+    expect(x25519Key.isDerivable()).to.be.equal(false);
 
     const seed = apollo.createRandomSeed().seed;
-    const privateKey = apollo.createPrivateKey({
+    const privateKey = await apollo.createPrivateKey({
       type: KeyTypes.EC,
       curve: Curve.SECP256K1,
-      seed: Buffer.from(seed.value).toString("hex"),
+      seed: seed.value,
     });
 
     expect(privateKey.isDerivable()).to.be.equal(true);
@@ -319,14 +313,14 @@ describe("Apollo", () => {
     const createKeyArgs = {
       type: KeyTypes.EC,
       curve: Curve.SECP256K1,
-      seed: "a4dd58542e9959eccb56832a953c0e54b3321036b6165ec2f3c1ef533cd1d6da5fae8010c587535404534c192397483c765505f67e62b26026392f8a0cf8ba51",
+      seed: new Uint8Array(Buffer.from("a4dd58542e9959eccb56832a953c0e54b3321036b6165ec2f3c1ef533cd1d6da5fae8010c587535404534c192397483c765505f67e62b26026392f8a0cf8ba51", "hex")),
     };
 
-    const privateKey = apollo.createPrivateKey(createKeyArgs);
+    const privateKey = await apollo.createPrivateKey(createKeyArgs);
     const derived = privateKey.isDerivable() && privateKey.derive(path.toString());
     expect(derived).to.not.equal(false);
 
-    const withDerivationPath = apollo.createPrivateKey({
+    const withDerivationPath = await apollo.createPrivateKey({
       ...createKeyArgs,
       derivationPath: path.toString(),
     });

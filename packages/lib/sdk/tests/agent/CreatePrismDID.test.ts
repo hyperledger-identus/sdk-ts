@@ -13,7 +13,7 @@ describe("CreatePrismDID", () => {
     Apollo: Domain.Apollo;
     Castor: Domain.Castor;
     Pluto: Domain.Pluto;
-    Seed: { value: Uint8Array };
+    Seed: () => Promise<Uint8Array>;
   }>;
   let apollo: Domain.Apollo;
   let castor: Domain.Castor;
@@ -22,6 +22,8 @@ describe("CreatePrismDID", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
+
+  const taskParamsSeedValue = Uint8Array.from("abc");
 
   describe("Task Parameters", () => {
     beforeEach(async () => {
@@ -35,7 +37,7 @@ describe("CreatePrismDID", () => {
         Apollo: apollo,
         Castor: castor,
         Pluto: pluto,
-        Seed: { value: Uint8Array.from("abc") },
+        Seed: async () => taskParamsSeedValue,
       });
     });
 
@@ -58,13 +60,13 @@ describe("CreatePrismDID", () => {
       expect(spyCreatePrivateKey).toHaveBeenCalledTimes(2);
       expect(spyCreatePrivateKey).toHaveBeenCalledWith({
         [Domain.KeyProperties.curve]: Domain.Curve.SECP256K1,
-        [Domain.KeyProperties.seed]: Buffer.from(ctx.Seed.value).toString("hex"),
+        [Domain.KeyProperties.seed]: new Uint8Array(taskParamsSeedValue),
         [Domain.KeyProperties.derivationPath]: masterKeyDerivation.toString(),
         [Domain.KeyProperties.derivationSchema]: PrismDerivationPathSchema
       });
       expect(spyCreatePrivateKey).toHaveBeenCalledWith({
         [Domain.KeyProperties.curve]: Domain.Curve.ED25519,
-        [Domain.KeyProperties.seed]: Buffer.from(ctx.Seed.value).toString("hex"),
+        [Domain.KeyProperties.seed]: new Uint8Array(taskParamsSeedValue),
         [Domain.KeyProperties.derivationPath]: issuingDerivation.toString(),
         [Domain.KeyProperties.derivationSchema]: PrismDerivationPathSchema
       });
@@ -100,7 +102,7 @@ describe("CreatePrismDID", () => {
       expect(spyCreatePrivateKey).toHaveBeenCalledTimes(2);
       expect(spyCreatePrivateKey).toHaveBeenCalledWith({
         [Domain.KeyProperties.curve]: authenticationKeyCurve,
-        [Domain.KeyProperties.seed]: Buffer.from(ctx.Seed.value).toString("hex"),
+        [Domain.KeyProperties.seed]: new Uint8Array(taskParamsSeedValue),
         [Domain.KeyProperties.derivationPath]: issuingDerivation.toString(),
         [Domain.KeyProperties.derivationSchema]: PrismDerivationPathSchema
       });
@@ -160,9 +162,7 @@ describe("CreatePrismDID", () => {
         Apollo: apollo,
         Castor: castor,
         Pluto: pluto,
-        Seed: {
-          value: new Uint8Array([69, 191, 35, 232, 213, 102, 3, 93, 180, 106, 224, 144, 79, 171, 79, 223, 154, 217, 235, 232, 96, 30, 248, 92, 100, 38, 38, 42, 101, 53, 2, 247, 56, 111, 148, 220, 237, 122, 15, 120, 55, 82, 89, 150, 35, 45, 123, 135, 159, 140, 52, 127, 239, 148, 150, 109, 86, 145, 77, 109, 47, 60, 20, 16])
-        }
+        Seed: async () => new Uint8Array([69, 191, 35, 232, 213, 102, 3, 93, 180, 106, 224, 144, 79, 171, 79, 223, 154, 217, 235, 232, 96, 30, 248, 92, 100, 38, 38, 42, 101, 53, 2, 247, 56, 111, 148, 220, 237, 122, 15, 120, 55, 82, 89, 150, 35, 45, 123, 135, 159, 140, 52, 127, 239, 148, 150, 109, 86, 145, 77, 109, 47, 60, 20, 16])
       });
     });
 
@@ -174,6 +174,33 @@ describe("CreatePrismDID", () => {
       const doc = await castor.resolveDID(result);
 
       expect(doc).not.toBeNull();
+    });
+
+    test("plain seed and deferred seed produce the same DID", async () => {
+      const seedValue = new Uint8Array([69, 191, 35, 232, 213, 102, 3, 93, 180, 106, 224, 144, 79, 171, 79, 223, 154, 217, 235, 232, 96, 30, 248, 92, 100, 38, 38, 42, 101, 53, 2, 247, 56, 111, 148, 220, 237, 122, 15, 120, 55, 82, 89, 150, 35, 45, 123, 135, 159, 140, 52, 127, 239, 148, 150, 109, 86, 145, 77, 109, 47, 60, 20, 16]);
+      const index = 5;
+
+      const ctxPlain = new Task.Context({
+        Apollo: apollo,
+        Castor: castor,
+        Pluto: pluto,
+        Seed: async () => seedValue,
+      });
+      mockTask(PrismKeyPathIndexTask, index);
+      vi.spyOn(pluto, "storeDID").mockResolvedValue();
+      const did1 = await ctxPlain.run(new CreatePrismDID({}));
+
+      const ctxDeferred = new Task.Context({
+        Apollo: apollo,
+        Castor: castor,
+        Pluto: pluto,
+        Seed: async () => new Uint8Array(seedValue),
+      });
+      mockTask(PrismKeyPathIndexTask, index);
+      vi.spyOn(pluto, "storeDID").mockResolvedValue();
+      const did2 = await ctxDeferred.run(new CreatePrismDID({}));
+
+      expect(did1.toString()).toBe(did2.toString());
     });
   });
 });

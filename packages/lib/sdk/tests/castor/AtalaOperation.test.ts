@@ -45,10 +45,10 @@ describe("AtalaOperation", () => {
 
   it("Should be able to verify a created AtalaObject", async () => {
     const randomSeed = apollo.createRandomSeed().seed.value;
-    const masterSK = apollo.createPrivateKey({
+    const masterSK = await apollo.createPrivateKey({
       type: Domain.KeyTypes.EC,
       curve: Domain.Curve.SECP256K1,
-      seed: Buffer.from(randomSeed).toString("hex"),
+      seed: randomSeed,
     });
     const did = await castor.createPrismDID(masterSK.publicKey());
     const atalaObjectBuffer = await castor.createPrismDIDAtalaObject(

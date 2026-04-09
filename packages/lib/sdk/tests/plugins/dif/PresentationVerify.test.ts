@@ -223,26 +223,26 @@ describe("Plugins - DIF", () => {
           const issuerSeed = ctx.Apollo.createRandomSeed().seed;
           const holderSeed = ctx.Apollo.createRandomSeed().seed;
 
-          const issuerMasterSK = ctx.Apollo.createPrivateKey({
+          const issuerMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(issuerSeed.value).toString("hex"),
+            seed: issuerSeed.value,
           });
-          const issuerAuthenticationSK = ctx.Apollo.createPrivateKey({
+          const issuerAuthenticationSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: Buffer.from(issuerSeed.value).toString("hex"),
+            seed: issuerSeed.value,
           });
 
-          const holderMasterSK = ctx.Apollo.createPrivateKey({
+          const holderMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(holderSeed.value).toString("hex"),
+            seed: holderSeed.value,
           });
-          const holderAuthenticationSK = ctx.Apollo.createPrivateKey({
+          const holderAuthenticationSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: Buffer.from(holderSeed.value).toString("hex"),
+            seed: holderSeed.value,
           });
 
           const issuerDID = await ctx.Castor.createPrismDID(
@@ -406,26 +406,26 @@ describe("Plugins - DIF", () => {
           const issuerSeed = ctx.Apollo.createRandomSeed().seed;
           const holderSeed = ctx.Apollo.createRandomSeed().seed;
 
-          const issuerMasterSK = ctx.Apollo.createPrivateKey({
+          const issuerMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(issuerSeed.value).toString("hex"),
+            seed: issuerSeed.value,
           });
-          const issuerAuthenticationSK = ctx.Apollo.createPrivateKey({
+          const issuerAuthenticationSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: Buffer.from(issuerSeed.value).toString("hex"),
+            seed: issuerSeed.value,
           });
 
-          const holderMasterSK = ctx.Apollo.createPrivateKey({
+          const holderMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(holderSeed.value).toString("hex"),
+            seed: holderSeed.value,
           });
-          const holderAuthenticationSK = ctx.Apollo.createPrivateKey({
+          const holderAuthenticationSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: Buffer.from(holderSeed.value).toString("hex"),
+            seed: holderSeed.value,
           });
 
           const issuerDID = await ctx.Castor.createPrismDID(
@@ -591,26 +591,26 @@ describe("Plugins - DIF", () => {
           const issuerSeed = ctx.Apollo.createRandomSeed().seed;
           const holderSeed = ctx.Apollo.createRandomSeed().seed;
 
-          const issuerMasterSK = ctx.Apollo.createPrivateKey({
+          const issuerMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(issuerSeed.value).toString("hex"),
+            seed: issuerSeed.value,
           });
-          const issuerAuthenticationSK = ctx.Apollo.createPrivateKey({
+          const issuerAuthenticationSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: Buffer.from(issuerSeed.value).toString("hex"),
+            seed: issuerSeed.value,
           });
 
-          const holderMasterSK = ctx.Apollo.createPrivateKey({
+          const holderMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(holderSeed.value).toString("hex"),
+            seed: holderSeed.value,
           });
-          const holderAuthenticationSK = ctx.Apollo.createPrivateKey({
+          const holderAuthenticationSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: Buffer.from(holderSeed.value).toString("hex"),
+            seed: holderSeed.value,
           });
 
           const issuerDID = await ctx.Castor.createPrismDID(
@@ -749,26 +749,26 @@ describe("Plugins - DIF", () => {
           const issuerSeed = ctx.Apollo.createRandomSeed().seed;
           const holderSeed = ctx.Apollo.createRandomSeed().seed;
 
-          const issuerMasterSK = ctx.Apollo.createPrivateKey({
+          const issuerMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(issuerSeed.value).toString("hex"),
+            seed: issuerSeed.value,
           });
-          const issuerAuthenticationSK = ctx.Apollo.createPrivateKey({
+          const issuerAuthenticationSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: Buffer.from(issuerSeed.value).toString("hex"),
+            seed: issuerSeed.value,
           });
 
-          const holderMasterSK = ctx.Apollo.createPrivateKey({
+          const holderMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(holderSeed.value).toString("hex"),
+            seed: holderSeed.value,
           });
-          const holderAuthenticationSK = ctx.Apollo.createPrivateKey({
+          const holderAuthenticationSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: Buffer.from(holderSeed.value).toString("hex"),
+            seed: holderSeed.value,
           });
 
           const issuerDID = await ctx.Castor.createPrismDID(
@@ -907,17 +907,17 @@ describe("Plugins - DIF", () => {
           const issuerSeed = ctx.Apollo.createRandomSeed().seed;
           const holderSeed = ctx.Apollo.createRandomSeed().seed;
 
-          const issuerMasterSK = ctx.Apollo.createPrivateKey({
+          const issuerMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(issuerSeed.value).toString("hex"),
+            seed: issuerSeed.value,
           });
 
 
-          const holderMasterSK = ctx.Apollo.createPrivateKey({
+          const holderMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(holderSeed.value).toString("hex"),
+            seed: holderSeed.value,
           });
 
           const issuerDID = await ctx.Castor.createPrismDID(issuerMasterSK.publicKey(), [], []);
@@ -1046,26 +1046,26 @@ describe("Plugins - DIF", () => {
           const issuerSeed = ctx.Apollo.createRandomSeed().seed;
           const holderSeed = ctx.Apollo.createRandomSeed().seed;
 
-          const issuerMasterSK = ctx.Apollo.createPrivateKey({
+          const issuerMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(issuerSeed.value).toString("hex"),
+            seed: issuerSeed.value,
           });
-          const issuerAuthenticationSK = ctx.Apollo.createPrivateKey({
+          const issuerAuthenticationSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: Buffer.from(issuerSeed.value).toString("hex"),
+            seed: issuerSeed.value,
           });
 
-          const holderMasterSK = ctx.Apollo.createPrivateKey({
+          const holderMasterSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.SECP256K1,
-            seed: Buffer.from(holderSeed.value).toString("hex"),
+            seed: holderSeed.value,
           });
-          const holderAuthenticationSK = ctx.Apollo.createPrivateKey({
+          const holderAuthenticationSK = await ctx.Apollo.createPrivateKey({
             type: KeyTypes.EC,
             curve: Curve.ED25519,
-            seed: Buffer.from(holderSeed.value).toString("hex"),
+            seed: holderSeed.value,
           });
 
           const issuerDID = await ctx.Castor.createPrismDID(
@@ -1367,26 +1367,26 @@ describe("Plugins - DIF", () => {
       const issuerSeed = ctx.Apollo.createRandomSeed().seed;
       const holderSeed = ctx.Apollo.createRandomSeed().seed;
 
-      const issuerMasterSK = ctx.Apollo.createPrivateKey({
+      const issuerMasterSK = await ctx.Apollo.createPrivateKey({
         type: KeyTypes.EC,
         curve: Curve.SECP256K1,
-        seed: Buffer.from(issuerSeed.value).toString("hex"),
+        seed: issuerSeed.value,
       });
-      const issuerAuthenticationSK = ctx.Apollo.createPrivateKey({
+      const issuerAuthenticationSK = await ctx.Apollo.createPrivateKey({
         type: KeyTypes.EC,
         curve: Curve.ED25519,
-        seed: Buffer.from(issuerSeed.value).toString("hex"),
+        seed: issuerSeed.value,
       });
 
-      const holderMasterSK = ctx.Apollo.createPrivateKey({
+      const holderMasterSK = await ctx.Apollo.createPrivateKey({
         type: KeyTypes.EC,
         curve: Curve.SECP256K1,
-        seed: Buffer.from(holderSeed.value).toString("hex"),
+        seed: holderSeed.value,
       });
-      const holderAuthenticationSK = ctx.Apollo.createPrivateKey({
+      const holderAuthenticationSK = await ctx.Apollo.createPrivateKey({
         type: KeyTypes.EC,
         curve: Curve.ED25519,
-        seed: Buffer.from(holderSeed.value).toString("hex"),
+        seed: holderSeed.value,
       });
 
       const issuerDID = await ctx.Castor.createPrismDID(
@@ -1512,15 +1512,15 @@ describe("Plugins - DIF", () => {
     test("Should throw 'key not found' when DID has no ISSUING_KEY and default purpose is used", async () => {
       const issuerSeed = ctx.Apollo.createRandomSeed().seed;
 
-      const issuerMasterSK = ctx.Apollo.createPrivateKey({
+      const issuerMasterSK = await ctx.Apollo.createPrivateKey({
         type: KeyTypes.EC,
         curve: Curve.SECP256K1,
-        seed: Buffer.from(issuerSeed.value).toString("hex"),
+        seed: issuerSeed.value,
       });
-      const issuerAuthenticationSK = ctx.Apollo.createPrivateKey({
+      const issuerAuthenticationSK = await ctx.Apollo.createPrivateKey({
         type: KeyTypes.EC,
         curve: Curve.ED25519,
-        seed: Buffer.from(issuerSeed.value).toString("hex"),
+        seed: issuerSeed.value,
       });
 
       // Legacy API: key goes into AUTHENTICATION_KEY only, not ISSUING_KEY

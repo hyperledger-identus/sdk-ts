@@ -31,10 +31,12 @@ export class CreatePrismDID extends Task<Domain.DID, Args> {
     const masterKeyDerivation = PrismDerivationPath.init(index, PrismDIDKeyUsage.MASTER_KEY);
     // TODO should this be using AUTHENTICATION_KEY
     const issuingDerivation = PrismDerivationPath.init(index, PrismDIDKeyUsage.ISSUING_KEY);
-    const seedHex = Buffer.from(ctx.Seed.value).toString("hex");
+
+    const seed = new Uint8Array(await ctx.Seed());
+
     const masterSK = ctx.Apollo.createPrivateKey({
       [Domain.KeyProperties.curve]: Domain.Curve.SECP256K1,
-      [Domain.KeyProperties.seed]: seedHex,
+      [Domain.KeyProperties.seed]: seed,
       [Domain.KeyProperties.derivationPath]: masterKeyDerivation.toString(),
       [Domain.KeyProperties.derivationSchema]: PrismDerivationPathSchema
     });
@@ -42,7 +44,7 @@ export class CreatePrismDID extends Task<Domain.DID, Args> {
     const authKeyCurve = this.args.authenticationKeyCurve ?? Domain.Curve.ED25519;
     const authKey = ctx.Apollo.createPrivateKey({
       [Domain.KeyProperties.curve]: authKeyCurve,
-      [Domain.KeyProperties.seed]: seedHex,
+      [Domain.KeyProperties.seed]: seed,
       [Domain.KeyProperties.derivationPath]: issuingDerivation.toString(),
       [Domain.KeyProperties.derivationSchema]: PrismDerivationPathSchema
     });
@@ -54,6 +56,8 @@ export class CreatePrismDID extends Task<Domain.DID, Args> {
     );
 
     await ctx.Pluto.storeDID(did, [masterSK, authKey], this.args.alias);
+
+    seed.fill(0)
 
     return did;
   }

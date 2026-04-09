@@ -483,10 +483,10 @@ describe("PrismDID",
       });
 
       it("Create a PrismDID and verify a signature", async () => {
-        const privateKey = apollo.createPrivateKey({
+        const privateKey = await apollo.createPrivateKey({
           type: KeyTypes.EC,
           curve: Curve.SECP256K1,
-          seed: Buffer.from(apollo.createRandomSeed().seed.value).toString("hex"),
+          seed: apollo.createRandomSeed().seed.value,
         });
         const publicKey = privateKey.publicKey();
 
@@ -511,15 +511,15 @@ describe("PrismDID",
 
         const issuerSeed = apollo.createRandomSeed().seed;
 
-        const sk = apollo.createPrivateKey({
+        const sk = await apollo.createPrivateKey({
           type: KeyTypes.EC,
           curve: Curve.ED25519,
-          seed: Buffer.from(issuerSeed.value).toString("hex"),
+          seed: issuerSeed.value,
         });
-        const masterSk = apollo.createPrivateKey({
+        const masterSk = await apollo.createPrivateKey({
           type: KeyTypes.EC,
           curve: Curve.SECP256K1,
-          seed: Buffer.from(issuerSeed.value).toString("hex"),
+          seed: issuerSeed.value,
         });
 
         const did = await castor.createPrismDID(masterSk.publicKey(), [], [sk.publicKey()]);

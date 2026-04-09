@@ -55,13 +55,13 @@ describe("PEERDID CreateTest", () => {
     const castor = new Castor(apollo);
 
     const publicKeys: PublicKey[] = [];
-    const keyAgreementPrivateKey = apollo.createPrivateKey({
+    const keyAgreementPrivateKey = await apollo.createPrivateKey({
       type: KeyTypes.Curve25519,
       curve: Curve.X25519,
       raw: base64url.baseDecode("COd9Xhr-amD7fuswWId2706JBUY_tmjp9eiNEieJeEE"),
     });
 
-    const authenticationPrivateKey = apollo.createPrivateKey({
+    const authenticationPrivateKey = await apollo.createPrivateKey({
       type: KeyTypes.EC,
       curve: Curve.ED25519,
       raw: base64url.baseDecode("JLIJQ5jlkyqtGmtOth6yggJLLC0zuRhUPiBhd1-rGPs"),
@@ -126,13 +126,13 @@ describe("PEERDID CreateTest", () => {
     const castor = new Castor(apollo);
 
     const publicKeys: PublicKey[] = [];
-    const keyAgreementPrivateKey = apollo.createPrivateKey({
+    const keyAgreementPrivateKey = await apollo.createPrivateKey({
       type: KeyTypes.Curve25519,
       curve: Curve.X25519,
       raw: base64url.baseDecode("COd9Xhr-amD7fuswWId2706JBUY_tmjp9eiNEieJeEE"),
     });
 
-    const authenticationPrivateKey = apollo.createPrivateKey({
+    const authenticationPrivateKey = await apollo.createPrivateKey({
       type: KeyTypes.EC,
       curve: Curve.ED25519,
       raw: base64url.baseDecode("JLIJQ5jlkyqtGmtOth6yggJLLC0zuRhUPiBhd1-rGPs"),
@@ -178,12 +178,12 @@ describe("PEERDID CreateTest", () => {
 
     const publicKeys: PublicKey[] = [];
 
-    const authenticationPrivate = apollo.createPrivateKey({
+    const authenticationPrivate = await apollo.createPrivateKey({
       type: KeyTypes.EC,
       curve: Curve.ED25519,
     });
 
-    const keyAgreementPrivate = apollo.createPrivateKey({
+    const keyAgreementPrivate = await apollo.createPrivateKey({
       type: KeyTypes.Curve25519,
       curve: Curve.X25519,
     });
