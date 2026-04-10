@@ -23,7 +23,7 @@ jobs:
           client-payload: '{"component": "sdk-ts", "release": false, "version": "${{ github.sha }}" }'
 
   integrate-release:
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/@hyperledger/identus-sdk@')
     name: Integrate release
     runs-on: ubuntu-latest
 
