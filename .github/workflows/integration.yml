@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
     tags:
-      - "v*"
+      - "@hyperledger/identus-sdk@*"
 
 jobs:
   integrate-revision:
