@@ -11,7 +11,7 @@ import { type BackupOptions, type BackupExclude } from "./types";
 
 export class AgentBackup {
   constructor(
-    public readonly Agent: Pick<Agent, "apollo" | "pluto" | "seed">
+    public readonly Agent: Agent
   ) { }
 
   /**
@@ -48,7 +48,7 @@ export class AgentBackup {
     }
 
     const backupStr = options?.compress ? this.compress(JSON.stringify(backup)) : JSON.stringify(backup);
-    const masterSk = this.masterSk(options);
+    const masterSk = await this.masterSk(options);
     const jwk = masterSk.to.JWK();
     const JWE = await this.loadJWE();
     const encrypted = JWE.encrypt(
@@ -75,7 +75,7 @@ export class AgentBackup {
    * @see createJWE - Method to create a JWE from the stored backup data.
    */
   async restore(jwe: string, options?: BackupOptions) {
-    const masterSk = this.masterSk(options);
+    const masterSk = await this.masterSk(options);
     const jwk = masterSk.to.JWK();
     const JWE = await this.loadJWE();
     const decoded = JWE.decrypt(
@@ -142,15 +142,16 @@ export class AgentBackup {
    * create a JWK for the MasterKey (X25519)
    * @returns JWK
    */
-  private masterSk(options?: BackupOptions) {
+  private async masterSk(options?: BackupOptions) {
     const optKey = options?.key;
     if (notNil(optKey)) {
       return optKey
     }
 
+    const seed = await this.Agent.runtimeContext.Seed();
     const masterKey = this.Agent.apollo.createPrivateKey({
       [Domain.KeyProperties.curve]: Domain.Curve.X25519,
-      [Domain.KeyProperties.seed]: Buffer.from(this.Agent.seed.value).toString("hex"),
+      [Domain.KeyProperties.seed]: seed,
       [Domain.KeyProperties.derivationPath]: "m/0'/0'/0'"
     });
 

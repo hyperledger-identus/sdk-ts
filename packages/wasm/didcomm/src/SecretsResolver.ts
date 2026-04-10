@@ -92,7 +92,7 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
     if (!privateKeyBuffer) {
       throw new Error(`Invalid PrivateKey Curve ${Curve.X25519}`);
     }
-    const privateKey = this.apollo.createPrivateKey({
+    const privateKey = await this.apollo.createPrivateKey({
       type: KeyTypes.Curve25519,
       curve: Curve.X25519,
       raw: privateKeyBuffer.value,

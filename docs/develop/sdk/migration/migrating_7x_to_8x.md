@@ -6,6 +6,10 @@ If core internals where not in use, this breaking changes are likely to not affe
 ### Future deprecation notice
 The following items have been marked as deprecated and will be removed in a future version of the SDK, but are still available.
 
+- The Apollo key property, seed was sent as a hexString but is not UInt8Array. If you are creating private keys manually, please change seed from hexString to UInt8Array.
+
+- Agent.initialize now accepts an async function that returns a seed (UInt8Array) vs previous hexString, if no seed function is provided, will start with random seed
+
 - CreatePrismDID and CreatePrismDIDArgs from @hyperledger/identus-sdk, can still be used but is deprecated. We are introducing a new simplified function CreatePrismDIDWithKeys and type CreatePrismDIDWithKeysArgs from @hyperledger/identus-sdk
 
 
