@@ -19,6 +19,7 @@ export * from "./castor";
 export * from "./mercury";
 export * from './edge-agent'
 export * from "./pluto";
+export type { CreateOptions } from "./pluto";
 
 // Domain and utilities
 export * as Domain from "@hyperledger/identus-domain";

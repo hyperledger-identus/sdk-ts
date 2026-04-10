@@ -264,7 +264,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
    * });
    * ```
    */
-  static async create(options: CreateOptions) {
+  static async create(options: CreateOptions): Promise<Pluto> {
     const { keyRestoration } = options;
     if ('store' in options) {
       return Pluto.#createWithStore(options.store, keyRestoration);
