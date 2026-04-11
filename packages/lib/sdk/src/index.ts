@@ -29,18 +29,23 @@ import {
   isNil, notNil, isObject, isString, isArray, notEmptyString, isEmpty,
   asArray, asJsonObj, expect,
   ConsoleLogger,
-  Task
+  Task,
+  WASMModuleCache,
+  wasmCache,
 } from "./utils";
 
 export const Utils = {
   isNil, notNil, isObject, isString, isArray, notEmptyString, isEmpty,
   asArray, asJsonObj, expect,
   ConsoleLogger,
-  Task
+  Task,
+  WASMModuleCache,
+  wasmCache,
 } as const;
 
 // Utils type-only re-exports (cannot be in a runtime namespace)
 export type { Arrayable, Ctor, Nil, JsonObj, Normalize, Logger, LogLevel } from "./utils";
+export type { WASMModuleDescriptor, WASMCacheConfig, WASMLoadResult, WASMCacheStats } from "./utils";
 
 // Plugin system
 export { Plugin } from "./plugins/Plugin";

@@ -99,7 +99,8 @@
     "typedoc-plugin-rename-defaults": "^0.7.3",
     "typedoc-theme-hierarchy": "^6.0.0",
     "typescript": "^5.8.3",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "fake-indexeddb": "^6.0.0"
   },
   "dependencies": {
     "@hyperledger/identus-apollo": "^1.4.5",

@@ -7,3 +7,5 @@ export { ConsoleLogger } from "./logger";
 export type { Logger, LogLevel } from "./logger";
 export * from "./tasks";
 export type { Arrayable, Ctor, Nil, JsonObj, Normalize } from "./types";
+export { WASMModuleCache, wasmCache } from "./wasm-cache";
+export type { WASMModuleDescriptor, WASMCacheConfig, WASMLoadResult, WASMCacheStats } from "./wasm-cache";
