@@ -50,7 +50,7 @@ describe("Plugins - DIF", () => {
           ],
         },
         verifiablePresentation: [
-          "eyJhbGciOiJFUzI1NksiLCJraWQiOiJkaWQ6cHJpc206MzhlNzhlNGRkOTcxMWM0OWExZmI1MzNiMDI0N2M1YTI2NTE2ZTM4ZTk5YTI1OWNkMjFmZjViODQwOTc1MzNkNjpDbUVLWHhKZENnaHRZWE4wWlhJdE1CQUJRazhLQ1hObFkzQXlOVFpyTVJJZ3A2QmkwY0NKUm5PUVF4ZUw1UlhqVzd2MXpLSnJKUTdXY294eTVPR1YzSGthSUQzZ3N1ODZfc0ZEMDlzV2VSN084YVFDVmVsdWRUVzVhWVNQb1BpUUVnQmkjbWFzdGVyLTAiLCJ0eXAiOiJKV1QifQ.eyJpYXQiOjE3MzY1MTEzNzcsImlzcyI6ImRpZDpwcmlzbTozOGU3OGU0ZGQ5NzExYzQ5YTFmYjUzM2IwMjQ3YzVhMjY1MTZlMzhlOTlhMjU5Y2QyMWZmNWI4NDA5NzUzM2Q2OkNtRUtYeEpkQ2dodFlYTjBaWEl0TUJBQlFrOEtDWE5sWTNBeU5UWnJNUklncDZCaTBjQ0pSbk9RUXhlTDVSWGpXN3YxektKckpRN1djb3h5NU9HVjNIa2FJRDNnc3U4Nl9zRkQwOXNXZVI3TzhhUUNWZWx1ZFRXNWFZU1BvUGlRRWdCaSIsIm5iZiI6MTczNjUxMTM3NzY0MywidnAiOnsiQGNvbnRleHQiOlsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiXSwidHlwZSI6WyJWZXJpZmlhYmxlUHJlc2VudGF0aW9uIl0sInZlcmlmaWFibGVDcmVkZW50aWFsIjpbImV5SmhiR2NpT2lKRlV6STFOa3NpTENKMGVYQWlPaUpLVjFRaWZRLmV5SnBZWFFpT2pFM016WTFNVEV6Tnpjc0ltVjRjQ0k2TVRjek9URTRPVGMzTnpZeU5pd2lhWE56SWpvaVpHbGtPbkJ5YVhOdE9qQTROVGhqTXpCa1lXWTJaREJqWXpObE1HSXhZV1V6TVdJM1kySXlNVEptTkRRME5tRTJaVEJtTkRkaE5Ua3lObUl6WW1FM1pHTTJORGs0TmpFMU4ySTZRMjFGUzFoNFNtUkRaMmgwV1ZoT01GcFlTWFJOUWtGQ1VXczRTME5ZVG14Wk0wRjVUbFJhY2sxU1NXZE5NMGg0YkVWU0xVaE9TRWMxT1U1QlIyOUtTamRQWkVFMVdHeFJRV0pQVlRWS2NWQkhiVzVyV21sUllVbEdXV281VVZWVGIxOTRhV1Z0V1dsTVNHeENRbXQzU0dwYVdrdFNNVVpxVTBFeVQyeG5TMGs1YVVNNUlpd2libUptSWpveE56TTJOVEV4TXpjM05qSTJMQ0p6ZFdJaU9pSmthV1E2Y0hKcGMyMDZNemhsTnpobE5HUmtPVGN4TVdNME9XRXhabUkxTXpOaU1ESTBOMk0xWVRJMk5URTJaVE00WlRrNVlUSTFPV05rTWpGbVpqVmlPRFF3T1RjMU16TmtOanBEYlVWTFdIaEtaRU5uYUhSWldFNHdXbGhKZEUxQ1FVSlJhemhMUTFoT2JGa3pRWGxPVkZweVRWSkpaM0EyUW1rd1kwTktVbTVQVVZGNFpVdzFVbGhxVnpkMk1YcExTbkpLVVRkWFkyOTRlVFZQUjFZelNHdGhTVVF6WjNOMU9EWmZjMFpFTURselYyVlNOMDg0WVZGRFZtVnNkV1JVVnpWaFdWTlFiMUJwVVVWblFta2lMQ0oyWXlJNmV5SkFZMjl1ZEdWNGRDSTZXeUpvZEhSd2N6b3ZMM2QzZHk1M015NXZjbWN2TWpBeE9DOWpjbVZrWlc1MGFXRnNjeTkyTVNKZExDSjBlWEJsSWpwYklsWmxjbWxtYVdGaWJHVkRjbVZrWlc1MGFXRnNJbDBzSW1semMzVmxjaUk2SW1ScFpEcHdjbWx6YlRvd09EVTRZek13WkdGbU5tUXdZMk16WlRCaU1XRmxNekZpTjJOaU1qRXlaalEwTkRaaE5tVXdaalEzWVRVNU1qWmlNMkpoTjJSak5qUTVPRFl4TlRkaU9rTnRSVXRZZUVwa1EyZG9kRmxZVGpCYVdFbDBUVUpCUWxGck9FdERXRTVzV1ROQmVVNVVXbkpOVWtsblRUTkllR3hGVWkxSVRraEhOVGxPUVVkdlNrbzNUMlJCTlZoc1VVRmlUMVUxU25GUVIyMXVhMXBwVVdGSlJsbHFPVkZWVTI5ZmVHbGxiVmxwVEVoc1FrSnJkMGhxV2xwTFVqRkdhbE5CTWs5c1owdEpPV2xET1NJc0ltbHpjM1ZoYm1ObFJHRjBaU0k2SWpJd01qVXRNREV0TVRCVU1USTZNVFk2TVRjdU5qSTJXaUlzSW1OeVpXUmxiblJwWVd4VGRXSnFaV04wSWpwN0ltTnZkWEp6WlNJNklrbGtaVzUwZFhNZ1ZISmhhVzVwYm1jZ1kyOTFjbk5sSUVObGNuUnBabWxqWVhScGIyNGdNakF5TkNKOWZYMC5TR3BrUjdZRy15WXlOeFo0d19VRjF5dWV1MmdmNzNSLUJrdEtYX21QWnRoMnM0cE9kcjVORnV6M002ZmFGQlpLVGJENXlkR0hGRTRiYldMazA5dkIyZyJdfX0.pt8bSbXa6AhZ_dMuDZ_iXW4F6R9EmS-BGZ7ETb9kuOdxWfsN0yjKkc-cNSMvXUha2NlJ2Q34Yrms53xo4eNLlQ",
+          "eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJpYXQiOjE3NjcyMjU2MDAsImlzcyI6ImRpZDpwcmlzbTpmMDJjNTgyOTE2NmI2MjJmMTgyYzEzMjZlYTg5MzQzODk1MDNkMGI3M2NjNjU3NjZhMmVlOTA1NGJjOTA2OWQyOkNtRUtYeEpkQ2dodFlYTjBaWEl0TUJBQlFrOEtDWE5sWTNBeU5UWnJNUklnbnlHMjdsYTdDRVlqMVRPa0FZQno0bDA2TFVlUTRkOFNDTjJrdnRWZmxsNGFJQVltaFdpYnIxeUtMRHI4WnV6WEQzZmdHNGJKR25VMk93eUFmWkxURlpjRSIsIm5iZiI6MTc2NzIyNTYwMCwidnAiOnsiQGNvbnRleHQiOlsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiXSwidHlwZSI6WyJWZXJpZmlhYmxlUHJlc2VudGF0aW9uIl0sInZlcmlmaWFibGVDcmVkZW50aWFsIjpbImV5SmhiR2NpT2lKRlV6STFOa3NpTENKMGVYQWlPaUpLVjFRaWZRLmV5SnBZWFFpT2pFM05qY3lNalUyTURBc0ltVjRjQ0k2TVRnNU16UTFOakF3TUN3aWFYTnpJam9pWkdsa09uQnlhWE50T2pZNE5EVTBOVGMzWm1JM05ESmlZemMyTURrd05XWmhaalV5WldOak5EY3haRGd5WVRoaFpEZzJZV0UyTXpObVlUVmxOamxqTVRjM05tTmlaak15TUdRNlEyMUZTMWg0U21SRFoyaDBXVmhPTUZwWVNYUk5Ra0ZDVVdzNFMwTllUbXhaTTBGNVRsUmFjazFTU1dkWGJqTXRiV2hmT1VGbVUzRkROMjR4YVdoRmEyc3dXblE0U1RoS2FVSlphVGhyTFVwR2RYTXRWMUpCWVVsTmFrZEhZMVExUWpCUVJXVllYMlpmUmtOTk5uTmZjbWhJY3kxaFpWTlhWM0I0ZUZWdlVVMDBXV2RJSWl3aWJtSm1Jam94TnpZM01qSTFOakF3TENKemRXSWlPaUprYVdRNmNISnBjMjA2WmpBeVl6VTRNamt4TmpaaU5qSXlaakU0TW1NeE16STJaV0U0T1RNME16ZzVOVEF6WkRCaU56TmpZelkxTnpZMllUSmxaVGt3TlRSaVl6a3dOamxrTWpwRGJVVkxXSGhLWkVObmFIUlpXRTR3V2xoSmRFMUNRVUpSYXpoTFExaE9iRmt6UVhsT1ZGcHlUVkpKWjI1NVJ6STNiR0UzUTBWWmFqRlVUMnRCV1VKNk5Hd3dOa3hWWlZFMFpEaFRRMDR5YTNaMFZtWnNiRFJoU1VGWmJXaFhhV0p5TVhsTFRFUnlPRnAxZWxoRU0yWm5SelJpU2tkdVZUSlBkM2xCWmxwTVZFWmFZMFVpTENKMll5STZleUpBWTI5dWRHVjRkQ0k2V3lKb2RIUndjem92TDNkM2R5NTNNeTV2Y21jdk1qQXhPQzlqY21Wa1pXNTBhV0ZzY3k5Mk1TSmRMQ0owZVhCbElqcGJJbFpsY21sbWFXRmliR1ZEY21Wa1pXNTBhV0ZzSWwwc0ltbHpjM1ZsY2lJNkltUnBaRHB3Y21semJUbzJPRFExTkRVM04yWmlOelF5WW1NM05qQTVNRFZtWVdZMU1tVmpZelEzTVdRNE1tRTRZV1E0Tm1GaE5qTXpabUUxWlRZNVl6RTNOelpqWW1Zek1qQmtPa050UlV0WWVFcGtRMmRvZEZsWVRqQmFXRWwwVFVKQlFsRnJPRXREV0U1c1dUTkJlVTVVV25KTlVrbG5WMjR6TFcxb1h6bEJabE54UXpkdU1XbG9SV3RyTUZwME9FazRTbWxDV1drNGF5MUtSblZ6TFZkU1FXRkpUV3BIUjJOVU5VSXdVRVZsV0Y5bVgwWkRUVFp6WDNKb1NITXRZV1ZUVjFkd2VIaFZiMUZOTkZsblNDSXNJbWx6YzNWaGJtTmxSR0YwWlNJNklqSXdNall0TURFdE1ERlVNREE2TURBNk1EQXVNREF3V2lJc0ltTnlaV1JsYm5ScFlXeFRkV0pxWldOMElqcDdJbU52ZFhKelpTSTZJa2xrWlc1MGRYTWdWSEpoYVc1cGJtY2dZMjkxY25ObElFTmxjblJwWm1sallYUnBiMjRnTWpBeU5DSjlmWDAuY3RCN2tMRE9EU3l3SlVOZ2JnVGh5YTl1SHczcWVUdlAzZ2pkNjdDM1BnQW5MVnlsUUY3WFNKSnJ0MmNpSzEwbm15cTY2Q1hudHRkdzJKQ0N5V2dSbnciXX19.SuVyT6nH5-RbYWruF-WM3IWeuiME5hMZ1ZNpVlTcYTMq3CPDwl_DuylViZDeAsl84YoN7OBRnNbGmm5EHN4E8A",
         ],
       };
 
@@ -90,7 +90,7 @@ describe("Plugins - DIF", () => {
                     name: "issuer",
                     filter: {
                       type: "string",
-                      pattern: "did:prism:0858c30daf6d0cc3e0b1ae31b7cb212f4446a6e0f47a5926b3ba7dc64986157b:CmEKXxJdCghtYXN0ZXItMBABQk8KCXNlY3AyNTZrMRIgM3HxlER-HNHG59NAGoJJ7OdA5XlQAbOU5JqPGmnkZiQaIFYj9QUSo_xiemYiLHlBBkwHjZZKR1FjSA2OlgKI9iC9",
+                      pattern: "did:prism:68454577fb742bc760905faf52ecc471d82a8ad86aa633fa5e69c1776cbf320d:CmEKXxJdCghtYXN0ZXItMBABQk8KCXNlY3AyNTZrMRIgWn3-mh_9AfSqC7n1ihEkk0Zt8I8JiBYi8k-JFus-WRAaIMjGGcT5B0PEeX_f_FCM6s_rhHs-aeSWWpxxUoQM4YgH",
                     },
                   },
                 ],
@@ -269,8 +269,8 @@ describe("Plugins - DIF", () => {
           const currentDate = new Date();
           const nextMonthDate = new Date(currentDate);
           nextMonthDate.setMonth(currentDate.getMonth() + 1);
-          const issuanceDate = currentDate.getTime();
-          const expirationDate = nextMonthDate.getTime();
+          const issuanceDate = Math.floor(currentDate.getTime() / 1000);
+          const expirationDate = Math.floor(nextMonthDate.getTime() / 1000);
 
           const vcPayload: JWTCredentialPayload = {
             iss: issuerDID.toString(),
@@ -457,8 +457,8 @@ describe("Plugins - DIF", () => {
           const currentDate = new Date();
           const nextMonthDate = new Date(currentDate);
           nextMonthDate.setMonth(currentDate.getMonth() + 1);
-          const issuanceDate = currentDate.getTime();
-          const expirationDate = nextMonthDate.getTime();
+          const issuanceDate = Math.floor(currentDate.getTime() / 1000);
+          const expirationDate = Math.floor(nextMonthDate.getTime() / 1000);
 
           const vcPayload: JWTCredentialPayload = {
             iss: issuerDID.toString(),
@@ -712,8 +712,8 @@ describe("Plugins - DIF", () => {
           const currentDate = new Date();
           const nextMonthDate = new Date(currentDate);
           nextMonthDate.setMonth(currentDate.getMonth() + 1);
-          const issuanceDate = currentDate.getTime();
-          const expirationDate = nextMonthDate.getTime();
+          const issuanceDate = Math.floor(currentDate.getTime() / 1000);
+          const expirationDate = Math.floor(nextMonthDate.getTime() / 1000);
 
           const payload = {
             iss: issuerDID.toString(),
@@ -875,8 +875,8 @@ describe("Plugins - DIF", () => {
           const currentDate = new Date();
           const nextMonthDate = new Date(currentDate);
           nextMonthDate.setMonth(currentDate.getMonth() + 1);
-          const issuanceDate = currentDate.getTime();
-          const expirationDate = nextMonthDate.getTime();
+          const issuanceDate = Math.floor(currentDate.getTime() / 1000);
+          const expirationDate = Math.floor(nextMonthDate.getTime() / 1000);
 
           const payload = {
             iss: issuerDID.toString(),
@@ -1018,8 +1018,8 @@ describe("Plugins - DIF", () => {
           const currentDate = new Date();
           const nextMonthDate = new Date(currentDate);
           nextMonthDate.setMonth(currentDate.getMonth() + 1);
-          const issuanceDate = currentDate.getTime();
-          const expirationDate = nextMonthDate.getTime();
+          const issuanceDate = Math.floor(currentDate.getTime() / 1000);
+          const expirationDate = Math.floor(nextMonthDate.getTime() / 1000);
 
           const payload = {
             iss: issuerDID.toString(),
@@ -1184,8 +1184,8 @@ describe("Plugins - DIF", () => {
           const currentDate = new Date();
           const nextMonthDate = new Date(currentDate);
           nextMonthDate.setMonth(currentDate.getMonth() + 1);
-          const issuanceDate = currentDate.getTime();
-          const expirationDate = nextMonthDate.getTime();
+          const issuanceDate = Math.floor(currentDate.getTime() / 1000);
+          const expirationDate = Math.floor(nextMonthDate.getTime() / 1000);
 
           const payload = {
             iss: issuerDID.toString(),
@@ -1445,8 +1445,8 @@ describe("Plugins - DIF", () => {
       const currentDate = new Date();
       const nextMonthDate = new Date(currentDate);
       nextMonthDate.setMonth(currentDate.getMonth() + 1);
-      const issuanceDate = currentDate.getTime();
-      const expirationDate = nextMonthDate.getTime();
+      const issuanceDate = Math.floor(currentDate.getTime() / 1000);
+      const expirationDate = Math.floor(nextMonthDate.getTime() / 1000);
 
       const payload = {
         iss: issuerDID.toString(),
