@@ -12,7 +12,6 @@ The following items have been marked as deprecated and will be removed in a futu
 
 1. The Apollo key property, seed was sent as a hexString but is not UInt8Array. If you are creating private keys manually, please change seed from hexString to UInt8Array.
 
-
 # Castor breaking changes
 
 1. The `parseDID` method has been removed from the `Castor` interface. Use the static `DID.fromString()` method instead.
@@ -26,7 +25,7 @@ import { DID } from "@hyperledger/identus-domain";
 const did = DID.fromString("did:prism:123456");
 ```
 
-2. The `createPrismDID` method is replaced by `createDID('prism', opts)`. Keys are now provided as **private keys** (not public keys), and the master key is part of the `keys` object.
+1. The `createPrismDID` method is replaced by `createDID('prism', opts)`. Keys are now provided as **private keys** (not public keys), and the master key is part of the `keys` object.
 
 ```typescript
 // Before
@@ -46,7 +45,7 @@ const did = await castor.createDID('prism', {
 });
 ```
 
-3. The `createPeerDID` method is replaced by `createDID('peer', opts)`. Keys are now provided as private keys in a structured object.
+1. The `createPeerDID` method is replaced by `createDID('peer', opts)`. Keys are now provided as private keys in a structured object.
 
 ```typescript
 // Before
@@ -65,7 +64,7 @@ const did = await castor.createDID('peer', {
 });
 ```
 
-4. The `createPrismDIDAtalaObject` method is replaced by `publishDID`.
+1. The `createPrismDIDAtalaObject` method is replaced by `publishDID`.
 
 ```typescript
 // Before
@@ -77,7 +76,6 @@ const buffer = await castor.publishDID('prism', {
   did,
 });
 ```
-
 
 # Agent breaking changes
 
@@ -128,11 +126,11 @@ const castor = new Castor(apollo, [
   }
    ```
 
-2. Agent.initialize now accepts an async function that returns a seed (UInt8Array) vs previous hexString, if no seed function is provided, will start with random seed
+1. Agent.initialize now accepts an async function that returns a seed (UInt8Array) vs previous hexString, if no seed function is provided, will start with random seed
 
-3. CreatePrismDID and CreatePrismDIDArgs from @hyperledger/identus-sdk, can still be used but is deprecated. We are introducing a new simplified function CreatePrismDIDWithKeys and type CreatePrismDIDWithKeysArgs from @hyperledger/identus-sdk
+2. CreatePrismDID and CreatePrismDIDArgs from @hyperledger/identus-sdk, can still be used but is deprecated. We are introducing a new simplified function CreatePrismDIDWithKeys and type CreatePrismDIDWithKeysArgs from @hyperledger/identus-sdk
 
-4. `agent.createNewPrismDID()` and `agent.createNewPeerDID()` are not replaced by `agent.createDID`.
+3. `agent.createNewPrismDID()` and `agent.createNewPeerDID()` are not replaced by `agent.createDID`.
 
 ```typescript
 // Create a Prism DID through the Agent
