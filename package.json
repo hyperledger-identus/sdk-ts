@@ -14,6 +14,8 @@
     "coverage:nx": "npx nx run-many --target=coverage",
     "lint": "npx nx run-many --target=lint",
     "lint:fix": "npx nx run-many --target=lint -- --fix",
+    "lint:text": "npx markdownlint-cli2 '**/*.md' && npx yamllint-ts -c .yamllint.yml $(find . \\( -name '*.yml' -o -name '*.yaml' \\) -not -path '*/node_modules/*' -not -path '*/.git/*' -not -path '*/externals/*' -not -path '*/coverage/*') && npx editorconfig-checker -exclude '\\.git|node_modules|coverage|externals|docs/sdk'",
+    "lint:text:fix": "npx markdownlint-cli2 '**/*.md' --fix",
     "docs": "npx nx run-many --target=docs"
   },
   "description": "Identus SDK - Typescript",

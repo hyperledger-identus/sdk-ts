@@ -1,0 +1,25 @@
+---
+extends: default
+
+rules:
+  line-length: disable
+  truthy:
+    allowed-values: ["true", "false", "yes", "no", "on"]
+  comments-indentation: disable
+  document-start: disable
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+  comments:
+    min-spaces-from-content: 1
+  indentation:
+    spaces: consistent
+    indent-sequences: whatever
+  empty-lines:
+    max-end: 1
+
+ignore: |
+  node_modules/
+  coverage/
+  externals/
+  .claude/
