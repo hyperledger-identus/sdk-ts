@@ -18,8 +18,10 @@ interface Args {
 export class HandleOfferCredential extends Task<RequestCredential, Args> {
   async run(ctx: Context) {
     if (this.args.message.piuri !== ProtocolIds.OfferCredential) {
-      // TODO 
-      throw new Error();
+    
+      throw new Domain.AgentError.InvalidOfferCredentialMessageError(
+        `expected piuri '${ProtocolIds.OfferCredential}' but received '${this.args.message.piuri}'`
+      )
     }
 
     const offer = this.args.message;
