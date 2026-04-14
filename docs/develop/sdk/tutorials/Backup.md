@@ -19,21 +19,22 @@ essential elements like keys, decentralized identifiers (DIDs), credentials, and
 accommodate future changes, the specification adheres to semantic versioning (semver), allowing for
 updates and modifications while maintaining backward compatibility.
 
-
 ## Requirements
+
 1. SDK A - a used instance with data in the store.
 2. SDK B - an unused instance, with an empty store.
 
-
 ## Flow
+
 1. SDK A creates a Backup `jwe`
 2. SDK B restores from the `jwe`
 
-
 ## Code Reference
+
 * Create the `jwe` using the Agent function provided.
 
-Example 
+Example
+
 ```TS
 const jwe = await Agent_a.backup.createJWE();
 ```
@@ -42,6 +43,7 @@ const jwe = await Agent_a.backup.createJWE();
 * Restore from the `jwe` using the Agent function provided.
 
 Example
+
 ```TS
 await Agent_b.backup.restore(jwe);
 ```

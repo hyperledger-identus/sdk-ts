@@ -1,9 +1,11 @@
 # Migration guide from 7.X to 8.X
 
 ## Breaking Changes
+
 If core internals where not in use, this breaking changes are likely to not affect you, except if you weren't relying on the Agent but using the internals directly for some things.
 
 ### Future deprecation notice
+
 The following items have been marked as deprecated and will be removed in a future version of the SDK, but are still available.
 
 - The Apollo key property, seed was sent as a hexString but is not UInt8Array. If you are creating private keys manually, please change seed from hexString to UInt8Array.
@@ -12,8 +14,8 @@ The following items have been marked as deprecated and will be removed in a futu
 
 - CreatePrismDID and CreatePrismDIDArgs from @hyperledger/identus-sdk, can still be used but is deprecated. We are introducing a new simplified function CreatePrismDIDWithKeys and type CreatePrismDIDWithKeysArgs from @hyperledger/identus-sdk
 
-
 ### Deprecated exports
+
 - No more default export in @hyperledger/identus-sdk.
 
 ```typescript
@@ -73,7 +75,6 @@ import { HandshakeRequest, type HandshakeRequestBody } from "@hyperledger/identu
 // 8.x
 import { HandshakeRequest, type HandshakeRequestBody } from "@hyperledger/identus-sdk/plugins/oea";
 ```
-
 
 - CredentialFormat from @hyperledger/identus-sdk
 

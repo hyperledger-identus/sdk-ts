@@ -48,7 +48,7 @@ jobs:
         id: import_gpg
         with:
           gpg_private_key: ${{ secrets.HYP_BOT_GPG_PRIVATE }}
-          passphrase:  ${{ secrets.HYP_BOT_GPG_PASSWORD }}
+          passphrase: ${{ secrets.HYP_BOT_GPG_PASSWORD }}
           git_user_signingkey: true
           git_commit_gpgsign: true
           git_config_global: true
@@ -80,4 +80,3 @@ jobs:
             npx nx release publish
             git push --follow-tags origin HEAD:${GITHUB_REF_NAME}
           fi
-          

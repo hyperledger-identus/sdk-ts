@@ -6,15 +6,14 @@ In an effort to reduce the minimum amount of work required to get started with t
 
 The levels of abstraction are described below:
 
-
 ## Top level interface
+
 An SDK specific interface, detailing all the necessary storage functions for operation.
 
 This interface defines the specific functions requried by the SDK, and while it's input and output are all Domain classes, it provides no opinion on how they are handled internally.
 This approach allows for maximum customisation, constrained only by the interface contract.
 
 The top level interface can be found at [SDK.Domain.Pluto](../sdk/overview/namespaces/Domain/namespaces/Pluto/README.md) alongside our other top level interfaces.
-
 
 ```TS
   import { Domain } from "@hyperledger/identus-edge-agent-sdk";
@@ -35,13 +34,13 @@ The top level interface can be found at [SDK.Domain.Pluto](../sdk/overview/names
   const agent = Agent.initialize({ pluto, ...etc });
 ```
 
-
 ## Store
+
 A general purpose CRUD interface, with a pre-designed Table structure and significantly smaller footprint than the top level interface.
 
 Designed to be used with the existing Pluto implementation, where Pluto handles the logic and orchestration from Domain classes to Storable models, and the Store handles the persistence of those models.
 
-The Store revolves around a storable object, which is an arbitrary object with a `uuid` property that uniquely identifies the object. 
+The Store revolves around a storable object, which is an arbitrary object with a `uuid` property that uniquely identifies the object.
 The interface can be found at [SDK.Pluto.Store](../sdk/overview/namespaces/Pluto/interfaces/Store.md)
 
 ```TS

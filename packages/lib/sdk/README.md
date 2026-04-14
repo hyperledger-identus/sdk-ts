@@ -10,6 +10,7 @@ npm i @hyperledger/identus-sdk --save
 ```
 
 Or using yarn:
+
 ```sh
 yarn add @hyperledger/identus-sdk
 ```

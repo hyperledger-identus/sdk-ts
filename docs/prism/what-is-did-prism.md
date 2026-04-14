@@ -9,9 +9,9 @@ title: What is a did:prism?
 
 The `did:prism` method supports two different formats for DIDs:
 
-*   **Long Form (Offline) DID:** This is a self-contained DID that includes all the information needed to resolve it. It can be created and used offline, without needing to interact with the Cardano blockchain. This is useful for scenarios where you need to create a DID quickly and without an internet connection.
+* **Long Form (Offline) DID:** This is a self-contained DID that includes all the information needed to resolve it. It can be created and used offline, without needing to interact with the Cardano blockchain. This is useful for scenarios where you need to create a DID quickly and without an internet connection.
 
-*   **Short Form DID:** This is a shorter, more user-friendly DID that is created by publishing a long-form DID to the Cardano blockchain. The short-form DID can be resolved by querying the blockchain for the corresponding long-form DID.
+* **Short Form DID:** This is a shorter, more user-friendly DID that is created by publishing a long-form DID to the Cardano blockchain. The short-form DID can be resolved by querying the blockchain for the corresponding long-form DID.
 
 ## `did:prism` DID Structure
 
