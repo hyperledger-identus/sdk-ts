@@ -10,7 +10,6 @@ Start a verification flow from an Edge Agent (Verifier wallet) and another holde
 
 [Start tutorial](./Verification.md)
 
-
 ## Connectionless Credential Offer
 
 How to handle a Connectionless Credential Offer.

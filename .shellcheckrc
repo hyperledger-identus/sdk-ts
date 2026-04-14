@@ -1,0 +1,3 @@
+# SC2034: Unused variable — false positive for vars used by external tools
+# SC2164: cd without || exit — common in build scripts
+disable=SC2034,SC2164

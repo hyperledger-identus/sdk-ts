@@ -66,10 +66,10 @@ yarn
 npm run build
 ```
 
-If you have any issues while building you can try building from docker (this runs exaclty the same build):
+If you have any issues while building you can try building from docker (this runs exactly the same build):
 ```bash
-docker build -t atalaprismwalletsdkts:latest "." 
-docker run  -v $(pwd)/build:/app/build atalaprismwalletsdkts:latest
+docker build -t identus-sdk-ts:latest "." 
+docker run  -v $(pwd)/build:/app/build identus-sdk-ts:latest
 ```
 
 #### Run the demos

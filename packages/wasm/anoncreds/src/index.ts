@@ -1,4 +1,4 @@
-import type * as Anoncreds from "@hyperledger/identus-anoncreds-wasm";
+import * as Anoncreds from "@hyperledger/identus-anoncreds-wasm";
 // @ts-ignore
 import wasmBuffer from '@hyperledger/identus-anoncreds-wasm/identus-anoncreds_bg.wasm';
 
@@ -29,11 +29,10 @@ export class AnoncredsLoader {
     }
 
     private async load() {
-        this.pkg ??= await import("@hyperledger/identus-anoncreds-wasm").then(async module => {
-            const wasmInstance = module.initSync({ module: wasmBuffer });
-            await module.default(wasmInstance);
-            return module;
-        });
+        if (!this.pkg) {
+            Anoncreds.initSync({ module: wasmBuffer });
+            this.pkg = Anoncreds;
+        }
     }
 
     private async wasm() {

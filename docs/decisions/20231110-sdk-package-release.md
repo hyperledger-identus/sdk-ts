@@ -4,7 +4,7 @@
 - Deciders: [Javier Ribó](https://github.com/elribonazo) + [Gonçalo](https://github.com/goncalo-frade-iohk)
 - Date: 2023-11-10
 
-Technical Story: https://input-output.atlassian.net/browse/ATL-6147
+Technical Story: <https://input-output.atlassian.net/browse/ATL-6147>
 
 ## Context and Problem Statement
 
@@ -15,7 +15,6 @@ Further to this, the current master HEAD is deployed as the latest package, whic
 
 We propose to publish the package in the Atala-Prism and use a release-candidate or nightly build for the latest changes.
 
-
 ## Decision Drivers
 
 - Developer friction when releasing unstable changes.
@@ -25,9 +24,11 @@ We propose to publish the package in the Atala-Prism and use a release-candidate
 All the proposed options split the RC and production releases in 2 so this issues are better addressed.
 
 ### [option 1] Github packages for RC + NPM for production
+
 Releasing @atala packages into npm for official releases and use github packages for release-candidates.
 
 ### [option 2] NPM for everything
+
 Releasing @atala packages in official NPM repo as RC and Production packages.
 
 This will have some side effects, semantic-release npm package will check what is the latest published version and trigger the semantic-publishing based on that. If we release a package as RC and then without changes we just want to release as production package without RC, this maybe needs to be done manually (another CI action).
