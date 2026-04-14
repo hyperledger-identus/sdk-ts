@@ -13,11 +13,11 @@ import { Apollo } from "../../src/apollo";
 import { Castor } from "../../src/castor";
 import {
   VerificationMaterialAuthentication,
-  VerificationMaterialFormatPeerDID,
+  VerificationMaterialFormatDID,
   VerificationMethodTypeAuthentication,
-} from "../../src/peer-did/types";
-import { MultiCodec } from "../../src/peer-did/helpers/Multicodec";
+} from "@hyperledger/identus-domain";
 import { PeerDIDResolver } from "../../src/castor/resolver/PeerDIDResolver";
+import { MultiCodec } from '../../src/castor/utils/Multicodec';
 describe("PEERDID CreateTest", () => {
   it("Should test milticodec coding", () => {
     const testData = Uint8Array.from(Buffer.from("test1"));
@@ -37,13 +37,13 @@ describe("PEERDID CreateTest", () => {
     const result = new VerificationMaterialAuthentication(
       jwkJson,
       VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
-      VerificationMaterialFormatPeerDID.JWK
+      VerificationMaterialFormatDID.JWK
     );
 
     const resolver = new PeerDIDResolver();
     const ecnumbasisResult = resolver.decodeMultibaseEncnumbasisAuth(
       ecnumBasis,
-      VerificationMaterialFormatPeerDID.JWK
+      VerificationMaterialFormatDID.JWK
     );
     expect(result.type).to.equal(ecnumbasisResult[1].type);
     expect(result.value).to.equal(ecnumbasisResult[1].value);

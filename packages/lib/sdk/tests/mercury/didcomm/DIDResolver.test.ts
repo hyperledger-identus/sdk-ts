@@ -3,7 +3,7 @@ import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
 import { Castor } from "../../../src/castor";
 import * as Domain from '@hyperledger/identus-domain';
 import { DIDCommDIDResolver } from "../../../src/mercury/DIDCommDIDResolver";
-import { PeerDIDService } from "../../../src/peer-did/PeerDID";
+import { PeerDIDService } from "../../../src/castor/methods/peer/PeerDID";
 
 describe("Mercury DIDComm DIDResolver", () => {
   describe("resolve", () => {

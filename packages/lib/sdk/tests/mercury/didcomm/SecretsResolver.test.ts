@@ -4,7 +4,7 @@ import { Castor } from "../../../src/castor";
 import { Pluto } from "../../../src/pluto/Pluto";
 import * as Domain from "@hyperledger/identus-domain";
 import { DIDCommSecretsResolver } from "../../../src/mercury/DIDCommSecretsResolver";
-import { PeerDIDCreate } from "../../../src/peer-did/PeerDIDCreate";
+import { PeerDIDCreate } from "../../../src/castor/methods/peer/PeerDIDCreate";
 import { Curve } from "@hyperledger/identus-domain";
 import * as Fixtures from "../../fixtures";
 
