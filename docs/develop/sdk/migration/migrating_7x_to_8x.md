@@ -128,9 +128,9 @@ const castor = new Castor(apollo, [
 
 - Agent.initialize now accepts an async function that returns a seed (UInt8Array) vs previous hexString, if no seed function is provided, will start with random seed
 
-2. CreatePrismDID and CreatePrismDIDArgs from @hyperledger/identus-sdk, can still be used but is deprecated. We are introducing a new simplified function CreatePrismDIDWithKeys and type CreatePrismDIDWithKeysArgs from @hyperledger/identus-sdk
+1. CreatePrismDID and CreatePrismDIDArgs from @hyperledger/identus-sdk, can still be used but is deprecated. We are introducing a new simplified function CreatePrismDIDWithKeys and type CreatePrismDIDWithKeysArgs from @hyperledger/identus-sdk
 
-3. `agent.createNewPrismDID()` and `agent.createNewPeerDID()` are not replaced by `agent.createDID`.
+2. `agent.createNewPrismDID()` and `agent.createNewPeerDID()` are not replaced by `agent.createDID`.
 
 ```typescript
 // Create a Prism DID through the Agent
