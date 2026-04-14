@@ -4,7 +4,7 @@ import { type SDJWTVCConfig, SDJwtVcInstance, type SdJwtVcPayload, } from '@sd-j
 import { type Disclosure } from '@sd-jwt/utils';
 import { decodeSdJwtSync, getClaimsSync } from '@sd-jwt/decode';
 import type { DisclosureFrame, PresentationFrame } from '@sd-jwt/types';
-import type * as Domain from '@hyperledger/identus-domain';
+import * as Domain from '@hyperledger/identus-domain';
 import { PolluxError, CastorError } from '@hyperledger/identus-domain';
 import { SDJWTCredential } from '../../models/SDJWTVerifiableCredential';
 import { Task, notNil } from "../../../utils";
@@ -70,6 +70,20 @@ export class SDJWT extends Task.Runner {
     if (jwtObject.issuer && jwtObject.issuer !== issuerDID.toString()) {
       throw new PolluxError.InvalidCredentialError("SDJWT issuer does not match the expected DID");
     }
+
+    // Check exp claim (RFC 7519 §4.1.4)
+    const now = Math.floor(Date.now() / 1000);
+    const exp = jwtObject.getProperty(Domain.JWT.Claims.exp);
+    if (typeof exp === 'number' && now >= exp) {
+      return false;
+    }
+
+    // Check nbf claim (RFC 7519 §4.1.5)
+    const nbf = jwtObject.getProperty(Domain.JWT.Claims.nbf);
+    if (typeof nbf === 'number' && now < nbf) {
+      return false;
+    }
+
     const kidHeader = jwtObject.core.jwt?.header?.kid;
     const methods = notNil(kidHeader)
       ? verificationMethods.filter(x => x.id === kidHeader)
@@ -88,9 +102,8 @@ export class SDJWT extends Task.Runner {
             options.requiredKeyBindings ?? false
           );
           return true;
-        } catch (err) {
-          // eslint-disable-next-line no-console
-          console.log(err);
+        } catch {
+          // verification failed with this key, try next
         }
       }
     }

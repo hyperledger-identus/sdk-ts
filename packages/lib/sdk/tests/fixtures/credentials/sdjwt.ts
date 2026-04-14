@@ -60,3 +60,23 @@ export const presentationRequest = {
     firstname: {}
   }
 };
+
+/**
+ * SD-JWT test fixtures for exp/nbf temporal claim validation.
+ * Each JWS has a real header+payload (parsed by SDJWTCredential.fromJWS)
+ * with a dummy signature (signature verification is separate from claim checks).
+ *
+ * Issuer DID: did:prism:7168a07b94d130268905
+ */
+export const temporalClaims = {
+  issuerDID: "did:prism:7168a07b94d130268905",
+
+  /** exp = 1700000100 (Nov 14 2023) — already expired */
+  expiredJws: "eyJ0eXAiOiJ2YytzZC1qd3QiLCJhbGciOiJFZERTQSJ9.eyJpc3MiOiJkaWQ6cHJpc206NzE2OGEwN2I5NGQxMzAyNjg5MDUiLCJpYXQiOjE3MDAwMDAwMDAsInZjdCI6Imh0dHA6Ly9leGFtcGxlLmNvbSIsImV4cCI6MTcwMDAwMDEwMCwiX3NkX2FsZyI6InNoYS0yNTYifQ.dummysig~",
+
+  /** nbf = 4102444800 (Jan 1 2100) — not yet valid */
+  notYetValidJws: "eyJ0eXAiOiJ2YytzZC1qd3QiLCJhbGciOiJFZERTQSJ9.eyJpc3MiOiJkaWQ6cHJpc206NzE2OGEwN2I5NGQxMzAyNjg5MDUiLCJpYXQiOjE3MDAwMDAwMDAsInZjdCI6Imh0dHA6Ly9leGFtcGxlLmNvbSIsIm5iZiI6NDEwMjQ0NDgwMCwiX3NkX2FsZyI6InNoYS0yNTYifQ.dummysig~",
+
+  /** No exp or nbf — should proceed to signature verification */
+  validJws: "eyJ0eXAiOiJ2YytzZC1qd3QiLCJhbGciOiJFZERTQSJ9.eyJpc3MiOiJkaWQ6cHJpc206NzE2OGEwN2I5NGQxMzAyNjg5MDUiLCJpYXQiOjE3MDAwMDAwMDAsInZjdCI6Imh0dHA6Ly9leGFtcGxlLmNvbSIsIl9zZF9hbGciOiJzaGEtMjU2In0.dummysig~",
+};
