@@ -4,6 +4,29 @@
 
 Here, we have the basic implementations and tutorials for the Identus Edge Agent JS SDK, but most things run cross platform with minor differences.
 
+## Adding custom did methods
+
+The SDK uses a pluggable DID method architecture. You can register your own DID methods alongside the built-in `prism` and `peer` methods, or `custom`. This guide walks through the full process.
+
+DID method implementations will need to follow the specs and define the required functions:
+
+- create
+- verifySignature
+
+Optionally, if the DID can be published onChain or somewhere else you can customize the `update`, `deactivate` and `publish`.
+
+```typescript
+type Metadata = {}
+type CreatePayload = {}
+type PublishPayload = {}
+type UpdatePayload = {}
+type DeactivatePayload = {}
+
+type MyDIDMethod = DIDMethod<Metadata, CreatePayload, PublishPayload, UpdatePayload, DeactivatePayload>
+```
+
+[Start tutorial](./CustomDIDMethod.md)
+
 ## Verification
 
 Start a verification flow from an Edge Agent (Verifier wallet) and another holder to request (a did) to send you a credential proof for a specific issuer and specific claims.

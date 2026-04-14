@@ -7,14 +7,15 @@ import {
   Domain,
   ListenerKey,
   Castor,
-  ProtocolType
+  ProtocolType,
+  PrismDIDMethod
 } from "@hyperledger/identus-sdk"
 import * as Anoncreds from "@hyperledger/identus-sdk/plugins/anoncreds"
 import axios from "axios"
 import { Setup } from "../configuration/Setup"
 import { randomUUID, type UUID } from "crypto"
-import { PrismShortFormDIDResolver } from "../resolvers/PrismShortFormDIDResolver"
 import { Utils } from "../Utils"
+import { cloudAgentApi } from "../configuration/Setup"
 
 export const agentList: Map<string, WalletSdk> = new Map();
 
@@ -94,15 +95,17 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
   }
 
   async createSdk(inputSeed: Domain.Seed = undefined) {
-    const resolvers = [PrismShortFormDIDResolver]
+    const didMethods = [
+      new PrismDIDMethod(`${cloudAgentApi.defaults.baseURL}dids/`)
+    ]
     const apollo = new Apollo()
-    const castor = new Castor(apollo, resolvers)
+    const castor = new Castor(apollo, didMethods)
 
     const pluto = await Utils.createPlutoInstance();
     const mediatorDID = Domain.DID.fromString(await WalletSdk.getMediatorDidThroughOob());
 
     this.sdk = Agent.initialize({
-      seed: async () => inputSeed,
+      seed: async () => inputSeed.value,
       apollo,
       pluto,
       mediatorDID,

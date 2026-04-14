@@ -20,7 +20,7 @@ describe("CreatePrismDIDWithKeys", () => {
 
   describe("Task Parameters", () => {
     beforeEach(async () => {
-      castor = { createPrismDID: vi.fn() } as any;
+      castor = { createDID: vi.fn() } as any;
       pluto = await Pluto.create({
         dbName: "test-" + randomUUID(),
         keyRestoration: new Apollo(),
@@ -40,7 +40,7 @@ describe("CreatePrismDIDWithKeys", () => {
     test("MASTER_KEY only - creates DID with master key only", async () => {
       const masterKey = Fixtures.Keys.secp256K1.privateKey;
       vi.spyOn(masterKey, "publicKey").mockReturnValue(Fixtures.Keys.secp256K1.publicKey);
-      const spyCreatePrismDID = vi.spyOn(castor, "createPrismDID")
+      const spyCreatePrismDID = vi.spyOn(castor, "createDID")
         .mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
       const spyStoreDID = vi.spyOn(pluto, "storeDID").mockResolvedValue();
 
@@ -52,9 +52,13 @@ describe("CreatePrismDIDWithKeys", () => {
 
       expect(spyCreatePrismDID).toHaveBeenCalledOnce();
       expect(spyCreatePrismDID).toHaveBeenCalledWith(
-        masterKey.publicKey(),
-        undefined,
-        expect.objectContaining({})
+        'prism',
+        {
+          keys: {
+            MASTER_KEY: masterKey,
+          },
+          services: undefined,
+        }
       );
 
       expect(spyStoreDID).toHaveBeenCalledOnce();
@@ -73,7 +77,7 @@ describe("CreatePrismDIDWithKeys", () => {
       const authenticationKey = Fixtures.Keys.ed25519.privateKey;
       vi.spyOn(authenticationKey, "publicKey").mockReturnValue(Fixtures.Keys.ed25519.publicKey);
 
-      const spyCreatePrismDID = vi.spyOn(castor, "createPrismDID").mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
+      const spyCreatePrismDID = vi.spyOn(castor, "createDID").mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
       const spyStoreDID = vi.spyOn(pluto, "storeDID").mockResolvedValue();
 
       const result = await ctx.run(new CreatePrismDIDWithKeys({
@@ -84,9 +88,14 @@ describe("CreatePrismDIDWithKeys", () => {
 
       expect(spyCreatePrismDID).toHaveBeenCalledOnce();
       expect(spyCreatePrismDID).toHaveBeenCalledWith(
-        masterKey.publicKey(),
-        undefined,
-        expect.objectContaining({ AUTHENTICATION_KEY: [authenticationKey.publicKey()] })
+        'prism',
+        {
+          keys: {
+            MASTER_KEY: masterKey,
+            AUTHENTICATION_KEY: [authenticationKey],
+          },
+          services: undefined,
+        }
       );
 
       expect(spyStoreDID).toHaveBeenCalledOnce();
@@ -101,7 +110,7 @@ describe("CreatePrismDIDWithKeys", () => {
       const services = [{ testService: true }] as any;
       const masterKey = Fixtures.Keys.secp256K1.privateKey;
       vi.spyOn(masterKey, "publicKey").mockReturnValue(Fixtures.Keys.secp256K1.publicKey);
-      const spyCreatePrismDID = vi.spyOn(castor, "createPrismDID")
+      const spyCreatePrismDID = vi.spyOn(castor, "createDID")
         .mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
       vi.spyOn(pluto, "storeDID").mockResolvedValue();
 
@@ -112,9 +121,13 @@ describe("CreatePrismDIDWithKeys", () => {
 
       expect(spyCreatePrismDID).toHaveBeenCalledOnce();
       expect(spyCreatePrismDID).toHaveBeenCalledWith(
-        Fixtures.Keys.secp256K1.publicKey,
-        services,
-        expect.any(Object)
+        'prism',
+        {
+          keys: {
+            MASTER_KEY: masterKey,
+          },
+          services: services,
+        }
       );
     });
 
@@ -122,7 +135,7 @@ describe("CreatePrismDIDWithKeys", () => {
       const alias = "test-alias";
       const masterKey = Fixtures.Keys.secp256K1.privateKey;
       vi.spyOn(masterKey, "publicKey").mockReturnValue(Fixtures.Keys.secp256K1.publicKey);
-      vi.spyOn(castor, "createPrismDID").mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
+      vi.spyOn(castor, "createDID").mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
       const spyStoreDID = vi.spyOn(pluto, "storeDID").mockResolvedValue();
 
       await ctx.run(new CreatePrismDIDWithKeys({
@@ -141,7 +154,7 @@ describe("CreatePrismDIDWithKeys", () => {
     test("returns the created DID", async () => {
       const masterKey = Fixtures.Keys.secp256K1.privateKey;
       vi.spyOn(masterKey, "publicKey").mockReturnValue(Fixtures.Keys.secp256K1.publicKey);
-      vi.spyOn(castor, "createPrismDID").mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
+      vi.spyOn(castor, "createDID").mockResolvedValue(Fixtures.DIDs.prismDIDDefault);
       vi.spyOn(pluto, "storeDID").mockResolvedValue();
 
       const result = await ctx.run(new CreatePrismDIDWithKeys({

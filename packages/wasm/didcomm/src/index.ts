@@ -1,7 +1,5 @@
 export { DIDCommWrapper } from "./Wrapper";
 export type { DIDCommProtocol } from "./Wrapper";
-export { DIDCommDIDResolver } from "./DIDResolver";
-export { DIDCommSecretsResolver } from "./SecretsResolver";
 
 // Re-export WASM types for downstream consumers
 export type {

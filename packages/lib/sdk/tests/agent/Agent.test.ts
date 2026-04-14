@@ -110,12 +110,12 @@ describe("Agent Tests", () => {
 
     it("As a developer when a peerDID is created and we have specified to updateKeyList the services are correctly added and updateKeyList is called correctly.", async () => {
       const storePeerDID = vi.spyOn(pluto, "storeDID").mockResolvedValue();
-      const createPeerDID = vi.spyOn(castor, "createPeerDID");
+      const spyCreateDID = vi.spyOn(castor, "createDID");
       const stubSendMessage = vi.spyOn(agent.mercury, "sendMessage").mockResolvedValue(Uint8Array.from([]));
 
-      const peerDID = await agent.createNewPeerDID([], true);
+      const peerDID = await agent.createPeerDID([], true);
 
-      expect(createPeerDID).toHaveBeenCalledOnce();
+      expect(spyCreateDID).toHaveBeenCalledOnce();
       expect(storePeerDID).toHaveBeenCalledOnce();
 
       expect(agent.currentMediatorDID).not.equals(null);
@@ -128,7 +128,12 @@ describe("Agent Tests", () => {
         new DIDDocument.ServiceEndpoint(mediatorDID.toString())
       );
 
-      expect(createPeerDID).toHaveBeenLastCalledWith(expect.arrayContaining([]), [expectedService]);
+      expect(spyCreateDID).toHaveBeenLastCalledWith(
+        'peer',
+        expect.objectContaining({
+          services: expect.arrayContaining([expectedService]),
+        })
+      );
       expect(stubSendMessage).toHaveBeenCalledOnce();
       const msg = stubSendMessage.mock.calls.at(0)?.at(0);
       expect(msg).to.be.instanceOf(Message);
@@ -157,7 +162,7 @@ describe("Agent Tests", () => {
       vi.spyOn(UUIDLib, "uuid").mockReturnValue("123456-123456-12356-123456");
       const stubStoreDID = vi.spyOn(agent.pluto, "storeDID").mockResolvedValue();
       const stubStoreDIDPair = vi.spyOn(agent.pluto, "storeDIDPair").mockResolvedValue();
-      const stubCreateDID = vi.spyOn(agent.castor, "createPeerDID").mockResolvedValue(did);
+      const stubCreateDID = vi.spyOn(agent.castor, "createDID").mockResolvedValue(did);
       const stubSendMessage = vi.spyOn(agent.mercury, "sendMessage").mockResolvedValue(Uint8Array.from([]));
 
       const oobInvitation = await agent.parseOOBInvitation(new URL(validOOB));
@@ -182,7 +187,7 @@ describe("Agent Tests", () => {
       const validOOB =
         "https://my.domain.com/path?_oob=eyJpZCI6IjViMjUwMjIzLWExNDItNDRmYi1hOWJkLWU1MjBlNGI0ZjQzMiIsInR5cGUiOiJodHRwczovL2RpZGNvbW0ub3JnL291dC1vZi1iYW5kLzIuMC9pbnZpdGF0aW9uIiwiZnJvbSI6ImRpZDpwZWVyOjIuRXo2TFNkV0hWQ1BFOHc0NWZETjM4aUh0ZFJ6WGkyTFNqQmRSUjRGTmNOUm12VkNKcy5WejZNa2Z2aUI5S1F1OGlnNVZpeG1HZHM3dmdMNmoyUXNOUGFybkZaanBNQ0E5aHpQLlNleUowSWpvaVpHMGlMQ0p6SWpwN0luVnlhU0k2SW1oMGRIQTZMeTh4T1RJdU1UWTRMakV1TXpjNk9EQTNNQzlrYVdSamIyMXRJaXdpY2lJNlcxMHNJbUVpT2xzaVpHbGtZMjl0YlM5Mk1pSmRmWDAiLCJib2R5Ijp7ImdvYWxfY29kZSI6InByZXNlbnQtdnAiLCJnb2FsIjoiUmVxdWVzdCBwcm9vZiBvZiB2YWNjaW5hdGlvbiBpbmZvcm1hdGlvbiIsImFjY2VwdCI6W119LCJhdHRhY2htZW50cyI6W3siaWQiOiIyYTZmOGM4NS05ZGE3LTRkMjQtOGRhNS0wYzliZDY5ZTBiMDEiLCJtZWRpYV90eXBlIjoiYXBwbGljYXRpb24vanNvbiIsImRhdGEiOnsianNvbiI6eyJpZCI6IjI1NTI5MTBiLWI0NmMtNDM3Yy1hNDdhLTlmODQ5OWI5ZTg0ZiIsInR5cGUiOiJodHRwczovL2RpZGNvbW0uYXRhbGFwcmlzbS5pby9wcmVzZW50LXByb29mLzMuMC9yZXF1ZXN0LXByZXNlbnRhdGlvbiIsImJvZHkiOnsiZ29hbF9jb2RlIjoiUmVxdWVzdCBQcm9vZiBQcmVzZW50YXRpb24iLCJ3aWxsX2NvbmZpcm0iOmZhbHNlLCJwcm9vZl90eXBlcyI6W119LCJhdHRhY2htZW50cyI6W3siaWQiOiJiYWJiNTJmMS05NDUyLTQzOGYtYjk3MC0yZDJjOTFmZTAyNGYiLCJtZWRpYV90eXBlIjoiYXBwbGljYXRpb24vanNvbiIsImRhdGEiOnsianNvbiI6eyJvcHRpb25zIjp7ImNoYWxsZW5nZSI6IjExYzkxNDkzLTAxYjMtNGM0ZC1hYzM2LWIzMzZiYWI1YmRkZiIsImRvbWFpbiI6Imh0dHBzOi8vcHJpc20tdmVyaWZpZXIuY29tIn0sInByZXNlbnRhdGlvbl9kZWZpbml0aW9uIjp7ImlkIjoiMGNmMzQ2ZDItYWY1Ny00Y2E1LTg2Y2EtYTA1NTE1NjZlYzZmIiwiaW5wdXRfZGVzY3JpcHRvcnMiOltdfX19LCJmb3JtYXQiOiJwcmlzbS9qd3QifV0sInRoaWQiOiI1YjI1MDIyMy1hMTQyLTQ0ZmItYTliZC1lNTIwZTRiNGY0MzIiLCJmcm9tIjoiZGlkOnBlZXI6Mi5FejZMU2RXSFZDUEU4dzQ1ZkROMzhpSHRkUnpYaTJMU2pCZFJSNEZOY05SbXZWQ0pzLlZ6Nk1rZnZpQjlLUXU4aWc1Vml4bUdkczd2Z0w2ajJRc05QYXJuRlpqcE1DQTloelAuU2V5SjBJam9pWkcwaUxDSnpJanA3SW5WeWFTSTZJbWgwZEhBNkx5OHhPVEl1TVRZNExqRXVNemM2T0RBM01DOWthV1JqYjIxdElpd2ljaUk2VzEwc0ltRWlPbHNpWkdsa1kyOXRiUzkyTWlKZGZYMCJ9fX1dLCJjcmVhdGVkX3RpbWUiOjE3MjQzMzkxNDQsImV4cGlyZXNfdGltZSI6MTcyNDMzOTQ0NH0";
 
-      const createPeerDID = vi.spyOn(agent, "createNewPeerDID");
+      const createPeerDID = vi.spyOn(agent, "createPeerDID");
       const sendMessage = vi.spyOn(agent.mercury, "sendMessage");
 
       vi.spyOn(UUIDLib, "uuid").mockReturnValue("123456-123456-12356-123456");
@@ -706,6 +711,10 @@ describe("Agent Tests", () => {
     });
 
     describe("initiatePresentationRequest", () => {
+      beforeEach(() => {
+        vi.spyOn(agent.mercury, "sendMessage").mockResolvedValue(Uint8Array.from([]));
+      });
+
       const expectedBody = {
         presentation_definition: {
           id: expect.stringMatching(""),
@@ -777,6 +786,7 @@ describe("Agent Tests", () => {
     describe("handlePresentation", () => {
       beforeEach(() => {
         vi.spyOn(pluto, "getDIDPrivateKeysByDID").mockResolvedValue([Fixtures.Keys.secp256K1.privateKey]);
+        vi.spyOn(agent.mercury, "sendMessage").mockResolvedValue(Uint8Array.from([]));
       });
 
       test("JWT", async () => {

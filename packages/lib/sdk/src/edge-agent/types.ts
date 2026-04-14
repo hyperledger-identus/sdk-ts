@@ -10,6 +10,7 @@ import {
 
 import { OEA } from "../plugins/internal/oea/types";
 import { ProtocolIds } from "../plugins/internal/didcomm/types";
+import { type DIDMethodInput } from "../castor/types";
 
 /**
  * Temporary workaround to smooth transition of internal module splitting and end-user consumables
@@ -50,8 +51,7 @@ export type AgentOptions = {
   experiments?: {
     liveMode?: boolean;
   };
-  //optional string
-  resolverEndpoint?: string;
+  didMethods?: DIDMethodInput[]
 };
 
 export type MessageEventArg = Message[];

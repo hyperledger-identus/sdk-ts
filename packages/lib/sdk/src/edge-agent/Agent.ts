@@ -1,11 +1,15 @@
 import * as Domain from "@hyperledger/identus-domain";
-import { Mercury } from "../mercury";
+import { Mercury, DIDCommDIDResolver, DIDCommSecretsResolver } from "../mercury";
 import { DIDCommWrapper } from "@hyperledger/identus-didcomm";
 import {
   type AgentOptions,
   type EventCallback,
   type ListenerKey,
 } from "./types";
+import {
+  type DIDMethodTypeMap,
+  type InferCreatePayload,
+} from "../castor/methods/types";
 
 import { AgentBackup } from "./Agent.Backup";
 import { ConnectionsManager } from "./connections/ConnectionsManager";
@@ -100,8 +104,13 @@ export class Agent extends Domain.Startable.Controller {
     const pluto = params.pluto;
     const api = params.api ?? new FetchApi();
     const apollo = params.apollo ?? new Apollo();
-    const castor = params.castor ?? new Castor(apollo, undefined, params.options?.resolverEndpoint);
-    const didcomm = new DIDCommWrapper(apollo, castor, pluto);
+    const castor = params.castor ?? new Castor(
+      apollo,
+      params.options?.didMethods
+    );
+    const didResolver = new DIDCommDIDResolver(castor);
+    const secretsResolver = new DIDCommSecretsResolver(apollo, castor, pluto);
+    const didcomm = new DIDCommWrapper(didResolver, secretsResolver);
     const mercury = params.mercury ?? new Mercury(castor, didcomm, api);
     const mediatorDID = Domain.notNil(params.mediatorDID) ? Domain.DID.from(params.mediatorDID) : undefined;
     const seed = params.seed ?? (async () => apollo.createRandomSeed().seed.value);
@@ -233,6 +242,57 @@ export class Agent extends Domain.Startable.Controller {
   }
 
   /**
+   * Create a new DID using the specified method, store it in Pluto,
+   * and (for peer DIDs) update the mediator key list.
+   *
+   * @typeParam M - registered DID method name (e.g. `"prism"`, `"peer"`)
+   * @param method - the DID method to use
+   * @param opts - method-specific creation options; may include an optional
+   *   `alias` string that is persisted alongside the DID
+   * @returns the newly created DID
+   *
+   * @example
+   * ```ts
+   * const prismDID = await agent.createDID('prism', {
+   *   keys: { MASTER_KEY: masterSK },
+   *   alias: 'my-issuer',
+   * });
+   *
+   * const peerDID = await agent.createDID('peer', {
+   *   keys: {
+   *     AUTHENTICATION_KEY: [authSK],
+   *     KEY_AGREEMENT_KEY: [agreementSK],
+   *   },
+   * });
+   * ```
+   */
+  createDID<M extends keyof DIDMethodTypeMap>(
+    method: M,
+    opts: InferCreatePayload<M> & { alias?: string },
+  ): Promise<Domain.DID> {
+    if (method === 'prism') {
+      const prismOpts = opts as InferCreatePayload<"prism">;
+      if (!prismOpts.keys?.MASTER_KEY) {
+        throw new Error("MASTER_KEY is required");
+      }
+      const task = new DIDfns.CreatePrismDIDWithKeys(prismOpts);
+      return this.runTask(task);
+    }
+
+    if (method === 'peer') {
+      const peerOpts = opts as InferCreatePayload<"peer">;
+      const task = new DIDfns.CreatePeerDID({
+        ...peerOpts,
+        services: peerOpts.services ?? [],
+        updateMediator: true,
+      });
+      return this.runTask(task);
+    }
+
+    throw new Error(`Method ${method} not supported`);
+  }
+
+  /**
    * Asyncronously create a new PrismDID
    * 
    * @param {string} alias
@@ -250,23 +310,6 @@ export class Agent extends Domain.Startable.Controller {
   }
 
   /**
-   * Asyncronously create a new PrismDID
-   * @deprecated Use createPrismDID instead, this method will be removed in a future release
-   * 
-   * @param {string} alias
-   * @param {DIDDocumentService[]} [services=[]]
-   * @param {?number} [keyPathIndex]
-   * @returns {Promise<DID>}
-   */
-  async createNewPrismDID(
-    alias: string,
-    services: Domain.DIDDocument.Service[] = [],
-    keyPathIndex?: number
-  ): Promise<Domain.DID> {
-    return this.createPrismDID(alias, services, keyPathIndex)
-  }
-
-  /**
    * Asyncronously Create a new PeerDID
    * 
    * @param {DIDDocumentService[]} [services=[]]
@@ -279,21 +322,6 @@ export class Agent extends Domain.Startable.Controller {
   ): Promise<Domain.DID> {
     const task = new CreatePeerDID({ services, updateMediator });
     return this.runTask(task);
-  }
-
-  /**
-   * Asyncronously Create a new PeerDID
-   * @deprecated Use createPeerDID instead, this method will be removed in a future release
-   * 
-   * @param {DIDDocumentService[]} [services=[]]
-   * @param {boolean} [updateMediator=true]
-   * @returns {Promise<DID>}
-   */
-  async createNewPeerDID(
-    services: Domain.DIDDocument.Service[] = [],
-    updateMediator = true
-  ): Promise<Domain.DID> {
-    return this.createPeerDID(services, updateMediator)
   }
 
   /**

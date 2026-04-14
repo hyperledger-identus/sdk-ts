@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { DID, DIDDocument, Castor } from '@hyperledger/identus-domain';
 import {
-  DID,
-  DIDDocument,
-  PublicKey,
-  Castor
-} from '@hyperledger/identus-domain';
+  type DIDMethodTypeMap,
+  type InferCreatePayload,
+  type InferPublishPayload,
+  type InferUpdatePayload,
+  type InferDeactivatePayload,
+  type DIDMethodOperation,
+  type InferMetadata,
+} from '../../../src/castor/methods/types';
 
 const castorVars = {
   _prismDID: new DID("did", "peer", "test"),
@@ -18,31 +22,43 @@ const castorVars = {
 export const CastorMock: Castor & typeof castorVars = {
   ...castorVars,
 
-  parseDID(did: string): DID {
-    throw new Error("Method not implemented.");
-  },
-  async createPrismDID(
-    masterPublicKey: PublicKey,
-    services?: DIDDocument.Service[] | undefined
+  async createDID<M extends keyof DIDMethodTypeMap>(
+    _method: M,
+    _opts: InferCreatePayload<M>
   ): Promise<DID> {
-    return castorVars._prismDID
+    return castorVars._prismDID;
   },
 
-  async createPeerDID(publicKeys: PublicKey[], services: DIDDocument.Service[]): Promise<DID> {
-    return castorVars._peerDID;
-  },
-
-  resolveDID(did: string): Promise<DIDDocument> {
+  async publishDID<M extends keyof DIDMethodTypeMap>(
+    _method: M,
+    _opts: InferPublishPayload<M>
+  ): Promise<DIDMethodOperation<InferMetadata<M>>> {
     throw new Error("Method not implemented.");
   },
+
+  async updateDID<M extends keyof DIDMethodTypeMap>(
+    _method: M,
+    _opts: InferUpdatePayload<M>
+  ): Promise<DIDMethodOperation<InferMetadata<M>>> {
+    throw new Error("Method not implemented.");
+  },
+
+  async deactivateDID<M extends keyof DIDMethodTypeMap>(
+    _method: M,
+    _opts: InferDeactivatePayload<M>
+  ): Promise<DIDMethodOperation<InferMetadata<M>>> {
+    throw new Error("Method not implemented.");
+  },
+
+  resolveDID(_did: string): Promise<DIDDocument> {
+    throw new Error("Method not implemented.");
+  },
+
   verifySignature(
-    did: DID,
-    challenge: Uint8Array,
-    signature: Uint8Array
+    _did: DID,
+    _challenge: Uint8Array,
+    _signature: Uint8Array
   ): Promise<boolean> {
-    throw new Error("Method not implemented.");
-  },
-  getEcnumbasis(did: DID, publicKey: PublicKey): string {
     throw new Error("Method not implemented.");
   },
 };

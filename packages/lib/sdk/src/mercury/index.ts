@@ -6,6 +6,8 @@ import { ForwardMessage } from "./forward/ForwardMessage";
 
 
 export type { DIDCommProtocol } from "./DIDCommProtocol";
+export { DIDCommDIDResolver } from "./DIDCommDIDResolver";
+export { DIDCommSecretsResolver } from "./DIDCommSecretsResolver";
 export { ForwardMessage, type ForwardMessageBody } from "./forward/ForwardMessage";
 
 
@@ -184,12 +186,9 @@ export class Mercury implements Domain.Mercury {
   }
 
   private getDIDCommDID(document: Domain.DIDDocument): DID | undefined {
-    const uri = document.services.find((x) => x.isDIDCommMessaging)
-      ?.serviceEndpoint?.uri;
+    const uri = document.services.find((x) => x.isDIDCommMessaging)?.serviceEndpoint?.uri;
     try {
-      //It Is okey to fail
-
-      const did = this.castor.parseDID(uri!);
+      const did = Domain.DID.fromString(uri!);
       return did;
     } catch {
       return undefined;

@@ -81,7 +81,13 @@ describe("PEERDID CreateTest", () => {
         )
       ),
     ];
-    const did = await castor.createPeerDID(publicKeys, services);
+    const did = await castor.createDID('peer', {
+      keys: {
+        KEY_AGREEMENT_KEY: [keyAgreementPrivateKey],
+        AUTHENTICATION_KEY: [authenticationPrivateKey],
+      },
+      services: services,
+    });
     expect(did.toString()).to.equal(validPeerDID);
   });
 
@@ -153,7 +159,13 @@ describe("PEERDID CreateTest", () => {
       ),
     ];
 
-    const did = await castor.createPeerDID(publicKeys, services);
+    const did = await castor.createDID('peer', {
+      keys: {
+        KEY_AGREEMENT_KEY: [keyAgreementPrivateKey],
+        AUTHENTICATION_KEY: [authenticationPrivateKey],
+      },
+      services: services,
+    });
     const text = "The quick brown fox jumps over the lazy dog";
     const signature =
       authenticationPrivateKey.isSignable() &&
@@ -202,7 +214,13 @@ describe("PEERDID CreateTest", () => {
         )
       ),
     ];
-    const did = await castor.createPeerDID(publicKeys, services);
+    const did = await castor.createDID('peer', {
+      keys: {
+        KEY_AGREEMENT_KEY: [keyAgreementPrivate],
+        AUTHENTICATION_KEY: [authenticationPrivate],
+      },
+      services: services,
+    });
     const text = "The quick brown fox jumps over the lazy dog";
 
     const signature =

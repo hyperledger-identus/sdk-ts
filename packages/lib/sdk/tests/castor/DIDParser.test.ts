@@ -1,5 +1,5 @@
+import { DID } from '@hyperledger/identus-domain';
 import { describe, assert, it, expect, test, beforeEach, afterEach } from 'vitest';
-import * as DIDParser from "../../src/castor/parser/DIDParser";
 
 describe("DIDParser", () => {
   it("should test valid DIDs", () => {
@@ -8,9 +8,9 @@ describe("DIDParser", () => {
     const didExample3 =
       "did:prism:b6c0c33d701ac1b9a262a14454d1bbde3d127d697a76950963c5fd930605:Cj8KPRI7CgdtYXN0ZXIwEAFKLgoJc2VmsxEiECSTjyV7sUfCr_ArpN9rvCwR9fRMAhcsr_S7ZRiJk4p5k";
 
-    const parsedDID1 = DIDParser.parse(didExample1);
-    const parsedDID2 = DIDParser.parse(didExample2);
-    const parsedDID3 = DIDParser.parse(didExample3);
+    const parsedDID1 = DID.fromString(didExample1);
+    const parsedDID2 = DID.fromString(didExample2);
+    const parsedDID3 = DID.fromString(didExample3);
 
     expect(parsedDID1.schema).to.equal("did");
     expect(parsedDID1.method).to.equal("aaaaaa");
@@ -36,38 +36,38 @@ describe("DIDParser", () => {
 
     assert.throws(
       () => {
-        DIDParser.parse(didExample1);
+        DID.fromString(didExample1);
       },
       Error,
-      "Invalid did string"
+      "Invalid DID string"
     );
     assert.throws(
       () => {
-        DIDParser.parse(didExample2);
+        DID.fromString(didExample2);
       },
       Error,
-      "Invalid did string"
+      "Invalid DID string"
     );
     assert.throws(
       () => {
-        DIDParser.parse(didExample3);
+        DID.fromString(didExample3);
       },
       Error,
-      "Invalid did string"
+      "Invalid DID string"
     );
     assert.throws(
       () => {
-        DIDParser.parse(didExample4);
+        DID.fromString(didExample4);
       },
       Error,
-      "Invalid did string"
+      "Invalid DID string"
     );
     assert.throws(
       () => {
-        DIDParser.parse(didExample5);
+        DID.fromString(didExample5);
       },
       Error,
-      "Invalid did string"
+      "Invalid DID string"
     );
   });
 });

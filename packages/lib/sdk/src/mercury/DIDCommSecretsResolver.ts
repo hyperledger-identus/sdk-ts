@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import type * as DIDComm from "@hyperledger/identus-didcomm-wasm";
+import type * as DIDComm from "@hyperledger/identus-didcomm";
+import { PeerDIDCreate } from "../peer-did/PeerDIDCreate";
 
+/**
+ * Bridges the SDK's key storage (Pluto) to the DIDComm library's
+ * `SecretsResolver` interface.
+ *
+ * Looks up Peer DID private keys stored in Pluto and converts them
+ * into JWK-based `Secret` objects consumable by the DIDComm WASM layer.
+ */
 export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
   constructor(
     private readonly apollo: import("@hyperledger/identus-domain").Apollo,
@@ -87,17 +95,17 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
   ): Promise<DIDComm.Secret> {
     const { Curve, KeyTypes } = await import("@hyperledger/identus-domain");
     const privateKeyBuffer = peerDid.privateKeys.find(
-      (key: any) => key.keyCurve.curve === Curve.X25519
+      (key) => key.keyCurve.curve === Curve.X25519
     );
     if (!privateKeyBuffer) {
       throw new Error(`Invalid PrivateKey Curve ${Curve.X25519}`);
     }
-    const privateKey = await this.apollo.createPrivateKey({
+    const privateKey = this.apollo.createPrivateKey({
       type: KeyTypes.Curve25519,
       curve: Curve.X25519,
       raw: privateKeyBuffer.value,
     });
-    const ecnumbasis = this.castor.getEcnumbasis(
+    const ecnumbasis = new PeerDIDCreate().computeEncnumbasis(
       peerDid.did,
       privateKey.publicKey()
     );

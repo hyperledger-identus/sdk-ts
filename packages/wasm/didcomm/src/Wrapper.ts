@@ -4,8 +4,6 @@ import type * as DIDComm from "@hyperledger/identus-didcomm-wasm";
 import wasmBuffer from "@hyperledger/identus-didcomm-wasm/identus-didcomm_bg.wasm";
 
 import { type Message, type AttachmentData as DomainAttachmentData, type DID, type AttachmentDescriptor } from "@hyperledger/identus-domain";
-import { DIDCommDIDResolver } from "./DIDResolver";
-import { DIDCommSecretsResolver } from "./SecretsResolver";
 
 /**
  * DIDComm protocol IDs that require return_route
@@ -33,12 +31,11 @@ export class DIDCommWrapper implements DIDCommProtocol {
   private readonly secretsResolver: DIDComm.SecretsResolver;
 
   constructor(
-    readonly apollo: import("@hyperledger/identus-domain").Apollo,
-    readonly castor: import("@hyperledger/identus-domain").Castor,
-    readonly pluto: import("@hyperledger/identus-domain").Pluto
+    didResolver: DIDComm.DIDResolver,
+    secretsResolver: DIDComm.SecretsResolver
   ) {
-    this.didResolver = new DIDCommDIDResolver(castor);
-    this.secretsResolver = new DIDCommSecretsResolver(apollo, castor, pluto);
+    this.didResolver = didResolver;
+    this.secretsResolver = secretsResolver;
   }
 
   public static async getDIDComm() {
