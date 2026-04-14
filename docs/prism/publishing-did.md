@@ -210,13 +210,13 @@ This example provides a self-contained React component, `PublishDidComponent`, t
     * `splitStringIntoChunks` is a helper function to correctly format the DID operation data for Cardano's transaction metadata.
     * `checkTransactionConfirmation` is a helper to poll the Blockfrost API and verify when the transaction is confirmed on the blockchain.
 
-2.  **`publishDid` Function:** This is the core logic, triggered by a button click.
-    *   **Initialization:** It initializes the `Apollo` and `Castor` modules from the Atala PRISM SDK.
-    *   **DID Creation:** It creates a new master private key and uses `castor.createDID('prism', ...)` to generate a new, unpublished `did:prism`.
-    *   **Metadata Preparation:** It calls `castor.publishDID('prism', ...)` to generate the specific data structure required for the publication operation. This data is then chunked for the metadata.
-    *   **Transaction with Mesh:** It uses Mesh's `Transaction` builder, which provides a simple and elegant API. It sets the metadata for the transaction using the standard label for PRISM DID operations (`21325`).
-    *   **Signing and Submission:** The transaction is built, signed by the user through their connected wallet, and submitted to the blockchain.
-    *   **Confirmation:** The component then polls for confirmation and updates the UI to reflect the successful publication.
+2. **`publishDid` Function:** This is the core logic, triggered by a button click.
+   * **Initialization:** It initializes the `Apollo` and `Castor` modules from the Atala PRISM SDK.
+   * **DID Creation:** It creates a new master private key and uses `castor.createDID('prism', ...)` to generate a new, unpublished `did:prism`.
+   * **Metadata Preparation:** It calls `castor.publishDID('prism', ...)` to generate the specific data structure required for the publication operation. This data is then chunked for the metadata.
+   * **Transaction with Mesh:** It uses Mesh's `Transaction` builder, which provides a simple and elegant API. It sets the metadata for the transaction using the standard label for PRISM DID operations (`21325`).
+   * **Signing and Submission:** The transaction is built, signed by the user through their connected wallet, and submitted to the blockchain.
+   * **Confirmation:** The component then polls for confirmation and updates the UI to reflect the successful publication.
 
 3. **User Interface:**
     * It renders Mesh's `CardWallet` component to allow users to easily connect their CIP30 wallet.

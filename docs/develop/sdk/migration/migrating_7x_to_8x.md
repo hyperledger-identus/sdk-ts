@@ -12,7 +12,9 @@ The following items have been marked as deprecated and will be removed in a futu
 
 1. The Apollo key property, seed was sent as a hexString but is not UInt8Array. If you are creating private keys manually, please change seed from hexString to UInt8Array.
 
+
 # Castor breaking changes
+
 1. The `parseDID` method has been removed from the `Castor` interface. Use the static `DID.fromString()` method instead.
 
 ```typescript
@@ -76,9 +78,12 @@ const buffer = await castor.publishDID('prism', {
 });
 ```
 
+
 # Agent breaking changes
+
 1. Castor constructor
-Castor becomes DID agnostic and easy to extend with additional did methods with all the generic operations, create, update, deactivate, resolve.
+
+   Castor becomes DID agnostic and easy to extend with additional did methods with all the generic operations, create, update, deactivate, resolve.
 
 The `ExtraResolver` type is removed. Pass `DIDMethodInput[]` instances instead.
 
@@ -90,8 +95,9 @@ const castor = new Castor(apollo, extraResolvers, prismResolverEndpoint);
 const castor = new Castor(apollo, extraMethods);
 ```
 
-1.1. Customize prism-did resolver
-```typescript
+   1.1. Customize prism-did resolver
+
+   ```typescript
 import { PrismDIDMethod } from "@hyperledger/identus-sdk";
 
 const castor = new Castor(apollo, [
@@ -99,24 +105,28 @@ const castor = new Castor(apollo, [
 ]);
 ```
 
-1.2 Adding a custom did method
-By using module augmentation we can implement a did agnostic type-safe wrapper for current did methods (prism, peer) and future ones.
+   1.2 Adding a custom did method
 
-```typescript
-export type CreatePayload = {
-  services?: DIDDocument.Service[];
-  keys: DIDKeys; // You customize the type with your own payloads
-};
-```
+   By using module augmentation we can implement a did agnostic type-safe wrapper for current did methods (prism, peer) and future ones.
 
-Module augmentation
-declare module "@hyperledger/identus-sdk" {
-  interface DIDMethodTypeMap {
-    peer: {
-      createPayload: CreatePayload;
-    };
+   ```typescript
+   export type CreatePayload = {
+     services?: DIDDocument.Service[];
+     keys: DIDKeys; // You customize the type with your own payloads
+   };
+   ```
+
+   Module augmentation
+
+   ```typescript
+   declare module "@hyperledger/identus-sdk" {
+    interface DIDMethodTypeMap {
+      peer: {
+        createPayload: CreatePayload;
+      };
+    }
   }
-}
+   ```
 
 2. Agent.initialize now accepts an async function that returns a seed (UInt8Array) vs previous hexString, if no seed function is provided, will start with random seed
 
