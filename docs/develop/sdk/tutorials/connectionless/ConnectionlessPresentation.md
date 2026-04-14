@@ -1,6 +1,7 @@
 # Presentation
 
 ## Description
+
 A Connectionless PresentationRequest is an Out of Band Invitation with a PresentationRequest Attachment.
 This should be a URI with a single query parameter `_oob`, which is an encoded JSON.
 It should look similar to:
@@ -29,6 +30,7 @@ sequenceDiagram
 ## For Issuers
 
 ### Using the Cloud Agent
+
 Creating a Credential Offer OOB Url through the Cloud Agent is pretty straight forward, do [POST request to /present-proof/presentations/invitation](/docs/agent-api/#tag/Present-Proof/operation/createOOBRequestPresentationInvitation):
 
 ```
@@ -40,15 +42,18 @@ curl --location 'http:///cloud-agent/present-proof/presentations/invitation' \
 A successful response will contain (string) invitation.invitationUrl.
 
 ### Using TS SDK
+
 The SDK provides everything that is needed by Verifiers, creating and publishing prism:dids, resolving those onChain, creating OOB Presentation requests...
 
 Add the required imports
+
 ```typescript
 import { Domain, Agent } from "@hyperledger/identus-sdk";
 import { RequestPresentation } from "@hyperledger/identus-sdk/plugins/oea";
 ```
 
 Here's the types we are going to be using
+
 ```typescript
 async function createRequestPresentationMessage<T extends Domain.CredentialType>(
   agent: Agent,
@@ -76,13 +81,12 @@ async function createRequestPresentationMessage<T extends Domain.CredentialType>
   }
   return requestPresentationMessage;
 }
-``` 
+```
 
 That function will return a ```SDK.Domain.Message``` that we can easily send with ```agent.send(requestPresentationMessage)```
 
-
-
 ## For Holders
+
 Holders will scan the qrcode, and extract the PresentationRequest from the OutOfBandInvitation Message.
 
 Parsing the OOB Url is very easy in the SDK:
@@ -96,6 +100,7 @@ async function parseOOB(agent: Agent, url: string): Promise<InvitationType> {
 ```
 
 We would then build the complete Presentation message, holder at this point should have accepted or rejected already:
+
 ```typescript
 import { Domain } from "@hyperledger/identus-sdk";
 import { RequestPresentation, CreatePresentation } from "@hyperledger/identus-sdk/plugins/oea";

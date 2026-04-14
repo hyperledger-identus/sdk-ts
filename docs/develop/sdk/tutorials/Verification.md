@@ -1,5 +1,7 @@
 # Verification
+
 ## Requirements
+
 1. A working Identus Mediator and an Identus Cloud Agent.
 2. A holder who already has a JWT Credential issued by a known issuer (prism:did) [Holder A]
 3. A holder who does not have credentials but aims to start the Verification [Holder B (verifier)]
@@ -11,10 +13,12 @@
 > Please follow the [Quick started guide](/home/quick-start) to complete steps 1, 2, 3
 
 ## Specification
+>
 > NOTE:
-> It follows the [Identity Foundation Presentation-exchange V2 protocol](https://identity.foundation/presentation-exchange/spec/v2.0.0/#input-descriptor) 
-> 
-> Claims can be 
+> It follows the [Identity Foundation Presentation-exchange V2 protocol](https://identity.foundation/presentation-exchange/spec/v2.0.0/#input-descriptor)
+>
+> Claims can be
+>
 > ```javascript
 > export type PredicateType = string | number
 > export type InputFieldFilter = {
@@ -30,6 +34,7 @@
 > ```
 
 ## Flow
+
 1. Holder B Initiates the Presentation Request: creating a PresentationDefinitionRequest with specified requirements.
 2. Holder A, will then create a Presentation Submission which contains the requested credential together with a randomised challenge.
 3. Holder B, will receive the Presentation Submission and verify the following
@@ -42,10 +47,12 @@
 4. Holder B can then verify at any point in time that presentation request and show feedback in UI.
 
 ## Code Reference
+
 * toDID is the peer did of holder A, which has the credential that we aim to verify
 * claims contain an object with all the claims we aim to validate; setting claims is internally used to help Holder A choose the proper credential and correctly verify the fields when Holder B receives the presentation.
 
-Example 
+Example
+
 ```javascript
 const claims: Claims = {
     email: {
@@ -69,12 +76,9 @@ agent.initiatePresentationRequest(
 * The Edge Agent Verifier (SDK) will then receive and validate the Credential as follows
 
 Example
+
 ```javascript
 //Presentation is the message sent by the holder back to the verifier
 const message = SDK.Presentation.fromMessage(message);
 agent.handlePresentation(message)
 ```
-
-
-
-

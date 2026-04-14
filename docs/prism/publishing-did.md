@@ -7,9 +7,9 @@ Publishing a `did:prism` DID on the Cardano blockchain allows you to create a sh
 
 ## Prerequisites
 
-*   A CIP30-compliant wallet extension installed in your browser (e.g., Eternl, Nami, or Flint).
-*   Some ADA in your wallet to pay for transaction fees.
-*   A [Blockfrost](https://blockfrost.io/dashboard) API key for a project on the Cardano Mainnet.
+* A CIP30-compliant wallet extension installed in your browser (e.g., Eternl, Nami, or Flint).
+* Some ADA in your wallet to pay for transaction fees.
+* A [Blockfrost](https://blockfrost.io/dashboard) API key for a project on the Cardano Mainnet.
 
 ## Required Packages
 
@@ -34,6 +34,7 @@ The following example demonstrates the complete process of creating and publishi
 To use this component, you must wrap your application with the `MeshProvider` from `@meshsdk/react`.
 
 **Example `pages/_app.tsx`:**
+
 ```typescript
 import type { AppProps } from "next/app";
 import { MeshProvider } from "@meshsdk/react";
@@ -50,6 +51,7 @@ export default MyApp;
 ```
 
 **Example Publishing Component:**
+
 ```typescript
 import React, { useState, useCallback } from "react";
 import * as SDK from "@hyperledger/identus-sdk";
@@ -196,23 +198,23 @@ export function PublishDidComponent() {
 
 This example provides a self-contained React component, `PublishDidComponent`, that handles the entire lifecycle of creating and publishing a `did:prism`.
 
-1.  **Component Setup and Helpers:**
-    *   The component uses React state to manage the DID, transaction status, and any potential errors.
-    *   It uses the `useWallet` hook from `@meshsdk/react` to get the connected wallet's state and instance.
-    *   `splitStringIntoChunks` is a helper function to correctly format the DID operation data for Cardano's transaction metadata.
-    *   `checkTransactionConfirmation` is a helper to poll the Blockfrost API and verify when the transaction is confirmed on the blockchain.
+1. **Component Setup and Helpers:**
+    * The component uses React state to manage the DID, transaction status, and any potential errors.
+    * It uses the `useWallet` hook from `@meshsdk/react` to get the connected wallet's state and instance.
+    * `splitStringIntoChunks` is a helper function to correctly format the DID operation data for Cardano's transaction metadata.
+    * `checkTransactionConfirmation` is a helper to poll the Blockfrost API and verify when the transaction is confirmed on the blockchain.
 
-2.  **`publishDid` Function:** This is the core logic, triggered by a button click.
-    *   **Initialization:** It initializes the `Apollo` and `Castor` modules from the Atala PRISM SDK.
-    *   **DID Creation:** It creates a new master private key and uses it to generate a new, unpublished `did:prism`.
-    *   **Metadata Preparation:** It calls `createPrismDIDAtalaObject` to generate the specific data structure required for the publication operation. This data is then chunked for the metadata.
-    *   **Transaction with Mesh:** It uses Mesh's `Transaction` builder, which provides a simple and elegant API. It sets the metadata for the transaction using the standard label for PRISM DID operations (`21325`).
-    *   **Signing and Submission:** The transaction is built, signed by the user through their connected wallet, and submitted to the blockchain.
-    *   **Confirmation:** The component then polls for confirmation and updates the UI to reflect the successful publication.
+2. **`publishDid` Function:** This is the core logic, triggered by a button click.
+    * **Initialization:** It initializes the `Apollo` and `Castor` modules from the Atala PRISM SDK.
+    * **DID Creation:** It creates a new master private key and uses it to generate a new, unpublished `did:prism`.
+    * **Metadata Preparation:** It calls `createPrismDIDAtalaObject` to generate the specific data structure required for the publication operation. This data is then chunked for the metadata.
+    * **Transaction with Mesh:** It uses Mesh's `Transaction` builder, which provides a simple and elegant API. It sets the metadata for the transaction using the standard label for PRISM DID operations (`21325`).
+    * **Signing and Submission:** The transaction is built, signed by the user through their connected wallet, and submitted to the blockchain.
+    * **Confirmation:** The component then polls for confirmation and updates the UI to reflect the successful publication.
 
-3.  **User Interface:**
-    *   It renders Mesh's `CardWallet` component to allow users to easily connect their CIP30 wallet.
-    *   Once connected, it displays a button to initiate the publishing process.
-    *   It provides real-time feedback to the user, showing the created DID, transaction hash, and final confirmation status.
+3. **User Interface:**
+    * It renders Mesh's `CardWallet` component to allow users to easily connect their CIP30 wallet.
+    * Once connected, it displays a button to initiate the publishing process.
+    * It provides real-time feedback to the user, showing the created DID, transaction hash, and final confirmation status.
 
 After the transaction is confirmed, your `did:prism` is published on the Cardano blockchain, and its short-form DID can be resolved by anyone.

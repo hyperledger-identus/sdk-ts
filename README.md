@@ -17,34 +17,40 @@
 # Identus TypeScript SDK
 
 Identus is a self-sovereign identity (SSI) platform and service suite for
-verifiable data and digital identity. Built on Cardano, as a distributed ledger, 
-it offers core infrastructure for issuing DIDs (Decentralized identifiers) and 
+verifiable data and digital identity. Built on Cardano, as a distributed ledger,
+it offers core infrastructure for issuing DIDs (Decentralized identifiers) and
 verifiable credentials, alongside tools and frameworks to help expand your ecosystem.
 The complete platform is separated into multiple repositories:
+
 * [Cloud Agent](https://github.com/hyperledger-identus/cloud-agent) - Repo that contains the Cloud Agent that provides self-sovereign identity services to build products and solutions.
 * [Mediator](https://github.com/hyperledger-identus/mediator) - Repo for the DIDComm V2 Mediator.
 * [SDK TS](https://github.com/hyperledger-identus/sdk-ts) - Repo for the Typescript SDK.
 
 We also have SDKs for other platforms:
+
 * [SDK Swift](https://github.com/hyperledger-identus/sdk-swift) - Repo for the Swift SDK.
 * [SDK KMP](https://github.com/hyperledger-identus/sdk-kmp) - Repo for the Kotlin Multi-Platform SDK.
 
 ## SDK Overview
 
-- Apollo: Provides a suite of necessary cryptographic operations.
-- Castor: Provides a suite of operations to create, manage and resolve decentralized identifiers.
-- Mercury: Provides a suite of operations for handling DIDComm V2 messages.
-- Pluto: Provides an interface for storage operations in a portable, storage-agnostic manner.
-- Agent: A component using all other building blocks, provides basic edge agent capabilities, including implementing DIDComm V2 protocols.
+* Apollo: Provides a suite of necessary cryptographic operations.
+* Castor: Provides a suite of operations to create, manage and resolve decentralized identifiers.
+* Mercury: Provides a suite of operations for handling DIDComm V2 messages.
+* Pluto: Provides an interface for storage operations in a portable, storage-agnostic manner.
+* Agent: A component using all other building blocks, provides basic edge agent capabilities, including implementing DIDComm V2 protocols.
 
 ## Getting started
+
 We highly recommend you check out the [docs](https://hyperledger-identus.github.io/docs/home/) :world_map:
+
 ### Requirements
+
 You will need the following:
+
 * Bash
 * Rust ([cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)) and [wasm-pack](https://drager.github.io/wasm-pack/) installed.
 * Node JS Version (20/LTS Recommended)
-* Protobuf compiler (https://protobuf.dev/installation/)
+* Protobuf compiler (<https://protobuf.dev/installation/>)
 
 ### Install
 
@@ -55,11 +61,13 @@ npm i @hyperledger/identus-sdk
 ```
 
 or
+
 ```bash
 yarn add @hyperledger/identus-sdk
 ```
 
 ### Building from source
+
 Please make sure that all the requirements are met, then run the following commands:
 
 ```bash
@@ -74,6 +82,7 @@ npx nx run @hyperledger/identus-sdk:test
 ```
 
 ### Testing e2e
+
 Requires you to have a Cloud Agent running and to configure the appropiate env vars in ./integration-tests/e2e-tests/.env with the following content:
 
 ```
@@ -94,12 +103,15 @@ npx nx run e2e:test
 ```
 
 ### Testing everything
+
 This still requires the .env var in ./integration-tests/e2e-tests/.env properly configured.
+
 ```bash
 yarn test
 ```
 
 If you have any issues while building you can try building from docker (this runs exactly the same build):
+
 ```bash
 docker build -t identus-sdk-ts:latest "." 
 docker run  -v $(pwd)/build:/app/build identus-sdk-ts:latest
