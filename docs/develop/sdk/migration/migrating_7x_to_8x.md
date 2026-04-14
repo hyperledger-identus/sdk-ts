@@ -10,11 +10,11 @@ The following items have been marked as deprecated and will be removed in a futu
 
 # Apollo breaking changes
 
-1. The Apollo key property, seed was sent as a hexString but is not UInt8Array. If you are creating private keys manually, please change seed from hexString to UInt8Array.
+- The Apollo key property, seed was sent as a hexString but is not UInt8Array. If you are creating private keys manually, please change seed from hexString to UInt8Array.
 
 # Castor breaking changes
 
-1. The `parseDID` method has been removed from the `Castor` interface. Use the static `DID.fromString()` method instead.
+- The `parseDID` method has been removed from the `Castor` interface. Use the static `DID.fromString()` method instead.
 
 ```typescript
 // Before
@@ -25,7 +25,7 @@ import { DID } from "@hyperledger/identus-domain";
 const did = DID.fromString("did:prism:123456");
 ```
 
-1. The `createPrismDID` method is replaced by `createDID('prism', opts)`. Keys are now provided as **private keys** (not public keys), and the master key is part of the `keys` object.
+- The `createPrismDID` method is replaced by `createDID('prism', opts)`. Keys are now provided as **private keys** (not public keys), and the master key is part of the `keys` object.
 
 ```typescript
 // Before
@@ -45,7 +45,7 @@ const did = await castor.createDID('prism', {
 });
 ```
 
-1. The `createPeerDID` method is replaced by `createDID('peer', opts)`. Keys are now provided as private keys in a structured object.
+- The `createPeerDID` method is replaced by `createDID('peer', opts)`. Keys are now provided as private keys in a structured object.
 
 ```typescript
 // Before
@@ -64,7 +64,7 @@ const did = await castor.createDID('peer', {
 });
 ```
 
-1. The `createPrismDIDAtalaObject` method is replaced by `publishDID`.
+- The `createPrismDIDAtalaObject` method is replaced by `publishDID`.
 
 ```typescript
 // Before
@@ -79,7 +79,7 @@ const buffer = await castor.publishDID('prism', {
 
 # Agent breaking changes
 
-1. Castor constructor
+- Castor constructor
 
    Castor becomes DID agnostic and easy to extend with additional did methods with all the generic operations, create, update, deactivate, resolve.
 
@@ -93,7 +93,7 @@ const castor = new Castor(apollo, extraResolvers, prismResolverEndpoint);
 const castor = new Castor(apollo, extraMethods);
 ```
 
-   1.1. Customize prism-did resolver
+   -- Customize prism-did resolver
 
    ```typescript
 import { PrismDIDMethod } from "@hyperledger/identus-sdk";
@@ -103,7 +103,7 @@ const castor = new Castor(apollo, [
 ]);
 ```
 
-   1.2 Adding a custom did method
+   -2 Adding a custom did method
 
    By using module augmentation we can implement a did agnostic type-safe wrapper for current did methods (prism, peer) and future ones.
 
@@ -126,7 +126,7 @@ const castor = new Castor(apollo, [
   }
    ```
 
-1. Agent.initialize now accepts an async function that returns a seed (UInt8Array) vs previous hexString, if no seed function is provided, will start with random seed
+- Agent.initialize now accepts an async function that returns a seed (UInt8Array) vs previous hexString, if no seed function is provided, will start with random seed
 
 2. CreatePrismDID and CreatePrismDIDArgs from @hyperledger/identus-sdk, can still be used but is deprecated. We are introducing a new simplified function CreatePrismDIDWithKeys and type CreatePrismDIDWithKeysArgs from @hyperledger/identus-sdk
 
