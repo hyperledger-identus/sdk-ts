@@ -191,7 +191,7 @@ checkSubmodules() {
 }
 
 # parse args
-while [[ "$#" -gt 0 ]]; do
+while [ "$#" -gt 0 ]; do
   case $1 in
     -x) execute="$2"; shift ;;
     # -t) target="$2"; shift ;;
