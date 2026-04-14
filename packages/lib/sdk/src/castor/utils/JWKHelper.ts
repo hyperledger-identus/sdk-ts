@@ -1,17 +1,15 @@
 import { base64url } from "multiformats/bases/base64";
 
-import { CastorError } from "@hyperledger/identus-domain";
 import {
   type VerificationMaterialAgreement,
   type VerificationMaterialAuthentication,
   VerificationMethodTypeAgreement,
   VerificationMethodTypeAuthentication,
-  type VerificationMethodTypePeerDID,
-} from "../types";
+  type VerificationMethodTypeDID,
+  CastorError
+} from "@hyperledger/identus-domain";
 
-export type VerificationMaterial =
-  | VerificationMaterialAgreement
-  | VerificationMaterialAuthentication;
+
 
 export class JWKHelper {
   static fromJWKAgreement(material: VerificationMaterialAgreement): Uint8Array {
@@ -36,7 +34,7 @@ export class JWKHelper {
     return Uint8Array.from(base64url.baseDecode(Buffer.from(xKey).toString()));
   }
 
-  static toJWK(publicKey: Uint8Array, material: VerificationMethodTypePeerDID) {
+  static toJWK(publicKey: Uint8Array, material: VerificationMethodTypeDID) {
     let crv: string;
     if (material instanceof VerificationMethodTypeAgreement) {
       crv = "X25519";

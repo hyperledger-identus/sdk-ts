@@ -2,12 +2,12 @@ import * as Domain from "@hyperledger/identus-domain";
 import { type DIDDocument } from "@hyperledger/identus-domain";
 import { type DIDMethod, type DIDKeys } from "../types";
 import { PeerDIDResolver } from "../../resolver/PeerDIDResolver";
-import { PeerDIDCreate } from "../../../peer-did/PeerDIDCreate";
 import { extractVerificationMethods } from "../../utils";
-import { VerificationMaterialAgreement, VerificationMaterialAuthentication, VerificationMaterialFormatPeerDID, VerificationMethodTypeAgreement, VerificationMethodTypeAuthentication } from "../../../peer-did/types";
-import { JWKHelper } from "../../../peer-did/helpers/JWKHelper";
+import { VerificationMaterialAgreement, VerificationMaterialAuthentication, VerificationMaterialFormatDID, VerificationMethodTypeAgreement, VerificationMethodTypeAuthentication } from "@hyperledger/identus-domain";
+import { JWKHelper } from "../../utils/JWKHelper";
 import { X25519PublicKey } from "../../../apollo/utils/X25519PublicKey";
 import { Ed25519PublicKey } from "../../../apollo/utils/Ed25519PublicKey";
+import { PeerDIDCreate } from "./PeerDIDCreate";
 
 /** Options for creating a new Peer DID. */
 export type CreatePayload = {
@@ -107,12 +107,12 @@ export class PeerDIDMethod implements DIDMethod<never, CreatePayload> {
           ? new VerificationMaterialAgreement(
             JSON.stringify(method.publicKeyJwk),
             VerificationMethodTypeAgreement.JSON_WEB_KEY_2020,
-            VerificationMaterialFormatPeerDID.JWK
+            VerificationMaterialFormatDID.JWK
           )
           : new VerificationMaterialAuthentication(
             JSON.stringify(method.publicKeyJwk),
             VerificationMethodTypeAuthentication.JSON_WEB_KEY_2020,
-            VerificationMaterialFormatPeerDID.JWK
+            VerificationMaterialFormatDID.JWK
           );
 
       const decodedKey =

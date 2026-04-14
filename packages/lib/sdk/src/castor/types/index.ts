@@ -1,13 +1,8 @@
 import type * as Domain from '@hyperledger/identus-domain';
 
-import {
-  type VerificationMaterialAgreement,
-  type VerificationMaterialAuthentication,
-} from "../../peer-did/types";
-
 export type PeerDIDKeys = {
-  signingKeys: VerificationMaterialAuthentication[];
-  encryptionKeys: VerificationMaterialAgreement[];
+  signingKeys: Domain.VerificationMaterialAuthentication[];
+  encryptionKeys: Domain.VerificationMaterialAgreement[];
 };
 
 
