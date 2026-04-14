@@ -7,6 +7,7 @@ import {
   PublicKey,
   KeyTypes,
   Curve,
+  CastorError,
 } from '@hyperledger/identus-domain';
 import { Apollo } from "../../src/apollo";
 
@@ -220,5 +221,33 @@ describe("PEERDID CreateTest", () => {
 
       expect(result).to.be.equal(true);
     }
+  });
+
+  /**
+   * Verify that we properly throw a domain-specific InvalidKeyError
+   * when an unsupported curve is passed to getEcnumbasis.
+   */
+  it("should throw InvalidKeyError for unsupported curve in getEcnumbasis", async () => {
+    const apollo = new Apollo();
+    const castor = new Castor(apollo);
+
+    // Create a key with SECP256K1 curve (not supported for PeerDID encnumbasis)
+    const seed = apollo.createRandomSeed().seed;
+    const unsupportedKey = apollo.createPrivateKey({
+      type: KeyTypes.EC,
+      curve: Curve.SECP256K1,
+      seed: Buffer.from(seed.value).toString("hex"),
+    });
+
+    // Create a valid PeerDID first (needed as first parameter)
+    const validKey = apollo.createPrivateKey({
+      type: KeyTypes.EC,
+      curve: Curve.ED25519,
+    });
+    const validDID = await castor.createPeerDID([validKey.publicKey()], []);
+
+    // Call getEcnumbasis directly - this hits computeEncnumbasis switch-case
+    expect(() => castor.getEcnumbasis(validDID, unsupportedKey.publicKey()))
+      .toThrow(CastorError.InvalidKeyError);
   });
 });

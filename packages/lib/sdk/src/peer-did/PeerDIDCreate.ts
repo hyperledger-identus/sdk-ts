@@ -86,11 +86,12 @@ export class PeerDIDCreate {
   }
 
   /**
-   * Computes Encnumbasis from a valid did and its keyPair
+   * Computes Encnumbasis from a valid did and its keyPair.
    *
    * @param {DID} did
    * @param {PublicKey} publicKey
    * @returns {string}
+   * @throws {CastorError.InvalidKeyError} if the public key curve is unsupported (only ED25519 and X25519 are supported)
    */
   computeEncnumbasis(did: DID, publicKey: PublicKey): string {
     let material:
@@ -107,9 +108,12 @@ export class PeerDIDCreate {
         material = this.authenticationFromPublicKey(publicKey);
         multibaseEcnumbasis = this.createMultibaseEncnumbasis(material);
         return multibaseEcnumbasis.slice(1);
-      default:
-        //TODO: Improve this error handling
-        throw new Error("computeEncnumbasis -> InvalidKeyPair Curve");
+      default: {
+        const currentCurve = publicKey.getProperty(KeyProperties.curve);
+        throw new CastorError.InvalidKeyError(
+          `Unsupported curve for PeerDID key derivation: ${currentCurve}. Supported curves: ${Curve.ED25519}, ${Curve.X25519}`
+        );
+      }
     }
   }
 
