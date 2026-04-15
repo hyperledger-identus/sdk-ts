@@ -21,15 +21,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: "lts/*"
           registry-url: "https://registry.npmjs.org/"
 
       - name: Enable Corepack
         run: corepack enable
-
-      # Ensure npm version >= 11.5.1 (lowest supporting trusted publishing)
-      - name: Upgrade npm
-        run: npm install -g npm@^11.5.1
 
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
