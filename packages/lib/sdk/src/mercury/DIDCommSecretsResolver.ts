@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import type * as DIDComm from "@hyperledger/identus-didcomm";
-import { PeerDIDCreate } from "../castor/methods/peer/PeerDIDCreate";
 import { computeEncnumbasis } from "../castor/utils";
 
 /**
