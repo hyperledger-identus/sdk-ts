@@ -6,7 +6,7 @@ import {
 
 import { type Ed25519PublicKey } from "../../../apollo/utils/Ed25519PublicKey";
 import { type X25519PublicKey } from "../../../apollo/utils/X25519PublicKey";
-import { Curve, DID, type DIDDocument, KeyProperties, type PublicKey } from "@hyperledger/identus-domain";
+import { Curve, DID, type DIDDocument, type PublicKey } from "@hyperledger/identus-domain";
 import { authenticationFromPublicKey, createMultibaseEncnumbasis, keyAgreementFromPublicKey } from "../../utils";
 
 /**
