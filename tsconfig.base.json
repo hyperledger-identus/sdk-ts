@@ -39,6 +39,9 @@
       ],
       "@hyperledger/identus-domain": [
         "./packages/shared/domain/build/index.d.ts"
+      ],
+      "@hyperledger/identus-sdk": [
+        "./packages/lib/sdk/src/index.ts"
       ]
     }
   },

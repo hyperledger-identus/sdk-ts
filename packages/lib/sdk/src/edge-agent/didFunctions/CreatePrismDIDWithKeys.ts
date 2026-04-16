@@ -1,17 +1,12 @@
-import {
-  type DIDDocument,
-  type DID,
-  type RequiredPrismDIDSecretKeys
-} from "@hyperledger/identus-domain";
+import { type DID } from "@hyperledger/identus-domain";
+import { type InferCreatePayload } from "../../castor/methods/types";
 
 import { Task } from "../../utils/tasks";
 import { type AgentContext } from "../Context";
 
-export interface Args {
-  keys: RequiredPrismDIDSecretKeys;
-  services?: DIDDocument.Service[];
+export type Args = InferCreatePayload<"prism"> & {
   alias?: string;
-}
+};
 
 /**
  * Handle the creation of a PrismDID
@@ -31,15 +26,19 @@ export class CreatePrismDIDWithKeys extends Task<DID, Args> {
       throw new Error("MASTER_KEY is required");
     }
 
-    const { MASTER_KEY: masterSK, ...keys } = this.args.keys;
+    const keys = this.args.keys;
+    if (!keys.MASTER_KEY) {
+      throw new Error("MASTER_KEY is required");
+    }
+    const { MASTER_KEY, ...otherKeys } = keys;
+    const secretKeys = [MASTER_KEY, ...Object.values(otherKeys).flat()];
 
-    const publicKeys = Object.fromEntries(Object.entries(keys).map(([keyUsage, secretKeys]) => [keyUsage, secretKeys.map((sk) => sk.publicKey())]));
-    const secretKeys = [masterSK, ...Object.values(keys).flat()];
-
-    const did = await ctx.Castor.createPrismDID(
-      masterSK.publicKey(),
-      this.args.services,
-      publicKeys
+    const did = await ctx.Castor.createDID(
+      'prism',
+      {
+        keys,
+        services: this.args.services,
+      }
     );
 
     await ctx.Pluto.storeDID(did, secretKeys, this.args.alias);

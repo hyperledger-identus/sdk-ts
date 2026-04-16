@@ -18,8 +18,19 @@ describe("AtalaOperation", () => {
 
   it("Should create a signed prism did AtalaObject", async () => {
     const { publicKey, privateKey } = Fixtures.Keys.secp256K1;
-    const did = await castor.createPrismDID(publicKey);
-    const atalaObjectBuffer = await castor.createPrismDIDAtalaObject(privateKey, did);
+
+    const did = await castor.createDID('prism', {
+      keys: {
+        MASTER_KEY: privateKey,
+      },
+    });
+    const atalaObjectBuffer = await castor.publishDID(
+      'prism',
+      {
+        key: privateKey,
+        did: did,
+      }
+    );
     const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(atalaObjectBuffer);
     expect(atalaObject).toHaveProperty("block_content");
     expect(atalaObject.block_content).toHaveProperty("operations");
@@ -50,10 +61,17 @@ describe("AtalaOperation", () => {
       curve: Domain.Curve.SECP256K1,
       seed: randomSeed,
     });
-    const did = await castor.createPrismDID(masterSK.publicKey());
-    const atalaObjectBuffer = await castor.createPrismDIDAtalaObject(
-      masterSK,
-      did
+    const did = await castor.createDID('prism', {
+      keys: {
+        MASTER_KEY: masterSK,
+      },
+    });
+    const atalaObjectBuffer = await castor.publishDID(
+      'prism',
+      {
+        key: masterSK,
+        did: did,
+      }
     );
     const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(atalaObjectBuffer);
     expect(atalaObject).toHaveProperty("block_content");

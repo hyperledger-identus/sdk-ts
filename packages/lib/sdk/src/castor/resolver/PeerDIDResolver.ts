@@ -5,21 +5,21 @@ import {
   type DIDResolver,
   DIDUrl,
 } from "@hyperledger/identus-domain";
-import { MultiCodec, Codec } from "../../peer-did/helpers/Multicodec";
-import { PeerDIDService } from "../../peer-did/PeerDID";
 import {
-  VerificationMaterialFormatPeerDID,
+  VerificationMaterialFormatDID,
   VerificationMaterialAuthentication,
   VerificationMaterialAgreement,
   type VerificationMaterialPeerDID,
   VerificationMethodTypeAgreement,
   VerificationMethodTypeAuthentication,
   Numalgo2Prefix,
-} from "../../peer-did/types";
+} from "@hyperledger/identus-domain";
 import { base58btc } from "multiformats/bases/base58";
 
-import { JWKHelper } from "../../peer-did/helpers/JWKHelper";
+import { JWKHelper } from "../utils/JWKHelper";
 import * as base64 from "multiformats/bases/base64";
+import { Codec, MultiCodec } from "../utils/Multicodec";
+import { PeerDIDService } from "../methods/peer/PeerDID";
 
 export class PeerDIDResolver implements DIDResolver {
   method = "peer";
@@ -31,13 +31,13 @@ export class PeerDIDResolver implements DIDResolver {
     }
     return this.buildDIDDocumentAlgo2(
       did,
-      VerificationMaterialFormatPeerDID.JWK
+      VerificationMaterialFormatDID.JWK
     )
   }
 
   private async buildDIDDocumentAlgo2(
     did: DID,
-    format: VerificationMaterialFormatPeerDID
+    format: VerificationMaterialFormatDID
   ): Promise<DIDDocument> {
     const composition = did.methodId.split(".").slice(1);
     const authenticationMethods: DIDDocument.VerificationMethod[] = [];
@@ -86,7 +86,7 @@ export class PeerDIDResolver implements DIDResolver {
 
   public decodeMultibaseEncnumbasisAuth(
     multibase: string,
-    format: VerificationMaterialFormatPeerDID
+    format: VerificationMaterialFormatDID
   ): [string, VerificationMaterialAuthentication] {
     const [decoded, verMaterial] = this.decodeMultibaseEncnumbasis(
       multibase,
@@ -106,7 +106,7 @@ export class PeerDIDResolver implements DIDResolver {
 
   public decodeMultibaseEcnumbasisAgreement(
     multibase: string,
-    format: VerificationMaterialFormatPeerDID
+    format: VerificationMaterialFormatDID
   ): [string, VerificationMaterialAgreement] {
     const [decoded, verMaterial] = this.decodeMultibaseEncnumbasis(
       multibase,
@@ -126,7 +126,7 @@ export class PeerDIDResolver implements DIDResolver {
 
   public decodeMultibaseEncnumbasis(
     multibase: string,
-    format: VerificationMaterialFormatPeerDID,
+    format: VerificationMaterialFormatDID,
     defaultCodec: Codec
   ): [string, VerificationMaterialPeerDID] {
     const [encnum, encnumData] = this.fromBase58Multibase(multibase);
@@ -135,7 +135,7 @@ export class PeerDIDResolver implements DIDResolver {
     );
 
     this.validateRawKeyLength(decodedEncnum);
-    if (format !== VerificationMaterialFormatPeerDID.JWK) {
+    if (format !== VerificationMaterialFormatDID.JWK) {
       throw new Error("Not implemented");
     }
     if (codec === Codec.x25519) {

@@ -29,7 +29,7 @@ describe("Agent", () => {
     agent = Agent.initialize({
       mediatorDID: DID.from("did:peer:2.Ez6LSghwSE437wnDE1pt3X6hVDUQzSjsHzinpX3XFvMjRAm7y.Vz6Mkhh1e5CEYYq6JBUcTZ6Cp2ranCWRrv7Yax3Le4N59R6dd.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6Imh0dHA6Ly8xOTIuMTY4LjEuNDQ6ODA4MCIsImEiOlsiZGlkY29tbS92MiJdfX0.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6IndzOi8vMTkyLjE2OC4xLjQ0OjgwODAvd3MiLCJhIjpbImRpZGNvbW0vdjIiXX19"),
       pluto,
-      seed,
+      seed: async () => seed.value,
     });
 
     mockTask(StartMediator, "StartMediator");
@@ -219,7 +219,7 @@ describe("Agent", () => {
     test("OutOfBandInvitation - creates Connection", async () => {
       const did = DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const stubStoreDID = vi.spyOn(agent.pluto, "storeDID").mockResolvedValue();
-      const stubCreateDID = vi.spyOn(agent.castor, "createPeerDID").mockResolvedValue(did);
+      const stubCreateDID = vi.spyOn(agent.castor, "createDID").mockResolvedValue(did);
       const stubSendMessage = vi.spyOn(agent.mercury, "sendMessage").mockResolvedValue(null as any);
       const stubAddConnection = vi.spyOn(agent.connections, "add").mockResolvedValue();
 
@@ -250,7 +250,7 @@ describe("Agent", () => {
     test("Connectionless Credential Offer - stores Credential Offer", async () => {
       const did = DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const stubStoreDID = vi.spyOn(agent.pluto, "storeDID").mockResolvedValue();
-      const stubCreateDID = vi.spyOn(agent.castor, "createPeerDID").mockResolvedValue(did);
+      const stubCreateDID = vi.spyOn(agent.castor, "createDID").mockResolvedValue(did);
       const stubSendMessage = vi.spyOn(agent.mercury, "sendMessage").mockResolvedValue(null as any);
       const stubAddConnection = vi.spyOn(agent.connections, "add").mockResolvedValue();
       // const stubStoreMessage = vi.spyOn(agent.pluto, "storeMessage").mockResolvedValue();

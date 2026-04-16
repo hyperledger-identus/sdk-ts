@@ -49,10 +49,15 @@ export class CreatePrismDID extends Task<Domain.DID, Args> {
       [Domain.KeyProperties.derivationSchema]: PrismDerivationPathSchema
     });
 
-    const did = await ctx.Castor.createPrismDID(
-      masterSK.publicKey(),
-      this.args.services,
-      [authKey.publicKey()]
+    const did = await ctx.Castor.createDID(
+      'prism',
+      {
+        services: this.args.services,
+        keys: {
+          MASTER_KEY: masterSK,
+          AUTHENTICATION_KEY: [authKey]
+        }
+      }
     );
 
     await ctx.Pluto.storeDID(did, [masterSK, authKey], this.args.alias);

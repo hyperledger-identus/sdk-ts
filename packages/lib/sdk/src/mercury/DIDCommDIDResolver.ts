@@ -1,11 +1,24 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import type * as DIDComm from "@hyperledger/identus-didcomm-wasm";
+import type * as DIDComm from "@hyperledger/identus-didcomm";
 
 const DIDCommMessagingKey = "DIDCommMessaging";
 
+/**
+ * Bridges the SDK's {@link Castor} DID resolution to the DIDComm library's
+ * `DIDResolver` interface.
+ *
+ * Resolves a DID via Castor and maps the resulting DID Document into the
+ * `DIDDoc` shape expected by the DIDComm WASM layer.
+ */
 export class DIDCommDIDResolver implements DIDComm.DIDResolver {
   constructor(private readonly castor: import("@hyperledger/identus-domain").Castor) { }
 
+  /**
+   * Resolve a DID string to a DIDComm-compatible DID Document.
+   *
+   * @param did - the DID to resolve
+   * @returns a DIDComm `DIDDoc`, or `null` if resolution fails
+   */
   async resolve(did: string): Promise<DIDComm.DIDDoc | null> {
     const { DIDDocument, CastorError, Curve, expect } = await import("@hyperledger/identus-domain");
     const doc = await this.castor.resolveDID(did);

@@ -3,9 +3,11 @@ import { Apollo } from "../../../src/apollo";
 import { Castor } from "../../../src/castor";
 import { Pluto } from "../../../src/pluto/Pluto";
 import * as Domain from "@hyperledger/identus-domain";
-import { DIDCommSecretsResolver } from "@hyperledger/identus-didcomm";
+import { DIDCommSecretsResolver } from "../../../src/mercury/DIDCommSecretsResolver";
+import { PeerDIDCreate } from "../../../src/castor/methods/peer/PeerDIDCreate";
 import { Curve } from "@hyperledger/identus-domain";
 import * as Fixtures from "../../fixtures";
+import * as utils from '../../../src/castor/utils';
 
 describe("Mercury DIDComm SecretsResolver", () => {
   let apollo: Apollo;
@@ -19,7 +21,6 @@ describe("Mercury DIDComm SecretsResolver", () => {
     } as any;
 
     castor = {
-      getEcnumbasis: (did: string, publicKey: Domain.JWK.OKP) => `${publicKey.curve}`,
       resolveDID: async () => ({}) as Domain.DIDDocument,
     } as any;
 
@@ -108,7 +109,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
         ])
       );
 
-      vi.spyOn(castor, "getEcnumbasis").mockReturnValue(ecnum);
+      vi.spyOn(utils, "computeEncnumbasis").mockReturnValue(Promise.resolve(ecnum));
       vi.spyOn(apollo, "createPrivateKey").mockReturnValue(privateKey);
 
       const result = await secretsResolver.get_secret(secret);

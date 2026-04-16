@@ -18,20 +18,19 @@ describe("DID", () => {
 
   describe("from", () => {
     test("given DID - returns that DID", () => {
-      const did = new DID("a", "b", "c");
+      const did = new DID("did", "test", "abc");
       const result = DID.from(did);
 
       expect(result).to.eq(did);
     });
 
     test("given string - returns DID", () => {
-      const schema = "q";
-      const method = "w";
-      const methodId = "e";
-      const result = DID.from(`${schema}:${method}:${methodId}`);
+      const method = "peer";
+      const methodId = "abc123";
+      const result = DID.from(`did:${method}:${methodId}`);
 
       expect(result).to.be.instanceOf(DID);
-      expect(result.schema).to.eq(schema);
+      expect(result.schema).to.eq("did");
       expect(result.method).to.eq(method);
       expect(result.methodId).to.eq(methodId);
     });
@@ -39,13 +38,12 @@ describe("DID", () => {
 
   describe("fromString", () => {
     test("valid string - returns DID", () => {
-      const schema = "a";
-      const method = "s";
-      const methodId = "d";
-      const result = DID.fromString(`${schema}:${method}:${methodId}`);
+      const method = "prism";
+      const methodId = "abc123";
+      const result = DID.fromString(`did:${method}:${methodId}`);
 
       expect(result).to.be.instanceOf(DID);
-      expect(result.schema).to.eq(schema);
+      expect(result.schema).to.eq("did");
       expect(result.method).to.eq(method);
       expect(result.methodId).to.eq(methodId);
     });
@@ -59,17 +57,16 @@ describe("DID", () => {
         );
       });
 
-      // TODO - these aren't throwing
-      test.skip("missing method + methodId - throws", () => {
+      test("missing method + methodId - throws", () => {
         assert.throws(
-          () => DID.fromString(`schema:`),
+          () => DID.fromString(`did:`),
           CastorError.InvalidDIDString,
         );
       });
 
-      test.skip("missing methodId - throws", () => {
+      test("missing methodId - throws", () => {
         assert.throws(
-          () => DID.fromString(`schema:method`),
+          () => DID.fromString(`did:method`),
           CastorError.InvalidDIDString,
         );
       });
