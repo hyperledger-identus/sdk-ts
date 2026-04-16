@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import type * as DIDComm from "@hyperledger/identus-didcomm";
 import { PeerDIDCreate } from "../castor/methods/peer/PeerDIDCreate";
+import { computeEncnumbasis } from "../castor/utils";
 
 /**
  * Bridges the SDK's key storage (Pluto) to the DIDComm library's
@@ -105,7 +106,7 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
       curve: Curve.X25519,
       raw: privateKeyBuffer.value,
     });
-    const ecnumbasis = new PeerDIDCreate().computeEncnumbasis(
+    const ecnumbasis = await computeEncnumbasis(
       privateKey.publicKey()
     );
     const id = `${peerDid.did.toString()}#${ecnumbasis}`;

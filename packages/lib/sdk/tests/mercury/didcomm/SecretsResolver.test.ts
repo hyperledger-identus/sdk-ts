@@ -7,6 +7,7 @@ import { DIDCommSecretsResolver } from "../../../src/mercury/DIDCommSecretsResol
 import { PeerDIDCreate } from "../../../src/castor/methods/peer/PeerDIDCreate";
 import { Curve } from "@hyperledger/identus-domain";
 import * as Fixtures from "../../fixtures";
+import * as utils from '../../../src/castor/utils';
 
 describe("Mercury DIDComm SecretsResolver", () => {
   let apollo: Apollo;
@@ -108,7 +109,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
         ])
       );
 
-      vi.spyOn(PeerDIDCreate.prototype, "computeEncnumbasis").mockReturnValue(ecnum);
+      vi.spyOn(utils, "computeEncnumbasis").mockReturnValue(Promise.resolve(ecnum));
       vi.spyOn(apollo, "createPrivateKey").mockReturnValue(privateKey);
 
       const result = await secretsResolver.get_secret(secret);
