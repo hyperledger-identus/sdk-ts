@@ -2,8 +2,6 @@ import * as base64 from "multiformats/bases/base64";
 import { PeerDID, type PeerDIDEncoded, PeerDIDService } from "./PeerDID";
 import {
   Numalgo2Prefix,
-  type VerificationMaterialAgreement,
-  type VerificationMaterialAuthentication,
 } from "@hyperledger/identus-domain";
 
 import { type Ed25519PublicKey } from "../../../apollo/utils/Ed25519PublicKey";
@@ -76,33 +74,6 @@ export class PeerDIDCreate {
         `did:peer:2${encodedEncryptionKeysStr}${encodedSigningKeysStr}.${Numalgo2Prefix.service}${encodedService}`
       )
     );
-  }
-
-  /**
-   * Computes Encnumbasis from a valid did and its keyPair
-   *
-   * @param {PublicKey} publicKey
-   * @returns {string}
-   */
-  computeEncnumbasis(publicKey: PublicKey): string {
-    let material:
-      | VerificationMaterialAgreement
-      | VerificationMaterialAuthentication;
-    let multibaseEcnumbasis: string;
-
-    switch (publicKey.getProperty(KeyProperties.curve)) {
-      case Curve.X25519:
-        material = keyAgreementFromPublicKey(publicKey);
-        multibaseEcnumbasis = createMultibaseEncnumbasis(material);
-        return multibaseEcnumbasis.slice(1);
-      case Curve.ED25519:
-        material = authenticationFromPublicKey(publicKey);
-        multibaseEcnumbasis = createMultibaseEncnumbasis(material);
-        return multibaseEcnumbasis.slice(1);
-      default:
-        //TODO: Improve this error handling
-        throw new Error("computeEncnumbasis -> InvalidKeyPair Curve");
-    }
   }
 
   private encodeService(services: DIDDocument.Service[]): string {

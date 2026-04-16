@@ -48,14 +48,14 @@ declare module "@hyperledger/identus-sdk" {
 
 ```typescript
 // my-did-method/index.ts
-import { DIDMethod, DIDMethodOperation, Dommain } from "@hyperledger/identus-sdk";
+import { DIDMethod, DIDMethodOperation, Domain } from "@hyperledger/identus-sdk";
 import "./types"; // side-effect: augments DIDMethodTypeMap
 import type { MyCreatePayload, MyPublishPayload, MyMetadata } from "./types";
 
-class MyResolver implements Dommain.DIDResolver {
+class MyResolver implements Domain.DIDResolver {
   method = "mymethod";
 
-  async resolve(didString: string): Promise<Dommain.DIDDocument> {
+  async resolve(didString: string): Promise<Domain.DIDDocument> {
     // Implement resolution logic
     // ...
   }
@@ -67,7 +67,7 @@ export class MyDIDMethod
   method = "mymethod" as const;
   resolver = new MyResolver();
 
-  async create(opts: MyCreatePayload): Promise<Dommain.DID> {
+  async create(opts: MyCreatePayload): Promise<Domain.DID> {
     const publicKey = opts.keys.SIGNING_KEY.publicKey();
     // Build and return a DID from the public key material
     const methodId = computeMethodId(publicKey);
