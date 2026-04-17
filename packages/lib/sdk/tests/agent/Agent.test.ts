@@ -16,7 +16,6 @@ import {
   Message,
   MessageDirection,
   StorableCredential,
-  Castor as CastorType,
   AgentError,
   PrivateKey
 } from '@hyperledger/identus-domain';
@@ -38,7 +37,7 @@ import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds';
 let agent: Agent;
 let apollo: Apollo;
 let pluto: IPluto;
-let castor: CastorType;
+let castor: Castor;
 let api: Api;
 
 

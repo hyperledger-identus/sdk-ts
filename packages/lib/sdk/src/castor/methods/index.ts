@@ -1,11 +1,13 @@
-import type { DIDMethodTypeMap } from "./types";
-
-import "./prism";
-import "./peer";
+import { PrismDIDMethod } from "./prism";
+import { PeerDIDMethod } from "./peer";
 
 export { PrismDIDMethod } from "./prism";
 export { PeerDIDMethod } from "./peer";
 
-export type RegisteredMethodName = keyof DIDMethodTypeMap;
+/**
+ * Tuple of DID methods Castor always registers by default.
+ * User-supplied extras are appended to this tuple.
+ */
+export type DefaultDIDMethods = readonly [PrismDIDMethod, PeerDIDMethod];
 
 export type * from "./types";

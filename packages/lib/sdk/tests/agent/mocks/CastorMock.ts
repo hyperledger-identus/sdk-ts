@@ -1,14 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { DID, DIDDocument, Castor } from '@hyperledger/identus-domain';
-import {
-  type DIDMethodTypeMap,
-  type InferCreatePayload,
-  type InferPublishPayload,
-  type InferUpdatePayload,
-  type InferDeactivatePayload,
-  type DIDMethodOperation,
-  type InferMetadata,
-} from '../../../src/castor/methods/types';
 
 const castorVars = {
   _prismDID: new DID("did", "peer", "test"),
@@ -22,31 +13,19 @@ const castorVars = {
 export const CastorMock: Castor & typeof castorVars = {
   ...castorVars,
 
-  async createDID<M extends keyof DIDMethodTypeMap>(
-    _method: M,
-    _opts: InferCreatePayload<M>
-  ): Promise<DID> {
+  async createDID(_method: string, _opts: unknown): Promise<DID> {
     return castorVars._prismDID;
   },
 
-  async publishDID<M extends keyof DIDMethodTypeMap>(
-    _method: M,
-    _opts: InferPublishPayload<M>
-  ): Promise<DIDMethodOperation<InferMetadata<M>>> {
+  async publishDID(_method: string, _opts: unknown): Promise<unknown> {
     throw new Error("Method not implemented.");
   },
 
-  async updateDID<M extends keyof DIDMethodTypeMap>(
-    _method: M,
-    _opts: InferUpdatePayload<M>
-  ): Promise<DIDMethodOperation<InferMetadata<M>>> {
+  async updateDID(_method: string, _opts: unknown): Promise<unknown> {
     throw new Error("Method not implemented.");
   },
 
-  async deactivateDID<M extends keyof DIDMethodTypeMap>(
-    _method: M,
-    _opts: InferDeactivatePayload<M>
-  ): Promise<DIDMethodOperation<InferMetadata<M>>> {
+  async deactivateDID(_method: string, _opts: unknown): Promise<unknown> {
     throw new Error("Method not implemented.");
   },
 

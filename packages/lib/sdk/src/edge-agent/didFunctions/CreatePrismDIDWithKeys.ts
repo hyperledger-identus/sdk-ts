@@ -1,10 +1,10 @@
 import { type DID } from "@hyperledger/identus-domain";
-import { type InferCreatePayload } from "../../castor/methods/types";
+import { type CreatePayload as PrismCreatePayload } from "../../castor/methods/prism";
 
 import { Task } from "../../utils/tasks";
 import { type AgentContext } from "../Context";
 
-export type Args = InferCreatePayload<"prism"> & {
+export type Args = PrismCreatePayload & {
   alias?: string;
 };
 
