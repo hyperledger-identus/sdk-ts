@@ -28,7 +28,7 @@ import { Secp256k1PublicKey } from "./utils/Secp256k1PublicKey";
 import { Ed25519PublicKey } from "./utils/Ed25519PublicKey";
 import { X25519PublicKey } from "./utils/X25519PublicKey";
 
-import { isEmpty, notEmptyString } from "../utils";
+import { isEmpty } from "../utils";
 import { CryptoWorkerManager } from "../workers";
 import ApolloPKG from "@hyperledger/identus-apollo";
 
