@@ -2,6 +2,7 @@ import * as Domain from "@hyperledger/identus-domain";
 import type * as Models from "../models";
 import type { Pluto } from "../Pluto";
 import { MapperRepository } from "./builders/MapperRepository";
+import { KeyProperties } from "@hyperledger/identus-domain";
 
 export class LinkSecretRepository extends MapperRepository<"keys", Domain.LinkSecret> {
   baseModel = {
@@ -13,9 +14,9 @@ export class LinkSecretRepository extends MapperRepository<"keys", Domain.LinkSe
   }
 
   toDomain(model: Models.Key): Domain.LinkSecret {
-    const secret = Buffer.from(model.rawHex, "hex").toString();
+    const keySpecification = JSON.parse(model.data);
+    const secret = Buffer.from(keySpecification[KeyProperties.rawKey], "hex").toString();
     const domain = new Domain.LinkSecret(secret, model.alias);
-
     return this.withId(domain, model.uuid);
   }
 
@@ -23,8 +24,10 @@ export class LinkSecretRepository extends MapperRepository<"keys", Domain.LinkSe
     return {
       ...this.baseModel,
       uuid: domain.uuid,
-      rawHex: Buffer.from(domain.secret).toString("hex"),
-      alias: domain.name
+      alias: domain.name,
+      data: JSON.stringify({
+        [KeyProperties.rawKey]: Buffer.from(domain.secret).toString("hex")
+      })
     };
   }
 }

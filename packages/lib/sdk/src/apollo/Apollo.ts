@@ -422,32 +422,77 @@ export class Apollo implements ApolloInterface, KeyRestoration {
   }
 
   restorePrivateKey(key: StorableKey): PrivateKey {
-    switch (key.recoveryId) {
-      case "secp256k1+priv":
-        return new Secp256k1PrivateKey(key.raw);
+    // Old keys have StorableKey.raw with the buffer, new keys use encoded key specification
+    const keySpecificationBuffer = key.data ?? Buffer.from('{}');
+    const keySpecification: Record<string, string> = JSON.parse(keySpecificationBuffer.toString());
+    const rawHex = keySpecification[KeyProperties.rawKey];
+    const raw = key.raw ?? (typeof rawHex === "string" ? Buffer.from(rawHex, "hex") : undefined);
 
-      case "ed25519+priv":
-        return new Ed25519PrivateKey(key.raw);
-
-      case "x25519+priv":
-        return new X25519PrivateKey(key.raw);
+    if (!raw) {
+      throw new ApolloError.KeyRestoratonFailed(key);
     }
 
-    throw new ApolloError.KeyRestoratonFailed(key);
+    let privateKey: PrivateKey | undefined;
+    switch (key.recoveryId) {
+      case "secp256k1+priv":
+        privateKey = new Secp256k1PrivateKey(raw);
+        break;
+      case "ed25519+priv":
+        privateKey = new Ed25519PrivateKey(raw);
+        break;
+      case "x25519+priv":
+        privateKey = new X25519PrivateKey(raw);
+        break;
+    }
+
+    if (!privateKey) {
+      throw new ApolloError.KeyRestoratonFailed(key);
+    }
+
+    for (const [prop, value] of Object.entries(keySpecification)) {
+      if (prop === KeyProperties.rawKey) continue;
+      if (value !== undefined && value !== null) {
+        privateKey.keySpecification.set(prop, String(value));
+      }
+    }
+
+    return privateKey;
   }
 
   restorePublicKey(key: StorableKey): PublicKey {
-    switch (key.recoveryId) {
-      case "secp256k1+pub":
-        return new Secp256k1PublicKey(key.raw);
+    const keySpecificationBuffer = key.data ?? Buffer.from('{}');
+    const keySpecification: Record<string, string> = JSON.parse(keySpecificationBuffer.toString());
+    const rawHex = keySpecification[KeyProperties.rawKey];
+    const raw = key.raw ?? (typeof rawHex === "string" ? Buffer.from(rawHex, "hex") : undefined);
 
-      case "ed25519+pub":
-        return new Ed25519PublicKey(key.raw);
-
-      case "x25519+pub":
-        return new X25519PublicKey(key.raw);
+    if (!raw) {
+      throw new ApolloError.KeyRestoratonFailed(key);
     }
 
-    throw new ApolloError.KeyRestoratonFailed(key);
+    let publicKey: PublicKey | undefined;
+    switch (key.recoveryId) {
+      case "secp256k1+pub":
+        publicKey = new Secp256k1PublicKey(raw);
+        break;
+      case "ed25519+pub":
+        publicKey = new Ed25519PublicKey(raw);
+        break;
+      case "x25519+pub":
+        publicKey = new X25519PublicKey(raw);
+        break;
+    }
+
+    if (!publicKey) {
+      throw new ApolloError.KeyRestoratonFailed(key);
+    }
+
+    for (const [prop, value] of Object.entries(keySpecification)) {
+      if (prop === KeyProperties.rawKey) continue;
+      if (value !== undefined && value !== null) {
+        publicKey.keySpecification.set(prop, String(value));
+      }
+    }
+
+    return publicKey;
   }
 }

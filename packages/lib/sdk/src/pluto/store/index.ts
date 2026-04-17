@@ -64,7 +64,7 @@ export const createStore = async (dbName: string, options: StartOptions = {}): P
             credentials: Models.CredentialMigration,
             "credential-metadata": {},
             dids: {},
-            keys: {},
+            keys: Models.KeyMigration,
             messages: Models.MessageMigration,
             "didkey-link": {},
             "did-link": {},

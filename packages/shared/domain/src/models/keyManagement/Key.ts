@@ -24,8 +24,13 @@ export abstract class Key {
   abstract getEncoded(): Uint8Array;
 
   get curve() {
-
     return this.getProperty(KeyProperties.curve)!;
+  }
+
+  get data(): Uint8Array {
+    const payload = Object.fromEntries(this.keySpecification);
+    payload[KeyProperties.rawKey] = Buffer.from(this.raw).toString("hex");
+    return Buffer.from(JSON.stringify(payload));
   }
 
   get alg(): JWT_ALG {
