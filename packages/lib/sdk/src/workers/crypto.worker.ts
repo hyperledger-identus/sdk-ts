@@ -1,5 +1,5 @@
 import ApolloPKG from "@hyperledger/identus-apollo";
-import type { CryptoWorkerRequest, CryptoWorkerResponse } from "./types";
+import type { CryptoKeyType, CryptoWorkerRequest, CryptoWorkerResponse } from "./types";
 
 const ApolloSDK = ApolloPKG.org.hyperledger.identus.apollo;
 const EdHDKey = ApolloSDK.derivation.EdHDKey;
@@ -7,7 +7,7 @@ const HDKey = ApolloSDK.derivation.HDKey;
 const BigIntegerWrapper = ApolloSDK.derivation.BigIntegerWrapper;
 const Mnemonic = ApolloSDK.derivation.Mnemonic.Companion;
 
-function handleSign(keyType: string, keyRaw: Uint8Array, message: Uint8Array): Uint8Array {
+function handleSign(keyType: CryptoKeyType, keyRaw: Uint8Array, message: Uint8Array): Uint8Array {
   const keyBytes = Int8Array.from(keyRaw);
   const msgBytes = Int8Array.from(message);
 
@@ -26,7 +26,7 @@ function handleSign(keyType: string, keyRaw: Uint8Array, message: Uint8Array): U
   throw new Error(`Unsupported key type: ${keyType}`);
 }
 
-function handleVerify(keyType: string, keyRaw: Uint8Array, message: Uint8Array, signature: Uint8Array): boolean {
+function handleVerify(keyType: CryptoKeyType, keyRaw: Uint8Array, message: Uint8Array, signature: Uint8Array): boolean {
   const keyBytes = Int8Array.from(keyRaw);
   const msgBytes = Int8Array.from(message);
   const sigBytes = Int8Array.from(signature);
@@ -44,7 +44,7 @@ function handleVerify(keyType: string, keyRaw: Uint8Array, message: Uint8Array, 
   throw new Error(`Unsupported key type: ${keyType}`);
 }
 
-function handleGenerateKeyPair(keyType: string): { privateKeyRaw: Uint8Array; publicKeyRaw: Uint8Array } {
+function handleGenerateKeyPair(keyType: CryptoKeyType): { privateKeyRaw: Uint8Array; publicKeyRaw: Uint8Array } {
   if (keyType === "Ed25519") {
     const keyPair = ApolloSDK.utils.KMMEdKeyPair.Companion.generateKeyPair();
     return {
@@ -54,7 +54,6 @@ function handleGenerateKeyPair(keyType: string): { privateKeyRaw: Uint8Array; pu
   }
 
   if (keyType === "Secp256k1") {
-    const Mnemonic = ApolloSDK.derivation.Mnemonic.Companion;
     const mnemonics = Mnemonic.createRandomMnemonics();
     const seed = Mnemonic.createSeed(mnemonics, "mnemonic");
     const privRaw = Uint8Array.from(seed.slice(0, 32));
@@ -71,7 +70,7 @@ function handleGenerateKeyPair(keyType: string): { privateKeyRaw: Uint8Array; pu
 }
 
 function handleDeriveKey(
-  keyType: string,
+  keyType: CryptoKeyType,
   keyRaw: Uint8Array,
   chainCodeHex: string,
   derivationPath: string

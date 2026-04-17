@@ -9,6 +9,10 @@ type PendingRequest = {
   reject: (reason: any) => void;
 };
 
+/**
+ * Singleton manager for Web Worker crypto operations.
+ * Public methods require isSupported() === true; otherwise getWorker() throws.
+ */
 export class CryptoWorkerManager {
   private static instance: CryptoWorkerManager | null = null;
 
@@ -28,14 +32,16 @@ export class CryptoWorkerManager {
     return CryptoWorkerManager.instance;
   }
 
-  /**
-   * Returns true if Web Workers are available in the current environment.
-   */
   isSupported(): boolean {
     return this.supported;
   }
 
   private getWorker(): Worker {
+    if (!this.supported) {
+      throw new Error(
+        "Web Workers are not available in this environment. Check isSupported() before calling worker methods."
+      );
+    }
     if (!this.worker) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore -- import.meta.url is valid in ESM bundles (tsup/esbuild/vite)
@@ -85,10 +91,6 @@ export class CryptoWorkerManager {
     });
   }
 
-  /**
-   * Sign a message using a Web Worker.
-   * Only call this when isSupported() returns true.
-   */
   sign(keyType: CryptoKeyType, keyRaw: Uint8Array, message: Uint8Array): Promise<Uint8Array> {
     return this.sendRequest<Uint8Array>({
       type: "sign",
@@ -99,10 +101,6 @@ export class CryptoWorkerManager {
     });
   }
 
-  /**
-   * Verify a signature using a Web Worker.
-   * Only call this when isSupported() returns true.
-   */
   verify(keyType: CryptoKeyType, keyRaw: Uint8Array, message: Uint8Array, signature: Uint8Array): Promise<boolean> {
     return this.sendRequest<boolean>({
       type: "verify",
@@ -114,10 +112,6 @@ export class CryptoWorkerManager {
     });
   }
 
-  /**
-   * Generate a key pair using a Web Worker.
-   * Only call this when isSupported() returns true.
-   */
   generateKeyPair(keyType: CryptoKeyType): Promise<{ privateKeyRaw: Uint8Array; publicKeyRaw: Uint8Array }> {
     return this.sendRequest({
       type: "generateKeyPair",
@@ -126,10 +120,6 @@ export class CryptoWorkerManager {
     });
   }
 
-  /**
-   * Derive a key using a Web Worker.
-   * Only call this when isSupported() returns true.
-   */
   deriveKey(
     keyType: CryptoKeyType,
     keyRaw: Uint8Array,
@@ -146,10 +136,6 @@ export class CryptoWorkerManager {
     });
   }
 
-  /**
-   * Create a seed from mnemonics using a Web Worker.
-   * Only call this when isSupported() returns true.
-   */
   createSeed(mnemonics: string[], passphrase: string): Promise<Uint8Array> {
     return this.sendRequest<Uint8Array>({
       type: "createSeed",
@@ -159,10 +145,6 @@ export class CryptoWorkerManager {
     });
   }
 
-  /**
-   * Create a random seed using a Web Worker.
-   * Only call this when isSupported() returns true.
-   */
   createRandomSeed(passphrase?: string): Promise<{ seed: Uint8Array; mnemonics: string[] }> {
     return this.sendRequest({
       type: "createRandomSeed",
@@ -171,10 +153,6 @@ export class CryptoWorkerManager {
     });
   }
 
-  /**
-   * Create random mnemonics using a Web Worker.
-   * Only call this when isSupported() returns true.
-   */
   createRandomMnemonics(): Promise<string[]> {
     return this.sendRequest<string[]>({
       type: "createRandomMnemonics",
@@ -182,9 +160,6 @@ export class CryptoWorkerManager {
     });
   }
 
-  /**
-   * Terminate the worker and clean up resources.
-   */
   terminate(): void {
     if (this.worker) {
       this.worker.terminate();
