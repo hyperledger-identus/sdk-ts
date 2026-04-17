@@ -7,8 +7,8 @@ import {
   ListenerKey,
   Castor,
   ProtocolType,
-  PrismDIDMethod,
   type SeedFunction,
+  PrismDIDMethod,
 } from "@hyperledger/identus-sdk"
 import * as Anoncreds from "@hyperledger/identus-sdk/plugins/anoncreds"
 import axios from "axios"
