@@ -205,7 +205,7 @@ export class EdgeAgentWorkflow {
     await edgeAgent.attemptsTo(
       WalletSdk.execute(async sdk => {
         await Utils.repeat(numberOfDids, async () => {
-          const did = await sdk.createNewPeerDID()
+          const did = await sdk.createPeerDID()
           await edgeAgent.attemptsTo(
             notes().set("lastPeerDID", did)
           )
@@ -231,7 +231,7 @@ export class EdgeAgentWorkflow {
     await edgeAgent.attemptsTo(
       WalletSdk.execute(async sdk => {
         await Utils.repeat(numberOfDids, async () => {
-          await sdk.createNewPrismDID(randomUUID())
+          await sdk.createPrismDID(randomUUID())
         })
       })
     )
