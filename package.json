@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "npx nx run-many --target=build",
+    "build:sdk:dev": "npx nx run @hyperledger/identus-sdk:build:dev",
     "build:clean": "npm run clean && npx nx run-many --target=build --skip-nx-cache",
     "clean": "npm run clean:generated && npm run clean:build && npm run clean:reset",
     "clean:reset": "npx nx reset",
@@ -29,8 +30,7 @@
   "workspaces": [
     "packages/lib/*",
     "packages/shared/*",
-    "packages/wasm/*",
-    "integration-tests/*"
+    "packages/wasm/*"
   ],
   "devDependencies": {
     "@eslint/eslintrc": "3",

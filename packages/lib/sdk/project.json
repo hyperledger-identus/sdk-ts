@@ -29,6 +29,24 @@
         "parallel": false
       }
     },
+    "build:dev": {
+      "dependsOn": [
+        "^build"
+      ],
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{projectRoot}/build"
+      ],
+      "options": {
+        "commands": [
+          "rm -rf build/*",
+          "tsup --config tsup.dev.config.ts --format esm,cjs",
+          "tsup --config tsup.types.config.ts --dts-only"
+        ],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      }
+    },
     "test": {
       "executor": "nx:run-commands",
       "options": {

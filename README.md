@@ -81,35 +81,21 @@ yarn build
 npx nx run @hyperledger/identus-sdk:test
 ```
 
-### Testing e2e
-
-Requires you to have a Cloud Agent running and to configure the appropiate env vars in ./integration-tests/e2e-tests/.env with the following content:
-
-```bash
-
-AGENT_URL=http://localhost:8085
-MEDIATOR_OOB_URL=http://localhost:8080/invitationOOB
-SECP256K1_PUBLISHED_DID=
-SECP256K1_JWT_SCHEMA_GUID=
-SECP256K1_ANONCRED_DEFINITION_GUID=
-ED25519_PUBLISHED_DID=
-ED25519_JWT_SCHEMA_GUID=
-ED25519_ANONCRED_DEFINITION_GUID=
-```
-
-Running the tests is pretty straight forward
-
-```bash
-npx nx run e2e:test
-```
-
 ### Testing everything
-
-This still requires the .env var in ./integration-tests/e2e-tests/.env properly configured.
-
 ```bash
 yarn test
 ```
+
+### Testing e2e
+Requires you to have `Cloud Agent` and `Mediator` running.
+
+To run the tests from root level, simply:
+
+```bash
+./integration-tests/e2e-tests/run.sh
+```
+
+[Read more](./integration-tests/e2e-tests/README.md)
 
 If you have any issues while building you can try building from docker (this runs exactly the same build):
 
