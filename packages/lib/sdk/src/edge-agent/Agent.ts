@@ -106,7 +106,6 @@ export class Agent<
 
 /**
    * Convenience initializer for Agent
-<<<<<<< HEAD
    * allowing default instantiation, omitting all but the absolute necessary parameters.
    *
    * DID methods registered through the top-level `didMethods` param are
