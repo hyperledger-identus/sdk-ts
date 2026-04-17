@@ -24,8 +24,9 @@ export type RequiredPrismDIDKeys<
  * Identifiers across multiple DID methods.
  *
  * The concrete SDK implementation ({@link @hyperledger/identus-sdk!Castor})
- * narrows these signatures using the augmentable `DIDMethodTypeMap`
- * exported from `@hyperledger/identus-sdk`.
+ * narrows these signatures by inferring the payload and metadata types
+ * directly from the DID method instances registered on that Castor, so
+ * `createDID`, `publishDID`, etc. are fully typed per method.
  */
 export interface Castor {
   createDID(method: string, opts: unknown): Promise<DID>;

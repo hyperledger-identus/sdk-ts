@@ -7,15 +7,31 @@ export type PeerDIDKeys = {
 
 
 /**
- * Minimal shape that any DID method instance must satisfy in order to
+ * Structural shape that any DID method instance must satisfy in order to
  * be registered with the {@link Castor} constructor.
  *
  * Both built-in methods (`PrismDIDMethod`, `PeerDIDMethod`) and custom
- * third-party methods implement this interface.
+ * third-party methods implement this interface. Payload positions use
+ * `any` so that each concrete `DIDMethod<...>` implementation — with its
+ * own strongly-typed payloads — remains assignable to `DIDMethodInput`
+ * without Castor needing structural casts to invoke lifecycle operations.
+ *
+ * The public API keeps full type safety because `CreatePayloadOf`,
+ * `PublishPayloadOf`, etc. are resolved against each method's concrete
+ * type (captured by Castor's `Extras` tuple), not against this erased shape.
  */
 export interface DIDMethodInput {
   /** The DID method name (e.g. `"prism"`, `"peer"`). */
   method: string;
   /** A resolver capable of resolving DIDs of this method. */
   resolver: Domain.DIDResolver;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  create: (opts: any) => Promise<Domain.DID>;
+  verifySignature: (did: Domain.DID, challenge: Uint8Array, signature: Uint8Array) => Promise<boolean>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  publish?: (opts: any) => Promise<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  update?: (opts: any) => Promise<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  deactivate?: (opts: any) => Promise<any>;
 }

@@ -2,7 +2,6 @@ import * as Domain from '@hyperledger/identus-domain';
 import { base58btc } from "multiformats/bases/base58";
 
 import { CastorError, DIDDocument, type OctetPublicKey, type PublicKey, VerificationMaterialAgreement, VerificationMaterialFormatDID, VerificationMethodTypeAgreement, type VerificationMaterial, VerificationMaterialAuthentication, KeyProperties, Curve, VerificationMethodTypeAuthentication } from "@hyperledger/identus-domain";
-import { type DIDMethods } from "../methods/types";
 import { PrismDIDMethod } from "../methods/prism";
 import { PeerDIDMethod } from "../methods/peer";
 import { type DIDMethodInput } from '../types';
@@ -10,16 +9,15 @@ import { JWKHelper } from './JWKHelper';
 import { MultiCodec } from './Multicodec';
 
 
-
-function toMethodRecord(methods: DIDMethodInput[]): Partial<DIDMethods> {
-    const record: Partial<Record<string, DIDMethodInput>> = {};
+function toMethodRecord(methods: readonly DIDMethodInput[]): Record<string, DIDMethodInput> {
+    const record: Record<string, DIDMethodInput> = {};
     for (const m of methods) {
         record[m.method] = m;
     }
-    return record as Partial<DIDMethods>;
+    return record;
 }
 
-function getDefaultMethods(): DIDMethodInput[] {
+function getDefaultMethods(): readonly DIDMethodInput[] {
     return [
         new PrismDIDMethod(),
         new PeerDIDMethod(),
@@ -32,8 +30,8 @@ function getDefaultMethods(): DIDMethodInput[] {
  */
 export function parseParams(
     apollo: Domain.Apollo,
-    extraMethods: DIDMethodInput[] = [],
-): { apollo: Domain.Apollo; didMethods: Partial<DIDMethods> } {
+    extraMethods: readonly DIDMethodInput[] = [],
+): { apollo: Domain.Apollo; didMethods: Record<string, DIDMethodInput> } {
     return {
         apollo,
         didMethods: toMethodRecord([...getDefaultMethods(), ...extraMethods]),

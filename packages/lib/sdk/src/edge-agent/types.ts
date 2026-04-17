@@ -51,6 +51,12 @@ export type AgentOptions = {
   experiments?: {
     liveMode?: boolean;
   };
+  /**
+   * @deprecated Pass `didMethods` directly at the top level of
+   * `Agent.initialize({ pluto, didMethods, ... })` instead. The top-level
+   * form participates in type inference so `agent.createDID` sees your
+   * custom methods.
+   */
   didMethods?: DIDMethodInput[]
 };
 

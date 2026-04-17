@@ -105,25 +105,45 @@ const castor = new Castor(apollo, [
 
    -2 Adding a custom did method
 
-   By using module augmentation we can implement a did agnostic type-safe wrapper for current did methods (prism, peer) and future ones.
+   Implement the `DIDMethod` interface and pass an instance through the new
+   top-level `didMethods` parameter on `Agent.initialize` (or the `Castor`
+   constructor). TypeScript infers payloads and metadata directly from your
+   class.
 
    ```typescript
+   import type * as Domain from "@hyperledger/identus-domain";
+   import { type DIDMethod } from "@hyperledger/identus-sdk";
+
    export type CreatePayload = {
-     services?: DIDDocument.Service[];
-     keys: DIDKeys; // You customize the type with your own payloads
+     services?: Domain.DIDDocument.Service[];
+     keys: { SIGNING_KEY: Domain.PrivateKey };
    };
+
+   export class MyDIDMethod implements DIDMethod<never, CreatePayload> {
+     method = "mymethod" as const;
+     resolver = new MyResolver();
+
+     async create(opts: CreatePayload): Promise<Domain.DID> {
+       // ...
+     }
+
+     async verifySignature(did, challenge, signature) {
+       // ...
+     }
+   }
    ```
 
-   Module augmentation
+   Register with the Agent:
 
    ```typescript
-   declare module "@hyperledger/identus-sdk" {
-    interface DIDMethodTypeMap {
-      peer: {
-        createPayload: CreatePayload;
-      };
-    }
-  }
+   const agent = Agent.initialize({
+     pluto,
+     didMethods: [new MyDIDMethod()],
+   });
+
+   await agent.createDID("mymethod", {
+     keys: { SIGNING_KEY: sk },
+   }); // fully typed
    ```
 
 - Agent.initialize now accepts an async function that returns a seed (UInt8Array) vs previous hexString, if no seed function is provided, will start with random seed

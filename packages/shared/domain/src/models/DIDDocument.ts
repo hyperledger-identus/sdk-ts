@@ -236,8 +236,15 @@ export class DIDDocument {
     DIDDocument.parseVerificationMethodGroup(didDocumentJson.assertionMethod, didDocumentJson.verificationMethod, assertionMethod);
     DIDDocument.parseVerificationMethodGroup(didDocumentJson.keyAgreement, didDocumentJson.verificationMethod, keyAgreement);
 
+    const didDocumentServices = didDocumentJson.service ?? []
     const servicesProperty =
-      new DIDDocument.Services(didDocumentJson.service);
+      new DIDDocument.Services(
+        didDocumentServices.map((service: any) => new DIDDocument.Service(
+          service.id,
+          service.type,
+          service.serviceEndpoint
+        ))
+      );
     const verificationMethodsProperty =
       new DIDDocument.VerificationMethods(didDocumentJson.verificationMethod);
 
@@ -380,14 +387,17 @@ export namespace DIDDocument {
 
     constructor(
       public id: string,
-      public type: Array<string>,
+      public type: Array<string> | string,
       endpoint: ServiceEndpoint | string,
     ) {
       this.serviceEndpoint = isString(endpoint) ? new ServiceEndpoint(endpoint) : endpoint;
     }
 
     get isDIDCommMessaging(): boolean {
-      return this.type.includes("DIDCommMessaging");
+      if (typeof this.type === "string") {
+        return this.type === "DIDCommMessaging";
+      }
+      return this.type.includes("DIDCommMessaging")
     }
   }
 

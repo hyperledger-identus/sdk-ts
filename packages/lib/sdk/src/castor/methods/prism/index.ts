@@ -53,16 +53,6 @@ export type PublishPayload = {
 /** Serialised Atala object bytes returned after a publish operation. */
 export type Metadata = Uint8Array
 
-declare module "../types" {
-  interface DIDMethodTypeMap {
-    prism: {
-      createPayload: CreatePayload;
-      publishPayload: PublishPayload;
-      metadata: Metadata;
-    };
-  }
-}
-
 /**
  * DID method implementation for `did:prism`.
  *

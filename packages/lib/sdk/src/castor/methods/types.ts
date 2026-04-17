@@ -7,50 +7,6 @@ import { type DIDResolver, type DID, type PrivateKey, type RequiredPrismDIDKeys 
  */
 export type DIDMethodOperation<TMetadata = unknown, TRes = TMetadata> = TRes
 
-type MapGet<T, K extends string> = K extends keyof T ? T[K] : never;
-
-/**
- * Augmentable type map that registers DID methods at the type level.
- *
- * Built-in methods (`prism`, `peer`) are defined directly here so their
- * entries survive `.d.ts` bundling (rollup-plugin-dts drops `declare
- * module` blocks).  External consumers extend this interface via module
- * augmentation targeting `"@hyperledger/identus-sdk"`.
- *
- * @example
- * ```ts
- * declare module "@hyperledger/identus-sdk" {
- *   interface DIDMethodTypeMap {
- *     mymethod: {
- *       createPayload: { keys: MyKeys };
- *       metadata: MyMeta;
- *     };
- *   }
- * }
- * ```
- */
-export interface DIDMethodTypeMap { }
-
-/** Extracts the `createPayload` type for DID method `M`. */
-export type InferCreatePayload<M extends keyof DIDMethodTypeMap> =
-  MapGet<DIDMethodTypeMap[M], "createPayload">;
-
-/** Extracts the `publishPayload` type for DID method `M`. */
-export type InferPublishPayload<M extends keyof DIDMethodTypeMap> =
-  MapGet<DIDMethodTypeMap[M], "publishPayload">;
-
-/** Extracts the `updatePayload` type for DID method `M`. */
-export type InferUpdatePayload<M extends keyof DIDMethodTypeMap> =
-  MapGet<DIDMethodTypeMap[M], "updatePayload">;
-
-/** Extracts the `deactivatePayload` type for DID method `M`. */
-export type InferDeactivatePayload<M extends keyof DIDMethodTypeMap> =
-  MapGet<DIDMethodTypeMap[M], "deactivatePayload">;
-
-/** Extracts the `metadata` type for DID method `M`. */
-export type InferMetadata<M extends keyof DIDMethodTypeMap> =
-  MapGet<DIDMethodTypeMap[M], "metadata">;
-
 type OptionalMethod<Name extends string, T, Y> =
   [T] extends [never] ? { [K in Name]?: undefined } : { [K in Name]: (opts: T) => Promise<Y> };
 
@@ -112,18 +68,60 @@ export type DIDMethod<
   & OptionalMethod<'deactivate', DeactivatePayload, DIDMethodOperation<TMetadata>>;
 
 /**
- * Mapped type that derives a concrete `DIDMethod` for every entry in
- * {@link DIDMethodTypeMap}.
- *
- * SDK consumers should not need to reference this directly -- it is used
- * internally by {@link Castor} to look up method implementations.
+ * Extract the literal `method` name from a DID method instance type.
+ * Falls back to `string` when the method field is not a string literal.
  */
-export type DIDMethods = {
-  [K in keyof DIDMethodTypeMap]: DIDMethod<
-    MapGet<DIDMethodTypeMap[K], "metadata">,
-    MapGet<DIDMethodTypeMap[K], "createPayload">,
-    MapGet<DIDMethodTypeMap[K], "publishPayload">,
-    MapGet<DIDMethodTypeMap[K], "updatePayload">,
-    MapGet<DIDMethodTypeMap[K], "deactivatePayload">
-  >;
-};
+export type MethodNameOf<T> = T extends { method: infer N }
+  ? N extends string ? N : never
+  : never;
+
+/**
+ * Extract the `create` payload type from a DID method instance type.
+ */
+export type CreatePayloadOf<T> = T extends { create: (opts: infer O) => unknown } ? O : never;
+
+/**
+ * Extract the `publish` payload type from a DID method instance type.
+ * Resolves to `never` when the method does not support publishing.
+ */
+export type PublishPayloadOf<T> = T extends { publish: (opts: infer O) => unknown } ? O : never;
+
+/**
+ * Extract the `update` payload type from a DID method instance type.
+ * Resolves to `never` when the method does not support updating.
+ */
+export type UpdatePayloadOf<T> = T extends { update: (opts: infer O) => unknown } ? O : never;
+
+/**
+ * Extract the `deactivate` payload type from a DID method instance type.
+ * Resolves to `never` when the method does not support deactivating.
+ */
+export type DeactivatePayloadOf<T> = T extends { deactivate: (opts: infer O) => unknown } ? O : never;
+
+/**
+ * Extract the metadata type returned by the lifecycle operations of a
+ * DID method instance type. Uses `publish` as the canonical source.
+ */
+export type MetadataOf<T> =
+  T extends { publish: (arg: never) => Promise<infer M> } ? M :
+  T extends { update: (arg: never) => Promise<infer M> } ? M :
+  T extends { deactivate: (arg: never) => Promise<infer M> } ? M :
+  never;
+
+/**
+ * Build a `{ methodName: MethodInstance }` map from a tuple of DID method
+ * instances. When multiple entries share the same `method` name, later
+ * entries override earlier ones (so user-supplied extras can replace the
+ * built-in `prism` / `peer` implementations at the type level).
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export type MethodMapOf<Methods extends readonly unknown[]> =
+  Methods extends readonly [infer Head, ...infer Tail]
+    ? Tail extends readonly unknown[]
+      ? MethodNameOf<Head> extends infer N
+        ? N extends string
+          ? Omit<{ [K in N]: Head }, keyof MethodMapOf<Tail>> & MethodMapOf<Tail>
+          : MethodMapOf<Tail>
+        : MethodMapOf<Tail>
+      : never
+    : {};

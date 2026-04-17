@@ -20,14 +20,6 @@ export type CreatePayload = {
   keys: DIDKeys;
 };
 
-declare module "../types" {
-  interface DIDMethodTypeMap {
-    peer: {
-      createPayload: CreatePayload;
-    };
-  }
-}
-
 /**
  * DID method implementation for `did:peer` (algorithm 2).
  *

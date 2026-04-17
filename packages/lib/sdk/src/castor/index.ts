@@ -2,14 +2,14 @@ import * as Domain from '@hyperledger/identus-domain';
 import { type DIDDocument } from "@hyperledger/identus-domain";
 
 import {
-  type DIDMethod,
-  type DIDMethods,
-  type DIDMethodTypeMap,
-  type InferCreatePayload,
-  type InferPublishPayload,
-  type InferUpdatePayload,
-  type InferDeactivatePayload,
+  type CreatePayloadOf,
+  type PublishPayloadOf,
+  type UpdatePayloadOf,
+  type DeactivatePayloadOf,
+  type MetadataOf,
+  type MethodMapOf,
 } from "./methods/types";
+import { type PrismDIDMethod, type PeerDIDMethod } from "./methods";
 
 import { type DIDMethodInput } from "./types";
 import { parseParams } from "./utils";
@@ -17,28 +17,51 @@ import { parseParams } from "./utils";
 export type * from "./methods";
 
 /**
+ * All DID methods available on a Castor instance -- the built-in
+ * `PrismDIDMethod` / `PeerDIDMethod` followed by any user-supplied extras.
+ * When extras share a `method` name with a built-in, the extra wins.
+ */
+type AllMethods<Extras extends readonly DIDMethodInput[]> =
+  readonly [PrismDIDMethod, PeerDIDMethod, ...Extras];
+
+/** Map from registered DID method name to the registered instance type. */
+type MethodMap<Extras extends readonly DIDMethodInput[]> =
+  MethodMapOf<AllMethods<Extras>>;
+
+/** Registered DID method names for a Castor instance. */
+type RegisteredName<Extras extends readonly DIDMethodInput[]> =
+  keyof MethodMap<Extras> & string;
+
+/**
  * Castor is a powerful and flexible library for working with DIDs. Whether you are building a decentralised application
  * or a more traditional system requiring secure and private identity management, Castor provides the tools and features
  * you need to easily create, manage, and resolve DIDs.
  *
+ * The optional tuple type parameter `Extras` carries the concrete types of
+ * any extra DID methods passed to the constructor, so that `createDID`,
+ * `publishDID`, `updateDID` and `deactivateDID` only accept method names
+ * that are actually registered (defaults `"prism" | "peer"` plus any extras)
+ * and infer their payload types directly from each DID method instance.
+ *
  * @class Castor
  * @typedef {Castor}
  */
-export class Castor implements Domain.Castor {
-  #methods: Partial<DIDMethods> = {};
+export class Castor<
+  Extras extends readonly DIDMethodInput[] = readonly []
+> implements Domain.Castor {
+  #methods: Record<string, DIDMethodInput>;
 
   get #resolvers(): Domain.DIDResolver[] {
-    return Object.values(this.#methods).map((m) => (m as DIDMethod).resolver);
+    return Object.values(this.#methods).map((m) => m.resolver);
   }
 
-  #getDIDMethod<M extends keyof DIDMethodTypeMap>(method: M): DIDMethods[M] {
+  #getDIDMethod(method: string): DIDMethodInput {
     const m = this.#methods[method];
     if (!m) {
-      throw new Error(`DID method '${String(method)}' is not registered`);
+      throw new Error(`DID method '${method}' is not registered`);
     }
     return m;
   }
-
 
   /**
    * Creates an instance of Castor as soon as a valid cryptographic interface is provided (Apollo).
@@ -46,59 +69,57 @@ export class Castor implements Domain.Castor {
    * Pass additional DIDMethod instances to extend or override defaults.
    *
    * @param {Apollo} apollo
-   * @param {DIDMethod[]} extraMethods
+   * @param {Extras} extraMethods - tuple of custom DID methods to register
    */
-  constructor(apollo: Domain.Apollo, extraMethods: DIDMethodInput[] = []) {
-    const { didMethods } = parseParams(apollo, extraMethods);
+  constructor(apollo: Domain.Apollo, extraMethods?: Extras) {
+    const { didMethods } = parseParams(apollo, extraMethods ?? []);
     this.#methods = didMethods;
   }
 
-  createDID<M extends keyof DIDMethodTypeMap>(
+  createDID<M extends RegisteredName<Extras>>(
     method: M,
-    opts: InferCreatePayload<M>,
-  ) {
+    opts: CreatePayloadOf<MethodMap<Extras>[M]>,
+  ): Promise<Domain.DID> {
     return this.#getDIDMethod(method).create(opts);
   }
 
-  async verifySignature(
+  verifySignature(
     did: Domain.DID,
     challenge: Uint8Array,
     signature: Uint8Array
   ): Promise<boolean> {
-    const method = did.method as keyof DIDMethodTypeMap;
-    const didMethod = this.#getDIDMethod(method) as DIDMethod;
-    return didMethod.verifySignature(did, challenge, signature);
+    return this.#getDIDMethod(did.method).verifySignature(did, challenge, signature);
   }
 
-  publishDID<M extends keyof DIDMethodTypeMap>(
+  publishDID<M extends RegisteredName<Extras>>(
     method: M,
-    opts: InferPublishPayload<M>,
-  ) {
+    opts: PublishPayloadOf<MethodMap<Extras>[M]>,
+  ): Promise<MetadataOf<MethodMap<Extras>[M]>> {
     const didMethod = this.#getDIDMethod(method);
     if (!didMethod.publish) {
-      throw new Error(`DID method '${String(method)}' does not support publish operation`);
+      throw new Error(`DID method '${method}' does not support publish operation`);
     }
     return didMethod.publish(opts);
   }
 
-  updateDID<M extends keyof DIDMethodTypeMap>(
+  updateDID<M extends RegisteredName<Extras>>(
     method: M,
-    opts: InferUpdatePayload<M>,
-  ) {
+    opts: UpdatePayloadOf<MethodMap<Extras>[M]>,
+  ): Promise<MetadataOf<MethodMap<Extras>[M]>> {
     const didMethod = this.#getDIDMethod(method);
     if (!didMethod.update) {
-      throw new Error(`DID method '${String(method)}' does not support update operation`);
+      throw new Error(`DID method '${method}' does not support update operation`);
     }
     return didMethod.update(opts);
   }
 
-  deactivateDID<M extends keyof DIDMethodTypeMap>(
+  deactivateDID<M extends RegisteredName<Extras>>(
     method: M,
-    opts: InferDeactivatePayload<M>,
-  ) {
+    opts: DeactivatePayloadOf<MethodMap<Extras>[M]>,
+  ): Promise<MetadataOf<MethodMap<Extras>[M]>> {
     const didMethod = this.#getDIDMethod(method);
     if (!didMethod.deactivate) {
-      throw new Error(`DID method '${String(method)}' does not support deactivate operation`);
+      throw new Error(`DID method '${method}' does not support deactivate operation`);
     }
     return didMethod.deactivate(opts);
   }
@@ -131,9 +152,4 @@ export class Castor implements Domain.Castor {
     }
     throw new Error(`Non of the available Castor resolvers could resolve the DID '${didstr.toString()}'`);
   }
-
-
-
-
-
 }

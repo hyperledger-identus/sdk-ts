@@ -4,19 +4,20 @@ The SDK uses a pluggable DID method architecture. You can register your own DID 
 
 ## Overview
 
-A custom DID method consists of three pieces:
+A custom DID method consists of two pieces:
 
-1. **Type augmentation** -- declare your method's payload types in `DIDMethodTypeMap`
-2. **Method class** -- implement the `DIDMethod` interface
-3. **Registration** -- pass your method to the `Castor` constructor or `Agent` options
+1. **Method class** -- implement the `DIDMethod` interface
+2. **Registration** -- pass an instance to the `Castor` constructor or to `Agent.initialize`'s `didMethods` option
 
-## Step 1: Define Payload Types and Augment the Type Map
+No global type registration is required. TypeScript infers every payload and metadata type directly from your `DIDMethod` class, so `createDID`, `publishDID`, etc. are fully typed as soon as you pass your instance in.
 
-Create a module that declares your method's payloads and augments `DIDMethodTypeMap`. This gives `createDID`, `publishDID`, etc. full type safety for your method.
+## Step 1: Define Payload Types
+
+Declare the types your method accepts and returns. These are plain TypeScript types and do **not** need to be registered anywhere global.
 
 ```typescript
 // my-did-method/types.ts
-import { Domain } from "@hyperledger/identus-sdk";
+import type * as Domain from "@hyperledger/identus-domain";
 
 export type MyCreatePayload = {
   keys: { SIGNING_KEY: Domain.PrivateKey };
@@ -24,25 +25,12 @@ export type MyCreatePayload = {
 };
 
 export type MyPublishPayload = {
-  key: DomainPrivateKey;
+  key: Domain.PrivateKey;
   did: Domain.DID;
 };
 
 export type MyMetadata = { txHash: string };
-
-// Augment the global type map
-declare module "@hyperledger/identus-sdk" {
-  interface DIDMethodTypeMap {
-    mymethod: {
-      createPayload: MyCreatePayload;
-      publishPayload: MyPublishPayload;
-      metadata: MyMetadata;
-    };
-  }
-}
 ```
-
-**How it works:** `DIDMethodTypeMap` is an empty interface in `@hyperledger/identus-sdk`. Each DID method adds entries to it using TypeScript's [declaration merging](https://www.typescriptlang.org/docs/handbook/declaration-merging.html). The SDK's `DIDMethods`, `InferCreatePayload<M>`, etc. are mapped types that read from this map, so TypeScript automatically knows the correct payload and return types when you call `castor.createDID('mymethod', ...)`.
 
 ## Step 2: Implement the DIDMethod Interface
 
@@ -71,7 +59,7 @@ export class MyDIDMethod
     const publicKey = opts.keys.SIGNING_KEY.publicKey();
     // Build and return a DID from the public key material
     const methodId = computeMethodId(publicKey);
-    return new DID("did", "mymethod", methodId);
+    return new Domain.DID("did", "mymethod", methodId);
   }
 
   async publish(
@@ -86,13 +74,17 @@ export class MyDIDMethod
     challenge: Uint8Array,
     signature: Uint8Array
   ): Promise<boolean> {
-    // Resolve the DID and verify the signature
     const doc = await this.resolver.resolve(did.toString());
     // ... verification logic
     return true;
   }
 }
 ```
+
+The two details that make type inference work:
+
+- `method = "mymethod" as const` -- the `as const` gives the `method` field a literal string type, which the SDK uses as the dispatch key in `agent.createDID("mymethod", ...)`.
+- A concretely typed `create(opts: MyCreatePayload)` (and, if present, `publish` / `update` / `deactivate`) -- payload types are inferred from these signatures.
 
 ### Optional Operations
 
@@ -116,7 +108,7 @@ class PeerDIDMethod implements Domain.DIDMethod<never, CreatePayload> { ... }
 import { Castor } from "@hyperledger/identus-sdk";
 import { MyDIDMethod } from "./my-did-method";
 
-const castor = new Castor(apollo, [new MyDIDMethod()]);
+const castor = new Castor(apollo, [new MyDIDMethod()] as const);
 
 // Now fully typed:
 const did = await castor.createDID("mymethod", {
@@ -124,7 +116,9 @@ const did = await castor.createDID("mymethod", {
 });
 ```
 
-### Via Agent options
+### Via Agent
+
+Prefer the top-level `didMethods` param on `Agent.initialize` -- it participates in type inference so `agent.createDID` knows about your method:
 
 ```typescript
 import { Agent } from "@hyperledger/identus-sdk";
@@ -134,26 +128,33 @@ const agent = Agent.initialize({
   pluto,
   didMethods: [new MyDIDMethod()],
 });
+
+await agent.createDID("mymethod", {
+  keys: { SIGNING_KEY: myPrivateKey },
+});
 ```
 
-Custom methods passed via `didMethods` override built-in methods with the same `method` name.
+Custom methods passed via `didMethods` override built-in methods with the same `method` name (both at runtime and in the inferred types).
 
 ## Full Type Safety
 
-After augmenting `DIDMethodTypeMap`, all calls through `Castor` or `Agent` are fully type-checked:
+All calls through `Castor` or `Agent` are fully type-checked against the methods you actually registered:
 
 ```typescript
 // TypeScript knows `opts` must be MyCreatePayload
-await castor.createDID("mymethod", {
+await agent.createDID("mymethod", {
   keys: { SIGNING_KEY: sk },
 });
 
 // TypeScript error: property 'MASTER_KEY' is missing
-await castor.createDID("prism", {
+await agent.createDID("prism", {
   keys: { SIGNING_KEY: sk }, // Error!
 });
 
+// TypeScript error: method "bogus" is not registered
+await agent.createDID("bogus", {}); // Error!
+
 // TypeScript knows the return is MyMetadata
-const meta = await castor.publishDID("mymethod", { key: sk, did });
-console.log(meta); // Uint8Array with the blockchain operation, or for other sources
+const meta = await agent.publishDID("mymethod", { key: sk, did });
+console.log(meta.txHash);
 ```
