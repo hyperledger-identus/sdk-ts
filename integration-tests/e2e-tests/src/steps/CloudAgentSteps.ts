@@ -1,10 +1,11 @@
 import { Given, Then, When } from "@cucumber/cucumber"
-import { type Actor, notes } from "@serenity-js/core"
+import { type Actor } from "@serenity-js/core"
 import { CloudAgentWorkflow } from "../workflow/CloudAgentWorkflow"
 import { EdgeAgentWorkflow } from "../workflow/EdgeAgentWorkflow"
 import { Utils } from "../Utils"
 import { type DataByDid, Setup } from "../configuration/Setup"
 import { assert } from "chai"
+import { notes } from "../abilities/NoteAdapter"
 
 Given("{actor} has a connection invitation with '{}', '{}' and '{}' parameters", async function (
   cloudAgent: Actor,

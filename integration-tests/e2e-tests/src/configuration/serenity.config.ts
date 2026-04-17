@@ -4,6 +4,8 @@ import { resolve } from "node:path"
 
 setDefaultTimeout(5 * 60 * 1000)
 
+Error.stackTraceLimit = Infinity
+
 BeforeAll(function () {
   // Configure Serenity/JS
   configure({
@@ -21,8 +23,7 @@ BeforeAll(function () {
 })
 
 defineParameterType({
-  // regexp: /[A-Z][a-z]+/,
-  regexp: /.*/,
+  regexp: /[A-Za-z0-9]+(?: [A-Za-z0-9]+)*/,
   transformer(name: string) {
     return actorCalled(name)
   },
