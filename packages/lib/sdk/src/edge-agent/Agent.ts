@@ -134,7 +134,7 @@ export class Agent<
     apollo?: Domain.Apollo;
     castor?: Castor<ExtraMethods>;
     mercury?: Domain.Mercury;
-    seed?: () => Promise<Uint8Array>;
+    seed?: SeedFunction;
     options?: AgentOptions;
   }): Agent<ExtraMethods> {
     const pluto = params.pluto;
@@ -264,12 +264,7 @@ export class Agent<
       Apollo: this.apollo,
       Castor: this.castor,
       Pluto: this.pluto,
-      Seed: async () => {
-        if (typeof this.seed === 'function') {
-          return this.seed();
-        }
-        return this.apollo.createRandomSeed().seed.value
-      },
+      Seed: this.seed,
       JWT: new JWT(),
       SDJWT: new SDJWT(),
     });
