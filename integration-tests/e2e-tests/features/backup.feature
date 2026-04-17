@@ -10,6 +10,7 @@ Feature: Backup
     Given Edge Agent has created a backup
     Then a new SDK cannot be restored from Edge Agent with wrong seed
 
+  @jwt
   Scenario Outline: Restored backup should be functional for jwt credential
     Given Cloud Agent is connected to Edge Agent
     And Cloud Agent uses did='<did>' and kid='<kid>' for issuance
@@ -31,7 +32,7 @@ Feature: Backup
       | secp256k1 | assert1 | secp256k1  |
       | ed25519   | assert1 | ed25519    |
 
-  @disabled
+  @sdjwt
   Scenario Outline: Restored backup should be functional for sd+jwt credential
     Given Cloud Agent is connected to Edge Agent
     And Cloud Agent uses did='<did>' and kid='<kid>' for issuance
@@ -52,6 +53,7 @@ Feature: Backup
       | did     | kid     | did_schema |
       | ed25519 | assert1 | secp256k1  |
 
+  @anoncred
   Scenario Outline: Restored backup should be functional for anoncred credential
     Given Cloud Agent is connected to Edge Agent
     And Cloud Agent uses did='<did>' and kid='<kid>' for issuance
