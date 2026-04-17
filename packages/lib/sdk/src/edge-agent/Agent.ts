@@ -5,6 +5,7 @@ import {
   type AgentOptions,
   type EventCallback,
   type ListenerKey,
+  type SeedFunction,
 } from "./types";
 import {
   type CreatePayloadOf,
@@ -86,7 +87,7 @@ export class Agent<
     public readonly castor: Castor<Extras>,
     public readonly pluto: Domain.Pluto,
     public readonly mercury: Domain.Mercury,
-    public readonly seed: () => Promise<Uint8Array>,
+    public readonly seed: SeedFunction,
     public readonly api: Domain.Api = new FetchApi(),
     private readonly options?: AgentOptions
   ) {
@@ -103,8 +104,9 @@ export class Agent<
     this.plugins.register(OEAPlugin);
   }
 
-  /**
+/**
    * Convenience initializer for Agent
+<<<<<<< HEAD
    * allowing default instantiation, omitting all but the absolute necessary parameters.
    *
    * DID methods registered through the top-level `didMethods` param are
@@ -146,7 +148,10 @@ export class Agent<
     const didcomm = new DIDCommWrapper(didResolver, secretsResolver);
     const mercury = params.mercury ?? new Mercury(castor, didcomm, api);
     const mediatorDID = Domain.notNil(params.mediatorDID) ? Domain.DID.from(params.mediatorDID) : undefined;
-    const seed = params.seed ?? (async () => apollo.createRandomSeed().seed.value);
+    const seed: SeedFunction = params.seed ?? (() => {
+      const generatedSeed = apollo.createRandomSeed().seed;
+      return async () => generatedSeed.value;
+    })();
 
     const agent = new Agent<ExtraMethods>(
       apollo,

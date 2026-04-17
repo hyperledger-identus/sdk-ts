@@ -4,6 +4,7 @@ import { Secp256k1PrivateKey } from "../../../../apollo/utils/Secp256k1PrivateKe
 import { X25519PrivateKey } from "../../../../apollo/utils/X25519PrivateKey";
 import { AnonCredsCredential } from "../../../../plugins/internal/anoncreds";
 import { JWTCredential } from "../../../../pollux/models/JWTVerifiableCredential";
+import { SDJWTCredential } from "../../../../pollux/models/SDJWTVerifiableCredential";
 import { notEmptyString, notNil } from "../../../../utils";
 import { type IRestoreTask } from "../interfaces";
 import { base64url } from "multiformats/bases/base64";
@@ -33,7 +34,7 @@ export class RestoreTask implements IRestoreTask {
         return JWTCredential.fromJWS(decoded);
       }
       if (item.recovery_id === "sdjwt") {
-        return JWTCredential.fromJWS(decoded);
+        return SDJWTCredential.fromJWS(decoded);
       }
       if (item.recovery_id === "anoncred") {
         return AnonCredsCredential.fromJson(decoded);

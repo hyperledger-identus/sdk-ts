@@ -19,7 +19,7 @@ import { base64url } from "multiformats/bases/base64";
 import { DIDCommProtocol } from "../../src/mercury/DIDCommProtocol";
 import { ApiResponse, Pluto as IPluto, JWT } from '@hyperledger/identus-domain';
 import { Pluto } from "../../src/pluto/Pluto";
-import { Castor, ProtocolType } from "../../src";
+import { Castor, ProtocolType, SeedFunction } from "../../src";
 import { plugin as AnoncredsPlugin } from "../../src/plugins/internal/anoncreds/plugin";
 import { CredentialPreview, IssueCredential, OfferCredential, RequestCredential } from '../../src/plugins/internal/didcomm';
 import { randomUUID } from 'node:crypto';
@@ -63,9 +63,11 @@ describe("Agent Tests", () => {
       keyRestoration: apollo,
     });
     const mercury = new Mercury(castor, didProtocol, api);
-    const seed: Seed = {
+    const seedValue: Seed = {
       value: new Uint8Array([69, 191, 35, 232, 213, 102, 3, 93, 180, 106, 224, 144, 79, 171, 79, 223, 154, 217, 235, 232, 96, 30, 248, 92, 100, 38, 38, 42, 101, 53, 2, 247, 56, 111, 148, 220, 237, 122, 15, 120, 55, 82, 89, 150, 35, 45, 123, 135, 159, 140, 52, 127, 239, 148, 150, 109, 86, 145, 77, 109, 47, 60, 20, 16])
     };
+
+    const seed: SeedFunction = async () => seedValue.value
 
     agent = Agent.initialize({
       mediatorDID: DID.from("did:peer:2.Ez6LSghwSE437wnDE1pt3X6hVDUQzSjsHzinpX3XFvMjRAm7y.Vz6Mkhh1e5CEYYq6JBUcTZ6Cp2ranCWRrv7Yax3Le4N59R6dd.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6Imh0dHA6Ly8xOTIuMTY4LjEuNDQ6ODA4MCIsImEiOlsiZGlkY29tbS92MiJdfX0.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6IndzOi8vMTkyLjE2OC4xLjQ0OjgwODAvd3MiLCJhIjpbImRpZGNvbW0vdjIiXX19"),

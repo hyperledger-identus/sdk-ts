@@ -5,6 +5,7 @@ import { Task } from "../utils/tasks";
 import { type EventsManager } from "./Agent.MessageEvents";
 import { type ConnectionsManager } from "./connections/ConnectionsManager";
 import { type JobManager } from "./connections/JobManager";
+import { type SeedFunction } from "./types";
 
 export class AgentContext extends Task.Context<{
   // Agent modules
@@ -21,7 +22,7 @@ export class AgentContext extends Task.Context<{
   Pluto: Domain.Pluto;
 
   // Asyncronously fetch the short lived seed
-  Seed: () => Promise<Uint8Array>
+  Seed: SeedFunction
 
   // internal modules
   JWT: JWT;

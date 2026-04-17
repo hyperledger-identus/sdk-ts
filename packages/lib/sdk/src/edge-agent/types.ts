@@ -6,6 +6,11 @@ import {
   type PrivateKey,
   type ExportableKey,
   type Backup,
+  type Pluto,
+  type Api,
+  type Apollo,
+  type Castor,
+  type Mercury,
 } from "@hyperledger/identus-domain";
 
 import { OEA } from "../plugins/internal/oea/types";
@@ -45,6 +50,19 @@ export const ProtocolType = {
   DidcommRequestPresentation: OEA.ProtocolIds.RequestPresentation,
   DidcommPresentation: OEA.ProtocolIds.Presentation,
 };
+
+export type InitParams = {
+  pluto: Pluto;
+  mediatorDID?: DID | string;
+  api?: Api;
+  apollo?: Apollo;
+  castor?: Castor;
+  mercury?: Mercury;
+  seed?: SeedFunction;
+  options?: AgentOptions;
+};
+
+export type SeedFunction = () => Promise<Uint8Array>;
 
 export type AgentOptions = {
   mediatorDID?: DID | string;

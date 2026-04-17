@@ -5,7 +5,7 @@ import { Task } from '../../src/utils';
 import * as Fixtures from "../fixtures";
 import { mockTask } from '../testFns';
 import { PrismDIDKeyUsage, PrismDerivationPath, PrismDerivationPathSchema } from '@hyperledger/identus-domain';
-import { Apollo, Castor, Pluto } from '../../src';
+import { Apollo, Castor, Pluto, SeedFunction } from '../../src';
 import { randomUUID } from 'node:crypto';
 
 describe("CreatePrismDID", () => {
@@ -13,7 +13,7 @@ describe("CreatePrismDID", () => {
     Apollo: Domain.Apollo;
     Castor: Domain.Castor;
     Pluto: Domain.Pluto;
-    Seed: () => Promise<Uint8Array>;
+    Seed: SeedFunction;
   }>;
   let apollo: Domain.Apollo;
   let castor: Domain.Castor;
