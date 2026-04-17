@@ -13,7 +13,6 @@ describe("Mercury", () => {
 
   beforeEach(() => {
     castor = {
-      parseDID: vi.fn(),
       resolveDID: vi.fn(),
     } as any;
 
