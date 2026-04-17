@@ -55,12 +55,12 @@ export class Castor<
     return Object.values(this.#methods).map((m) => m.resolver);
   }
 
-  #getDIDMethod<M extends RegisteredName<Extras>>(method: M): MethodMap<Extras>[M] {
+  #getDIDMethod(method: string): DIDMethodInput {
     const m = this.#methods[method];
     if (!m) {
-      throw new Error(`DID method '${String(method)}' is not registered`);
+      throw new Error(`DID method '${method}' is not registered`);
     }
-    return m as unknown as MethodMap<Extras>[M];
+    return m;
   }
 
   /**
@@ -79,30 +79,25 @@ export class Castor<
   createDID<M extends RegisteredName<Extras>>(
     method: M,
     opts: CreatePayloadOf<MethodMap<Extras>[M]>,
-  ) {
-    const didMethod = this.#getDIDMethod(method);
-    return (didMethod as { create: (o: CreatePayloadOf<MethodMap<Extras>[M]>) => Promise<Domain.DID> }).create(opts);
+  ): Promise<Domain.DID> {
+    return this.#getDIDMethod(method).create(opts);
   }
 
-  async verifySignature(
+  verifySignature(
     did: Domain.DID,
     challenge: Uint8Array,
     signature: Uint8Array
   ): Promise<boolean> {
-    const didMethod = this.#getDIDMethod(did.method as RegisteredName<Extras>);
-    return (didMethod as { verifySignature: (d: Domain.DID, c: Uint8Array, s: Uint8Array) => Promise<boolean> })
-      .verifySignature(did, challenge, signature);
+    return this.#getDIDMethod(did.method).verifySignature(did, challenge, signature);
   }
 
   publishDID<M extends RegisteredName<Extras>>(
     method: M,
     opts: PublishPayloadOf<MethodMap<Extras>[M]>,
   ): Promise<MetadataOf<MethodMap<Extras>[M]>> {
-    const didMethod = this.#getDIDMethod(method) as {
-      publish?: (o: PublishPayloadOf<MethodMap<Extras>[M]>) => Promise<MetadataOf<MethodMap<Extras>[M]>>;
-    };
+    const didMethod = this.#getDIDMethod(method);
     if (!didMethod.publish) {
-      throw new Error(`DID method '${String(method)}' does not support publish operation`);
+      throw new Error(`DID method '${method}' does not support publish operation`);
     }
     return didMethod.publish(opts);
   }
@@ -111,11 +106,9 @@ export class Castor<
     method: M,
     opts: UpdatePayloadOf<MethodMap<Extras>[M]>,
   ): Promise<MetadataOf<MethodMap<Extras>[M]>> {
-    const didMethod = this.#getDIDMethod(method) as {
-      update?: (o: UpdatePayloadOf<MethodMap<Extras>[M]>) => Promise<MetadataOf<MethodMap<Extras>[M]>>;
-    };
+    const didMethod = this.#getDIDMethod(method);
     if (!didMethod.update) {
-      throw new Error(`DID method '${String(method)}' does not support update operation`);
+      throw new Error(`DID method '${method}' does not support update operation`);
     }
     return didMethod.update(opts);
   }
@@ -124,11 +117,9 @@ export class Castor<
     method: M,
     opts: DeactivatePayloadOf<MethodMap<Extras>[M]>,
   ): Promise<MetadataOf<MethodMap<Extras>[M]>> {
-    const didMethod = this.#getDIDMethod(method) as {
-      deactivate?: (o: DeactivatePayloadOf<MethodMap<Extras>[M]>) => Promise<MetadataOf<MethodMap<Extras>[M]>>;
-    };
+    const didMethod = this.#getDIDMethod(method);
     if (!didMethod.deactivate) {
-      throw new Error(`DID method '${String(method)}' does not support deactivate operation`);
+      throw new Error(`DID method '${method}' does not support deactivate operation`);
     }
     return didMethod.deactivate(opts);
   }

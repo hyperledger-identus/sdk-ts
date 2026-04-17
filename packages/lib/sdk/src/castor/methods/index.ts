@@ -1,5 +1,5 @@
-import { PrismDIDMethod } from "./prism";
-import { PeerDIDMethod } from "./peer";
+import { type PrismDIDMethod } from "./prism";
+import { type PeerDIDMethod } from "./peer";
 
 export { PrismDIDMethod } from "./prism";
 export { PeerDIDMethod } from "./peer";
