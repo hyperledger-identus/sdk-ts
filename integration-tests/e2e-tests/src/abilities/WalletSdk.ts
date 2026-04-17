@@ -9,7 +9,6 @@ import {
   ProtocolType,
   PrismDIDMethod,
   type SeedFunction,
-  InitParams,
 } from "@hyperledger/identus-sdk"
 import * as Anoncreds from "@hyperledger/identus-sdk/plugins/anoncreds"
 import axios from "axios"
@@ -124,9 +123,15 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     const pluto = await Utils.createPlutoInstance()
     const mediatorDID = Domain.DID.fromString(await WalletSdk.getMediatorDidThroughOob())
 
-    const initParams: InitParams = { apollo, pluto, mediatorDID, castor, seed }
+    this.sdk = Agent.initialize({ 
+      apollo, 
+      pluto, 
+      mediatorDID,
+      castor, 
+      seed,
+      didMethods
+    })
 
-    this.sdk = Agent.initialize(initParams)
     this.sdk.plugins.register(Anoncreds.plugin)
     this.sdk.addListener(
       ListenerKey.MESSAGE, (messages: Domain.Message[]) => {
