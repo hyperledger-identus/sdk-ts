@@ -23,13 +23,11 @@ export class KeyRepository extends MapperRepository<"keys", Domain.PrivateKey> {
   toDomain(model: Models.Key): Domain.PrivateKey {
     const domain = this.keyRestoration.restorePrivateKey({
       ...model,
-      raw: Buffer.from(model.rawHex, "hex"),
+      data: Buffer.from(model.data),
     });
-
-    if (model.index != undefined) {
+    if (model.index != undefined && !domain.keySpecification.has(Domain.KeyProperties.index)) {
       domain.keySpecification.set(Domain.KeyProperties.index, model.index.toString());
     }
-
     return this.withId(domain, model.uuid);
   }
 
@@ -40,9 +38,8 @@ export class KeyRepository extends MapperRepository<"keys", Domain.PrivateKey> {
     return {
       uuid: domain.uuid,
       recoveryId: domain.recoveryId,
-      rawHex: domain.to.String("hex"),
       index: domain.index,
-
+      data: Buffer.from(domain.data).toString(),
     };
   }
 }

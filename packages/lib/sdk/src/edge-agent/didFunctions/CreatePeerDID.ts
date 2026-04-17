@@ -68,7 +68,16 @@ export class CreatePeerDID extends Task<Domain.DID, Args> {
         )
       );
     }
-    const did = await ctx.Castor.createPeerDID(publicKeys, services);
+    const did = await ctx.Castor.createDID(
+      'peer',
+      {
+        services: services,
+        keys: {
+          KEY_AGREEMENT_KEY: [keyAgreementPrivateKey],
+          AUTHENTICATION_KEY: [authenticationPrivateKey],
+        }
+      }
+    );
 
     if (updateMediator) {
       await this.updateKeyListWithDID(ctx, did);

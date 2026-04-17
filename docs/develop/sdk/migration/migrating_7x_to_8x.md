@@ -8,11 +8,165 @@ If core internals where not in use, this breaking changes are likely to not affe
 
 The following items have been marked as deprecated and will be removed in a future version of the SDK, but are still available.
 
+# Apollo breaking changes
+
 - The Apollo key property, seed was sent as a hexString but is not UInt8Array. If you are creating private keys manually, please change seed from hexString to UInt8Array.
+
+# Castor breaking changes
+
+- The `parseDID` method has been removed from the `Castor` interface. Use the static `DID.fromString()` method instead.
+
+```typescript
+// Before
+const did = castor.parseDID("did:prism:123456");
+
+// After
+import { DID } from "@hyperledger/identus-domain";
+const did = DID.fromString("did:prism:123456");
+```
+
+- The `createPrismDID` method is replaced by `createDID('prism', opts)`. Keys are now provided as **private keys** (not public keys), and the master key is part of the `keys` object.
+
+```typescript
+// Before
+const did = await castor.createPrismDID(
+  masterPublicKey,
+  [service],
+  { ISSUING_KEY: [issuingPublicKey] }
+);
+
+// After
+const did = await castor.createDID('prism', {
+  keys: {
+    MASTER_KEY: masterPrivateKey,
+    ISSUING_KEY: [issuingPrivateKey],
+  },
+  services: [service],
+});
+```
+
+- The `createPeerDID` method is replaced by `createDID('peer', opts)`. Keys are now provided as private keys in a structured object.
+
+```typescript
+// Before
+const did = await castor.createPeerDID(
+  [authPublicKey, agreementPublicKey],
+  services
+);
+
+// After
+const did = await castor.createDID('peer', {
+  keys: {
+    AUTHENTICATION_KEY: [authPrivateKey],
+    KEY_AGREEMENT_KEY: [agreementPrivateKey],
+  },
+  services,
+});
+```
+
+- The `createPrismDIDAtalaObject` method is replaced by `publishDID`.
+
+```typescript
+// Before
+const buffer = await castor.createPrismDIDAtalaObject(privateKey, did);
+
+// After
+const buffer = await castor.publishDID('prism', {
+  key: privateKey,
+  did,
+});
+```
+
+# Agent breaking changes
+
+- Castor constructor
+
+   Castor becomes DID agnostic and easy to extend with additional did methods with all the generic operations, create, update, deactivate, resolve.
+
+The `ExtraResolver` type is removed. Pass `DIDMethodInput[]` instances instead.
+
+```typescript
+// Before
+const castor = new Castor(apollo, extraResolvers, prismResolverEndpoint);
+
+// After
+const castor = new Castor(apollo, extraMethods);
+```
+
+   -- Customize prism-did resolver
+
+   ```typescript
+import { PrismDIDMethod } from "@hyperledger/identus-sdk";
+
+const castor = new Castor(apollo, [
+  new PrismDIDMethod("https://my-vdr.example.com/"),
+]);
+```
+
+   -2 Adding a custom did method
+
+   Implement the `DIDMethod` interface and pass an instance through the new
+   top-level `didMethods` parameter on `Agent.initialize` (or the `Castor`
+   constructor). TypeScript infers payloads and metadata directly from your
+   class.
+
+   ```typescript
+   import type * as Domain from "@hyperledger/identus-domain";
+   import { type DIDMethod } from "@hyperledger/identus-sdk";
+
+   export type CreatePayload = {
+     services?: Domain.DIDDocument.Service[];
+     keys: { SIGNING_KEY: Domain.PrivateKey };
+   };
+
+   export class MyDIDMethod implements DIDMethod<never, CreatePayload> {
+     method = "mymethod" as const;
+     resolver = new MyResolver();
+
+     async create(opts: CreatePayload): Promise<Domain.DID> {
+       // ...
+     }
+
+     async verifySignature(did, challenge, signature) {
+       // ...
+     }
+   }
+   ```
+
+   Register with the Agent:
+
+   ```typescript
+   const agent = Agent.initialize({
+     pluto,
+     didMethods: [new MyDIDMethod()],
+   });
+
+   await agent.createDID("mymethod", {
+     keys: { SIGNING_KEY: sk },
+   }); // fully typed
+   ```
 
 - Agent.initialize now accepts an async function that returns a seed (UInt8Array) vs previous hexString, if no seed function is provided, will start with random seed
 
-- CreatePrismDID and CreatePrismDIDArgs from @hyperledger/identus-sdk, can still be used but is deprecated. We are introducing a new simplified function CreatePrismDIDWithKeys and type CreatePrismDIDWithKeysArgs from @hyperledger/identus-sdk
+1. CreatePrismDID and CreatePrismDIDArgs from @hyperledger/identus-sdk, can still be used but is deprecated. We are introducing a new simplified function CreatePrismDIDWithKeys and type CreatePrismDIDWithKeysArgs from @hyperledger/identus-sdk
+
+2. `agent.createNewPrismDID()` and `agent.createNewPeerDID()` are not replaced by `agent.createDID`.
+
+```typescript
+// Create a Prism DID through the Agent
+const prismDID = await agent.createDID('prism', {
+  keys: { MASTER_KEY: masterSK },
+  alias: 'my-issuer',
+});
+
+// Create a Peer DID through the Agent
+const peerDID = await agent.createDID('peer', {
+  keys: {
+    AUTHENTICATION_KEY: [authSK],
+    KEY_AGREEMENT_KEY: [agreementSK],
+  },
+});
+```
 
 ### Deprecated exports
 

@@ -1,7 +1,6 @@
 import { PrismDIDMethodId } from "../../castor/did/prismDID/PrismDIDMethodId";
-import { type DIDResolver, type DIDDocument, type Apollo } from "@hyperledger/identus-domain";
+import { type DIDResolver, type DIDDocument, DID } from "@hyperledger/identus-domain";
 
-import * as DIDParser from "../parser/DIDParser";
 import { LongFormPrismDIDResolver } from "./LongFormPrismDIDResolver";
 import { DIDResolverHttpProxy } from "./DIDResolverHttpProxy";
 
@@ -11,15 +10,14 @@ export class PrismDIDResolver implements DIDResolver {
   private proxyPrismDIDResolver;
 
   constructor(
-    private apollo: Apollo,
     prismResolverEndpoint: string = "https://raw.githubusercontent.com/FabioPinheiro/prism-vdr/refs/heads/main/mainnet/diddoc/",
   ) {
-    this.longFormPrismDIDResolver = new LongFormPrismDIDResolver(apollo);
+    this.longFormPrismDIDResolver = new LongFormPrismDIDResolver();
     this.proxyPrismDIDResolver = new DIDResolverHttpProxy(prismResolverEndpoint, "prism");
   }
 
   async resolve(didString: string): Promise<DIDDocument> {
-    const did = DIDParser.parse(didString);
+    const did = DID.fromString(didString);
     const methodId = new PrismDIDMethodId(did.methodId);
 
     if (methodId.isShortform()) {

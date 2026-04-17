@@ -2,6 +2,147 @@ import { isString } from "../utils/guards";
 import { DID } from "./DID";
 import { type JWK } from "./keyManagement";
 
+export enum VerificationMaterialFormatDID {
+  JWK = "jwk",
+}
+
+export interface VerificationMethodTypeDID {
+  value: string;
+}
+
+export class BaseVerificationMethod implements VerificationMethodTypeDID {
+  constructor(public value: DIDDocument.VerificationMethod.Type) { }
+}
+
+export enum Numalgo2Prefix {
+  authentication = "V",
+  keyAgreement = "E",
+  service = "S",
+}
+
+export type OctetPublicKey = {
+  kty: "OKP";
+  crv: string;
+  x: string;
+};
+
+export class VerificationMethodTypeAgreement extends BaseVerificationMethod {
+  static JSON_WEB_KEY_2020 = new VerificationMethodTypeAgreement(
+    "JsonWebKey2020"
+  );
+  static X25519_KEY_AGREEMENT_KEY_2019 = new VerificationMethodTypeAgreement(
+    "X25519KeyAgreementKey2019"
+
+  );
+  static X25519_KEY_AGREEMENT_KEY_2020 = new VerificationMethodTypeAgreement(
+    "X25519KeyAgreementKey2020"
+  );
+}
+
+export class VerificationMethodTypeAuthentication extends BaseVerificationMethod {
+  static JSON_WEB_KEY_2020 = new VerificationMethodTypeAuthentication(
+    "JsonWebKey2020"
+  );
+  static ED25519_KEY_AGREEMENT_KEY_2018 =
+    new VerificationMethodTypeAuthentication(
+      "Ed25519VerificationKey2018"
+    );
+  static ED25519_KEY_AGREEMENT_KEY_2020 =
+    new VerificationMethodTypeAuthentication(
+      "Ed25519VerificationKey2020"
+    );
+}
+
+export type VerificationMaterial =
+  | VerificationMaterialAgreement
+  | VerificationMaterialAuthentication;
+
+export interface VerificationMethodTypePeerDIDWithAgreement
+  extends VerificationMethodTypeDID {
+  agreement: VerificationMethodTypeAgreement;
+}
+
+export interface VerificationMethodTypePeerDIDWithAuthentication
+  extends VerificationMethodTypeDID {
+  authentication: VerificationMethodTypeAuthentication;
+}
+
+export type VerificationMaterialPeerDIDType = 1;
+export interface VerificationMaterialPeerDID {
+  keyType: VerificationMethodTypeDID;
+  value: string;
+}
+
+export class VerificationMaterialPeerDIDWithAgreement
+  implements VerificationMaterialPeerDID {
+  constructor(
+    public keyType: VerificationMethodTypeDID,
+    public value: string,
+    public agreement: VerificationMaterialAgreement
+  ) { }
+}
+
+export class VerificationMaterialPeerDIDWithAuthentication
+  implements VerificationMaterialPeerDID {
+  constructor(
+    public keyType: VerificationMethodTypeDID,
+    public value: string,
+    public authentication: VerificationMaterialAuthentication
+  ) { }
+}
+
+export class VerificationMaterialAgreement
+  implements VerificationMaterialPeerDIDWithAgreement {
+  public readonly format: VerificationMaterialFormatDID;
+  public readonly value: string;
+  public readonly type: VerificationMethodTypeAgreement;
+
+  constructor(
+    value: string,
+    type: VerificationMethodTypeAgreement,
+    format: VerificationMaterialFormatDID
+  ) {
+    this.format = format;
+    this.value = value;
+    this.type = type;
+  }
+
+  get keyType(): VerificationMethodTypeDID {
+    return this.type;
+  }
+
+  get agreement(): VerificationMaterialAgreement {
+    return this;
+  }
+}
+
+export class VerificationMaterialAuthentication
+  implements VerificationMaterialPeerDIDWithAuthentication {
+  public readonly format: VerificationMaterialFormatDID;
+  public readonly value: string;
+  public readonly type: VerificationMethodTypeAuthentication;
+
+  constructor(
+    value: string,
+    type: VerificationMethodTypeAuthentication,
+    format: VerificationMaterialFormatDID
+  ) {
+    this.format = format;
+    this.value = value;
+    this.type = type;
+  }
+
+  get keyType(): VerificationMethodTypeDID {
+    return this.type;
+  }
+
+  get authentication(): VerificationMaterialAuthentication {
+    return this;
+  }
+}
+
+
+
 export class DIDDocument {
   constructor(
     public id: DID,
@@ -95,8 +236,15 @@ export class DIDDocument {
     DIDDocument.parseVerificationMethodGroup(didDocumentJson.assertionMethod, didDocumentJson.verificationMethod, assertionMethod);
     DIDDocument.parseVerificationMethodGroup(didDocumentJson.keyAgreement, didDocumentJson.verificationMethod, keyAgreement);
 
+    const didDocumentServices = didDocumentJson.service ?? []
     const servicesProperty =
-      new DIDDocument.Services(didDocumentJson.service);
+      new DIDDocument.Services(
+        didDocumentServices.map((service: any) => new DIDDocument.Service(
+          service.id,
+          service.type,
+          service.serviceEndpoint
+        ))
+      );
     const verificationMethodsProperty =
       new DIDDocument.VerificationMethods(didDocumentJson.verificationMethod);
 
@@ -239,14 +387,17 @@ export namespace DIDDocument {
 
     constructor(
       public id: string,
-      public type: Array<string>,
+      public type: Array<string> | string,
       endpoint: ServiceEndpoint | string,
     ) {
       this.serviceEndpoint = isString(endpoint) ? new ServiceEndpoint(endpoint) : endpoint;
     }
 
     get isDIDCommMessaging(): boolean {
-      return this.type.includes("DIDCommMessaging");
+      if (typeof this.type === "string") {
+        return this.type === "DIDCommMessaging";
+      }
+      return this.type.includes("DIDCommMessaging")
     }
   }
 

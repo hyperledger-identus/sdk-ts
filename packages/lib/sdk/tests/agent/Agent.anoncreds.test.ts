@@ -14,7 +14,6 @@ import {
   Message,
   Seed,
   StorableCredential,
-  Castor as CastorType
 } from '@hyperledger/identus-domain';
 import { base64url } from "multiformats/bases/base64";
 import { DIDCommProtocol } from "../../src/mercury/DIDCommProtocol";
@@ -30,7 +29,7 @@ import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds';
 
 let agent: Agent;
 let pluto: IPluto;
-let castor: CastorType;
+let castor: Castor;
 
 let api: Api;
 

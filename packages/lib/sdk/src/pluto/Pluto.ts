@@ -9,7 +9,7 @@
  */
 import * as Domain from "@hyperledger/identus-domain";
 import * as Models from "./models";
-import { PeerDID } from "../peer-did/PeerDID";
+import { PeerDID } from "../castor/methods/peer/PeerDID";
 import { BackupManager } from "./backup/BackupManager";
 import { type PlutoRepositories, repositoryFactory } from "./repositories";
 import { type Arrayable, asArray, notNil } from "../utils";

@@ -1,11 +1,21 @@
 import * as Domain from "@hyperledger/identus-domain";
-import { Mercury } from "../mercury";
+import { Mercury, DIDCommDIDResolver, DIDCommSecretsResolver } from "../mercury";
 import { DIDCommWrapper } from "@hyperledger/identus-didcomm";
 import {
   type AgentOptions,
   type EventCallback,
   type ListenerKey,
 } from "./types";
+import {
+  type CreatePayloadOf,
+  type PublishPayloadOf,
+  type UpdatePayloadOf,
+  type DeactivatePayloadOf,
+  type MetadataOf,
+  type MethodMapOf,
+} from "../castor/methods/types";
+import { type PrismDIDMethod, type PeerDIDMethod } from "../castor/methods";
+import { type DIDMethodInput } from "../castor/types";
 
 import { AgentBackup } from "./Agent.Backup";
 import { ConnectionsManager } from "./connections/ConnectionsManager";
@@ -39,12 +49,32 @@ import { HandleOOBInvitation } from "../plugins/internal/didcomm/tasks/HandleOOB
 import { CreatePeerDID } from "./didFunctions";
 
 /**
+ * Map from the DID method names registered on this Agent to their
+ * concrete DID method instance types. Combines the built-in `prism` /
+ * `peer` methods with any extras supplied via `Agent.initialize`.
+ */
+type AgentMethodMap<Extras extends readonly DIDMethodInput[]> =
+  MethodMapOf<readonly [PrismDIDMethod, PeerDIDMethod, ...Extras]>;
+
+/** Registered DID method name on this Agent instance. */
+type AgentMethodName<Extras extends readonly DIDMethodInput[]> =
+  keyof AgentMethodMap<Extras> & string;
+
+/**
  * Edge agent implementation
+ *
+ * The optional tuple type parameter `Extras` carries the concrete types of
+ * any extra DID methods passed to {@link Agent.initialize}, so that
+ * `createDID`, `publishDID`, `updateDID` and `deactivateDID` only accept
+ * method names that are actually registered and infer their payload types
+ * directly from the passed DID method instances.
  *
  * @class Agent
  * @typedef {Agent}
  */
-export class Agent extends Domain.Startable.Controller {
+export class Agent<
+  Extras extends readonly DIDMethodInput[] = readonly []
+> extends Domain.Startable.Controller {
   public backup: AgentBackup;
   public readonly connections: ConnectionsManager;
   public readonly events: EventsManager;
@@ -53,7 +83,7 @@ export class Agent extends Domain.Startable.Controller {
 
   private constructor(
     public readonly apollo: Domain.Apollo,
-    public readonly castor: Domain.Castor,
+    public readonly castor: Castor<Extras>,
     public readonly pluto: Domain.Pluto,
     public readonly mercury: Domain.Mercury,
     public readonly seed: () => Promise<Uint8Array>,
@@ -75,11 +105,17 @@ export class Agent extends Domain.Startable.Controller {
 
   /**
    * Convenience initializer for Agent
-   * allowing default instantiation, omitting all but the absolute necessary parameters
-   * 
+   * allowing default instantiation, omitting all but the absolute necessary parameters.
+   *
+   * DID methods registered through the top-level `didMethods` param are
+   * propagated through to the Agent's type parameter, so `agent.createDID`
+   * and friends are fully typed against them (defaults `"prism" | "peer"`
+   * plus any extras).
+   *
    * @param {Object} params - dependencies object
    * @param {DID | string} params.mediatorDID - did of the mediator to be used
    * @param {Pluto} params.pluto - storage implementation
+   * @param {ReadonlyArray<DIDMethodInput>} [params.didMethods] - custom DID methods to register alongside the built-in prism/peer methods
    * @param {Api} [params.api]
    * @param {Apollo} [params.apollo]
    * @param {Castor} [params.castor]
@@ -87,26 +123,32 @@ export class Agent extends Domain.Startable.Controller {
    * @param {Seed} [params.seed]
    * @returns {Agent}
    */
-  static initialize(params: {
+  static initialize<
+    const ExtraMethods extends readonly DIDMethodInput[] = readonly []
+  >(params: {
     pluto: Domain.Pluto;
+    didMethods?: ExtraMethods;
     mediatorDID?: Domain.DID | string;
     api?: Domain.Api;
     apollo?: Domain.Apollo;
-    castor?: Domain.Castor;
+    castor?: Castor<ExtraMethods>;
     mercury?: Domain.Mercury;
     seed?: () => Promise<Uint8Array>;
     options?: AgentOptions;
-  }): Agent {
+  }): Agent<ExtraMethods> {
     const pluto = params.pluto;
     const api = params.api ?? new FetchApi();
     const apollo = params.apollo ?? new Apollo();
-    const castor = params.castor ?? new Castor(apollo, undefined, params.options?.resolverEndpoint);
-    const didcomm = new DIDCommWrapper(apollo, castor, pluto);
+    const extraMethods = (params.didMethods ?? params.options?.didMethods) as ExtraMethods | undefined;
+    const castor = params.castor ?? new Castor<ExtraMethods>(apollo, extraMethods);
+    const didResolver = new DIDCommDIDResolver(castor);
+    const secretsResolver = new DIDCommSecretsResolver(apollo, castor, pluto);
+    const didcomm = new DIDCommWrapper(didResolver, secretsResolver);
     const mercury = params.mercury ?? new Mercury(castor, didcomm, api);
     const mediatorDID = Domain.notNil(params.mediatorDID) ? Domain.DID.from(params.mediatorDID) : undefined;
     const seed = params.seed ?? (async () => apollo.createRandomSeed().seed.value);
 
-    const agent = new Agent(
+    const agent = new Agent<ExtraMethods>(
       apollo,
       castor,
       pluto,
@@ -233,6 +275,103 @@ export class Agent extends Domain.Startable.Controller {
   }
 
   /**
+   * Create a new DID using the specified method, store it in Pluto,
+   * and (for peer DIDs) update the mediator key list.
+   *
+   * The method name is statically checked against the DID methods actually
+   * registered on this Agent (the built-in `prism` / `peer` plus any
+   * custom ones supplied via {@link Agent.initialize}) and the payload
+   * type is inferred directly from the matching DID method instance.
+   *
+   * @typeParam M - registered DID method name (e.g. `"prism"`, `"peer"`, or a custom method)
+   * @param method - the DID method to use
+   * @param opts - method-specific creation options; may include an optional
+   *   `alias` string that is persisted alongside the DID
+   * @returns the newly created DID
+   *
+   * @example
+   * ```ts
+   * const prismDID = await agent.createDID('prism', {
+   *   keys: { MASTER_KEY: masterSK },
+   *   alias: 'my-issuer',
+   * });
+   *
+   * const peerDID = await agent.createDID('peer', {
+   *   keys: {
+   *     AUTHENTICATION_KEY: [authSK],
+   *     KEY_AGREEMENT_KEY: [agreementSK],
+   *   },
+   * });
+   * ```
+   */
+  createDID<M extends AgentMethodName<Extras>>(
+    method: M,
+    opts: CreatePayloadOf<AgentMethodMap<Extras>[M]> & { alias?: string },
+  ): Promise<Domain.DID> {
+    if (method === 'prism') {
+      const prismOpts = opts as unknown as CreatePayloadOf<PrismDIDMethod> & { alias?: string };
+      if (!prismOpts.keys?.MASTER_KEY) {
+        throw new Error("MASTER_KEY is required");
+      }
+      const task = new DIDfns.CreatePrismDIDWithKeys(prismOpts);
+      return this.runTask(task);
+    }
+
+    if (method === 'peer') {
+      const peerOpts = opts as unknown as CreatePayloadOf<PeerDIDMethod>;
+      const task = new DIDfns.CreatePeerDID({
+        ...peerOpts,
+        services: peerOpts.services ?? [],
+        updateMediator: true,
+      });
+      return this.runTask(task);
+    }
+
+    // Delegate custom / user-supplied DID methods to Castor directly.
+    return this.castor.createDID(method, opts);
+  }
+
+  /**
+   * Publish a DID via its registered method.
+   *
+   * The method name and payload are statically checked against the DID
+   * methods registered on this Agent; the return type is the metadata
+   * type declared by the matching DID method instance.
+   */
+  publishDID<M extends AgentMethodName<Extras>>(
+    method: M,
+    opts: PublishPayloadOf<AgentMethodMap<Extras>[M]>,
+  ): Promise<MetadataOf<AgentMethodMap<Extras>[M]>> {
+    return this.castor.publishDID(method, opts);
+  }
+
+  /**
+   * Update a DID via its registered method.
+   *
+   * The method name and payload are statically checked against the DID
+   * methods registered on this Agent.
+   */
+  updateDID<M extends AgentMethodName<Extras>>(
+    method: M,
+    opts: UpdatePayloadOf<AgentMethodMap<Extras>[M]>,
+  ): Promise<MetadataOf<AgentMethodMap<Extras>[M]>> {
+    return this.castor.updateDID(method, opts);
+  }
+
+  /**
+   * Deactivate a DID via its registered method.
+   *
+   * The method name and payload are statically checked against the DID
+   * methods registered on this Agent.
+   */
+  deactivateDID<M extends AgentMethodName<Extras>>(
+    method: M,
+    opts: DeactivatePayloadOf<AgentMethodMap<Extras>[M]>,
+  ): Promise<MetadataOf<AgentMethodMap<Extras>[M]>> {
+    return this.castor.deactivateDID(method, opts);
+  }
+
+  /**
    * Asyncronously create a new PrismDID
    * 
    * @param {string} alias
@@ -250,23 +389,6 @@ export class Agent extends Domain.Startable.Controller {
   }
 
   /**
-   * Asyncronously create a new PrismDID
-   * @deprecated Use createPrismDID instead, this method will be removed in a future release
-   * 
-   * @param {string} alias
-   * @param {DIDDocumentService[]} [services=[]]
-   * @param {?number} [keyPathIndex]
-   * @returns {Promise<DID>}
-   */
-  async createNewPrismDID(
-    alias: string,
-    services: Domain.DIDDocument.Service[] = [],
-    keyPathIndex?: number
-  ): Promise<Domain.DID> {
-    return this.createPrismDID(alias, services, keyPathIndex)
-  }
-
-  /**
    * Asyncronously Create a new PeerDID
    * 
    * @param {DIDDocumentService[]} [services=[]]
@@ -279,21 +401,6 @@ export class Agent extends Domain.Startable.Controller {
   ): Promise<Domain.DID> {
     const task = new CreatePeerDID({ services, updateMediator });
     return this.runTask(task);
-  }
-
-  /**
-   * Asyncronously Create a new PeerDID
-   * @deprecated Use createPeerDID instead, this method will be removed in a future release
-   * 
-   * @param {DIDDocumentService[]} [services=[]]
-   * @param {boolean} [updateMediator=true]
-   * @returns {Promise<DID>}
-   */
-  async createNewPeerDID(
-    services: Domain.DIDDocument.Service[] = [],
-    updateMediator = true
-  ): Promise<Domain.DID> {
-    return this.createPeerDID(services, updateMediator)
   }
 
   /**

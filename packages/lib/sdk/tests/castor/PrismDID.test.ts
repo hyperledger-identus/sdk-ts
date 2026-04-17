@@ -3,7 +3,6 @@ import { base58btc } from "multiformats/bases/base58";
 import { Apollo } from "../../src/apollo";
 import { Castor } from "../../src/castor";
 import { ECConfig } from "@hyperledger/identus-domain";
-import { Secp256k1PublicKey } from "../../src/apollo/utils/Secp256k1PublicKey";
 import * as Fixtures from "../fixtures";
 import * as Protos from "@hyperledger/identus-protos";
 import { ed25519, x25519 } from "../fixtures/keys";
@@ -36,9 +35,16 @@ describe("PrismDID",
 
     describe("createPrismDID", () => {
       it("Should create a signed prism did AtalaObject", async () => {
-        const { publicKey, privateKey } = Fixtures.Keys.secp256K1;
-        const did = await castor.createPrismDID(publicKey);
-        const atalaObjectBuffer = await castor.createPrismDIDAtalaObject(privateKey, did);
+        const { privateKey } = Fixtures.Keys.secp256K1;
+        const did = await castor.createDID(
+          'prism',
+          {
+            keys: {
+              MASTER_KEY: privateKey
+            }
+          }
+        );
+        const atalaObjectBuffer = await castor.publishDID('prism', { key: privateKey, did: did });
         const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(atalaObjectBuffer);
 
         expect(atalaObject).toHaveProperty("block_content");
@@ -52,26 +58,19 @@ describe("PrismDID",
         // expect(atalaObject.block_content.operations[0].operation.create_did.did_data.public_keys[0].id).toEqual(getUsageId(Usage.MASTER_KEY, 0));
       });
       it("Should create a prismDID from a PublicKey (SECP256K1)", async () => {
-        const result = await castor.createPrismDID(Fixtures.Keys.secp256K1.publicKey, [], [Fixtures.Keys.secp256K1]);
+        const result = await castor.createDID(
+          'prism',
+          {
+            keys: {
+              MASTER_KEY: Fixtures.Keys.secp256K1.privateKey,
+              AUTHENTICATION_KEY: [Fixtures.Keys.secp256K1.privateKey]
+            }
+          }
+        );
+
+
         expect(result).not.toBeNull();
         expect(result.toString()).toEqual(secpDid);
-      });
-
-      it("Should create a prismDID from a KeyPair (SECP256K1)", async () => {
-        const result = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [Fixtures.Keys.secp256K1]);
-        expect(result).not.toBeNull();
-        expect(result.toString()).toEqual(secpDid);
-      });
-
-      it("Should create a prismDID from a KeyPair (Ed25519)", async () => {
-        const result = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [Fixtures.Keys.ed25519]);
-        expect(result).not.toBeNull();
-        expect(result.toString()).toEqual(ed25519Did);
-      });
-
-      it("Should create a prismDID from a KeyPair (X25519)", async () => {
-        const result = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [Fixtures.Keys.x25519]);
-        expect(result.toString()).toEqual(x25519Did);
       });
     });
 
@@ -136,11 +135,17 @@ describe("PrismDID",
         };
 
         test("master key", async () => {
-          const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
-            [],
-            [Fixtures.Keys.secp256K1,]
+          const prismDid = await castor.createDID(
+            'prism',
+            {
+              keys: {
+                MASTER_KEY: Fixtures.Keys.secp256K1.privateKey,
+                AUTHENTICATION_KEY: [Fixtures.Keys.secp256K1.privateKey]
+              }
+            }
           );
+
+
           const sut = await castor.resolveDID(prismDid.toString());
 
           expect(sut).not.toBeNull();
@@ -172,7 +177,18 @@ describe("PrismDID",
 
         test("issuing keys", async () => {
           const expectedDid = "did:prism:4bc64000a571d546caa789e24c1ad58eb13a06ce597f475b533a164fe969ac52:CucBCuQBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSQQoQYXV0aGVudGljYXRpb24tMBAESisKB0VkMjU1MTkSIHZuX9hnUeQWh6UcQfG0xJbxP9ICAtqeNODLMfbMCfdeEkAKEGF1dGhlbnRpY2F0aW9uLTEQBEoqCgZYMjU1MTkSIPz4x3nxYfR-6h91bezDvFRDfhdj5VnF83ccOiz5MRBh";
-          const prismDid = await castor.createPrismDID(Fixtures.Keys.secp256K1, [], [ed25519, x25519]);
+
+
+          const prismDid = await castor.createDID(
+            'prism',
+            {
+              keys: {
+                MASTER_KEY: Fixtures.Keys.secp256K1.privateKey,
+                AUTHENTICATION_KEY: [ed25519.privateKey, x25519.privateKey]
+              }
+            }
+          );
+
           const sut = await castor.resolveDID(prismDid.toString());
 
           expect(sut.coreProperties).to.be.an("array").toHaveLength(2);
@@ -207,11 +223,19 @@ describe("PrismDID",
         });
 
         test("ISSUING_KEY (secp256k1) appears in AssertionMethod via usage-keyed API", async () => {
-          const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
-            [],
-            { ISSUING_KEY: [Fixtures.Keys.secp256K1.publicKey] }
+
+          const prismDid = await castor.createDID(
+            'prism',
+            {
+              keys: {
+                MASTER_KEY: Fixtures.Keys.secp256K1.privateKey,
+                ISSUING_KEY: [Fixtures.Keys.secp256K1.privateKey]
+              }
+            }
           );
+
+
+
           const sut = await castor.resolveDID(prismDid.toString());
 
           // master + issuing = 2 verification methods
@@ -237,11 +261,16 @@ describe("PrismDID",
         });
 
         test("ISSUING_KEY (Ed25519) appears in AssertionMethod via usage-keyed API", async () => {
-          const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
-            [],
-            { ISSUING_KEY: [ed25519.publicKey] }
+          const prismDid = await castor.createDID(
+            'prism',
+            {
+              keys: {
+                MASTER_KEY: Fixtures.Keys.secp256K1.privateKey,
+                ISSUING_KEY: [ed25519.privateKey],
+              }
+            }
           );
+
           const sut = await castor.resolveDID(prismDid.toString());
 
           const assertionMethod = sut.coreProperties.find(
@@ -256,12 +285,14 @@ describe("PrismDID",
         });
 
         test("ISSUING_KEY + AUTHENTICATION_KEY appear in separate core properties", async () => {
-          const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
-            [],
+          const prismDid = await castor.createDID(
+            'prism',
             {
-              AUTHENTICATION_KEY: [Fixtures.Keys.secp256K1.publicKey],
-              ISSUING_KEY: [ed25519.publicKey],
+              keys: {
+                MASTER_KEY: Fixtures.Keys.secp256K1.privateKey,
+                AUTHENTICATION_KEY: [Fixtures.Keys.secp256K1.privateKey],
+                ISSUING_KEY: [ed25519.privateKey],
+              }
             }
           );
           const sut = await castor.resolveDID(prismDid.toString());
@@ -290,11 +321,15 @@ describe("PrismDID",
         });
 
         test("multiple ISSUING_KEYs all appear in AssertionMethod", async () => {
-          const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
-            [],
-            { ISSUING_KEY: [Fixtures.Keys.secp256K1.publicKey, ed25519.publicKey] }
-          );
+          const prismDid = await castor.createDID('prism', {
+            keys: {
+              MASTER_KEY: Fixtures.Keys.secp256K1.privateKey,
+              ISSUING_KEY: [Fixtures.Keys.secp256K1.privateKey, ed25519.privateKey]
+            },
+            services: []
+          });
+
+
           const sut = await castor.resolveDID(prismDid.toString());
 
           const assertionMethod = sut.coreProperties.find(
@@ -307,11 +342,13 @@ describe("PrismDID",
         });
 
         test("usage-keyed API with only AUTHENTICATION_KEY produces Authentication, no AssertionMethod", async () => {
-          const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
-            [],
-            { AUTHENTICATION_KEY: [ed25519.publicKey] }
-          );
+          const prismDid = await castor.createDID('prism', {
+            keys: {
+              MASTER_KEY: Fixtures.Keys.secp256K1.privateKey,
+              AUTHENTICATION_KEY: [ed25519.privateKey]
+            },
+            services: []
+          });
           const sut = await castor.resolveDID(prismDid.toString());
 
           // master + auth = 2 verification methods
@@ -336,11 +373,12 @@ describe("PrismDID",
         });
 
         test("empty PrismDIDKeys object produces DID with only master key", async () => {
-          const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
-            [],
-            {}
-          );
+          const prismDid = await castor.createDID('prism', {
+            keys: {
+              MASTER_KEY: Fixtures.Keys.secp256K1.privateKey,
+            },
+            services: []
+          });
           const sut = await castor.resolveDID(prismDid.toString());
 
           const verificationMethods = sut.coreProperties.find(
@@ -363,58 +401,15 @@ describe("PrismDID",
           expect(assertionMethod).toBeUndefined();
         });
 
-        test("legacy array API still works and routes to AUTHENTICATION_KEY", async () => {
-          const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
-            [],
-            [ed25519.publicKey]
-          );
-          const sut = await castor.resolveDID(prismDid.toString());
-
-          const authentication = sut.coreProperties.find(
-            (prop): prop is DIDDocument.Authentication => prop instanceof DIDDocument.Authentication
-          );
-          expect(authentication).toBeInstanceOf(DIDDocument.Authentication);
-          expect(authentication!.verificationMethods).toHaveLength(1);
-          expect(authentication!.urls[0]).toContain("#authentication-0");
-        });
-
-        test("legacy array API with 4th arg routes to ISSUING_KEY", async () => {
-          const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
-            [],
-            [Fixtures.Keys.secp256K1.publicKey],
-            [ed25519.publicKey]
-          );
-          const sut = await castor.resolveDID(prismDid.toString());
-
-          // master + auth + issuing = 3 VMs
-          const verificationMethods = sut.coreProperties.find(
-            (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
-          );
-          expect(verificationMethods!.values).toHaveLength(3);
-
-          // Authentication bucket
-          const authentication = sut.coreProperties.find(
-            (prop): prop is DIDDocument.Authentication => prop instanceof DIDDocument.Authentication
-          );
-          expect(authentication).toBeInstanceOf(DIDDocument.Authentication);
-          expect(authentication!.urls[0]).toContain("#authentication-0");
-
-          // AssertionMethod bucket
-          const assertionMethod = sut.coreProperties.find(
-            (prop): prop is DIDDocument.AssertionMethod => prop instanceof DIDDocument.AssertionMethod
-          );
-          expect(assertionMethod).toBeInstanceOf(DIDDocument.AssertionMethod);
-          expect(assertionMethod!.urls[0]).toContain("#issuing-0");
-        });
-
         test("usage-keyed API with X25519 AUTHENTICATION_KEY", async () => {
-          const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
-            [],
-            { AUTHENTICATION_KEY: [x25519.publicKey] }
-          );
+          const prismDid = await castor.createDID('prism', {
+            keys: {
+              MASTER_KEY: Fixtures.Keys.secp256K1.privateKey,
+              AUTHENTICATION_KEY: [x25519.privateKey]
+            },
+            services: []
+          });
+
           const sut = await castor.resolveDID(prismDid.toString());
 
           const authentication = sut.coreProperties.find(
@@ -433,11 +428,13 @@ describe("PrismDID",
             ["DIDCommMessaging"],
             new DIDDocument.ServiceEndpoint("https://example.com")
           );
-          const prismDid = await castor.createPrismDID(
-            Fixtures.Keys.secp256K1,
-            [service],
-            { ISSUING_KEY: [ed25519.publicKey] }
-          );
+          const prismDid = await castor.createDID('prism', {
+            keys: {
+              MASTER_KEY: Fixtures.Keys.secp256K1.privateKey,
+              ISSUING_KEY: [ed25519.privateKey]
+            },
+            services: [service]
+          });
           const sut = await castor.resolveDID(prismDid.toString());
 
           // AssertionMethod
@@ -456,41 +453,13 @@ describe("PrismDID",
         });
       });
 
-      it("Should correctly create a prismDID from an existing HexKey", async () => {
-        const didExample = "did:prism:4a1525a94cc3d91af5584c2335e57969c10fe945a8b665d0bdadabbfc5f6ec99:CmEKXxJdCghtYXN0ZXItMBABQk8KCXNlY3AyNTZrMRIgNLnN5hSQsJIAksjpotdFM9HGy0Is9QQjpOAGsBUIeTAaIOT59-SWscgVbukqRPyL5iSxeL5deLmHfVzNQxpUKVyn";
-        const resolvedDID = await castor.resolveDID(didExample);
-
-        const pubHex = "0434b9cde61490b0920092c8e9a2d74533d1c6cb422cf50423a4e006b015087930e4f9f7e496b1c8156ee92a44fc8be624b178be5d78b9877d5ccd431a54295ca7";
-        const masterPublicKey = new Secp256k1PublicKey(Buffer.from(pubHex, "hex"));
-
-        const createdDID = await castor.createPrismDID(masterPublicKey, []);
-        const resolveCreated = await castor.resolveDID(createdDID.toString());
-
-        const verificationMethod = resolveCreated.coreProperties.find(
-          (prop): prop is DIDDocument.VerificationMethods => prop instanceof DIDDocument.VerificationMethods
-        );
-
-        const resolvedPublicKeyMultibase =
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-          verificationMethod?.values.at(0)?.publicKeyMultibase!;
-
-        const resolvedPublicKeyBuffer = Buffer.from(
-          base58btc.decode(resolvedPublicKeyMultibase)
-        );
-
-        expect(resolvedPublicKeyBuffer).to.deep.equal(masterPublicKey.raw);
-        expect(resolveCreated.id.toString()).toEqual(resolvedDID.id.toString());
-      });
-
       it("Create a PrismDID and verify a signature", async () => {
         const privateKey = await apollo.createPrivateKey({
           type: KeyTypes.EC,
           curve: Curve.SECP256K1,
           seed: apollo.createRandomSeed().seed.value,
         });
-        const publicKey = privateKey.publicKey();
-
-        const did = await castor.createPrismDID(publicKey, []);
+        const did = await castor.createDID('prism', { keys: { MASTER_KEY: privateKey } });
         const text = "The quick brown fox jumps over the lazy dog";
         const signature =
           privateKey.isSignable() && privateKey.sign(Buffer.from(text));
@@ -522,7 +491,15 @@ describe("PrismDID",
           seed: issuerSeed.value,
         });
 
-        const did = await castor.createPrismDID(masterSk.publicKey(), [], [sk.publicKey()]);
+        const did = await castor.createDID(
+          'prism',
+          {
+            keys: {
+              MASTER_KEY: masterSk,
+              ISSUING_KEY: [sk]
+            }
+          }
+        );
         const text = "The quick brown fox jumps over the lazy dog";
         const signature =
           sk.isSignable() && sk.sign(Buffer.from(text));

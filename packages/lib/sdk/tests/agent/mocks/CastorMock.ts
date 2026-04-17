@@ -1,10 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  DID,
-  DIDDocument,
-  PublicKey,
-  Castor
-} from '@hyperledger/identus-domain';
+import { DID, DIDDocument, Castor } from '@hyperledger/identus-domain';
 
 const castorVars = {
   _prismDID: new DID("did", "peer", "test"),
@@ -18,31 +13,31 @@ const castorVars = {
 export const CastorMock: Castor & typeof castorVars = {
   ...castorVars,
 
-  parseDID(did: string): DID {
-    throw new Error("Method not implemented.");
-  },
-  async createPrismDID(
-    masterPublicKey: PublicKey,
-    services?: DIDDocument.Service[] | undefined
-  ): Promise<DID> {
-    return castorVars._prismDID
+  async createDID(_method: string, _opts: unknown): Promise<DID> {
+    return castorVars._prismDID;
   },
 
-  async createPeerDID(publicKeys: PublicKey[], services: DIDDocument.Service[]): Promise<DID> {
-    return castorVars._peerDID;
-  },
-
-  resolveDID(did: string): Promise<DIDDocument> {
+  async publishDID(_method: string, _opts: unknown): Promise<unknown> {
     throw new Error("Method not implemented.");
   },
+
+  async updateDID(_method: string, _opts: unknown): Promise<unknown> {
+    throw new Error("Method not implemented.");
+  },
+
+  async deactivateDID(_method: string, _opts: unknown): Promise<unknown> {
+    throw new Error("Method not implemented.");
+  },
+
+  resolveDID(_did: string): Promise<DIDDocument> {
+    throw new Error("Method not implemented.");
+  },
+
   verifySignature(
-    did: DID,
-    challenge: Uint8Array,
-    signature: Uint8Array
+    _did: DID,
+    _challenge: Uint8Array,
+    _signature: Uint8Array
   ): Promise<boolean> {
-    throw new Error("Method not implemented.");
-  },
-  getEcnumbasis(did: DID, publicKey: PublicKey): string {
     throw new Error("Method not implemented.");
   },
 };

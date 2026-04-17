@@ -1,6 +1,8 @@
 import { type Pluto } from "../buildingBlocks/Pluto";
 import { InvalidDIDString } from "./errors/Castor";
 
+const didRegex = /^did:(?<method>[a-z0-9]+):(?<idstring>[a-zA-Z0-9.\-_%]+(?::[a-zA-Z0-9.\-_%]+)*)$/;
+
 export class DID implements Pluto.Storable {
   public readonly uuid: string;
   public readonly schema: string;
@@ -45,36 +47,12 @@ export class DID implements Pluto.Storable {
   }
 
   static fromString(text: string): DID {
-    const schema = DID.getSchemaFromString(text);
-    const method = DID.getMethodFromString(text);
-    const methodId = DID.getMethodIdFromString(text);
-
-    if (schema === undefined) {
-      throw new InvalidDIDString("Invalid DID string, missing schema");
+    const match = didRegex.exec(text);
+    if (!match || !match.groups) {
+      throw new InvalidDIDString();
     }
-    if (method === undefined) {
-      throw new InvalidDIDString("Invalid DID string, missing method name");
-    }
-    if (methodId === undefined) {
-      throw new InvalidDIDString("Invalid DID string, missing method ID");
-    }
-
-    return new DID(schema, method, methodId);
-  }
-
-  static getSchemaFromString(text: string): string | undefined {
-    const split = text.split(":");
-    return split.at(0);
-  }
-
-  static getMethodFromString(text: string): string | undefined {
-    const split = text.split(":");
-    return split.at(1);
-  }
-
-  static getMethodIdFromString(text: string): string {
-    const split = text.split(":");
-    return split.slice(2).join(":");
+    const { method, idstring } = match.groups;
+    return new DID("did", method, idstring);
   }
 
   /** replace with a new DID */

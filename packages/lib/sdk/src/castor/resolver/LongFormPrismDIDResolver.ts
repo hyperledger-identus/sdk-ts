@@ -2,10 +2,9 @@
 import { SHA256 } from "@stablelib/sha256";
 import {
   CastorError,
-  type Apollo,
   type DIDResolver,
   DIDDocument,
-  type DID,
+  DID,
   DIDUrl,
   type PublicKey,
   Curve,
@@ -14,7 +13,6 @@ import {
 import { LongFormPrismDID } from "../../castor/did/prismDID/LongFormPrismDID";
 
 
-import * as DIDParser from "../parser/DIDParser";
 import * as Protos from "@hyperledger/identus-protos";
 import * as base64 from "multiformats/bases/base64";
 import * as base58 from "multiformats/bases/base58";
@@ -25,10 +23,10 @@ import { X25519PublicKey } from "../../apollo/utils/X25519PublicKey";
 export class LongFormPrismDIDResolver implements DIDResolver {
   method = "prism";
 
-  constructor(private apollo: Apollo) { }
+  constructor() { }
 
   async resolve(didString: string): Promise<DIDDocument> {
-    const did = DIDParser.parse(didString);
+    const did = DID.fromString(didString);
     const prismDID = new LongFormPrismDID(did);
     const state = prismDID.encodedState;
     const base64State = base64.base64url.decode(`u${state}`);

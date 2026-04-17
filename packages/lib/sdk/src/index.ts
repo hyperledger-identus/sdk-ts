@@ -47,7 +47,7 @@ export { Plugin } from "./plugins/Plugin";
 export { Plugins } from "./plugins/types";
 // Connections
 
-export * from './peer-did/PeerDID';
+export * from './castor/methods/peer/PeerDID';
 
 // Keys
 export * from "./apollo/utils/Secp256k1PrivateKey";
