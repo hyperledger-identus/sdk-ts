@@ -116,6 +116,5 @@ export class CreatePeerDID extends Task<Domain.DID, Args> {
     ).makeMessage();
 
     await ctx.run(new Send({ message: keyListUpdateMessage }));
-    // [ ] handle response https://github.com/hyperledger-identus/sdk-ts/issues/391
   }
 }

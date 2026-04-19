@@ -27,6 +27,7 @@ export const ProtocolType = {
   DidcommMediationGrant: ProtocolIds.MediationGrant,
   DidcommMediationDeny: ProtocolIds.MediationDeny,
   DidcommMediationKeysUpdate: ProtocolIds.MediationKeysUpdate,
+  DidcommMediationKeysUpdateResponse: ProtocolIds.MediationKeysUpdateResponse,
   PickupRequest: ProtocolIds.PickupRequest,
   PickupDelivery: ProtocolIds.PickupDelivery,
   PickupStatus: ProtocolIds.PickupStatus,
