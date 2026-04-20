@@ -1,5 +1,6 @@
 import type * as DIDResolver from "did-resolver";
 import * as Domain from "@hyperledger/identus-domain";
+import { CastorError } from "@hyperledger/identus-domain";
 import { Task, asArray, isEmpty } from "../../../utils";
 import { type AgentContext } from "../../../edge-agent/Context";
 
@@ -46,7 +47,7 @@ export class ResolveDID extends Task<DIDResolver.DIDResolutionResult, Args> {
         );
       }
 
-      throw new Error("Invalid KeyType");
+      throw new CastorError.InvalidKeyError("Invalid KeyType: verification method has no recognized public key encoding");
     });
 
     return {

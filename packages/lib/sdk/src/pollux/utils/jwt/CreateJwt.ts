@@ -1,5 +1,6 @@
 import { ES256KSigner, type Signer, createJWT } from "did-jwt";
 import * as Domain from "@hyperledger/identus-domain";
+import { PolluxError } from "@hyperledger/identus-domain";
 import { asJsonObj, expect } from "../../../utils";
 import { Task } from "../../../utils/tasks";
 import { type AgentContext } from "../../../edge-agent/Context";
@@ -36,7 +37,7 @@ export class CreateJWT extends Task<string, Args> {
     const privateKey = expect(signingKey?.privateKey ?? this.args.privateKey, "key not found");
 
     if (!privateKey?.isSignable()) {
-      throw new Error("Key is not signable");
+      throw new PolluxError.InvalidCredentialError("Key is not signable");
     }
 
     // secp256k1 uses compact encoding while apollo returns der signatures so far

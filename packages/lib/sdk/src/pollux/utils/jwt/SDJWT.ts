@@ -5,6 +5,7 @@ import { type Disclosure } from '@sd-jwt/utils';
 import { decodeSdJwtSync, getClaimsSync } from '@sd-jwt/decode';
 import type { DisclosureFrame, PresentationFrame } from '@sd-jwt/types';
 import type * as Domain from '@hyperledger/identus-domain';
+import { PolluxError, CastorError } from '@hyperledger/identus-domain';
 import { SDJWTCredential } from '../../models/SDJWTVerifiableCredential';
 import { Task, notNil } from "../../../utils";
 import { ResolveDID } from "./ResolveDID";
@@ -21,7 +22,7 @@ export const defaultHashConfig = {
     if (safeAlg === 'SHA512') {
       return Uint8Array.from(Hashing.sha512().update(data).digest());
     }
-    throw new Error(`Invalid Hashing Algorithm. Valid options are: 'SHA256', 'SHA512'`);
+    throw new PolluxError.InvalidCredentialError(`Invalid Hashing Algorithm. Valid options are: 'SHA256', 'SHA512'`);
   }
 };
 
@@ -62,12 +63,12 @@ export class SDJWT extends Task.Runner {
     const resolved = await this.runTask(new ResolveDID({ did: issuerDID.toString() }));
     const verificationMethods = resolved.didDocument?.verificationMethod;
     if (!verificationMethods) {
-      throw new Error("Invalid did document");
+      throw new CastorError.NotPossibleToResolveDID("Invalid did document: no verification methods found");
     }
     const jwtObject = SDJWTCredential.fromJWS(jws);
 
     if (jwtObject.issuer && jwtObject.issuer !== issuerDID.toString()) {
-      throw new Error("Invalid issuer");
+      throw new PolluxError.InvalidCredentialError("SDJWT issuer does not match the expected DID");
     }
     const kidHeader = jwtObject.core.jwt?.header?.kid;
     const methods = notNil(kidHeader)
@@ -124,7 +125,7 @@ export class SDJWT extends Task.Runner {
       signAlg: publicKey.alg.toLocaleLowerCase(),
       verifier: async (data: string | Uint8Array, signatureEncoded: string) => {
         if (!publicKey.canVerify()) {
-          throw new Error("Cannot verify with this key");
+          throw new PolluxError.InvalidCredentialError("Cannot verify with this key: key does not support verification");
         }
         const signature = Buffer.from(base64url.baseDecode(signatureEncoded));
         return publicKey.verify(Buffer.from(data), signature)
@@ -139,7 +140,7 @@ export class SDJWT extends Task.Runner {
       if (crypto && typeof crypto.getRandomValues === 'function') {
         return crypto.getRandomValues(bytes);
       }
-      throw new Error('crypto.getRandomValues must be defined');
+      throw new PolluxError.InvalidCredentialError('crypto.getRandomValues must be defined');
     }
     if (length <= 0) {
       return '';
@@ -158,7 +159,7 @@ export class SDJWT extends Task.Runner {
       signAlg: privateKey.alg.toLocaleLowerCase(),
       signer: async (data: string | Uint8Array) => {
         if (!privateKey.isSignable()) {
-          throw new Error("Cannot sign with this key");
+          throw new PolluxError.InvalidCredentialError("Cannot sign with this key: key does not support signing");
         }
         const signature = privateKey.sign(Buffer.from(data));
         const signatureEncoded = base64url.baseEncode(signature);

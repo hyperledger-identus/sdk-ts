@@ -66,7 +66,7 @@ describe("Domain - SDJWT", () => {
         issuerDID: Fixtures.DIDs.peerDID1
       });
 
-      await expect(result).rejects.toThrow("Invalid did document");
+      await expect(result).rejects.toThrow(Domain.CastorError.NotPossibleToResolveDID);
     });
 
     test("issuerDID doesnt match jwt issuer - returns false", async () => {
@@ -75,7 +75,7 @@ describe("Domain - SDJWT", () => {
         issuerDID: Fixtures.DIDs.peerDID3
       });
 
-      await expect(result).rejects.toThrow("Invalid issuer");
+      await expect(result).rejects.toThrow(Domain.PolluxError.InvalidCredentialError);
     });
 
   });

@@ -1,4 +1,5 @@
 import type * as Domain from "@hyperledger/identus-domain";
+import { PolluxError } from "@hyperledger/identus-domain";
 import { Task } from "../../../utils/tasks";
 import { SDJwtVcInstance, type SdJwtVcPayload, } from "@sd-jwt/sd-jwt-vc";
 import type { DisclosureFrame } from '@sd-jwt/types';
@@ -39,7 +40,7 @@ export class CreateSDJWT extends Task<string, Args> {
     const keyId = signingKey?.kid;
     const privateKey = expect(signingKey?.privateKey, "key not found");
     if (!privateKey?.isSignable()) {
-      throw new Error("Key is not signable");
+      throw new PolluxError.InvalidCredentialError("Key is not signable");
     }
     const config = ctx.SDJWT.getSKConfig(privateKey);
     const sdjwt = new SDJwtVcInstance(config);

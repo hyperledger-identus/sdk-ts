@@ -95,7 +95,7 @@ describe("Domain - JWT", () => {
     test("non signable key used - throws", async () => {
       const result = sut.signWithDID(Fixtures.DIDs.prismDIDDefault, { payload: 123 }, {}, Fixtures.Keys.x25519.privateKey);
 
-      await expect(result).rejects.toThrow("Key is not signable");
+      await expect(result).rejects.toThrow(Domain.PolluxError.InvalidCredentialError);
     });
 
     describe("purpose", () => {
