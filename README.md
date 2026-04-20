@@ -41,7 +41,7 @@ We also have SDKs for other platforms:
 
 ## Getting started
 
-We highly recommend you check out the [docs](https://hyperledger-identus.github.io/docs/home/) :world_map:
+We highly recommend you check out the [docs](https://hyperledger-identus.github.io/docs/sdk-ts/docs/sdk/) :world_map:
 
 ### Requirements
 
@@ -85,7 +85,8 @@ npx nx run @hyperledger/identus-sdk:test
 
 Requires you to have a Cloud Agent running and to configure the appropiate env vars in ./integration-tests/e2e-tests/.env with the following content:
 
-```
+```bash
+
 AGENT_URL=http://localhost:8085
 MEDIATOR_OOB_URL=http://localhost:8080/invitationOOB
 SECP256K1_PUBLISHED_DID=
