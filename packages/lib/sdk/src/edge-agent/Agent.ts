@@ -36,7 +36,7 @@ import { EventsManager } from "./Agent.MessageEvents";
 import { JobManager } from "./connections/JobManager";
 import { AgentContext } from "./Context";
 import { JWT, SDJWT } from "../pollux/utils/jwt";
-import OEAPlugin, { type PresentationClaims } from "../plugins/internal/oea";
+import OEAPlugin, { OEA, type PresentationClaims } from "../plugins/internal/oea";
 import DIFPlugin from "../plugins/internal/dif";
 
 import { CreatePresentationRequest } from "../plugins/internal/oea/tasks/CreatePresentationRequest";
@@ -595,9 +595,12 @@ export class Agent<
    * @returns 
    */
   async isCredentialRevoked(credential: Domain.Credential): Promise<boolean> {
+    // Use the credential's format if available, falling back to the legacy prism/jwt format.
+    // Both "prism/jwt" and "jwt" are supported as equivalent formats.
+    const format = credential.properties.get("format") ?? OEA.PRISM_JWT;
     const task = new RunProtocol({
       type: "revocation-check",
-      pid: "prism/jwt",
+      pid: format,
       data: { credential }
     });
 
