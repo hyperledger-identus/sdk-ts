@@ -60,7 +60,7 @@ describe("JWTCredential", () => {
   test("should throw an error when calling verifiableCredential on a presentation", async () => {
     const jwtString = await createJWT({
       iss: Fixtures.DIDs.prismDIDDefault.toString(),
-      vp: {} as any
+      vp: { "@context": ["https://www.w3.org/2018/presentations/v1"], type: ["VerifiablePresentation"], verifiableCredential: [] } as any
     });
 
     const credential = JWTCredential.fromJWS(jwtString);
@@ -71,7 +71,7 @@ describe("JWTCredential", () => {
   test("should throw an error when calling subject on a presentation", async () => {
     const jwtString = await createJWT({
       iss: Fixtures.DIDs.prismDIDDefault.toString(),
-      vp: {} as any
+      vp: { "@context": ["https://www.w3.org/2018/presentations/v1"], type: ["VerifiablePresentation"], verifiableCredential: [] } as any
     });
 
     const credential = JWTCredential.fromJWS(jwtString);
@@ -82,7 +82,7 @@ describe("JWTCredential", () => {
   test("should throw an error when calling presentation on a presentation", async () => {
     const jwtString = await createJWT({
       iss: Fixtures.DIDs.prismDIDDefault.toString(),
-      vp: {} as any
+      vp: { "@context": ["https://www.w3.org/2018/presentations/v1"], type: ["VerifiablePresentation"], verifiableCredential: [] } as any
     });
 
     const credential = JWTCredential.fromJWS(jwtString);
@@ -156,5 +156,77 @@ describe("JWTCredential", () => {
     });
 
     expect(() => JWTCredential.fromJWS(jwtString)).throws(Domain.PolluxError.InvalidCredentialError, "Invalid vc in credential payload should be an object");
+  });
+
+  test("Should throw an error when vc is missing @context in jwt credential", async () => {
+    const jwtString = await createJWT({
+      iss: Fixtures.DIDs.prismDIDDefault.toString(),
+      vc: {
+        type: ["VerifiableCredential"],
+        credentialSubject: {}
+      } as any
+    });
+
+    expect(() => JWTCredential.fromJWS(jwtString)).throws(Domain.PolluxError.InvalidCredentialError, "Invalid vc in credential payload should include a non-empty @context array");
+  });
+
+  test("Should throw an error when vc is missing type in jwt credential", async () => {
+    const jwtString = await createJWT({
+      iss: Fixtures.DIDs.prismDIDDefault.toString(),
+      vc: {
+        "@context": ["https://www.w3.org/2018/credentials/v1"],
+        credentialSubject: {}
+      } as any
+    });
+
+    expect(() => JWTCredential.fromJWS(jwtString)).throws(Domain.PolluxError.InvalidCredentialError, "Invalid vc in credential payload should include a non-empty type array");
+  });
+
+  test("Should throw an error when vc is missing credentialSubject in jwt credential", async () => {
+    const jwtString = await createJWT({
+      iss: Fixtures.DIDs.prismDIDDefault.toString(),
+      vc: {
+        "@context": ["https://www.w3.org/2018/credentials/v1"],
+        type: ["VerifiableCredential"]
+      } as any
+    });
+
+    expect(() => JWTCredential.fromJWS(jwtString)).throws(Domain.PolluxError.InvalidCredentialError, "Invalid vc in credential payload should include a credentialSubject object");
+  });
+
+  test("Should throw an error when vp is missing @context in jwt presentation", async () => {
+    const jwtString = await createJWT({
+      iss: Fixtures.DIDs.prismDIDDefault.toString(),
+      vp: {
+        type: ["VerifiablePresentation"],
+        verifiableCredential: []
+      } as any
+    });
+
+    expect(() => JWTCredential.fromJWS(jwtString)).throws(Domain.PolluxError.InvalidCredentialError, "Invalid vp in presentation payload should include a non-empty @context array");
+  });
+
+  test("Should throw an error when vp is missing type in jwt presentation", async () => {
+    const jwtString = await createJWT({
+      iss: Fixtures.DIDs.prismDIDDefault.toString(),
+      vp: {
+        "@context": ["https://www.w3.org/2018/presentations/v1"],
+        verifiableCredential: []
+      } as any
+    });
+
+    expect(() => JWTCredential.fromJWS(jwtString)).throws(Domain.PolluxError.InvalidCredentialError, "Invalid vp in presentation payload should include a non-empty type array");
+  });
+
+  test("Should throw an error when vp is missing verifiableCredential in jwt presentation", async () => {
+    const jwtString = await createJWT({
+      iss: Fixtures.DIDs.prismDIDDefault.toString(),
+      vp: {
+        "@context": ["https://www.w3.org/2018/presentations/v1"],
+        type: ["VerifiablePresentation"]
+      } as any
+    });
+
+    expect(() => JWTCredential.fromJWS(jwtString)).throws(Domain.PolluxError.InvalidCredentialError, "Invalid vp in presentation payload should include a verifiableCredential array");
   });
 });

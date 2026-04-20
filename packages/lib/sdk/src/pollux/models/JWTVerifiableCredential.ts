@@ -54,6 +54,46 @@ export class JWTCredential
   extends Credential
   implements ProvableCredential, StorableCredential, Pluto.Storable {
 
+  private static isObject(value: unknown): value is Record<string, any> {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+  }
+
+  private static validateW3CCredential(vc: unknown) {
+    if (!JWTCredential.isObject(vc)) {
+      throw new PolluxError.InvalidCredentialError("Invalid vc in credential payload should be an object");
+    }
+
+    if (!Array.isArray(vc["@context"]) || vc["@context"].length === 0) {
+      throw new PolluxError.InvalidCredentialError("Invalid vc in credential payload should include a non-empty @context array");
+    }
+
+    if (!Array.isArray(vc.type) || vc.type.length === 0) {
+      throw new PolluxError.InvalidCredentialError("Invalid vc in credential payload should include a non-empty type array");
+    }
+
+    if (!JWTCredential.isObject(vc.credentialSubject)) {
+      throw new PolluxError.InvalidCredentialError("Invalid vc in credential payload should include a credentialSubject object");
+    }
+  }
+
+  private static validateW3CPresentation(vp: unknown) {
+    if (!JWTCredential.isObject(vp)) {
+      throw new PolluxError.InvalidCredentialError("Invalid vp in presentation payload should be an object");
+    }
+
+    if (!Array.isArray(vp["@context"]) || vp["@context"].length === 0) {
+      throw new PolluxError.InvalidCredentialError("Invalid vp in presentation payload should include a non-empty @context array");
+    }
+
+    if (!Array.isArray(vp.type) || vp.type.length === 0) {
+      throw new PolluxError.InvalidCredentialError("Invalid vp in presentation payload should include a non-empty type array");
+    }
+
+    if (!Array.isArray(vp.verifiableCredential)) {
+      throw new PolluxError.InvalidCredentialError("Invalid vp in presentation payload should include a verifiableCredential array");
+    }
+  }
+
   public credentialType = CredentialType.JWT;
   public recoveryId = JWTVerifiableCredentialRecoveryId;
   public properties = new Map<JWT.Claims | JWT_VC_PROPS | JWT_VP_PROPS, any>();
@@ -244,10 +284,8 @@ export class JWTCredential
         throw new PolluxError.InvalidCredentialError("Invalid revoked in credential payload should be boolean");
       }
 
-      //TODO: Improve validation of VC
-      if (typeof payload[JWT_VC_PROPS.vc] !== 'undefined' &&
-        typeof payload[JWT_VC_PROPS.vc] !== 'object') {
-        throw new PolluxError.InvalidCredentialError("Invalid vc in credential payload should be an object");
+      if (payload[JWT_VC_PROPS.vc] !== undefined) {
+        JWTCredential.validateW3CCredential(payload[JWT_VC_PROPS.vc]);
       }
 
     } else {
@@ -277,10 +315,8 @@ export class JWTCredential
         throw new PolluxError.InvalidCredentialError("Invalid exp in presentation payload should be number");
       }
 
-      //TODO: Improve validation of VP
-      if (typeof payload[JWT_VP_PROPS.vp] !== 'undefined' &&
-        typeof payload[JWT_VP_PROPS.vp] !== 'object') {
-        throw new PolluxError.InvalidCredentialError("Invalid vp in presentation payload should be an object");
+      if (payload[JWT_VP_PROPS.vp] !== undefined) {
+        JWTCredential.validateW3CPresentation(payload[JWT_VP_PROPS.vp]);
       }
     }
 
@@ -435,4 +471,3 @@ export class JWTCredential
     };
   }
 }
-
