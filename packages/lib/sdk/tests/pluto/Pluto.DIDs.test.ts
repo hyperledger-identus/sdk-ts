@@ -78,7 +78,7 @@ describe("Pluto", () => {
         const results = await instance.getAllPrismDIDs();
 
         expect(results).to.be.an("array");
-        expect(results).to.have.length(1);
+        expect(results).to.have.length(3);
 
         const sutOut = results[0];
         expect(sutOut).to.be.instanceOf(SDK.Domain.PrismDID);
