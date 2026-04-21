@@ -104,6 +104,8 @@ export interface Pluto extends Startable.IController {
    */
   storeCredential(credential: Credential): Promise<void>;
 
+  getDIDByDIDOrAlias(didOrAlias: string): Promise<DID | null>;
+
   /**
    * Retrieve all stored PRISM DIDs.
    */

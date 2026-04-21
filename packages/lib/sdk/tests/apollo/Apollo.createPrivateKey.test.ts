@@ -86,7 +86,7 @@ describe("Apollo", () => {
         expect(result.curve).to.eq(Curve.SECP256K1);
         expect(result.getProperty(KeyProperties.curve)).to.eq(Curve.SECP256K1);
         expect(result.getProperty(KeyProperties.chainCode)).to.eq("99f91ece40d2b5ff6896e96fd1e626dd17bc7f21d09538795021318009a1013c");
-        expect(result.getProperty(KeyProperties.derivationPath)).to.eq("6d2f30272f30272f3027");
+        expect(result.getProperty(KeyProperties.derivationPath)).to.eq("m/0'/0'/0'");
         expect(result.getProperty(KeyProperties.index)).to.eq("0");
       });
 
@@ -103,7 +103,7 @@ describe("Apollo", () => {
         expect(result.curve).to.eq(Curve.SECP256K1);
         expect(result.getProperty(KeyProperties.curve)).to.eq(Curve.SECP256K1);
         expect(result.getProperty(KeyProperties.chainCode)).to.eq("fee48c5a862316d1ea59b77258850f64de2a316796db043a4ebca1616c1c0d24");
-        expect(result.getProperty(KeyProperties.derivationPath)).to.eq("6d2f31272f30272f3027");
+        expect(result.getProperty(KeyProperties.derivationPath)).to.eq("m/1'/0'/0'");
         expect(result.getProperty(KeyProperties.index)).to.eq("0");
       });
 
@@ -122,7 +122,7 @@ describe("Apollo", () => {
         expect(result.curve).to.eq(Curve.SECP256K1);
         expect(result.getProperty(KeyProperties.curve)).to.eq(Curve.SECP256K1);
         expect(result.getProperty(KeyProperties.chainCode)).to.eq("6bfbb6d7bee48110dd0dd1437caa9e88dba86e4bc28585e8e8ab052c96414a48");
-        expect(result.getProperty(KeyProperties.derivationPath)).to.eq("6d2f32272f30272f3027");
+        expect(result.getProperty(KeyProperties.derivationPath)).to.eq("m/2'/0'/0'");
         expect(result.getProperty(KeyProperties.index)).to.eq(`${derivationPath.index}`);
       });
 

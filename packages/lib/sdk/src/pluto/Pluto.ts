@@ -510,6 +510,23 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
   }
 
 
+  public async getDIDByDIDOrAlias(didOrAlias: string): Promise<Domain.DID | null> {
+    const [did] = await this.Repositories.DIDs.getModels({
+      selector: {
+        $or: [
+          {
+            alias: didOrAlias
+          },
+          {
+            uuid: didOrAlias
+          }
+        ]
+      }
+    })
+    return did ? Domain.DID.fromString(did.uuid) : null
+  }
+
+
   /** Peer DIDs **/
 
   /**

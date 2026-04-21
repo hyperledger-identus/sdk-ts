@@ -16,6 +16,7 @@ import {
   PrismDerivationPath,
   type KeyOptions,
   isString,
+  type Key,
 } from "@hyperledger/identus-domain";
 
 import { Ed25519PrivateKey } from "./utils/Ed25519PrivateKey";
@@ -69,14 +70,14 @@ function fromSeed(
     }
   }
 
+  const derivationParam: string = derivationPath ?? PrismDerivationPath.init(derivationIndex).toString();
 
   if (curve === Curve.ED25519) {
     if (seedBuff) {
       const hdKey = ApolloSDK.derivation.EdHDKey.Companion.initFromSeed(Int8Array.from(seedBuff));
       const baseKey = new Ed25519PrivateKey(Uint8Array.from(hdKey.privateKey));
-      const derivationParam: string = derivationPath ?? PrismDerivationPath.init(derivationIndex).toString();
       baseKey.keySpecification.set(KeyProperties.chainCode, Buffer.from(Uint8Array.from(hdKey.chainCode)).toString("hex"));
-      baseKey.keySpecification.set(KeyProperties.derivationPath, Buffer.from(derivationParam).toString("hex"));
+      baseKey.keySpecification.set(KeyProperties.derivationPath, derivationParam);
       if (derivationPath) {
         const privateKey = baseKey.derive(derivationParam);
         return privateKey;
@@ -90,13 +91,12 @@ function fromSeed(
 
   if (curve === Curve.X25519) {
     if (seedBuff) {
-      const derivationParam: string = derivationPath ?? PrismDerivationPath.init(derivationIndex).toString();
       const hdKey = ApolloSDK.derivation.EdHDKey.Companion.initFromSeed(Int8Array.from(seedBuff)).derive(derivationParam);
       const edKey = Ed25519PrivateKey.from.Buffer(Buffer.from(hdKey.privateKey));
       const xKey = edKey.x25519();
 
       xKey.keySpecification.set(KeyProperties.chainCode, Buffer.from(hdKey.chainCode).toString("hex"));
-      xKey.keySpecification.set(KeyProperties.derivationPath, Buffer.from(derivationParam).toString("hex"));
+      xKey.keySpecification.set(KeyProperties.derivationPath, derivationParam);
       xKey.keySpecification.set(KeyProperties.index, `${derivationIndex}`);
 
       return xKey;
@@ -107,7 +107,6 @@ function fromSeed(
   }
 
   if (curve === Curve.SECP256K1) {
-    const derivationParam: string = derivationPath ?? PrismDerivationPath.init(derivationIndex).toString();
     const hdKey = HDKey.InitFromSeed(
       Int8Array.from(seedBuff!),
       derivationParam.split("/").slice(1).length,
@@ -124,7 +123,7 @@ function fromSeed(
 
     const baseKey = new Secp256k1PrivateKey(Uint8Array.from(hdKey.privateKey));
     baseKey.keySpecification.set(KeyProperties.chainCode, Buffer.from(Uint8Array.from(hdKey.chainCode)).toString("hex"));
-    baseKey.keySpecification.set(KeyProperties.derivationPath, Buffer.from(derivationParam).toString("hex"));
+    baseKey.keySpecification.set(KeyProperties.derivationPath, derivationParam);
     baseKey.keySpecification.set(KeyProperties.index, `${derivationIndex}`);
 
     if (derivationPath) {
@@ -421,6 +420,16 @@ export class Apollo implements ApolloInterface, KeyRestoration {
     )
   }
 
+  #addKeySpecification<K extends Key>(key: K, keySpecification: Record<string, string>): K {
+    for (const [prop, value] of Object.entries(keySpecification)) {
+      if (prop === KeyProperties.rawKey.toString()) continue;
+      if (value !== undefined && value !== null) {
+        key.keySpecification.set(prop, String(value));
+      }
+    }
+    return key;
+  }
+
   restorePrivateKey(key: StorableKey): PrivateKey {
     // Old keys have StorableKey.raw with the buffer, new keys use encoded key specification
     const keySpecificationBuffer = key.data ?? Buffer.from('{}');
@@ -449,12 +458,7 @@ export class Apollo implements ApolloInterface, KeyRestoration {
       throw new ApolloError.KeyRestoratonFailed(key);
     }
 
-    for (const [prop, value] of Object.entries(keySpecification)) {
-      if (prop === KeyProperties.rawKey) continue;
-      if (value !== undefined && value !== null) {
-        privateKey.keySpecification.set(prop, String(value));
-      }
-    }
+    privateKey = this.#addKeySpecification(privateKey, keySpecification);
 
     return privateKey;
   }
@@ -486,12 +490,7 @@ export class Apollo implements ApolloInterface, KeyRestoration {
       throw new ApolloError.KeyRestoratonFailed(key);
     }
 
-    for (const [prop, value] of Object.entries(keySpecification)) {
-      if (prop === KeyProperties.rawKey) continue;
-      if (value !== undefined && value !== null) {
-        publicKey.keySpecification.set(prop, String(value));
-      }
-    }
+    publicKey = this.#addKeySpecification(publicKey, keySpecification);
 
     return publicKey;
   }

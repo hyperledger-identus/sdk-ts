@@ -29,7 +29,6 @@ export class CreatePrismDID extends Task<Domain.DID, Args> {
   async run(ctx: AgentContext) {
     const index = await ctx.run(new PrismKeyPathIndexTask({ index: this.args.keyPathIndex }));
     const masterKeyDerivation = PrismDerivationPath.init(index, PrismDIDKeyUsage.MASTER_KEY);
-    // TODO should this be using AUTHENTICATION_KEY
     const issuingDerivation = PrismDerivationPath.init(index, PrismDIDKeyUsage.ISSUING_KEY);
 
     const seed = new Uint8Array(await ctx.Seed());
