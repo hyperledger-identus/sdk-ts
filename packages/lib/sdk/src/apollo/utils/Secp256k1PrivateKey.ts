@@ -70,7 +70,8 @@ export class Secp256k1PrivateKey
       throw new ApolloError.ApolloLibError("Key generated incorrectly: missing privateKey");
     }
     const privateKey = new Secp256k1PrivateKey(Buffer.from(derivedKey.privateKey));
-    privateKey.keySpecification.set(KeyProperties.derivationPath, Buffer.from(derivationPathStr).toString("hex"));
+    privateKey.keySpecification = new Map(this.keySpecification);
+    privateKey.keySpecification.set(KeyProperties.derivationPath, derivationPathStr);
     privateKey.keySpecification.set(KeyProperties.index, `${this.index ?? 0}`);
     if (derivedKey.chainCode) {
       privateKey.keySpecification.set(KeyProperties.chainCode, Buffer.from(derivedKey.chainCode).toString("hex"));

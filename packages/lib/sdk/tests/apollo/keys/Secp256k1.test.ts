@@ -64,7 +64,7 @@ describe("Keys", () => {
           expect(result.getProperty(KeyProperties.index)).to.eq(`${derivationPath.index}`);
 
           // expect(result.getProperty(KeyProperties.derivationPath)).to.eq(derivationPath.toString());
-          expect(result.getProperty(KeyProperties.derivationPath)).to.eq("6d2f30272f30272f3027");
+          expect(result.getProperty(KeyProperties.derivationPath)).to.eq("m/0'/0'/0'");
         });
 
         test("DerivationPath - m/1'/0'/0'", () => {
@@ -79,7 +79,7 @@ describe("Keys", () => {
           expect(result.getProperty(KeyProperties.chainCode)).to.eq("f22fdc4dd573ce17243983faa6492fc33fab35ecfa3f8ad09aa958044a2752f7");
           expect(result.getProperty(KeyProperties.index)).to.eq(`${derivationPath.index}`);
           // expect(result.getProperty(KeyProperties.derivationPath)).to.eq(`m/1'/0'/0'`);
-          expect(result.getProperty(KeyProperties.derivationPath)).to.eq("6d2f31272f30272f3027");
+          expect(result.getProperty(KeyProperties.derivationPath)).to.eq("m/1'/0'/0'");
         });
 
         test("DerivationPath - m/2'/0'/0'", () => {
@@ -93,7 +93,7 @@ describe("Keys", () => {
           expect(result.getProperty(KeyProperties.chainCode)).to.eq("e56cd109bae854dcf3fc0b766067f9e825901bf1bcfc67dc4f5eaee74cf9c8ea");
           expect(result.getProperty(KeyProperties.index)).to.eq(`${derivationPath.index}`);
           // expect(result.getProperty(KeyProperties.derivationPath)).to.eq(`m/1'/0'/0'`);
-          expect(result.getProperty(KeyProperties.derivationPath)).to.eq("6d2f32272f30272f3027");
+          expect(result.getProperty(KeyProperties.derivationPath)).to.eq("m/2'/0'/0'");
         });
 
         test("Secp.derive returns same as HDKey.derive", () => {
