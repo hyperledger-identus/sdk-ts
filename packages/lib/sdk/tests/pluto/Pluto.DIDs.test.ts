@@ -30,18 +30,70 @@ describe("Pluto", () => {
         expect(uuidDID).to.be.a.string;
         expect(uuidKey).to.be.a.string;
 
-        await instance.storePrismDID(sutDID, sutKey);
+        await instance.storeDID(sutDID, sutKey);
         expect(sutDID.uuid).to.be.a.string;
         expect(sutKey.uuid).to.be.a.string;
         expect(sutDID.uuid).to.eql(uuidDID);
         expect(sutKey.uuid).to.eql(uuidKey);
       });
 
+      test("alias passed to storeDID and retrieve by did", async () => {
+        const sutDID = SDK.Domain.DID.from("did:prism:mock3");
+        const sutKey = new SDK.X25519PrivateKey(Fixtures.Keys.x25519.privateKey.raw);
+        const alias = "test-alias";
+
+        await instance.storeDID(sutDID, sutKey, alias);
+        const did = await instance.getDIDByDIDOrAlias(sutDID.toString());
+        expect(did).to.be.instanceOf(SDK.Domain.DID);
+        expect(did?.uuid).to.eql(sutDID.uuid);
+        expect(did?.method).to.eql(sutDID.method);
+        expect(did?.methodId).to.eql(sutDID.methodId);
+        expect(did?.schema).to.eql(sutDID.schema);
+        expect(did?.toString()).to.eql(sutDID.toString());
+      });
+
+      test("alias passed to storeDID and retrieve by alias", async () => {
+        const sutDID = SDK.Domain.DID.from("did:prism:mock3");
+        const sutKey = new SDK.X25519PrivateKey(Fixtures.Keys.x25519.privateKey.raw);
+        const alias = "test-alias";
+
+        await instance.storeDID(sutDID, sutKey, alias);
+        const did = await instance.getDIDByDIDOrAlias(alias);
+        expect(did).to.be.instanceOf(SDK.Domain.DID);
+        expect(did?.uuid).to.eql(sutDID.uuid);
+        expect(did?.method).to.eql(sutDID.method);
+        expect(did?.methodId).to.eql(sutDID.methodId);
+        expect(did?.schema).to.eql(sutDID.schema);
+        expect(did?.toString()).to.eql(sutDID.toString());
+      });
+
+      test("Store did with multiple keys", async () => {
+        const sutDID = SDK.Domain.DID.from("did:prism:mock4");
+
+        const masterKey = new SDK.Secp256k1PrivateKey(Fixtures.Keys.secp256K1.privateKey.raw);
+        const authenticationKey = new SDK.X25519PrivateKey(Fixtures.Keys.x25519.privateKey.raw);
+        const issuingKey = new SDK.Ed25519PrivateKey(Fixtures.Keys.ed25519.privateKey.raw);
+
+        await instance.storeDID(sutDID, [masterKey, authenticationKey, issuingKey]);
+        const results = await instance.getAllPrismDIDs();
+
+        expect(results).to.be.an("array");
+        expect(results).to.have.length(3);
+
+        const sutOut = results[0];
+        expect(sutOut).to.be.instanceOf(SDK.Domain.PrismDID);
+        expect(sutOut?.did.uuid).to.eql(sutDID.uuid);
+        expect(sutOut?.did.method).to.eql(sutDID.method);
+        expect(sutOut?.did.methodId).to.eql(sutDID.methodId);
+        expect(sutOut?.did.schema).to.eql(sutDID.schema);
+        expect(sutOut?.did.toString()).to.eql(sutDID.toString());
+      });
+
       test("Retrieved should match Stored", async () => {
         const sutDID = SDK.Domain.DID.from("did:prism:mock2");
         const sutKey = new SDK.X25519PrivateKey(Fixtures.Keys.x25519.privateKey.raw);
 
-        await instance.storePrismDID(sutDID, sutKey);
+        await instance.storeDID(sutDID, sutKey);
         const results = await instance.getAllPrismDIDs();
 
         expect(results).to.be.an("array");
@@ -77,7 +129,7 @@ describe("Pluto", () => {
         expect(sutDID.uuid).to.be.a.string;
         expect(sutKey.uuid).to.be.a.string;
 
-        await instance.storePeerDID(sutDID, [sutKey]);
+        await instance.storeDID(sutDID, [sutKey]);
         expect(sutDID.uuid).to.be.a.string;
         expect(sutKey.uuid).to.be.a.string;
         expect(sutDID.uuid).to.eql(uuidDID);
@@ -88,7 +140,7 @@ describe("Pluto", () => {
         const sutDID = SDK.Domain.DID.from(Fixtures.DIDs.peerDID1.toString());
         const sutKey = new SDK.X25519PrivateKey(Fixtures.Keys.x25519.privateKey.raw);
 
-        await instance.storePeerDID(sutDID, [sutKey]);
+        await instance.storeDID(sutDID, [sutKey]);
         const results = await instance.getAllPeerDIDs();
 
         expect(results).to.be.an("array");
