@@ -1,10 +1,10 @@
 {
   "projectType": "library",
   "implicitDependencies": [
-    "@hyperledger/identus-domain",
     "@hyperledger/identus-didcomm",
-    "@hyperledger/identus-anoncreds",
     "@hyperledger/identus-jwe",
+    "@hyperledger/identus-anoncreds",
+    "@hyperledger/identus-domain",
     "@hyperledger/identus-protos"
   ],
   "tags": [
