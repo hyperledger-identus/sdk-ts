@@ -14,7 +14,7 @@ import { type PrismDIDMethod, type PeerDIDMethod } from "./methods";
 import { type DIDMethodInput } from "./types";
 import { parseParams } from "./utils";
 
-export type * from "./methods";
+export * from "./methods";
 
 /**
  * All DID methods available on a Castor instance -- the built-in
