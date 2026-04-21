@@ -22,13 +22,10 @@ const EdHDKey = ApolloSDK.derivation.EdHDKey;
  */
 export class Ed25519PrivateKey extends PrivateKey implements DerivableKey, ExportableKey, SignableKey, StorableKey {
   public readonly recoveryId = StorableKey.recoveryId("ed25519", "priv");
-
-
   public keySpecification: Map<string, string> = new Map();
   public raw: Uint8Array;
   public size: number;
   public type = KeyTypes.EC;
-
   public readonly to = ExportableKey.factory(this, { pemLabel: "PRIVATE KEY" });
   static from = ImportableKey.factory(Ed25519PrivateKey, { pemLabel: "PRIVATE KEY" });
 
@@ -56,12 +53,11 @@ export class Ed25519PrivateKey extends PrivateKey implements DerivableKey, Expor
     );
     const derived = hdKey.derive(derivationPathStr);
     const sk = new Ed25519PrivateKey(Uint8Array.from(derived.privateKey));
-    sk.keySpecification.set(KeyProperties.derivationPath, Buffer.from(derivationPathStr).toString("hex"));
+    sk.keySpecification.set(KeyProperties.derivationPath, derivationPathStr);
     sk.keySpecification.set(KeyProperties.index, `${this.index ?? 0}`);
     if (derived.chainCode) {
       sk.keySpecification.set(KeyProperties.chainCode, Buffer.from(derived.chainCode).toString("hex"));
     }
-
     return sk;
   }
 
