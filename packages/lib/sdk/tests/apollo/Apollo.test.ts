@@ -1,7 +1,7 @@
 import { describe, it, expect, test, beforeEach, afterEach } from 'vitest';
 import { Apollo } from "../../src/apollo/Apollo";
 import { Secp256k1KeyPair } from "../../src/apollo/utils/Secp256k1KeyPair";
-import { ECConfig, PrismDerivationPath, DerivationAxis, DeprecatedDerivationPath } from "@hyperledger/identus-domain";
+import { ECConfig, PrismDerivationPath, DerivationAxis, DeprecatedDerivationPath, Key } from "@hyperledger/identus-domain";
 
 import { bip39Vectors } from "./derivation/BipVectors";
 import { DerivationPath } from "../../src/apollo/utils/derivation/DerivationPath";
@@ -392,11 +392,22 @@ describe("Apollo", () => {
   });
 
   describe("KeyRestoration", () => {
+    function getStorableData(key: Key): StorableKey['data'] {
+      const payload = Object.fromEntries(key.keySpecification);
+      for (const [prop, value] of Object.entries(payload)) {
+        if (prop === KeyProperties.rawKey.toString()) continue;
+        if (value !== undefined && value !== null) {
+          payload[prop] = String(value);
+        }
+      }
+      payload[KeyProperties.rawKey] = Buffer.from(key.raw).toString("hex");
+      return Buffer.from(JSON.stringify(payload));
+    }
     describe("restorePrivateKey", () => {
       test("recoveryId ed25519+priv - matches - returns Ed25519PrivateKey instance", () => {
         const key: StorableKey = {
           recoveryId: StorableKey.recoveryId("ed25519", "priv"),
-          raw: Fixtures.Keys.ed25519.privateKey.raw
+          data: getStorableData(Fixtures.Keys.ed25519.privateKey)
         };
 
         const result = apollo.restorePrivateKey(key);
@@ -407,7 +418,7 @@ describe("Apollo", () => {
       test("recoveryId x25519+priv - matches - returns X25519PrivateKey instance", () => {
         const key: StorableKey = {
           recoveryId: StorableKey.recoveryId("x25519", "priv"),
-          raw: Fixtures.Keys.x25519.privateKey.raw
+          data: getStorableData(Fixtures.Keys.x25519.privateKey)
         };
 
         const result = apollo.restorePrivateKey(key);
@@ -418,7 +429,7 @@ describe("Apollo", () => {
       test("recoveryId secp256k1+priv - matches - returns Secp256k1PrivateKey instance", () => {
         const key: StorableKey = {
           recoveryId: StorableKey.recoveryId("secp256k1", "priv"),
-          raw: Fixtures.Keys.secp256K1.privateKey.raw
+          data: getStorableData(Fixtures.Keys.secp256K1.privateKey)
         };
 
         const result = apollo.restorePrivateKey(key);
@@ -440,7 +451,7 @@ describe("Apollo", () => {
       test("recoveryId ed25519+pub - matches - returns Ed25519PrivateKey instance", () => {
         const key: StorableKey = {
           recoveryId: StorableKey.recoveryId("ed25519", "pub"),
-          raw: Fixtures.Keys.ed25519.publicKey.raw
+          data: getStorableData(Fixtures.Keys.ed25519.publicKey)
         };
 
         const result = apollo.restorePublicKey(key);
@@ -451,7 +462,7 @@ describe("Apollo", () => {
       test("recoveryId x25519+pub - matches - returns X25519PublicKey instance", () => {
         const key: StorableKey = {
           recoveryId: StorableKey.recoveryId("x25519", "pub"),
-          raw: Fixtures.Keys.x25519.publicKey.raw
+          data: getStorableData(Fixtures.Keys.x25519.publicKey)
         };
 
         const result = apollo.restorePublicKey(key);
@@ -462,7 +473,7 @@ describe("Apollo", () => {
       test("recoveryId secp256k1+pub - matches - returns Secp256k1PublicKey instance", () => {
         const key: StorableKey = {
           recoveryId: StorableKey.recoveryId("secp256k1", "pub"),
-          raw: Fixtures.Keys.secp256K1.publicKey.raw
+          data: getStorableData(Fixtures.Keys.secp256K1.publicKey)
         };
 
         const result = apollo.restorePublicKey(key);
