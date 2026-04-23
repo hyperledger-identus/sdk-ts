@@ -4,7 +4,7 @@ import { describe, it, expect, test, beforeEach } from 'vitest';
 import * as Fixtures from "../fixtures";
 import { base64url } from 'multiformats/bases/base64';
 import { randomUUID } from 'node:crypto';
-import { Apollo, Domain, JWTCredential, Pluto } from '../../src';
+import { Apollo, Domain, JWTCredential, Pluto, SDJWTCredential, SDJWT_VP_PROPS } from '../../src';
 import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds';
 
 
@@ -193,6 +193,31 @@ describe("Pluto", () => {
         expect(sut.subject).to.eq(Fixtures.Backup.credentialAnoncreds.subject);
       });
 
+      test("credentials - SD-JWT", async () => {
+        const expected = Fixtures.Backup.credentialSDJWT;
+        await instance.restore({
+          credentials: [
+            {
+              recovery_id: 'sdjwt',
+              data: Buffer.from(base64url.baseEncode(Buffer.from(Fixtures.Credentials.SDJWT.credentialPayloadWithDisclosures))).toString(),
+            },
+          ],
+          dids: [],
+          did_pairs: [],
+          keys: [],
+          mediators: [],
+          messages: [],
+          link_secret: undefined,
+        });
+
+        const result = await instance.getAllCredentials();
+        expect(result).to.be.an("array").to.have.length(1);
+        const sut = result[0] as SDJWTCredential;
+        expect(sut).to.be.instanceOf(SDJWTCredential);
+        expect(sut.id).to.eq(expected.id);
+        expect(sut.properties.get(SDJWT_VP_PROPS.disclosures)).to.deep.eq(expected.properties.get(SDJWT_VP_PROPS.disclosures));
+      });
+
       test("dids", async () => {
         await instance.restore({
           credentials: [],
@@ -379,6 +404,7 @@ describe("Pluto", () => {
       test("Backup -> Restore", async () => {
         await instance.storeCredential(Fixtures.Backup.credentialJWT);
         await instance.storeCredential(Fixtures.Backup.credentialAnoncreds);
+        await instance.storeCredential(Fixtures.Backup.credentialSDJWT);
         await instance.storeDIDPair(Fixtures.Backup.hostDID, Fixtures.Backup.targetDID, Fixtures.Backup.pairAlias);
         await instance.storeDID(Fixtures.Backup.hostDID, Fixtures.Backup.peerDIDKeys);
         if (backupFixture.json.version == "0.0.1") {
@@ -409,7 +435,7 @@ describe("Pluto", () => {
 
         expect(dids).not.to.be.null;
 
-        expect(credentials).to.have.length(2);
+        expect(credentials).to.have.length(3);
         // expect(credentials.map(x => (x as any).toStorable())).to.have.deep.members([Fixtures.Backup.credentialAnoncreds.toStorable(), Fixtures.Backup.credentialJWT.toStorable()]);
 
         expect(dids).to.have.length(2);

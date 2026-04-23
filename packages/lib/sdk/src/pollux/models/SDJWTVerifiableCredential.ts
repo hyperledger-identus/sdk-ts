@@ -188,6 +188,8 @@ export class SDJWTCredential extends Credential implements ProvableCredential, S
                 claims[disclosure.key] = disclosure;
             }
         }
-        return new SDJWTCredential(loaded, [claims], revoked);
+        const result = new SDJWTCredential(loaded, [claims], revoked);
+        result.properties.set(JWT.Claims.jti, jws);
+        return result;
     }
 }
