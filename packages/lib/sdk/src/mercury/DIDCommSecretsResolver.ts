@@ -44,13 +44,10 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
 
 
   async find_secrets(secret_ids: string[]): Promise<string[]> {
-    const peerDids = await this.pluto.getAllPeerDIDs();
     const results = await Promise.all(
       secret_ids.map(async (secretId) => {
         const secretDID = await this.parseDIDUrl(secretId);
-        const found = peerDids.find((peerDIDSecret: any) => {
-          return secretDID.did.toString() === peerDIDSecret.did.toString();
-        });
+        const found = await this.pluto.getDIDByDIDOrAlias(secretDID.did.toString());
         return found ? secretId : null;
       })
     );
@@ -59,14 +56,10 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
 
   async get_secret(secret_id: string): Promise<DIDComm.Secret | null> {
     const { DIDDocument } = await import("@hyperledger/identus-domain");
-    const peerDids = await this.pluto.getAllPeerDIDs();
     const secretDID = await this.parseDIDUrl(secret_id);
-    const found = peerDids.find((peerDIDSecret: any) => {
-      return secretDID.did.toString() === peerDIDSecret.did.toString();
-    });
+    const found = await this.pluto.getDIDByDIDOrAlias(secretDID.did.toString());
     if (found) {
-      const did = await this.castor.resolveDID(found.did.toString());
-
+      const did = await this.castor.resolveDID(found.toString());
       const [publicKeyJWK] = did.coreProperties.reduce<import("@hyperledger/identus-domain").JWK[]>((all, property) => {
         if (property instanceof DIDDocument.VerificationMethods) {
           const matchingValue =
@@ -90,12 +83,13 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
   }
 
   private async mapToSecret(
-    peerDid: import("@hyperledger/identus-domain").PeerDID,
+    did: import("@hyperledger/identus-domain").DID,
     publicKeyJWK: import("@hyperledger/identus-domain").JWK
   ): Promise<DIDComm.Secret> {
     const { Curve, KeyTypes } = await import("@hyperledger/identus-domain");
-    const privateKeyBuffer = peerDid.privateKeys.find(
-      (key) => key.keyCurve.curve === Curve.X25519
+    const privateKeys = await this.pluto.getDIDPrivateKeysByDID(did);
+    const privateKeyBuffer = privateKeys.find(
+      (key) => key.curve.toString() === Curve.X25519.toString()
     );
     if (!privateKeyBuffer) {
       throw new Error(`Invalid PrivateKey Curve ${Curve.X25519}`);
@@ -108,8 +102,7 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
     const ecnumbasis = await computeEncnumbasis(
       privateKey.publicKey()
     );
-    const id = `${peerDid.did.toString()}#${ecnumbasis}`;
-
+    const id = `${did.toString()}#${ecnumbasis}`;
     const secret: DIDComm.Secret = {
       id,
       type: "JsonWebKey2020",
