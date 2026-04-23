@@ -1,13 +1,15 @@
 import { base64url } from "multiformats/bases/base64";
 
-import { Apollo, BackupOptions, Domain, JWTCredential, Secp256k1PrivateKey } from "../../src";
+import { Apollo, BackupOptions, Domain, JWTCredential, SDJWTCredential, Secp256k1PrivateKey } from "../../src";
 import { LinkSecret, Mediator, Message, Schema } from '@hyperledger/identus-domain';
 import { credentialPayloadEncoded } from "./credentials/jwt";
+import { credentialPayloadWithDisclosures } from "./credentials/sdjwt";
 import { credential as anonCredential } from "./credentials/anoncreds";
 import { peerDID4, peerDID5 } from "./dids";
 import { AnonCredsCredential } from "../../src/plugins/internal/anoncreds";
 
 export const credentialJWT = JWTCredential.fromJWS(credentialPayloadEncoded);
+export const credentialSDJWT: SDJWTCredential = SDJWTCredential.fromJWS(credentialPayloadWithDisclosures);
 export const credentialAnoncreds = new AnonCredsCredential(anonCredential);
 export const hostDID = peerDID5;
 export const targetDID = peerDID4;
@@ -56,6 +58,10 @@ export const backups: { title: string, json: Schema, options: BackupOptions, jwe
         {
           recovery_id: "anoncred",
           data: Buffer.from(base64url.baseEncode(Buffer.from(credentialAnoncreds.toStorable().credentialData))).toString(),
+        },
+        {
+          recovery_id: 'sdjwt',
+          data: Buffer.from(base64url.baseEncode(Buffer.from(credentialPayloadWithDisclosures))).toString(),
         }
       ],
       dids: [
@@ -107,6 +113,10 @@ export const backups: { title: string, json: Schema, options: BackupOptions, jwe
         {
           recovery_id: "anoncred",
           data: Buffer.from(base64url.baseEncode(Buffer.from(credentialAnoncreds.toStorable().credentialData))).toString(),
+        },
+        {
+          recovery_id: 'sdjwt',
+          data: Buffer.from(base64url.baseEncode(Buffer.from(credentialPayloadWithDisclosures))).toString(),
         }
       ],
       dids: [
@@ -160,6 +170,10 @@ export const backups: { title: string, json: Schema, options: BackupOptions, jwe
         {
           recovery_id: "anoncred",
           data: Buffer.from(base64url.baseEncode(Buffer.from(credentialAnoncreds.toStorable().credentialData))).toString(),
+        },
+        {
+          recovery_id: 'sdjwt',
+          data: Buffer.from(base64url.baseEncode(Buffer.from(credentialPayloadWithDisclosures))).toString(),
         }
       ],
       dids: [

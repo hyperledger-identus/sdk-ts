@@ -1,31 +1,34 @@
-import { AttachmentDescriptor, CredentialType, JWT_ALG } from '@hyperledger/identus-domain';
-
+import { AttachmentDescriptor, CredentialType } from '@hyperledger/identus-domain';
 import { list } from "../dids";
 import { OfferCredential } from '../../../src/plugins/internal/didcomm';
 
 
 export const credentialPayloadEncoded = "eyJ0eXAiOiJ2YytzZC1qd3QiLCJhbGciOiJFZERTQSJ9.eyJpc3MiOiJkaWQ6cHJpc206NzE2OGEwN2I5NGQxMzAyNjg5MDU2ZTkyN2I0ZGVmOTNjNDIzYjk1NTNmNzcxZTQ4NmM4ZDkxODg4M2UyNTZmMTpDcTBCQ3FvQkVsc0tIMkYxZEdobGJuUnBZMkYwYVc5dVlYVjBhR1Z1ZEdsallYUnBiMjVMWlhrUUJFSTJDZ2RGWkRJMU5URTVFaXRrYlRWbU1rZGtValZDWVVod1VuaENPR0pVUld4MlJWOHdaMGxETW5BME1EUk5jM2c1YzNkS09URTBFa3NLRDIxaGMzUmxjbTFoYzNSbGNrdGxlUkFCUWpZS0IwVmtNalUxTVRrU0syUnROV1l5UjJSU05VSmhTSEJTZUVJNFlsUkZiSFpGWHpCblNVTXljRFF3TkUxemVEbHpkMG81TVRRIiwiaWF0IjoxNzE3Nzc2MTY3NTg5LCJ2Y3QiOiJodHRwOi8vZXhhbXBsZS5jb20iLCJmaXJzdG5hbWUiOiJKb2huIiwibGFzdG5hbWUiOiJEb2UiLCJzc24iOiIxMjMtNDUtNjc4OSIsImlkIjoiMTIzNCIsIl9zZF9hbGciOiJzaGEtMjU2In0.RThFQjlENjJDN0Y5NjlCOEM0NERFNkU3RDg4MDg5RkRBQjg0RTUzNzUyNTZFRUI5NUQyQTUwQ0U1MTdDNzQ2NjU5REExOTM4Njc0RjhFMkQ2QjFCNzNFNEZCRDZBNkQ4NjIzNDFEQkFERjY0MTBERUJCRENDRkVBRjhCMkMwMDU~";
+export const credentialDisclosure = "WyJzYWx0MTIzIiwiZmlyc3RuYW1lIiwiU0RKV1QiXQ";
+export const credentialPayloadWithDisclosures = credentialPayloadEncoded + credentialDisclosure;
+export const expectedDisclosureKey = "firstname";
+export const expectedDisclosureValue = "SDJWT";
 
 export const credentialOfferMessage = new OfferCredential(
   {
-    // "formats": [
-    //   {
-    //     attach_id: "321905d1-5f01-42b0-b0ba-39b09645eeaa",
-    //     format: CredentialType.SDJWT
-    //   }
-    // ],
+    "formats": [
+      {
+        attach_id: "321905d1-5f01-42b0-b0ba-39b09645eeaa",
+        format: CredentialType.SDJWT
+      }
+    ],
     "credential_preview": {
       "body": {
         "attributes": [
           {
             "media_type": null,
-            "name": "familyName",
-            "value": "JWT"
+            "name": "firstname",
+            "value": "SDJWT"
           },
           {
             "media_type": null,
-            "name": "emailAddress",
-            "value": "jwt@wonderland.com"
+            "name": "lastname",
+            "value": "Wonderland"
           }
         ]
       },

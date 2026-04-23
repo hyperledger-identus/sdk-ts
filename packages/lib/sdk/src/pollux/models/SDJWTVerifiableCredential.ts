@@ -90,7 +90,7 @@ export class SDJWTCredential extends Credential implements ProvableCredential, S
             this.properties.set(JWT.Claims.sub, payload.sub);
         }
 
-        this.properties.set(JWT.Claims.jti, jwt.encodeJwt());
+        this.properties.set(JWT.Claims.jti, object.encodeSDJwt());
 
         if (payload.nbf) {
             this.properties.set(JWT.Claims.nbf, payload.nbf);
@@ -188,6 +188,8 @@ export class SDJWTCredential extends Credential implements ProvableCredential, S
                 claims[disclosure.key] = disclosure;
             }
         }
-        return new SDJWTCredential(loaded, [claims], revoked);
+        const result = new SDJWTCredential(loaded, [claims], revoked);
+        result.properties.set(JWT.Claims.jti, jws);
+        return result;
     }
 }
