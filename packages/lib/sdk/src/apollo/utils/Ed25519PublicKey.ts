@@ -8,6 +8,7 @@ import {
   StorableKey,
   type VerifiableKey
 } from "@hyperledger/identus-domain";
+import { CryptoWorkerManager } from "../../workers";
 
 import ApolloPKG from "@hyperledger/identus-apollo";
 const ApolloSDK = ApolloPKG.org.hyperledger.identus.apollo;
@@ -42,6 +43,14 @@ export class Ed25519PublicKey extends PublicKey implements ExportableKey, Storab
       Int8Array.from(message),
       Int8Array.from(signature)
     );
+  }
+
+  async verifyAsync(message: Buffer, signature: Buffer): Promise<boolean> {
+    const manager = CryptoWorkerManager.getInstance();
+    if (manager.isSupported()) {
+      return manager.verify("Ed25519", this.raw, Uint8Array.from(message), Uint8Array.from(signature));
+    }
+    return this.verify(message, signature);
   }
 
   private getInstance(

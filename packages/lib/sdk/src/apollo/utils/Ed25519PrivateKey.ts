@@ -12,6 +12,7 @@ import {
   type DerivableKey,
   ApolloError
 } from "@hyperledger/identus-domain";
+import { CryptoWorkerManager } from "../../workers";
 
 import ApolloPKG from "@hyperledger/identus-apollo";
 const ApolloSDK = ApolloPKG.org.hyperledger.identus.apollo;
@@ -61,6 +62,28 @@ export class Ed25519PrivateKey extends PrivateKey implements DerivableKey, Expor
     return sk;
   }
 
+  async deriveAsync(derivationPath: string): Promise<PrivateKey> {
+    const chainCodeHex = this.getProperty(KeyProperties.chainCode);
+    if (!chainCodeHex) {
+      throw new ApolloError.MissingKeyParameters(KeyProperties.chainCode);
+    }
+    const manager = CryptoWorkerManager.getInstance();
+    if (manager.isSupported()) {
+      const derivationPathStr = derivationPath.toString();
+      const { derivedKeyRaw, chainCode } = await manager.deriveKey(
+        "Ed25519", this.raw, chainCodeHex, derivationPathStr
+      );
+      const sk = new Ed25519PrivateKey(derivedKeyRaw);
+      sk.keySpecification.set(KeyProperties.derivationPath, Buffer.from(derivationPathStr).toString("hex"));
+      sk.keySpecification.set(KeyProperties.index, `${this.index ?? 0}`);
+      if (chainCode) {
+        sk.keySpecification.set(KeyProperties.chainCode, chainCode);
+      }
+      return sk;
+    }
+    return this.derive(derivationPath);
+  }
+
   publicKey() {
     return new Ed25519PublicKey(this.getInstance().publicKey().raw);
   }
@@ -72,6 +95,15 @@ export class Ed25519PrivateKey extends PrivateKey implements DerivableKey, Expor
   sign(message: Buffer) {
     const signature = this.getInstance().sign(new Int8Array(message));
     return Buffer.from(signature);
+  }
+
+  async signAsync(message: Buffer): Promise<Buffer> {
+    const manager = CryptoWorkerManager.getInstance();
+    if (manager.isSupported()) {
+      const signature = await manager.sign("Ed25519", this.raw, Uint8Array.from(message));
+      return Buffer.from(signature);
+    }
+    return this.sign(message);
   }
 
   x25519() {

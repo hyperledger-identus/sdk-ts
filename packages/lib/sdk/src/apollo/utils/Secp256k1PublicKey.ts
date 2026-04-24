@@ -12,6 +12,7 @@ import {
   ECConfig
 } from "@hyperledger/identus-domain";
 
+import { CryptoWorkerManager } from "../../workers";
 import ApolloPKG from "@hyperledger/identus-apollo";
 const ApolloSDK = ApolloPKG.org.hyperledger.identus.apollo;
 
@@ -191,5 +192,13 @@ export class Secp256k1PublicKey extends PublicKey implements StorableKey, Export
       Int8Array.from(signature),
       Int8Array.from(message)
     );
+  }
+
+  async verifyAsync(message: Buffer, signature: Buffer): Promise<boolean> {
+    const manager = CryptoWorkerManager.getInstance();
+    if (manager.isSupported()) {
+      return manager.verify("Secp256k1", this.raw, Uint8Array.from(message), Uint8Array.from(signature));
+    }
+    return this.verify(message, signature);
   }
 }

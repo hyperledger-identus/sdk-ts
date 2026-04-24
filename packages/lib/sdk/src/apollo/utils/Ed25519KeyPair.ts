@@ -1,6 +1,7 @@
 import { KeyPair } from "@hyperledger/identus-domain";
 import { Ed25519PrivateKey } from "./Ed25519PrivateKey";
 import { Ed25519PublicKey } from "./Ed25519PublicKey";
+import { CryptoWorkerManager } from "../../workers";
 import ApolloPKG from "@hyperledger/identus-apollo";
 const ApolloSDK = ApolloPKG.org.hyperledger.identus.apollo;
 
@@ -22,5 +23,17 @@ export class Ed25519KeyPair extends KeyPair {
       new Ed25519PrivateKey(keyPair.privateKey.raw),
       new Ed25519PublicKey(keyPair.publicKey.raw)
     );
+  }
+
+  static async generateKeyPairAsync(): Promise<Ed25519KeyPair> {
+    const manager = CryptoWorkerManager.getInstance();
+    if (manager.isSupported()) {
+      const { privateKeyRaw, publicKeyRaw } = await manager.generateKeyPair("Ed25519");
+      return new Ed25519KeyPair(
+        new Ed25519PrivateKey(privateKeyRaw),
+        new Ed25519PublicKey(publicKeyRaw)
+      );
+    }
+    return Ed25519KeyPair.generateKeyPair();
   }
 }

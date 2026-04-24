@@ -22,9 +22,11 @@ export class SignWithDID extends Task<Domain.Signature, Args> {
 
     for (const privateKey of privateKeys) {
       if (privateKey.isSignable()) {
-        return {
-          value: privateKey.sign(Buffer.from(this.args.message)),
-        };
+        const message = Buffer.from(this.args.message);
+        const signature = "signAsync" in privateKey && typeof privateKey.signAsync === "function"
+          ? await privateKey.signAsync(message)
+          : privateKey.sign(message);
+        return { value: signature };
       }
     }
 

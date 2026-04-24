@@ -8,6 +8,7 @@ export default defineConfig({
     'src/plugins/internal/oidc/index.ts',
     'src/plugins/internal/dif/index.ts',
     'src/plugins/internal/oea/index.ts',
+    'src/workers/crypto.worker.ts',
   ],
   outDir: "build",
   clean: true,

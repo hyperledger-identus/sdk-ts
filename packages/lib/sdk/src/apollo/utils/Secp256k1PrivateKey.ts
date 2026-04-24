@@ -12,6 +12,7 @@ import {
 import { Secp256k1PublicKey } from "./Secp256k1PublicKey";
 import { ApolloError, Curve, KeyTypes, KeyProperties, } from "@hyperledger/identus-domain";
 
+import { CryptoWorkerManager } from "../../workers";
 import ApolloPKG from "@hyperledger/identus-apollo";
 const ApolloSDK = ApolloPKG.org.hyperledger.identus.apollo;
 const HDKey = ApolloSDK.derivation.HDKey;
@@ -80,6 +81,28 @@ export class Secp256k1PrivateKey
     return privateKey;
   }
 
+  async deriveAsync(derivationPath: string): Promise<Secp256k1PrivateKey> {
+    const chainCodeHex = this.getProperty(KeyProperties.chainCode);
+    if (!chainCodeHex) {
+      throw new ApolloError.MissingKeyParameters(KeyProperties.chainCode);
+    }
+    const manager = CryptoWorkerManager.getInstance();
+    if (manager.isSupported()) {
+      const derivationPathStr = derivationPath.toString();
+      const { derivedKeyRaw, chainCode } = await manager.deriveKey(
+        "Secp256k1", this.raw, chainCodeHex, derivationPathStr
+      );
+      const privateKey = new Secp256k1PrivateKey(derivedKeyRaw);
+      privateKey.keySpecification.set(KeyProperties.derivationPath, Buffer.from(derivationPathStr).toString("hex"));
+      privateKey.keySpecification.set(KeyProperties.index, `${this.index ?? 0}`);
+      if (chainCode) {
+        privateKey.keySpecification.set(KeyProperties.chainCode, chainCode);
+      }
+      return privateKey;
+    }
+    return this.derive(derivationPath);
+  }
+
   publicKey() {
     const secp256K1PublicKey = this.native.getPublicKey();
     return new Secp256k1PublicKey(Uint8Array.from(secp256K1PublicKey.raw));
@@ -95,6 +118,15 @@ export class Secp256k1PrivateKey
 
   sign(message: Buffer) {
     return Buffer.from(Uint8Array.from(this.native.sign(Int8Array.from(message))));
+  }
+
+  async signAsync(message: Buffer): Promise<Buffer> {
+    const manager = CryptoWorkerManager.getInstance();
+    if (manager.isSupported()) {
+      const signature = await manager.sign("Secp256k1", this.raw, Uint8Array.from(message));
+      return Buffer.from(signature);
+    }
+    return this.sign(message);
   }
 
   // ?? move to `from` property
