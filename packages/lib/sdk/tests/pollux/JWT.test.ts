@@ -204,6 +204,61 @@ describe("Domain - JWT", () => {
 
       expect(result).toBe(false);
     });
+
+    describe("expiration", () => {
+      const privateKey = Secp256k1PrivateKey.from.String(
+        "8bfd5ff83034bbc004950de2b3a02cdafbbff9faebcb63640c895959a2d3da24",
+        "hex",
+      );
+      const issuerDID = Domain.DID.from(
+        "did:prism:9e93a84d492c62e03ab114e0b7a7b4a6880cd0e079f358d2196dc9c312dadb90:Co0CCooCElwKB21hc3RlcjAQAUJPCglzZWNwMjU2azESIBG7LMd7RA5-ckcPQICROrUbKx35x4aFAXjt_zIoWKAbGiD9WlLNP0Lr7JyQ7Q6uoY-m2TnygmAf8EBBTHGYzxm4exJkCg9hdXRoZW50aWNhdGlvbjAQBEJPCglzZWNwMjU2azESIBG7LMd7RA5-ckcPQICROrUbKx35x4aFAXjt_zIoWKAbGiD9WlLNP0Lr7JyQ7Q6uoY-m2TnygmAf8EBBTHGYzxm4exJECghpc3N1aW5nMBACSjYKB0VkMjU1MTkSKzh0dUVjUDRsZFhMQlV6US1YdEpDS1AwUC14QU5acV9SUnZQSDBIYXFWTjg",
+      );
+
+      beforeEach(() => {
+        vi.spyOn(plutoMock, "getDIDPrivateKeysByDID").mockResolvedValue([privateKey]);
+      });
+
+      test("expired JWT (exp in the past) - returns false", async () => {
+        const expiredTimestamp = Math.floor(Date.now() / 1000) - 60;
+        const jws = await sut.signWithDID(
+          issuerDID,
+          { exp: expiredTimestamp },
+          {},
+          privateKey,
+        );
+
+        const result = await sut.verify({ jws, issuerDID });
+
+        expect(result).toBe(false);
+      });
+
+      test("valid JWT (exp in the future) - returns true", async () => {
+        const futureTimestamp = Math.floor(Date.now() / 1000) + 3600;
+        const jws = await sut.signWithDID(
+          issuerDID,
+          { exp: futureTimestamp },
+          {},
+          privateKey,
+        );
+
+        const result = await sut.verify({ jws, issuerDID });
+
+        expect(result).toBe(true);
+      });
+
+      test("JWT without exp claim - returns true (no expiration enforced)", async () => {
+        const jws = await sut.signWithDID(
+          issuerDID,
+          {},
+          {},
+          privateKey,
+        );
+
+        const result = await sut.verify({ jws, issuerDID });
+
+        expect(result).toBe(true);
+      });
+    });
   });
 
   describe("round trip", () => {
