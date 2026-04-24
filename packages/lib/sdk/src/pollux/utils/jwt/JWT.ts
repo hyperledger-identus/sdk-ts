@@ -62,6 +62,13 @@ export class JWT extends Task.Runner {
 
       const decoded = await this.decode(jws);
 
+      // Verify not-before (nbf) claim per RFC 7519 Section 4.1.5
+      // If nbf is present and the current time is before it, the JWT is not yet valid
+      const nbf = decoded.payload.nbf;
+      if (typeof nbf === "number" && Math.floor(Date.now() / 1000) < nbf) {
+        return false;
+      }
+
       for (const verificationMethod of verificationMethods) {
         try {
           const pk = await this.runTask(new PKInstance({ verificationMethod }));
