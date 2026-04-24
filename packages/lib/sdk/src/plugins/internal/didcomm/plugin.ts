@@ -5,6 +5,7 @@ import { HandleIssueCredential } from "./tasks/HandleIssueCredential";
 import { HandleOfferCredential } from "./tasks/HandleOfferCredential";
 import { MediateDeny } from "./connection/MediateDeny";
 import { MediateGrant } from "./connection/MediateGrant";
+import { MediationKeysUpdateResponse } from "./connection/MediationKeysUpdateResponse";
 import { PickupDelivery } from "./connection/PickupDelivery";
 import { PickupStatus } from "./connection/PickupStatus";
 import { ProblemReport } from "./connection/ProblemReport";
@@ -20,6 +21,7 @@ export const plugin = new Plugin()
   .register(ProtocolIds.IssueCredential, HandleIssueCredential)
   .register(ProtocolIds.MediationGrant, MediateGrant)
   .register(ProtocolIds.MediationDeny, MediateDeny)
+  .register(ProtocolIds.MediationKeysUpdateResponse, MediationKeysUpdateResponse)
   .register(ProtocolIds.PickupStatus, PickupStatus)
   .register(ProtocolIds.PickupDelivery, PickupDelivery)
   .register(ProtocolIds.ProblemReporting, ProblemReport);
