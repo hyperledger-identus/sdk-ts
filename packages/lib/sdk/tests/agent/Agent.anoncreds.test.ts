@@ -75,7 +75,7 @@ describe("Agent Tests", () => {
       castor,
       pluto,
       mercury,
-      seed: async () => seed.value,
+      seed,
       api,
     });
 

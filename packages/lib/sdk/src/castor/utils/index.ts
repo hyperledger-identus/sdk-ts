@@ -19,7 +19,7 @@ function toMethodRecord(methods: readonly DIDMethodInput[]): Record<string, DIDM
 
 function getDefaultMethods(): readonly DIDMethodInput[] {
     return [
-        new PrismDIDMethod(),
+        new PrismDIDMethod("https://raw.githubusercontent.com/FabioPinheiro/prism-vdr/refs/heads/main/mainnet/diddoc/"),
         new PeerDIDMethod(),
     ];
 }
