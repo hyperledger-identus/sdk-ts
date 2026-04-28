@@ -78,6 +78,76 @@ describe("Domain - SDJWT", () => {
       await expect(result).rejects.toThrow(Domain.PolluxError.InvalidCredentialError);
     });
 
+    test("expired credential (exp in the past) throws InvalidCredentialError", async () => {
+      const { temporalClaims } = Fixtures.Credentials.SDJWT;
+      const issuerDID = Domain.DID.fromString(temporalClaims.issuerDID);
+
+      vi.spyOn(sut as any, "runTask").mockResolvedValue({
+        didDocument: { verificationMethod: [{}] },
+      });
+
+      const result = sut.verify({
+        jws: temporalClaims.expiredJws,
+        issuerDID,
+      });
+
+      await expect(result).rejects.toThrow(Domain.PolluxError.InvalidCredentialError);
+      await expect(result).rejects.toThrow(/expired/);
+    });
+
+    test("not-yet-valid credential (nbf in the future) throws InvalidCredentialError", async () => {
+      const { temporalClaims } = Fixtures.Credentials.SDJWT;
+      const issuerDID = Domain.DID.fromString(temporalClaims.issuerDID);
+
+      vi.spyOn(sut as any, "runTask").mockResolvedValue({
+        didDocument: { verificationMethod: [{}] },
+      });
+
+      const result = sut.verify({
+        jws: temporalClaims.notYetValidJws,
+        issuerDID,
+      });
+
+      await expect(result).rejects.toThrow(Domain.PolluxError.InvalidCredentialError);
+      await expect(result).rejects.toThrow(/not yet valid/);
+    });
+
+    test("credential without exp/nbf proceeds to signature verification", async () => {
+      const { temporalClaims } = Fixtures.Credentials.SDJWT;
+      const issuerDID = Domain.DID.fromString(temporalClaims.issuerDID);
+
+      // First call: ResolveDID → return DID doc; Second call: PKInstance → return null (no key)
+      vi.spyOn(sut as any, "runTask")
+        .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+        .mockResolvedValueOnce(null);
+
+      // Without exp/nbf, verify proceeds past temporal checks to signature loop
+      const result = await sut.verify({
+        jws: temporalClaims.validJws,
+        issuerDID,
+      });
+
+      expect(result).toBe(false);
+    });
+
+    test("console.log is not called on verification failure", async () => {
+      const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+      const { temporalClaims } = Fixtures.Credentials.SDJWT;
+      const issuerDID = Domain.DID.fromString(temporalClaims.issuerDID);
+
+      vi.spyOn(sut as any, "runTask")
+        .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+        .mockResolvedValueOnce(null);
+
+      await sut.verify({
+        jws: temporalClaims.validJws,
+        issuerDID,
+      });
+
+      expect(consoleSpy).not.toHaveBeenCalled();
+      consoleSpy.mockRestore();
+    });
+
   });
 
   describe("purpose", () => {

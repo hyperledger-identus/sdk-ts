@@ -4,7 +4,7 @@ import { type SDJWTVCConfig, SDJwtVcInstance, type SdJwtVcPayload, } from '@sd-j
 import { type Disclosure } from '@sd-jwt/utils';
 import { decodeSdJwtSync, getClaimsSync } from '@sd-jwt/decode';
 import type { DisclosureFrame, PresentationFrame } from '@sd-jwt/types';
-import type * as Domain from '@hyperledger/identus-domain';
+import * as Domain from '@hyperledger/identus-domain';
 import { PolluxError, CastorError } from '@hyperledger/identus-domain';
 import { SDJWTCredential } from '../../models/SDJWTVerifiableCredential';
 import { Task, notNil } from "../../../utils";
@@ -70,6 +70,32 @@ export class SDJWT extends Task.Runner {
     if (jwtObject.issuer && jwtObject.issuer !== issuerDID.toString()) {
       throw new PolluxError.InvalidCredentialError("SDJWT issuer does not match the expected DID");
     }
+
+    // Check exp claim (RFC 7519 §4.1.4)
+    // Normalize timestamps: the codebase uses Date.getTime() (ms) for nbf/exp,
+    // but RFC 7519 expects seconds. Values > 1e10 are milliseconds.
+    const now = Math.floor(Date.now() / 1000);
+    const rawExp = jwtObject.getProperty(Domain.JWT.Claims.exp);
+    if (typeof rawExp === 'number') {
+      const exp = rawExp > 1e10 ? Math.floor(rawExp / 1000) : rawExp;
+      if (now >= exp) {
+        throw new PolluxError.InvalidCredentialError(
+          `Credential has expired: exp ${exp} is in the past (now: ${now})`
+        );
+      }
+    }
+
+    // Check nbf claim (RFC 7519 §4.1.5)
+    const rawNbf = jwtObject.getProperty(Domain.JWT.Claims.nbf);
+    if (typeof rawNbf === 'number') {
+      const nbf = rawNbf > 1e10 ? Math.floor(rawNbf / 1000) : rawNbf;
+      if (now < nbf) {
+        throw new PolluxError.InvalidCredentialError(
+          `Credential is not yet valid: nbf ${nbf} is in the future (now: ${now})`
+        );
+      }
+    }
+
     const kidHeader = jwtObject.core.jwt?.header?.kid;
     const methods = notNil(kidHeader)
       ? verificationMethods.filter(x => x.id === kidHeader)
@@ -89,8 +115,12 @@ export class SDJWT extends Task.Runner {
           );
           return true;
         } catch (err) {
-          // eslint-disable-next-line no-console
-          console.log(err);
+          // Only swallow signature verification errors — rethrow unexpected ones
+          if (err instanceof PolluxError.InvalidCredentialError) {
+            throw err;
+          }
+          // Signature verification failed with this key, try next method
+          continue;
         }
       }
     }
