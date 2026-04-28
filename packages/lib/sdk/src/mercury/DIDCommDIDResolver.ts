@@ -22,7 +22,6 @@ export class DIDCommDIDResolver implements DIDComm.DIDResolver {
   async resolve(did: string): Promise<DIDComm.DIDDoc | null> {
     const { DIDDocument, CastorError, Curve, expect } = await import("@hyperledger/identus-domain");
     const doc = await this.castor.resolveDID(did);
-
     const authentications: string[] = [];
     const keyAgreements: string[] = [];
     const services: DIDComm.Service[] = [];
@@ -58,10 +57,7 @@ export class DIDCommDIDResolver implements DIDComm.DIDResolver {
         });
       }
 
-      if (
-        coreProperty instanceof DIDDocument.Service &&
-        coreProperty.type.includes(DIDCommMessagingKey)
-      ) {
+      if (coreProperty instanceof DIDDocument.Service) {
         services.push({
           id: coreProperty.id,
           type: DIDCommMessagingKey,
