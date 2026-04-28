@@ -4,7 +4,6 @@ import { Castor } from "../../../src/castor";
 import { Pluto } from "../../../src/pluto/Pluto";
 import * as Domain from "@hyperledger/identus-domain";
 import { DIDCommSecretsResolver } from "../../../src/mercury/DIDCommSecretsResolver";
-import { PeerDIDCreate } from "../../../src/castor/methods/peer/PeerDIDCreate";
 import { Curve } from "@hyperledger/identus-domain";
 import * as Fixtures from "../../fixtures";
 import * as utils from '../../../src/castor/utils';
@@ -25,7 +24,8 @@ describe("Mercury DIDComm SecretsResolver", () => {
     } as any;
 
     pluto = {
-      getAllPeerDIDs: async () => [],
+      getDIDByDIDOrAlias: async () => null,
+      getDIDPrivateKeysByDID: async () => [],
     } as any;
 
     secretsResolver = new DIDCommSecretsResolver(apollo, castor, pluto);
@@ -40,7 +40,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
       const did = Domain.DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const secret = did.toString();
       // TODO: update when PeerDID Types are fixed
-      vi.spyOn(pluto, "getAllPeerDIDs").mockResolvedValue([{ did: secret } as any]);
+      vi.spyOn(pluto, "getDIDByDIDOrAlias").mockResolvedValue(Domain.DID.fromString(secret));
 
       const result = await secretsResolver.find_secrets([secret]);
 
@@ -48,21 +48,32 @@ describe("Mercury DIDComm SecretsResolver", () => {
       expect(result).to.contain(secret);
     });
 
-    it("should return matched secret - no duplicates", async () => {
+    it("should return matched secret also if missing duplicates exist", async () => {
       const did = Domain.DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const secret = did.toString();
-      vi.spyOn(pluto, "getAllPeerDIDs").mockResolvedValue([{ did: secret }, { did: secret }] as any);
+      vi.spyOn(pluto, "getDIDByDIDOrAlias").mockResolvedValue(Domain.DID.fromString(secret));
+
+      const result = await secretsResolver.find_secrets([secret, secret]);
+
+      expect(result).to.have.lengthOf(2);
+      expect(result).to.eql([secret, secret]);
+    });
+
+    it("should return matched secret for PRISM DID", async () => {
+      const did = Domain.DID.fromString("did:prism:4a5b2cb64f8faa318545eac4869c4f7b600f681a938cde99320aeeb6af1bd770");
+      const secret = did.toString();
+      vi.spyOn(pluto, "getDIDByDIDOrAlias").mockResolvedValue(Domain.DID.fromString(secret));
 
       const result = await secretsResolver.find_secrets([secret]);
 
       expect(result).to.have.lengthOf(1);
-      expect(result).to.eql([secret]);
+      expect(result).to.contain(secret);
     });
 
     it("should return empty array with unmatched secret", async () => {
       const did = Domain.DID.fromString("did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ");
       const secret = did.toString();
-      vi.spyOn(pluto, "getAllPeerDIDs").mockResolvedValue([]);
+      vi.spyOn(pluto, "getDIDByDIDOrAlias").mockResolvedValue(null);
 
       const result = await secretsResolver.find_secrets([secret]);
 
@@ -82,20 +93,15 @@ describe("Mercury DIDComm SecretsResolver", () => {
       };
       const ecnum = "ecnum123";
       const privateKey = Fixtures.Keys.x25519.privateKey;
-      const peerDid = {
-        did: secret,
-        curve: Curve.X25519,
-        privateKeys: [
-          {
-            keyCurve: {
-              curve: privateKey.curve
-            },
-            value: privateKey.getEncoded(),
-          },
-        ],
-      } as any;
+      const privateKeys = [
+        {
+          curve: Curve.X25519,
+          value: privateKey.getEncoded(),
+        },
+      ];
 
-      vi.spyOn(pluto, "getAllPeerDIDs").mockResolvedValue([peerDid]);
+      vi.spyOn(pluto, "getDIDByDIDOrAlias").mockResolvedValue(did as any);
+      vi.spyOn(pluto, "getDIDPrivateKeysByDID").mockResolvedValue(privateKeys as any);
       vi.spyOn(castor, "resolveDID").mockResolvedValue(
         new Domain.DIDDocument(did, [
           new Domain.DIDDocument.VerificationMethods([
@@ -119,9 +125,61 @@ describe("Mercury DIDComm SecretsResolver", () => {
         id: `${secret}#${ecnum}`,
         type: "JsonWebKey2020",
         privateKeyJwk: {
-          crv: peerDid.curve,
+          crv: Curve.X25519,
           kty: "OKP",
-          d: peerDid.privateKeys[0].value.toString(),
+          d: privateKeys[0].value.toString(),
+          x: publicKeyJwk.x as any,
+        },
+      });
+    });
+
+    it("should return matched secret for PRISM DID", async () => {
+      const did = Domain.DID.fromString("did:prism:4a5b2cb64f8faa318545eac4869c4f7b600f681a938cde99320aeeb6af1bd770");
+      const secret = did.toString();
+      const publicKeyJwk: Domain.JWK.OKP = {
+        crv: Domain.Curve.X25519,
+        kid: "kid",
+        kty: "OKP",
+        x: Buffer.from(new Uint8Array()).toString("base64url"),
+      };
+      const ecnum = "ecnum123";
+      const privateKey = Fixtures.Keys.x25519.privateKey;
+
+      const privateKeys = [
+        {
+          curve: Curve.X25519,
+          value: privateKey.getEncoded(),
+        },
+      ];
+
+      vi.spyOn(pluto, "getDIDByDIDOrAlias").mockResolvedValue(did as any);
+      vi.spyOn(pluto, "getDIDPrivateKeysByDID").mockResolvedValue(privateKeys as any);
+      vi.spyOn(castor, "resolveDID").mockResolvedValue(
+        new Domain.DIDDocument(did, [
+          new Domain.DIDDocument.VerificationMethods([
+            new Domain.DIDDocument.VerificationMethod(
+              secret,
+              "controller",
+              "JsonWebKey2020",
+              publicKeyJwk
+            ),
+          ]),
+        ])
+      );
+
+      vi.spyOn(utils, "computeEncnumbasis").mockReturnValue(Promise.resolve(ecnum));
+      vi.spyOn(apollo, "createPrivateKey").mockReturnValue(privateKey);
+
+      const result = await secretsResolver.get_secret(secret);
+
+      expect(result).not.to.be.null;
+      expect(result).to.eql({
+        id: `${secret}#${ecnum}`,
+        type: "JsonWebKey2020",
+        privateKeyJwk: {
+          crv: Curve.X25519,
+          kty: "OKP",
+          d: privateKeys[0].value.toString(),
           x: publicKeyJwk.x as any,
         },
       });
@@ -132,7 +190,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
         "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOnsidXJpIjoiaHR0cHM6Ly9tZWRpYXRvci5yb290c2lkLmNsb3VkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ"
       );
       const secret = did.toString();
-      vi.spyOn(pluto, "getAllPeerDIDs").mockResolvedValue([]);
+      vi.spyOn(pluto, "getDIDByDIDOrAlias").mockResolvedValue(null);
 
       const result = await secretsResolver.get_secret(secret);
 
