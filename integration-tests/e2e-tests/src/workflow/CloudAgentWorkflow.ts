@@ -1,4 +1,4 @@
-import { type Actor, Duration, notes, Wait } from "@serenity-js/core"
+import { type Actor, Duration, Wait } from "@serenity-js/core"
 import { GetRequest, LastResponse, PatchRequest, PostRequest, Send } from "@serenity-js/rest"
 import { Ensure, equals } from "@serenity-js/assertions"
 import { HttpStatusCode } from "axios"
@@ -13,6 +13,7 @@ import {
 } from "@hyperledger/identus-cloud-agent-client"
 import { Setup } from "../configuration/Setup"
 import { Utils } from "../Utils"
+import { notes } from "../abilities/NoteAdapter"
 import * as SDK from "@hyperledger/identus-sdk"
 
 export class CloudAgentWorkflow {
@@ -387,7 +388,7 @@ export class CloudAgentWorkflow {
       const credentialResponse = await this.getCredential(cloudAgent, recordId)
       const jwtString = Utils.decodeBase64URL(credentialResponse.credential)
       const decoded = SDK.JWTCredential.fromJWS(jwtString)
-      const credentialStatus = decoded.vc.credentialStatus
+      const credentialStatus = decoded.vc?.credentialStatus
       if (!credentialStatus?.statusListCredential) {
         throw new Error("Credential status list not found")
       }
@@ -402,13 +403,22 @@ export class CloudAgentWorkflow {
     const statusesList = await this.getCredentialStatusList(cloudAgent, recordIdList)
     await Utils.repeat(numberOfRevokedCredentials, async () => {
       const recordId = recordIdList.shift()
+      if (!recordId) {
+        throw Error("Record id is undefined.")
+      }
+
+      const recordIdStatus = statusesList.get(recordId)
+      if (!recordIdStatus) {
+        throw Error(`Could not find status for record id [${recordId}]`)
+      }
+
       await cloudAgent.attemptsTo(
-        Send.a(GetRequest.to(statusesList.get(recordId))),
+        Send.a(GetRequest.to(recordIdStatus)),
         notes().set("statusListEncoded", LastResponse.body<{ credentialSubject: { encodedList: string } }>().credentialSubject.encodedList),
         Send.a(PatchRequest.to(`credential-status/revoke-credential/${recordId}`)),
         Ensure.that(LastResponse.status(), equals(HttpStatusCode.Ok)),
         Wait.upTo(Duration.ofSeconds(60)).until(
-          Questions.httpGet(statusesList.get(recordId)),
+          Questions.httpGet(recordIdStatus),
           Expectations.propertyIsMetFor("credentialSubject.encodedList", async (property) => {
             return property != await cloudAgent.answer<string>(notes().get("statusListEncoded"))
           })

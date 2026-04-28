@@ -76,7 +76,7 @@ export class PrismDIDMethod
   /**
    * @param prismResolverEndpoint - custom VDR endpoint for short-form resolution
    */
-  constructor(prismResolverEndpoint?: string) {
+  constructor(prismResolverEndpoint: string) {
     this.resolver = new PrismDIDResolver(prismResolverEndpoint);
   }
 

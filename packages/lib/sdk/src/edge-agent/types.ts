@@ -46,6 +46,8 @@ export const ProtocolType = {
   DidcommPresentation: OEA.ProtocolIds.Presentation,
 };
 
+export type SeedFunction = () => Promise<Uint8Array>;
+
 export type AgentOptions = {
   mediatorDID?: DID | string;
   experiments?: {

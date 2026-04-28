@@ -1,5 +1,4 @@
 import { Ability, type Discardable, type Initialisable, Interaction, Question, type QuestionAdapter } from "@serenity-js/core"
-
 import {
   Agent,
   type Pluto,
@@ -8,7 +7,8 @@ import {
   ListenerKey,
   Castor,
   ProtocolType,
-  PrismDIDMethod
+  type SeedFunction,
+  PrismDIDMethod,
 } from "@hyperledger/identus-sdk"
 import * as Anoncreds from "@hyperledger/identus-sdk/plugins/anoncreds"
 import axios from "axios"
@@ -17,12 +17,30 @@ import { randomUUID, type UUID } from "crypto"
 import { Utils } from "../Utils"
 import { cloudAgentApi } from "../configuration/Setup"
 
-export const agentList: Map<string, WalletSdk> = new Map();
+export const agentList: Map<string, WalletSdk> = new Map()
+
+export class RequiredArray<T> extends Array<T> {
+  at(index: number): T {
+    const e = super.at(index)
+    if (!e) {
+      throw Error(`No element in position [${index}]`)
+    }
+    return e
+  }
+
+  shift(): T {
+    const e = super.shift()
+    if (!e) {
+      throw Error("No element in list")
+    }
+    return e
+  }
+}
 
 export class WalletSdk extends Ability implements Initialisable, Discardable {
   seed!: Domain.Seed
   sdk!: Agent
-  store: Pluto.Store
+  store!: Pluto.Store
   messages: MessageQueue = new MessageQueue()
   id: UUID = randomUUID()
 
@@ -30,12 +48,14 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     return new WalletSdk()
   }
 
+  constructor() {
+    super()
+  }
+
   private static async getMediatorDidThroughOob(): Promise<string> {
-    const response = await axios.get<string>(Setup.mediator.url)
+    const response = await axios.get<string>(`${Setup.mediator.url}/invitationOOB`)
     const encodedData = response.data.split("?_oob=")[1]
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const oobData = JSON.parse(Buffer.from(encodedData, "base64").toString())
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
     return oobData.from
   }
 
@@ -70,11 +90,11 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
   }
 
   static execute(callback: (sdk: Agent, messages: {
-    credentialOfferStack: Domain.Message[]
-    issuedCredentialStack: Domain.Message[]
-    proofRequestStack: Domain.Message[]
-    revocationStack: Domain.Message[],
-    presentationMessagesStack: Domain.Message[]
+    credentialOfferStack: RequiredArray<Domain.Message>
+    issuedCredentialStack: RequiredArray<Domain.Message>
+    proofRequestStack: RequiredArray<Domain.Message>
+    revocationStack: RequiredArray<Domain.Message>
+    presentationMessagesStack: RequiredArray<Domain.Message>
   }) => Promise<void>): Interaction {
     return Interaction.where("#actor uses wallet sdk", async actor => {
       await callback(WalletSdk.as(actor).sdk, {
@@ -94,26 +114,25 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
     }
   }
 
-  async createSdk(inputSeed: Domain.Seed = undefined) {
+  async createSdk(seed?: SeedFunction) {
     const didMethods = [
       new PrismDIDMethod(`${cloudAgentApi.defaults.baseURL}dids/`)
     ]
     const apollo = new Apollo()
     const castor = new Castor(apollo, didMethods)
-
-    const pluto = await Utils.createPlutoInstance();
-    const mediatorDID = Domain.DID.fromString(await WalletSdk.getMediatorDidThroughOob());
+    const pluto = await Utils.createPlutoInstance()
+    const mediatorDID = Domain.DID.fromString(await WalletSdk.getMediatorDidThroughOob())
 
     this.sdk = Agent.initialize({
-      seed: async () => inputSeed.value,
       apollo,
       pluto,
       mediatorDID,
-      castor
+      castor,
+      seed,
+      didMethods
     })
 
     this.sdk.plugins.register(Anoncreds.plugin)
-
     this.sdk.addListener(
       ListenerKey.MESSAGE, (messages: Domain.Message[]) => {
         for (const message of messages) {
@@ -147,20 +166,18 @@ export class WalletSdk extends Ability implements Initialisable, Discardable {
  */
 class MessageQueue {
   private processingId: NodeJS.Timeout | null = null
-  private queue: Domain.Message[] = []
+  private queue: RequiredArray<Domain.Message> = new RequiredArray()
 
-  credentialOfferStack: Domain.Message[] = []
-  proofRequestStack: Domain.Message[] = []
-  issuedCredentialStack: Domain.Message[] = []
-  revocationStack: Domain.Message[] = []
-  presentationMessagesStack: Domain.Message[] = []
+  credentialOfferStack: RequiredArray<Domain.Message> = new RequiredArray()
+  proofRequestStack: RequiredArray<Domain.Message> = new RequiredArray()
+  issuedCredentialStack: RequiredArray<Domain.Message> = new RequiredArray()
+  revocationStack: RequiredArray<Domain.Message> = new RequiredArray()
+  presentationMessagesStack: RequiredArray<Domain.Message> = new RequiredArray()
 
   receivedMessages: string[] = []
 
   enqueue(message: Domain.Message) {
     this.queue.push(message)
-
-    // auto start processing messages
     if (!this.processingId) {
       this.processMessages()
     }
@@ -188,6 +205,7 @@ class MessageQueue {
 
         // checks if sdk already received message
         if (this.receivedMessages.includes(message.id)) {
+          console.warn(`Received duplicated message with id [${message.id}].`)
           return
         }
 
@@ -209,7 +227,9 @@ class MessageQueue {
           console.log(piUri)
         }
       } else {
-        clearInterval(this.processingId)
+        if (this.processingId) {
+          clearInterval(this.processingId)
+        }
         this.processingId = null
       }
     }, 50)

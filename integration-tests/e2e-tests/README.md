@@ -1,4 +1,6 @@
-# Wallet SDK - Typescript E2E
+# End-to-end tests
+
+The end-to-end tests are located in `integration-tests/e2e-tests`. All commands and guidances are relative to the `e2e-tests` directory.
 
 ## How to run
 
@@ -11,7 +13,7 @@ This guide shows you how to run the end-to-end tests
 
 | Property                           | Description                                                  |
 | ---------------------------------- | ------------------------------------------------------------ |
-| MEDIATOR_OOB_URL                   | URL that returns the OOB url                                 |
+| MEDIATOR_URL                       | URL that returns the OOB url                                 |
 | AGENT_URL                          | URL for Cloud Agent - should end with a forward slash ("/")  |
 | APIKEY                             | (Optional) Apikey authentication                             |
 | SECP256K1_PUBLISHED_DID            | (Optional) Existing DID using secp256k1                      |

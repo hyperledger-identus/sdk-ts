@@ -1,6 +1,6 @@
-import { type Domain, type PeerDID, Apollo } from "@hyperledger/identus-sdk"
+import { type Domain, type PeerDID, Apollo, type SeedFunction } from "@hyperledger/identus-sdk"
 import { type PresentationClaims, RequestPresentation, Presentation } from "@hyperledger/identus-sdk/plugins/oea"
-import { type Actor, Duration, notes, TakeNotes, Wait } from "@serenity-js/core"
+import { type Actor, Duration, TakeNotes, Wait } from "@serenity-js/core"
 import { Ensure, equals } from "@serenity-js/assertions"
 import { WalletSdk } from "../abilities/WalletSdk"
 import { Utils } from "../Utils"
@@ -8,6 +8,7 @@ import { randomUUID } from "crypto"
 import _ from "lodash"
 import { assert } from "chai"
 import { IssueCredential, OfferCredential } from "@hyperledger/identus-sdk/plugins/didcomm"
+import { notes } from "../abilities/NoteAdapter"
 
 export class EdgeAgentWorkflow {
   static async connect(edgeAgent: Actor) {
@@ -105,8 +106,7 @@ export class EdgeAgentWorkflow {
           await edgeAgent.attemptsTo(
             Ensure.that(verified, equals(expected))
           )
-        } catch (e) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+        } catch (e: any) {
           if (e.message.includes("credential is revoked")) {
             assert.isTrue(expected === false)
           } else {
@@ -130,8 +130,7 @@ export class EdgeAgentWorkflow {
         try {
           await sdk.createPresentationForRequestProof(requestPresentationMessage, credential)
           assert.fail("Wrong anoncred should produce exception message")
-        } catch (e) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+        } catch (e: any) {
           assert.isTrue(e.message.includes("value not found for attribute"))
         }
       })
@@ -206,7 +205,7 @@ export class EdgeAgentWorkflow {
     await edgeAgent.attemptsTo(
       WalletSdk.execute(async sdk => {
         await Utils.repeat(numberOfDids, async () => {
-          const did = await sdk.createNewPeerDID()
+          const did = await sdk.createPeerDID()
           await edgeAgent.attemptsTo(
             notes().set("lastPeerDID", did)
           )
@@ -232,7 +231,7 @@ export class EdgeAgentWorkflow {
     await edgeAgent.attemptsTo(
       WalletSdk.execute(async sdk => {
         await Utils.repeat(numberOfDids, async () => {
-          await sdk.createNewPrismDID(randomUUID())
+          await sdk.createPrismDID(randomUUID())
         })
       })
     )
@@ -283,9 +282,10 @@ export class EdgeAgentWorkflow {
     await edgeAgent.attemptsTo(
       WalletSdk.execute(async (sdk) => {
         const backup = await sdk.backup.createJWE()
+        const seed: SeedFunction = sdk.seed
         await edgeAgent.attemptsTo(
           notes().set("backup", backup),
-          notes().set("seed", sdk.seed)
+          notes().set("seed", seed)
         )
       })
     )
@@ -293,7 +293,7 @@ export class EdgeAgentWorkflow {
 
   static async createNewWalletFromBackup(edgeAgent: Actor) {
     const backup = await edgeAgent.answer<string>(notes().get("backup"))
-    const seed = await edgeAgent.answer<Domain.Seed>(notes().get("seed"))
+    const seed = await edgeAgent.answer<SeedFunction>(notes().get("seed"))
     const walletSdk = new WalletSdk()
     await walletSdk.createSdk(seed)
     await walletSdk.sdk.pluto.start()
@@ -305,7 +305,8 @@ export class EdgeAgentWorkflow {
   static async createNewWalletFromBackupWithWrongSeed(edgeAgent: Actor) {
     const backup = await edgeAgent.answer<string>(notes().get("backup"))
     const walletSdk = new WalletSdk()
-    const seed = new Apollo().createRandomSeed().seed
+    const seedValue = new Apollo().createRandomSeed().seed
+    const seed: SeedFunction = async () => seedValue.value
     await walletSdk.createSdk(seed)
     await walletSdk.sdk.pluto.start()
 
@@ -319,7 +320,7 @@ export class EdgeAgentWorkflow {
 
   static async backupAndRestoreToNewAgent(newAgent: Actor, edgeAgent: Actor) {
     const backup = await edgeAgent.answer<string>(notes().get("backup"))
-    const seed = await edgeAgent.answer<Domain.Seed>(notes().get("seed"))
+    const seed = await edgeAgent.answer<SeedFunction>(notes().get("seed"))
     const walletSdk = new WalletSdk()
     await walletSdk.createSdk(seed)
     await walletSdk.sdk.pluto.start()

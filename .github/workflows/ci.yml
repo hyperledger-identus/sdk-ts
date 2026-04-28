@@ -10,6 +10,9 @@ on:
   push:
     branches:
       - "main"
+  merge_group:
+    branches:
+      - "main"
 
 jobs:
   build-and-test:
@@ -51,6 +54,9 @@ jobs:
 
       - name: Build
         run: yarn build
+
+      - name: Test
+        run: yarn test --no-tui
 
       - name: Run coverage test
         run: yarn coverage
