@@ -78,7 +78,7 @@ describe("Domain - SDJWT", () => {
       await expect(result).rejects.toThrow(Domain.PolluxError.InvalidCredentialError);
     });
 
-    test("expired credential (exp in the past) returns false", async () => {
+    test("expired credential (exp in the past) throws InvalidCredentialError", async () => {
       const { temporalClaims } = Fixtures.Credentials.SDJWT;
       const issuerDID = Domain.DID.fromString(temporalClaims.issuerDID);
 
@@ -86,15 +86,16 @@ describe("Domain - SDJWT", () => {
         didDocument: { verificationMethod: [{}] },
       });
 
-      const result = await sut.verify({
+      const result = sut.verify({
         jws: temporalClaims.expiredJws,
         issuerDID,
       });
 
-      expect(result).toBe(false);
+      await expect(result).rejects.toThrow(Domain.PolluxError.InvalidCredentialError);
+      await expect(result).rejects.toThrow(/expired/);
     });
 
-    test("not-yet-valid credential (nbf in the future) returns false", async () => {
+    test("not-yet-valid credential (nbf in the future) throws InvalidCredentialError", async () => {
       const { temporalClaims } = Fixtures.Credentials.SDJWT;
       const issuerDID = Domain.DID.fromString(temporalClaims.issuerDID);
 
@@ -102,12 +103,13 @@ describe("Domain - SDJWT", () => {
         didDocument: { verificationMethod: [{}] },
       });
 
-      const result = await sut.verify({
+      const result = sut.verify({
         jws: temporalClaims.notYetValidJws,
         issuerDID,
       });
 
-      expect(result).toBe(false);
+      await expect(result).rejects.toThrow(Domain.PolluxError.InvalidCredentialError);
+      await expect(result).rejects.toThrow(/not yet valid/);
     });
 
     test("credential without exp/nbf proceeds to signature verification", async () => {

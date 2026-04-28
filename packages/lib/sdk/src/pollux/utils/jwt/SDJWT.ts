@@ -72,16 +72,28 @@ export class SDJWT extends Task.Runner {
     }
 
     // Check exp claim (RFC 7519 §4.1.4)
+    // Normalize timestamps: the codebase uses Date.getTime() (ms) for nbf/exp,
+    // but RFC 7519 expects seconds. Values > 1e10 are milliseconds.
     const now = Math.floor(Date.now() / 1000);
-    const exp = jwtObject.getProperty(Domain.JWT.Claims.exp);
-    if (typeof exp === 'number' && now >= exp) {
-      return false;
+    const rawExp = jwtObject.getProperty(Domain.JWT.Claims.exp);
+    if (typeof rawExp === 'number') {
+      const exp = rawExp > 1e10 ? Math.floor(rawExp / 1000) : rawExp;
+      if (now >= exp) {
+        throw new PolluxError.InvalidCredentialError(
+          `Credential has expired: exp ${exp} is in the past (now: ${now})`
+        );
+      }
     }
 
     // Check nbf claim (RFC 7519 §4.1.5)
-    const nbf = jwtObject.getProperty(Domain.JWT.Claims.nbf);
-    if (typeof nbf === 'number' && now < nbf) {
-      return false;
+    const rawNbf = jwtObject.getProperty(Domain.JWT.Claims.nbf);
+    if (typeof rawNbf === 'number') {
+      const nbf = rawNbf > 1e10 ? Math.floor(rawNbf / 1000) : rawNbf;
+      if (now < nbf) {
+        throw new PolluxError.InvalidCredentialError(
+          `Credential is not yet valid: nbf ${nbf} is in the future (now: ${now})`
+        );
+      }
     }
 
     const kidHeader = jwtObject.core.jwt?.header?.kid;
@@ -102,8 +114,13 @@ export class SDJWT extends Task.Runner {
             options.requiredKeyBindings ?? false
           );
           return true;
-        } catch {
-          // verification failed with this key, try next
+        } catch (err) {
+          // Only swallow signature verification errors — rethrow unexpected ones
+          if (err instanceof PolluxError.InvalidCredentialError) {
+            throw err;
+          }
+          // Signature verification failed with this key, try next method
+          continue;
         }
       }
     }
