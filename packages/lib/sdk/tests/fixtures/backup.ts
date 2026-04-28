@@ -1,13 +1,15 @@
 import { base64url } from "multiformats/bases/base64";
 
-import { Apollo, BackupOptions, Domain, JWTCredential, Secp256k1PrivateKey } from "../../src";
+import { Apollo, BackupOptions, Domain, JWTCredential, SDJWTCredential, Secp256k1PrivateKey } from "../../src";
 import { LinkSecret, Mediator, Message, Schema } from '@hyperledger/identus-domain';
+import { credentialPayloadEncoded as sdjwtCredentialJws } from "./credentials/sdjwt";
 import { credentialPayloadEncoded } from "./credentials/jwt";
 import { credential as anonCredential } from "./credentials/anoncreds";
 import { peerDID4, peerDID5 } from "./dids";
 import { AnonCredsCredential } from "../../src/plugins/internal/anoncreds";
 
 export const credentialJWT = JWTCredential.fromJWS(credentialPayloadEncoded);
+export const credentialSDJWT = SDJWTCredential.fromJWS(sdjwtCredentialJws);
 export const credentialAnoncreds = new AnonCredsCredential(anonCredential);
 export const hostDID = peerDID5;
 export const targetDID = peerDID4;

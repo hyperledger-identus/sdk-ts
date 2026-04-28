@@ -1,13 +1,8 @@
 import { appendFile, writeFileSync } from "fs"
-
 import crypto, { randomUUID } from "node:crypto"
 import { Buffer } from "buffer"
-
 import { StorageType } from "@trust0/ridb"
 import { Apollo, Pluto } from "@hyperledger/identus-sdk"
-
-
-
 
 export class Utils {
 
