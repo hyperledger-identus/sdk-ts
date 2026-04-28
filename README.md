@@ -82,11 +82,13 @@ npx nx run @hyperledger/identus-sdk:test
 ```
 
 ### Testing everything
+
 ```bash
 yarn test
 ```
 
 ### Testing e2e
+
 Requires you to have `Cloud Agent` and `Mediator` running.
 
 To run the tests from root level, simply:
