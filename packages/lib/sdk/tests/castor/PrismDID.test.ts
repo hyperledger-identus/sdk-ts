@@ -7,6 +7,7 @@ import * as Fixtures from "../fixtures";
 import * as Protos from "@hyperledger/identus-protos";
 import { ed25519, x25519 } from "../fixtures/keys";
 import {
+  CastorError,
   Curve,
   DID,
   DIDDocument,
@@ -120,6 +121,18 @@ describe("PrismDID",
           expect(cp1vm0?.publicKeyJwk).toBeUndefined();
           expect(cp1vm0?.publicKeyMultibase).toEqual("zSXxpYB6edvxvWxRTo3kMUoTTQVHpbNnXo2Z1AjLA78iqLdK2kVo5xw9rGg8uoEgmhxYahNur3RvV7HnaktWBqkXt");
           expect(cp1vm0?.type).toEqual("EcdsaSecp256k1VerificationKey2019");
+        });
+
+        test("throws when long-form DID state hash does not match encoded state", async () => {
+          const didStr = "did:prism:032e7383265cab026f4bdf8b903f8f78840fefc5b201ccce06fc263f7b3be5df:CskBCsYBEl0KCG1hc3Rlci0wEAFCTwoJc2VjcDI1NmsxEiD9IDIUwFTpO0oFkZbs5niSI7ZtvmDHOgG6w93jyiUI_hog2ZbGuaULlxsyr4CtdA_Es7g74e_buaDAe_mXiTQIfosSZQoQYXV0aGVudGljYXRpb24tMBAEQk8KCXNlY3AyNTZrMRIg_SAyFMBU6TtKBZGW7OZ4kiO2bb5gxzoBusPd48olCP4aINmWxrmlC5cbMq-ArXQPxLO4O-Hv27mgwHv5l4k0CH6L";
+          const tamperedDid = didStr.replace(
+            "032e7383265cab026f4bdf8b903f8f78840fefc5b201ccce06fc263f7b3be5df",
+            "0000000000000000000000000000000000000000000000000000000000000000"
+          );
+
+          await expect(castor.resolveDID(tamperedDid)).rejects.toThrow(
+            CastorError.InitialStateOfDIDChanged
+          );
         });
 
         const masterKeyId = `master-0`;
