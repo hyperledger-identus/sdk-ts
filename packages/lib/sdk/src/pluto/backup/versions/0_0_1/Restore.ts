@@ -1,3 +1,4 @@
+import { SDJWTVerifiableCredential } from "../../../pollux/models/SDJWTVerifiableCredential";
 import * as Domain from "@hyperledger/identus-domain";
 import { Ed25519PrivateKey } from "../../../../apollo/utils/Ed25519PrivateKey";
 import { Secp256k1PrivateKey } from "../../../../apollo/utils/Secp256k1PrivateKey";
@@ -33,7 +34,7 @@ export class RestoreTask implements IRestoreTask {
         return JWTCredential.fromJWS(decoded);
       }
       if (item.recovery_id === "sdjwt") {
-        return JWTCredential.fromJWS(decoded);
+        return SDJWTCredential.fromJWS(decoded);
       }
       if (item.recovery_id === "anoncred") {
         return AnonCredsCredential.fromJson(decoded);
