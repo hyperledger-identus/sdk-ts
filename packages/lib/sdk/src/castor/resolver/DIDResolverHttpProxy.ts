@@ -2,7 +2,11 @@
 import {
   type DIDResolver,
   DIDDocument,
+  CastorError,
 } from "@hyperledger/identus-domain";
+
+const truncateForError = (text: string, max = 512): string =>
+  text.length > max ? `${text.slice(0, max)}…` : text;
 
 export class DIDResolverHttpProxy implements DIDResolver {
   method: string;
@@ -18,25 +22,60 @@ export class DIDResolverHttpProxy implements DIDResolver {
 
   async resolve(didString: string): Promise<DIDDocument> {
     const url = this.resolverEndpoint + didString;
-    const response = await fetch(url, {
-      "headers": {
-        "accept": "*/*",
-        "accept-language": "en",
-        "cache-control": "no-cache",
-        "pragma": "no-cache",
-        "sec-gpc": "1"
-      },
-      "method": "GET",
-      "mode": "cors",
-      "credentials": "omit"
-    })
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
+
+    let response: Response;
+
+    try {
+      response = await fetch(url, {
+        "headers": {
+          "accept": "*/*",
+          "accept-language": "en",
+          "cache-control": "no-cache",
+          "pragma": "no-cache",
+          "sec-gpc": "1"
+        },
+        "method": "GET",
+        "mode": "cors",
+        "credentials": "omit"
+      });
     }
-    const didDocumentJson = await response.json();
+    catch (err) {
+      const cause = err instanceof Error ? err.message : String(err);
+      throw new CastorError.NotPossibleToResolveDID(
+        `HTTP DID resolver request failed for "${url}": ${cause}`
+      );
+    }
 
-    const resolved = DIDDocument.fromJSON(didDocumentJson)
+    if (!response.ok) {
+      const errorBody = await response.text().catch(() => "");
+      throw new CastorError.NotPossibleToResolveDID(
+        `DID resolver returned HTTP ${response.status} ${response.statusText} for "${url}"${errorBody.length > 0
+          ? `: ${truncateForError(errorBody)}`
+          : ""
+        }`
+      );
+    }
 
-    return resolved;
+    const rawBody = await response.text();
+
+    let didDocumentJson: unknown;
+    try {
+      didDocumentJson = JSON.parse(rawBody);
+    }
+    catch {
+      throw new CastorError.NotPossibleToResolveDID(
+        `DID resolver returned invalid JSON (${response.status})${rawBody.length > 0 ? `: ${truncateForError(rawBody)}` : ""}`
+      );
+    }
+
+    try {
+      return DIDDocument.fromJSON(didDocumentJson);
+    }
+    catch (err) {
+      const cause = err instanceof Error ? err.message : String(err);
+      throw new CastorError.NotPossibleToResolveDID(
+        `Unable to interpret resolver response as DID document: ${cause}`
+      );
+    }
   }
 }
