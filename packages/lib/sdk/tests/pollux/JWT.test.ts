@@ -204,6 +204,63 @@ describe("Domain - JWT", () => {
 
       expect(result).toBe(false);
     });
+
+    test("nbf claim in future - throws InvalidCredentialError", async () => {
+      const futureTime = Math.floor(Date.now() / 1000) + 3600; // 1 hour in future
+      const payload = { ...Fixtures.Credentials.JWT.credentialPayload, nbf: futureTime };
+
+      const jws = await sut.signWithDID(
+        Domain.DID.from(payload.iss),
+        payload,
+        {},
+        Fixtures.Keys.secp256K1.privateKey
+      );
+
+      const result = sut.verify({
+        jws,
+        issuerDID: Domain.DID.from(payload.iss)
+      });
+
+      await expect(result).rejects.toThrow(Domain.PolluxError.InvalidCredentialError);
+      await expect(result).rejects.toMatchObject({ message: expect.stringContaining("cannot be used before") });
+    });
+
+    test("nbf claim in past - verification succeeds", async () => {
+      const pastTime = Math.floor(Date.now() / 1000) - 3600; // 1 hour in past
+      const payload = { ...Fixtures.Credentials.JWT.credentialPayload, nbf: pastTime };
+
+      const jws = await sut.signWithDID(
+        Domain.DID.from(payload.iss),
+        payload,
+        {},
+        Fixtures.Keys.secp256K1.privateKey
+      );
+
+      const result = await sut.verify({
+        jws,
+        issuerDID: Domain.DID.from(payload.iss)
+      });
+
+      expect(result).toBe(true);
+    });
+
+    test("nbf claim absent - verification succeeds", async () => {
+      const payload = Fixtures.Credentials.JWT.credentialPayload;
+
+      const jws = await sut.signWithDID(
+        Domain.DID.from(payload.iss),
+        payload,
+        {},
+        Fixtures.Keys.secp256K1.privateKey
+      );
+
+      const result = await sut.verify({
+        jws,
+        issuerDID: Domain.DID.from(payload.iss)
+      });
+
+      expect(result).toBe(true);
+    });
   });
 
   describe("round trip", () => {

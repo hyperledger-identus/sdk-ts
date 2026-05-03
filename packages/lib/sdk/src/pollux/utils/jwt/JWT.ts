@@ -62,6 +62,16 @@ export class JWT extends Task.Runner {
 
       const decoded = await this.decode(jws);
 
+      // Validate nbf (not before) claim if present
+      if (decoded.payload.nbf !== undefined && typeof decoded.payload.nbf === 'number') {
+        const currentTime = Math.floor(Date.now() / 1000);
+        if (currentTime < decoded.payload.nbf) {
+          throw new PolluxError.InvalidCredentialError(
+            `JWT cannot be used before: ${new Date(decoded.payload.nbf * 1000).toISOString()}`
+          );
+        }
+      }
+
       for (const verificationMethod of verificationMethods) {
         try {
           const pk = await this.runTask(new PKInstance({ verificationMethod }));
