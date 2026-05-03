@@ -87,7 +87,7 @@ export class Agent<
     public readonly pluto: Domain.Pluto,
     public readonly mercury: Domain.Mercury,
     public readonly seed: () => Promise<Uint8Array>,
-    public readonly api: Domain.Api = new FetchApi(),
+    public readonly api: Domain.Api = new FetchApi({ maxResponseBodyBytes: 0 }),
     private readonly options?: AgentOptions
   ) {
     super();
@@ -137,7 +137,7 @@ export class Agent<
     options?: AgentOptions;
   }): Agent<ExtraMethods> {
     const pluto = params.pluto;
-    const api = params.api ?? new FetchApi();
+    const api = params.api ?? new FetchApi({ maxResponseBodyBytes: 0 });
     const apollo = params.apollo ?? new Apollo();
     const extraMethods = (params.didMethods ?? params.options?.didMethods) as ExtraMethods | undefined;
     const castor = params.castor ?? new Castor<ExtraMethods>(apollo, extraMethods);
