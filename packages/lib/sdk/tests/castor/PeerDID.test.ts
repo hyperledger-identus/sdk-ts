@@ -7,6 +7,7 @@ import {
   PublicKey,
   KeyTypes,
   Curve,
+  CastorError,
 } from '@hyperledger/identus-domain';
 import { Apollo } from "../../src/apollo";
 
@@ -18,6 +19,7 @@ import {
 } from "@hyperledger/identus-domain";
 import { PeerDIDResolver } from "../../src/castor/resolver/PeerDIDResolver";
 import { MultiCodec } from '../../src/castor/utils/Multicodec';
+import { computeEncnumbasis } from '../../src/castor/utils';
 describe("PEERDID CreateTest", () => {
   it("Should test milticodec coding", () => {
     const testData = Uint8Array.from(Buffer.from("test1"));
@@ -238,5 +240,19 @@ describe("PEERDID CreateTest", () => {
 
       expect(result).to.be.equal(true);
     }
+  });
+
+  it("should throw InvalidKeyError for unsupported curve in computeEncnumbasis", async () => {
+    const apollo = new Apollo();
+
+    const seed = apollo.createRandomSeed().seed;
+    const unsupportedKey = await apollo.createPrivateKey({
+      type: KeyTypes.EC,
+      curve: Curve.SECP256K1,
+      seed: seed.value,
+    });
+
+    await expect(computeEncnumbasis(unsupportedKey.publicKey()))
+      .rejects.toThrow(CastorError.InvalidKeyError);
   });
 });

@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "npx nx run-many --target=build",
-    "build:clean": "npm run clean && npx nx run-many --target=build --skip-nx-cache",
+    "build": "sh build.sh",
     "clean": "npm run clean:generated && npm run clean:build && npm run clean:reset",
     "clean:reset": "npx nx reset",
     "clean:generated": "find packages g -name generated -type d -not -path '*/node_modules/*' -exec rm -rf {} + 2>/dev/null; echo 'All generated folders cleaned'",
