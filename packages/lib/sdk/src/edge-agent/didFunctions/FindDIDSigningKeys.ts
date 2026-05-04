@@ -39,8 +39,11 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
       return { privateKey, publicKey, encoded, encodedBase64Url };
     });
 
-    const verificationMethod = this.args.purpose === 'AUTHENTICATION_KEY' ? 'authentication' : 'assertionMethod';
-    const primaryMethods = didDoc[verificationMethod];
+    const verificationMethod =
+      this.args.purpose === 'AUTHENTICATION_KEY' ? 'authentication'
+        : this.args.purpose === 'ISSUING_KEY' ? 'assertionMethod'
+          : null;
+    const primaryMethods = verificationMethod ? didDoc[verificationMethod] : []
     const signingKeyData = this.matchKeys(primaryMethods, keyData);
 
     return signingKeyData;
