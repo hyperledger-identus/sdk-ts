@@ -15,7 +15,6 @@ export class Expectations {
     return Expectation.define(
       "propertyValueEqualTo", `contain path property [${jsonPath}] to`,
       async (actual: T) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return await matcher(_.get(actual, jsonPath))
       }
     )()

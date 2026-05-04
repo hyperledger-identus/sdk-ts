@@ -30,74 +30,87 @@ export type DataByDid = {
   }
 }
 export class Setup {
-  static get agent() {
-    if (!process.env.AGENT_URL) {
-      throw new Error("AGENT_URL is not defined, configure .env file")
+  private static getRequiredEnv(key: string): string {
+    const envVar = process.env[key]
+    if (!envVar) {
+      throw Error(`Required [${key}] but it was undefined.`)
     }
-    return {
-      url: process.env.AGENT_URL,
-      apikey: process.env.APIKEY
-    }
-  }
-  public static mediator = {
-    url: process.env.MEDIATOR_OOB_URL
+    return envVar
   }
 
-  public static secp256k1: DataByDid = {
-    did: process.env.SECP256K1_PUBLISHED_DID,
-    jwtSchema: {
-      guid: process.env.SECP256K1_JWT_SCHEMA_GUID,
-      url: ""
-    },
-    credDefUrl: {
-      guid: process.env.SECP256K1_ANONCRED_DEFINITION_GUID,
-      id: ""
-    }
+  public static agent: { url: string, apikey?: string } = {
+    url: Setup.getRequiredEnv("AGENT_URL"),
+    apikey: process.env.APIKEY
   }
 
-  public static ed25519: DataByDid = {
-    did: process.env.ED25519_PUBLISHED_DID,
-    jwtSchema: {
-      guid: process.env.ED25519_JWT_SCHEMA_GUID,
-      url: ""
-    },
-    credDefUrl: {
-      guid: process.env.ED25519_ANONCRED_DEFINITION_GUID,
-      id: ""
-    }
+  public static mediator: { url: string } = {
+    url: Setup.getRequiredEnv("MEDIATOR_URL")
   }
+
+  public static secp256k1: DataByDid 
+  public static ed25519: DataByDid
 
   public static async init() {
+    // sanitize urls
     if (this.agent.url.endsWith("/")) {
       this.agent.url = this.agent.url.slice(0, -1)
     }
-    this.secp256k1.did = await this.verifyDidSetup(this.secp256k1.did, Curve.Secp256k1)
-    this.secp256k1.jwtSchema = await this.verifyJwtSchemaSetupUrl(this.secp256k1.jwtSchema.guid, this.secp256k1.did)
-    this.secp256k1.credDefUrl = await this.verifyAnoncredDefinitionUrl(
-      this.secp256k1.credDefUrl.guid,
-      this.secp256k1.did,
-      this.secp256k1.did
-    )
-    this.ed25519.did = await this.verifyDidSetup(this.ed25519.did, Curve.Ed25519)
-    this.ed25519.jwtSchema = await this.verifyJwtSchemaSetupUrl(this.ed25519.jwtSchema.guid, this.ed25519.did)
-    this.ed25519.credDefUrl = await this.verifyAnoncredDefinitionUrl(
-      this.ed25519.credDefUrl.guid,
-      this.ed25519.did,
-      this.ed25519.did
-    )
-    console.log("Agent", this.agent)
-    console.log("Mediator", this.mediator)
-    console.log("Secp256k1", this.secp256k1)
-    console.log("Ed25519", this.ed25519)
+
+    if (this.mediator.url.endsWith("/")) {
+      this.mediator.url = this.mediator.url.slice(0, -1)
+    }
+
+    // optional parameters that can be overwritten
+    const maybeEnv = {
+      secp256k1: {
+        did: process.env.SECP256K1_PUBLISHED_DID,
+        schemaGuid: process.env.SECP256K1_JWT_SCHEMA_GUID,
+        defGuid: process.env.SECP256K1_ANONCRED_DEFINITION_GUID,
+      },
+      ed25519: {
+        did: process.env.ED25519_PUBLISHED_DID,
+        schemaGuid: process.env.ED25519_JWT_SCHEMA_GUID,
+        defGuid: process.env.ED25519_ANONCRED_DEFINITION_GUID,
+      }
+    }
+
+    const secp256k1Did = await this.verifyDidSetup(maybeEnv.secp256k1.did, Curve.Secp256k1)
+    const secp256k1JwtSchema = await this.verifyJwtSchemaSetupUrl(maybeEnv.secp256k1.schemaGuid, secp256k1Did)
+    const secp256k1CredDefUrl = await this.verifyAnoncredDefinitionUrl(maybeEnv.secp256k1.defGuid, secp256k1Did, secp256k1Did)
+    this.secp256k1 = {
+      did: secp256k1Did,
+      jwtSchema: secp256k1JwtSchema,
+      credDefUrl: secp256k1CredDefUrl
+    }
+
+    const ed25519Did = await this.verifyDidSetup(maybeEnv.ed25519.did, Curve.Ed25519)
+    const ed25519JwtSchema = await this.verifyJwtSchemaSetupUrl(maybeEnv.ed25519.schemaGuid, ed25519Did)
+    const ed25519CredDefUrl = await this.verifyAnoncredDefinitionUrl(maybeEnv.ed25519.defGuid, ed25519Did, ed25519Did)
+    this.ed25519 = {
+      did: ed25519Did,
+      jwtSchema: ed25519JwtSchema,
+      credDefUrl: ed25519CredDefUrl
+    }
+
+    console.log(".env (copy/paste):")
+    console.log(`AGENT_URL=${this.agent.url}`)
+    console.log(`APIKEY=${"<replace>"}`)
+    console.log(`MEDIATOR_URL=${this.mediator.url}`)
+    console.log(`SECP256K1_PUBLISHED_DID=${this.secp256k1.did }`)
+    console.log(`SECP256K1_JWT_SCHEMA_GUID=${this.secp256k1.jwtSchema.guid}`)
+    console.log(`SECP256K1_ANONCRED_DEFINITION_GUID=${this.secp256k1.credDefUrl.guid}`)
+    console.log(`ED25519_PUBLISHED_DID=${this.ed25519.did}`)
+    console.log(`ED25519_JWT_SCHEMA_GUID=${this.ed25519.jwtSchema.guid}`)
+    console.log(`ED25519_ANONCRED_DEFINITION_GUID=${this.ed25519.credDefUrl.guid}`)
   }
 
-  private static async verifyDidSetup(initialDid: string, curve: Curve) {
+  private static async verifyDidSetup(initialDid: string | undefined, curve: Curve) {
     try {
-      assert(initialDid != null)
+      assert(initialDid != undefined)
       assert(initialDid != "")
       const didDocumentResponse = await cloudAgentApi.get<DIDResolutionResult>(`dids/${initialDid}`)
-      const assertionKeys = didDocumentResponse.data.didDocument.assertionMethod.filter(am => am.includes("#assert1"))
-      const authenticationKeys = didDocumentResponse.data.didDocument.authentication.filter(a => a.includes("#auth1"))
+      const assertionKeys = didDocumentResponse.data.didDocument?.assertionMethod?.filter(am => am.includes("#assert1")) || []
+      const authenticationKeys = didDocumentResponse.data.didDocument?.authentication?.filter(a => a.includes("#auth1")) || []
       assert(assertionKeys.length == 1, "Expected 'assert1' to be part of provided did")
       assert(authenticationKeys.length == 1, "Expected 'key-authentication-1' to be part of provided did")
       return initialDid
@@ -144,15 +157,15 @@ export class Setup {
     }
   }
 
-  private static async verifyJwtSchemaSetupUrl(jwtSchemaGuid: string, did: string): Promise<{ guid: string, url: string }> {
+  private static async verifyJwtSchemaSetupUrl(jwtSchemaGuid: string | undefined, did: string): Promise<{ guid: string, url: string }> {
     try {
       assert(jwtSchemaGuid != null)
       assert(jwtSchemaGuid != "")
       const schemaResponse = await cloudAgentApi.get<CredentialSchemaResponse>(`schema-registry/schemas/${jwtSchemaGuid}`)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      assert(schemaResponse.data.schema.properties["automation-optional"] != null)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      assert(schemaResponse.data.schema.properties["automation-required"] != null)
+      const schema = schemaResponse.data.schema as { properties: Record<string, unknown> }
+      assert(schema.properties != null)
+      assert(schema.properties["automation-optional"] != null)
+      assert(schema.properties["automation-required"] != null)
       return {
         guid: jwtSchemaGuid,
         url: `${Setup.agent.url}${schemaResponse.data.self}`
@@ -243,7 +256,7 @@ export class Setup {
   }
 
   private static async verifyAnoncredDefinitionUrl(
-    initialAnoncredDefinition: string,
+    initialAnoncredDefinition: string | undefined,
     did: string,
     schemaDid: string
   ): Promise<{ guid: string, id: string }> {

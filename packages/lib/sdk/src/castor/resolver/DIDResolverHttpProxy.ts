@@ -20,7 +20,7 @@ export class DIDResolverHttpProxy implements DIDResolver {
     const url = this.resolverEndpoint + didString;
     const response = await fetch(url, {
       "headers": {
-        "accept": "*/*",
+        "accept": "application/did+ld+json",
         "accept-language": "en",
         "cache-control": "no-cache",
         "pragma": "no-cache",
@@ -33,10 +33,7 @@ export class DIDResolverHttpProxy implements DIDResolver {
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }
-    const didDocumentJson = await response.json();
-
-    const resolved = DIDDocument.fromJSON(didDocumentJson)
-
-    return resolved;
+    const didDocument = await response.json();
+    return DIDDocument.fromJSON(didDocument);
   }
 }

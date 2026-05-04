@@ -95,7 +95,6 @@ export const commonIgnores = [
     "**/*.d.ts",
     "**/generated/**",
     "externals/**",
-    "integration-tests/**",
     "src/castor/protos/**",
 ];
 
