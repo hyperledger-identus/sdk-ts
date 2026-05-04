@@ -1,8 +1,9 @@
 import { Given, Then, When } from "@cucumber/cucumber"
-import { type Actor, notes } from "@serenity-js/core"
+import { type Actor } from "@serenity-js/core"
 import { EdgeAgentWorkflow } from "../workflow/EdgeAgentWorkflow"
 import { CloudAgentWorkflow } from "../workflow/CloudAgentWorkflow"
 import { Utils } from "../Utils"
+import { notes } from "../abilities/NoteAdapter"
 import * as SDK from "@hyperledger/identus-sdk"
 
 Given("{actor} has '{int}' jwt credentials issued by {actor}",

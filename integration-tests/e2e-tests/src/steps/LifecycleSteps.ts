@@ -58,9 +58,10 @@ class Actors implements Cast {
   }
 
   prepare(actor: Actor): Actor {
-    if (!this.actors.has(actor.name)) {
-      return actor
+    const maybeActor = this.actors.get(actor.name)
+    if (maybeActor) {
+      return maybeActor
     }
-    return this.actors.get(actor.name)
+    return actor
   }
 }

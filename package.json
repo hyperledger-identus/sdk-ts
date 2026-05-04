@@ -28,8 +28,7 @@
   "workspaces": [
     "packages/lib/*",
     "packages/shared/*",
-    "packages/wasm/*",
-    "integration-tests/*"
+    "packages/wasm/*"
   ],
   "devDependencies": {
     "@eslint/eslintrc": "3",

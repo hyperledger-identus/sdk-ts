@@ -10,7 +10,7 @@ export class PrismDIDResolver implements DIDResolver {
   private proxyPrismDIDResolver;
 
   constructor(
-    prismResolverEndpoint: string = "https://raw.githubusercontent.com/FabioPinheiro/prism-vdr/refs/heads/main/mainnet/diddoc/",
+    prismResolverEndpoint: string,
   ) {
     this.longFormPrismDIDResolver = new LongFormPrismDIDResolver();
     this.proxyPrismDIDResolver = new DIDResolverHttpProxy(prismResolverEndpoint, "prism");

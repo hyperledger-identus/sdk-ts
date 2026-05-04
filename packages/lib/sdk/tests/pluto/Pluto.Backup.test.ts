@@ -4,7 +4,7 @@ import { describe, it, expect, test, beforeEach } from 'vitest';
 import * as Fixtures from "../fixtures";
 import { base64url } from 'multiformats/bases/base64';
 import { randomUUID } from 'node:crypto';
-import { Apollo, Domain, JWTCredential, Pluto } from '../../src';
+import { Apollo, Domain, JWTCredential, Pluto, SDJWTCredential } from '../../src';
 import { AnonCredsCredential } from '../../src/plugins/internal/anoncreds';
 
 
@@ -48,6 +48,17 @@ describe("Pluto", () => {
         expect(result.credentials).to.be.an("array").to.have.length(1);
         expect(result.credentials[0]).to.have.property("recovery_id", "jwt");
         const expectedData = Buffer.from(base64url.baseEncode(Buffer.from(Fixtures.Backup.credentialJWT.id))).toString();
+        expect(result.credentials[0]).to.have.property("data", expectedData);
+      });
+
+      test("credential - SDJWT", async () => {
+        await instance.storeCredential(Fixtures.Backup.credentialSDJWT);
+
+        const result = await instance.backup(version);
+
+        expect(result.credentials).to.be.an("array").to.have.length(1);
+        expect(result.credentials[0]).to.have.property("recovery_id", "sdjwt");
+        const expectedData = Buffer.from(base64url.baseEncode(Buffer.from(Fixtures.Backup.credentialSDJWT.id))).toString();
         expect(result.credentials[0]).to.have.property("data", expectedData);
       });
 
@@ -161,6 +172,38 @@ describe("Pluto", () => {
         expect(sut.subject).to.eq(Fixtures.Backup.credentialJWT.subject);
         expect(sut.termsOfUse).to.deep.eq(Fixtures.Backup.credentialJWT.termsOfUse);
         expect(sut.type).to.deep.eq(Fixtures.Backup.credentialJWT.type);
+      });
+
+      test("credentials - SDJWT", async () => {
+        await instance.restore({
+          version,
+          credentials: [
+            {
+              recovery_id: "sdjwt",
+              data: Buffer.from(base64url.baseEncode(Buffer.from(Fixtures.Backup.credentialSDJWT.id))).toString(),
+            },
+          ],
+          dids: [],
+          did_pairs: [],
+          keys: [],
+          mediators: [],
+          messages: [],
+          link_secret: undefined,
+        });
+
+        const result = await instance.getAllCredentials();
+        expect(result).to.be.an("array").to.have.length(1);
+        const sut = result[0] as SDJWTCredential;
+        expect(sut).to.be.instanceOf(SDJWTCredential);
+        expect(sut.id).to.eq(Fixtures.Backup.credentialSDJWT.id);
+        expect(sut.recoveryId).to.eq(Fixtures.Backup.credentialSDJWT.recoveryId);
+        expect(sut.issuer).to.eq(Fixtures.Backup.credentialSDJWT.issuer);
+        expect(sut.subject).to.eq(Fixtures.Backup.credentialSDJWT.subject);
+        expect(sut.credentialType).to.eq(Fixtures.Backup.credentialSDJWT.credentialType);
+        const actProps = new Map(sut.properties);
+        const expProps = new Map(Fixtures.Backup.credentialSDJWT.properties);
+        expect(actProps).to.deep.eq(expProps);
+        expect(sut.claims).to.deep.eq(Fixtures.Backup.credentialSDJWT.claims);
       });
 
       test("credentials - Anoncreds", async () => {
