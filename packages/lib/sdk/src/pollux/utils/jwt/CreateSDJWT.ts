@@ -4,7 +4,7 @@ import { Task } from "../../../utils/tasks";
 import { SDJwtVcInstance, type SdJwtVcPayload, } from "@sd-jwt/sd-jwt-vc";
 import type { DisclosureFrame } from '@sd-jwt/types';
 import { type Plugins } from "../../../plugins";
-import { FindSigningKeys } from "../../../edge-agent/didFunctions/FindDIDSigningKeys";
+import { FindSigningKeys,  type SupportedPurpose } from "../../../edge-agent/didFunctions/FindDIDSigningKeys";
 import { expect } from "../../../utils";
 
 /**
@@ -23,7 +23,7 @@ interface Args {
   header?: Partial<Domain.JWT.Header>;
   disclosureFrame: DisclosureFrame<SdJwtVcPayload>;
   privateKey?: Domain.PrivateKey;
-  purpose?: keyof Pick<Domain.PrismDIDKeys, "AUTHENTICATION_KEY" | "ISSUING_KEY">;
+  purpose?: SupportedPurpose | SupportedPurpose[];
 }
 
 export class CreateSDJWT extends Task<string, Args> {

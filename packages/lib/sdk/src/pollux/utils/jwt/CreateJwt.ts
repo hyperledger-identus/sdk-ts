@@ -5,7 +5,7 @@ import { asJsonObj, expect } from "../../../utils";
 import { Task } from "../../../utils/tasks";
 import { type AgentContext } from "../../../edge-agent/Context";
 import { base64url } from "multiformats/bases/base64";
-import { FindSigningKeys } from "../../../edge-agent/didFunctions/FindDIDSigningKeys";
+import { FindSigningKeys , type SupportedPurpose } from "../../../edge-agent/didFunctions/FindDIDSigningKeys";
 
 /**
  * Asyncronously sign with a DID
@@ -22,7 +22,7 @@ interface Args {
   payload: Partial<Domain.JWT.Payload>;
   header?: Partial<Domain.JWT.Header>;
   privateKey?: Domain.PrivateKey;
-  purpose?: keyof Pick<Domain.PrismDIDKeys, "AUTHENTICATION_KEY" | "ISSUING_KEY">;
+  purpose?: SupportedPurpose | SupportedPurpose[];
 }
 
 export class CreateJWT extends Task<string, Args> {

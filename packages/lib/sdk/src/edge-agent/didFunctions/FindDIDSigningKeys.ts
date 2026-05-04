@@ -5,10 +5,27 @@ import { isNil, notNil } from "../../utils";
 import type * as Domain from "@hyperledger/identus-domain";
 import { base64url } from "multiformats/bases/base64";
 
+type SupportedPurpose = keyof Pick
+  Domain.PrismDIDKeys,
+  | "AUTHENTICATION_KEY"
+  | "ISSUING_KEY"
+  | "KEY_AGREEMENT_KEY"
+  | "CAPABILITY_INVOCATION_KEY"
+  | "CAPABILITY_DELEGATION_KEY"
+>;
+
+const PURPOSE_TO_VERIFICATION_RELATIONSHIP: Record<SupportedPurpose, keyof Domain.DIDDocument> = {
+  AUTHENTICATION_KEY: "authentication",
+  ISSUING_KEY: "assertionMethod",
+  KEY_AGREEMENT_KEY: "keyAgreement",
+  CAPABILITY_INVOCATION_KEY: "capabilityInvocation",
+  CAPABILITY_DELEGATION_KEY: "capabilityDelegation",
+};
+
 interface Args {
   did: Domain.DID;
   privateKey?: Domain.PrivateKey;
-  purpose: keyof Pick<Domain.PrismDIDKeys, "AUTHENTICATION_KEY" | "ISSUING_KEY">;
+  purpose?: SupportedPurpose | SupportedPurpose[];
 }
 
 export interface SigningKeyData {
@@ -39,9 +56,24 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
       return { privateKey, publicKey, encoded, encodedBase64Url };
     });
 
-    const verificationMethod = this.args.purpose === 'AUTHENTICATION_KEY' ? 'authentication' : 'assertionMethod';
-    const primaryMethods = didDoc[verificationMethod];
-    const signingKeyData = this.matchKeys(primaryMethods, keyData);
+   const purposes: SupportedPurpose[] = this.args.purpose
+  ? Array.isArray(this.args.purpose) ? this.args.purpose : [this.args.purpose]
+  : ["AUTHENTICATION_KEY"];
+
+   const seenIds = new Set<string>();
+   const allMethods: Domain.DIDDocument.VerificationMethod[] = [];
+
+   for (const purpose of purposes) {
+   const relationship = PURPOSE_TO_VERIFICATION_RELATIONSHIP[purpose];
+   for (const method of (didDoc[relationship] ?? [])) {
+    if (!seenIds.has(method.id)) {
+      seenIds.add(method.id);
+      allMethods.push(method);
+      }
+    }
+  }
+
+    const signingKeyData = this.matchKeys(allMethods, keyData);
 
     return signingKeyData;
   }
