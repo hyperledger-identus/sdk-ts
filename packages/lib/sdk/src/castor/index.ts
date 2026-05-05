@@ -1,5 +1,5 @@
 import * as Domain from '@hyperledger/identus-domain';
-import { type DIDDocument } from "@hyperledger/identus-domain";
+import { type DIDDocument, CastorError } from "@hyperledger/identus-domain";
 
 import {
   type CreatePayloadOf,
@@ -143,7 +143,7 @@ export class Castor<
   async resolveDID(didstr: Domain.DID | string): Promise<DIDDocument> {
     const did = Domain.DID.from(didstr);
     const resolvers = this.#resolvers.filter(x => x.method === did.method);
-    let lastError:unknown;
+    let lastError: unknown;
 
     for (const resolver of resolvers) {
       try {
@@ -153,7 +153,7 @@ export class Castor<
         console.log(`Failed resolving did ${did.toString()}`);
       }
     }
-    if(lastError instanceof Error){
+    if (lastError instanceof CastorError.InitialStateOfDIDChanged) {
       throw lastError;
     }
     throw new Error(`Non of the available Castor resolvers could resolve the DID '${didstr.toString()}'`);
