@@ -143,4 +143,67 @@ describe("Domain - SDJWT", () => {
       expect(instance.args.purpose).toBe("AUTHENTICATION_KEY");
     });
   });
+
+  // Regression: `signAlg` and `hashAlg` returned by getSKConfig/getPKConfig
+  // must be spec-compliant values - they land verbatim in the SD-JWT header
+  // (`alg`) and the `_sd_alg` claim respectively.
+  // - signAlg: RFC 7518 / RFC 8037 (`EdDSA`, `ES256K`) - case sensitive.
+  // - hashAlg: IANA Hash Function Algorithm Names (`sha-256`) - lowercase + dash.
+  describe("config alg", () => {
+    let plain: SDJWT;
+
+    beforeEach(() => {
+      plain = new SDJWT();
+    });
+
+    test("getSKConfig - Ed25519 - signAlg is EdDSA", () => {
+      const config = plain.getSKConfig(Fixtures.Keys.ed25519.privateKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.EdDSA);
+      expect(config.signAlg).to.eq("EdDSA");
+      expect(config.signAlg).not.to.eq("eddsa");
+    });
+
+    test("getSKConfig - Secp256k1 - signAlg is ES256K", () => {
+      const config = plain.getSKConfig(Fixtures.Keys.secp256K1.privateKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.ES256K);
+      expect(config.signAlg).to.eq("ES256K");
+      expect(config.signAlg).not.to.eq("es256k");
+    });
+
+    test("getPKConfig - Ed25519 - signAlg is EdDSA", () => {
+      const config = plain.getPKConfig(Fixtures.Keys.ed25519.publicKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.EdDSA);
+      expect(config.signAlg).to.eq("EdDSA");
+      expect(config.signAlg).not.to.eq("eddsa");
+    });
+
+    test("getPKConfig - Secp256k1 - signAlg is ES256K", () => {
+      const config = plain.getPKConfig(Fixtures.Keys.secp256K1.publicKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.ES256K);
+      expect(config.signAlg).to.eq("ES256K");
+      expect(config.signAlg).not.to.eq("es256k");
+    });
+
+    test("getSKConfig - hashAlg is the IANA name 'sha-256'", () => {
+      const config = plain.getSKConfig(Fixtures.Keys.ed25519.privateKey);
+
+      expect(config.hashAlg).to.eq("sha-256");
+      expect(config.hashAlg).not.to.eq("sha256");
+      expect(config.hashAlg).not.to.eq("SHA256");
+      expect(config.hashAlg).not.to.eq("SHA-256");
+    });
+
+    test("getPKConfig - hashAlg is the IANA name 'sha-256'", () => {
+      const config = plain.getPKConfig(Fixtures.Keys.ed25519.publicKey);
+
+      expect(config.hashAlg).to.eq("sha-256");
+      expect(config.hashAlg).not.to.eq("sha256");
+      expect(config.hashAlg).not.to.eq("SHA256");
+      expect(config.hashAlg).not.to.eq("SHA-256");
+    });
+  });
 });
