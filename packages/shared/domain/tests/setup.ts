@@ -1,8 +1,2 @@
-
-import { Buffer } from 'buffer';
-
-if (typeof window !== 'undefined') {
-  window.Buffer = Buffer;
-} else {
-  global.Buffer = Buffer;
-}
+// packages/shared/domain/tests/setup.ts
+// intentionally empty – required by vitest.config.js setupFiles
