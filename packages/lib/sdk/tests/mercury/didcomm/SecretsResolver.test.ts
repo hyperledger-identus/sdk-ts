@@ -5,7 +5,6 @@ import { Pluto } from "../../../src/pluto/Pluto";
 import * as Domain from "@hyperledger/identus-domain";
 import { DIDCommSecretsResolver } from "../../../src/mercury/DIDCommSecretsResolver";
 import { Curve } from "@hyperledger/identus-domain";
-import { base64url } from "multiformats/bases/base64";
 import * as Fixtures from "../../fixtures";
 import * as utils from '../../../src/castor/utils';
 
@@ -125,12 +124,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
       expect(result).to.eql({
         id: `${secret}#${ecnum}`,
         type: "JsonWebKey2020",
-        privateKeyJwk: {
-          crv: Curve.X25519,
-          kty: "OKP",
-          d: base64url.baseEncode(privateKey.raw),
-          x: publicKeyJwk.x as any,
-        },
+        privateKeyJwk: privateKey.to.JWK(),
       });
     });
 
@@ -177,12 +171,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
       expect(result).to.eql({
         id: `${secret}#${ecnum}`,
         type: "JsonWebKey2020",
-        privateKeyJwk: {
-          crv: Curve.X25519,
-          kty: "OKP",
-          d: base64url.baseEncode(privateKey.raw),
-          x: publicKeyJwk.x as any,
-        },
+        privateKeyJwk: privateKey.to.JWK(),
       });
     });
 

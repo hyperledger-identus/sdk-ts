@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import type * as DIDComm from "@hyperledger/identus-didcomm";
-import { base64url } from "multiformats/bases/base64";
 import { computeEncnumbasis } from "../castor/utils";
 
 /**
@@ -61,23 +60,13 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
     const found = await this.pluto.getDIDByDIDOrAlias(secretDID.did.toString());
     if (found) {
       const did = await this.castor.resolveDID(found.toString());
-      const [publicKeyJWK] = did.coreProperties.reduce<import("@hyperledger/identus-domain").JWK[]>((all, property) => {
-        if (property instanceof DIDDocument.VerificationMethods) {
-          const matchingValue =
-            property.values.find(
-              (verificationMethod) => verificationMethod.id === secret_id
-            );
+      const hasMatchingMethod = did.coreProperties.some((property) =>
+        property instanceof DIDDocument.VerificationMethods &&
+        property.values.some((vm) => vm.id === secret_id && vm.publicKeyJwk)
+      );
 
-          if (matchingValue && matchingValue.publicKeyJwk) {
-            return [...all, matchingValue.publicKeyJwk];
-          }
-        }
-        return all;
-      }, []);
-
-      if (publicKeyJWK) {
-        const secret = await this.mapToSecret(found, publicKeyJWK);
-        return secret;
+      if (hasMatchingMethod) {
+        return this.mapToSecret(found);
       }
     }
     return null;
@@ -85,7 +74,6 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
 
   private async mapToSecret(
     did: import("@hyperledger/identus-domain").DID,
-    publicKeyJWK: import("@hyperledger/identus-domain").JWK
   ): Promise<DIDComm.Secret> {
     const { Curve, KeyTypes } = await import("@hyperledger/identus-domain");
     const privateKeys = await this.pluto.getDIDPrivateKeysByDID(did);
@@ -100,21 +88,15 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
       curve: Curve.X25519,
       raw: privateKeyBuffer.value,
     });
-    const ecnumbasis = await computeEncnumbasis(
-      privateKey.publicKey()
-    );
+    if (!privateKey.isExportable()) {
+      throw new Error("PrivateKey is not exportable");
+    }
+    const ecnumbasis = await computeEncnumbasis(privateKey.publicKey());
     const id = `${did.toString()}#${ecnumbasis}`;
-    const secret: DIDComm.Secret = {
+    return {
       id,
       type: "JsonWebKey2020",
-      privateKeyJwk: {
-        crv: Curve.X25519,
-        kty: "OKP",
-        d: base64url.baseEncode(privateKey.raw),
-        x: publicKeyJWK.x,
-      },
+      privateKeyJwk: privateKey.to.JWK(),
     };
-
-    return secret;
   }
 }
