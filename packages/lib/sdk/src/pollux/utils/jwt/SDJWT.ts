@@ -13,7 +13,10 @@ import { CreateSDJWT } from "./CreateSDJWT";
 import { PKInstance } from "../../../edge-agent/didFunctions/PKInstance";
 
 export const defaultHashConfig = {
-  hasherAlg: 'SHA256',
+  // IANA Hash Function Algorithm Name (RFC 6920); SD-JWT spec mandates this
+  // form (lowercase, dashed) for the `_sd_alg` claim. The `hasher` callback
+  // below normalises any reasonable variant so local hashing remains tolerant.
+  hasherAlg: 'sha-256',
   hasher: (data: string | Uint8Array, alg: string) => {
     const safeAlg = alg.replace(/-/gmi, "").toUpperCase();
     if (safeAlg === 'SHA256') {
@@ -120,7 +123,7 @@ export class SDJWT extends Task.Runner {
 
   public getPKConfig(publicKey: Domain.PublicKey): SDJWTVCConfig {
     return {
-      hashAlg: defaultHashConfig.hasherAlg.toLocaleLowerCase(),
+      hashAlg: defaultHashConfig.hasherAlg,
       hasher: defaultHashConfig.hasher,
       signAlg: publicKey.alg,
       verifier: async (data: string | Uint8Array, signatureEncoded: string) => {
@@ -154,7 +157,7 @@ export class SDJWT extends Task.Runner {
 
   public getSKConfig(privateKey: Domain.PrivateKey): SDJWTVCConfig {
     return {
-      hashAlg: defaultHashConfig.hasherAlg.toLocaleLowerCase(),
+      hashAlg: defaultHashConfig.hasherAlg,
       hasher: defaultHashConfig.hasher,
       signAlg: privateKey.alg,
       signer: async (data: string | Uint8Array) => {
