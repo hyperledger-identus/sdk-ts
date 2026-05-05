@@ -1,5 +1,4 @@
 import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
-import UUIDLib from "@stablelib/uuid";
 import { Agent, SeedFunction } from "../../../src/edge-agent";
 import { AttachmentDescriptor, DID, MessageDirection, Seed, AgentError } from '@hyperledger/identus-domain';
 import { Apollo, Pluto, ProtocolType } from "../../../src";
@@ -225,7 +224,7 @@ describe("Agent", () => {
       const stubSendMessage = vi.spyOn(agent.mercury, "sendMessage").mockResolvedValue(null as any);
       const stubAddConnection = vi.spyOn(agent.connections, "add").mockResolvedValue();
 
-      vi.spyOn(UUIDLib, "uuid").mockReturnValue("123456-123456-12356-123456");
+
 
       const oob = new OutOfBandInvitation(
         {},
@@ -244,9 +243,10 @@ describe("Agent", () => {
       const expectedMsg = {
         ...HandshakeRequest.fromOutOfBand(oob, did).makeMessage(),
         direction: MessageDirection.SENT,
+        id: expect.any(String),
         uuid: expect.any(String),
       };
-      expect(stubSendMessage.mock.lastCall?.[0]).toEqual(expect.objectContaining(expectedMsg));
+      expect(stubSendMessage.mock.lastCall?.[0]).toMatchObject(expectedMsg);
     });
 
     test("Connectionless Credential Offer - stores Credential Offer", async () => {
