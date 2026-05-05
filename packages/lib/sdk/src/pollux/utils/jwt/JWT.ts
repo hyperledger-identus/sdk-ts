@@ -62,6 +62,13 @@ export class JWT extends Task.Runner {
 
       const decoded = await this.decode(jws);
 
+      // Verify expiration (exp) claim per RFC 7519 Section 4.1.4
+      // If exp is present and the current time is at or past it, the JWT is expired
+      const exp = decoded.payload.exp;
+      if (typeof exp === "number" && Math.floor(Date.now() / 1000) >= exp) {
+        return false;
+      }
+
       for (const verificationMethod of verificationMethods) {
         try {
           const pk = await this.runTask(new PKInstance({ verificationMethod }));
