@@ -785,6 +785,26 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     });
   }
 
+  /**
+   * Remove a mediator configuration and its associated links.
+   *
+   * @param mediatorDID - The DID of the mediator to remove.
+   */
+  async removeMediator(mediatorDID: Domain.DID) {
+    const links = await this.Repositories.DIDLinks.getModels({
+      selector: {
+        targetId: mediatorDID.uuid,
+        $or: [
+          { role: Models.DIDLink.role.mediator },
+          { role: Models.DIDLink.role.routing },
+        ]
+      }
+    });
+    for (const link of links) {
+      await this.Repositories.DIDLinks.delete(link.uuid);
+    }
+  }
+
   private onlyOne<T>(arr: T[]): T {
     const item = arr.at(0);
     if (!item || arr.length !== 1) throw new Error("something wrong");

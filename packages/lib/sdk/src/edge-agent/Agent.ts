@@ -147,6 +147,7 @@ export class Agent<
     const didcomm = new DIDCommWrapper(didResolver, secretsResolver);
     const mercury = params.mercury ?? new Mercury(castor, didcomm, api);
     const mediatorDID = Domain.notNil(params.mediatorDID) ? Domain.DID.from(params.mediatorDID) : undefined;
+    const mediatorDIDs = params.mediatorDIDs?.map(did => Domain.DID.from(did)) ?? [];
     const seed: SeedFunction = params.seed ?? (() => {
       const generatedSeed = apollo.createRandomSeed().seed;
       return async () => generatedSeed.value;
@@ -159,7 +160,7 @@ export class Agent<
       mercury,
       seed,
       api,
-      { mediatorDID, ...Domain.asJsonObj(params.options) }
+      { mediatorDID, mediatorDIDs, ...Domain.asJsonObj(params.options) }
     );
 
     return agent;
@@ -172,11 +173,17 @@ export class Agent<
     await this.pluto.start();
 
     const mediatorDID = this.currentMediatorDID;
-    if (Domain.isNil(this.connections.mediator) && Domain.notNil(mediatorDID)) {
-      await this.runTask(new StartMediator({ mediatorDID }));
+    const mediatorDIDs = this.currentMediatorDIDs;
+    
+    if (this.connections.allMediators.length === 0 && (Domain.notNil(mediatorDID) || mediatorDIDs.length > 0)) {
+      const dids = [...mediatorDIDs];
+      if (Domain.notNil(mediatorDID)) {
+        dids.push(mediatorDID);
+      }
+      await this.runTask(new StartMediator({ mediatorDIDs: dids }));
     }
 
-    if (Domain.notNil(this.connections.mediator)) {
+    if (this.connections.allMediators.length > 0) {
       await this.startFetchingMessages();
     }
   }
@@ -224,6 +231,28 @@ export class Agent<
     return Domain.notNil(this.options?.mediatorDID)
       ? Domain.DID.from(this.options?.mediatorDID)
       : undefined;
+  }
+
+  get currentMediatorDIDs() {
+    return this.options?.mediatorDIDs?.map(did => Domain.DID.from(did)) ?? [];
+  }
+
+  async addMediator(did: Domain.DID | string): Promise<void> {
+    const mediatorDID = Domain.DID.from(did);
+    await this.runTask(new StartMediator({ mediatorDID }));
+    this.stopFetchingMessages();
+    await this.startFetchingMessages();
+  }
+
+  async removeMediator(did: Domain.DID | string): Promise<void> {
+    const mediatorDID = Domain.DID.from(did);
+    const connection = this.connections.find(mediatorDID.toString());
+    if (connection) {
+      await this.connections.remove(connection);
+      await this.pluto.removeMediator(mediatorDID);
+      this.stopFetchingMessages();
+      await this.startFetchingMessages();
+    }
   }
 
   get runtimeContext() {

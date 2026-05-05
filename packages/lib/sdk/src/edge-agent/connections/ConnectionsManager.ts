@@ -29,6 +29,17 @@ export class ConnectionsManager {
     return null;
   }
 
+  get allMediators(): MediatorConnection[] {
+    const mediators: MediatorConnection[] = [];
+    for (const uri of this.mediators) {
+      const connection = this.find(uri);
+      if (connection instanceof MediatorConnection) {
+        mediators.push(connection);
+      }
+    }
+    return mediators;
+  }
+
   /**
    * close all active connections
    */

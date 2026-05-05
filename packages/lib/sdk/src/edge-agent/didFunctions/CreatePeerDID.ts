@@ -51,22 +51,24 @@ export class CreatePeerDID extends Task<Domain.DID, Args> {
 
     publicKeys.push(keyAgreementPrivateKey.publicKey());
     publicKeys.push(authenticationPrivateKey.publicKey());
-    const mediatorDID = ctx.Connections.mediator?.uri;
+    const mediators = ctx.Connections.allMediators;
 
     if (
-      mediatorDID &&
+      mediators.length > 0 &&
       !services.find((service) => {
         return service.isDIDCommMessaging;
       })
     ) {
       //TODO This still needs to be done update the key List
-      services.push(
-        new Domain.DIDDocument.Service(
-          "#didcomm-1",
-          ["DIDCommMessaging"],
-          new Domain.DIDDocument.ServiceEndpoint(mediatorDID.toString())
-        )
-      );
+      mediators.forEach((mediator, index) => {
+        services.push(
+          new Domain.DIDDocument.Service(
+            `#didcomm-${index + 1}`,
+            ["DIDCommMessaging"],
+            new Domain.DIDDocument.ServiceEndpoint(mediator.uri)
+          )
+        );
+      });
     }
     const did = await ctx.Castor.createDID(
       'peer',
@@ -104,18 +106,21 @@ export class CreatePeerDID extends Task<Domain.DID, Args> {
    * @throws {Domain.AgentError.NoMediatorAvailableError} When no mediator is available
    */
   async updateKeyListWithDID(ctx: AgentContext, did: Domain.DID): Promise<void> {
-    const mediator = ctx.Connections.mediator?.asMediator();
+    const mediators = ctx.Connections.allMediators;
 
-    if (!mediator) {
+    if (mediators.length === 0) {
       throw new Domain.AgentError.NoMediatorAvailableError();
     }
-    const keyListUpdateMessage = new MediationKeysUpdateList(
-      mediator.hostDID,
-      mediator.mediatorDID,
-      [did]
-    ).makeMessage();
 
-    await ctx.run(new Send({ message: keyListUpdateMessage }));
-    // [ ] handle response https://github.com/hyperledger-identus/sdk-ts/issues/391
+    for (const connection of mediators) {
+      const mediator = connection.asMediator();
+      const keyListUpdateMessage = new MediationKeysUpdateList(
+        mediator.hostDID,
+        mediator.mediatorDID,
+        [did]
+      ).makeMessage();
+
+      await ctx.run(new Send({ message: keyListUpdateMessage }));
+    }
   }
 }

@@ -50,6 +50,7 @@ export type SeedFunction = () => Promise<Uint8Array>;
 
 export type AgentOptions = {
   mediatorDID?: DID | string;
+  mediatorDIDs?: (DID | string)[];
   experiments?: {
     liveMode?: boolean;
   };
