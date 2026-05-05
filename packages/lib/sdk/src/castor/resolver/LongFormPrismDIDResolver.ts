@@ -30,7 +30,7 @@ export class LongFormPrismDIDResolver implements DIDResolver {
     const prismDID = new LongFormPrismDID(did);
     const state = prismDID.encodedState;
     const base64State = base64.base64url.decode(`u${state}`);
-    const coreProperties = this.decodeState(did, base64State);
+    const coreProperties = this.decodeState(did, prismDID.stateHash, base64State);
     return new DIDDocument(did, coreProperties);
   }
 
@@ -38,15 +38,12 @@ export class LongFormPrismDIDResolver implements DIDResolver {
     return proto.compressed_ec_key_data?.curve ?? proto.ec_key_data.curve;
   }
 
-  private decodeState(did: DID, encodedData: Uint8Array): DIDDocument.CoreProperty[] {
+  private decodeState(did: DID, stateHash: string, encodedData: Uint8Array): DIDDocument.CoreProperty[] {
     try {
       const verifyEncodedState = new SHA256().update(encodedData).digest();
-      const verifyEncodedStateHex = verifyEncodedState;
+      const verifyEncodedStateHex = Buffer.from(verifyEncodedState).toString("hex");
 
-      if (
-        Buffer.from(verifyEncodedState).toString("hex") !==
-        Buffer.from(verifyEncodedStateHex).toString("hex")
-      ) {
+      if (verifyEncodedStateHex !== stateHash) {
         throw new CastorError.InitialStateOfDIDChanged();
       }
 
