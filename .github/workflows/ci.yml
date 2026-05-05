@@ -12,7 +12,7 @@ on:
       - "main"
   merge_group:
     types:
-      - cheks_requested
+      - checks_requested
     branches:
       - "main"
 
