@@ -351,4 +351,46 @@ describe("Domain - JWT", () => {
       expect(verified).to.be.true;
     });
   });
+
+  // Regression: JWT header `alg` must be the spec-compliant JWT_ALG value
+  // (e.g. "EdDSA", "ES256K") and never the lowercased form. See RFC 7518 /
+  // RFC 8037. The SDJWT path has equivalent coverage in SDJWT.test.ts.
+  describe("alg casing", () => {
+    const issuerDID = Fixtures.DIDs.prismDIDDefault;
+
+    beforeEach(() => {
+      vi.spyOn(plutoMock, "getDIDPrivateKeysByDID").mockResolvedValue([
+        Fixtures.Keys.secp256K1.privateKey,
+        Fixtures.Keys.ed25519.privateKey,
+      ]);
+    });
+
+    test("Ed25519 - header.alg is exactly 'EdDSA'", async () => {
+      const jws = await sut.signWithDID(
+        issuerDID,
+        {},
+        {},
+        Fixtures.Keys.ed25519.privateKey,
+      );
+      const decoded = await sut.decode(jws);
+
+      expect(decoded.header).toHaveProperty('alg', Domain.JWT_ALG.EdDSA);
+      expect(decoded.header.alg).to.eq("EdDSA");
+      expect(decoded.header.alg).not.to.eq("eddsa");
+    });
+
+    test("Secp256k1 - header.alg is exactly 'ES256K'", async () => {
+      const jws = await sut.signWithDID(
+        issuerDID,
+        {},
+        {},
+        Fixtures.Keys.secp256K1.privateKey,
+      );
+      const decoded = await sut.decode(jws);
+
+      expect(decoded.header).toHaveProperty('alg', Domain.JWT_ALG.ES256K);
+      expect(decoded.header.alg).to.eq("ES256K");
+      expect(decoded.header.alg).not.to.eq("es256k");
+    });
+  });
 });
