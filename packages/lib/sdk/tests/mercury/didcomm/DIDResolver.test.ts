@@ -81,7 +81,7 @@ describe("Mercury DIDComm DIDResolver", () => {
           publicKeyJwk: {
             crv: vmOther.publicKeyJwk?.crv,
             kid: (vmOther.publicKeyJwk as any)?.kid,
-            kty: "OKP",
+            kty: "EC",
             x: vmOther.publicKeyJwk?.x as any,
           },
         },

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import type * as DIDComm from "@hyperledger/identus-didcomm";
+import { base64url } from "multiformats/bases/base64";
 import { computeEncnumbasis } from "../castor/utils";
 
 /**
@@ -109,7 +110,7 @@ export class DIDCommSecretsResolver implements DIDComm.SecretsResolver {
       privateKeyJwk: {
         crv: Curve.X25519,
         kty: "OKP",
-        d: Buffer.from(privateKey.getEncoded()).toString(),
+        d: base64url.baseEncode(privateKey.raw),
         x: publicKeyJWK.x,
       },
     };
