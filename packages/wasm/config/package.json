@@ -5,7 +5,7 @@
   "type": "module",
   "license": "MIT",
   "exports": {
-    "./tsup.config": "./tsup.config.ts",
+    "./tsup.config": "./tsup.config.js",
     "./vitest.wasm-config.js": "./vitest.wasm-config.js",
     "./eslint.config.mjs": "./eslint.config.mjs",
     "./tsconfig.wasm.json": "./tsconfig.wasm.json",
