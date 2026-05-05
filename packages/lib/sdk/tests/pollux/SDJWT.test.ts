@@ -143,4 +143,47 @@ describe("Domain - SDJWT", () => {
       expect(instance.args.purpose).toBe("AUTHENTICATION_KEY");
     });
   });
+
+  // Regression: signAlg must be the spec-compliant JWT_ALG value (e.g. "EdDSA",
+  // "ES256K") and never the lowercased form. The SD-JWT header `alg` is taken
+  // verbatim from this value, so lowercasing here breaks RFC 7518 / RFC 8037.
+  describe("config alg", () => {
+    let plain: SDJWT;
+
+    beforeEach(() => {
+      plain = new SDJWT();
+    });
+
+    test("getSKConfig - Ed25519 - signAlg is EdDSA", () => {
+      const config = plain.getSKConfig(Fixtures.Keys.ed25519.privateKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.EdDSA);
+      expect(config.signAlg).to.eq("EdDSA");
+      expect(config.signAlg).not.to.eq("eddsa");
+    });
+
+    test("getSKConfig - Secp256k1 - signAlg is ES256K", () => {
+      const config = plain.getSKConfig(Fixtures.Keys.secp256K1.privateKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.ES256K);
+      expect(config.signAlg).to.eq("ES256K");
+      expect(config.signAlg).not.to.eq("es256k");
+    });
+
+    test("getPKConfig - Ed25519 - signAlg is EdDSA", () => {
+      const config = plain.getPKConfig(Fixtures.Keys.ed25519.publicKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.EdDSA);
+      expect(config.signAlg).to.eq("EdDSA");
+      expect(config.signAlg).not.to.eq("eddsa");
+    });
+
+    test("getPKConfig - Secp256k1 - signAlg is ES256K", () => {
+      const config = plain.getPKConfig(Fixtures.Keys.secp256K1.publicKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.ES256K);
+      expect(config.signAlg).to.eq("ES256K");
+      expect(config.signAlg).not.to.eq("es256k");
+    });
+  });
 });

@@ -122,7 +122,7 @@ export class SDJWT extends Task.Runner {
     return {
       hashAlg: defaultHashConfig.hasherAlg.toLocaleLowerCase(),
       hasher: defaultHashConfig.hasher,
-      signAlg: publicKey.alg.toLocaleLowerCase(),
+      signAlg: publicKey.alg,
       verifier: async (data: string | Uint8Array, signatureEncoded: string) => {
         if (!publicKey.canVerify()) {
           throw new PolluxError.InvalidCredentialError("Cannot verify with this key: key does not support verification");
@@ -156,7 +156,7 @@ export class SDJWT extends Task.Runner {
     return {
       hashAlg: defaultHashConfig.hasherAlg.toLocaleLowerCase(),
       hasher: defaultHashConfig.hasher,
-      signAlg: privateKey.alg.toLocaleLowerCase(),
+      signAlg: privateKey.alg,
       signer: async (data: string | Uint8Array) => {
         if (!privateKey.isSignable()) {
           throw new PolluxError.InvalidCredentialError("Cannot sign with this key: key does not support signing");
