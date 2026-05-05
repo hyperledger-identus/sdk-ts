@@ -23,7 +23,7 @@ interface Args {
   header?: Partial<Domain.JWT.Header>;
   disclosureFrame: DisclosureFrame<SdJwtVcPayload>;
   privateKey?: Domain.PrivateKey;
-  purpose?: SupportedPurpose | SupportedPurpose[];
+  purpose?: SupportedPurpose;
 }
 
 export class CreateSDJWT extends Task<string, Args> {

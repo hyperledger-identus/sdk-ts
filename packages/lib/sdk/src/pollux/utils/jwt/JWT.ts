@@ -6,7 +6,7 @@ import { Task, isNil } from "../../../utils";
 import { CreateJWT } from "./CreateJwt";
 import { ResolveDID } from "./ResolveDID";
 import { PKInstance } from "../../../edge-agent/didFunctions/PKInstance";
-
+import { type SupportedPurpose } from "../../../edge-agent/didFunctions/FindDIDSigningKeys";
 
 export class JWT extends Task.Runner {
   clone() {
@@ -32,7 +32,7 @@ export class JWT extends Task.Runner {
     payload: Partial<Domain.JWT.Payload>,
     header?: Partial<Domain.JWT.Header>,
     privateKey?: Domain.PrivateKey,
-    purpose?: keyof Pick<Domain.PrismDIDKeys, "AUTHENTICATION_KEY" | "ISSUING_KEY">,
+    purpose?: SupportedPurpose,
   ): Promise<string> {
     return this.runTask(new CreateJWT({ did, payload, header, privateKey, purpose }));
   }

@@ -22,7 +22,7 @@ interface Args {
   payload: Partial<Domain.JWT.Payload>;
   header?: Partial<Domain.JWT.Header>;
   privateKey?: Domain.PrivateKey;
-  purpose?: SupportedPurpose | SupportedPurpose[];
+  purpose?: SupportedPurpose;
 }
 
 export class CreateJWT extends Task<string, Args> {

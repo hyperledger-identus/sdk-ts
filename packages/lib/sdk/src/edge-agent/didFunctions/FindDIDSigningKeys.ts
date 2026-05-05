@@ -5,27 +5,23 @@ import { isNil, notNil } from "../../utils";
 import type * as Domain from "@hyperledger/identus-domain";
 import { base64url } from "multiformats/bases/base64";
 
-type SupportedPurpose = keyof Pick
-  Domain.PrismDIDKeys,
-  | "AUTHENTICATION_KEY"
-  | "ISSUING_KEY"
-  | "KEY_AGREEMENT_KEY"
-  | "CAPABILITY_INVOCATION_KEY"
-  | "CAPABILITY_DELEGATION_KEY"
->;
+const PURPOSE_TO_VERIFICATION_RELATIONSHIP = {
+    AUTHENTICATION_KEY: "authentication",
+    ISSUING_KEY: "assertionMethod",
+    KEY_AGREEMENT_KEY: "keyAgreement",
+    CAPABILITY_INVOCATION_KEY: "capabilityInvocation",
+    CAPABILITY_DELEGATION_KEY: "capabilityDelegation",
+} as const;
 
-const PURPOSE_TO_VERIFICATION_RELATIONSHIP: Record<SupportedPurpose, keyof Domain.DIDDocument> = {
-  AUTHENTICATION_KEY: "authentication",
-  ISSUING_KEY: "assertionMethod",
-  KEY_AGREEMENT_KEY: "keyAgreement",
-  CAPABILITY_INVOCATION_KEY: "capabilityInvocation",
-  CAPABILITY_DELEGATION_KEY: "capabilityDelegation",
-};
+export type SupportedPurpose = keyof typeof PURPOSE_TO_VERIFICATION_RELATIONSHIP;
 
-interface Args {
-  did: Domain.DID;
-  privateKey?: Domain.PrivateKey;
-  purpose?: SupportedPurpose | SupportedPurpose[];
+interface BaseArgs {
+    did: Domain.DID;
+    privateKey?: Domain.PrivateKey;
+}
+
+interface Args extends BaseArgs {
+    purpose: SupportedPurpose;
 }
 
 export interface SigningKeyData {
@@ -56,24 +52,9 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
       return { privateKey, publicKey, encoded, encodedBase64Url };
     });
 
-   const purposes: SupportedPurpose[] = this.args.purpose
-  ? Array.isArray(this.args.purpose) ? this.args.purpose : [this.args.purpose]
-  : ["AUTHENTICATION_KEY"];
-
-   const seenIds = new Set<string>();
-   const allMethods: Domain.DIDDocument.VerificationMethod[] = [];
-
-   for (const purpose of purposes) {
-   const relationship = PURPOSE_TO_VERIFICATION_RELATIONSHIP[purpose];
-   for (const method of (didDoc[relationship] ?? [])) {
-    if (!seenIds.has(method.id)) {
-      seenIds.add(method.id);
-      allMethods.push(method);
-      }
-    }
-  }
-
-    const signingKeyData = this.matchKeys(allMethods, keyData);
+    const verificationMethod = PURPOSE_TO_VERIFICATION_RELATIONSHIP[this.args.purpose];
+    const primaryMethods = didDoc[verificationMethod];
+    const signingKeyData = this.matchKeys(primaryMethods, keyData);
 
     return signingKeyData;
   }
@@ -137,4 +118,16 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
 
     return []
   }
+}
+
+export class FindIssuerSigningKeys extends Task<SigningKeyData[], BaseArgs> {
+    async run(ctx: AgentContext) {
+        return ctx.run(new FindSigningKeys({ ...this.args, purpose: "ISSUING_KEY" }));
+    }
+}
+
+export class FindAuthenticationSigningKeys extends Task<SigningKeyData[], BaseArgs> {
+    async run(ctx: AgentContext) {
+        return ctx.run(new FindSigningKeys({ ...this.args, purpose: "AUTHENTICATION_KEY" }));
+    }
 }
