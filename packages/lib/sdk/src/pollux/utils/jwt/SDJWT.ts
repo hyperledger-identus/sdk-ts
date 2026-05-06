@@ -91,9 +91,8 @@ export class SDJWT extends Task.Runner {
             options.requiredKeyBindings ?? false
           );
           return true;
-        } catch (err) {
-          // eslint-disable-next-line no-console
-          console.log(err);
+        } catch {
+          // Continue to next verification method
         }
       }
     }
