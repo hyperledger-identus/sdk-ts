@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cwd=`pwd`
 ExternalsDir="${cwd}/externals"
