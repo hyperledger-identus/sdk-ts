@@ -65,7 +65,7 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
             iss: issuerDID.toString(),
             iat: Date.now(),
             exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
-            nbf: Date.now(),
+            nbf: Math.floor(Date.now() / 1000),
             jti: uuid(),
             vc: {
                 credentialSubject
@@ -91,7 +91,7 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
             iss: issuerDID.toString(),
             iat: Date.now(),
             exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
-            nbf: Date.now(),
+            nbf: Math.floor(Date.now() / 1000),
             jti: uuid(),
             vct: issuerDID.toString(),
             ...claims.reduce((all, { name, value, type }) => {
