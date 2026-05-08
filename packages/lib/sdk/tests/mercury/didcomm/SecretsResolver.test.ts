@@ -124,12 +124,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
       expect(result).to.eql({
         id: `${secret}#${ecnum}`,
         type: "JsonWebKey2020",
-        privateKeyJwk: {
-          crv: Curve.X25519,
-          kty: "OKP",
-          d: privateKeys[0].value.toString(),
-          x: publicKeyJwk.x as any,
-        },
+        privateKeyJwk: privateKey.to.JWK(),
       });
     });
 
@@ -176,12 +171,7 @@ describe("Mercury DIDComm SecretsResolver", () => {
       expect(result).to.eql({
         id: `${secret}#${ecnum}`,
         type: "JsonWebKey2020",
-        privateKeyJwk: {
-          crv: Curve.X25519,
-          kty: "OKP",
-          d: privateKeys[0].value.toString(),
-          x: publicKeyJwk.x as any,
-        },
+        privateKeyJwk: privateKey.to.JWK(),
       });
     });
 
