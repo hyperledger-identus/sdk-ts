@@ -62,12 +62,6 @@ export class ProcessCallbackUrl extends Utils.Task<AuthorizationResponse, Proces
         }
     }
 
-    // const id_token = url.searchParams.get('id_token')
-    // const token = url.searchParams.get('token')
-    // if (id_token !== undefined || token !== undefined) {
-    //   throw new Error('implicit and hybrid flows are not supported')
-    // }
-
     return authGrant
   }
 }
