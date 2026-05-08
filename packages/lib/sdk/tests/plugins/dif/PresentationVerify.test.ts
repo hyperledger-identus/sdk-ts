@@ -150,6 +150,84 @@ describe("Plugins - DIF", () => {
           await expect(result).rejects.toThrow("Verification failed for credential (eyJhbGciOi...): reason -> Invalid Claim: Expected one of the paths $.vc.credentialSubject.not_a_course, $.credentialSubject.not_a_course, $.not_a_course to exist.");
         });
 
+        test("Should verify true when a field has no filter and the path exists (existence check)", async () => {
+          const request: DIF.Presentation.Request = JSON.parse(JSON.stringify(presentationRequest));
+          request.presentation_definition.input_descriptors[0].constraints.fields = [{
+            path: [
+              "$.vc.credentialSubject.course",
+              "$.credentialSubject.course",
+              "$.course",
+            ],
+            id: "no-filter-field",
+            optional: false,
+            name: "course",
+          }];
+          const sut = new PresentationVerify({ presentation, presentationRequest: request });
+          const result = await ctx.run(sut);
+
+          expect(result.data).toBe(true);
+        });
+
+        test("Should verify false when a field has no filter and the path does not exist", async () => {
+          const request: DIF.Presentation.Request = JSON.parse(JSON.stringify(presentationRequest));
+          request.presentation_definition.input_descriptors[0].constraints.fields = [{
+            path: [
+              "$.vc.credentialSubject.nonexistent",
+            ],
+            id: "no-filter-missing",
+            optional: false,
+            name: "nonexistent",
+          }];
+          const sut = new PresentationVerify({ presentation, presentationRequest: request });
+          const result = ctx.run(sut);
+
+          await expect(result).rejects.toThrow("Expected one of the paths $.vc.credentialSubject.nonexistent to exist.");
+        });
+
+        test("Should verify true when a field uses const filter and the value matches", async () => {
+          const request: DIF.Presentation.Request = JSON.parse(JSON.stringify(presentationRequest));
+          request.presentation_definition.input_descriptors[0].constraints.fields = [{
+            path: [
+              "$.vc.credentialSubject.course",
+              "$.credentialSubject.course",
+              "$.course",
+            ],
+            id: "const-match",
+            optional: false,
+            filter: {
+              type: "string",
+              const: "Identus Training course Certification 2024",
+            },
+            name: "course",
+          }];
+          const sut = new PresentationVerify({ presentation, presentationRequest: request });
+          const result = await ctx.run(sut);
+
+          expect(result.data).toBe(true);
+        });
+
+        test("Should verify false when a field uses const filter and the value does not match", async () => {
+          const request: DIF.Presentation.Request = JSON.parse(JSON.stringify(presentationRequest));
+          request.presentation_definition.input_descriptors[0].constraints.fields = [{
+            path: [
+              "$.vc.credentialSubject.course",
+              "$.credentialSubject.course",
+              "$.course",
+            ],
+            id: "const-mismatch",
+            optional: false,
+            filter: {
+              type: "string",
+              const: "wrong value",
+            },
+            name: "course",
+          }];
+          const sut = new PresentationVerify({ presentation, presentationRequest: request });
+          const result = ctx.run(sut);
+
+          await expect(result).rejects.toThrow('Expected the $.vc.credentialSubject.course field to be "\"wrong value\"" but got "Identus Training course Certification 2024"');
+        });
+
         test("Should Verify false when the Credential subject does not match given pattern", async () => {
           const failRequest: DIF.Presentation.Request = JSON.parse(JSON.stringify(presentationRequest));
           failRequest.presentation_definition.input_descriptors[0].constraints.fields = [{

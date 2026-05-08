@@ -44,7 +44,7 @@ export namespace DIF {
           type: string,
           pattern?: string,
           enum?: PredicateType[],
-          const?: PredicateType[],
+          const?: PredicateType,
           value?: PredicateType,
         }
       }

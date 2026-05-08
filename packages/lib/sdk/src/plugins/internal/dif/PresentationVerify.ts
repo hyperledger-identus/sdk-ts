@@ -235,6 +235,10 @@ export class PresentationVerify extends Plugins.Task<Args> {
 
       const value = mapper.getValue(path);
 
+      if (value !== null && !field.filter) {
+        return true;
+      }
+
       if (field.filter && value !== null) {
         const filter = field.filter;
 
@@ -257,7 +261,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
             return true
           }
 
-        } else if (filter.const && value === filter.pattern) {
+        } else if (filter.const !== undefined) {
           if (value !== filter.const) {
             throw new Domain.PolluxError.InvalidVerifyCredentialError(
               vc, `Invalid Claim: Expected the ${path} field to be "${JSON.stringify(filter.const)}" but got "${value}"`
