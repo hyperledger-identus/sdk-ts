@@ -205,5 +205,19 @@ describe("Domain - SDJWT", () => {
       expect(config.hashAlg).not.to.eq("SHA256");
       expect(config.hashAlg).not.to.eq("SHA-256");
     });
+
+    test("getSKConfig - Ed25519 - kbSigner and kbSignAlg present", () => {
+      const config = plain.getSKConfig(Fixtures.Keys.ed25519.privateKey);
+
+      expect(config.kbSigner).toEqual(expect.any(Function));
+      expect(config.kbSignAlg).to.eq("EdDSA");
+    });
+
+    test("getSKConfig - Secp256k1 - kbSigner and kbSignAlg present", () => {
+      const config = plain.getSKConfig(Fixtures.Keys.secp256K1.privateKey);
+
+      expect(config.kbSigner).toEqual(expect.any(Function));
+      expect(config.kbSignAlg).to.eq("ES256K");
+    });
   });
 });

@@ -104,9 +104,13 @@ export class SDJWT extends Task.Runner {
     jws: string,
     privateKey: Domain.PrivateKey,
     presentationFrame?: PresentationFrame<T>;
+    kb?: { nonce: string; aud: string };
   }) {
     const sdjwt = new SDJwtVcInstance(this.getSKConfig(options.privateKey));
-    return sdjwt.present<T>(options.jws, options.presentationFrame);
+    const kbOpts = options.kb
+      ? { kb: { payload: { iat: Math.floor(Date.now() / 1000), aud: options.kb.aud, nonce: options.kb.nonce } } }
+      : undefined;
+    return sdjwt.present<T>(options.jws, options.presentationFrame, kbOpts);
   }
 
   async reveal(
@@ -155,18 +159,20 @@ export class SDJWT extends Task.Runner {
   }
 
   public getSKConfig(privateKey: Domain.PrivateKey): SDJWTVCConfig {
+    const sign = async (data: string | Uint8Array) => {
+      if (!privateKey.isSignable()) {
+        throw new PolluxError.InvalidCredentialError("Cannot sign with this key: key does not support signing");
+      }
+      const signature = privateKey.sign(Buffer.from(data));
+      return base64url.baseEncode(signature);
+    };
     return {
       hashAlg: defaultHashConfig.hasherAlg,
       hasher: defaultHashConfig.hasher,
       signAlg: privateKey.alg,
-      signer: async (data: string | Uint8Array) => {
-        if (!privateKey.isSignable()) {
-          throw new PolluxError.InvalidCredentialError("Cannot sign with this key: key does not support signing");
-        }
-        const signature = privateKey.sign(Buffer.from(data));
-        const signatureEncoded = base64url.baseEncode(signature);
-        return signatureEncoded
-      },
+      signer: sign,
+      kbSignAlg: privateKey.alg,
+      kbSigner: sign,
       saltGenerator: (length: number) => this.saltGenerator(length)
     };
   }

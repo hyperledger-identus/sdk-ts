@@ -12,7 +12,7 @@ interface Args {
 
 export class PresentationRequest extends Plugins.Task<Args> {
   async run(ctx: Plugins.Context) {
-    const credential = this.args.credential;
+    const { credential, presentationRequest } = this.args;
 
     if (credential instanceof SDJWTCredential) {
       const subjectDID = Domain.DID.from(credential.subject);
@@ -29,6 +29,10 @@ export class PresentationRequest extends Plugins.Task<Args> {
         jws: credential.id,
         presentationFrame,
         privateKey,
+        kb: {
+          nonce: presentationRequest.options.challenge,
+          aud: presentationRequest.options.domain,
+        },
       });
 
       return Payload.make(OEA.PRISM_SDJWT, presentationJWS);
