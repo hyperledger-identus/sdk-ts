@@ -33,8 +33,6 @@ const plugin = new Plugin();
 // message handlers
 plugin.register(OEA.ProtocolIds.Presentation, HandlePresentation);
 plugin.register(OEA.ProtocolIds.PrismRevocation, HandleRevocation);
-// plugin.register(OEA.ProtocolType.DidcommProposePresentation, HandlePresentation);
-// plugin.register(OEA.ProtocolType.DidcommRequestPresentation, HandlePresentationRequest);
 
 // jwt handlers (prism/jwt - legacy format)
 plugin.register(`credential-issue/${OEA.PRISM_JWT}`, jwt.CredentialIssue);

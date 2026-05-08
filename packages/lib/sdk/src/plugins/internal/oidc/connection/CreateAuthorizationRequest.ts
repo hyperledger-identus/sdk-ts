@@ -40,19 +40,6 @@ export class CreateAuthorizationRequest extends Utils.Task<AuthorizationRequest,
     }
 
     // TODO find library for full Authorization support
-    // if (authServerConfig.code_challenge_methods_supported?.includes('S256')) {
-    //   const code_verifier = generateRandomCodeVerifier();
-    //   const code_challenge = await calculatePKCECodeChallenge(code_verifier);
-    //   authRequest.setCodeChallenge("S256", code_challenge, code_verifier);
-    // }
-    // else {
-    //   const nonce = generateRandomNonce();
-    //   authRequest.setNonce(nonce);
-
-    //   if (authServerConfig.code_challenge_methods_supported?.includes("plain")) {
-    //   }
-    // }
-
     return authRequest
   }
 
