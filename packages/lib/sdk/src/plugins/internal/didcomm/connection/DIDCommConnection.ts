@@ -34,7 +34,6 @@ export class DIDCommConnection implements Connection {
   async receive(message: Domain.Message | undefined, ctx: AgentContext) {
     if (notNil(message)) {
       try {
-        // attempt to find and run the registered handler for this message type
         const result = await ctx.run(new RunProtocol({
           type: "message",
           pid: message?.piuri,
@@ -43,8 +42,11 @@ export class DIDCommConnection implements Connection {
 
         return result;
       }
-      catch {
-        return undefined;
+      catch (err) {
+        if (err instanceof Domain.CommonError.ExpectError) {
+          return undefined;
+        }
+        throw err;
       }
     }
 

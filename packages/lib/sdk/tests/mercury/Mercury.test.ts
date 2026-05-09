@@ -117,5 +117,27 @@ describe("Mercury", () => {
       expect(spyUnpack).toHaveBeenCalledWith(jsonMessage);
       expect(result).to.equal(unpackedMessage);
     });
+
+    it("returns undefined when sendMessage returns a falsy response", async () => {
+      const message = new Message("{}", undefined, "TypeofMessage");
+      vi.spyOn(mercury, "sendMessage").mockResolvedValue(null);
+      const spyUnpack = vi.spyOn(mercury, "unpackMessage");
+
+      const result = await mercury.sendMessageParseMessage(message);
+
+      expect(result).toBeUndefined();
+      expect(spyUnpack).not.toHaveBeenCalled();
+    });
+
+    it("propagates unpackMessage errors when response body is non-null", async () => {
+      const message = new Message("{}", undefined, "TypeofMessage");
+      vi.spyOn(mercury, "sendMessage").mockResolvedValue({ some: "data" });
+      vi.spyOn(mercury, "unpackMessage").mockRejectedValue(
+        new Domain.MercuryError.DidCommError("unpack failed")
+      );
+
+      await expect(mercury.sendMessageParseMessage(message))
+        .rejects.toThrow("unpack failed");
+    });
   });
 });

@@ -133,12 +133,9 @@ export class Mercury implements Domain.Mercury {
     message: Domain.Message
   ): Promise<Domain.Message | undefined> {
     const responseBody = await this.sendMessage<any>(message);
-    try {
-      const responseJSON = JSON.stringify(responseBody);
-      return await this.unpackMessage(responseJSON);
-    } catch {
-      return undefined;
-    }
+    if (!responseBody) return undefined;
+    const responseJSON = JSON.stringify(responseBody);
+    return this.unpackMessage(responseJSON);
   }
 
   private notDid(did: Domain.DID | undefined): did is undefined {
