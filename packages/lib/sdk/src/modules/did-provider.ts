@@ -61,7 +61,24 @@ export async function createPrismDID(
   return {
     did,
     shortFormDid,
-    privateKeyHex: masterSK.toString?.() || '',
+    // Prefer a hex encoding of the private key bytes. Use getEncoded() when
+    // available (returns Buffer), otherwise fall back to the raw bytes if
+    // exposed. As a last resort, serialize to string.
+    privateKeyHex: (() => {
+      try {
+        // prefer getEncoded() -> Buffer
+        if (typeof (masterSK as any).getEncoded === 'function') {
+          const enc = (masterSK as any).getEncoded();
+          return Buffer.from(enc).toString('hex');
+        }
+        if ((masterSK as any).raw) {
+          return Buffer.from((masterSK as any).raw).toString('hex');
+        }
+      } catch (e) {
+        // fall through
+      }
+      return String((masterSK as any).toString?.() || '');
+    })(),
   };
 }
 
