@@ -63,8 +63,8 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
 
         const payload = {
             iss: issuerDID.toString(),
-            iat: Date.now(),
-            exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
+            iat: Math.floor(Date.now() / 1000),
+            exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365, //1 year
             nbf: Math.floor(Date.now() / 1000),
             jti: uuid(),
             vc: {
@@ -89,8 +89,8 @@ export class HandleRequestCredential extends Task<IssueCredential, Args> {
     ) {
         const payload = {
             iss: issuerDID.toString(),
-            iat: Date.now(),
-            exp: Date.now() + 1000 * 60 * 60 * 24 * 365, //1 year
+            iat: Math.floor(Date.now() / 1000),
+            exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365, //1 year
             nbf: Math.floor(Date.now() / 1000),
             jti: uuid(),
             vct: issuerDID.toString(),

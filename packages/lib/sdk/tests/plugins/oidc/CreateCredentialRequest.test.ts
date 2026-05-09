@@ -87,6 +87,32 @@ describe("OIDC Tasks", () => {
       expect(result.params).not.to.have.property("proof");
     });
 
+    test("OIDC proof JWT should use seconds for iat claim (RFC 7519)", async () => {
+      const mockedJWT = "notajwt";
+      let capturedPayload: any;
+      vi.spyOn(ctx.JWT, "signWithDID").mockImplementation(async (did, payload) => {
+        capturedPayload = payload;
+        return mockedJWT;
+      });
+      mockTask(CreatePrismDID, Fixtures.DIDs.prismDIDDefault);
+
+      const offer = Fixtures.OIDC.credentialOfferJson;
+      const issuerMeta = Fixtures.OIDC.issuerMeta;
+      const clientId = "test-123";
+      const tokenResponse: TokenResponse = {
+        access_token: "9182893",
+        id_token: "idt",
+        c_nonce: "cn",
+        token_type: "tt"
+      };
+
+      const task = new CreateCredentialRequest({ offer, issuerMeta, clientId, tokenResponse });
+      await ctx.run(task);
+
+      expect(capturedPayload.iat).toBeLessThan(2_000_000_000);
+      expect(capturedPayload.iat).toBeGreaterThan(1_000_000_000);
+    });
+
     describe("Errors", () => {
       test("invalid offer - empty credential_configuration_ids - throws", async () => {
         const offer = JSON.parse(JSON.stringify(Fixtures.OIDC.credentialOfferJson));
