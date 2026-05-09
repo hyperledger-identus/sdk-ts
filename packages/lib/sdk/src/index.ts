@@ -20,6 +20,9 @@ export * from "./mercury";
 export * from './edge-agent'
 export * from "./pluto";
 
+// Modules — high-level reusable helpers
+export * from "./modules/did-provider";
+
 // Domain and utilities
 export * as Domain from "@hyperledger/identus-domain";
 
