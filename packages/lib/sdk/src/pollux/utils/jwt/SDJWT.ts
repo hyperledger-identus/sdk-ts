@@ -73,6 +73,28 @@ export class SDJWT extends Task.Runner {
     if (jwtObject.issuer && jwtObject.issuer !== issuerDID.toString()) {
       throw new PolluxError.InvalidCredentialError("SDJWT issuer does not match the expected DID");
     }
+
+    // Check exp claim (RFC 7519 §4.1.4)
+    // NumericDate is seconds since epoch, but some issuers use milliseconds.
+    // Values above 1e12 (~year 33658 in seconds) are treated as milliseconds.
+    const now = Math.floor(Date.now() / 1000);
+    const rawExp = jwtObject.getProperty("exp");
+    if (typeof rawExp === 'number') {
+      const exp = rawExp > 1e12 ? Math.floor(rawExp / 1000) : rawExp;
+      if (now >= exp) {
+        return false;
+      }
+    }
+
+    // Check nbf claim (RFC 7519 §4.1.5)
+    const rawNbf = jwtObject.getProperty("nbf");
+    if (typeof rawNbf === 'number') {
+      const nbf = rawNbf > 1e12 ? Math.floor(rawNbf / 1000) : rawNbf;
+      if (now < nbf) {
+        return false;
+      }
+    }
+
     const kidHeader = jwtObject.core.jwt?.header?.kid;
     const methods = notNil(kidHeader)
       ? verificationMethods.filter(x => x.id === kidHeader)

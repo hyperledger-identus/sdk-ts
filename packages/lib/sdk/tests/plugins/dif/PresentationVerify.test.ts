@@ -1,4 +1,4 @@
-import { describe, expect, test, beforeEach } from 'vitest';
+import { describe, expect, test, beforeEach, afterEach, vi } from 'vitest';
 import type { DisclosureFrame, PresentationFrame, } from '@sd-jwt/types';
 
 import { DIF } from '../../../src/plugins/internal/dif/types';
@@ -1238,6 +1238,18 @@ describe("Plugins - DIF", () => {
   });
 
   describe("SDJWT", () => {
+
+    // The hardcoded SD-JWT fixture has nbf: 1736514899794 (ms, ~Jan 10 2025)
+    // and exp: 1739193299794 (ms, ~Feb 10 2025). Freeze time within that window
+    // so the credential passes exp/nbf validation added in PR #556.
+    beforeEach(() => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2025-01-20T00:00:00Z"));
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
 
     const presentation: DIF.EmbedTarget = {
       presentation_submission: {
