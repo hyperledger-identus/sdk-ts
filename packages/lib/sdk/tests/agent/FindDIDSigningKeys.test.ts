@@ -5,6 +5,12 @@ import * as Domain from "@hyperledger/identus-domain";
 
 import {
   FindSigningKeys,
+  FindIssuerSigningKeys,
+  FindAuthenticationSigningKeys,
+  FindKeyAgreementSigningKeys,
+  FindCapabilityInvocationSigningKeys,
+  FindCapabilityDelegationSigningKeys,
+  FindRevocationSigningKeys,
   type SigningKeyData,
 } from "../../src/edge-agent/didFunctions/FindDIDSigningKeys";
 import { AgentContext } from "../../src/edge-agent/Context";
@@ -361,6 +367,155 @@ describe("FindSigningKeys", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].kid).toBe("kid-match");
+    });
+  });
+
+  describe("Explicit signing key finders", () => {
+    test("FindIssuerSigningKeys delegates to FindSigningKeys with ISSUING_KEY purpose", async () => {
+      const authMethod = buildVerificationMethodMultibase("kid-auth", secpKey);
+      const assertionMethod = buildVerificationMethodMultibase(
+        "kid-assertion",
+        edKey,
+      );
+      const ctx = makeCtx({
+        resolveDID: vi.fn().mockResolvedValue({
+          authentication: [authMethod],
+          assertionMethod: [assertionMethod],
+        }),
+        getDIDPrivateKeysByDID: vi.fn().mockResolvedValue([secpKey, edKey]),
+      });
+
+      const result = await ctx.run(
+        new FindIssuerSigningKeys({ did }),
+      );
+
+      expect(result).toHaveLength(1);
+      expect(result[0].kid).toBe("kid-assertion");
+      expect(result[0].privateKey).toBe(edKey);
+    });
+
+    test("FindAuthenticationSigningKeys delegates to FindSigningKeys with AUTHENTICATION_KEY purpose", async () => {
+      const authMethod = buildVerificationMethodMultibase("kid-auth", secpKey);
+      const assertionMethod = buildVerificationMethodMultibase(
+        "kid-assertion",
+        edKey,
+      );
+      const ctx = makeCtx({
+        resolveDID: vi.fn().mockResolvedValue({
+          authentication: [authMethod],
+          assertionMethod: [assertionMethod],
+        }),
+        getDIDPrivateKeysByDID: vi.fn().mockResolvedValue([secpKey, edKey]),
+      });
+
+      const result = await ctx.run(
+        new FindAuthenticationSigningKeys({ did }),
+      );
+
+      expect(result).toHaveLength(1);
+      expect(result[0].kid).toBe("kid-auth");
+      expect(result[0].privateKey).toBe(secpKey);
+    });
+
+    test("FindKeyAgreementSigningKeys delegates to FindSigningKeys with KEY_AGREEMENT_KEY purpose", async () => {
+      const keyAgreementMethod = buildVerificationMethodMultibase(
+        "kid-key-agreement",
+        secpKey,
+      );
+      const ctx = makeCtx({
+        resolveDID: vi.fn().mockResolvedValue({
+          keyAgreement: [keyAgreementMethod],
+        }),
+        getDIDPrivateKeysByDID: vi.fn().mockResolvedValue([secpKey]),
+      });
+
+      const result = await ctx.run(
+        new FindKeyAgreementSigningKeys({ did }),
+      );
+
+      expect(result).toHaveLength(1);
+      expect(result[0].kid).toBe("kid-key-agreement");
+      expect(result[0].privateKey).toBe(secpKey);
+    });
+
+    test("FindCapabilityInvocationSigningKeys delegates with CAPABILITY_INVOCATION_KEY purpose", async () => {
+      const capabilityMethod = buildVerificationMethodMultibase(
+        "kid-cap-invocation",
+        edKey,
+      );
+      const ctx = makeCtx({
+        resolveDID: vi.fn().mockResolvedValue({
+          capabilityInvocation: [capabilityMethod],
+        }),
+        getDIDPrivateKeysByDID: vi.fn().mockResolvedValue([edKey]),
+      });
+
+      const result = await ctx.run(
+        new FindCapabilityInvocationSigningKeys({ did }),
+      );
+
+      expect(result).toHaveLength(1);
+      expect(result[0].kid).toBe("kid-cap-invocation");
+      expect(result[0].privateKey).toBe(edKey);
+    });
+
+    test("FindCapabilityDelegationSigningKeys delegates with CAPABILITY_DELEGATION_KEY purpose", async () => {
+      const capabilityMethod = buildVerificationMethodMultibase(
+        "kid-cap-delegation",
+        secpKey,
+      );
+      const ctx = makeCtx({
+        resolveDID: vi.fn().mockResolvedValue({
+          capabilityDelegation: [capabilityMethod],
+        }),
+        getDIDPrivateKeysByDID: vi.fn().mockResolvedValue([secpKey]),
+      });
+
+      const result = await ctx.run(
+        new FindCapabilityDelegationSigningKeys({ did }),
+      );
+
+      expect(result).toHaveLength(1);
+      expect(result[0].kid).toBe("kid-cap-delegation");
+      expect(result[0].privateKey).toBe(secpKey);
+    });
+
+    test("FindRevocationSigningKeys delegates with REVOCATION_KEY purpose", async () => {
+      const revocationMethod = buildVerificationMethodMultibase(
+        "kid-revocation",
+        edKey,
+      );
+      const ctx = makeCtx({
+        resolveDID: vi.fn().mockResolvedValue({
+          revocation: [revocationMethod],
+        }),
+        getDIDPrivateKeysByDID: vi.fn().mockResolvedValue([edKey]),
+      });
+
+      const result = await ctx.run(
+        new FindRevocationSigningKeys({ did }),
+      );
+
+      expect(result).toHaveLength(1);
+      expect(result[0].kid).toBe("kid-revocation");
+      expect(result[0].privateKey).toBe(edKey);
+    });
+
+    test("explicit finders accept optional privateKey argument", async () => {
+      const method = buildVerificationMethodMultibase("kid-auth", secpKey);
+      const getDIDPrivateKeysByDID = vi.fn().mockResolvedValue([edKey]);
+      const ctx = makeCtx({
+        resolveDID: vi.fn().mockResolvedValue({ authentication: [method] }),
+        getDIDPrivateKeysByDID,
+      });
+
+      const result = await ctx.run(
+        new FindAuthenticationSigningKeys({ did, privateKey: secpKey }),
+      );
+
+      expect(result).toHaveLength(1);
+      expect(result[0].privateKey).toBe(secpKey);
+      expect(getDIDPrivateKeysByDID).not.toHaveBeenCalled();
     });
   });
 });
