@@ -431,6 +431,62 @@ describe("HandleRequestCredential", () => {
         });
     });
 
+    describe("RFC 7519 NumericDate Compliance", () => {
+        test("JWT credential should use seconds for iat/exp claims (RFC 7519)", async () => {
+            const claims = [
+                { name: "name", value: "John Doe", type: "string" }
+            ];
+
+            mockJWT.signWithDID.mockResolvedValue("test-jwt");
+
+            const task = new HandleRequestCredential({
+                issuerDID: Fixtures.DIDs.peerDID2,
+                holderDID: Fixtures.DIDs.peerDID1,
+                message: mockMessage,
+                format: Domain.CredentialType.JWT,
+                claims: claims
+            });
+
+            await ctx.run(task);
+
+            const [, actualPayload] = mockJWT.signWithDID.mock.calls[0];
+
+            expect(actualPayload.iat).toBeLessThan(2_000_000_000);
+            expect(actualPayload.iat).toBeGreaterThan(1_000_000_000);
+            expect(actualPayload.exp).toBeLessThan(2_500_000_000);
+            expect(actualPayload.exp).toBeGreaterThan(1_000_000_000);
+            expect(actualPayload.exp).toBeGreaterThan(actualPayload.iat);
+        });
+
+        test("SDJWT credential should use seconds for iat/exp claims (RFC 7519)", async () => {
+            const claims = [
+                { name: "name", value: "John Doe", type: "string" }
+            ];
+
+            mockSDJWT.sign.mockResolvedValue("test-sdjwt");
+            mockTask(FindSigningKeys, [mockSigningKey]);
+
+            const task = new HandleRequestCredential({
+                issuerDID: Fixtures.DIDs.peerDID2,
+                holderDID: Fixtures.DIDs.peerDID1,
+                message: mockMessage,
+                format: Domain.CredentialType.SDJWT,
+                claims: claims
+            });
+
+            await ctx.run(task);
+
+            const callArgs = mockSDJWT.sign.mock.calls[0][0];
+            const { payload } = callArgs;
+
+            expect(payload.iat).toBeLessThan(2_000_000_000);
+            expect(payload.iat).toBeGreaterThan(1_000_000_000);
+            expect(payload.exp).toBeLessThan(2_500_000_000);
+            expect(payload.exp).toBeGreaterThan(1_000_000_000);
+            expect(payload.exp).toBeGreaterThan(payload.iat);
+        });
+    });
+
     describe("Error Handling", () => {
         test("should throw error for unsupported credential format", async () => {
             const claims = [
