@@ -4,6 +4,7 @@ import { type repositoryFactory } from "../../../repositories/builders/factory";
 import { type IBackupTask } from "../interfaces";
 import { base64url } from "multiformats/bases/base64";
 import { JWTVerifiableCredentialRecoveryId, SDJWTVerifiableCredentialRecoveryId } from "@hyperledger/identus-domain";
+import { SDJWT_VP_PROPS } from "../../../pollux/models/SDJWTVerifiableCredential";
 
 export class BackupTask implements IBackupTask {
   constructor(
@@ -101,7 +102,35 @@ export class BackupTask implements IBackupTask {
     const isJWT = model.recoveryId === JWTVerifiableCredentialRecoveryId;
     const isSDJWT = model.recoveryId === SDJWTVerifiableCredentialRecoveryId;
     const recoveryId = isJWT ? "jwt" : isSDJWT ? "sdjwt" : "anoncred";
-    const data = isJWT || isSDJWT ? JSON.parse(model.dataJson).id : model.dataJson;
+
+    let data: string;
+    if (isJWT) {
+      data = JSON.parse(model.dataJson).id;
+    } else if (isSDJWT) {
+      const parsedData = JSON.parse(model.dataJson);
+      const jwt = parsedData.id;
+      const disclosures = parsedData[SDJWT_VP_PROPS.disclosures] || [];
+
+      // Reconstruct full SDJWT JWS: jwt~disclosure1~disclosure2~...
+      const encodedDisclosures = disclosures.map((disclosure: any) => {
+        if (typeof disclosure === 'string') {
+          return disclosure;
+        }
+        // Disclosure objects have an 'encoded' property containing the base64-encoded disclosure
+        if (disclosure && typeof disclosure === 'object' && 'encoded' in disclosure) {
+          return disclosure.encoded;
+        }
+        // Fallback: try toString() or return as-is
+        if (disclosure && typeof disclosure.toString === 'function') {
+          return disclosure.toString();
+        }
+        return '';
+      });
+
+      data = jwt + '~' + encodedDisclosures.join('~');
+    } else {
+      data = model.dataJson;
+    }
 
     return {
       recovery_id: recoveryId,

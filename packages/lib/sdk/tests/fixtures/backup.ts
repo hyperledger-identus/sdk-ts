@@ -8,6 +8,8 @@ import { credential as anonCredential } from "./credentials/anoncreds";
 import { peerDID4, peerDID5 } from "./dids";
 import { AnonCredsCredential } from "../../src/plugins/internal/anoncreds";
 
+export const credentialJWTEncoded = credentialPayloadEncoded;
+export const credentialSDJWTEncoded = sdjwtCredentialJws;
 export const credentialJWT = JWTCredential.fromJWS(credentialPayloadEncoded);
 export const credentialSDJWT = SDJWTCredential.fromJWS(sdjwtCredentialJws);
 export const credentialAnoncreds = new AnonCredsCredential(anonCredential);
