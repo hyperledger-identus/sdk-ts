@@ -78,6 +78,142 @@ describe("Domain - SDJWT", () => {
       await expect(result).rejects.toThrow(Domain.PolluxError.InvalidCredentialError);
     });
 
+    describe("expiration (exp)", () => {
+      const issuerDID = Domain.DID.fromString("did:prism:test123");
+
+      function buildSDJWT(payload: Record<string, unknown>): string {
+        const header = { typ: "vc+sd-jwt", alg: "EdDSA" };
+        const b64Header = base64url.baseEncode(Buffer.from(JSON.stringify(header)));
+        const fullPayload = { iss: issuerDID.toString(), vct: "http://example.com", _sd_alg: "sha-256", ...payload };
+        const b64Payload = base64url.baseEncode(Buffer.from(JSON.stringify(fullPayload)));
+        return `${b64Header}.${b64Payload}.dummysig~`;
+      }
+
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+
+      test("SD-JWT with exp in the past - returns false", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask").mockResolvedValue({
+          didDocument: { verificationMethod: [{}] },
+        });
+
+        const jws = buildSDJWT({ iat: 1699900000, exp: 1700000000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT with exp in the future - proceeds to signature verification", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask")
+          .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+          .mockResolvedValueOnce(null);
+
+        const jws = buildSDJWT({ iat: 1699900000, exp: 1900000000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT without exp claim - proceeds to signature verification", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask")
+          .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+          .mockResolvedValueOnce(null);
+
+        const jws = buildSDJWT({ iat: 1699900000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT with exp in milliseconds (future) - normalizes and proceeds", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask")
+          .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+          .mockResolvedValueOnce(null);
+
+        const jws = buildSDJWT({ iat: 1699900000, exp: 1900000000000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT with exp in milliseconds (past) - normalizes and rejects", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask").mockResolvedValue({
+          didDocument: { verificationMethod: [{}] },
+        });
+
+        const jws = buildSDJWT({ iat: 1699900000, exp: 1700000000000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+    });
+
+    describe("not-before (nbf)", () => {
+      const issuerDID = Domain.DID.fromString("did:prism:test123");
+
+      function buildSDJWT(payload: Record<string, unknown>): string {
+        const header = { typ: "vc+sd-jwt", alg: "EdDSA" };
+        const b64Header = base64url.baseEncode(Buffer.from(JSON.stringify(header)));
+        const fullPayload = { iss: issuerDID.toString(), vct: "http://example.com", _sd_alg: "sha-256", ...payload };
+        const b64Payload = base64url.baseEncode(Buffer.from(JSON.stringify(fullPayload)));
+        return `${b64Header}.${b64Payload}.dummysig~`;
+      }
+
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+
+      test("SD-JWT with nbf in the future - returns false", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask").mockResolvedValue({
+          didDocument: { verificationMethod: [{}] },
+        });
+
+        const jws = buildSDJWT({ iat: 1699900000, nbf: 1900000000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT with nbf in the past - proceeds to signature verification", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask")
+          .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+          .mockResolvedValueOnce(null);
+
+        const jws = buildSDJWT({ iat: 1699900000, nbf: 1699900000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT without nbf claim - proceeds to signature verification", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask")
+          .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+          .mockResolvedValueOnce(null);
+
+        const jws = buildSDJWT({ iat: 1699900000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+    });
+
   });
 
   describe("purpose", () => {
