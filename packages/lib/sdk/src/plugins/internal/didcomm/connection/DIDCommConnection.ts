@@ -28,7 +28,8 @@ export class DIDCommConnection implements Connection {
     ctx.logger.debug("DIDComm Send", msg);
     const response = await ctx.Mercury.sendMessageParseMessage(msg);
 
-    return this.receive(response, ctx);
+    await this.receive(response, ctx);
+    return response;
   }
 
   async receive(message: Domain.Message | undefined, ctx: AgentContext) {
