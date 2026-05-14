@@ -13,6 +13,18 @@ const DIDCommMessagingKey = "DIDCommMessaging";
 export class DIDCommDIDResolver implements DIDComm.DIDResolver {
   constructor(private readonly castor: import("@hyperledger/identus-domain").Castor) { }
 
+  private parseJWKCoordinate(jwk: unknown, field: string): string {
+    const { CastorError } = require("@hyperledger/identus-domain");
+    if (typeof jwk !== "object" || jwk === null) {
+      throw new CastorError.InvalidKeyError(`Invalid JWK: not an object`);
+    }
+    const value = (jwk as Record<string, unknown>)[field];
+    if (typeof value !== "string") {
+      throw new CastorError.InvalidKeyError(`Invalid JWK: ${field} is not a string`);
+    }
+    return value;
+  }
+
   /**
    * Resolve a DID string to a DIDComm-compatible DID Document.
    *
@@ -41,8 +53,8 @@ export class DIDCommDIDResolver implements DIDComm.DIDResolver {
               keyAgreements.push(method.id);
               break;
           }
-          const publicKeyBase64 = method.publicKeyJwk?.x as any;
-          const publicKeyKid = (method.publicKeyJwk as any).kid;
+          const publicKeyBase64 = this.parseJWKCoordinate(method.publicKeyJwk, "x");
+          const publicKeyKid = this.parseJWKCoordinate(method.publicKeyJwk, "kid");
           const kty = (curve === Curve.ED25519 || curve === Curve.X25519) ? "OKP" : "EC";
           verificationMethods.push({
             controller: method.controller,
