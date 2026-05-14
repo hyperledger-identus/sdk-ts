@@ -125,19 +125,28 @@ export class Mercury implements Domain.Mercury {
   /**
    * Asynchronously sends a given message and returns the response message object.
    *
-   * 
+   *
    * @param {Domain.Message} message
    * @returns {Promise<Domain.Message>}
+   * @throws {MercuryError.InvalidMessageFormatError} if the response cannot be unpacked
    */
   async sendMessageParseMessage(
     message: Domain.Message
   ): Promise<Domain.Message | undefined> {
     const responseBody = await this.sendMessage<any>(message);
+
+    if (!responseBody) {
+      return undefined;
+    }
+
     try {
       const responseJSON = JSON.stringify(responseBody);
       return await this.unpackMessage(responseJSON);
-    } catch {
-      return undefined;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      throw new Domain.MercuryError.InvalidMessageFormatError(
+        `Failed to unpack message response: ${errorMessage}`
+      );
     }
   }
 
