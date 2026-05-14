@@ -143,19 +143,33 @@ export class Castor<
   async resolveDID(didstr: Domain.DID | string): Promise<DIDDocument> {
     const did = Domain.DID.from(didstr);
     const resolvers = this.#resolvers.filter(x => x.method === did.method);
-    let lastError: unknown;
+    const errors: Array<{ resolver: string; error: Error }> = [];
 
     for (const resolver of resolvers) {
       try {
         return await resolver.resolve(did.toString());
       } catch (error) {
-        lastError = error;
-        console.log(`Failed resolving did ${did.toString()}`);
+        errors.push({
+          resolver: resolver.constructor.name,
+          error: error instanceof Error ? error : new Error(String(error))
+        });
       }
     }
-    if (lastError instanceof CastorError.InitialStateOfDIDChanged) {
-      throw lastError;
+
+    // Prioritize InitialStateOfDIDChanged errors as they indicate a state mutation
+    const stateChangeError = errors.find(e =>
+      e.error instanceof CastorError.InitialStateOfDIDChanged
+    );
+    if (stateChangeError) {
+      throw stateChangeError.error;
     }
-    throw new Error(`Non of the available Castor resolvers could resolve the DID '${didstr.toString()}'`);
+
+    // Aggregate resolver failures for better diagnostics
+    const errorDetails = errors
+      .map(e => `${e.resolver}: ${e.error.message}`)
+      .join("; ");
+    throw new CastorError.DIDResolutionError(
+      `Failed to resolve DID '${did.toString()}'. Tried ${errors.length} resolver(s): ${errorDetails}`
+    );
   }
 }
