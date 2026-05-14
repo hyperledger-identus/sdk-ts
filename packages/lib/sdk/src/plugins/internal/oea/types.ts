@@ -57,12 +57,63 @@ export namespace OEA {
     claims: JsonObj<InputFieldFilter>;
   };
 
+  export interface SDJWTDisclosure {
+    salt: string;
+    claimName: string;
+    claimValue: unknown;
+  }
+
   export type SDJWTPresentationSubmission = {
-    disclosures: any[],
+    disclosures: SDJWTDisclosure[],
     protected: string,
     payload: string,
     signature: string;
   };
+
+  export function validateSDJWTSubmission(data: unknown): SDJWTPresentationSubmission {
+    if (typeof data !== 'object' || data === null) {
+      throw new Error('Invalid SD-JWT submission: not an object');
+    }
+    const obj = data as Record<string, unknown>;
+
+    if (!Array.isArray(obj.disclosures)) {
+      throw new Error('Invalid SD-JWT submission: disclosures must be an array');
+    }
+
+    if (typeof obj.protected !== 'string') {
+      throw new Error('Invalid SD-JWT submission: protected must be a string');
+    }
+
+    if (typeof obj.payload !== 'string') {
+      throw new Error('Invalid SD-JWT submission: payload must be a string');
+    }
+
+    if (typeof obj.signature !== 'string') {
+      throw new Error('Invalid SD-JWT submission: signature must be a string');
+    }
+
+    const disclosures = obj.disclosures as unknown[];
+    for (let i = 0; i < disclosures.length; i++) {
+      const disclosure = disclosures[i];
+      if (typeof disclosure !== 'object' || disclosure === null) {
+        throw new Error(`Invalid SD-JWT submission: disclosure[${i}] is not an object`);
+      }
+      const disc = disclosure as Record<string, unknown>;
+      if (typeof disc.salt !== 'string') {
+        throw new Error(`Invalid SD-JWT submission: disclosure[${i}].salt must be a string`);
+      }
+      if (typeof disc.claimName !== 'string') {
+        throw new Error(`Invalid SD-JWT submission: disclosure[${i}].claimName must be a string`);
+      }
+    }
+
+    return {
+      disclosures: disclosures as SDJWTDisclosure[],
+      protected: obj.protected,
+      payload: obj.payload,
+      signature: obj.signature,
+    };
+  }
 
   export interface PresentationSubmission {
     presentation_submission: {
