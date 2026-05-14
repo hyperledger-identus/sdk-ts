@@ -4,7 +4,7 @@ import { type repositoryFactory } from "../../../repositories/builders/factory";
 import { type IBackupTask } from "../interfaces";
 import { base64url } from "multiformats/bases/base64";
 import { JWTVerifiableCredentialRecoveryId, SDJWTVerifiableCredentialRecoveryId } from "@hyperledger/identus-domain";
-import { SDJWT_VP_PROPS } from "../../../pollux/models/SDJWTVerifiableCredential";
+import { SDJWT_VP_PROPS } from "../../../../pollux/models/SDJWTVerifiableCredential";
 
 export class BackupTask implements IBackupTask {
   constructor(
