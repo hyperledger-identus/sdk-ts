@@ -35,8 +35,7 @@ export abstract class BaseRepository<K extends TableName> {
       await this.store.insert(this.name, obj);
       return obj;
     }
-    catch (err) {
-      console.log(err)
+    catch {
       throw new Domain.PlutoError.StoreInsertError();
     }
   }

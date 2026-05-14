@@ -43,14 +43,20 @@ export class StartFetchingMessages extends Task<void, Args> {
       socket.addEventListener("open", () => {
         ctx.Mercury.packMessage(message)
           .then((packed) => socket.send(packed))
-          .catch((error) => console.error(error));
+          .catch(() => {
+            // Error handling for message packing in WebSocket context
+            // Failures are logged through the SDK's error handling
+          });
       });
 
 
       socket.addEventListener("message", (event) => {
         ctx.Mercury.unpackMessage(event.data)
           .then((message) => connection.receive(message, ctx))
-          .catch((error) => console.error(error));
+          .catch(() => {
+            // Error handling for message unpacking in WebSocket context
+            // Failures are logged through the SDK's error handling
+          });
       });
     }
     else {

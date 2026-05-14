@@ -150,7 +150,6 @@ export class Castor<
         return await resolver.resolve(did.toString());
       } catch (error) {
         lastError = error;
-        console.log(`Failed resolving did ${did.toString()}`);
       }
     }
     if (lastError instanceof CastorError.InitialStateOfDIDChanged) {
