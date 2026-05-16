@@ -1,8 +1,39 @@
 import { describe, it, expect, test, beforeEach, afterEach } from 'vitest';
+import { DID } from "@hyperledger/identus-domain";
+import { DIDUrl } from "@hyperledger/identus-domain";
 
 import * as DIDUrlParser from "../../src/castor/parser/DIDUrlParser";
 
 describe("DIDUrlParser", () => {
+  it("DIDUrl.string() should include path and query parameters", () => {
+    // BUG: DIDUrl.string() drops path and parameters.
+    // pathString() and queryString() helpers exist but string()
+    // never calls them. Direct construction isolates string()
+    // from the parser entirely.
+
+    const baseDID = DID.fromString("did:prism:123456");
+
+    // Primary case: path + parameters + fragment all present
+    const full = new DIDUrl(
+      baseDID,
+      ["path", "to", "resource"],
+      new Map([["query", "1"]]),
+      "fragment"
+    );
+    expect(full.string()).toBe(
+      "did:prism:123456/path/to/resource?query=1#fragment"
+    );
+
+    // Regression guard: fragment-only must still work
+    const fragmentOnly = new DIDUrl(baseDID, [], new Map(), "fragment");
+    expect(fragmentOnly.string()).toBe("did:prism:123456#fragment");
+
+    // Regression guard: path only, no parameters, no fragment
+    // (also catches the secondary empty-fragment "#" bug)
+    const pathOnly = new DIDUrl(baseDID, ["resource"], new Map(), "");
+    expect(pathOnly.string()).toBe("did:prism:123456/resource");
+  });
+
   it("should test valid URLs", () => {
     const didExample1 = "did:example:123456:adsd/path?query=something#fragment";
     const didExample2 =
