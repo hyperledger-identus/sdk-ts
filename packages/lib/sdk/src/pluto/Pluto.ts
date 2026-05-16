@@ -448,13 +448,23 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
    */
   async storeDID(did: Domain.DID, keys?: Arrayable<Domain.PrivateKey>, alias?: string) {
     await this.Repositories.DIDs.save(did, alias);
-    for (const key of asArray(keys)) {
-      await this.Repositories.Keys.save(key);
-      await this.Repositories.DIDKeyLinks.insert({
-        alias,
-        didId: did.uuid,
-        keyId: key.uuid
-      });
+    const savedKeys: Domain.PrivateKey[] = [];
+    try {
+      for (const key of asArray(keys)) {
+        await this.Repositories.Keys.save(key);
+        savedKeys.push(key);
+        await this.Repositories.DIDKeyLinks.insert({
+          alias,
+          didId: did.uuid,
+          keyId: key.uuid
+        });
+      }
+    } catch (e) {
+      for (const key of savedKeys) {
+        await this.Repositories.Keys.delete(key.uuid);
+      }
+      await this.Repositories.DIDs.delete(did.uuid);
+      throw e;
     }
   }
 
@@ -469,13 +479,18 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
    */
   async storePrismDID(did: Domain.DID, privateKey: Domain.PrivateKey, alias?: string) {
     await this.Repositories.DIDs.save(did, alias);
-    await this.Repositories.Keys.save(privateKey);
-
-    await this.Repositories.DIDKeyLinks.insert({
-      alias,
-      didId: did.uuid,
-      keyId: privateKey.uuid
-    });
+    try {
+      await this.Repositories.Keys.save(privateKey);
+      await this.Repositories.DIDKeyLinks.insert({
+        alias,
+        didId: did.uuid,
+        keyId: privateKey.uuid
+      });
+    } catch (e) {
+      await this.Repositories.Keys.delete(privateKey.uuid);
+      await this.Repositories.DIDs.delete(did.uuid);
+      throw e;
+    }
   }
 
   /**
@@ -537,9 +552,19 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
    */
   async storePeerDID(did: Domain.DID, privateKeys: Domain.PrivateKey[]) {
     await this.Repositories.DIDs.save(did);
-    for (const key of privateKeys) {
-      await this.Repositories.Keys.save(key);
-      await this.Repositories.DIDKeyLinks.insert({ didId: did.uuid, keyId: key.uuid });
+    const savedKeys: Domain.PrivateKey[] = [];
+    try {
+      for (const key of privateKeys) {
+        await this.Repositories.Keys.save(key);
+        savedKeys.push(key);
+        await this.Repositories.DIDKeyLinks.insert({ didId: did.uuid, keyId: key.uuid });
+      }
+    } catch (e) {
+      for (const key of savedKeys) {
+        await this.Repositories.Keys.delete(key.uuid);
+      }
+      await this.Repositories.DIDs.delete(did.uuid);
+      throw e;
     }
   }
 
