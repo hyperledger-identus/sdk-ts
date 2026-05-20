@@ -342,4 +342,142 @@ describe("Domain - SDJWT", () => {
       expect(config.hashAlg).not.to.eq("SHA-256");
     });
   });
+
+  describe("Key Binding JWT", () => {
+    let plain: SDJWT;
+
+    beforeEach(() => {
+      plain = new SDJWT();
+    });
+
+    test("getSKConfig includes kbSigner and kbSignAlg", () => {
+      const config = plain.getSKConfig(Fixtures.Keys.ed25519.privateKey);
+
+      expect(config.kbSigner).toBeDefined();
+      expect(typeof config.kbSigner).toBe("function");
+      expect(config.kbSignAlg).toBeDefined();
+      expect(config.kbSignAlg).toBe(Fixtures.Keys.ed25519.privateKey.alg);
+    });
+
+    test("getSKConfig kbSignAlg matches signAlg", () => {
+      const ed25519Config = plain.getSKConfig(Fixtures.Keys.ed25519.privateKey);
+      expect(ed25519Config.kbSignAlg).toBe(ed25519Config.signAlg);
+
+      const secp256k1Config = plain.getSKConfig(Fixtures.Keys.secp256K1.privateKey);
+      expect(secp256k1Config.kbSignAlg).toBe(secp256k1Config.signAlg);
+    });
+
+    test("createPresentationFor with KB options produces KB-JWT segment", async () => {
+      const privateKey = Fixtures.Keys.ed25519.privateKey;
+      const issuerDID = Fixtures.DIDs.prismDIDDefault;
+
+      // Mock FindSigningKeys for the sign() call
+      const findSigningKeysSpy = vi.spyOn(
+        (await import("../../src/edge-agent/didFunctions/FindDIDSigningKeys")).FindSigningKeys.prototype,
+        "run"
+      );
+      findSigningKeysSpy.mockResolvedValue([{
+        kid: "key-1",
+        publicKey: Fixtures.Keys.ed25519.publicKey,
+        privateKey: privateKey,
+      }]);
+
+      const payload = {
+        iss: issuerDID.toString(),
+        vct: "TestCredential",
+        iat: Math.floor(Date.now() / 1000),
+        sub: "did:prism:holder123",
+        name: "Test User",
+      };
+
+      // Use sut (has full context with SDJWT) to issue
+      const issued = await sut.sign({
+        issuerDID,
+        payload,
+        disclosureFrame: { name: true } as any,
+        privateKey,
+      });
+
+      // Now present with KB options using plain instance
+      const presentation = await plain.createPresentationFor({
+        jws: issued,
+        privateKey,
+        presentationFrame: {},
+        kb: {
+          payload: {
+            nonce: "test-challenge-nonce-123",
+            aud: "https://verifier.example.com",
+            iat: 1700000000,
+          },
+        },
+      });
+
+      // SD-JWT presentation format: header.payload.signature~disclosure1~...~kb-jwt
+      // The KB-JWT should be the last segment after the final ~
+      expect(typeof presentation).toBe("string");
+      const parts = presentation.split("~");
+      const kbJwt = parts[parts.length - 1];
+      expect(kbJwt).toBeTruthy();
+      expect(kbJwt.split(".")).toHaveLength(3); // KB-JWT is a compact JWT
+
+      // Decode and verify the KB-JWT header
+      const [kbHeaderB64, kbPayloadB64] = kbJwt.split(".");
+      const kbHeader = JSON.parse(Buffer.from(base64url.baseDecode(kbHeaderB64)).toString());
+      expect(kbHeader.typ).toBe("kb+jwt");
+      expect(kbHeader.alg).toBe(privateKey.alg);
+
+      // Decode and verify the KB-JWT payload
+      const kbPayload = JSON.parse(Buffer.from(base64url.baseDecode(kbPayloadB64)).toString());
+      expect(kbPayload.nonce).toBe("test-challenge-nonce-123");
+      expect(kbPayload.aud).toBe("https://verifier.example.com");
+      expect(kbPayload.iat).toBe(1700000000);
+      expect(kbPayload.sd_hash).toBeDefined();
+      expect(typeof kbPayload.sd_hash).toBe("string");
+
+      findSigningKeysSpy.mockRestore();
+    });
+
+    test("createPresentationFor without KB options produces no KB-JWT segment", async () => {
+      const privateKey = Fixtures.Keys.ed25519.privateKey;
+      const issuerDID = Fixtures.DIDs.prismDIDDefault;
+
+      const findSigningKeysSpy = vi.spyOn(
+        (await import("../../src/edge-agent/didFunctions/FindDIDSigningKeys")).FindSigningKeys.prototype,
+        "run"
+      );
+      findSigningKeysSpy.mockResolvedValue([{
+        kid: "key-1",
+        publicKey: Fixtures.Keys.ed25519.publicKey,
+        privateKey: privateKey,
+      }]);
+
+      const payload = {
+        iss: issuerDID.toString(),
+        vct: "TestCredential",
+        iat: Math.floor(Date.now() / 1000),
+        sub: "did:prism:holder123",
+      };
+
+      // Use sut (has full context) to issue
+      const issued = await sut.sign({
+        issuerDID,
+        payload,
+        disclosureFrame: {},
+        privateKey,
+      });
+
+      // Present WITHOUT KB options (backward compatibility)
+      const presentation = await plain.createPresentationFor({
+        jws: issued,
+        privateKey,
+        presentationFrame: {},
+      });
+
+      // The last part after the final ~ should be empty (no KB-JWT)
+      expect(typeof presentation).toBe("string");
+      expect(presentation.endsWith("~")).toBe(true);
+
+      findSigningKeysSpy.mockRestore();
+    });
+  });
 });
