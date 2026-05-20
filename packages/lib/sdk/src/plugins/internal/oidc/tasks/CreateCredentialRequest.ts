@@ -49,7 +49,7 @@ export class CreateCredentialRequest extends Utils.Task<CredentialRequest, Creat
         {
           aud: credentialIssuer,
           iss: clientId,
-          iat: Date.now(),
+          iat: Math.floor(Date.now() / 1000),
           nonce: tokenResponse.c_nonce,
         },
         { typ: "openid4vci-proof+jwt" },

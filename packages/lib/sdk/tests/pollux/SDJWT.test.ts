@@ -78,6 +78,142 @@ describe("Domain - SDJWT", () => {
       await expect(result).rejects.toThrow(Domain.PolluxError.InvalidCredentialError);
     });
 
+    describe("expiration (exp)", () => {
+      const issuerDID = Domain.DID.fromString("did:prism:test123");
+
+      function buildSDJWT(payload: Record<string, unknown>): string {
+        const header = { typ: "vc+sd-jwt", alg: "EdDSA" };
+        const b64Header = base64url.baseEncode(Buffer.from(JSON.stringify(header)));
+        const fullPayload = { iss: issuerDID.toString(), vct: "http://example.com", _sd_alg: "sha-256", ...payload };
+        const b64Payload = base64url.baseEncode(Buffer.from(JSON.stringify(fullPayload)));
+        return `${b64Header}.${b64Payload}.dummysig~`;
+      }
+
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+
+      test("SD-JWT with exp in the past - returns false", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask").mockResolvedValue({
+          didDocument: { verificationMethod: [{}] },
+        });
+
+        const jws = buildSDJWT({ iat: 1699900000, exp: 1700000000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT with exp in the future - proceeds to signature verification", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask")
+          .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+          .mockResolvedValueOnce(null);
+
+        const jws = buildSDJWT({ iat: 1699900000, exp: 1900000000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT without exp claim - proceeds to signature verification", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask")
+          .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+          .mockResolvedValueOnce(null);
+
+        const jws = buildSDJWT({ iat: 1699900000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT with exp in milliseconds (future) - normalizes and proceeds", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask")
+          .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+          .mockResolvedValueOnce(null);
+
+        const jws = buildSDJWT({ iat: 1699900000, exp: 1900000000000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT with exp in milliseconds (past) - normalizes and rejects", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask").mockResolvedValue({
+          didDocument: { verificationMethod: [{}] },
+        });
+
+        const jws = buildSDJWT({ iat: 1699900000, exp: 1700000000000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+    });
+
+    describe("not-before (nbf)", () => {
+      const issuerDID = Domain.DID.fromString("did:prism:test123");
+
+      function buildSDJWT(payload: Record<string, unknown>): string {
+        const header = { typ: "vc+sd-jwt", alg: "EdDSA" };
+        const b64Header = base64url.baseEncode(Buffer.from(JSON.stringify(header)));
+        const fullPayload = { iss: issuerDID.toString(), vct: "http://example.com", _sd_alg: "sha-256", ...payload };
+        const b64Payload = base64url.baseEncode(Buffer.from(JSON.stringify(fullPayload)));
+        return `${b64Header}.${b64Payload}.dummysig~`;
+      }
+
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+
+      test("SD-JWT with nbf in the future - returns false", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask").mockResolvedValue({
+          didDocument: { verificationMethod: [{}] },
+        });
+
+        const jws = buildSDJWT({ iat: 1699900000, nbf: 1900000000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT with nbf in the past - proceeds to signature verification", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask")
+          .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+          .mockResolvedValueOnce(null);
+
+        const jws = buildSDJWT({ iat: 1699900000, nbf: 1699900000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+
+      test("SD-JWT without nbf claim - proceeds to signature verification", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2024-01-01T00:00:00Z"));
+
+        vi.spyOn(sut as any, "runTask")
+          .mockResolvedValueOnce({ didDocument: { verificationMethod: [{}] } })
+          .mockResolvedValueOnce(null);
+
+        const jws = buildSDJWT({ iat: 1699900000 });
+        const result = await sut.verify({ jws, issuerDID });
+        expect(result).toBe(false);
+      });
+    });
+
   });
 
   describe("purpose", () => {
@@ -141,6 +277,69 @@ describe("Domain - SDJWT", () => {
       expect(findSigningKeysSpy).toHaveBeenCalledOnce();
       const instance = findSigningKeysSpy.mock.instances[0] as any;
       expect(instance.args.purpose).toBe("AUTHENTICATION_KEY");
+    });
+  });
+
+  // Regression: `signAlg` and `hashAlg` returned by getSKConfig/getPKConfig
+  // must be spec-compliant values - they land verbatim in the SD-JWT header
+  // (`alg`) and the `_sd_alg` claim respectively.
+  // - signAlg: RFC 7518 / RFC 8037 (`EdDSA`, `ES256K`) - case sensitive.
+  // - hashAlg: IANA Hash Function Algorithm Names (`sha-256`) - lowercase + dash.
+  describe("config alg", () => {
+    let plain: SDJWT;
+
+    beforeEach(() => {
+      plain = new SDJWT();
+    });
+
+    test("getSKConfig - Ed25519 - signAlg is EdDSA", () => {
+      const config = plain.getSKConfig(Fixtures.Keys.ed25519.privateKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.EdDSA);
+      expect(config.signAlg).to.eq("EdDSA");
+      expect(config.signAlg).not.to.eq("eddsa");
+    });
+
+    test("getSKConfig - Secp256k1 - signAlg is ES256K", () => {
+      const config = plain.getSKConfig(Fixtures.Keys.secp256K1.privateKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.ES256K);
+      expect(config.signAlg).to.eq("ES256K");
+      expect(config.signAlg).not.to.eq("es256k");
+    });
+
+    test("getPKConfig - Ed25519 - signAlg is EdDSA", () => {
+      const config = plain.getPKConfig(Fixtures.Keys.ed25519.publicKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.EdDSA);
+      expect(config.signAlg).to.eq("EdDSA");
+      expect(config.signAlg).not.to.eq("eddsa");
+    });
+
+    test("getPKConfig - Secp256k1 - signAlg is ES256K", () => {
+      const config = plain.getPKConfig(Fixtures.Keys.secp256K1.publicKey);
+
+      expect(config.signAlg).to.eq(Domain.JWT_ALG.ES256K);
+      expect(config.signAlg).to.eq("ES256K");
+      expect(config.signAlg).not.to.eq("es256k");
+    });
+
+    test("getSKConfig - hashAlg is the IANA name 'sha-256'", () => {
+      const config = plain.getSKConfig(Fixtures.Keys.ed25519.privateKey);
+
+      expect(config.hashAlg).to.eq("sha-256");
+      expect(config.hashAlg).not.to.eq("sha256");
+      expect(config.hashAlg).not.to.eq("SHA256");
+      expect(config.hashAlg).not.to.eq("SHA-256");
+    });
+
+    test("getPKConfig - hashAlg is the IANA name 'sha-256'", () => {
+      const config = plain.getPKConfig(Fixtures.Keys.ed25519.publicKey);
+
+      expect(config.hashAlg).to.eq("sha-256");
+      expect(config.hashAlg).not.to.eq("sha256");
+      expect(config.hashAlg).not.to.eq("SHA256");
+      expect(config.hashAlg).not.to.eq("SHA-256");
     });
   });
 });

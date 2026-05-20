@@ -43,6 +43,7 @@ export class DIDCommDIDResolver implements DIDComm.DIDResolver {
           }
           const publicKeyBase64 = method.publicKeyJwk?.x as any;
           const publicKeyKid = (method.publicKeyJwk as any).kid;
+          const kty = (curve === Curve.ED25519 || curve === Curve.X25519) ? "OKP" : "EC";
           verificationMethods.push({
             controller: method.controller,
             id: method.id,
@@ -50,7 +51,7 @@ export class DIDCommDIDResolver implements DIDComm.DIDResolver {
             publicKeyJwk: {
               crv: method.publicKeyJwk?.crv,
               kid: publicKeyKid,
-              kty: "OKP",
+              kty,
               x: publicKeyBase64,
             },
           });

@@ -62,10 +62,7 @@ export class JWT extends Task.Runner {
 
       const decoded = await this.decode(jws);
 
-      // Verify expiration (exp) claim per RFC 7519 Section 4.1.4
-      // If exp is present and the current time is at or past it, the JWT is expired
-      const exp = decoded.payload.exp;
-      if (typeof exp === "number" && Math.floor(Date.now() / 1000) >= exp) {
+      if (!this.areTimestampsValid(decoded.payload)) {
         return false;
       }
 
@@ -93,5 +90,24 @@ export class JWT extends Task.Runner {
     } catch {
       return false;
     }
+  }
+
+  /**
+   * Validate the temporal claims of a decoded JWT payload per RFC 7519:
+   * - `exp` (Section 4.1.4): the JWT must not be at or past expiration.
+   * - `nbf` (Section 4.1.5): the JWT must not be used before the not-before time.
+   *
+   * Both claims are NumericDate (seconds since epoch). Either claim is
+   * optional; if absent it is not enforced.
+   *
+   * @returns `true` if the payload is currently valid w.r.t. exp and nbf,
+   *          `false` if any present temporal claim is violated.
+   */
+  private areTimestampsValid(payload: Domain.JWT.Payload): boolean {
+    const nowSec = Math.floor(Date.now() / 1000);
+    const { exp, nbf } = payload;
+    if (typeof exp === "number" && nowSec >= exp) return false;
+    if (typeof nbf === "number" && nowSec < nbf) return false;
+    return true;
   }
 }

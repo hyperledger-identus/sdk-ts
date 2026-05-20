@@ -259,6 +259,61 @@ describe("Domain - JWT", () => {
         expect(result).toBe(true);
       });
     });
+
+    describe("not-before (nbf)", () => {
+      const privateKey = Secp256k1PrivateKey.from.String(
+        "8bfd5ff83034bbc004950de2b3a02cdafbbff9faebcb63640c895959a2d3da24",
+        "hex",
+      );
+      const issuerDID = Domain.DID.from(
+        "did:prism:9e93a84d492c62e03ab114e0b7a7b4a6880cd0e079f358d2196dc9c312dadb90:Co0CCooCElwKB21hc3RlcjAQAUJPCglzZWNwMjU2azESIBG7LMd7RA5-ckcPQICROrUbKx35x4aFAXjt_zIoWKAbGiD9WlLNP0Lr7JyQ7Q6uoY-m2TnygmAf8EBBTHGYzxm4exJkCg9hdXRoZW50aWNhdGlvbjAQBEJPCglzZWNwMjU2azESIBG7LMd7RA5-ckcPQICROrUbKx35x4aFAXjt_zIoWKAbGiD9WlLNP0Lr7JyQ7Q6uoY-m2TnygmAf8EBBTHGYzxm4exJECghpc3N1aW5nMBACSjYKB0VkMjU1MTkSKzh0dUVjUDRsZFhMQlV6US1YdEpDS1AwUC14QU5acV9SUnZQSDBIYXFWTjg",
+      );
+
+      beforeEach(() => {
+        vi.spyOn(plutoMock, "getDIDPrivateKeysByDID").mockResolvedValue([privateKey]);
+      });
+
+      test("JWT with nbf in the future - returns false (not yet valid)", async () => {
+        const futureNbf = Math.floor(Date.now() / 1000) + 3600;
+        const jws = await sut.signWithDID(
+          issuerDID,
+          { nbf: futureNbf },
+          {},
+          privateKey,
+        );
+
+        const result = await sut.verify({ jws, issuerDID });
+
+        expect(result).toBe(false);
+      });
+
+      test("JWT with nbf in the past - returns true (already valid)", async () => {
+        const pastNbf = Math.floor(Date.now() / 1000) - 60;
+        const jws = await sut.signWithDID(
+          issuerDID,
+          { nbf: pastNbf },
+          {},
+          privateKey,
+        );
+
+        const result = await sut.verify({ jws, issuerDID });
+
+        expect(result).toBe(true);
+      });
+
+      test("JWT without nbf claim - returns true (no nbf enforced)", async () => {
+        const jws = await sut.signWithDID(
+          issuerDID,
+          {},
+          {},
+          privateKey,
+        );
+
+        const result = await sut.verify({ jws, issuerDID });
+
+        expect(result).toBe(true);
+      });
+    });
   });
 
   describe("round trip", () => {
@@ -349,6 +404,48 @@ describe("Domain - JWT", () => {
         Buffer.from(base64url.baseDecode(decoded.signature))
       );
       expect(verified).to.be.true;
+    });
+  });
+
+  // Regression: JWT header `alg` must be the spec-compliant JWT_ALG value
+  // (e.g. "EdDSA", "ES256K") and never the lowercased form. See RFC 7518 /
+  // RFC 8037. The SDJWT path has equivalent coverage in SDJWT.test.ts.
+  describe("alg casing", () => {
+    const issuerDID = Fixtures.DIDs.prismDIDDefault;
+
+    beforeEach(() => {
+      vi.spyOn(plutoMock, "getDIDPrivateKeysByDID").mockResolvedValue([
+        Fixtures.Keys.secp256K1.privateKey,
+        Fixtures.Keys.ed25519.privateKey,
+      ]);
+    });
+
+    test("Ed25519 - header.alg is exactly 'EdDSA'", async () => {
+      const jws = await sut.signWithDID(
+        issuerDID,
+        {},
+        {},
+        Fixtures.Keys.ed25519.privateKey,
+      );
+      const decoded = await sut.decode(jws);
+
+      expect(decoded.header).toHaveProperty('alg', Domain.JWT_ALG.EdDSA);
+      expect(decoded.header.alg).to.eq("EdDSA");
+      expect(decoded.header.alg).not.to.eq("eddsa");
+    });
+
+    test("Secp256k1 - header.alg is exactly 'ES256K'", async () => {
+      const jws = await sut.signWithDID(
+        issuerDID,
+        {},
+        {},
+        Fixtures.Keys.secp256K1.privateKey,
+      );
+      const decoded = await sut.decode(jws);
+
+      expect(decoded.header).toHaveProperty('alg', Domain.JWT_ALG.ES256K);
+      expect(decoded.header.alg).to.eq("ES256K");
+      expect(decoded.header.alg).not.to.eq("es256k");
     });
   });
 });

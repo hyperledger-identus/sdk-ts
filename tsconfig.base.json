@@ -12,6 +12,7 @@
       "ES2022",
       "dom"
     ],
+    "baseUrl": ".",
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "esModuleInterop": true,

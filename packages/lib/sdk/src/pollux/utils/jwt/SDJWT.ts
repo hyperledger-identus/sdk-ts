@@ -13,7 +13,10 @@ import { CreateSDJWT } from "./CreateSDJWT";
 import { PKInstance } from "../../../edge-agent/didFunctions/PKInstance";
 
 export const defaultHashConfig = {
-  hasherAlg: 'SHA256',
+  // IANA Hash Function Algorithm Name (RFC 6920); SD-JWT spec mandates this
+  // form (lowercase, dashed) for the `_sd_alg` claim. The `hasher` callback
+  // below normalises any reasonable variant so local hashing remains tolerant.
+  hasherAlg: 'sha-256',
   hasher: (data: string | Uint8Array, alg: string) => {
     const safeAlg = alg.replace(/-/gmi, "").toUpperCase();
     if (safeAlg === 'SHA256') {
@@ -70,6 +73,28 @@ export class SDJWT extends Task.Runner {
     if (jwtObject.issuer && jwtObject.issuer !== issuerDID.toString()) {
       throw new PolluxError.InvalidCredentialError("SDJWT issuer does not match the expected DID");
     }
+
+    // Check exp claim (RFC 7519 §4.1.4)
+    // NumericDate is seconds since epoch, but some issuers use milliseconds.
+    // Values above 1e12 (~year 33658 in seconds) are treated as milliseconds.
+    const now = Math.floor(Date.now() / 1000);
+    const rawExp = jwtObject.getProperty("exp");
+    if (typeof rawExp === 'number') {
+      const exp = rawExp > 1e12 ? Math.floor(rawExp / 1000) : rawExp;
+      if (now >= exp) {
+        return false;
+      }
+    }
+
+    // Check nbf claim (RFC 7519 §4.1.5)
+    const rawNbf = jwtObject.getProperty("nbf");
+    if (typeof rawNbf === 'number') {
+      const nbf = rawNbf > 1e12 ? Math.floor(rawNbf / 1000) : rawNbf;
+      if (now < nbf) {
+        return false;
+      }
+    }
+
     const kidHeader = jwtObject.core.jwt?.header?.kid;
     const methods = notNil(kidHeader)
       ? verificationMethods.filter(x => x.id === kidHeader)
@@ -88,9 +113,8 @@ export class SDJWT extends Task.Runner {
             options.requiredKeyBindings ?? false
           );
           return true;
-        } catch (err) {
-          // eslint-disable-next-line no-console
-          console.log(err);
+        } catch {
+          // Continue to next verification method
         }
       }
     }
@@ -120,9 +144,9 @@ export class SDJWT extends Task.Runner {
 
   public getPKConfig(publicKey: Domain.PublicKey): SDJWTVCConfig {
     return {
-      hashAlg: defaultHashConfig.hasherAlg.toLocaleLowerCase(),
+      hashAlg: defaultHashConfig.hasherAlg,
       hasher: defaultHashConfig.hasher,
-      signAlg: publicKey.alg.toLocaleLowerCase(),
+      signAlg: publicKey.alg,
       verifier: async (data: string | Uint8Array, signatureEncoded: string) => {
         if (!publicKey.canVerify()) {
           throw new PolluxError.InvalidCredentialError("Cannot verify with this key: key does not support verification");
@@ -154,9 +178,9 @@ export class SDJWT extends Task.Runner {
 
   public getSKConfig(privateKey: Domain.PrivateKey): SDJWTVCConfig {
     return {
-      hashAlg: defaultHashConfig.hasherAlg.toLocaleLowerCase(),
+      hashAlg: defaultHashConfig.hasherAlg,
       hasher: defaultHashConfig.hasher,
-      signAlg: privateKey.alg.toLocaleLowerCase(),
+      signAlg: privateKey.alg,
       signer: async (data: string | Uint8Array) => {
         if (!privateKey.isSignable()) {
           throw new PolluxError.InvalidCredentialError("Cannot sign with this key: key does not support signing");

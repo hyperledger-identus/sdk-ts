@@ -97,12 +97,6 @@ export const notEmptyString = (value: unknown): value is string => isString(valu
 export const isArray = (value: unknown): value is unknown[] => Array.isArray(value);
 
 /**
- * notEmptyArray
- * Typeguard + Logic - check a value is an Array with contents
- */
-// export const notEmptyArray = (value: unknown): value is unknown[] => isArray(value) && !isEmpty(value);
-
-/**
  * asArray
  * convert a value to an array
  * @param items - the value to be converted

@@ -11,6 +11,8 @@ on:
     branches:
       - "main"
   merge_group:
+    types:
+      - checks_requested
     branches:
       - "main"
 
@@ -65,6 +67,7 @@ jobs:
         run: yarn npm audit --environment production --severity moderate
 
       - name: Coveralls
+        if: github.event_name != 'merge_group'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: coverallsapp/github-action@v2
@@ -72,6 +75,7 @@ jobs:
           file: "coverage/lcov.info"
 
       - name: Coverage Comment
+        if: github.event_name == 'pull_request'
         uses: MishaKav/jest-coverage-comment@v1.0.23
         with:
           coverage-summary-path: coverage/coverage-summary.json

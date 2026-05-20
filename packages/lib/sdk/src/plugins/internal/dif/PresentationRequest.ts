@@ -87,7 +87,7 @@ export class PresentationRequest extends Plugins.Task<Args> {
 
 
     if (this.args.credential instanceof JWTCredential) {
-      const nbf = Date.now();
+      const nbf = Math.floor(Date.now() / 1000);
 
       const payload: Domain.JWT.Payload = {
         // ?? replace presentation() with make a DIF presentation
