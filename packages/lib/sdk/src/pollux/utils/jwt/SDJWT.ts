@@ -3,7 +3,7 @@ import { base64url } from "multiformats/bases/base64";
 import { type SDJWTVCConfig, SDJwtVcInstance, type SdJwtVcPayload, } from '@sd-jwt/sd-jwt-vc';
 import { type Disclosure } from '@sd-jwt/utils';
 import { decodeSdJwtSync, getClaimsSync } from '@sd-jwt/decode';
-import type { DisclosureFrame, PresentationFrame } from '@sd-jwt/types';
+import type { DisclosureFrame, KBOptions, PresentationFrame } from '@sd-jwt/types';
 import type * as Domain from '@hyperledger/identus-domain';
 import { PolluxError, CastorError } from '@hyperledger/identus-domain';
 import { SDJWTCredential } from '../../models/SDJWTVerifiableCredential';
@@ -126,9 +126,14 @@ export class SDJWT extends Task.Runner {
     jws: string,
     privateKey: Domain.PrivateKey,
     presentationFrame?: PresentationFrame<T>;
+    kb?: KBOptions;
   }) {
     const sdjwt = new SDJwtVcInstance(this.getSKConfig(options.privateKey));
-    return sdjwt.present<T>(options.jws, options.presentationFrame);
+    return sdjwt.present<T>(
+      options.jws,
+      options.presentationFrame,
+      options.kb ? { kb: options.kb } : undefined
+    );
   }
 
   async reveal(
@@ -177,18 +182,20 @@ export class SDJWT extends Task.Runner {
   }
 
   public getSKConfig(privateKey: Domain.PrivateKey): SDJWTVCConfig {
+    const signerFn = async (data: string | Uint8Array) => {
+      if (!privateKey.isSignable()) {
+        throw new PolluxError.InvalidCredentialError("Cannot sign with this key: key does not support signing");
+      }
+      const signature = privateKey.sign(Buffer.from(data));
+      return base64url.baseEncode(signature);
+    };
     return {
       hashAlg: defaultHashConfig.hasherAlg,
       hasher: defaultHashConfig.hasher,
       signAlg: privateKey.alg,
-      signer: async (data: string | Uint8Array) => {
-        if (!privateKey.isSignable()) {
-          throw new PolluxError.InvalidCredentialError("Cannot sign with this key: key does not support signing");
-        }
-        const signature = privateKey.sign(Buffer.from(data));
-        const signatureEncoded = base64url.baseEncode(signature);
-        return signatureEncoded
-      },
+      signer: signerFn,
+      kbSignAlg: privateKey.alg,
+      kbSigner: signerFn,
       saltGenerator: (length: number) => this.saltGenerator(length)
     };
   }
