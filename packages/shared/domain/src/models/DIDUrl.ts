@@ -19,7 +19,10 @@ export class DIDUrl {
   }
 
   string(): string {
-    return `${this.did.toString()}${this.fragmentString()}`;
+    const pathStr = this.path.length > 0 ? this.pathString() : "";
+    const queryStr = this.parameters.size > 0 ? this.queryString() : "";
+    const fragmentStr = this.fragment === "" ? "" : this.fragmentString();
+    return `${this.did.toString()}${pathStr}${queryStr}${fragmentStr}`;
   }
 
   pathString(): string {
@@ -33,6 +36,6 @@ export class DIDUrl {
   }
 
   fragmentString(): string {
-    return `#${this.fragment}`;
+    return this.fragment === "" ? "" : `#${this.fragment}`;
   }
 }
