@@ -60,7 +60,8 @@ export class PresentationVerify extends Plugins.Task<Args> {
   private async getCredential(
     ctx: Context,
     descriptorItem: DIF.Presentation.Submission.DescriptorItem,
-    value: string
+    value: string,
+    inputDescriptor?: DIF.Presentation.Definition.InputDescriptor
   ) {
     if (descriptorItem.format === "jwt_vc" || descriptorItem.format === "jwt_vp") {
       // for jwt_vc and jwt_vp both are JWT objects and fromJWS will load the right object
@@ -84,12 +85,13 @@ export class PresentationVerify extends Plugins.Task<Args> {
     }
     if (descriptorItem.format === "sd_jwt") {
       const credential = SDJWTCredential.fromJWS(value);
+      const requiredClaimKeys = inputDescriptor
+        ? this.extractRequiredClaimKeys(inputDescriptor)
+        : [];
       const valid = await ctx.SDJWT.verify({
         issuerDID: credential.issuer,
         jws: credential.id,
-        // We leave them empty, we won't be checking here
-        // but instead disclosing all the values and then validating the claims against input_descriptors
-        requiredClaimKeys: []
+        requiredClaimKeys
       });
       if (!valid) {
         return null;
@@ -153,7 +155,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
   ): Promise<boolean> {
     const isPresentation = descriptorItem.format === "jwt_vp" ? true : false;
     if (descriptorItem.path_nested) {
-      const credential = await this.getCredential(ctx, descriptorItem, value);
+      const credential = await this.getCredential(ctx, descriptorItem, value, inputDescriptor);
       if (!credential) {
         throw new Domain.PolluxError.InvalidVerifyCredentialError(
           value,
@@ -175,7 +177,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
       );
     }
 
-    const credential = await this.getCredential(ctx, descriptorItem, value);
+    const credential = await this.getCredential(ctx, descriptorItem, value, inputDescriptor);
     if (!credential) {
       //TODO: Improve this error, can be presentation or credential
       throw new Domain.PolluxError.InvalidVerifyCredentialError(
@@ -217,6 +219,36 @@ export class PresentationVerify extends Plugins.Task<Args> {
       }
     }
     return true;
+  }
+
+  /**
+   * Extract required claim keys from the input descriptor's constraint fields.
+   * Non-optional fields have their JSONPath converted to the dot-path format
+   * used by @sd-jwt/core's `listKeys()` (e.g. "$.vc.credentialSubject.firstname"
+   * → "vc.credentialSubject.firstname").
+   * These keys are passed to @sd-jwt/core so it can verify that the required
+   * selective disclosures are present in the SD-JWT presentation.
+   */
+  private extractRequiredClaimKeys(
+    inputDescriptor: DIF.Presentation.Definition.InputDescriptor
+  ): string[] {
+    const fields = inputDescriptor.constraints.fields.filter(f => !f.optional);
+    const keys = new Set<string>();
+
+    for (const field of fields) {
+      for (const path of field.path) {
+        // Strip the leading "$." from the JSONPath to produce the dot-path
+        // format that @sd-jwt/core's listKeys() generates.
+        // e.g. "$.vc.credentialSubject.firstname" → "vc.credentialSubject.firstname"
+        const dotPath = path.startsWith("$.") ? path.slice(2) : path;
+        if (dotPath) {
+          keys.add(dotPath);
+          break; // one key per field is sufficient
+        }
+      }
+    }
+
+    return [...keys];
   }
 
   private validateField(
