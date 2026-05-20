@@ -153,8 +153,8 @@ describe("Pluto", () => {
         expect(sutOut?.did.toString()).to.eql(sutDID.toString());
 
         expect(sutOut?.privateKeys).to.have.length(1);
-        expect(sutOut?.privateKeys[0].keyCurve.curve).to.eql(sutKey.curve);
-        expect(sutOut?.privateKeys[0].value).to.eql(sutKey.getEncoded());
+        expect(sutOut?.privateKeys[0].curve).to.eql(sutKey.curve);
+        expect(sutOut?.privateKeys[0]?.getEncoded()).to.eql(sutKey.getEncoded());
       });
     });
   });
