@@ -4,7 +4,7 @@
 - Deciders: [Javier Ribó](https://github.com/elribonazo) + [Gonçalo](https://github.com/goncalo-frade-iohk)
 - Date: 2023-11-10
 
-Technical Story: <https://input-output.atlassian.net/browse/ATL-6147>
+Technical Story: [ATL-6147](https://input-output.atlassian.net/browse/ATL-6147)
 
 ## Context and Problem Statement
 
