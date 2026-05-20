@@ -572,15 +572,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     const peerDids = allDids.map(did => {
       const keyIds = allLinks.filter(x => x.didId === did.uuid).map(x => x.keyId);
       const keys = allKeys.filter(x => keyIds.includes(x.uuid));
-
-      const peerDid = new PeerDID(
-        did,
-        // TODO: remove this when PeerDIDs are updated to use PrivateKey
-        keys.map(x => ({
-          keyCurve: getKeyCurveByNameAndIndex(x.curve, x.index),
-          value: x.getEncoded()
-        }))
-      );
+      const peerDid = new PeerDID(did, keys)
 
       return peerDid;
     });

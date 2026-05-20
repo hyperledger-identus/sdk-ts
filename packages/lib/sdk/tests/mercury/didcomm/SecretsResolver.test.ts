@@ -94,14 +94,11 @@ describe("Mercury DIDComm SecretsResolver", () => {
       const ecnum = "ecnum123";
       const privateKey = Fixtures.Keys.x25519.privateKey;
       const privateKeys = [
-        {
-          curve: Curve.X25519,
-          value: privateKey.getEncoded(),
-        },
+        Fixtures.Keys.x25519.privateKey
       ];
 
-      vi.spyOn(pluto, "getDIDByDIDOrAlias").mockResolvedValue(did as any);
-      vi.spyOn(pluto, "getDIDPrivateKeysByDID").mockResolvedValue(privateKeys as any);
+      vi.spyOn(pluto, "getDIDByDIDOrAlias").mockResolvedValue(did);
+      vi.spyOn(pluto, "getDIDPrivateKeysByDID").mockResolvedValue(privateKeys);
       vi.spyOn(castor, "resolveDID").mockResolvedValue(
         new Domain.DIDDocument(did, [
           new Domain.DIDDocument.VerificationMethods([
@@ -141,14 +138,11 @@ describe("Mercury DIDComm SecretsResolver", () => {
       const privateKey = Fixtures.Keys.x25519.privateKey;
 
       const privateKeys = [
-        {
-          curve: Curve.X25519,
-          value: privateKey.getEncoded(),
-        },
+        Fixtures.Keys.x25519.privateKey
       ];
 
-      vi.spyOn(pluto, "getDIDByDIDOrAlias").mockResolvedValue(did as any);
-      vi.spyOn(pluto, "getDIDPrivateKeysByDID").mockResolvedValue(privateKeys as any);
+      vi.spyOn(pluto, "getDIDByDIDOrAlias").mockResolvedValue(did);
+      vi.spyOn(pluto, "getDIDPrivateKeysByDID").mockResolvedValue(privateKeys);
       vi.spyOn(castor, "resolveDID").mockResolvedValue(
         new Domain.DIDDocument(did, [
           new Domain.DIDDocument.VerificationMethods([
