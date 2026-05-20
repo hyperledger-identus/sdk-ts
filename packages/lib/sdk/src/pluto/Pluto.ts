@@ -556,7 +556,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
       selector: { $or: allLinks.map(x => ({ uuid: x.keyId })) }
     });
 
-    const getKeyCurveByNameAndIndex = (name: string, index?: number): Domain.KeyCurve => {
+    const _getKeyCurveByNameAndIndex = (name: string, index?: number): Domain.KeyCurve => {
       switch (name) {
         case Domain.Curve.X25519.toString():
           return { curve: Domain.Curve.X25519 };

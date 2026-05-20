@@ -1,5 +1,5 @@
-import { type KeyCurve, type DID, CastorError } from "../models";
-import { PrivateKey } from "../models/keyManagement/PrivateKey"
+import { type DID, CastorError } from "../models";
+import { type PrivateKey } from "../models/keyManagement/PrivateKey"
 
 export namespace PeerDID {
 
