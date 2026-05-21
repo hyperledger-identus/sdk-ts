@@ -309,8 +309,11 @@ export class PrismDIDMethod
     const { usage, index } = this.getUsageFromId(verificationMethod.id);
 
     if (verificationMethod.publicKeyJwk) {
-      // TODO need to properly parse JWK into key / raw
-      const raw = base64.base64url.baseDecode(verificationMethod.publicKeyJwk.x as any);
+      const xValue = verificationMethod.publicKeyJwk.x;
+      if (typeof xValue !== 'string') {
+        throw new Domain.CastorError.InvalidKeyError('Invalid JWK: x coordinate is missing or not a string');
+      }
+      const raw = base64.base64url.baseDecode(xValue);
 
       if (verificationMethod.publicKeyJwk.crv === Domain.Curve.SECP256K1) {
         return this.createProtos(new Secp256k1PublicKey(raw), usage, index);
