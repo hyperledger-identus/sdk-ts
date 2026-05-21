@@ -58,7 +58,28 @@ describe("Pluto", () => {
 
         expect(result.credentials).to.be.an("array").to.have.length(1);
         expect(result.credentials[0]).to.have.property("recovery_id", "sdjwt");
-        expect(result.credentials[0]).to.have.property("data").that.is.a("string");
+        const expectedData = Buffer.from(base64url.baseEncode(Buffer.from(Fixtures.Backup.credentialSDJWTEncoded))).toString();
+        expect(result.credentials[0]).to.have.property("data", expectedData);
+      });
+
+      test("credential - SDJWT with disclosures", async () => {
+        await instance.storeCredential(Fixtures.Backup.credentialSDJWTWithDisclosures);
+
+        const repositories = (instance as any).Repositories;
+        const [model] = await repositories.Credentials.getModels();
+        const credentialData = JSON.parse(model.dataJson) as Record<string, unknown>;
+        credentialData.id = Fixtures.Backup.credentialSDJWTWithDisclosuresEncoded.split("~")[0];
+        await repositories.Credentials.update({
+          ...model,
+          dataJson: JSON.stringify(credentialData),
+        });
+
+        const result = await instance.backup(version);
+
+        expect(result.credentials).to.be.an("array").to.have.length(1);
+        expect(result.credentials[0]).to.have.property("recovery_id", "sdjwt");
+        const expectedData = Buffer.from(base64url.baseEncode(Buffer.from(Fixtures.Backup.credentialSDJWTWithDisclosuresEncoded))).toString();
+        expect(result.credentials[0]).to.have.property("data", expectedData);
       });
 
       test("dids + did_pairs", async () => {
@@ -453,6 +474,7 @@ describe("Pluto", () => {
         expect(dids).not.to.be.null;
 
         expect(credentials).to.have.length(3);
+        expect(credentials.some(credential => credential instanceof SDJWTCredential)).to.be.true;
         // expect(credentials.map(x => (x as any).toStorable())).to.have.deep.members([Fixtures.Backup.credentialAnoncreds.toStorable(), Fixtures.Backup.credentialJWT.toStorable(), Fixtures.Backup.credentialSDJWT.toStorable()]);
 
         expect(dids).to.have.length(2);

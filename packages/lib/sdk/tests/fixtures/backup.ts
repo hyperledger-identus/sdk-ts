@@ -8,10 +8,18 @@ import { credential as anonCredential } from "./credentials/anoncreds";
 import { peerDID4, peerDID5 } from "./dids";
 import { AnonCredsCredential } from "../../src/plugins/internal/anoncreds";
 
-export const credentialJWTEncoded = credentialPayloadEncoded;
+const sdjwtCredentialWithDisclosuresJwt = [
+  base64url.baseEncode(Buffer.from(JSON.stringify({ typ: "vc+sd-jwt", alg: "none" }))),
+  base64url.baseEncode(Buffer.from(JSON.stringify({ iss: "did:example:issuer", _sd_alg: "sha-256" }))),
+  "signature"
+].join(".");
+const sdjwtCredentialDisclosure = base64url.baseEncode(Buffer.from(JSON.stringify(["salt", "firstname", "Ada"])));
+
 export const credentialSDJWTEncoded = sdjwtCredentialJws;
+export const credentialSDJWTWithDisclosuresEncoded = `${sdjwtCredentialWithDisclosuresJwt}~${sdjwtCredentialDisclosure}~`;
 export const credentialJWT = JWTCredential.fromJWS(credentialPayloadEncoded);
 export const credentialSDJWT = SDJWTCredential.fromJWS(sdjwtCredentialJws);
+export const credentialSDJWTWithDisclosures = SDJWTCredential.fromJWS(credentialSDJWTWithDisclosuresEncoded);
 export const credentialAnoncreds = new AnonCredsCredential(anonCredential);
 export const hostDID = peerDID5;
 export const targetDID = peerDID4;

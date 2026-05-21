@@ -1,4 +1,4 @@
-import type * as Domain from "@hyperledger/identus-domain";
+import * as Domain from "@hyperledger/identus-domain";
 import * as Models from "../../../models";
 import { type repositoryFactory } from "../../../repositories/builders/factory";
 import { type IBackupTask } from "../interfaces";
@@ -105,29 +105,41 @@ export class BackupTask implements IBackupTask {
 
     let data: string;
     if (isJWT) {
-      data = JSON.parse(model.dataJson).id;
-    } else if (isSDJWT) {
-      const parsedData = JSON.parse(model.dataJson);
+      const parsedData = JSON.parse(model.dataJson) as Record<string, unknown>;
       const jwt = parsedData.id;
-      const disclosures = parsedData[SDJWT_VP_PROPS.disclosures] || [];
+      if (typeof jwt !== "string") {
+        throw new Domain.PlutoError.InvalidCredentialJsonError("Invalid JWT credential data");
+      }
+      data = jwt;
+    } else if (isSDJWT) {
+      const parsedData = JSON.parse(model.dataJson) as Record<string, unknown>;
+      const jwt = parsedData.id;
+      const disclosures = parsedData[SDJWT_VP_PROPS.disclosures];
 
-      // Reconstruct full SDJWT JWS: jwt~disclosure1~disclosure2~...
-      const encodedDisclosures = disclosures.map((disclosure: any) => {
-        if (typeof disclosure === 'string') {
+      if (typeof jwt !== "string") {
+        throw new Domain.PlutoError.InvalidCredentialJsonError("Invalid SDJWT credential data");
+      }
+      if (disclosures !== undefined && !Array.isArray(disclosures)) {
+        throw new Domain.PlutoError.InvalidCredentialJsonError("Invalid SDJWT disclosure data");
+      }
+
+      const encodedDisclosures = (disclosures ?? []).map((disclosure) => {
+        if (typeof disclosure === "string") {
           return disclosure;
         }
-        // Disclosure objects have an 'encoded' property containing the base64-encoded disclosure
-        if (disclosure && typeof disclosure === 'object' && 'encoded' in disclosure) {
-          return disclosure.encoded;
+
+        if (disclosure !== null && typeof disclosure === "object") {
+          const serializedDisclosure = disclosure as Record<string, unknown>;
+          const encoded = serializedDisclosure._encoded ?? serializedDisclosure.encoded;
+          if (typeof encoded === "string") {
+            return encoded;
+          }
         }
-        // Fallback: try toString() or return as-is
-        if (disclosure && typeof disclosure.toString === 'function') {
-          return disclosure.toString();
-        }
-        return '';
+
+        throw new Domain.PlutoError.InvalidCredentialJsonError("Invalid SDJWT disclosure data");
       });
 
-      data = jwt + '~' + encodedDisclosures.join('~');
+      data = jwt.includes("~") ? jwt : [jwt, ...encodedDisclosures, ""].join("~");
     } else {
       data = model.dataJson;
     }
