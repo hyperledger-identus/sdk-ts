@@ -6,4 +6,5 @@ export { isNil, notNil, isObject, isString, isArray, notEmptyString, isEmpty, as
 export { ConsoleLogger } from "./logger";
 export type { Logger, LogLevel } from "./logger";
 export * from "./tasks";
+export { isSafeRegex } from "./safeRegex";
 export type { Arrayable, Ctor, Nil, JsonObj, Normalize } from "./types";

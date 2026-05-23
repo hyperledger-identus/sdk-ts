@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as Domain from "@hyperledger/identus-domain";
-import { asArray, asJsonObj } from "../../../utils";
+import { asArray, asJsonObj, isSafeRegex } from "../../../utils";
 import { IsCredentialRevoked } from "./IsCredentialRevoked";
 import { Payload } from "@hyperledger/identus-domain";
 import { JWTCredential } from "../../../pollux/models/JWTVerifiableCredential";
@@ -239,6 +239,12 @@ export class PresentationVerify extends Plugins.Task<Args> {
         const filter = field.filter;
 
         if (filter.pattern) {
+          if (!isSafeRegex(filter.pattern)) {
+            throw new Domain.PolluxError.InvalidVerifyCredentialError(
+              vc,
+              "Invalid Claim: The provided pattern is not a safe regular expression"
+            );
+          }
           const pattern = new RegExp(filter.pattern);
           if (!pattern.test(value) && value !== filter.pattern) {
             throw new Domain.PolluxError.InvalidVerifyCredentialError(
