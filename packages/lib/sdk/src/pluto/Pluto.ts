@@ -677,7 +677,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     });
 
     // ?? this seems presumptuous? couldnt hostDID be re-used?
-    const link = this.onlyOne(links);
+    const link = this.onlyOne(links, `getPairByDID(${did.toString()})`);
     const didPair = this.mapDIDPairToDomain(link);
 
     return didPair;
@@ -694,7 +694,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
       {
         selector: { alias, role: Models.DIDLink.role.pair }
       });
-    const link = this.onlyOne(links);
+    const link = this.onlyOne(links, `getPairByName(${alias})`);
     const didPair = this.mapDIDPairToDomain(link);
 
     return didPair;
@@ -785,9 +785,19 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     });
   }
 
-  private onlyOne<T>(arr: T[]): T {
-    const item = arr.at(0);
-    if (!item || arr.length !== 1) throw new Error("something wrong");
+  private onlyOne<T>(arr: T[], context?: string): T {
+    if (arr.length !== 1) {
+      throw new Error(
+        `Expected one result but got ${arr.length}${context ? `: ${context}` : ""}`
+      );
+    }
+
+    const item = arr[0];
+    if (!item) {
+      throw new Error(
+        `Unexpected empty result${context ? `: ${context}` : ""}`
+      );
+    }
 
     return item;
   }
