@@ -740,7 +740,9 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
         const routingLink = links.find(x => x.hostId === hostId && x.role === Models.DIDLink.role.routing.valueOf());
 
         if (!mediatorLink || !routingLink) {
-          throw new Error();
+          throw new Error(
+            `Missing mediator or routing DID link for hostId: ${hostId}`
+          );
         }
 
         const hostDID = await this.Repositories.DIDs.byUUID(hostId);
@@ -748,7 +750,9 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
         const routingDID = await this.Repositories.DIDs.byUUID(routingLink.targetId);
 
         if (!hostDID || !mediatorDID || !routingDID) {
-          throw new Error();
+          throw new Error(
+            `Empty DID for hostId: ${hostId} (host: ${!!hostDID}, mediator: ${!!mediatorDID}, routing: ${!!routingDID})`
+          );
         }
 
         const domain: Domain.Mediator = { hostDID, mediatorDID, routingDID };
