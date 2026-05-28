@@ -47,14 +47,8 @@ export class CancellableTask<T> {
 
   cancel() {
     this.clearTimer();
-    // swallow AbortErrors - throw otherwise
-    this.cancellationToken.catch(err => {
-      if (!(err instanceof AbortError)) {
-        throw err;
-      }
-    });
     this.controller.abort();
-
+    this.cancellationToken.catch(() => {});
   }
 
   callback(fn: (response: T) => void) {
