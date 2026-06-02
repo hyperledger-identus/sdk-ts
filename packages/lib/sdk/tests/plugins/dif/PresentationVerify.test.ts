@@ -1342,7 +1342,9 @@ describe("Plugins - DIF", () => {
       const sut = new PresentationVerify({ presentation, presentationRequest: failRequest });
       const result = ctx.run(sut);
 
-      await expect(result).rejects.toThrow("Verification failed for credential (eyJ0eXAiOi...): reason -> Invalid Claim: Expected one of the paths $.vc.credentialSubject.not_a_course, $.credentialSubject.not_a_course, $.not_a_course to exist.");
+      // With requiredClaimKeys enforcement (issue #366), SDJWT.verify() now rejects
+      // credentials that do not disclose the required claim before reaching validateField().
+      await expect(result).rejects.toThrow(/Verification failed for credential/);
     });
 
     test("Should Verify false when the Credential subject does not match given pattern", async () => {
@@ -1364,7 +1366,9 @@ describe("Plugins - DIF", () => {
       const sut = new PresentationVerify({ presentation, presentationRequest: failRequest });
       const result = ctx.run(sut);
 
-      await expect(result).rejects.toThrow("Verification failed for credential (eyJ0eXAiOi...): reason -> Invalid Claim: Expected one of the paths $.vc.credentialSubject.course, $.credentialSubject.course, $.course to exist.");
+      // With requiredClaimKeys enforcement (issue #366), SDJWT.verify() now rejects
+      // credentials that do not disclose the required claim before reaching validateField().
+      await expect(result).rejects.toThrow(/Verification failed for credential/);
     });
 
     test("Should Verify false when at least one of the input_descriptors does not match the presentation", async () => {
@@ -1554,8 +1558,248 @@ describe("Plugins - DIF", () => {
         presentationRequest: presentationDefinition
       }));
 
-      await expect(sut).rejects.toThrow('Verification failed for credential (eyJ0eXAiOi...): reason -> Invalid Claim: Expected one of the paths $.vc.credentialSubject.email, $.credentialSubject.email, $.email to exist.');
+      // With requiredClaimKeys enforcement (issue #366), SDJWT.verify() now rejects
+      // credentials that do not disclose the required claim before reaching validateField().
+      await expect(sut).rejects.toThrow(/Verification failed for credential/);
 
+    });
+
+    describe("requiredClaimKeys", () => {
+      // Helper to build a full SD-JWT sign → present → verify pipeline
+      async function buildSDJWTPipeline(opts: {
+        claims: Record<string, { type: string; pattern: string }>;
+        presentationFrame: PresentationFrame<any>;
+        optionalFieldNames?: string[];
+      }) {
+        const issuerSeed = ctx.Apollo.createRandomSeed().seed;
+        const holderSeed = ctx.Apollo.createRandomSeed().seed;
+
+        const issuerMasterSK = await ctx.Apollo.createPrivateKey({
+          type: KeyTypes.EC,
+          curve: Curve.SECP256K1,
+          seed: issuerSeed.value,
+        });
+        const issuerAuthenticationSK = await ctx.Apollo.createPrivateKey({
+          type: KeyTypes.EC,
+          curve: Curve.ED25519,
+          seed: issuerSeed.value,
+        });
+
+        const holderMasterSK = await ctx.Apollo.createPrivateKey({
+          type: KeyTypes.EC,
+          curve: Curve.SECP256K1,
+          seed: holderSeed.value,
+        });
+
+        const issuerDID = await ctx.Castor.createDID(
+          'prism',
+          {
+            keys: {
+              MASTER_KEY: issuerMasterSK,
+              ISSUING_KEY: [issuerAuthenticationSK]
+            }
+          }
+        );
+
+        const holderDID = await ctx.Castor.createDID(
+          'prism',
+          {
+            keys: {
+              MASTER_KEY: holderMasterSK,
+            }
+          }
+        );
+
+        const currentDate = new Date();
+        const nextMonthDate = new Date(currentDate);
+        nextMonthDate.setMonth(currentDate.getMonth() + 1);
+        const issuanceDate = Math.floor(currentDate.getTime() / 1000);
+        const expirationDate = Math.floor(nextMonthDate.getTime() / 1000);
+
+        const payload = {
+          iss: issuerDID.toString(),
+          nbf: issuanceDate,
+          exp: expirationDate,
+          sub: holderDID.toString(),
+          vc: {
+            "@context": ["https://www.w3.org/2018/credentials/v1"],
+            type: ["VerifiableCredential"],
+            issuer: issuerDID.toString(),
+            issuanceDate: new Date(issuanceDate).toISOString(),
+            credentialSubject: {
+              firstname: "hola",
+              email: "secret@email.com",
+            },
+          },
+          vct: issuerDID.toString()
+        };
+
+        const disclosureFrame: DisclosureFrame<typeof payload> = {
+          _sd: ["vc"],
+          vc: {
+            _sd: [
+              "@context",
+              "credentialSubject",
+              "issuanceDate",
+              "issuer",
+              "type"
+            ],
+            credentialSubject: {
+              _sd: ['email', 'firstname']
+            }
+          }
+        };
+
+        const jwt = await ctx.SDJWT.sign({
+          issuerDID,
+          payload,
+          disclosureFrame,
+          privateKey: issuerAuthenticationSK
+        });
+
+        // Build presentation definition with requested claims
+        const constraintFields: DIF.Presentation.Definition.Field[] = Object.keys(opts.claims)
+          .map<DIF.Presentation.Definition.Field>((key) => ({
+            path: [
+              `$.vc.credentialSubject.${key}`,
+              `$.credentialSubject.${key}`,
+              `$.${key}`
+            ],
+            id: `field-${key}`,
+            optional: opts.optionalFieldNames?.includes(key) ?? false,
+            filter: opts.claims[key],
+            name: key
+          }));
+
+        const presentationDefinition: DIF.Presentation.Request = {
+          presentation_definition: {
+            id: "test-def-id",
+            input_descriptors: [{
+              id: "test-descriptor",
+              name: "Presentation",
+              purpose: "Verifying Credentials",
+              constraints: {
+                fields: constraintFields,
+                limit_disclosure: "required",
+              },
+              format: {
+                sdjwt: { alg: ["EdDSA"] },
+              },
+            }],
+            format: {
+              sdjwt: { alg: ["EdDSA"] },
+            },
+          },
+          options: {},
+        };
+
+        const presentationSubmissionJWS = await ctx.SDJWT.createPresentationFor<typeof payload>({
+          jws: jwt,
+          privateKey: issuerAuthenticationSK,
+          presentationFrame: opts.presentationFrame,
+        });
+
+        const [descriptor] = presentationDefinition.presentation_definition.input_descriptors;
+        const presentation: DIF.EmbedTarget = {
+          presentation_submission: {
+            id: "test-submission-id",
+            definition_id: "test-def-id",
+            descriptor_map: [{
+              id: descriptor.id,
+              format: "sd_jwt",
+              path: "$.verifiablePresentation[0]",
+            }],
+          },
+          verifiablePresentation: [presentationSubmissionJWS],
+        };
+
+        return { presentation, presentationDefinition };
+      }
+
+      test("Should fail verification when required claims are not disclosed", async () => {
+        // Request both firstname AND email, but only disclose firstname
+        const { presentation, presentationDefinition } = await buildSDJWTPipeline({
+          claims: {
+            firstname: { type: 'string', pattern: 'hola' },
+            email: { type: 'string', pattern: '*' },
+          },
+          presentationFrame: {
+            vc: {
+              credentialSubject: {
+                firstname: true,
+                email: false, // NOT disclosed
+              }
+            }
+          },
+        });
+
+        const sut = ctx.run(new PresentationVerify({
+          presentation,
+          presentationRequest: presentationDefinition,
+        }));
+
+        // Should fail at the SD-JWT required claims layer
+        await expect(sut).rejects.toThrow();
+      });
+
+      test("Should pass verification when all required claims are disclosed", async () => {
+        // Request both firstname AND email, disclose both
+        const { presentation, presentationDefinition } = await buildSDJWTPipeline({
+          claims: {
+            firstname: { type: 'string', pattern: 'hola' },
+            email: { type: 'string', pattern: 'secret@email.com' },
+          },
+          presentationFrame: {
+            vc: {
+              credentialSubject: {
+                firstname: true,
+                email: true, // Both disclosed
+              }
+            }
+          },
+        });
+
+        const sut = new PresentationVerify({
+          presentation,
+          presentationRequest: presentationDefinition,
+        });
+        const result = await ctx.run(sut);
+
+        expect(result.pid).toBe("valid");
+        expect(result.data).toBe(true);
+      });
+
+      test("Should not include optional fields in required claim keys", async () => {
+        // Request firstname (required) and email (optional), only disclose firstname
+        const { presentation, presentationDefinition } = await buildSDJWTPipeline({
+          claims: {
+            firstname: { type: 'string', pattern: 'hola' },
+            email: { type: 'string', pattern: '*' },
+          },
+          presentationFrame: {
+            vc: {
+              credentialSubject: {
+                firstname: true,
+                email: false, // NOT disclosed, but field is optional
+              }
+            }
+          },
+          optionalFieldNames: ['email'],
+        });
+
+        // Should pass because email is optional — not included in requiredClaimKeys
+        // It will still fail at the DescriptorPath validation layer if the claim
+        // is needed, but it should not fail at the SD-JWT required claims layer.
+        // Since email is optional in the input descriptor, verification should pass.
+        const sut = new PresentationVerify({
+          presentation,
+          presentationRequest: presentationDefinition,
+        });
+        const result = await ctx.run(sut);
+
+        expect(result.pid).toBe("valid");
+        expect(result.data).toBe(true);
+      });
     });
 
     test("Should throw 'key not found' when DID has no ISSUING_KEY and default purpose is used", async () => {
