@@ -58,7 +58,27 @@ describe("Pluto", () => {
 
         expect(result.credentials).to.be.an("array").to.have.length(1);
         expect(result.credentials[0]).to.have.property("recovery_id", "sdjwt");
-        const expectedData = Buffer.from(base64url.baseEncode(Buffer.from(Fixtures.Backup.credentialSDJWT.id))).toString();
+        const expectedData = Buffer.from(base64url.baseEncode(Buffer.from(Fixtures.Backup.credentialSDJWTEncoded))).toString();
+        expect(result.credentials[0]).to.have.property("data", expectedData);
+      });
+
+      test("credential - SDJWT with disclosures", async () => {
+        await instance.storeCredential(Fixtures.Backup.credentialSDJWTWithDisclosures);
+
+        const repositories = (instance as any).Repositories;
+        const [model] = await repositories.Credentials.getModels();
+        const credentialData = JSON.parse(model.dataJson) as Record<string, unknown>;
+        credentialData.id = Fixtures.Backup.credentialSDJWTWithDisclosuresEncoded.split("~")[0];
+        await repositories.Credentials.update({
+          ...model,
+          dataJson: JSON.stringify(credentialData),
+        });
+
+        const result = await instance.backup(version);
+
+        expect(result.credentials).to.be.an("array").to.have.length(1);
+        expect(result.credentials[0]).to.have.property("recovery_id", "sdjwt");
+        const expectedData = Buffer.from(base64url.baseEncode(Buffer.from(Fixtures.Backup.credentialSDJWTWithDisclosuresEncoded))).toString();
         expect(result.credentials[0]).to.have.property("data", expectedData);
       });
 
@@ -180,7 +200,7 @@ describe("Pluto", () => {
           credentials: [
             {
               recovery_id: "sdjwt",
-              data: Buffer.from(base64url.baseEncode(Buffer.from(Fixtures.Backup.credentialSDJWT.id))).toString(),
+              data: Buffer.from(base64url.baseEncode(Buffer.from(Fixtures.Backup.credentialSDJWTEncoded))).toString(),
             },
           ],
           dids: [],
@@ -421,6 +441,7 @@ describe("Pluto", () => {
 
       test("Backup -> Restore", async () => {
         await instance.storeCredential(Fixtures.Backup.credentialJWT);
+        await instance.storeCredential(Fixtures.Backup.credentialSDJWT);
         await instance.storeCredential(Fixtures.Backup.credentialAnoncreds);
         await instance.storeDIDPair(Fixtures.Backup.hostDID, Fixtures.Backup.targetDID, Fixtures.Backup.pairAlias);
         await instance.storeDID(Fixtures.Backup.hostDID, Fixtures.Backup.peerDIDKeys);
@@ -452,8 +473,9 @@ describe("Pluto", () => {
 
         expect(dids).not.to.be.null;
 
-        expect(credentials).to.have.length(2);
-        // expect(credentials.map(x => (x as any).toStorable())).to.have.deep.members([Fixtures.Backup.credentialAnoncreds.toStorable(), Fixtures.Backup.credentialJWT.toStorable()]);
+        expect(credentials).to.have.length(3);
+        expect(credentials.some(credential => credential instanceof SDJWTCredential)).to.be.true;
+        // expect(credentials.map(x => (x as any).toStorable())).to.have.deep.members([Fixtures.Backup.credentialAnoncreds.toStorable(), Fixtures.Backup.credentialJWT.toStorable(), Fixtures.Backup.credentialSDJWT.toStorable()]);
 
         expect(dids).to.have.length(2);
         expect(didPairs).to.have.length(1);
