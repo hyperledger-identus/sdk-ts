@@ -66,12 +66,11 @@ jobs:
           yarn build
 
           if [[ "$GITHUB_REF" == *"refs/heads/beta"* ]]; then
-            echo "Publishing with RC tag for beta branch"
-            npx nx release version --preid rc
+            echo "Publishing RC build for beta branch (version bump + npm publish only, no git commit/tag)"
+            npx nx release version --preid rc --no-git-commit --no-git-tag --no-stage-changes
             npx nx release publish --tag rc
           else
-            echo "Publishing without RC tag for main branch"
-            npx nx release --yes
+            echo "Publishing release for main branch (version + changelog + commit + push tags + GitHub release)"
+            npx nx release --skip-publish
             npx nx release publish
-            git push --follow-tags origin HEAD:${GITHUB_REF_NAME}
           fi
