@@ -4,6 +4,8 @@ import * as Domain from '@hyperledger/identus-domain';
 import { MercuryError, Castor } from "@hyperledger/identus-domain";
 import { DIDCommProtocol } from "../../src/mercury/DIDCommProtocol";
 import { Mercury } from "../../src/mercury";
+import { ReturnRouteProtocols } from "@hyperledger/identus-didcomm";
+import { ProtocolIds } from "../../src/plugins/internal/didcomm/types";
 
 describe("Mercury", () => {
   let castor: Castor;
@@ -116,6 +118,19 @@ describe("Mercury", () => {
       expect(spySend).toHaveBeenCalledWith(message);
       expect(spyUnpack).toHaveBeenCalledWith(jsonMessage);
       expect(result).to.equal(unpackedMessage);
+    });
+  });
+
+  /**
+   * The mediator answers a `keylist-update` synchronously only when the
+   * outgoing message carries `return_route: "all"`; without it the response
+   * is forwarded asynchronously to the mediated DID and the SDK never
+   * observes it. Guard the membership so a future narrowing of the list
+   * cannot silently regress recipient registration.
+   */
+  describe("ReturnRouteProtocols", () => {
+    it("includes the coordinate-mediation/2.0/keylist-update piuri", () => {
+      expect(ReturnRouteProtocols).toContain(ProtocolIds.MediationKeysUpdate);
     });
   });
 });

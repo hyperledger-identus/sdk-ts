@@ -26,7 +26,8 @@ import { ApiResponse, Pluto as IPluto, JWT } from '@hyperledger/identus-domain';
 import { Castor, Pluto, ProtocolType, SDJWTCredential } from "../../src";
 import { DIF } from '../../src/plugins/internal/dif/types';
 // import { JWT } from "../../src/pollux/utils/JWT";
-import { StartMediator, StartFetchingMessages } from '../../src/plugins/internal/didcomm';
+import { Send, StartMediator, StartFetchingMessages } from '../../src/plugins/internal/didcomm';
+import { ProtocolIds } from '../../src/plugins/internal/didcomm/types';
 import { mockTask } from '../testFns';
 import { CredentialPreview, IssueCredential, MediatorConnection, OfferCredential, RequestCredential } from '../../src/plugins/internal/didcomm';
 import { RevocationNotification } from '../../src/plugins/internal/oea/protocols/RevocationNotfiication';
@@ -85,6 +86,31 @@ describe("Agent Tests", () => {
 
     mockTask(StartMediator);
     mockTask(StartFetchingMessages);
+
+    // The didProtocol stub above unpacks every reply into a generic
+    // "TypeofMessage" placeholder, so the real Send path can never produce
+    // the keylist-update-response that `updateKeyListWithDID` requires.
+    // Pass the outgoing keylist-update through the real Mercury pipeline
+    // (so per-test sendMessage spies still see the call) and then return a
+    // synthetic matching response so the validation step succeeds.
+    const realSendRun = Send.prototype.run;
+    vi.spyOn(Send.prototype, 'run').mockImplementation(async function (this: any, ctx: any) {
+      const outgoing = this.args.message;
+      const realResult = await realSendRun.call(this, ctx);
+      if (outgoing instanceof Message && outgoing.piuri === ProtocolIds.MediationKeysUpdate) {
+        return new Message(
+          { updated: [{ recipient_did: '', action: 'add', result: 'success' }] } as any,
+          randomUUID(),
+          ProtocolIds.MediationKeysUpdateResponse,
+          undefined,
+          undefined,
+          [],
+          outgoing.id,
+        );
+      }
+      return realResult;
+    });
+
     agent.connections.addMediator(
       new MediatorConnection(
         "did:peer:2.Ez6LSghwSE437wnDE1pt3X6hVDUQzSjsHzinpX3XFvMjRAm7y.Vz6Mkhh1e5CEYYq6JBUcTZ6Cp2ranCWRrv7Yax3Le4N59R6dd.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6Imh0dHA6Ly8xOTIuMTY4LjEuNDQ6ODA4MCIsImEiOlsiZGlkY29tbS92MiJdfX0.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6IndzOi8vMTkyLjE2OC4xLjQ0OjgwODAvd3MiLCJhIjpbImRpZGNvbW0vdjIiXX19",

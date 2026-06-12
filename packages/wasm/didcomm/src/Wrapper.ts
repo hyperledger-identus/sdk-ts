@@ -8,8 +8,9 @@ import { type Message, type AttachmentData as DomainAttachmentData, type DID, ty
 /**
  * DIDComm protocol IDs that require return_route
  */
-const ReturnRouteProtocols = [
+export const ReturnRouteProtocols = [
   "https://didcomm.org/coordinate-mediation/2.0/mediate-request",
+  "https://didcomm.org/coordinate-mediation/2.0/keylist-update",
   "https://didcomm.org/messagepickup/3.0/messages-received",
   "https://didcomm.org/messagepickup/3.0/delivery-request",
   "https://didcomm.org/messagepickup/3.0/live-delivery-change",
