@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as Domain from "@hyperledger/identus-domain";
 import { asArray, asJsonObj } from "../../../utils";
 import { IsCredentialRevoked } from "./IsCredentialRevoked";
@@ -38,23 +34,28 @@ export class PresentationVerify extends Plugins.Task<Args> {
     return Payload.make("valid", valid);
   }
 
-  private isValidPresentation(data: any): data is DIF.EmbedTarget {
-    if (!data || (data && typeof data !== "object")) {
+  private isValidPresentation(data: unknown): data is DIF.EmbedTarget {
+    if (!data || typeof data !== "object") {
       return false;
     }
 
-    const { presentation_submission } = data;
+    const obj = data as Record<string, unknown>;
+    const { presentation_submission } = obj;
 
-    if (!presentation_submission || (typeof presentation_submission !== "object")) {
+    if (!presentation_submission || typeof presentation_submission !== "object") {
       return false;
     }
 
-    const descriptorMaps = asArray(presentation_submission?.descriptor_map);
-    return descriptorMaps.some((x: any) => this.knownFormats.includes(asJsonObj(x).format));
+    const descriptorMaps = asArray((presentation_submission as Record<string, unknown>).descriptor_map);
+    return descriptorMaps.some((x) => {
+      const descriptor = asJsonObj(x) as Record<string, unknown>;
+      const format = descriptor.format;
+      return typeof format === "string" && (this.knownFormats as readonly unknown[]).includes(format);
+    });
   }
 
-  private isValidPresentationRequest(data: any): data is DIF.Presentation.Request {
-    return typeof data === "object" ? true : false;
+  private isValidPresentationRequest(data: unknown): data is DIF.Presentation.Request {
+    return typeof data === "object";
   }
 
   private async getCredential(
@@ -75,7 +76,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
       const valid = await ctx.JWT.verify({
         holderDID: jwtSubject,
         issuerDID: jwtIssuer,
-        jws: credential.id
+        jws: credential.id as string
       });
       if (!valid) {
         return null;
@@ -85,8 +86,8 @@ export class PresentationVerify extends Plugins.Task<Args> {
     if (descriptorItem.format === "sd_jwt") {
       const credential = SDJWTCredential.fromJWS(value);
       const valid = await ctx.SDJWT.verify({
-        issuerDID: credential.issuer,
-        jws: credential.id,
+        issuerDID: Domain.DID.fromString(credential.issuer as string),
+        jws: credential.id as string,
         // We leave them empty, we won't be checking here
         // but instead disclosing all the values and then validating the claims against input_descriptors
         requiredClaimKeys: []
@@ -111,18 +112,19 @@ export class PresentationVerify extends Plugins.Task<Args> {
       const revocationTask = new IsCredentialRevoked({ credential: credential });
       const isRevoked = await ctx.run(revocationTask);
       if (isRevoked.data) {
-        throw new Domain.PolluxError.InvalidVerifyCredentialError(credential.id, "Invalid Verifiable Presentation, credential is revoked");
+        throw new Domain.PolluxError.InvalidVerifyCredentialError(credential.id as string, "Invalid Verifiable Presentation, credential is revoked");
       }
     } catch (err) {
       if (err instanceof Domain.PolluxError.InvalidVerifyCredentialError) {
         throw err;
       } else {
-        throw new Domain.PolluxError.InvalidVerifyCredentialError(credential.id, `Invalid Verifiable Presentation, could not verify if the credential is revoked, reason: ${(err as Error).message}`);
+        const message = err instanceof Error ? err.message : String(err);
+        throw new Domain.PolluxError.InvalidVerifyCredentialError(credential.id as string, `Invalid Verifiable Presentation, could not verify if the credential is revoked, reason: ${message}`);
       }
     }
     const mapper = new DescriptorPath(credential);
     return this.validateInputDescriptor(
-      credential.id,
+      credential.id as string,
       mapper,
       inputDescriptor
     );
@@ -139,7 +141,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
     );
     const mapper = new DescriptorPath(claims);
     return this.validateInputDescriptor(
-      credential.id,
+      credential.id as string,
       mapper,
       inputDescriptor
     );
@@ -149,19 +151,19 @@ export class PresentationVerify extends Plugins.Task<Args> {
     ctx: Context,
     inputDescriptor: DIF.Presentation.Definition.InputDescriptor,
     descriptorItem: DIF.Presentation.Submission.DescriptorItem,
-    value: any,
+    value: unknown,
   ): Promise<boolean> {
-    const isPresentation = descriptorItem.format === "jwt_vp" ? true : false;
+    const isPresentation = descriptorItem.format === "jwt_vp";
     if (descriptorItem.path_nested) {
-      const credential = await this.getCredential(ctx, descriptorItem, value);
+      const credential = await this.getCredential(ctx, descriptorItem, value as string);
       if (!credential) {
         throw new Domain.PolluxError.InvalidVerifyCredentialError(
-          value,
+          value as string,
           `Invalid ${isPresentation ? 'Verifiable Presentation' : 'Verifiable Credential'} JWS Signature`
         );
       }
       const nestedMapper = new DescriptorPath(credential);
-      const nestedValue = nestedMapper.getValue(descriptorItem.path_nested.path);
+      const nestedValue = nestedMapper.getValue(descriptorItem.path_nested.path) as unknown;
       if (!nestedValue) {
         throw new Domain.PolluxError.InvalidVerifyFormatError(
           `Invalid Submission, ${descriptorItem.path_nested.path} not found in submission`
@@ -175,11 +177,11 @@ export class PresentationVerify extends Plugins.Task<Args> {
       );
     }
 
-    const credential = await this.getCredential(ctx, descriptorItem, value);
+    const credential = await this.getCredential(ctx, descriptorItem, value as string);
     if (!credential) {
       //TODO: Improve this error, can be presentation or credential
       throw new Domain.PolluxError.InvalidVerifyCredentialError(
-        value,
+        value as string,
         `Invalid ${isPresentation ? 'Verifiable Presentation' : 'Verifiable Credential'} JWS Signature`
       );
     }
@@ -205,7 +207,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
       if (!inputDescriptor) {
         throw new Domain.PolluxError.InvalidVerifyFormatError(`Invalid Submission, undefined input descriptor`);
       }
-      const value = presentationSubmissionMapper.getValue(descriptorItem.path);
+      const value = presentationSubmissionMapper.getValue(descriptorItem.path) as unknown;
       const valid = await this.processDescriptorItem(
         ctx,
         inputDescriptor,
@@ -233,25 +235,25 @@ export class PresentationVerify extends Plugins.Task<Args> {
         );
       }
 
-      const value = mapper.getValue(path);
+      const value: unknown = mapper.getValue(path);
 
       if (field.filter && value !== null) {
         const filter = field.filter;
 
         if (filter.pattern) {
           const pattern = new RegExp(filter.pattern);
-          if (!pattern.test(value) && value !== filter.pattern) {
+          if (!pattern.test(value as string) && value !== filter.pattern) {
             throw new Domain.PolluxError.InvalidVerifyCredentialError(
-              vc, `Invalid Claim: Expected the ${path} field to be "${filter.pattern}" but got "${value}"`
+              vc, `Invalid Claim: Expected the ${path} field to be "${filter.pattern}" but got "${value as string}"`
             )
           } else {
             return true;
           }
 
         } else if (filter.enum) {
-          if (!filter.enum.includes(value)) {
+          if (!filter.enum.includes(value as DIF.Presentation.Definition.PredicateType)) {
             throw new Domain.PolluxError.InvalidVerifyCredentialError(
-              vc, `Invalid Claim: Expected the ${path} field to be one of ${filter.enum.join(", ")} but got ${value}`
+              vc, `Invalid Claim: Expected the ${path} field to be one of ${filter.enum.join(", ")} but got ${value as string}`
             )
           } else {
             return true
@@ -260,7 +262,7 @@ export class PresentationVerify extends Plugins.Task<Args> {
         } else if (filter.const && value === filter.pattern) {
           if (value !== filter.const) {
             throw new Domain.PolluxError.InvalidVerifyCredentialError(
-              vc, `Invalid Claim: Expected the ${path} field to be "${JSON.stringify(filter.const)}" but got "${value}"`
+              vc, `Invalid Claim: Expected the ${path} field to be "${JSON.stringify(filter.const)}" but got "${value as string}"`
             )
           } else {
             return true;
@@ -276,12 +278,12 @@ export class PresentationVerify extends Plugins.Task<Args> {
       if (err instanceof Domain.PolluxError.InvalidVerifyCredentialError) {
         return err;
       }
-      return err as Error;
+      return err instanceof Error ? err : new Error(String(err));
     }
   }
 
   private validateInputDescriptor(
-    vc: any,
+    vc: string,
     descriptorMapper: DescriptorPath,
     inputDescriptor: DIF.Presentation.Definition.InputDescriptor
   ) {
