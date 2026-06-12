@@ -71,8 +71,7 @@ jobs:
             npx nx release publish --tag rc
           else
             echo "Publishing without RC tag for main branch"
-            npx nx release version
-            npx nx release changelog
+            npx nx release --yes
             npx nx release publish
             git push --follow-tags origin HEAD:${GITHUB_REF_NAME}
           fi
