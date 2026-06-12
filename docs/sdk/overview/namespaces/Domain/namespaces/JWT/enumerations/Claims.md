@@ -6,16 +6,16 @@
 
 # Enumeration: Claims
 
-Defined in: [src/domain/utils/JWT.ts:23](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/utils/JWT.ts#L23)
+Defined in: packages/shared/domain/build/index.d.ts:2447
 
 ## Enumeration Members
 
 | Enumeration Member | Value | Defined in |
 | ------ | ------ | ------ |
-| <a id="aud"></a> `aud` | `"aud"` | [src/domain/utils/JWT.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/utils/JWT.ts#L26) |
-| <a id="exp"></a> `exp` | `"exp"` | [src/domain/utils/JWT.ts:28](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/utils/JWT.ts#L28) |
-| <a id="iat"></a> `iat` | `"iat"` | [src/domain/utils/JWT.ts:29](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/utils/JWT.ts#L29) |
-| <a id="iss"></a> `iss` | `"iss"` | [src/domain/utils/JWT.ts:24](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/utils/JWT.ts#L24) |
-| <a id="jti"></a> `jti` | `"jti"` | [src/domain/utils/JWT.ts:30](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/utils/JWT.ts#L30) |
-| <a id="nbf"></a> `nbf` | `"nbf"` | [src/domain/utils/JWT.ts:27](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/utils/JWT.ts#L27) |
-| <a id="sub"></a> `sub` | `"sub"` | [src/domain/utils/JWT.ts:25](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/utils/JWT.ts#L25) |
+| <a id="enumeration-member-aud"></a> `aud` | `"aud"` | packages/shared/domain/build/index.d.ts:2450 |
+| <a id="enumeration-member-exp"></a> `exp` | `"exp"` | packages/shared/domain/build/index.d.ts:2452 |
+| <a id="enumeration-member-iat"></a> `iat` | `"iat"` | packages/shared/domain/build/index.d.ts:2453 |
+| <a id="enumeration-member-iss"></a> `iss` | `"iss"` | packages/shared/domain/build/index.d.ts:2448 |
+| <a id="enumeration-member-jti"></a> `jti` | `"jti"` | packages/shared/domain/build/index.d.ts:2454 |
+| <a id="enumeration-member-nbf"></a> `nbf` | `"nbf"` | packages/shared/domain/build/index.d.ts:2451 |
+| <a id="enumeration-member-sub"></a> `sub` | `"sub"` | packages/shared/domain/build/index.d.ts:2449 |

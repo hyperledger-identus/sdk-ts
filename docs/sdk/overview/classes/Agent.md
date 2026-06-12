@@ -4,11 +4,17 @@
 
 [@hyperledger/identus-sdk](../../README.md) / [overview](../README.md) / Agent
 
-# Class: Agent
+# Class: Agent\<Extras\>
 
-Defined in: [src/edge-agent/Agent.ts:50](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L50)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:76](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L76)
 
 Edge agent implementation
+
+The optional tuple type parameter `Extras` carries the concrete types of
+any extra DID methods passed to [Agent.initialize](#initialize), so that
+`createDID`, `publishDID`, `updateDID` and `deactivateDID` only accept
+method names that are actually registered and infer their payload types
+directly from the passed DID method instances.
 
  Agent
 
@@ -16,52 +22,28 @@ Edge agent implementation
 
 - [`Controller`](../namespaces/Domain/namespaces/Startable/classes/Controller.md)
 
-## Constructors
+## Type Parameters
 
-### Constructor
-
-> **new Agent**(`apollo`: [`Apollo`](../namespaces/Domain/interfaces/Apollo.md), `castor`: [`Castor`](../namespaces/Domain/interfaces/Castor.md), `pluto`: [`Pluto`](../namespaces/Domain/interfaces/Pluto.md), `mercury`: [`Mercury`](../namespaces/Domain/interfaces/Mercury.md), `seed`: [`Seed`](../namespaces/Domain/interfaces/Seed.md), `api`: [`Api`](../namespaces/Domain/interfaces/Api.md), `options?`: [`AgentOptions`](../type-aliases/AgentOptions.md)): `Agent`
-
-Defined in: [src/edge-agent/Agent.ts:61](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L61)
-
-Creates an instance of Agent.
-
-#### Parameters
-
-| Parameter | Type |
+| Type Parameter | Default type |
 | ------ | ------ |
-| `apollo` | [`Apollo`](../namespaces/Domain/interfaces/Apollo.md) |
-| `castor` | [`Castor`](../namespaces/Domain/interfaces/Castor.md) |
-| `pluto` | [`Pluto`](../namespaces/Domain/interfaces/Pluto.md) |
-| `mercury` | [`Mercury`](../namespaces/Domain/interfaces/Mercury.md) |
-| `seed` | [`Seed`](../namespaces/Domain/interfaces/Seed.md) |
-| `api` | [`Api`](../namespaces/Domain/interfaces/Api.md) |
-| `options?` | [`AgentOptions`](../type-aliases/AgentOptions.md) |
-
-#### Returns
-
-`Agent`
-
-#### Overrides
-
-[`Controller`](../namespaces/Domain/namespaces/Startable/classes/Controller.md).[`constructor`](../namespaces/Domain/namespaces/Startable/classes/Controller.md#constructor)
+| `Extras` *extends* readonly `DIDMethodInput`[] | readonly \[\] |
 
 ## Properties
 
-| Property | Modifier | Type | Default value | Description | Inherited from | Defined in |
-| ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-| <a id="api"></a> `api` | `readonly` | [`Api`](../namespaces/Domain/interfaces/Api.md) | `undefined` | - | - | [src/edge-agent/Agent.ts:67](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L67) |
-| <a id="apollo"></a> `apollo` | `readonly` | [`Apollo`](../namespaces/Domain/interfaces/Apollo.md) | `undefined` | - | - | [src/edge-agent/Agent.ts:62](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L62) |
-| <a id="backup"></a> `backup` | `public` | [`AgentBackup`](AgentBackup.md) | `undefined` | - | - | [src/edge-agent/Agent.ts:51](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L51) |
-| <a id="castor"></a> `castor` | `readonly` | [`Castor`](../namespaces/Domain/interfaces/Castor.md) | `undefined` | - | - | [src/edge-agent/Agent.ts:63](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L63) |
-| <a id="connections"></a> `connections` | `readonly` | [`ConnectionsManager`](ConnectionsManager.md) | `undefined` | - | - | [src/edge-agent/Agent.ts:52](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L52) |
-| <a id="events"></a> `events` | `readonly` | [`EventsManager`](EventsManager.md) | `undefined` | - | - | [src/edge-agent/Agent.ts:53](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L53) |
-| <a id="jobs"></a> `jobs` | `readonly` | [`JobManager`](JobManager.md) | `undefined` | - | - | [src/edge-agent/Agent.ts:54](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L54) |
-| <a id="mercury"></a> `mercury` | `readonly` | [`Mercury`](../namespaces/Domain/interfaces/Mercury.md) | `undefined` | - | - | [src/edge-agent/Agent.ts:65](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L65) |
-| <a id="plugins"></a> `plugins` | `readonly` | [`PluginManager`](PluginManager.md) | `undefined` | - | - | [src/edge-agent/Agent.ts:55](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L55) |
-| <a id="pluto"></a> `pluto` | `readonly` | [`Pluto`](../namespaces/Domain/interfaces/Pluto.md) | `undefined` | - | - | [src/edge-agent/Agent.ts:64](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L64) |
-| <a id="seed"></a> `seed` | `readonly` | [`Seed`](../namespaces/Domain/interfaces/Seed.md) | `undefined` | - | - | [src/edge-agent/Agent.ts:66](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L66) |
-| <a id="state"></a> `state` | `public` | [`State`](../namespaces/Domain/namespaces/Startable/enumerations/State.md) | `State.STOPPED` | current status of the entity | [`Controller`](../namespaces/Domain/namespaces/Startable/classes/Controller.md).[`state`](../namespaces/Domain/namespaces/Startable/classes/Controller.md#state) | [src/domain/protocols/Startable.ts:42](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L42) |
+| Property | Modifier | Type | Description | Inherited from | Defined in |
+| ------ | ------ | ------ | ------ | ------ | ------ |
+| <a id="property-api"></a> `api` | `readonly` | [`Api`](../namespaces/Domain/interfaces/Api.md) | - | - | [packages/lib/sdk/src/edge-agent/Agent.ts:91](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L91) |
+| <a id="property-apollo"></a> `apollo` | `readonly` | [`Apollo`](../namespaces/Domain/interfaces/Apollo.md) | - | - | [packages/lib/sdk/src/edge-agent/Agent.ts:86](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L86) |
+| <a id="property-backup"></a> `backup` | `public` | [`AgentBackup`](AgentBackup.md) | - | - | [packages/lib/sdk/src/edge-agent/Agent.ts:79](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L79) |
+| <a id="property-castor"></a> `castor` | `readonly` | [`Castor`](Castor.md)\<`Extras`\> | - | - | [packages/lib/sdk/src/edge-agent/Agent.ts:87](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L87) |
+| <a id="property-connections"></a> `connections` | `readonly` | [`ConnectionsManager`](ConnectionsManager.md) | - | - | [packages/lib/sdk/src/edge-agent/Agent.ts:80](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L80) |
+| <a id="property-events"></a> `events` | `readonly` | [`EventsManager`](EventsManager.md) | - | - | [packages/lib/sdk/src/edge-agent/Agent.ts:81](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L81) |
+| <a id="property-jobs"></a> `jobs` | `readonly` | [`JobManager`](JobManager.md) | - | - | [packages/lib/sdk/src/edge-agent/Agent.ts:82](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L82) |
+| <a id="property-mercury"></a> `mercury` | `readonly` | [`Mercury`](../namespaces/Domain/interfaces/Mercury.md) | - | - | [packages/lib/sdk/src/edge-agent/Agent.ts:89](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L89) |
+| <a id="property-plugins"></a> `plugins` | `readonly` | [`PluginManager`](PluginManager.md) | - | - | [packages/lib/sdk/src/edge-agent/Agent.ts:83](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L83) |
+| <a id="property-pluto"></a> `pluto` | `readonly` | [`Pluto`](../namespaces/Domain/interfaces/Pluto.md) | - | - | [packages/lib/sdk/src/edge-agent/Agent.ts:88](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L88) |
+| <a id="property-seed"></a> `seed` | `readonly` | [`SeedFunction`](../type-aliases/SeedFunction.md) | - | - | [packages/lib/sdk/src/edge-agent/Agent.ts:90](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L90) |
+| <a id="property-state"></a> `state` | `public` | [`State`](../namespaces/Domain/namespaces/Startable/enumerations/State.md) | current status of the entity | [`Controller`](../namespaces/Domain/namespaces/Startable/classes/Controller.md).[`state`](../namespaces/Domain/namespaces/Startable/classes/Controller.md#property-state) | packages/shared/domain/build/index.d.ts:2330 |
 
 ## Accessors
 
@@ -71,7 +53,7 @@ Creates an instance of Agent.
 
 > **get** **currentMediatorDID**(): [`DID`](../namespaces/Domain/classes/DID.md) \| `undefined`
 
-Defined in: [src/edge-agent/Agent.ts:183](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L183)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:223](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L223)
 
 ##### Deprecated
 
@@ -81,13 +63,27 @@ Get current mediator DID if available or null
 
 [`DID`](../namespaces/Domain/classes/DID.md) \| `undefined`
 
+***
+
+### runtimeContext {#runtimecontext}
+
+#### Get Signature
+
+> **get** **runtimeContext**(): [`AgentContext`](AgentContext.md)
+
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:229](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L229)
+
+##### Returns
+
+[`AgentContext`](AgentContext.md)
+
 ## Methods
 
 ### ~~acceptDIDCommInvitation()~~ {#acceptdidcomminvitation}
 
 > **acceptDIDCommInvitation**(`invitation`: [`OutOfBandInvitation`](../../plugins/internal/didcomm/classes/OutOfBandInvitation.md), `alias?`: `string`): `Promise`\<`void`\>
 
-Defined in: [src/edge-agent/Agent.ts:366](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L366)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:520](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L520)
 
 Asyncronously accept a didcomm v2 invitation, will create a pair between the Agent
  its connecting with and the current owner's did
@@ -96,7 +92,7 @@ Asyncronously accept a didcomm v2 invitation, will create a pair between the Age
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `invitation` | [`OutOfBandInvitation`](../../plugins/internal/didcomm/classes/OutOfBandInvitation.md) |  |
+| `invitation` | [`OutOfBandInvitation`](../../plugins/internal/didcomm/classes/OutOfBandInvitation.md) | - |
 | `alias?` | `string` | - |
 
 #### Returns
@@ -111,9 +107,9 @@ Asyncronously accept a didcomm v2 invitation, will create a pair between the Age
 
 ### acceptInvitation() {#acceptinvitation}
 
-> **acceptInvitation**(`invitation`: [`InvitationType`](../type-aliases/InvitationType.md), `optionalAlias?`: `string`): `Promise`\<`void`\>
+> **acceptInvitation**(`invitation`: [`InvitationType`](../../plugins/internal/didcomm/type-aliases/InvitationType.md), `optionalAlias?`: `string`): `Promise`\<`void`\>
 
-Defined in: [src/edge-agent/Agent.ts:288](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L288)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:442](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L442)
 
 Handle an invitation based on it's type
 
@@ -126,7 +122,7 @@ Handle an invitation based on it's type
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `invitation` | [`InvitationType`](../type-aliases/InvitationType.md) | an OOB or PrismOnboarding invitation |
+| `invitation` | [`InvitationType`](../../plugins/internal/didcomm/type-aliases/InvitationType.md) | an OOB or PrismOnboarding invitation |
 | `optionalAlias?` | `string` | - |
 
 #### Returns
@@ -139,7 +135,7 @@ Handle an invitation based on it's type
 
 > **addListener**\<`T`\>(`eventName`: `T`, `callback`: [`EventCallback`](../type-aliases/EventCallback.md)\<`T`\>): `number`
 
-Defined in: [src/edge-agent/Agent.ts:160](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L160)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:200](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L200)
 
 Add an event listener to get notified from an Event "MESSAGE"
 
@@ -153,8 +149,8 @@ Add an event listener to get notified from an Event "MESSAGE"
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `eventName` | `T` |  |
-| `callback` | [`EventCallback`](../type-aliases/EventCallback.md)\<`T`\> |  |
+| `eventName` | `T` | - |
+| `callback` | [`EventCallback`](../type-aliases/EventCallback.md)\<`T`\> | - |
 
 #### Returns
 
@@ -162,11 +158,62 @@ Add an event listener to get notified from an Event "MESSAGE"
 
 ***
 
-### createNewPeerDID() {#createnewpeerdid}
+### createDID() {#createdid}
 
-> **createNewPeerDID**(`services?`: [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[], `updateMediator?`: `boolean`): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
+> **createDID**\<`M`\>(`method`: `M`, `opts`: [`CreatePayloadOf`](../type-aliases/CreatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\> & \{ `alias?`: `string`; \}): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
 
-Defined in: [src/edge-agent/Agent.ts:243](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L243)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:306](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L306)
+
+Create a new DID using the specified method, store it in Pluto,
+and (for peer DIDs) update the mediator key list.
+
+The method name is statically checked against the DID methods actually
+registered on this Agent (the built-in `prism` / `peer` plus any
+custom ones supplied via [Agent.initialize](#initialize)) and the payload
+type is inferred directly from the matching DID method instance.
+
+#### Type Parameters
+
+| Type Parameter | Description |
+| ------ | ------ |
+| `M` *extends* `string` | registered DID method name (e.g. `"prism"`, `"peer"`, or a custom method) |
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `method` | `M` | the DID method to use |
+| `opts` | [`CreatePayloadOf`](../type-aliases/CreatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\> & \{ `alias?`: `string`; \} | method-specific creation options; may include an optional `alias` string that is persisted alongside the DID |
+
+#### Returns
+
+`Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
+
+the newly created DID
+
+#### Example
+
+```ts
+const prismDID = await agent.createDID('prism', {
+  keys: { MASTER_KEY: masterSK },
+  alias: 'my-issuer',
+});
+
+const peerDID = await agent.createDID('peer', {
+  keys: {
+    AUTHENTICATION_KEY: [authSK],
+    KEY_AGREEMENT_KEY: [agreementSK],
+  },
+});
+```
+
+***
+
+### createPeerDID() {#createpeerdid}
+
+> **createPeerDID**(`services?`: [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[], `updateMediator?`: `boolean`): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
+
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:397](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L397)
 
 Asyncronously Create a new PeerDID
 
@@ -174,30 +221,8 @@ Asyncronously Create a new PeerDID
 
 | Parameter | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| `services?` | [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[] | `[]` |  |
-| `updateMediator?` | `boolean` | `true` |  |
-
-#### Returns
-
-`Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
-
-***
-
-### createNewPrismDID() {#createnewprismdid}
-
-> **createNewPrismDID**(`alias`: `string`, `services?`: [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[], `keyPathIndex?`: `number`): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
-
-Defined in: [src/edge-agent/Agent.ts:226](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L226)
-
-Asyncronously create a new PrismDID
-
-#### Parameters
-
-| Parameter | Type | Default value | Description |
-| ------ | ------ | ------ | ------ |
-| `alias` | `string` | `undefined` |  |
-| `services?` | [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[] | `[]` |  |
-| `keyPathIndex?` | `number` | `undefined` |  |
+| `services?` | [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[] | `[]` | - |
+| `updateMediator?` | `boolean` | `true` | - |
 
 #### Returns
 
@@ -209,7 +234,7 @@ Asyncronously create a new PrismDID
 
 > **createPresentationForRequestProof**(`request`: [`RequestPresentation`](../../plugins/internal/oea/classes/RequestPresentation.md), `credential`: [`Credential`](../namespaces/Domain/classes/Credential.md)): `Promise`\<[`Presentation`](../../plugins/internal/oea/classes/Presentation.md)\>
 
-Defined in: [src/edge-agent/Agent.ts:522](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L522)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:677](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L677)
 
 Asyncronously create a verifiablePresentation from a valid stored verifiableCredential
 This is used when the verified requests a specific verifiable credential, this will create the actual
@@ -219,8 +244,8 @@ instance of the presentation which we can share with the verifier.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `request` | [`RequestPresentation`](../../plugins/internal/oea/classes/RequestPresentation.md) |  |
-| `credential` | [`Credential`](../namespaces/Domain/classes/Credential.md) |  |
+| `request` | [`RequestPresentation`](../../plugins/internal/oea/classes/RequestPresentation.md) | - |
+| `credential` | [`Credential`](../namespaces/Domain/classes/Credential.md) | - |
 
 #### Returns
 
@@ -228,11 +253,63 @@ instance of the presentation which we can share with the verifier.
 
 ***
 
+### createPrismDID() {#createprismdid}
+
+> **createPrismDID**(`alias`: `string`, `services?`: [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[], `keyPathIndex?`: `number`): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
+
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:381](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L381)
+
+Asyncronously create a new PrismDID
+
+#### Parameters
+
+| Parameter | Type | Default value | Description |
+| ------ | ------ | ------ | ------ |
+| `alias` | `string` | `undefined` | - |
+| `services?` | [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[] | `[]` | - |
+| `keyPathIndex?` | `number` | `undefined` | - |
+
+#### Returns
+
+`Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
+
+***
+
+### deactivateDID() {#deactivatedid}
+
+> **deactivateDID**\<`M`\>(`method`: `M`, `opts`: [`DeactivatePayloadOf`](../type-aliases/DeactivatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>): `Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
+
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:366](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L366)
+
+Deactivate a DID via its registered method.
+
+The method name and payload are statically checked against the DID
+methods registered on this Agent.
+
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `M` *extends* `string` |
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `method` | `M` |
+| `opts` | [`DeactivatePayloadOf`](../type-aliases/DeactivatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\> |
+
+#### Returns
+
+`Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
+
+***
+
 ### handle() {#handle}
 
 > **handle**(`message`: [`Message`](../namespaces/Domain/classes/Message.md)): `Promise`\<`any`\>
 
-Defined in: [src/edge-agent/Agent.ts:426](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L426)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:580](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L580)
 
 Find and execute a task registered for the given Message.piuri
 
@@ -240,7 +317,7 @@ Find and execute a task registered for the given Message.piuri
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `message` | [`Message`](../namespaces/Domain/classes/Message.md) |  |
+| `message` | [`Message`](../namespaces/Domain/classes/Message.md) | - |
 
 #### Returns
 
@@ -252,7 +329,7 @@ Find and execute a task registered for the given Message.piuri
 
 > **handlePresentation**(`presentation`: [`Presentation`](../../plugins/internal/oea/classes/Presentation.md)): `Promise`\<`boolean`\>
 
-Defined in: [src/edge-agent/Agent.ts:568](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L568)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:723](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L723)
 
 Initiate the Presentation and presentationSubmission
 
@@ -260,7 +337,7 @@ Initiate the Presentation and presentationSubmission
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `presentation` | [`Presentation`](../../plugins/internal/oea/classes/Presentation.md) |  |
+| `presentation` | [`Presentation`](../../plugins/internal/oea/classes/Presentation.md) | - |
 
 #### Returns
 
@@ -270,9 +347,9 @@ Initiate the Presentation and presentationSubmission
 
 ### initiatePresentationRequest() {#initiatepresentationrequest}
 
-> **initiatePresentationRequest**\<`T`\>(`type`: `T`, `toDID`: [`DID`](../namespaces/Domain/classes/DID.md), `presentationClaims`: [`PresentationClaims`](../namespaces/Domain/type-aliases/PresentationClaims.md)\<`T`\>): `Promise`\<[`RequestPresentation`](../../plugins/internal/oea/classes/RequestPresentation.md)\>
+> **initiatePresentationRequest**\<`T`\>(`type`: `T`, `toDID`: [`DID`](../namespaces/Domain/classes/DID.md), `presentationClaims`: [`PresentationClaims`](../../plugins/internal/oea/type-aliases/PresentationClaims.md)\<`T`\>): `Promise`\<[`RequestPresentation`](../../plugins/internal/oea/classes/RequestPresentation.md)\>
 
-Defined in: [src/edge-agent/Agent.ts:555](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L555)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:710](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L710)
 
 Initiate a PresentationRequest from the SDK, to create oob Verification Requests
 
@@ -280,15 +357,15 @@ Initiate a PresentationRequest from the SDK, to create oob Verification Requests
 
 | Type Parameter | Default type |
 | ------ | ------ |
-| `T` *extends* [`CredentialType`](../namespaces/Domain/enumerations/CredentialType.md) | [`JWT`](../namespaces/Domain/enumerations/CredentialType.md#jwt) |
+| `T` *extends* [`CredentialType`](../../plugins/internal/oea/enumerations/CredentialType.md) | [`JWT`](../../plugins/internal/oea/enumerations/CredentialType.md#enumeration-member-jwt) |
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `type` | `T` |  |
-| `toDID` | [`DID`](../namespaces/Domain/classes/DID.md) |  |
-| `presentationClaims` | [`PresentationClaims`](../namespaces/Domain/type-aliases/PresentationClaims.md)\<`T`\> |  |
+| `type` | `T` | - |
+| `toDID` | [`DID`](../namespaces/Domain/classes/DID.md) | - |
+| `presentationClaims` | [`PresentationClaims`](../../plugins/internal/oea/type-aliases/PresentationClaims.md)\<`T`\> | - |
 
 #### Returns
 
@@ -318,13 +395,13 @@ Initiate a PresentationRequest from the SDK, to create oob Verification Requests
 
 > **isCredentialRevoked**(`credential`: [`Credential`](../namespaces/Domain/classes/Credential.md)): `Promise`\<`boolean`\>
 
-Defined in: [src/edge-agent/Agent.ts:442](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L442)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:596](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L596)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `credential` | [`Credential`](../namespaces/Domain/classes/Credential.md) |  |
+| `credential` | [`Credential`](../namespaces/Domain/classes/Credential.md) | - |
 
 #### Returns
 
@@ -334,9 +411,9 @@ Defined in: [src/edge-agent/Agent.ts:442](https://github.com/hyperledger/identus
 
 ### parseInvitation() {#parseinvitation}
 
-> **parseInvitation**(`str`: `string`): `Promise`\<[`InvitationType`](../type-aliases/InvitationType.md)\>
+> **parseInvitation**(`str`: `string`): `Promise`\<[`InvitationType`](../../plugins/internal/didcomm/type-aliases/InvitationType.md)\>
 
-Defined in: [src/edge-agent/Agent.ts:271](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L271)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:425](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L425)
 
 Asyncronously parse an invitation from a valid json string
 
@@ -344,11 +421,11 @@ Asyncronously parse an invitation from a valid json string
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `str` | `string` |  |
+| `str` | `string` | - |
 
 #### Returns
 
-`Promise`\<[`InvitationType`](../type-aliases/InvitationType.md)\>
+`Promise`\<[`InvitationType`](../../plugins/internal/didcomm/type-aliases/InvitationType.md)\>
 
 ***
 
@@ -356,7 +433,7 @@ Asyncronously parse an invitation from a valid json string
 
 > **parseOOBInvitation**(`url`: `URL`): `Promise`\<[`OutOfBandInvitation`](../../plugins/internal/didcomm/classes/OutOfBandInvitation.md)\>
 
-Defined in: [src/edge-agent/Agent.ts:346](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L346)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:500](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L500)
 
 Asyncronously parse an out of band invitation from a URI as the oob come in format of valid URL
 
@@ -364,7 +441,7 @@ Asyncronously parse an out of band invitation from a URI as the oob come in form
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `url` | `URL` |  |
+| `url` | `URL` | - |
 
 #### Returns
 
@@ -376,7 +453,7 @@ Asyncronously parse an out of band invitation from a URI as the oob come in form
 
 > **parsePrismInvitation**(`str`: `string`): `Promise`\<[`PrismOnboardingInvitation`](../../plugins/internal/didcomm/classes/PrismOnboardingInvitation.md)\>
 
-Defined in: [src/edge-agent/Agent.ts:307](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L307)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:461](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L461)
 
 Asyncronously parse a prismOnboarding invitation from a string
 
@@ -384,7 +461,7 @@ Asyncronously parse a prismOnboarding invitation from a string
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `str` | `string` |  |
+| `str` | `string` | - |
 
 #### Returns
 
@@ -396,7 +473,7 @@ Asyncronously parse a prismOnboarding invitation from a string
 
 > **prepareRequestCredentialWithIssuer**(`offer`: [`OfferCredential`](../../plugins/internal/didcomm/classes/OfferCredential.md)): `Promise`\<[`RequestCredential`](../../plugins/internal/didcomm/classes/RequestCredential.md)\>
 
-Defined in: [src/edge-agent/Agent.ts:489](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L489)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:644](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L644)
 
 Asyncronously prepare a request credential message from a valid offerCredential for now supporting w3c verifiable credentials offers.
 
@@ -404,7 +481,7 @@ Asyncronously prepare a request credential message from a valid offerCredential 
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `offer` | [`OfferCredential`](../../plugins/internal/didcomm/classes/OfferCredential.md) |  |
+| `offer` | [`OfferCredential`](../../plugins/internal/didcomm/classes/OfferCredential.md) | - |
 
 #### Returns
 
@@ -416,7 +493,7 @@ Asyncronously prepare a request credential message from a valid offerCredential 
 
 > **processIssuedCredentialMessage**(`issueCredential`: [`IssueCredential`](../../plugins/internal/didcomm/classes/IssueCredential.md)): `Promise`\<[`Credential`](../namespaces/Domain/classes/Credential.md)\>
 
-Defined in: [src/edge-agent/Agent.ts:504](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L504)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:659](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L659)
 
 Extract the verifiableCredential object from the Issue credential message asyncronously
 
@@ -424,7 +501,7 @@ Extract the verifiableCredential object from the Issue credential message asyncr
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `issueCredential` | [`IssueCredential`](../../plugins/internal/didcomm/classes/IssueCredential.md) |  |
+| `issueCredential` | [`IssueCredential`](../../plugins/internal/didcomm/classes/IssueCredential.md) | - |
 
 #### Returns
 
@@ -432,11 +509,42 @@ Extract the verifiableCredential object from the Issue credential message asyncr
 
 ***
 
+### publishDID() {#publishdid}
+
+> **publishDID**\<`M`\>(`method`: `M`, `opts`: [`PublishPayloadOf`](../type-aliases/PublishPayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>): `Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
+
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:340](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L340)
+
+Publish a DID via its registered method.
+
+The method name and payload are statically checked against the DID
+methods registered on this Agent; the return type is the metadata
+type declared by the matching DID method instance.
+
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `M` *extends* `string` |
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `method` | `M` |
+| `opts` | [`PublishPayloadOf`](../type-aliases/PublishPayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\> |
+
+#### Returns
+
+`Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
+
+***
+
 ### removeListener() {#removelistener}
 
 > **removeListener**\<`T`\>(`eventName`: `T`, `callback`: [`EventCallback`](../type-aliases/EventCallback.md)\<`T`\>): `void`
 
-Defined in: [src/edge-agent/Agent.ts:170](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L170)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:210](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L210)
 
 Remove event listener, used by stop procedure
 
@@ -450,8 +558,8 @@ Remove event listener, used by stop procedure
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `eventName` | `T` |  |
-| `callback` | [`EventCallback`](../type-aliases/EventCallback.md)\<`T`\> |  |
+| `eventName` | `T` | - |
+| `callback` | [`EventCallback`](../type-aliases/EventCallback.md)\<`T`\> | - |
 
 #### Returns
 
@@ -461,17 +569,16 @@ Remove event listener, used by stop procedure
 
 ### ~~revealCredentialFields()~~ {#revealcredentialfields}
 
-> **revealCredentialFields**(`credential`: [`Credential`](../namespaces/Domain/classes/Credential.md), `fields`: `string`[], `linkSecret`: `string`): `Promise`\<\{ \}\>
+> **revealCredentialFields**(`credential`: [`Credential`](../namespaces/Domain/classes/Credential.md), `fields`: `string`[]): `Promise`\<\{ \}\>
 
-Defined in: [src/edge-agent/Agent.ts:463](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L463)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:620](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L620)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `credential` | [`Credential`](../namespaces/Domain/classes/Credential.md) |  |
+| `credential` | [`Credential`](../namespaces/Domain/classes/Credential.md) | - |
 | `fields` | `string`[] | - |
-| `linkSecret` | `string` | - |
 
 #### Returns
 
@@ -487,9 +594,9 @@ Anoncreds will really need to be disclosed as the fields are encoded.
 
 ### runTask() {#runtask}
 
-> **runTask**\<`T`\>(`task`: [`Task`](../namespaces/Utils/classes/Task.md)\<`T`\>): `Promise`\<`T`\>
+> **runTask**\<`T`\>(`task`: `Task`\<`T`\>): `Promise`\<`T`\>
 
-Defined in: [src/edge-agent/Agent.ts:195](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L195)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:256](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L256)
 
 run the given Task
 
@@ -503,7 +610,7 @@ run the given Task
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `task` | [`Task`](../namespaces/Utils/classes/Task.md)\<`T`\> |  |
+| `task` | `Task`\<`T`\> | - |
 
 #### Returns
 
@@ -517,7 +624,7 @@ run the given Task
 
 > **send**(`message`: [`ApiRequest`](../namespaces/Domain/classes/ApiRequest.md)): `Promise`\<[`ApiResponse`](../namespaces/Domain/classes/ApiResponse.md)\<`unknown`\> \| `undefined`\>
 
-Defined in: [src/edge-agent/Agent.ts:413](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L413)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:567](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L567)
 
 Handle sending a Protocol
 
@@ -525,7 +632,7 @@ Handle sending a Protocol
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `message` | [`ApiRequest`](../namespaces/Domain/classes/ApiRequest.md) |  |
+| `message` | [`ApiRequest`](../namespaces/Domain/classes/ApiRequest.md) | - |
 
 ##### Returns
 
@@ -535,7 +642,7 @@ Handle sending a Protocol
 
 > **send**(`message`: [`Message`](../namespaces/Domain/classes/Message.md)): `Promise`\<[`Message`](../namespaces/Domain/classes/Message.md) \| `undefined`\>
 
-Defined in: [src/edge-agent/Agent.ts:414](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L414)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:568](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L568)
 
 Handle sending a Protocol
 
@@ -543,7 +650,7 @@ Handle sending a Protocol
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `message` | [`Message`](../namespaces/Domain/classes/Message.md) |  |
+| `message` | [`Message`](../namespaces/Domain/classes/Message.md) | - |
 
 ##### Returns
 
@@ -553,9 +660,9 @@ Handle sending a Protocol
 
 ### ~~sendMessage()~~ {#sendmessage}
 
-> **sendMessage**(`message`: [`ApiRequest`](../namespaces/Domain/classes/ApiRequest.md) \| [`Message`](../namespaces/Domain/classes/Message.md)): `Promise`\<[`Message`](../namespaces/Domain/classes/Message.md) \| `undefined`\>
+> **sendMessage**(`message`: [`Message`](../namespaces/Domain/classes/Message.md) \| [`ApiRequest`](../namespaces/Domain/classes/ApiRequest.md)): `Promise`\<[`Message`](../namespaces/Domain/classes/Message.md) \| `undefined`\>
 
-Defined in: [src/edge-agent/Agent.ts:402](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L402)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:556](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L556)
 
 Asyncronously send a didcomm Message
 
@@ -563,7 +670,7 @@ Asyncronously send a didcomm Message
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `message` | [`ApiRequest`](../namespaces/Domain/classes/ApiRequest.md) \| [`Message`](../namespaces/Domain/classes/Message.md) |  |
+| `message` | [`Message`](../namespaces/Domain/classes/Message.md) \| [`ApiRequest`](../namespaces/Domain/classes/ApiRequest.md) | - |
 
 #### Returns
 
@@ -579,7 +686,7 @@ use `send` instead
 
 > **signWith**(`did`: [`DID`](../namespaces/Domain/classes/DID.md), `message`: `Uint8Array`): `Promise`\<[`Signature`](../namespaces/Domain/interfaces/Signature.md)\>
 
-Defined in: [src/edge-agent/Agent.ts:259](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L259)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:413](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L413)
 
 Asyncronously sign a message with a DID
 
@@ -587,8 +694,8 @@ Asyncronously sign a message with a DID
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `did` | [`DID`](../namespaces/Domain/classes/DID.md) |  |
-| `message` | `Uint8Array` |  |
+| `did` | [`DID`](../namespaces/Domain/classes/DID.md) | - |
+| `message` | `Uint8Array` | - |
 
 #### Returns
 
@@ -600,7 +707,7 @@ Asyncronously sign a message with a DID
 
 > **start**(): `Promise`\<[`State`](../namespaces/Domain/namespaces/Startable/enumerations/State.md)\>
 
-Defined in: [src/domain/protocols/Startable.ts:62](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L62)
+Defined in: packages/shared/domain/build/index.d.ts:2347
 
 handle the startup of an entity
 
@@ -620,7 +727,7 @@ updates `state` according to lifecycle
 
 > **startFetchingMessages**(`period?`: `number`): `Promise`\<`void`\>
 
-Defined in: [src/edge-agent/Agent.ts:381](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L381)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:535](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L535)
 
 Start the fetch messages long running job
 
@@ -630,7 +737,7 @@ sends a PickupRequest to all mediator connections
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `period?` | `number` |  |
+| `period?` | `number` | - |
 
 #### Returns
 
@@ -642,7 +749,7 @@ sends a PickupRequest to all mediator connections
 
 > **stop**(): `Promise`\<[`State`](../namespaces/Domain/namespaces/Startable/enumerations/State.md)\>
 
-Defined in: [src/domain/protocols/Startable.ts:72](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L72)
+Defined in: packages/shared/domain/build/index.d.ts:2348
 
 handle the teardown of an entity
 
@@ -662,7 +769,7 @@ updates `state` according to lifecycle
 
 > **stopFetchingMessages**(): `void`
 
-Defined in: [src/edge-agent/Agent.ts:390](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L390)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:544](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L544)
 
 Stop the fetch message long running job
 
@@ -672,11 +779,41 @@ Stop the fetch message long running job
 
 ***
 
+### updateDID() {#updatedid}
+
+> **updateDID**\<`M`\>(`method`: `M`, `opts`: [`UpdatePayloadOf`](../type-aliases/UpdatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>): `Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
+
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:353](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L353)
+
+Update a DID via its registered method.
+
+The method name and payload are statically checked against the DID
+methods registered on this Agent.
+
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `M` *extends* `string` |
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `method` | `M` |
+| `opts` | [`UpdatePayloadOf`](../type-aliases/UpdatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\> |
+
+#### Returns
+
+`Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
+
+***
+
 ### verifiableCredentials() {#verifiablecredentials}
 
 > **verifiableCredentials**(): `Promise`\<[`Credential`](../namespaces/Domain/classes/Credential.md)[]\>
 
-Defined in: [src/edge-agent/Agent.ts:478](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L478)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:633](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L633)
 
 Asyncronously get all verifiable credentials
 
@@ -688,27 +825,39 @@ Asyncronously get all verifiable credentials
 
 ### initialize() {#initialize}
 
-> `static` **initialize**(`params`: \{ `api?`: [`Api`](../namespaces/Domain/interfaces/Api.md); `apollo?`: [`Apollo`](../namespaces/Domain/interfaces/Apollo.md); `castor?`: [`Castor`](../namespaces/Domain/interfaces/Castor.md); `mediatorDID?`: `string` \| [`DID`](../namespaces/Domain/classes/DID.md); `mercury?`: [`Mercury`](../namespaces/Domain/interfaces/Mercury.md); `options?`: [`AgentOptions`](../type-aliases/AgentOptions.md); `pluto`: [`Pluto`](../namespaces/Domain/interfaces/Pluto.md); `seed?`: [`Seed`](../namespaces/Domain/interfaces/Seed.md); \}): `Agent`
+> `static` **initialize**\<`ExtraMethods`\>(`params`: \{ `api?`: [`Api`](../namespaces/Domain/interfaces/Api.md); `apollo?`: [`Apollo`](../namespaces/Domain/interfaces/Apollo.md); `castor?`: [`Castor`](Castor.md)\<`ExtraMethods`\>; `didMethods?`: `ExtraMethods`; `mediatorDID?`: `string` \| [`DID`](../namespaces/Domain/classes/DID.md); `mercury?`: [`Mercury`](../namespaces/Domain/interfaces/Mercury.md); `options?`: [`AgentOptions`](../type-aliases/AgentOptions.md); `pluto`: [`Pluto`](../namespaces/Domain/interfaces/Pluto.md); `seed?`: [`SeedFunction`](../type-aliases/SeedFunction.md); \}): `Agent`\<`ExtraMethods`\>
 
-Defined in: [src/edge-agent/Agent.ts:97](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.ts#L97)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.ts:127](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.ts#L127)
 
 Convenience initializer for Agent
-allowing default instantiation, omitting all but the absolute necessary parameters
+allowing default instantiation, omitting all but the absolute necessary parameters.
+
+DID methods registered through the top-level `didMethods` param are
+propagated through to the Agent's type parameter, so `agent.createDID`
+and friends are fully typed against them (defaults `"prism" | "peer"`
+plus any extras).
+
+#### Type Parameters
+
+| Type Parameter | Default type |
+| ------ | ------ |
+| `ExtraMethods` *extends* readonly `DIDMethodInput`[] | readonly \[\] |
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `params` | \{ `api?`: [`Api`](../namespaces/Domain/interfaces/Api.md); `apollo?`: [`Apollo`](../namespaces/Domain/interfaces/Apollo.md); `castor?`: [`Castor`](../namespaces/Domain/interfaces/Castor.md); `mediatorDID?`: `string` \| [`DID`](../namespaces/Domain/classes/DID.md); `mercury?`: [`Mercury`](../namespaces/Domain/interfaces/Mercury.md); `options?`: [`AgentOptions`](../type-aliases/AgentOptions.md); `pluto`: [`Pluto`](../namespaces/Domain/interfaces/Pluto.md); `seed?`: [`Seed`](../namespaces/Domain/interfaces/Seed.md); \} | dependencies object |
-| `params.api?` | [`Api`](../namespaces/Domain/interfaces/Api.md) |  |
-| `params.apollo?` | [`Apollo`](../namespaces/Domain/interfaces/Apollo.md) |  |
-| `params.castor?` | [`Castor`](../namespaces/Domain/interfaces/Castor.md) |  |
+| `params` | \{ `api?`: [`Api`](../namespaces/Domain/interfaces/Api.md); `apollo?`: [`Apollo`](../namespaces/Domain/interfaces/Apollo.md); `castor?`: [`Castor`](Castor.md)\<`ExtraMethods`\>; `didMethods?`: `ExtraMethods`; `mediatorDID?`: `string` \| [`DID`](../namespaces/Domain/classes/DID.md); `mercury?`: [`Mercury`](../namespaces/Domain/interfaces/Mercury.md); `options?`: [`AgentOptions`](../type-aliases/AgentOptions.md); `pluto`: [`Pluto`](../namespaces/Domain/interfaces/Pluto.md); `seed?`: [`SeedFunction`](../type-aliases/SeedFunction.md); \} | dependencies object |
+| `params.api?` | [`Api`](../namespaces/Domain/interfaces/Api.md) | - |
+| `params.apollo?` | [`Apollo`](../namespaces/Domain/interfaces/Apollo.md) | - |
+| `params.castor?` | [`Castor`](Castor.md)\<`ExtraMethods`\> | - |
+| `params.didMethods?` | `ExtraMethods` | custom DID methods to register alongside the built-in prism/peer methods |
 | `params.mediatorDID?` | `string` \| [`DID`](../namespaces/Domain/classes/DID.md) | did of the mediator to be used |
-| `params.mercury?` | [`Mercury`](../namespaces/Domain/interfaces/Mercury.md) |  |
+| `params.mercury?` | [`Mercury`](../namespaces/Domain/interfaces/Mercury.md) | - |
 | `params.options?` | [`AgentOptions`](../type-aliases/AgentOptions.md) | - |
 | `params.pluto` | [`Pluto`](../namespaces/Domain/interfaces/Pluto.md) | storage implementation |
-| `params.seed?` | [`Seed`](../namespaces/Domain/interfaces/Seed.md) |  |
+| `params.seed?` | [`SeedFunction`](../type-aliases/SeedFunction.md) | - |
 
 #### Returns
 
-`Agent`
+`Agent`\<`ExtraMethods`\>

@@ -6,7 +6,7 @@
 
 # Interface: HandshakeRequestBody
 
-Defined in: [src/plugins/internal/oea/protocols/HandshakeRequest.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/protocols/HandshakeRequest.ts#L11)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/HandshakeRequest.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/protocols/HandshakeRequest.ts#L11)
 
 No specification available
 
@@ -14,6 +14,6 @@ No specification available
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="accept"></a> `accept?` | `string`[] | [src/plugins/internal/oea/protocols/HandshakeRequest.ts:14](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/protocols/HandshakeRequest.ts#L14) |
-| <a id="goal"></a> `goal?` | `string` | [src/plugins/internal/oea/protocols/HandshakeRequest.ts:13](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/protocols/HandshakeRequest.ts#L13) |
-| <a id="goal_code"></a> `goal_code?` | `string` | [src/plugins/internal/oea/protocols/HandshakeRequest.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/protocols/HandshakeRequest.ts#L12) |
+| <a id="property-accept"></a> `accept?` | `string`[] | [packages/lib/sdk/src/plugins/internal/oea/protocols/HandshakeRequest.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/protocols/HandshakeRequest.ts#L14) |
+| <a id="property-goal"></a> `goal?` | `string` | [packages/lib/sdk/src/plugins/internal/oea/protocols/HandshakeRequest.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/protocols/HandshakeRequest.ts#L13) |
+| <a id="property-goal_code"></a> `goal_code?` | `string` | [packages/lib/sdk/src/plugins/internal/oea/protocols/HandshakeRequest.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/protocols/HandshakeRequest.ts#L12) |

@@ -10,7 +10,7 @@
 
 | Type Alias | Description |
 | ------ | ------ |
-| [Schema](type-aliases/Schema.md) | All supported backup schemas |
+| [Schema](type-aliases/Schema.md) | - |
 | [Version](type-aliases/Version.md) | - |
 
 ## Variables

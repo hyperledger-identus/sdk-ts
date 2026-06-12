@@ -6,11 +6,11 @@
 
 # Interface: Claims
 
-Defined in: [src/plugins/internal/anoncreds/types.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/types.ts#L18)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/types.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/types.ts#L18)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="attributes"></a> `attributes?` | `RequestedAttributes` | [src/plugins/internal/anoncreds/types.ts:19](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/types.ts#L19) |
-| <a id="predicates"></a> `predicates?` | `Record`\<`string`, [`AnoncredsInputFieldFilter`](AnoncredsInputFieldFilter.md)\> | [src/plugins/internal/anoncreds/types.ts:20](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/types.ts#L20) |
+| <a id="property-attributes"></a> `attributes?` | `RequestedAttributes` | [packages/lib/sdk/src/plugins/internal/anoncreds/types.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/types.ts#L19) |
+| <a id="property-predicates"></a> `predicates?` | `Record`\<`string`, [`AnoncredsInputFieldFilter`](AnoncredsInputFieldFilter.md)\> | [packages/lib/sdk/src/plugins/internal/anoncreds/types.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/types.ts#L20) |

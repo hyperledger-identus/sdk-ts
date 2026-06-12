@@ -6,7 +6,7 @@
 
 # Class: LinkSecret
 
-Defined in: [src/domain/models/LinkSecret.ts:3](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/LinkSecret.ts#L3)
+Defined in: packages/shared/domain/build/index.d.ts:1696
 
 Storable
 define properties a Domain object must implement to be compatible with Pluto
@@ -19,16 +19,16 @@ define properties a Domain object must implement to be compatible with Pluto
 
 ### Constructor
 
-> **new LinkSecret**(`secret`: `string`, `name`: `string`): `LinkSecret`
+> **new LinkSecret**(`secret`: `string`, `name?`: `string`): `LinkSecret`
 
-Defined in: [src/domain/models/LinkSecret.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/LinkSecret.ts#L8)
+Defined in: packages/shared/domain/build/index.d.ts:1701
 
 #### Parameters
 
-| Parameter | Type | Default value |
-| ------ | ------ | ------ |
-| `secret` | `string` | `undefined` |
-| `name` | `string` | `LinkSecret.defaultName` |
+| Parameter | Type |
+| ------ | ------ |
+| `secret` | `string` |
+| `name?` | `string` |
 
 #### Returns
 
@@ -36,9 +36,9 @@ Defined in: [src/domain/models/LinkSecret.ts:8](https://github.com/hyperledger/i
 
 ## Properties
 
-| Property | Modifier | Type | Default value | Description | Defined in |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| <a id="name"></a> `name` | `readonly` | `string` | `LinkSecret.defaultName` | - | [src/domain/models/LinkSecret.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/LinkSecret.ts#L10) |
-| <a id="secret"></a> `secret` | `readonly` | `string` | `undefined` | - | [src/domain/models/LinkSecret.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/LinkSecret.ts#L9) |
-| <a id="uuid"></a> `uuid` | `readonly` | `string` | `undefined` | Universally Unique Identifier. should be unique across all items. | [src/domain/models/LinkSecret.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/LinkSecret.ts#L6) |
-| <a id="defaultname"></a> `defaultName` | `static` | `string` | `"default"` | - | [src/domain/models/LinkSecret.ts:4](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/LinkSecret.ts#L4) |
+| Property | Modifier | Type | Description | Defined in |
+| ------ | ------ | ------ | ------ | ------ |
+| <a id="property-name"></a> `name` | `readonly` | `string` | - | packages/shared/domain/build/index.d.ts:1698 |
+| <a id="property-secret"></a> `secret` | `readonly` | `string` | - | packages/shared/domain/build/index.d.ts:1697 |
+| <a id="property-uuid"></a> `uuid` | `readonly` | `string` | Universally Unique Identifier. should be unique across all items. | packages/shared/domain/build/index.d.ts:1700 |
+| <a id="property-defaultname"></a> `defaultName` | `static` | `string` | - | packages/shared/domain/build/index.d.ts:1699 |

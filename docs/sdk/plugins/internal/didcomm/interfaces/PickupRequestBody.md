@@ -6,7 +6,7 @@
 
 # Interface: PickupRequestBody
 
-Defined in: [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L8)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L8)
 
 Specification:
 https://didcomm.org/messagepickup/3.0/
@@ -15,5 +15,5 @@ https://didcomm.org/messagepickup/3.0/
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="limit"></a> `limit` | `number` | [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L10) |
-| <a id="recipient_did"></a> `recipient_did?` | `string` | [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L12) |
+| <a id="property-limit"></a> `limit` | `number` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L10) |
+| <a id="property-recipient_did"></a> `recipient_did?` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L12) |

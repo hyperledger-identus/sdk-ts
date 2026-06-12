@@ -6,12 +6,12 @@
 
 # Enumeration: ListenerKey
 
-Defined in: [src/edge-agent/types/index.ts:60](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/types/index.ts#L60)
+Defined in: [packages/lib/sdk/src/edge-agent/types.ts:69](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/types.ts#L69)
 
 ## Enumeration Members
 
 | Enumeration Member | Value | Defined in |
 | ------ | ------ | ------ |
-| <a id="connection"></a> `CONNECTION` | `"connection"` | [src/edge-agent/types/index.ts:62](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/types/index.ts#L62) |
-| <a id="message"></a> `MESSAGE` | `"message"` | [src/edge-agent/types/index.ts:61](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/types/index.ts#L61) |
-| <a id="revoke"></a> `REVOKE` | `"revoke"` | [src/edge-agent/types/index.ts:63](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/types/index.ts#L63) |
+| <a id="enumeration-member-connection"></a> `CONNECTION` | `"connection"` | [packages/lib/sdk/src/edge-agent/types.ts:71](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/types.ts#L71) |
+| <a id="enumeration-member-message"></a> `MESSAGE` | `"message"` | [packages/lib/sdk/src/edge-agent/types.ts:70](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/types.ts#L70) |
+| <a id="enumeration-member-revoke"></a> `REVOKE` | `"revoke"` | [packages/lib/sdk/src/edge-agent/types.ts:72](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/types.ts#L72) |

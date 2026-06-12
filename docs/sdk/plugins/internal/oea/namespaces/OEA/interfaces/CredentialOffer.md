@@ -6,12 +6,12 @@
 
 # Interface: CredentialOffer
 
-Defined in: [src/plugins/internal/oea/types.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L18)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L35)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="options"></a> `options` | \{ `challenge`: `string`; `domain`: `string`; \} | [src/plugins/internal/oea/types.ts:19](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L19) |
-| `options.challenge` | `string` | [src/plugins/internal/oea/types.ts:20](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L20) |
-| `options.domain` | `string` | [src/plugins/internal/oea/types.ts:21](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L21) |
+| <a id="property-options"></a> `options` | \{ `challenge`: `string`; `domain`: `string`; \} | [packages/lib/sdk/src/plugins/internal/oea/types.ts:36](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L36) |
+| `options.challenge` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:37](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L37) |
+| `options.domain` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:38](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L38) |

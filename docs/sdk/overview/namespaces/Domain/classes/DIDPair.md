@@ -6,7 +6,7 @@
 
 # Class: DIDPair
 
-Defined in: [src/domain/models/DIDPair.ts:3](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDPair.ts#L3)
+Defined in: packages/shared/domain/build/index.d.ts:239
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [src/domain/models/DIDPair.ts:3](https://github.com/hyperledger/iden
 
 > **new DIDPair**(`host`: [`DID`](DID.md), `receiver`: [`DID`](DID.md), `name`: `string`): `DIDPair`
 
-Defined in: [src/domain/models/DIDPair.ts:4](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDPair.ts#L4)
+Defined in: packages/shared/domain/build/index.d.ts:243
 
 #### Parameters
 
@@ -32,6 +32,6 @@ Defined in: [src/domain/models/DIDPair.ts:4](https://github.com/hyperledger/iden
 
 | Property | Modifier | Type | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="host"></a> `host` | `readonly` | [`DID`](DID.md) | [src/domain/models/DIDPair.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDPair.ts#L5) |
-| <a id="name"></a> `name` | `readonly` | `string` | [src/domain/models/DIDPair.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDPair.ts#L7) |
-| <a id="receiver"></a> `receiver` | `readonly` | [`DID`](DID.md) | [src/domain/models/DIDPair.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDPair.ts#L6) |
+| <a id="property-host"></a> `host` | `readonly` | [`DID`](DID.md) | packages/shared/domain/build/index.d.ts:240 |
+| <a id="property-name"></a> `name` | `readonly` | `string` | packages/shared/domain/build/index.d.ts:242 |
+| <a id="property-receiver"></a> `receiver` | `readonly` | [`DID`](DID.md) | packages/shared/domain/build/index.d.ts:241 |

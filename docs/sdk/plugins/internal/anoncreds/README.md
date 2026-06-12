@@ -6,15 +6,25 @@
 
 # plugins/internal/anoncreds
 
+<!-- title: Anoncreds -->
+<!-- sidebar_label: Anoncreds -->
+<!-- sidebar_position: 1 -->
+
 This export contains the Anoncreds plugin for the Identus SDK.
+
+## Enumerations
+
+| Enumeration | Description |
+| ------ | ------ |
+| [AnonCredsCredentialProperties](enumerations/AnonCredsCredentialProperties.md) | - |
 
 ## Classes
 
 | Class | Description |
 | ------ | ------ |
-| [AnoncredsLoader](classes/AnoncredsLoader.md) | AnoncredsLoader handle loading and access of anoncreds library Singleton to prevent recompilation of wasm |
-| [FetchCredentialDefinition](classes/FetchCredentialDefinition.md) | A Task encapsulates a unit of work |
-| [fetchSchema](classes/fetchSchema.md) | A Task encapsulates a unit of work |
+| [AnonCredsCredential](classes/AnonCredsCredential.md) | Storable define properties a Domain object must implement to be compatible with Pluto |
+| [FetchCredentialDefinition](classes/FetchCredentialDefinition.md) | - |
+| [fetchSchema](classes/fetchSchema.md) | - |
 
 ## Interfaces
 

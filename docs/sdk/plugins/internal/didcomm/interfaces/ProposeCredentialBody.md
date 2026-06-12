@@ -6,7 +6,7 @@
 
 # Interface: ProposeCredentialBody
 
-Defined in: [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L12)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L12)
 
 Specification:
 https://github.com/decentralized-identity/waci-didcomm/tree/main/issue_credential#propose-credential
@@ -15,6 +15,6 @@ https://github.com/decentralized-identity/waci-didcomm/tree/main/issue_credentia
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="comment"></a> `comment?` | `string` | [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:16](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L16) |
-| <a id="credential_preview"></a> `credential_preview?` | [`CredentialPreview`](CredentialPreview.md) | [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L18) |
-| <a id="goal_code"></a> `goal_code?` | `string` | [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:14](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L14) |
+| <a id="property-comment"></a> `comment?` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L16) |
+| <a id="property-credential_preview"></a> `credential_preview?` | [`CredentialPreview`](CredentialPreview.md) | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L18) |
+| <a id="property-goal_code"></a> `goal_code?` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L14) |

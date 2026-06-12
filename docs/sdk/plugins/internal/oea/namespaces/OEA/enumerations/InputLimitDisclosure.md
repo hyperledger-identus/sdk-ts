@@ -6,11 +6,11 @@
 
 # Enumeration: InputLimitDisclosure
 
-Defined in: [src/plugins/internal/oea/types.ts:119](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L119)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:136](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L136)
 
 ## Enumeration Members
 
 | Enumeration Member | Value | Defined in |
 | ------ | ------ | ------ |
-| <a id="preferred"></a> `PREFERRED` | `"preferred"` | [src/plugins/internal/oea/types.ts:121](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L121) |
-| <a id="required"></a> `REQUIRED` | `"required"` | [src/plugins/internal/oea/types.ts:120](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L120) |
+| <a id="enumeration-member-preferred"></a> `PREFERRED` | `"preferred"` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:138](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L138) |
+| <a id="enumeration-member-required"></a> `REQUIRED` | `"required"` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:137](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L137) |

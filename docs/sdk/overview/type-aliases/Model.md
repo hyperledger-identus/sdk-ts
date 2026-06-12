@@ -8,8 +8,8 @@
 
 > **Model** = [`Storable`](../namespaces/Domain/namespaces/Pluto/interfaces/Storable.md)
 
-Defined in: [src/pluto/models/Model.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Model.ts#L8)
+Defined in: [packages/lib/sdk/src/pluto/types.ts:30](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/types.ts#L30)
 
-Define common properties
+Base model type shared by every Pluto storable entity.
 
-  - uuid: Universally Unique Identifier
+Every model must carry a `uuid` string that uniquely identifies the record.

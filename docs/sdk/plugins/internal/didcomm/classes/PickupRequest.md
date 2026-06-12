@@ -6,7 +6,7 @@
 
 # Class: PickupRequest
 
-Defined in: [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:15](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L15)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L15)
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:15](
 
 > **new PickupRequest**(`body`: [`PickupRequestBody`](../interfaces/PickupRequestBody.md), `from`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md), `to`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md)): `PickupRequest`
 
-Defined in: [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L18)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L18)
 
 #### Parameters
 
@@ -32,10 +32,10 @@ Defined in: [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:18](
 
 | Property | Modifier | Type | Default value | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="body"></a> `body` | `public` | [`PickupRequestBody`](../interfaces/PickupRequestBody.md) | `undefined` | [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:19](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L19) |
-| <a id="from"></a> `from` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:20](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L20) |
-| <a id="to"></a> `to` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:21](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L21) |
-| <a id="type"></a> `type` | `static` | `"https://didcomm.org/messagepickup/3.0/delivery-request"` | `ProtocolIds.PickupRequest` | [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:16](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L16) |
+| <a id="property-body"></a> `body` | `public` | [`PickupRequestBody`](../interfaces/PickupRequestBody.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L19) |
+| <a id="property-from"></a> `from` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L20) |
+| <a id="property-to"></a> `to` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L21) |
+| <a id="property-type"></a> `type` | `static` | `"https://didcomm.org/messagepickup/3.0/delivery-request"` | `ProtocolIds.PickupRequest` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L16) |
 
 ## Methods
 
@@ -43,7 +43,7 @@ Defined in: [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:18](
 
 > **makeMessage**(): [`Message`](../../../../overview/namespaces/Domain/classes/Message.md)
 
-Defined in: [src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:24](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L24)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts:24](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupRequest.ts#L24)
 
 #### Returns
 

@@ -6,7 +6,7 @@
 
 # Class: DIDDocument
 
-Defined in: [src/domain/models/DIDDocument.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L5)
+Defined in: packages/shared/domain/build/index.d.ts:917
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [src/domain/models/DIDDocument.ts:5](https://github.com/hyperledger/
 
 > **new DIDDocument**(`id`: [`DID`](DID.md), `coreProperties`: [`CoreProperty`](../namespaces/DIDDocument/type-aliases/CoreProperty.md)[]): `DIDDocument`
 
-Defined in: [src/domain/models/DIDDocument.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L6)
+Defined in: packages/shared/domain/build/index.d.ts:920
 
 #### Parameters
 
@@ -29,10 +29,10 @@ Defined in: [src/domain/models/DIDDocument.ts:6](https://github.com/hyperledger/
 
 ## Properties
 
-| Property | Modifier | Type | Defined in |
-| ------ | ------ | ------ | ------ |
-| <a id="coreproperties"></a> `coreProperties` | `public` | [`CoreProperty`](../namespaces/DIDDocument/type-aliases/CoreProperty.md)[] | [src/domain/models/DIDDocument.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L8) |
-| <a id="id"></a> `id` | `public` | [`DID`](DID.md) | [src/domain/models/DIDDocument.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L7) |
+| Property | Type | Defined in |
+| ------ | ------ | ------ |
+| <a id="property-coreproperties"></a> `coreProperties` | [`CoreProperty`](../namespaces/DIDDocument/type-aliases/CoreProperty.md)[] | packages/shared/domain/build/index.d.ts:919 |
+| <a id="property-id"></a> `id` | [`DID`](DID.md) | packages/shared/domain/build/index.d.ts:918 |
 
 ## Accessors
 
@@ -42,7 +42,7 @@ Defined in: [src/domain/models/DIDDocument.ts:6](https://github.com/hyperledger/
 
 > **get** **assertionMethod**(): [`VerificationMethod`](../namespaces/DIDDocument/classes/VerificationMethod.md)[]
 
-Defined in: [src/domain/models/DIDDocument.ts:39](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L39)
+Defined in: packages/shared/domain/build/index.d.ts:925
 
 ##### Returns
 
@@ -56,7 +56,7 @@ Defined in: [src/domain/models/DIDDocument.ts:39](https://github.com/hyperledger
 
 > **get** **authentication**(): [`VerificationMethod`](../namespaces/DIDDocument/classes/VerificationMethod.md)[]
 
-Defined in: [src/domain/models/DIDDocument.ts:17](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L17)
+Defined in: packages/shared/domain/build/index.d.ts:922
 
 ##### Returns
 
@@ -70,7 +70,7 @@ Defined in: [src/domain/models/DIDDocument.ts:17](https://github.com/hyperledger
 
 > **get** **capabilityDelegation**(): [`VerificationMethod`](../namespaces/DIDDocument/classes/VerificationMethod.md)[]
 
-Defined in: [src/domain/models/DIDDocument.ts:32](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L32)
+Defined in: packages/shared/domain/build/index.d.ts:924
 
 ##### Returns
 
@@ -84,7 +84,7 @@ Defined in: [src/domain/models/DIDDocument.ts:32](https://github.com/hyperledger
 
 > **get** **capabilityInvocation**(): [`VerificationMethod`](../namespaces/DIDDocument/classes/VerificationMethod.md)[]
 
-Defined in: [src/domain/models/DIDDocument.ts:25](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L25)
+Defined in: packages/shared/domain/build/index.d.ts:923
 
 ##### Returns
 
@@ -98,7 +98,7 @@ Defined in: [src/domain/models/DIDDocument.ts:25](https://github.com/hyperledger
 
 > **get** **keyAgreement**(): [`VerificationMethod`](../namespaces/DIDDocument/classes/VerificationMethod.md)[]
 
-Defined in: [src/domain/models/DIDDocument.ts:46](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L46)
+Defined in: packages/shared/domain/build/index.d.ts:926
 
 ##### Returns
 
@@ -112,7 +112,7 @@ Defined in: [src/domain/models/DIDDocument.ts:46](https://github.com/hyperledger
 
 > **get** **services**(): [`Service`](../namespaces/DIDDocument/classes/Service.md)[]
 
-Defined in: [src/domain/models/DIDDocument.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L11)
+Defined in: packages/shared/domain/build/index.d.ts:921
 
 ##### Returns
 
@@ -126,7 +126,7 @@ Defined in: [src/domain/models/DIDDocument.ts:11](https://github.com/hyperledger
 
 > **get** **verificationMethods**(): [`VerificationMethod`](../namespaces/DIDDocument/classes/VerificationMethod.md)[]
 
-Defined in: [src/domain/models/DIDDocument.ts:54](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L54)
+Defined in: packages/shared/domain/build/index.d.ts:927
 
 ##### Returns
 
@@ -138,7 +138,7 @@ Defined in: [src/domain/models/DIDDocument.ts:54](https://github.com/hyperledger
 
 > `static` **cloneWithNewDID**(`doc`: `DIDDocument`, `newDid`: [`DID`](DID.md)): `DIDDocument`
 
-Defined in: [src/domain/models/DIDDocument.ts:190](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L190)
+Defined in: packages/shared/domain/build/index.d.ts:930
 
 #### Parameters
 
@@ -157,7 +157,7 @@ Defined in: [src/domain/models/DIDDocument.ts:190](https://github.com/hyperledge
 
 > `static` **fromJSON**(`didDocumentJson`: `any`): `DIDDocument`
 
-Defined in: [src/domain/models/DIDDocument.ts:62](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L62)
+Defined in: packages/shared/domain/build/index.d.ts:929
 
 #### Parameters
 

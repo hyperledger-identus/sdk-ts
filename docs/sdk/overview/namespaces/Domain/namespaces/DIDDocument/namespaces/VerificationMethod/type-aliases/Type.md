@@ -8,4 +8,4 @@
 
 > **Type** = `"JsonWebKey2020"` \| `"Ed25519VerificationKey2018"` \| `"Ed25519VerificationKey2020"` \| `"X25519KeyAgreementKey2019"` \| `"X25519KeyAgreementKey2020"` \| `"EcdsaSecp256k1VerificationKey2019"`
 
-Defined in: [src/domain/models/DIDDocument.ts:282](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L282)
+Defined in: packages/shared/domain/build/index.d.ts:944

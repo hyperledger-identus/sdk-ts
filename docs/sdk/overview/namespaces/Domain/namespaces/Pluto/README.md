@@ -12,8 +12,8 @@
 | ------ | ------ |
 | [Storable](interfaces/Storable.md) | Storable define properties a Domain object must implement to be compatible with Pluto |
 
-## Functions
+## Variables
 
-| Function | Description |
+| Variable | Description |
 | ------ | ------ |
-| [makeUUID](functions/makeUUID.md) | - |
+| [makeUUID](variables/makeUUID.md) | - |

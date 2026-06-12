@@ -6,13 +6,27 @@
 
 # Interface: SchemaGenerator\<T\>
 
-Defined in: [src/pluto/models/Schema.ts:67](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Schema.ts#L67)
+Defined in: [packages/lib/sdk/src/pluto/types.ts:260](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/types.ts#L260)
+
+Builder interface used inside schemaFactory callbacks
+to declaratively define a Model's schema.
+
+## Example
+
+```ts
+schemaFactory<MyModel>(schema => {
+  schema.addProperty("string", "name");
+  schema.setRequired("name");
+  schema.setEncrypted("name");
+  schema.setVersion(1);
+});
+```
 
 ## Type Parameters
 
-| Type Parameter |
-| ------ |
-| `T` |
+| Type Parameter | Description |
+| ------ | ------ |
+| `T` | The Model interface the schema describes. |
 
 ## Methods
 
@@ -20,22 +34,24 @@ Defined in: [src/pluto/models/Schema.ts:67](https://github.com/hyperledger/ident
 
 #### Call Signature
 
-> **addProperty**\<`P`\>(`type`: `P`, `key`: [`KeysFor`](../type-aliases/KeysFor.md)\<`T`, `P`\>, `opts?`: `any`): `void`
+> **addProperty**\<`P`\>(`type`: `P`, `key`: `KeysFor`\<`T`, `P`\>, `opts?`: `any`): `void`
 
-Defined in: [src/pluto/models/Schema.ts:68](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Schema.ts#L68)
+Defined in: [packages/lib/sdk/src/pluto/types.ts:262](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/types.ts#L262)
+
+Register a property with a RIDB field type.
 
 ##### Type Parameters
 
 | Type Parameter |
 | ------ |
-| `P` *extends* [`PropertyTypes`](../type-aliases/PropertyTypes.md) |
+| `P` *extends* `"string"` \| `"number"` \| `"boolean"` \| `"object"` \| `"array"` |
 
 ##### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
 | `type` | `P` |
-| `key` | [`KeysFor`](../type-aliases/KeysFor.md)\<`T`, `P`\> |
+| `key` | `KeysFor`\<`T`, `P`\> |
 | `opts?` | `any` |
 
 ##### Returns
@@ -44,15 +60,15 @@ Defined in: [src/pluto/models/Schema.ts:68](https://github.com/hyperledger/ident
 
 #### Call Signature
 
-> **addProperty**(`type`: [`PropertyTypes`](../type-aliases/PropertyTypes.md), `key`: `string`, `opts?`: `any`): `void`
+> **addProperty**(`type`: `"string"` \| `"number"` \| `"boolean"` \| `"object"` \| `"array"`, `key`: `string`, `opts?`: `any`): `void`
 
-Defined in: [src/pluto/models/Schema.ts:69](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Schema.ts#L69)
+Defined in: [packages/lib/sdk/src/pluto/types.ts:263](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/types.ts#L263)
 
 ##### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `type` | [`PropertyTypes`](../type-aliases/PropertyTypes.md) |
+| `type` | `"string"` \| `"number"` \| `"boolean"` \| `"object"` \| `"array"` |
 | `key` | `string` |
 | `opts?` | `any` |
 
@@ -66,7 +82,9 @@ Defined in: [src/pluto/models/Schema.ts:69](https://github.com/hyperledger/ident
 
 > **setEncrypted**\<`K`\>(...`keys`: `K`[]): `K`[]
 
-Defined in: [src/pluto/models/Schema.ts:70](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Schema.ts#L70)
+Defined in: [packages/lib/sdk/src/pluto/types.ts:265](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/types.ts#L265)
+
+Mark one or more properties as encrypted-at-rest.
 
 #### Type Parameters
 
@@ -88,15 +106,17 @@ Defined in: [src/pluto/models/Schema.ts:70](https://github.com/hyperledger/ident
 
 ### setRequired() {#setrequired}
 
-> **setRequired**(...`keys`: [`StringKeys`](../type-aliases/StringKeys.md)\<`T`\>[]): `void`
+> **setRequired**(...`keys`: `Exclude`\<`Extract`\<keyof `T`, `string`\>, `"uuid"`\>[]): `void`
 
-Defined in: [src/pluto/models/Schema.ts:71](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Schema.ts#L71)
+Defined in: [packages/lib/sdk/src/pluto/types.ts:267](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/types.ts#L267)
+
+Mark one or more properties as required.
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| ...`keys` | [`StringKeys`](../type-aliases/StringKeys.md)\<`T`\>[] |
+| ...`keys` | `Exclude`\<`Extract`\<keyof `T`, `string`\>, `"uuid"`\>[] |
 
 #### Returns
 
@@ -108,7 +128,9 @@ Defined in: [src/pluto/models/Schema.ts:71](https://github.com/hyperledger/ident
 
 > **setVersion**(`version`: `number`): `void`
 
-Defined in: [src/pluto/models/Schema.ts:72](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Schema.ts#L72)
+Defined in: [packages/lib/sdk/src/pluto/types.ts:269](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/types.ts#L269)
+
+Set the schema version (used for migrations).
 
 #### Parameters
 

@@ -6,12 +6,13 @@
 
 # Interface: StorableKey
 
-Defined in: [src/domain/models/keyManagement/StorableKey.ts:2](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/StorableKey.ts#L2)
+Defined in: packages/shared/domain/build/index.d.ts:601
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="index"></a> `index?` | `number` | [src/domain/models/keyManagement/StorableKey.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/StorableKey.ts#L5) |
-| <a id="raw"></a> `raw` | `Uint8Array` | [src/domain/models/keyManagement/StorableKey.ts:4](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/StorableKey.ts#L4) |
-| <a id="recoveryid"></a> `recoveryId` | `string` | [src/domain/models/keyManagement/StorableKey.ts:3](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/StorableKey.ts#L3) |
+| <a id="property-data"></a> `data` | `Uint8Array` | packages/shared/domain/build/index.d.ts:604 |
+| <a id="property-index"></a> `index?` | `number` | packages/shared/domain/build/index.d.ts:605 |
+| <a id="property-raw"></a> `raw?` | `Uint8Array`\<`ArrayBufferLike`\> | packages/shared/domain/build/index.d.ts:603 |
+| <a id="property-recoveryid"></a> `recoveryId` | `string` | packages/shared/domain/build/index.d.ts:602 |

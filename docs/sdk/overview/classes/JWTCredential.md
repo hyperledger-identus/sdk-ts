@@ -6,7 +6,7 @@
 
 # Class: JWTCredential
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:51](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L51)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:53](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L53)
 
 Storable
 define properties a Domain object must implement to be compatible with Pluto
@@ -27,7 +27,7 @@ define properties a Domain object must implement to be compatible with Pluto
 
 > **new JWTCredential**(`payload`: `string`, `revoked?`: `boolean`): `JWTCredential`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:59](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L59)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:101](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L101)
 
 #### Parameters
 
@@ -46,15 +46,15 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:59](https://github.com
 
 ### Constructor
 
-> **new JWTCredential**(`payload`: [`JWTCredentialPayload`](../interfaces/JWTCredentialPayload.md) \| [`JWTPresentationPayload`](../interfaces/JWTPresentationPayload.md), `revoked?`: `boolean`): `JWTCredential`
+> **new JWTCredential**(`payload`: [`JWTPresentationPayload`](../interfaces/JWTPresentationPayload.md) \| [`JWTCredentialPayload`](../interfaces/JWTCredentialPayload.md), `revoked?`: `boolean`): `JWTCredential`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:60](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L60)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:102](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L102)
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `payload` | [`JWTCredentialPayload`](../interfaces/JWTCredentialPayload.md) \| [`JWTPresentationPayload`](../interfaces/JWTPresentationPayload.md) |
+| `payload` | [`JWTPresentationPayload`](../interfaces/JWTPresentationPayload.md) \| [`JWTCredentialPayload`](../interfaces/JWTCredentialPayload.md) |
 | `revoked?` | `boolean` |
 
 #### Returns
@@ -69,10 +69,10 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:60](https://github.com
 
 | Property | Modifier | Type | Default value | Description | Overrides | Inherited from | Defined in |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-| <a id="credentialtype"></a> `credentialType` | `public` | [`CredentialType`](../namespaces/Domain/enumerations/CredentialType.md) | `CredentialType.JWT` | - | [`Credential`](../namespaces/Domain/classes/Credential.md).[`credentialType`](../namespaces/Domain/classes/Credential.md#credentialtype) | - | [src/pollux/models/JWTVerifiableCredential.ts:55](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L55) |
-| <a id="properties"></a> `properties` | `public` | `Map`\<[`Claims`](../namespaces/Domain/namespaces/JWT/enumerations/Claims.md) \| [`JWT_VC_PROPS`](../enumerations/JWT_VC_PROPS.md) \| [`JWT_VP_PROPS`](../enumerations/JWT_VP_PROPS.md), `any`\> | `undefined` | - | [`Credential`](../namespaces/Domain/classes/Credential.md).[`properties`](../namespaces/Domain/classes/Credential.md#properties) | - | [src/pollux/models/JWTVerifiableCredential.ts:57](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L57) |
-| <a id="recoveryid"></a> `recoveryId` | `public` | `string` | `JWTVerifiableCredentialRecoveryId` | - | [`Credential`](../namespaces/Domain/classes/Credential.md).[`recoveryId`](../namespaces/Domain/classes/Credential.md#recoveryid) | - | [src/pollux/models/JWTVerifiableCredential.ts:56](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L56) |
-| <a id="uuid"></a> `uuid` | `readonly` | `string` | `undefined` | Universally Unique Identifier. should be unique across all items. | - | [`Storable`](../namespaces/Domain/namespaces/Pluto/interfaces/Storable.md).[`uuid`](../namespaces/Domain/namespaces/Pluto/interfaces/Storable.md#uuid) [`Credential`](../namespaces/Domain/classes/Credential.md).[`uuid`](../namespaces/Domain/classes/Credential.md#uuid) | [src/domain/models/Credential.ts:15](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Credential.ts#L15) |
+| <a id="property-credentialtype"></a> `credentialType` | `public` | [`CredentialType`](../../plugins/internal/oea/enumerations/CredentialType.md) | `CredentialType.JWT` | - | [`Credential`](../namespaces/Domain/classes/Credential.md).[`credentialType`](../namespaces/Domain/classes/Credential.md#property-credentialtype) | - | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:97](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L97) |
+| <a id="property-properties"></a> `properties` | `public` | `Map`\<[`Claims`](../namespaces/Domain/namespaces/JWT/enumerations/Claims.md) \| [`JWT_VP_PROPS`](../enumerations/JWT_VP_PROPS.md) \| [`JWT_VC_PROPS`](../enumerations/JWT_VC_PROPS.md), `any`\> | `undefined` | - | [`Credential`](../namespaces/Domain/classes/Credential.md).[`properties`](../namespaces/Domain/classes/Credential.md#property-properties) | - | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:99](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L99) |
+| <a id="property-recoveryid"></a> `recoveryId` | `public` | `string` | `JWTVerifiableCredentialRecoveryId` | - | [`Credential`](../namespaces/Domain/classes/Credential.md).[`recoveryId`](../namespaces/Domain/classes/Credential.md#property-recoveryid) | - | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:98](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L98) |
+| <a id="property-uuid"></a> `uuid` | `readonly` | `string` | `undefined` | Universally Unique Identifier. should be unique across all items. | - | [`Storable`](../namespaces/Domain/namespaces/Pluto/interfaces/Storable.md).[`uuid`](../namespaces/Domain/namespaces/Pluto/interfaces/Storable.md#property-uuid) [`Credential`](../namespaces/Domain/classes/Credential.md).[`uuid`](../namespaces/Domain/classes/Credential.md#property-uuid) | packages/shared/domain/build/index.d.ts:338 |
 
 ## Accessors
 
@@ -82,7 +82,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:60](https://github.com
 
 > **get** **audience**(): `any`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:359](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L359)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:389](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L389)
 
 ##### Returns
 
@@ -96,7 +96,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:359](https://github.co
 
 > **get** **claims**(): `Record`\<`string`, `any`\>[]
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:316](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L316)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:350](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L350)
 
 ##### Returns
 
@@ -104,7 +104,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:316](https://github.co
 
 #### Overrides
 
-[`Credential`](../namespaces/Domain/classes/Credential.md).[`claims`](../namespaces/Domain/classes/Credential.md#claims)
+[`Credential`](../namespaces/Domain/classes/Credential.md).[`claims`](../namespaces/Domain/classes/Credential.md#property-claims)
 
 ***
 
@@ -114,7 +114,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:316](https://github.co
 
 > **get** **context**(): \[`"https://www.w3.org/2018/credentials/v1"`\] \| \[`"https://www.w3.org/2018/presentations/v1"`\] \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:325](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L325)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:359](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L359)
 
 ##### Returns
 
@@ -128,7 +128,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:325](https://github.co
 
 > **get** **credentialSchema**(): \{ `id`: `string`; `type`: `string`; \} \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:329](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L329)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:363](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L363)
 
 ##### Returns
 
@@ -140,13 +140,13 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:329](https://github.co
 
 #### Get Signature
 
-> **get** **credentialStatus**(): `unknown`
+> **get** **credentialStatus**(): \{ `id`: `string`; `statusListCredential`: `string`; `statusListIndex`: `number`; `statusPurpose`: `"Revocation"` \| `"Suspension"`; `type`: `string`; \} \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:333](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L333)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:367](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L367)
 
 ##### Returns
 
-`unknown`
+\{ `id`: `string`; `statusListCredential`: `string`; `statusListIndex`: `number`; `statusPurpose`: `"Revocation"` \| `"Suspension"`; `type`: `string`; \} \| `undefined`
 
 ***
 
@@ -156,7 +156,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:333](https://github.co
 
 > **get** **credentialSubject**(): `Record`\<`string`, `any`\> \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:337](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L337)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:371](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L371)
 
 ##### Returns
 
@@ -170,7 +170,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:337](https://github.co
 
 > **get** **evidence**(): \{ `id`: `string`; `type`: `string`; \} \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:341](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L341)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:375](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L375)
 
 ##### Returns
 
@@ -184,7 +184,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:341](https://github.co
 
 > **get** **expirationDate**(): `string` \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:345](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L345)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:379](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L379)
 
 ##### Returns
 
@@ -198,7 +198,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:345](https://github.co
 
 > **get** **id**(): `any`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:292](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L292)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:330](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L330)
 
 ##### Returns
 
@@ -206,7 +206,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:292](https://github.co
 
 #### Overrides
 
-[`Credential`](../namespaces/Domain/classes/Credential.md).[`id`](../namespaces/Domain/classes/Credential.md#id)
+[`Credential`](../namespaces/Domain/classes/Credential.md).[`id`](../namespaces/Domain/classes/Credential.md#property-id)
 
 ***
 
@@ -216,7 +216,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:292](https://github.co
 
 > **get** **isCredential**(): `boolean`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:288](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L288)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:326](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L326)
 
 ##### Returns
 
@@ -230,7 +230,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:288](https://github.co
 
 > **get** **issuanceDate**(): `string`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:352](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L352)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:384](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L384)
 
 ##### Returns
 
@@ -242,17 +242,17 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:352](https://github.co
 
 #### Get Signature
 
-> **get** **issuer**(): `any`
+> **get** **issuer**(): `string`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:366](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L366)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:394](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L394)
 
 ##### Returns
 
-`any`
+`string`
 
 #### Overrides
 
-[`Credential`](../namespaces/Domain/classes/Credential.md).[`issuer`](../namespaces/Domain/classes/Credential.md#issuer)
+[`Credential`](../namespaces/Domain/classes/Credential.md).[`issuer`](../namespaces/Domain/classes/Credential.md#property-issuer)
 
 ***
 
@@ -262,7 +262,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:366](https://github.co
 
 > **get** **refreshService**(): \{ `id`: `string`; `type`: `string`; \} \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:373](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L373)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:399](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L399)
 
 ##### Returns
 
@@ -276,7 +276,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:373](https://github.co
 
 > **get** **revoked**(): `boolean` \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:385](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L385)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:411](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L411)
 
 ##### Returns
 
@@ -290,7 +290,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:385](https://github.co
 
 > **get** **subject**(): `string`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:377](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L377)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:403](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L403)
 
 ##### Returns
 
@@ -298,7 +298,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:377](https://github.co
 
 #### Overrides
 
-[`Credential`](../namespaces/Domain/classes/Credential.md).[`subject`](../namespaces/Domain/classes/Credential.md#subject)
+[`Credential`](../namespaces/Domain/classes/Credential.md).[`subject`](../namespaces/Domain/classes/Credential.md#property-subject)
 
 ***
 
@@ -308,7 +308,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:377](https://github.co
 
 > **get** **termsOfUse**(): \{ `id`: `string`; `type`: `string`; \} \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:393](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L393)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:419](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L419)
 
 ##### Returns
 
@@ -322,7 +322,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:393](https://github.co
 
 > **get** **type**(): \[`"VerifiableCredential"`\] \| \[`"VerifiablePresentation"`\] \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:397](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L397)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:423](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L423)
 
 ##### Returns
 
@@ -334,13 +334,13 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:397](https://github.co
 
 #### Get Signature
 
-> **get** **vc**(): [`W3CVerifiableCredential`](../namespaces/Domain/type-aliases/W3CVerifiableCredential.md) \| `undefined`
+> **get** **vc**(): [`W3CVerifiableCredential`](../../plugins/internal/oea/type-aliases/W3CVerifiableCredential.md) \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:300](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L300)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:334](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L334)
 
 ##### Returns
 
-[`W3CVerifiableCredential`](../namespaces/Domain/type-aliases/W3CVerifiableCredential.md) \| `undefined`
+[`W3CVerifiableCredential`](../../plugins/internal/oea/type-aliases/W3CVerifiableCredential.md) \| `undefined`
 
 ***
 
@@ -348,13 +348,13 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:300](https://github.co
 
 #### Get Signature
 
-> **get** **vp**(): [`W3CVerifiablePresentation`](../namespaces/Domain/type-aliases/W3CVerifiablePresentation.md) \| `undefined`
+> **get** **vp**(): [`W3CVerifiablePresentation`](../../plugins/internal/oea/type-aliases/W3CVerifiablePresentation.md) \| `undefined`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:308](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L308)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:342](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L342)
 
 ##### Returns
 
-[`W3CVerifiablePresentation`](../namespaces/Domain/type-aliases/W3CVerifiablePresentation.md) \| `undefined`
+[`W3CVerifiablePresentation`](../../plugins/internal/oea/type-aliases/W3CVerifiablePresentation.md) \| `undefined`
 
 ## Methods
 
@@ -362,7 +362,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:308](https://github.co
 
 > **getProperty**(`name`: `string`): `any`
 
-Defined in: [src/domain/models/Credential.ts:17](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Credential.ts#L17)
+Defined in: packages/shared/domain/build/index.d.ts:339
 
 #### Parameters
 
@@ -384,7 +384,7 @@ Defined in: [src/domain/models/Credential.ts:17](https://github.com/hyperledger/
 
 > **isProvable**(): `this is ProvableCredential`
 
-Defined in: [src/domain/models/Credential.ts:21](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Credential.ts#L21)
+Defined in: packages/shared/domain/build/index.d.ts:340
 
 #### Returns
 
@@ -400,7 +400,7 @@ Defined in: [src/domain/models/Credential.ts:21](https://github.com/hyperledger/
 
 > **isRevoked**(): `boolean`
 
-Defined in: [src/domain/models/Credential.ts:29](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Credential.ts#L29)
+Defined in: packages/shared/domain/build/index.d.ts:342
 
 #### Returns
 
@@ -416,7 +416,7 @@ Defined in: [src/domain/models/Credential.ts:29](https://github.com/hyperledger/
 
 > **isStorable**(): `this is StorableCredential`
 
-Defined in: [src/domain/models/Credential.ts:25](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Credential.ts#L25)
+Defined in: packages/shared/domain/build/index.d.ts:341
 
 #### Returns
 
@@ -430,13 +430,13 @@ Defined in: [src/domain/models/Credential.ts:25](https://github.com/hyperledger/
 
 ### presentation() {#presentation}
 
-> **presentation**(): [`W3CVerifiablePresentation`](../namespaces/Domain/type-aliases/W3CVerifiablePresentation.md)
+> **presentation**(): [`W3CVerifiablePresentation`](../../plugins/internal/oea/type-aliases/W3CVerifiablePresentation.md)
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:401](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L401)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:427](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L427)
 
 #### Returns
 
-[`W3CVerifiablePresentation`](../namespaces/Domain/type-aliases/W3CVerifiablePresentation.md)
+[`W3CVerifiablePresentation`](../../plugins/internal/oea/type-aliases/W3CVerifiablePresentation.md)
 
 #### Implementation of
 
@@ -446,24 +446,24 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:401](https://github.co
 
 ### toStorable() {#tostorable}
 
-> **toStorable**(): \{ `availableClaims`: `string`[]; `credentialData`: `string`; `id`: `any`; `issuer`: `any`; `recoveryId`: `string`; `revoked`: `boolean` \| `undefined`; `subject`: `any`; `validUntil`: `any`; \}
+> **toStorable**(): \{ `availableClaims`: `string`[]; `credentialData`: `string`; `id`: `any`; `issuer`: `string`; `recoveryId`: `string`; `revoked`: `boolean` \| `undefined`; `subject`: `any`; `validUntil`: `any`; \}
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:432](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L432)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:458](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L458)
 
 #### Returns
 
-\{ `availableClaims`: `string`[]; `credentialData`: `string`; `id`: `any`; `issuer`: `any`; `recoveryId`: `string`; `revoked`: `boolean` \| `undefined`; `subject`: `any`; `validUntil`: `any`; \}
+\{ `availableClaims`: `string`[]; `credentialData`: `string`; `id`: `any`; `issuer`: `string`; `recoveryId`: `string`; `revoked`: `boolean` \| `undefined`; `subject`: `any`; `validUntil`: `any`; \}
 
 | Name | Type | Default value | Defined in |
 | ------ | ------ | ------ | ------ |
-| `availableClaims` | `string`[] | `claims` | [src/pollux/models/JWTVerifiableCredential.ts:443](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L443) |
-| `credentialData` | `string` | - | [src/pollux/models/JWTVerifiableCredential.ts:439](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L439) |
-| `id` | `any` | - | [src/pollux/models/JWTVerifiableCredential.ts:437](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L437) |
-| `issuer` | `any` | - | [src/pollux/models/JWTVerifiableCredential.ts:440](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L440) |
-| `recoveryId` | `string` | - | [src/pollux/models/JWTVerifiableCredential.ts:438](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L438) |
-| `revoked` | `boolean` \| `undefined` | - | [src/pollux/models/JWTVerifiableCredential.ts:444](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L444) |
-| `subject` | `any` | - | [src/pollux/models/JWTVerifiableCredential.ts:441](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L441) |
-| `validUntil` | `any` | - | [src/pollux/models/JWTVerifiableCredential.ts:442](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L442) |
+| `availableClaims` | `string`[] | `claims` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:469](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L469) |
+| `credentialData` | `string` | - | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:465](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L465) |
+| `id` | `any` | - | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:463](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L463) |
+| `issuer` | `string` | - | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:466](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L466) |
+| `recoveryId` | `string` | - | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:464](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L464) |
+| `revoked` | `boolean` \| `undefined` | - | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:470](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L470) |
+| `subject` | `any` | - | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:467](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L467) |
+| `validUntil` | `any` | - | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:468](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L468) |
 
 #### Implementation of
 
@@ -473,13 +473,13 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:432](https://github.co
 
 ### verifiableCredential() {#verifiablecredential}
 
-> **verifiableCredential**(): [`W3CVerifiableCredential`](../namespaces/Domain/type-aliases/W3CVerifiableCredential.md)
+> **verifiableCredential**(): [`W3CVerifiableCredential`](../../plugins/internal/oea/type-aliases/W3CVerifiableCredential.md)
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:418](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L418)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:444](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L444)
 
 #### Returns
 
-[`W3CVerifiableCredential`](../namespaces/Domain/type-aliases/W3CVerifiableCredential.md)
+[`W3CVerifiableCredential`](../../plugins/internal/oea/type-aliases/W3CVerifiableCredential.md)
 
 #### Implementation of
 
@@ -491,7 +491,7 @@ Defined in: [src/pollux/models/JWTVerifiableCredential.ts:418](https://github.co
 
 > `static` **fromJWS**(`jws`: `string`, `revoked?`: `boolean`): `JWTCredential`
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:203](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L203)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:245](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L245)
 
 #### Parameters
 

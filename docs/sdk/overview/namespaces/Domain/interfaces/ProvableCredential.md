@@ -6,7 +6,7 @@
 
 # Interface: ProvableCredential
 
-Defined in: [src/domain/models/Credential.ts:35](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Credential.ts#L35)
+Defined in: packages/shared/domain/build/index.d.ts:344
 
 ## Methods
 
@@ -14,7 +14,7 @@ Defined in: [src/domain/models/Credential.ts:35](https://github.com/hyperledger/
 
 > **presentation**(): `unknown`
 
-Defined in: [src/domain/models/Credential.ts:36](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Credential.ts#L36)
+Defined in: packages/shared/domain/build/index.d.ts:345
 
 #### Returns
 
@@ -26,7 +26,7 @@ Defined in: [src/domain/models/Credential.ts:36](https://github.com/hyperledger/
 
 > **verifiableCredential**(): `unknown`
 
-Defined in: [src/domain/models/Credential.ts:37](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Credential.ts#L37)
+Defined in: packages/shared/domain/build/index.d.ts:346
 
 #### Returns
 

@@ -6,14 +6,14 @@
 
 # Interface: PresentationSubmission
 
-Defined in: [src/plugins/internal/oea/types.ts:50](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L50)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:67](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L67)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="presentation_submission"></a> `presentation_submission` | \{ `definition_id`: `string`; `descriptor_map`: [`DescriptorItem`](DescriptorItem.md)[]; `id`: `string`; \} | [src/plugins/internal/oea/types.ts:51](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L51) |
-| `presentation_submission.definition_id` | `string` | [src/plugins/internal/oea/types.ts:53](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L53) |
-| `presentation_submission.descriptor_map` | [`DescriptorItem`](DescriptorItem.md)[] | [src/plugins/internal/oea/types.ts:54](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L54) |
-| `presentation_submission.id` | `string` | [src/plugins/internal/oea/types.ts:52](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L52) |
-| <a id="verifiablepresentation"></a> `verifiablePresentation` | `string`[] | [src/plugins/internal/oea/types.ts:56](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L56) |
+| <a id="property-presentation_submission"></a> `presentation_submission` | \{ `definition_id`: `string`; `descriptor_map`: [`DescriptorItem`](DescriptorItem.md)[]; `id`: `string`; \} | [packages/lib/sdk/src/plugins/internal/oea/types.ts:68](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L68) |
+| `presentation_submission.definition_id` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:70](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L70) |
+| `presentation_submission.descriptor_map` | [`DescriptorItem`](DescriptorItem.md)[] | [packages/lib/sdk/src/plugins/internal/oea/types.ts:71](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L71) |
+| `presentation_submission.id` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:69](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L69) |
+| <a id="property-verifiablepresentation"></a> `verifiablePresentation` | `string`[] | [packages/lib/sdk/src/plugins/internal/oea/types.ts:73](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L73) |

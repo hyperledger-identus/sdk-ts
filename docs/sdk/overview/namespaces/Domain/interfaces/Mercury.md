@@ -6,7 +6,7 @@
 
 # Interface: Mercury
 
-Defined in: [src/domain/buildingBlocks/Mercury.ts:3](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Mercury.ts#L3)
+Defined in: packages/shared/domain/build/index.d.ts:2427
 
 ## Methods
 
@@ -14,7 +14,7 @@ Defined in: [src/domain/buildingBlocks/Mercury.ts:3](https://github.com/hyperled
 
 > **packMessage**(`message`: [`Message`](../classes/Message.md)): `Promise`\<`string`\>
 
-Defined in: [src/domain/buildingBlocks/Mercury.ts:4](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Mercury.ts#L4)
+Defined in: packages/shared/domain/build/index.d.ts:2428
 
 #### Parameters
 
@@ -32,7 +32,7 @@ Defined in: [src/domain/buildingBlocks/Mercury.ts:4](https://github.com/hyperled
 
 > **sendMessage**(`message`: [`Message`](../classes/Message.md)): `Promise`\<`Uint8Array`\<`ArrayBufferLike`\>\>
 
-Defined in: [src/domain/buildingBlocks/Mercury.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Mercury.ts#L6)
+Defined in: packages/shared/domain/build/index.d.ts:2430
 
 #### Parameters
 
@@ -50,7 +50,7 @@ Defined in: [src/domain/buildingBlocks/Mercury.ts:6](https://github.com/hyperled
 
 > **sendMessageParseMessage**(`message`: [`Message`](../classes/Message.md)): `Promise`\<[`Message`](../classes/Message.md) \| `undefined`\>
 
-Defined in: [src/domain/buildingBlocks/Mercury.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Mercury.ts#L7)
+Defined in: packages/shared/domain/build/index.d.ts:2431
 
 #### Parameters
 
@@ -68,7 +68,7 @@ Defined in: [src/domain/buildingBlocks/Mercury.ts:7](https://github.com/hyperled
 
 > **unpackMessage**(`message`: `string`): `Promise`\<[`Message`](../classes/Message.md)\>
 
-Defined in: [src/domain/buildingBlocks/Mercury.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Mercury.ts#L5)
+Defined in: packages/shared/domain/build/index.d.ts:2429
 
 #### Parameters
 

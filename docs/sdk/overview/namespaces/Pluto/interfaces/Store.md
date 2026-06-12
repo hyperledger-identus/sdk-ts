@@ -6,7 +6,7 @@
 
 # Interface: Store
 
-Defined in: [src/pluto/Pluto.ts:71](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/Pluto.ts#L71)
+Defined in: [packages/lib/sdk/src/pluto/Pluto.ts:73](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/Pluto.ts#L73)
 
 Store interface for Pluto persistence layer
 
@@ -35,9 +35,9 @@ Supported Tables:
 
 ### delete() {#delete}
 
-> **delete**(`table`: `string`, `uuid`: `string`): `Promise`\<`void`\>
+> **delete**(`table`: keyof [`CollectionMap`](../../../interfaces/CollectionMap.md), `uuid`: `string`): `Promise`\<`void`\>
 
-Defined in: [src/pluto/Pluto.ts:191](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/Pluto.ts#L191)
+Defined in: [packages/lib/sdk/src/pluto/Pluto.ts:193](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/Pluto.ts#L193)
 
 Delete a row from the Store
 
@@ -45,7 +45,7 @@ Delete a row from the Store
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `table` | `string` | Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages" |
+| `table` | keyof [`CollectionMap`](../../../interfaces/CollectionMap.md) | Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages" |
 | `uuid` | `string` | The unique identifier of the record to delete |
 
 #### Returns
@@ -74,9 +74,9 @@ Error if the record with the given uuid is not found or table name is not recogn
 
 ### insert() {#insert}
 
-> **insert**\<`T`\>(`table`: `string`, `model`: `T`): `Promise`\<`void`\>
+> **insert**\<`K`\>(`table`: `K`, `model`: [`CollectionMap`](../../../interfaces/CollectionMap.md)\[`K`\]): `Promise`\<`void`\>
 
-Defined in: [src/pluto/Pluto.ts:142](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/Pluto.ts#L142)
+Defined in: [packages/lib/sdk/src/pluto/Pluto.ts:144](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/Pluto.ts#L144)
 
 Persist new data in the Store.
 
@@ -84,14 +84,14 @@ Persist new data in the Store.
 
 | Type Parameter | Description |
 | ------ | ------ |
-| `T` *extends* [`Storable`](../../Domain/namespaces/Pluto/interfaces/Storable.md) | The model type that extends Models.Model (e.g., Models.Credential, Models.DID, Models.Key, etc.) |
+| `K` *extends* keyof [`CollectionMap`](../../../interfaces/CollectionMap.md) | Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages" |
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `table` | `string` | Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages" |
-| `model` | `T` | The model instance to persist. Must include all required properties and should have a valid uuid |
+| `table` | `K` | The table name |
+| `model` | [`CollectionMap`](../../../interfaces/CollectionMap.md)\[`K`\] | The model instance to persist. Must include all required properties and should have a valid uuid |
 
 #### Returns
 
@@ -110,7 +110,7 @@ Insert a new credential
     id: "credential-id",
     issuer: "did:example:issuer"
   };
-  await store.insert<Models.Credential>("credentials", credential);
+  await store.insert("credentials", credential);
 ```
 
 #### Throws
@@ -121,28 +121,28 @@ Error if the model is invalid or table name is not recognized
 
 ### query() {#query}
 
-> **query**\<`T`\>(`table`: `string`, `query?`: [`Query`](../../../type-aliases/Query.md)\<`T`\>): `Promise`\<`T`[]\>
+> **query**\<`K`\>(`table`: `K`, `query?`: [`Query`](../../../type-aliases/Query.md)\<[`CollectionSchemas`](../../../type-aliases/CollectionSchemas.md)\[`K`\]\>): `Promise`\<[`CollectionMap`](../../../interfaces/CollectionMap.md)\[`K`\][]\>
 
-Defined in: [src/pluto/Pluto.ts:117](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/Pluto.ts#L117)
+Defined in: [packages/lib/sdk/src/pluto/Pluto.ts:119](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/Pluto.ts#L119)
 
 Run a query to fetch data from the Store
 
 #### Type Parameters
 
-| Type Parameter | Description |
-| ------ | ------ |
-| `T` *extends* [`Storable`](../../Domain/namespaces/Pluto/interfaces/Storable.md) | The model type that extends Models.Model (e.g., Models.Credential, Models.DID, Models.Key, etc.) |
+| Type Parameter |
+| ------ |
+| `K` *extends* keyof [`CollectionMap`](../../../interfaces/CollectionMap.md) |
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `table` | `string` | Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages" |
-| `query?` | [`Query`](../../../type-aliases/Query.md)\<`T`\> | Optional Query object with selector conditions and operators for filtering results Query behavior: - Properties within an object will be AND'ed together - Different objects in $or array will be OR'd together - Omit query parameter to fetch all records from the table |
+| `table` | `K` | Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages" |
+| `query?` | [`Query`](../../../type-aliases/Query.md)\<[`CollectionSchemas`](../../../type-aliases/CollectionSchemas.md)\[`K`\]\> | Optional Query object with selector conditions and operators for filtering results Query behavior: - Properties within an object will be AND'ed together - Different objects in $or array will be OR'd together - Omit query parameter to fetch all records from the table |
 
 #### Returns
 
-`Promise`\<`T`[]\>
+`Promise`\<[`CollectionMap`](../../../interfaces/CollectionMap.md)\[`K`\][]\>
 
 Promise resolving to array of models matching the query criteria
 
@@ -173,7 +173,7 @@ Fetch all messages from the table
 
 > `optional` **start**(): `Promise`\<`void`\>
 
-Defined in: [src/pluto/Pluto.ts:76](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/Pluto.ts#L76)
+Defined in: [packages/lib/sdk/src/pluto/Pluto.ts:78](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/Pluto.ts#L78)
 
 Handle any necessary startup.
 Will be called first before any usage, if provided.
@@ -188,7 +188,7 @@ Will be called first before any usage, if provided.
 
 > `optional` **stop**(): `Promise`\<`void`\>
 
-Defined in: [src/pluto/Pluto.ts:81](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/Pluto.ts#L81)
+Defined in: [packages/lib/sdk/src/pluto/Pluto.ts:83](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/Pluto.ts#L83)
 
 Handle any necessary teardown.
 
@@ -200,9 +200,9 @@ Handle any necessary teardown.
 
 ### update() {#update}
 
-> **update**\<`T`\>(`table`: `string`, `model`: `T`): `Promise`\<`void`\>
+> **update**\<`K`\>(`table`: `K`, `model`: [`CollectionMap`](../../../interfaces/CollectionMap.md)\[`K`\]): `Promise`\<`void`\>
 
-Defined in: [src/pluto/Pluto.ts:168](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/Pluto.ts#L168)
+Defined in: [packages/lib/sdk/src/pluto/Pluto.ts:170](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/Pluto.ts#L170)
 
 Update an existing row in the Store
 
@@ -210,14 +210,14 @@ Update an existing row in the Store
 
 | Type Parameter | Description |
 | ------ | ------ |
-| `T` *extends* [`Storable`](../../Domain/namespaces/Pluto/interfaces/Storable.md) | The model type that extends Models.Model (e.g., Models.Credential, Models.DID, Models.Key, etc.) |
+| `K` *extends* keyof [`CollectionMap`](../../../interfaces/CollectionMap.md) | Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages" |
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `table` | `string` | Valid table name. Must be one of: "credentials", "credential-metadata", "didkey-link", "did-link", "dids", "keys", "messages" |
-| `model` | `T` | The model instance with updated data. Must include the uuid to identify the record to update |
+| `table` | `K` | The table name |
+| `model` | [`CollectionMap`](../../../interfaces/CollectionMap.md)\[`K`\] | The model instance with updated data. Must include the uuid to identify the record to update |
 
 #### Returns
 
@@ -237,7 +237,7 @@ Update a credential to mark it as revoked
     issuer: "did:example:issuer",
     revoked: true
   };
-  await store.update<Models.Credential>("credentials", updatedCredential);
+  await store.update("credentials", updatedCredential);
 ```
 
 #### Throws

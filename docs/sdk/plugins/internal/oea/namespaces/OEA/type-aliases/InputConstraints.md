@@ -8,11 +8,11 @@
 
 > **InputConstraints** = \{ `fields`: [`InputField`](InputField.md)[]; `limit_disclosure`: [`InputLimitDisclosure`](../enumerations/InputLimitDisclosure.md); \}
 
-Defined in: [src/plugins/internal/oea/types.ts:114](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L114)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:131](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L131)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="fields"></a> `fields` | [`InputField`](InputField.md)[] | [src/plugins/internal/oea/types.ts:115](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L115) |
-| <a id="limit_disclosure"></a> `limit_disclosure` | [`InputLimitDisclosure`](../enumerations/InputLimitDisclosure.md) | [src/plugins/internal/oea/types.ts:116](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L116) |
+| <a id="property-fields"></a> `fields` | [`InputField`](InputField.md)[] | [packages/lib/sdk/src/plugins/internal/oea/types.ts:132](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L132) |
+| <a id="property-limit_disclosure"></a> `limit_disclosure` | [`InputLimitDisclosure`](../enumerations/InputLimitDisclosure.md) | [packages/lib/sdk/src/plugins/internal/oea/types.ts:133](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L133) |

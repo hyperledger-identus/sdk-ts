@@ -6,16 +6,11 @@
 
 # Class: ProcessCallbackUrl
 
-Defined in: [src/plugins/internal/oidc/connection/ProcessCallbackUrl.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/connection/ProcessCallbackUrl.ts#L11)
-
-A Task encapsulates a unit of work
-
-args constructor parameter is mandatory if Args type given
-args constructor parameter is optional if no Args type given
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ProcessCallbackUrl.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/connection/ProcessCallbackUrl.ts#L12)
 
 ## Extends
 
-- [`Task`](../../../../overview/namespaces/Utils/classes/Task.md)\<[`AuthorizationResponse`](AuthorizationResponse.md), [`ProcessCallbackUrlArgs`](../interfaces/ProcessCallbackUrlArgs.md)\>
+- `Task`\<[`AuthorizationResponse`](AuthorizationResponse.md), [`ProcessCallbackUrlArgs`](../interfaces/ProcessCallbackUrlArgs.md)\>
 
 ## Constructors
 
@@ -23,13 +18,13 @@ args constructor parameter is optional if no Args type given
 
 > **new ProcessCallbackUrl**(...`args`: \[[`ProcessCallbackUrlArgs`](../interfaces/ProcessCallbackUrlArgs.md)\]): `ProcessCallbackUrl`
 
-Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| ...`args` | \[[`ProcessCallbackUrlArgs`](../interfaces/ProcessCallbackUrlArgs.md)\] |  |
+| ...`args` | \[[`ProcessCallbackUrlArgs`](../interfaces/ProcessCallbackUrlArgs.md)\] | - |
 
 #### Returns
 
@@ -37,7 +32,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`constructor`](../../../../overview/namespaces/Utils/classes/Task.md#constructor)
+`Utils.Task<AuthorizationResponse, ProcessCallbackUrlArgs>.constructor`
 
 ## Methods
 
@@ -45,7 +40,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 > **log**(): `unknown`
 
-Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L26)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -53,7 +48,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`log`](../../../../overview/namespaces/Utils/classes/Task.md#log)
+`Utils.Task.log`
 
 ***
 
@@ -61,7 +56,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 > **run**(): `Promise`\<[`AuthorizationResponse`](AuthorizationResponse.md)\>
 
-Defined in: [src/plugins/internal/oidc/connection/ProcessCallbackUrl.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/connection/ProcessCallbackUrl.ts#L12)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ProcessCallbackUrl.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/connection/ProcessCallbackUrl.ts#L13)
 
 #### Returns
 
@@ -69,4 +64,4 @@ Defined in: [src/plugins/internal/oidc/connection/ProcessCallbackUrl.ts:12](http
 
 #### Overrides
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`run`](../../../../overview/namespaces/Utils/classes/Task.md#run)
+`Utils.Task.run`

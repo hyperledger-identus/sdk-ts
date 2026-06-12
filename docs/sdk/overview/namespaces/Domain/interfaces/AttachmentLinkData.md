@@ -6,11 +6,11 @@
 
 # Interface: AttachmentLinkData
 
-Defined in: [src/domain/models/MessageAttachment.ts:23](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L23)
+Defined in: packages/shared/domain/build/index.d.ts:267
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="hash"></a> `hash` | `string` | [src/domain/models/MessageAttachment.ts:25](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L25) |
-| <a id="links"></a> `links` | `string`[] | [src/domain/models/MessageAttachment.ts:24](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L24) |
+| <a id="property-hash"></a> `hash` | `string` | packages/shared/domain/build/index.d.ts:269 |
+| <a id="property-links"></a> `links` | `string`[] | packages/shared/domain/build/index.d.ts:268 |

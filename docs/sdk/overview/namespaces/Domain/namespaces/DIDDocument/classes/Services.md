@@ -6,21 +6,21 @@
 
 # Class: Services
 
-Defined in: [src/domain/models/DIDDocument.ts:333](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L333)
+Defined in: packages/shared/domain/build/index.d.ts:972
 
 ## Constructors
 
 ### Constructor
 
-> **new Services**(`values`: [`Service`](Service.md)[]): `Services`
+> **new Services**(`values?`: [`Service`](Service.md)[]): `Services`
 
-Defined in: [src/domain/models/DIDDocument.ts:334](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L334)
+Defined in: packages/shared/domain/build/index.d.ts:974
 
 #### Parameters
 
-| Parameter | Type | Default value |
-| ------ | ------ | ------ |
-| `values` | [`Service`](Service.md)[] | `[]` |
+| Parameter | Type |
+| ------ | ------ |
+| `values?` | [`Service`](Service.md)[] |
 
 #### Returns
 
@@ -28,6 +28,6 @@ Defined in: [src/domain/models/DIDDocument.ts:334](https://github.com/hyperledge
 
 ## Properties
 
-| Property | Modifier | Type | Default value | Defined in |
-| ------ | ------ | ------ | ------ | ------ |
-| <a id="values"></a> `values` | `public` | [`Service`](Service.md)[] | `[]` | [src/domain/models/DIDDocument.ts:334](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L334) |
+| Property | Type | Defined in |
+| ------ | ------ | ------ |
+| <a id="property-values"></a> `values` | [`Service`](Service.md)[] | packages/shared/domain/build/index.d.ts:973 |

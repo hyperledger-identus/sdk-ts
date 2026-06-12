@@ -8,10 +8,10 @@
 
 > **Modules** = \{ `OIDC`: [`OIDCModule`](../classes/OIDCModule.md); \}
 
-Defined in: [src/plugins/internal/oidc/plugin.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/plugin.ts#L5)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/plugin.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/plugin.ts#L5)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="oidc"></a> `OIDC` | [`OIDCModule`](../classes/OIDCModule.md) | [src/plugins/internal/oidc/plugin.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/plugin.ts#L5) |
+| <a id="property-oidc"></a> `OIDC` | [`OIDCModule`](../classes/OIDCModule.md) | [packages/lib/sdk/src/plugins/internal/oidc/plugin.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/plugin.ts#L5) |

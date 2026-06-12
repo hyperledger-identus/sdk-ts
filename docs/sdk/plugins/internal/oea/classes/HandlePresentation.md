@@ -6,16 +6,11 @@
 
 # Class: HandlePresentation
 
-Defined in: [src/plugins/internal/oea/tasks/HandlePresentation.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/tasks/HandlePresentation.ts#L11)
-
-A Task encapsulates a unit of work
-
-args constructor parameter is mandatory if Args type given
-args constructor parameter is optional if no Args type given
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/tasks/HandlePresentation.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/tasks/HandlePresentation.ts#L11)
 
 ## Extends
 
-- [`Task`](../../../../overview/namespaces/Utils/classes/Task.md)\<`boolean`, [`HandlePresentationArgs`](../interfaces/HandlePresentationArgs.md)\>
+- `Task`\<`boolean`, [`HandlePresentationArgs`](../interfaces/HandlePresentationArgs.md)\>
 
 ## Constructors
 
@@ -23,13 +18,13 @@ args constructor parameter is optional if no Args type given
 
 > **new HandlePresentation**(...`args`: \[[`HandlePresentationArgs`](../interfaces/HandlePresentationArgs.md)\]): `HandlePresentation`
 
-Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| ...`args` | \[[`HandlePresentationArgs`](../interfaces/HandlePresentationArgs.md)\] |  |
+| ...`args` | \[[`HandlePresentationArgs`](../interfaces/HandlePresentationArgs.md)\] | - |
 
 #### Returns
 
@@ -37,7 +32,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`constructor`](../../../../overview/namespaces/Utils/classes/Task.md#constructor)
+`Task<boolean, Args>.constructor`
 
 ## Methods
 
@@ -45,7 +40,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 > **log**(): `unknown`
 
-Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L26)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -53,7 +48,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`log`](../../../../overview/namespaces/Utils/classes/Task.md#log)
+`Task.log`
 
 ***
 
@@ -61,7 +56,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 > **run**(`ctx`: [`Context`](../../../../overview/namespaces/Plugins/type-aliases/Context.md)): `Promise`\<`any`\>
 
-Defined in: [src/plugins/internal/oea/tasks/HandlePresentation.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/tasks/HandlePresentation.ts#L12)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/tasks/HandlePresentation.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/tasks/HandlePresentation.ts#L12)
 
 #### Parameters
 
@@ -75,4 +70,4 @@ Defined in: [src/plugins/internal/oea/tasks/HandlePresentation.ts:12](https://gi
 
 #### Overrides
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`run`](../../../../overview/namespaces/Utils/classes/Task.md#run)
+`Task.run`

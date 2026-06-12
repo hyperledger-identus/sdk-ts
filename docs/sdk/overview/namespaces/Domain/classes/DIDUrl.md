@@ -6,24 +6,24 @@
 
 # Class: DIDUrl
 
-Defined in: [src/domain/models/DIDUrl.ts:3](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDUrl.ts#L3)
+Defined in: packages/shared/domain/build/index.d.ts:1006
 
 ## Constructors
 
 ### Constructor
 
-> **new DIDUrl**(`did`: [`DID`](DID.md), `path`: `string`[], `parameters`: `Map`\<`string`, `string`\>, `fragment`: `string`): `DIDUrl`
+> **new DIDUrl**(`did`: [`DID`](DID.md), `path?`: `string`[], `parameters?`: `Map`\<`string`, `string`\>, `fragment?`: `string`): `DIDUrl`
 
-Defined in: [src/domain/models/DIDUrl.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDUrl.ts#L9)
+Defined in: packages/shared/domain/build/index.d.ts:1011
 
 #### Parameters
 
-| Parameter | Type | Default value |
-| ------ | ------ | ------ |
-| `did` | [`DID`](DID.md) | `undefined` |
-| `path` | `string`[] | `[]` |
-| `parameters` | `Map`\<`string`, `string`\> | `...` |
-| `fragment` | `string` | `""` |
+| Parameter | Type |
+| ------ | ------ |
+| `did` | [`DID`](DID.md) |
+| `path?` | `string`[] |
+| `parameters?` | `Map`\<`string`, `string`\> |
+| `fragment?` | `string` |
 
 #### Returns
 
@@ -33,10 +33,10 @@ Defined in: [src/domain/models/DIDUrl.ts:9](https://github.com/hyperledger/ident
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="did"></a> `did` | [`DID`](DID.md) | [src/domain/models/DIDUrl.ts:4](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDUrl.ts#L4) |
-| <a id="fragment"></a> `fragment` | `string` | [src/domain/models/DIDUrl.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDUrl.ts#L7) |
-| <a id="parameters"></a> `parameters` | `Map`\<`string`, `string`\> | [src/domain/models/DIDUrl.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDUrl.ts#L6) |
-| <a id="path"></a> `path` | `string`[] | [src/domain/models/DIDUrl.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDUrl.ts#L5) |
+| <a id="property-did"></a> `did` | [`DID`](DID.md) | packages/shared/domain/build/index.d.ts:1007 |
+| <a id="property-fragment"></a> `fragment` | `string` | packages/shared/domain/build/index.d.ts:1010 |
+| <a id="property-parameters"></a> `parameters` | `Map`\<`string`, `string`\> | packages/shared/domain/build/index.d.ts:1009 |
+| <a id="property-path"></a> `path` | `string`[] | packages/shared/domain/build/index.d.ts:1008 |
 
 ## Methods
 
@@ -44,7 +44,7 @@ Defined in: [src/domain/models/DIDUrl.ts:9](https://github.com/hyperledger/ident
 
 > **fragmentString**(): `string`
 
-Defined in: [src/domain/models/DIDUrl.ts:35](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDUrl.ts#L35)
+Defined in: packages/shared/domain/build/index.d.ts:1015
 
 #### Returns
 
@@ -56,7 +56,7 @@ Defined in: [src/domain/models/DIDUrl.ts:35](https://github.com/hyperledger/iden
 
 > **pathString**(): `string`
 
-Defined in: [src/domain/models/DIDUrl.ts:25](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDUrl.ts#L25)
+Defined in: packages/shared/domain/build/index.d.ts:1013
 
 #### Returns
 
@@ -68,7 +68,7 @@ Defined in: [src/domain/models/DIDUrl.ts:25](https://github.com/hyperledger/iden
 
 > **queryString**(): `string`
 
-Defined in: [src/domain/models/DIDUrl.ts:29](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDUrl.ts#L29)
+Defined in: packages/shared/domain/build/index.d.ts:1014
 
 #### Returns
 
@@ -80,7 +80,7 @@ Defined in: [src/domain/models/DIDUrl.ts:29](https://github.com/hyperledger/iden
 
 > **string**(): `string`
 
-Defined in: [src/domain/models/DIDUrl.ts:21](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDUrl.ts#L21)
+Defined in: packages/shared/domain/build/index.d.ts:1012
 
 #### Returns
 

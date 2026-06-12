@@ -6,7 +6,7 @@
 
 # Interface: Pluto
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:13](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L13)
+Defined in: packages/shared/domain/build/index.d.ts:394
 
 Pluto is a storage interface describing storage requirements of the edge agents
 which will be implemented using this SDK. Implement this interface using your
@@ -20,7 +20,7 @@ preferred underlying storage technology, most appropriate for your use case.
 
 | Property | Type | Description | Inherited from | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="state"></a> `state` | [`State`](../namespaces/Startable/enumerations/State.md) | current status of the entity | [`IController`](../namespaces/Startable/interfaces/IController.md).[`state`](../namespaces/Startable/interfaces/IController.md#state) | [src/domain/protocols/Startable.ts:22](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L22) |
+| <a id="property-state"></a> `state` | [`State`](../namespaces/Startable/enumerations/State.md) | current status of the entity | [`IController`](../namespaces/Startable/interfaces/IController.md).[`state`](../namespaces/Startable/interfaces/IController.md#property-state) | packages/shared/domain/build/index.d.ts:2311 |
 
 ## Methods
 
@@ -28,7 +28,7 @@ preferred underlying storage technology, most appropriate for your use case.
 
 > **backup**(`version?`: `"0.0.1"`): `Promise`\<\{ `credentials`: \{ `data`: `string`; `recovery_id`: `string`; \}[]; `did_pairs`: \{ `alias`: `string`; `holder`: `string`; `recipient`: `string`; \}[]; `dids`: \{ `alias?`: `string`; `did`: `string`; \}[]; `keys`: \{ `did?`: `string`; `index?`: `number`; `key`: `string`; `recovery_id`: `string`; \}[]; `link_secret?`: `string`; `mediators`: \{ `holder_did`: `string`; `mediator_did`: `string`; `routing_did`: `string`; \}[]; `messages`: `string`[]; `version?`: `"0.0.1"`; \}\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:40](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L40)
+Defined in: packages/shared/domain/build/index.d.ts:417
 
 create a Backup object from the stored data
 
@@ -48,7 +48,7 @@ create a Backup object from the stored data
 
 > **deleteMessage**(`uuid`: `string`): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:175](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L175)
+Defined in: packages/shared/domain/build/index.d.ts:527
 
 Delete a previously stored messages
 
@@ -68,7 +68,7 @@ Delete a previously stored messages
 
 > **getAllCredentials**(): `Promise`\<[`Credential`](../classes/Credential.md)[]\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:155](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L155)
+Defined in: packages/shared/domain/build/index.d.ts:511
 
 Retrieve all the stored credentials
 
@@ -82,7 +82,7 @@ Retrieve all the stored credentials
 
 > **getAllDidPairs**(): `Promise`\<[`DIDPair`](../classes/DIDPair.md)[]\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:125](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L125)
+Defined in: packages/shared/domain/build/index.d.ts:487
 
 Retrieve all stored DID pairs (DIDComm connections).
 
@@ -96,7 +96,7 @@ Retrieve all stored DID pairs (DIDComm connections).
 
 > **getAllMediators**(): `Promise`\<[`Mediator`](Mediator.md)[]\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:150](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L150)
+Defined in: packages/shared/domain/build/index.d.ts:507
 
 Retrieve all stored mediators.
 
@@ -110,7 +110,7 @@ Retrieve all stored mediators.
 
 > **getAllMessages**(): `Promise`\<[`Message`](../classes/Message.md)[]\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:140](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L140)
+Defined in: packages/shared/domain/build/index.d.ts:499
 
 Retrieve all stored DIDComm messages.
 
@@ -124,7 +124,7 @@ Retrieve all stored DIDComm messages.
 
 > **getAllPeerDIDs**(): `Promise`\<[`PeerDID`](../../../classes/PeerDID.md)[]\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:115](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L115)
+Defined in: packages/shared/domain/build/index.d.ts:479
 
 Retrieve all stored Peer DIDs.
 
@@ -138,7 +138,7 @@ Retrieve all stored Peer DIDs.
 
 > **getAllPrismDIDs**(): `Promise`\<[`PrismDID`](../classes/PrismDID.md)[]\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:110](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L110)
+Defined in: packages/shared/domain/build/index.d.ts:475
 
 Retrieve all stored PRISM DIDs.
 
@@ -152,7 +152,7 @@ Retrieve all stored PRISM DIDs.
 
 > **getCredentialMetadata**(`name`: `string`): `Promise`\<[`CredentialMetadata`](../classes/CredentialMetadata.md) \| `null`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:57](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L57)
+Defined in: packages/shared/domain/build/index.d.ts:431
 
 Fetch the Credential Metadata by its name
 
@@ -160,7 +160,7 @@ Fetch the Credential Metadata by its name
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `name` | `string` |  |
+| `name` | `string` | - |
 
 #### Returns
 
@@ -168,11 +168,29 @@ Fetch the Credential Metadata by its name
 
 ***
 
+### getDIDByDIDOrAlias() {#getdidbydidoralias}
+
+> **getDIDByDIDOrAlias**(`didOrAlias`: `string`): `Promise`\<[`DID`](../classes/DID.md) \| `null`\>
+
+Defined in: packages/shared/domain/build/index.d.ts:471
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `didOrAlias` | `string` |
+
+#### Returns
+
+`Promise`\<[`DID`](../classes/DID.md) \| `null`\>
+
+***
+
 ### getDIDPrivateKeysByDID() {#getdidprivatekeysbydid}
 
 > **getDIDPrivateKeysByDID**(`did`: [`DID`](../classes/DID.md)): `Promise`\<[`PrivateKey`](../classes/PrivateKey.md)[]\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:120](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L120)
+Defined in: packages/shared/domain/build/index.d.ts:483
 
 Retrieve available private keys for a given DID.
 
@@ -192,7 +210,7 @@ Retrieve available private keys for a given DID.
 
 > **getLinkSecret**(`name?`: `string`): `Promise`\<[`LinkSecret`](../classes/LinkSecret.md) \| `null`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:160](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L160)
+Defined in: packages/shared/domain/build/index.d.ts:515
 
 Retrieve the stored link secret by its name
 
@@ -212,7 +230,7 @@ Retrieve the stored link secret by its name
 
 > **getMessage**(`id`: `string`): `Promise`\<[`Message`](../classes/Message.md) \| `null`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:145](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L145)
+Defined in: packages/shared/domain/build/index.d.ts:503
 
 Retrieve a DIDComm message by ID.
 
@@ -232,7 +250,7 @@ Retrieve a DIDComm message by ID.
 
 > **getPairByDID**(`did`: [`DID`](../classes/DID.md)): `Promise`\<[`DIDPair`](../classes/DIDPair.md) \| `null`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:130](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L130)
+Defined in: packages/shared/domain/build/index.d.ts:491
 
 Retrieve a DID pair containing a given DID as either host or receiver.
 
@@ -252,7 +270,7 @@ Retrieve a DID pair containing a given DID as either host or receiver.
 
 > **getPairByName**(`name`: `string`): `Promise`\<[`DIDPair`](../classes/DIDPair.md) \| `null`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:135](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L135)
+Defined in: packages/shared/domain/build/index.d.ts:495
 
 Retrieve a DID pair by a given pair name.
 
@@ -272,7 +290,7 @@ Retrieve a DID pair by a given pair name.
 
 > **restore**(`backup`: \{ `credentials`: \{ `data`: `string`; `recovery_id`: `string`; \}[]; `did_pairs`: \{ `alias`: `string`; `holder`: `string`; `recipient`: `string`; \}[]; `dids`: \{ `alias?`: `string`; `did`: `string`; \}[]; `keys`: \{ `did?`: `string`; `index?`: `number`; `key`: `string`; `recovery_id`: `string`; \}[]; `link_secret?`: `string`; `mediators`: \{ `holder_did`: `string`; `mediator_did`: `string`; `routing_did`: `string`; \}[]; `messages`: `string`[]; `version?`: `"0.0.1"`; \}): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:46](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L46)
+Defined in: packages/shared/domain/build/index.d.ts:422
 
 load the given data into the store
 
@@ -280,7 +298,7 @@ load the given data into the store
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `backup` | \{ `credentials`: \{ `data`: `string`; `recovery_id`: `string`; \}[]; `did_pairs`: \{ `alias`: `string`; `holder`: `string`; `recipient`: `string`; \}[]; `dids`: \{ `alias?`: `string`; `did`: `string`; \}[]; `keys`: \{ `did?`: `string`; `index?`: `number`; `key`: `string`; `recovery_id`: `string`; \}[]; `link_secret?`: `string`; `mediators`: \{ `holder_did`: `string`; `mediator_did`: `string`; `routing_did`: `string`; \}[]; `messages`: `string`[]; `version?`: `"0.0.1"`; \} |  |
+| `backup` | \{ `credentials`: \{ `data`: `string`; `recovery_id`: `string`; \}[]; `did_pairs`: \{ `alias`: `string`; `holder`: `string`; `recipient`: `string`; \}[]; `dids`: \{ `alias?`: `string`; `did`: `string`; \}[]; `keys`: \{ `did?`: `string`; `index?`: `number`; `key`: `string`; `recovery_id`: `string`; \}[]; `link_secret?`: `string`; `mediators`: \{ `holder_did`: `string`; `mediator_did`: `string`; `routing_did`: `string`; \}[]; `messages`: `string`[]; `version?`: `"0.0.1"`; \} | - |
 | `backup.credentials` | \{ `data`: `string`; `recovery_id`: `string`; \}[] | - |
 | `backup.did_pairs` | \{ `alias`: `string`; `holder`: `string`; `recipient`: `string`; \}[] | - |
 | `backup.dids` | \{ `alias?`: `string`; `did`: `string`; \}[] | - |
@@ -300,7 +318,7 @@ load the given data into the store
 
 > **revokeCredential**(`credential`: [`Credential`](../classes/Credential.md)): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:170](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L170)
+Defined in: packages/shared/domain/build/index.d.ts:523
 
 Revoke a Credential
 
@@ -320,7 +338,7 @@ Revoke a Credential
 
 > **start**(): `Promise`\<[`State`](../namespaces/Startable/enumerations/State.md)\>
 
-Defined in: [src/domain/protocols/Startable.ts:30](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L30)
+Defined in: packages/shared/domain/build/index.d.ts:2319
 
 handle the startup of an entity
 
@@ -340,7 +358,7 @@ updates `state` according to lifecycle
 
 > **stop**(): `Promise`\<[`State`](../namespaces/Startable/enumerations/State.md)\>
 
-Defined in: [src/domain/protocols/Startable.ts:38](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L38)
+Defined in: packages/shared/domain/build/index.d.ts:2327
 
 handle the teardown of an entity
 
@@ -360,7 +378,7 @@ updates `state` according to lifecycle
 
 > **storeCredential**(`credential`: [`Credential`](../classes/Credential.md)): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:105](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L105)
+Defined in: packages/shared/domain/build/index.d.ts:470
 
 Store a Credential into the Database
 
@@ -380,7 +398,7 @@ Store a Credential into the Database
 
 > **storeCredentialMetadata**(`metadata`: [`CredentialMetadata`](../classes/CredentialMetadata.md)): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:51](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L51)
+Defined in: packages/shared/domain/build/index.d.ts:426
 
 Store the Credential Metadata
 
@@ -398,9 +416,9 @@ Store the Credential Metadata
 
 ### storeDID() {#storedid}
 
-> **storeDID**(`did`: [`DID`](../classes/DID.md), `keys?`: [`Arrayable`](../../Utils/type-aliases/Arrayable.md)\<[`PrivateKey`](../classes/PrivateKey.md)\>, `alias?`: `string`): `Promise`\<`void`\>
+> **storeDID**(`did`: [`DID`](../classes/DID.md), `keys?`: [`Arrayable`](../type-aliases/Arrayable.md)\<[`PrivateKey`](../classes/PrivateKey.md)\>, `alias?`: `string`): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:63](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L63)
+Defined in: packages/shared/domain/build/index.d.ts:436
 
 Store a DID
 with optional private key(s) and alias
@@ -410,7 +428,7 @@ with optional private key(s) and alias
 | Parameter | Type |
 | ------ | ------ |
 | `did` | [`DID`](../classes/DID.md) |
-| `keys?` | [`Arrayable`](../../Utils/type-aliases/Arrayable.md)\<[`PrivateKey`](../classes/PrivateKey.md)\> |
+| `keys?` | [`Arrayable`](../type-aliases/Arrayable.md)\<[`PrivateKey`](../classes/PrivateKey.md)\> |
 | `alias?` | `string` |
 
 #### Returns
@@ -423,7 +441,7 @@ with optional private key(s) and alias
 
 > **storeDIDPair**(`host`: [`DID`](../classes/DID.md), `receiver`: [`DID`](../classes/DID.md), `name`: `string`): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:80](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L80)
+Defined in: packages/shared/domain/build/index.d.ts:450
 
 Store a named pair of DIDs representing a DIDComm connection.
 
@@ -445,7 +463,7 @@ Store a named pair of DIDs representing a DIDComm connection.
 
 > **storeLinkSecret**(`linkSecret`: [`LinkSecret`](../classes/LinkSecret.md)): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:165](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L165)
+Defined in: packages/shared/domain/build/index.d.ts:519
 
 Store a new linkSecret
 
@@ -465,7 +483,7 @@ Store a new linkSecret
 
 > **storeMediator**(`mediator`: [`Mediator`](Mediator.md)): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:100](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L100)
+Defined in: packages/shared/domain/build/index.d.ts:466
 
 Store a mediator information.
 
@@ -485,7 +503,7 @@ Store a mediator information.
 
 > **storeMessage**(`message`: [`Message`](../classes/Message.md)): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:85](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L85)
+Defined in: packages/shared/domain/build/index.d.ts:454
 
 Store a DIDComm message.
 
@@ -505,7 +523,7 @@ Store a DIDComm message.
 
 > **storeMessages**(`messages`: [`Message`](../classes/Message.md)[]): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:90](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L90)
+Defined in: packages/shared/domain/build/index.d.ts:458
 
 Store an array of DIDComm messages
 
@@ -525,7 +543,7 @@ Store an array of DIDComm messages
 
 > **storePeerDID**(`did`: [`DID`](../classes/DID.md), `privateKeys`: [`PrivateKey`](../classes/PrivateKey.md)[]): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:75](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L75)
+Defined in: packages/shared/domain/build/index.d.ts:446
 
 Store a Peer DID and an array of its privateKeys.
 
@@ -550,7 +568,7 @@ use storeDID instead
 
 > **storePrismDID**(`did`: [`DID`](../classes/DID.md), `privateKey`: [`PrivateKey`](../classes/PrivateKey.md), `alias?`: `string`): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:69](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L69)
+Defined in: packages/shared/domain/build/index.d.ts:441
 
 Store a PRISM DID and its private key with given metadata.
 
@@ -576,7 +594,7 @@ use storeDID instead
 
 > **storePrivateKey**(`privateKey`: [`PrivateKey`](../classes/PrivateKey.md)): `Promise`\<`void`\>
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:95](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L95)
+Defined in: packages/shared/domain/build/index.d.ts:462
 
 Store a list of private keys with its metadata and a reference to the DID it belongs to.
 

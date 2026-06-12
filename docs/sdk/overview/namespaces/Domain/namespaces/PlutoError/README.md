@@ -6,28 +6,54 @@
 
 # PlutoError
 
-## Classes
+## Type Aliases
 
-| Class | Description |
+| Type Alias | Description |
 | ------ | ------ |
-| [BackupNotFoundError](classes/BackupNotFoundError.md) | - |
-| [CredentialNotStorable](classes/CredentialNotStorable.md) | - |
-| [DatabaseConnectionError](classes/DatabaseConnectionError.md) | - |
-| [DatabaseContextError](classes/DatabaseContextError.md) | - |
-| [DatabaseServiceAlreadyRunning](classes/DatabaseServiceAlreadyRunning.md) | - |
-| [DidPairIsNotPersistedError](classes/DidPairIsNotPersistedError.md) | - |
-| [HolderDIDAlreadyPairingError](classes/HolderDIDAlreadyPairingError.md) | - |
-| [InvalidCredentialJsonError](classes/InvalidCredentialJsonError.md) | - |
-| [InvalidHolderDIDNotPersistedError](classes/InvalidHolderDIDNotPersistedError.md) | - |
-| [MessageMissingFromOrToDIDError](classes/MessageMissingFromOrToDIDError.md) | - |
-| [PrivateKeyNotStorable](classes/PrivateKeyNotStorable.md) | - |
-| [RestoreCredentialInvalidError](classes/RestoreCredentialInvalidError.md) | - |
-| [RestoreJWKInvalidError](classes/RestoreJWKInvalidError.md) | - |
-| [RestoreKeyInvalidError](classes/RestoreKeyInvalidError.md) | - |
-| [RestoreNotFoundError](classes/RestoreNotFoundError.md) | - |
-| [StoreDeleteError](classes/StoreDeleteError.md) | - |
-| [StoreInsertError](classes/StoreInsertError.md) | - |
-| [StoreNotEmptyError](classes/StoreNotEmptyError.md) | - |
-| [StoreQueryFailed](classes/StoreQueryFailed.md) | - |
-| [StoreUpdateError](classes/StoreUpdateError.md) | - |
-| [UnknownCredentialTypeError](classes/UnknownCredentialTypeError.md) | - |
+| [BackupNotFoundError](type-aliases/BackupNotFoundError.md) | - |
+| [CredentialNotStorable](type-aliases/CredentialNotStorable.md) | - |
+| [DatabaseConnectionError](type-aliases/DatabaseConnectionError.md) | - |
+| [DatabaseContextError](type-aliases/DatabaseContextError.md) | - |
+| [DatabaseServiceAlreadyRunning](type-aliases/DatabaseServiceAlreadyRunning.md) | - |
+| [DidPairIsNotPersistedError](type-aliases/DidPairIsNotPersistedError.md) | - |
+| [HolderDIDAlreadyPairingError](type-aliases/HolderDIDAlreadyPairingError.md) | - |
+| [InvalidCredentialJsonError](type-aliases/InvalidCredentialJsonError.md) | - |
+| [InvalidHolderDIDNotPersistedError](type-aliases/InvalidHolderDIDNotPersistedError.md) | - |
+| [MessageMissingFromOrToDIDError](type-aliases/MessageMissingFromOrToDIDError.md) | - |
+| [PrivateKeyNotStorable](type-aliases/PrivateKeyNotStorable.md) | - |
+| [RestoreCredentialInvalidError](type-aliases/RestoreCredentialInvalidError.md) | - |
+| [RestoreJWKInvalidError](type-aliases/RestoreJWKInvalidError.md) | - |
+| [RestoreKeyInvalidError](type-aliases/RestoreKeyInvalidError.md) | - |
+| [RestoreNotFoundError](type-aliases/RestoreNotFoundError.md) | - |
+| [StoreDeleteError](type-aliases/StoreDeleteError.md) | - |
+| [StoreInsertError](type-aliases/StoreInsertError.md) | - |
+| [StoreNotEmptyError](type-aliases/StoreNotEmptyError.md) | - |
+| [StoreQueryFailed](type-aliases/StoreQueryFailed.md) | - |
+| [StoreUpdateError](type-aliases/StoreUpdateError.md) | - |
+| [UnknownCredentialTypeError](type-aliases/UnknownCredentialTypeError.md) | - |
+
+## Variables
+
+| Variable | Description |
+| ------ | ------ |
+| [BackupNotFoundError](variables/BackupNotFoundError.md) | - |
+| [CredentialNotStorable](variables/CredentialNotStorable.md) | - |
+| [DatabaseConnectionError](variables/DatabaseConnectionError.md) | - |
+| [DatabaseContextError](variables/DatabaseContextError.md) | - |
+| [DatabaseServiceAlreadyRunning](variables/DatabaseServiceAlreadyRunning.md) | - |
+| [DidPairIsNotPersistedError](variables/DidPairIsNotPersistedError.md) | - |
+| [HolderDIDAlreadyPairingError](variables/HolderDIDAlreadyPairingError.md) | - |
+| [InvalidCredentialJsonError](variables/InvalidCredentialJsonError.md) | - |
+| [InvalidHolderDIDNotPersistedError](variables/InvalidHolderDIDNotPersistedError.md) | - |
+| [MessageMissingFromOrToDIDError](variables/MessageMissingFromOrToDIDError.md) | - |
+| [PrivateKeyNotStorable](variables/PrivateKeyNotStorable.md) | - |
+| [RestoreCredentialInvalidError](variables/RestoreCredentialInvalidError.md) | - |
+| [RestoreJWKInvalidError](variables/RestoreJWKInvalidError.md) | - |
+| [RestoreKeyInvalidError](variables/RestoreKeyInvalidError.md) | - |
+| [RestoreNotFoundError](variables/RestoreNotFoundError.md) | - |
+| [StoreDeleteError](variables/StoreDeleteError.md) | - |
+| [StoreInsertError](variables/StoreInsertError.md) | - |
+| [StoreNotEmptyError](variables/StoreNotEmptyError.md) | - |
+| [StoreQueryFailed](variables/StoreQueryFailed.md) | - |
+| [StoreUpdateError](variables/StoreUpdateError.md) | - |
+| [UnknownCredentialTypeError](variables/UnknownCredentialTypeError.md) | - |

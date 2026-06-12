@@ -6,7 +6,7 @@
 
 # Abstract Class: DIDResolver
 
-Defined in: [src/domain/models/DIDResolver.ts:3](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDResolver.ts#L3)
+Defined in: packages/shared/domain/build/index.d.ts:1001
 
 ## Constructors
 
@@ -22,7 +22,7 @@ Defined in: [src/domain/models/DIDResolver.ts:3](https://github.com/hyperledger/
 
 | Property | Modifier | Type | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="method"></a> `method` | `abstract` | `string` | [src/domain/models/DIDResolver.ts:4](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDResolver.ts#L4) |
+| <a id="property-method"></a> `method` | `abstract` | `string` | packages/shared/domain/build/index.d.ts:1002 |
 
 ## Methods
 
@@ -30,7 +30,7 @@ Defined in: [src/domain/models/DIDResolver.ts:3](https://github.com/hyperledger/
 
 > `abstract` **resolve**(`didString`: `string`): `Promise`\<[`DIDDocument`](DIDDocument.md)\>
 
-Defined in: [src/domain/models/DIDResolver.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDResolver.ts#L5)
+Defined in: packages/shared/domain/build/index.d.ts:1003
 
 #### Parameters
 

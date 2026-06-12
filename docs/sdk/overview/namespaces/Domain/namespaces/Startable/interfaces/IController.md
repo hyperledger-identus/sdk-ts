@@ -6,7 +6,7 @@
 
 # Interface: IController
 
-Defined in: [src/domain/protocols/Startable.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L18)
+Defined in: packages/shared/domain/build/index.d.ts:2307
 
 define the structure of a Startable entity
 
@@ -18,7 +18,7 @@ define the structure of a Startable entity
 
 | Property | Type | Description | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="state"></a> `state` | [`State`](../enumerations/State.md) | current status of the entity | [src/domain/protocols/Startable.ts:22](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L22) |
+| <a id="property-state"></a> `state` | [`State`](../enumerations/State.md) | current status of the entity | packages/shared/domain/build/index.d.ts:2311 |
 
 ## Methods
 
@@ -26,7 +26,7 @@ define the structure of a Startable entity
 
 > **start**(): `Promise`\<[`State`](../enumerations/State.md)\>
 
-Defined in: [src/domain/protocols/Startable.ts:30](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L30)
+Defined in: packages/shared/domain/build/index.d.ts:2319
 
 handle the startup of an entity
 
@@ -42,7 +42,7 @@ updates `state` according to lifecycle
 
 > **stop**(): `Promise`\<[`State`](../enumerations/State.md)\>
 
-Defined in: [src/domain/protocols/Startable.ts:38](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L38)
+Defined in: packages/shared/domain/build/index.d.ts:2327
 
 handle the teardown of an entity
 

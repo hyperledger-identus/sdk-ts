@@ -4,15 +4,27 @@
 
 [@hyperledger/identus-sdk](../../README.md) / [overview](../README.md) / Castor
 
-# Class: Castor
+# Class: Castor\<Extras\>
 
-Defined in: [src/castor/Castor.ts:42](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/castor/Castor.ts#L42)
+Defined in: [packages/lib/sdk/src/castor/index.ts:49](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L49)
 
 Castor is a powerful and flexible library for working with DIDs. Whether you are building a decentralised application
 or a more traditional system requiring secure and private identity management, Castor provides the tools and features
 you need to easily create, manage, and resolve DIDs.
 
+The optional tuple type parameter `Extras` carries the concrete types of
+any extra DID methods passed to the constructor, so that `createDID`,
+`publishDID`, `updateDID` and `deactivateDID` only accept method names
+that are actually registered (defaults `"prism" | "peer"` plus any extras)
+and infer their payload types directly from each DID method instance.
+
  Castor
+
+## Type Parameters
+
+| Type Parameter | Default type |
+| ------ | ------ |
+| `Extras` *extends* readonly `DIDMethodInput`[] | readonly \[\] |
 
 ## Implements
 
@@ -22,187 +34,111 @@ you need to easily create, manage, and resolve DIDs.
 
 ### Constructor
 
-> **new Castor**(`apollo`: [`Apollo`](../namespaces/Domain/interfaces/Apollo.md), `extraResolvers`: [`ExtraResolver`](../type-aliases/ExtraResolver.md)[], `prismResolverEndpoint`: `string`): `Castor`
+> **new Castor**\<`Extras`\>(`apollo`: [`Apollo`](../namespaces/Domain/interfaces/Apollo.md), `extraMethods?`: `Extras`): `Castor`\<`Extras`\>
 
-Defined in: [src/castor/Castor.ts:52](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/castor/Castor.ts#L52)
+Defined in: [packages/lib/sdk/src/castor/index.ts:74](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L74)
 
 Creates an instance of Castor as soon as a valid cryptographic interface is provided (Apollo).
+Registers `prism` and `peer` DID methods by default.
+Pass additional DIDMethod instances to extend or override defaults.
 
 #### Parameters
 
-| Parameter | Type | Default value | Description |
-| ------ | ------ | ------ | ------ |
-| `apollo` | [`Apollo`](../namespaces/Domain/interfaces/Apollo.md) | `undefined` |  |
-| `extraResolvers` | [`ExtraResolver`](../type-aliases/ExtraResolver.md)[] | `[]` |  |
-| `prismResolverEndpoint` | `string` | `"https://raw.githubusercontent.com/FabioPinheiro/prism-vdr/refs/heads/main/mainnet/diddoc/"` | - |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `apollo` | [`Apollo`](../namespaces/Domain/interfaces/Apollo.md) | - |
+| `extraMethods?` | `Extras` | tuple of custom DID methods to register |
 
 #### Returns
 
-`Castor`
+`Castor`\<`Extras`\>
 
 ## Methods
 
-### createPeerDID() {#createpeerdid}
+### createDID() {#createdid}
 
-> **createPeerDID**(`publicKeys`: [`PublicKey`](../namespaces/Domain/classes/PublicKey.md)[], `services`: [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[]): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
+> **createDID**\<`M`\>(`method`: `M`, `opts`: [`CreatePayloadOf`](../type-aliases/CreatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
 
-Defined in: [src/castor/Castor.ts:241](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/castor/Castor.ts#L241)
+Defined in: [packages/lib/sdk/src/castor/index.ts:79](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L79)
 
-Creates a DID for a peer (a device or server that acts as a DID subject) using given key agreement
-and authentication key pairs and a list of services.
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `M` *extends* `string` |
 
 #### Parameters
 
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `publicKeys` | [`PublicKey`](../namespaces/Domain/classes/PublicKey.md)[] |  |
-| `services` | [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[] |  |
+| Parameter | Type |
+| ------ | ------ |
+| `method` | `M` |
+| `opts` | [`CreatePayloadOf`](../type-aliases/CreatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\> |
 
 #### Returns
 
 `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
 
-#### Example
-
-This function creates new peer DID, using a given key agreement, authentication key pairs, and a list of services. It may throw an error if the key pairs or services are invalid.
-
-```ts
-const peerDid = await castor.createPeerDID(
-    [keyPairFromCurveEd25519, keyPairFromCurveX25519],
-    [exampleService]
-);
-```
-
 #### Implementation of
 
-[`Castor`](../namespaces/Domain/interfaces/Castor.md).[`createPeerDID`](../namespaces/Domain/interfaces/Castor.md#createpeerdid)
+[`Castor`](../namespaces/Domain/interfaces/Castor.md).[`createDID`](../namespaces/Domain/interfaces/Castor.md#createdid)
 
 ***
 
-### createPrismDID() {#createprismdid}
+### deactivateDID() {#deactivatedid}
 
-> **createPrismDID**(`key`: [`PublicKey`](../namespaces/Domain/classes/PublicKey.md) \| [`KeyPair`](../namespaces/Domain/classes/KeyPair.md), `services?`: [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[], `authenticationKeys?`: ([`PublicKey`](../namespaces/Domain/classes/PublicKey.md) \| [`KeyPair`](../namespaces/Domain/classes/KeyPair.md))[], `issuanceKeys?`: ([`PublicKey`](../namespaces/Domain/classes/PublicKey.md) \| [`KeyPair`](../namespaces/Domain/classes/KeyPair.md))[]): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
+> **deactivateDID**\<`M`\>(`method`: `M`, `opts`: [`DeactivatePayloadOf`](../type-aliases/DeactivatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>): `Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
 
-Defined in: [src/castor/Castor.ts:165](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/castor/Castor.ts#L165)
+Defined in: [packages/lib/sdk/src/castor/index.ts:116](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L116)
 
-Creates a DID for a prism (a device or server that acts as a DID owner and controller) using a
-given master public key and list of services.
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `M` *extends* `string` |
 
 #### Parameters
 
-| Parameter | Type | Default value | Description |
-| ------ | ------ | ------ | ------ |
-| `key` | [`PublicKey`](../namespaces/Domain/classes/PublicKey.md) \| [`KeyPair`](../namespaces/Domain/classes/KeyPair.md) | `undefined` |  |
-| `services?` | [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[] | `undefined` |  |
-| `authenticationKeys?` | ([`PublicKey`](../namespaces/Domain/classes/PublicKey.md) \| [`KeyPair`](../namespaces/Domain/classes/KeyPair.md))[] | `[]` |  |
-| `issuanceKeys?` | ([`PublicKey`](../namespaces/Domain/classes/PublicKey.md) \| [`KeyPair`](../namespaces/Domain/classes/KeyPair.md))[] | `[]` |  |
+| Parameter | Type |
+| ------ | ------ |
+| `method` | `M` |
+| `opts` | [`DeactivatePayloadOf`](../type-aliases/DeactivatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\> |
 
 #### Returns
 
-`Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
-
-#### Example
-
-This function creates a new `prism` DID, using a given master Public Key and a list of Services.
-The Public Key may be an individual Key or a KeyPair
-It may throw an error if the master Public Key or Services are invalid.
-
-```ts
-const exampleServiceEndpoint = new Domain.DIDDocument.Service("didcomm", ["DIDCommMessaging"], {
- uri: "https://example.com/endpoint",
- accept: ["didcomm/v2"],
- routingKeys: ["did:example:somemediator#somekey"],
-});
-const prismDid = await castor.createPrismDID(
- keyPairFromCurveSecp256K1.publicKey,
- [exampleServiceEndpoint]
-);
-```
+`Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
 
 #### Implementation of
 
-[`Castor`](../namespaces/Domain/interfaces/Castor.md).[`createPrismDID`](../namespaces/Domain/interfaces/Castor.md#createprismdid)
+[`Castor`](../namespaces/Domain/interfaces/Castor.md).[`deactivateDID`](../namespaces/Domain/interfaces/Castor.md#deactivatedid)
 
 ***
 
-### createPrismDIDAtalaObject() {#createprismdidatalaobject}
+### publishDID() {#publishdid}
 
-> **createPrismDIDAtalaObject**(`key`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md), `did`: [`DID`](../namespaces/Domain/classes/DID.md)): `Promise`\<`Uint8Array`\<`ArrayBufferLike`\>\>
+> **publishDID**\<`M`\>(`method`: `M`, `opts`: [`PublishPayloadOf`](../type-aliases/PublishPayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>): `Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
 
-Defined in: [src/castor/Castor.ts:90](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/castor/Castor.ts#L90)
+Defined in: [packages/lib/sdk/src/castor/index.ts:94](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L94)
 
-Creates a Prism DID Atala Object, a buffer contained the prism did create operation.
+#### Type Parameters
 
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `key` | [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md) |  |
-| `did` | [`DID`](../namespaces/Domain/classes/DID.md) |  |
-
-#### Returns
-
-`Promise`\<`Uint8Array`\<`ArrayBufferLike`\>\>
-
-***
-
-### getEcnumbasis() {#getecnumbasis}
-
-> **getEcnumbasis**(`did`: [`DID`](../namespaces/Domain/classes/DID.md), `publicKey`: [`PublicKey`](../namespaces/Domain/classes/PublicKey.md)): `string`
-
-Defined in: [src/castor/Castor.ts:445](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/castor/Castor.ts#L445)
-
-Returns ecnumbasis from a valid DID and its related publicKey
+| Type Parameter |
+| ------ |
+| `M` *extends* `string` |
 
 #### Parameters
 
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `did` | [`DID`](../namespaces/Domain/classes/DID.md) |  |
-| `publicKey` | [`PublicKey`](../namespaces/Domain/classes/PublicKey.md) |  |
+| Parameter | Type |
+| ------ | ------ |
+| `method` | `M` |
+| `opts` | [`PublishPayloadOf`](../type-aliases/PublishPayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\> |
 
 #### Returns
 
-`string`
+`Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
 
 #### Implementation of
 
-[`Castor`](../namespaces/Domain/interfaces/Castor.md).[`getEcnumbasis`](../namespaces/Domain/interfaces/Castor.md#getecnumbasis)
-
-***
-
-### parseDID() {#parsedid}
-
-> **parseDID**(`did`: `string`): [`DID`](../namespaces/Domain/classes/DID.md)
-
-Defined in: [src/castor/Castor.ts:80](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/castor/Castor.ts#L80)
-
-Parses a string representation of a Decentralized Identifier (DID) into a DID object.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| ------ | ------ | ------ |
-| `did` | `string` |  |
-
-#### Returns
-
-[`DID`](../namespaces/Domain/classes/DID.md)
-
-#### Example
-
-This function takes a string representation of a DID and returns an instance of `Domain.DID`. It may throw an error if the string is not a valid
-DID.
-
-```ts
-const parsedPrismDid = castor.parseDID(
- "did:prism:b6c0c33d701ac1b9a262a14454d1bbde3d127d697a76950963c5fd930605:Cj8KPRI7CgdtYXN0ZXIwEAFKLgoJc2VmsxEiECSTjyV7sUfCr_ArpN9rvCwR9fRMAhcsr_S7ZRiJk4p5k"
-);
-```
-
-#### Implementation of
-
-[`Castor`](../namespaces/Domain/interfaces/Castor.md).[`parseDID`](../namespaces/Domain/interfaces/Castor.md#parsedid)
+[`Castor`](../namespaces/Domain/interfaces/Castor.md).[`publishDID`](../namespaces/Domain/interfaces/Castor.md#publishdid)
 
 ***
 
@@ -210,7 +146,7 @@ const parsedPrismDid = castor.parseDID(
 
 > **resolveDID**(`didstr`: `string` \| [`DID`](../namespaces/Domain/classes/DID.md)): `Promise`\<[`DIDDocument`](../namespaces/Domain/classes/DIDDocument.md)\>
 
-Defined in: [src/castor/Castor.ts:266](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/castor/Castor.ts#L266)
+Defined in: [packages/lib/sdk/src/castor/index.ts:143](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L143)
 
 Asynchronously resolves a DID to its corresponding DID Document. This function may throw an error if
 the DID is invalid or the document cannot be retrieved.
@@ -220,7 +156,7 @@ the DID is invalid or the document cannot be retrieved.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `didstr` | `string` \| [`DID`](../namespaces/Domain/classes/DID.md) |  |
+| `didstr` | `string` \| [`DID`](../namespaces/Domain/classes/DID.md) | - |
 
 #### Returns
 
@@ -240,53 +176,56 @@ const didDocument = await castor.resolveDID("did:prism:123456")
 
 ***
 
+### updateDID() {#updatedid}
+
+> **updateDID**\<`M`\>(`method`: `M`, `opts`: [`UpdatePayloadOf`](../type-aliases/UpdatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>): `Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
+
+Defined in: [packages/lib/sdk/src/castor/index.ts:105](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L105)
+
+#### Type Parameters
+
+| Type Parameter |
+| ------ |
+| `M` *extends* `string` |
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `method` | `M` |
+| `opts` | [`UpdatePayloadOf`](../type-aliases/UpdatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\> |
+
+#### Returns
+
+`Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
+
+#### Implementation of
+
+[`Castor`](../namespaces/Domain/interfaces/Castor.md).[`updateDID`](../namespaces/Domain/interfaces/Castor.md#updatedid)
+
+***
+
 ### verifySignature() {#verifysignature}
 
 > **verifySignature**(`did`: [`DID`](../namespaces/Domain/classes/DID.md), `challenge`: `Uint8Array`, `signature`: `Uint8Array`): `Promise`\<`boolean`\>
 
-Defined in: [src/castor/Castor.ts:336](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/castor/Castor.ts#L336)
+Defined in: [packages/lib/sdk/src/castor/index.ts:86](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L86)
 
-Verifies the authenticity of a signature using the corresponding DID Document, challenge, and signature data.
-This function returns a boolean value indicating whether the signature is valid or not. This function may throw
-an error if the DID Document or signature data are invalid.
+Verify a cryptographic signature against a DID's verification methods.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `did` | [`DID`](../namespaces/Domain/classes/DID.md) |  |
-| `challenge` | `Uint8Array` |  |
-| `signature` | `Uint8Array` |  |
+| `did` | [`DID`](../namespaces/Domain/classes/DID.md) | the signer's DID |
+| `challenge` | `Uint8Array` | the original data that was signed |
+| `signature` | `Uint8Array` | the signature bytes to verify |
 
 #### Returns
 
 `Promise`\<`boolean`\>
 
-#### Example
-
-This function verifies the authenticity of a signature using given DID, challenge, and signature data. It returns a boolean value indicating whether the signature is valid or not. It may throw an error if the DID or signature data are invalid.
-
-```ts
-const message = "data to sign";
-const messageBytes = new TextEncoder().encode(message);
-const {mnemonics, seed} = apollo.createRandomSeed();
-const privateKey = apollo.createPublicKey({
-  type: KeyTypes.EC,
-  curve: Curve.SECP256K1,
-  seed: Buffer.from(seed.value).toString("hex"),
-  derivationPath: "m/0'/0'/0'"
-});
-if (privateKey.isSignable()) {
-  const signature = privateKey.sign(message);
-  const did = castor.parseDID("did:prism:123456");
-  const challenge = messageBytes
-  const isValid = castor.verifySignature(
-      castor.parseDID("did:prism:123456"),
-      challenge, // Uint8Array
-      signature // Uint8Array
-  );
-}
-```
+`true` if any verification method on the DID validates the signature
 
 #### Implementation of
 

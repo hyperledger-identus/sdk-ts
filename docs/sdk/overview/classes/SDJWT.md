@@ -6,14 +6,11 @@
 
 # Class: SDJWT
 
-Defined in: [src/pollux/utils/jwt/SDJWT.ts:28](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/SDJWT.ts#L28)
-
-used to enable Modules to propagate the Context
-and have access to runTask
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L32)
 
 ## Extends
 
-- [`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md)
+- `Runner`
 
 ## Constructors
 
@@ -27,7 +24,7 @@ and have access to runTask
 
 #### Inherited from
 
-[`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md).[`constructor`](../namespaces/Utils/namespaces/Task/classes/Runner.md#constructor)
+`Task.Runner.constructor`
 
 ## Methods
 
@@ -35,7 +32,7 @@ and have access to runTask
 
 > **clone**(): `SDJWT`
 
-Defined in: [src/pollux/utils/jwt/SDJWT.ts:29](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/SDJWT.ts#L29)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L33)
 
 #### Returns
 
@@ -43,15 +40,15 @@ Defined in: [src/pollux/utils/jwt/SDJWT.ts:29](https://github.com/hyperledger/id
 
 #### Overrides
 
-[`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md).[`clone`](../namespaces/Utils/namespaces/Task/classes/Runner.md#clone)
+`Task.Runner.clone`
 
 ***
 
 ### createPresentationFor() {#createpresentationfor}
 
-> **createPresentationFor**\<`T`\>(`options`: \{ `jws`: `string`; `presentationFrame?`: `PFrame`\<`T`\>; `privateKey`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md); \}): `Promise`\<`string`\>
+> **createPresentationFor**\<`T`\>(`options`: \{ `jws`: `string`; `kb?`: `KBOptions`; `presentationFrame?`: `PFrame`\<`T`\>; `privateKey`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md); \}): `Promise`\<`string`\>
 
-Defined in: [src/pollux/utils/jwt/SDJWT.ts:97](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/SDJWT.ts#L97)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:125](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L125)
 
 #### Type Parameters
 
@@ -63,8 +60,9 @@ Defined in: [src/pollux/utils/jwt/SDJWT.ts:97](https://github.com/hyperledger/id
 
 | Parameter | Type |
 | ------ | ------ |
-| `options` | \{ `jws`: `string`; `presentationFrame?`: `PFrame`\<`T`\>; `privateKey`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md); \} |
+| `options` | \{ `jws`: `string`; `kb?`: `KBOptions`; `presentationFrame?`: `PFrame`\<`T`\>; `privateKey`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md); \} |
 | `options.jws` | `string` |
+| `options.kb?` | `KBOptions` |
 | `options.presentationFrame?` | `PFrame`\<`T`\> |
 | `options.privateKey` | [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md) |
 
@@ -78,7 +76,7 @@ Defined in: [src/pollux/utils/jwt/SDJWT.ts:97](https://github.com/hyperledger/id
 
 > **decode**(`jws`: `string`): `DecodedSDJwt`
 
-Defined in: [src/pollux/utils/jwt/SDJWT.ts:33](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/SDJWT.ts#L33)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:37](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L37)
 
 #### Parameters
 
@@ -96,7 +94,7 @@ Defined in: [src/pollux/utils/jwt/SDJWT.ts:33](https://github.com/hyperledger/id
 
 > **getPKConfig**(`publicKey`: [`PublicKey`](../namespaces/Domain/classes/PublicKey.md)): `SDJWTVCConfig`
 
-Defined in: [src/pollux/utils/jwt/SDJWT.ts:117](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/SDJWT.ts#L117)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:150](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L150)
 
 #### Parameters
 
@@ -114,7 +112,7 @@ Defined in: [src/pollux/utils/jwt/SDJWT.ts:117](https://github.com/hyperledger/i
 
 > **getSKConfig**(`privateKey`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md)): `SDJWTVCConfig`
 
-Defined in: [src/pollux/utils/jwt/SDJWT.ts:151](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/SDJWT.ts#L151)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:184](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L184)
 
 #### Parameters
 
@@ -132,7 +130,7 @@ Defined in: [src/pollux/utils/jwt/SDJWT.ts:151](https://github.com/hyperledger/i
 
 > **reveal**(`disclosedPayload`: `Record`\<`string`, `unknown`\>, `disclosures`: `Disclosure`\<`unknown`\>[]): `Promise`\<`unknown`\>
 
-Defined in: [src/pollux/utils/jwt/SDJWT.ts:106](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/SDJWT.ts#L106)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:139](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L139)
 
 #### Parameters
 
@@ -149,9 +147,9 @@ Defined in: [src/pollux/utils/jwt/SDJWT.ts:106](https://github.com/hyperledger/i
 
 ### sign() {#sign}
 
-> **sign**\<`E`\>(`options`: \{ `disclosureFrame`: `DisclosureFrame`\<`E`\>; `issuerDID`: [`DID`](../namespaces/Domain/classes/DID.md); `kid?`: `string`; `payload`: `E`; `privateKey?`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md); \}): `Promise`\<`string`\>
+> **sign**\<`E`\>(`options`: \{ `disclosureFrame`: `DisclosureFrame`\<`E`\>; `issuerDID`: [`DID`](../namespaces/Domain/classes/DID.md); `kid?`: `string`; `payload`: `E`; `privateKey?`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md); `purpose?`: `"ISSUING_KEY"` \| `"AUTHENTICATION_KEY"`; \}): `Promise`\<`string`\>
 
-Defined in: [src/pollux/utils/jwt/SDJWT.ts:37](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/SDJWT.ts#L37)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:41](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L41)
 
 #### Type Parameters
 
@@ -163,12 +161,13 @@ Defined in: [src/pollux/utils/jwt/SDJWT.ts:37](https://github.com/hyperledger/id
 
 | Parameter | Type |
 | ------ | ------ |
-| `options` | \{ `disclosureFrame`: `DisclosureFrame`\<`E`\>; `issuerDID`: [`DID`](../namespaces/Domain/classes/DID.md); `kid?`: `string`; `payload`: `E`; `privateKey?`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md); \} |
+| `options` | \{ `disclosureFrame`: `DisclosureFrame`\<`E`\>; `issuerDID`: [`DID`](../namespaces/Domain/classes/DID.md); `kid?`: `string`; `payload`: `E`; `privateKey?`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md); `purpose?`: `"ISSUING_KEY"` \| `"AUTHENTICATION_KEY"`; \} |
 | `options.disclosureFrame` | `DisclosureFrame`\<`E`\> |
 | `options.issuerDID` | [`DID`](../namespaces/Domain/classes/DID.md) |
 | `options.kid?` | `string` |
 | `options.payload` | `E` |
 | `options.privateKey?` | [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md) |
+| `options.purpose?` | `"ISSUING_KEY"` \| `"AUTHENTICATION_KEY"` |
 
 #### Returns
 
@@ -180,7 +179,7 @@ Defined in: [src/pollux/utils/jwt/SDJWT.ts:37](https://github.com/hyperledger/id
 
 > **verify**(`options`: \{ `issuerDID`: [`DID`](../namespaces/Domain/classes/DID.md); `jws`: `string`; `requiredClaimKeys?`: `string`[]; `requiredKeyBindings?`: `boolean`; \}): `Promise`\<`boolean`\>
 
-Defined in: [src/pollux/utils/jwt/SDJWT.ts:53](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/SDJWT.ts#L53)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:59](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L59)
 
 #### Parameters
 
@@ -200,20 +199,20 @@ Defined in: [src/pollux/utils/jwt/SDJWT.ts:53](https://github.com/hyperledger/id
 
 ### withContext() {#withcontext}
 
-> **withContext**(`ctx`: [`Context`](../namespaces/Utils/namespaces/Task/type-aliases/Context.md)): [`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md)
+> **withContext**(`ctx`: `ContextProxy`): `Runner`
 
-Defined in: [src/utils/tasks.ts:103](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L103)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:108](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L108)
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `ctx` | [`Context`](../namespaces/Utils/namespaces/Task/type-aliases/Context.md) |
+| `ctx` | `ContextProxy` |
 
 #### Returns
 
-[`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md)
+`Runner`
 
 #### Inherited from
 
-[`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md).[`withContext`](../namespaces/Utils/namespaces/Task/classes/Runner.md#withcontext)
+`Task.Runner.withContext`

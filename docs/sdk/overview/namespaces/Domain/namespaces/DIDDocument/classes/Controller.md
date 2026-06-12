@@ -6,7 +6,7 @@
 
 # Class: Controller
 
-Defined in: [src/domain/models/DIDDocument.ts:295](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L295)
+Defined in: packages/shared/domain/build/index.d.ts:950
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [src/domain/models/DIDDocument.ts:295](https://github.com/hyperledge
 
 > **new Controller**(`values`: [`DID`](../../../classes/DID.md)[]): `Controller`
 
-Defined in: [src/domain/models/DIDDocument.ts:296](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L296)
+Defined in: packages/shared/domain/build/index.d.ts:952
 
 #### Parameters
 
@@ -28,6 +28,6 @@ Defined in: [src/domain/models/DIDDocument.ts:296](https://github.com/hyperledge
 
 ## Properties
 
-| Property | Modifier | Type | Defined in |
-| ------ | ------ | ------ | ------ |
-| <a id="values"></a> `values` | `public` | [`DID`](../../../classes/DID.md)[] | [src/domain/models/DIDDocument.ts:296](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L296) |
+| Property | Type | Defined in |
+| ------ | ------ | ------ |
+| <a id="property-values"></a> `values` | [`DID`](../../../classes/DID.md)[] | packages/shared/domain/build/index.d.ts:951 |

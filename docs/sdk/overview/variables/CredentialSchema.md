@@ -8,4 +8,4 @@
 
 > `const` **CredentialSchema**: [`TypedSchema`](../type-aliases/TypedSchema.md)\<[`Credential`](../interfaces/Credential.md)\>
 
-Defined in: [src/pluto/models/Credential.ts:38](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Credential.ts#L38)
+Defined in: [packages/lib/sdk/src/pluto/models/Credential.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/Credential.ts#L35)

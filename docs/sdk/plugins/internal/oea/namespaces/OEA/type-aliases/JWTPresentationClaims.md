@@ -6,14 +6,14 @@
 
 # Type Alias: JWTPresentationClaims
 
-> **JWTPresentationClaims** = \{ `claims`: [`JsonObj`](../../../../../../overview/namespaces/Utils/type-aliases/JsonObj.md)\<[`InputFieldFilter`](InputFieldFilter.md)\>; `issuer?`: `string`; `schema?`: `string`; \}
+> **JWTPresentationClaims** = \{ `claims`: [`JsonObj`](../../../../../../overview/type-aliases/JsonObj.md)\<[`InputFieldFilter`](InputFieldFilter.md)\>; `issuer?`: `string`; `schema?`: `string`; \}
 
-Defined in: [src/plugins/internal/oea/types.ts:31](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L31)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L48)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="claims"></a> `claims` | [`JsonObj`](../../../../../../overview/namespaces/Utils/type-aliases/JsonObj.md)\<[`InputFieldFilter`](InputFieldFilter.md)\> | [src/plugins/internal/oea/types.ts:34](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L34) |
-| <a id="issuer"></a> `issuer?` | `string` | [src/plugins/internal/oea/types.ts:33](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L33) |
-| <a id="schema"></a> `schema?` | `string` | [src/plugins/internal/oea/types.ts:32](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L32) |
+| <a id="property-claims"></a> `claims` | [`JsonObj`](../../../../../../overview/type-aliases/JsonObj.md)\<[`InputFieldFilter`](InputFieldFilter.md)\> | [packages/lib/sdk/src/plugins/internal/oea/types.ts:51](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L51) |
+| <a id="property-issuer"></a> `issuer?` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:50](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L50) |
+| <a id="property-schema"></a> `schema?` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:49](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L49) |

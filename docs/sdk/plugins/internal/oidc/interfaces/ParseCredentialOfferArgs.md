@@ -6,7 +6,7 @@
 
 # Interface: ParseCredentialOfferArgs
 
-Defined in: [src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts#L12)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts#L14)
 
 attempt to extract a Credential Offer from the given value
 
@@ -18,4 +18,4 @@ attempt to extract a Credential Offer from the given value
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="value"></a> `value` | `unknown` | [src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts:13](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts#L13) |
+| <a id="property-value"></a> `value` | `unknown` | [packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts#L15) |

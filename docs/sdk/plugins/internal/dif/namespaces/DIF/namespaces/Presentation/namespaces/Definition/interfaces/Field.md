@@ -6,15 +6,15 @@
 
 # Interface: Field
 
-Defined in: [src/plugins/internal/dif/types.ts:33](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L33)
+Defined in: [packages/lib/sdk/src/plugins/internal/dif/types.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L33)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="filter"></a> `filter?` | [`Filter`](../namespaces/Field/interfaces/Filter.md) | [src/plugins/internal/dif/types.ts:38](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L38) |
-| <a id="id"></a> `id?` | `string` | [src/plugins/internal/dif/types.ts:35](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L35) |
-| <a id="name"></a> `name?` | `string` | [src/plugins/internal/dif/types.ts:37](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L37) |
-| <a id="optional"></a> `optional?` | `boolean` | [src/plugins/internal/dif/types.ts:39](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L39) |
-| <a id="path"></a> `path` | `string`[] | [src/plugins/internal/dif/types.ts:34](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L34) |
-| <a id="purpose"></a> `purpose?` | `string` | [src/plugins/internal/dif/types.ts:36](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L36) |
+| <a id="property-filter"></a> `filter?` | [`Filter`](../namespaces/Field/interfaces/Filter.md) | [packages/lib/sdk/src/plugins/internal/dif/types.ts:38](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L38) |
+| <a id="property-id"></a> `id?` | `string` | [packages/lib/sdk/src/plugins/internal/dif/types.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L35) |
+| <a id="property-name"></a> `name?` | `string` | [packages/lib/sdk/src/plugins/internal/dif/types.ts:37](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L37) |
+| <a id="property-optional"></a> `optional?` | `boolean` | [packages/lib/sdk/src/plugins/internal/dif/types.ts:39](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L39) |
+| <a id="property-path"></a> `path` | `string`[] | [packages/lib/sdk/src/plugins/internal/dif/types.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L34) |
+| <a id="property-purpose"></a> `purpose?` | `string` | [packages/lib/sdk/src/plugins/internal/dif/types.ts:36](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L36) |

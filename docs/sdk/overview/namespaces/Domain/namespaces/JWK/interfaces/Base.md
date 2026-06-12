@@ -6,7 +6,7 @@
 
 # Interface: Base
 
-Defined in: [src/domain/models/keyManagement/exportable/JWK.ts:29](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L29)
+Defined in: packages/shared/domain/build/index.d.ts:651
 
 ## Extended by
 
@@ -23,13 +23,13 @@ Defined in: [src/domain/models/keyManagement/exportable/JWK.ts:29](https://githu
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="alg"></a> `alg?` | `string` | [src/domain/models/keyManagement/exportable/JWK.ts:31](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L31) |
-| <a id="ext"></a> `ext?` | `boolean` | [src/domain/models/keyManagement/exportable/JWK.ts:33](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L33) |
-| <a id="key_ops"></a> `key_ops?` | [`key_ops`](../type-aliases/key_ops.md)[] | [src/domain/models/keyManagement/exportable/JWK.ts:35](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L35) |
-| <a id="kid"></a> `kid?` | `string` | [src/domain/models/keyManagement/exportable/JWK.ts:37](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L37) |
-| <a id="kty"></a> `kty?` | `string` | [src/domain/models/keyManagement/exportable/JWK.ts:39](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L39) |
-| <a id="use"></a> `use?` | `"sig"` \| `"enc"` | [src/domain/models/keyManagement/exportable/JWK.ts:41](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L41) |
-| <a id="x5c"></a> `x5c?` | `string`[] | [src/domain/models/keyManagement/exportable/JWK.ts:43](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L43) |
-| <a id="x5t"></a> `x5t?` | `string` | [src/domain/models/keyManagement/exportable/JWK.ts:45](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L45) |
-| <a id="x5ts256"></a> `x5t#S256?` | `string` | [src/domain/models/keyManagement/exportable/JWK.ts:47](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L47) |
-| <a id="x5u"></a> `x5u?` | `string` | [src/domain/models/keyManagement/exportable/JWK.ts:49](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L49) |
+| <a id="property-alg"></a> `alg?` | `string` | packages/shared/domain/build/index.d.ts:652 |
+| <a id="property-ext"></a> `ext?` | `boolean` | packages/shared/domain/build/index.d.ts:653 |
+| <a id="property-key_ops"></a> `key_ops?` | [`key_ops`](../type-aliases/key_ops.md)[] | packages/shared/domain/build/index.d.ts:654 |
+| <a id="property-kid"></a> `kid?` | `string` | packages/shared/domain/build/index.d.ts:655 |
+| <a id="property-kty"></a> `kty?` | `string` | packages/shared/domain/build/index.d.ts:656 |
+| <a id="property-use"></a> `use?` | `"sig"` \| `"enc"` | packages/shared/domain/build/index.d.ts:657 |
+| <a id="property-x5c"></a> `x5c?` | `string`[] | packages/shared/domain/build/index.d.ts:658 |
+| <a id="property-x5t"></a> `x5t?` | `string` | packages/shared/domain/build/index.d.ts:659 |
+| <a id="property-x5ts256"></a> `x5t#S256?` | `string` | packages/shared/domain/build/index.d.ts:660 |
+| <a id="property-x5u"></a> `x5u?` | `string` | packages/shared/domain/build/index.d.ts:661 |

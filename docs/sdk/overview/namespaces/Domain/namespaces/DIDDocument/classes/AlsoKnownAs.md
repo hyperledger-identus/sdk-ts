@@ -6,7 +6,7 @@
 
 # Class: AlsoKnownAs
 
-Defined in: [src/domain/models/DIDDocument.ts:291](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L291)
+Defined in: packages/shared/domain/build/index.d.ts:946
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [src/domain/models/DIDDocument.ts:291](https://github.com/hyperledge
 
 > **new AlsoKnownAs**(`values`: `string`[]): `AlsoKnownAs`
 
-Defined in: [src/domain/models/DIDDocument.ts:292](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L292)
+Defined in: packages/shared/domain/build/index.d.ts:948
 
 #### Parameters
 
@@ -28,6 +28,6 @@ Defined in: [src/domain/models/DIDDocument.ts:292](https://github.com/hyperledge
 
 ## Properties
 
-| Property | Modifier | Type | Defined in |
-| ------ | ------ | ------ | ------ |
-| <a id="values"></a> `values` | `public` | `string`[] | [src/domain/models/DIDDocument.ts:292](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L292) |
+| Property | Type | Defined in |
+| ------ | ------ | ------ |
+| <a id="property-values"></a> `values` | `string`[] | packages/shared/domain/build/index.d.ts:947 |

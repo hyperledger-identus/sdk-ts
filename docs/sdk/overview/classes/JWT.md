@@ -6,14 +6,11 @@
 
 # Class: JWT
 
-Defined in: [src/pollux/utils/jwt/JWT.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/JWT.ts#L10)
-
-used to enable Modules to propagate the Context
-and have access to runTask
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L11)
 
 ## Extends
 
-- [`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md)
+- `Runner`
 
 ## Constructors
 
@@ -27,7 +24,7 @@ and have access to runTask
 
 #### Inherited from
 
-[`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md).[`constructor`](../namespaces/Utils/namespaces/Task/classes/Runner.md#constructor)
+`Task.Runner.constructor`
 
 ## Methods
 
@@ -35,7 +32,7 @@ and have access to runTask
 
 > **clone**(): `JWT`
 
-Defined in: [src/pollux/utils/jwt/JWT.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/JWT.ts#L11)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L12)
 
 #### Returns
 
@@ -43,7 +40,7 @@ Defined in: [src/pollux/utils/jwt/JWT.ts:11](https://github.com/hyperledger/iden
 
 #### Overrides
 
-[`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md).[`clone`](../namespaces/Utils/namespaces/Task/classes/Runner.md#clone)
+`Task.Runner.clone`
 
 ***
 
@@ -51,7 +48,7 @@ Defined in: [src/pollux/utils/jwt/JWT.ts:11](https://github.com/hyperledger/iden
 
 > **decode**(`jws`: `string`): `Promise`\<[`DecodedObj`](../namespaces/Domain/namespaces/JWT/interfaces/DecodedObj.md)\>
 
-Defined in: [src/pollux/utils/jwt/JWT.ts:15](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/JWT.ts#L15)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L16)
 
 #### Parameters
 
@@ -67,9 +64,9 @@ Defined in: [src/pollux/utils/jwt/JWT.ts:15](https://github.com/hyperledger/iden
 
 ### signWithDID() {#signwithdid}
 
-> **signWithDID**(`did`: [`DID`](../namespaces/Domain/classes/DID.md), `payload`: `Partial`\<[`Payload`](../namespaces/Domain/namespaces/JWT/type-aliases/Payload.md)\>, `header?`: `Partial`\<[`Header`](../namespaces/Domain/namespaces/JWT/interfaces/Header.md)\>, `privateKey?`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md)): `Promise`\<`string`\>
+> **signWithDID**(`did`: [`DID`](../namespaces/Domain/classes/DID.md), `payload`: `Partial`\<[`Payload`](../namespaces/Domain/namespaces/JWT/type-aliases/Payload.md)\>, `header?`: `Partial`\<[`Header`](../namespaces/Domain/namespaces/JWT/interfaces/Header.md)\>, `privateKey?`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md), `purpose?`: `"ISSUING_KEY"` \| `"AUTHENTICATION_KEY"`): `Promise`\<`string`\>
 
-Defined in: [src/pollux/utils/jwt/JWT.ts:28](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/JWT.ts#L28)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:30](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L30)
 
 Creates a signed JWT from a DID and Key
 
@@ -77,10 +74,11 @@ Creates a signed JWT from a DID and Key
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `did` | [`DID`](../namespaces/Domain/classes/DID.md) |  |
-| `payload` | `Partial`\<[`Payload`](../namespaces/Domain/namespaces/JWT/type-aliases/Payload.md)\> |  |
-| `header?` | `Partial`\<[`Header`](../namespaces/Domain/namespaces/JWT/interfaces/Header.md)\> |  |
-| `privateKey?` | [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md) |  |
+| `did` | [`DID`](../namespaces/Domain/classes/DID.md) | - |
+| `payload` | `Partial`\<[`Payload`](../namespaces/Domain/namespaces/JWT/type-aliases/Payload.md)\> | - |
+| `header?` | `Partial`\<[`Header`](../namespaces/Domain/namespaces/JWT/interfaces/Header.md)\> | - |
+| `privateKey?` | [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md) | - |
+| `purpose?` | `"ISSUING_KEY"` \| `"AUTHENTICATION_KEY"` | which verification relationship to use for key lookup (default: "assertionMethod") |
 
 #### Returns
 
@@ -92,7 +90,7 @@ Creates a signed JWT from a DID and Key
 
 > **verify**(`options`: \{ `holderDID?`: [`DID`](../namespaces/Domain/classes/DID.md); `issuerDID`: [`DID`](../namespaces/Domain/classes/DID.md); `jws`: `string`; \}): `Promise`\<`boolean`\>
 
-Defined in: [src/pollux/utils/jwt/JWT.ts:37](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/JWT.ts#L37)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:40](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L40)
 
 #### Parameters
 
@@ -111,20 +109,20 @@ Defined in: [src/pollux/utils/jwt/JWT.ts:37](https://github.com/hyperledger/iden
 
 ### withContext() {#withcontext}
 
-> **withContext**(`ctx`: [`Context`](../namespaces/Utils/namespaces/Task/type-aliases/Context.md)): [`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md)
+> **withContext**(`ctx`: `ContextProxy`): `Runner`
 
-Defined in: [src/utils/tasks.ts:103](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L103)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:108](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L108)
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `ctx` | [`Context`](../namespaces/Utils/namespaces/Task/type-aliases/Context.md) |
+| `ctx` | `ContextProxy` |
 
 #### Returns
 
-[`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md)
+`Runner`
 
 #### Inherited from
 
-[`Runner`](../namespaces/Utils/namespaces/Task/classes/Runner.md).[`withContext`](../namespaces/Utils/namespaces/Task/classes/Runner.md#withcontext)
+`Task.Runner.withContext`

@@ -6,7 +6,7 @@
 
 # Class: ConnectionsManager
 
-Defined in: [src/edge-agent/connections/ConnectionsManager.ts:13](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/connections/ConnectionsManager.ts#L13)
+Defined in: [packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts#L13)
 
 ConnectionsManager is responsible for handling Connections and Mediators
 
@@ -30,13 +30,13 @@ Mediators are a Connection where we periodically fetch messages from
 
 #### Get Signature
 
-> **get** **mediator**(): [`Nil`](../namespaces/Utils/type-aliases/Nil.md) \| [`MediatorConnection`](../../plugins/internal/didcomm/classes/MediatorConnection.md)
+> **get** **mediator**(): [`Nil`](../type-aliases/Nil.md) \| [`MediatorConnection`](../../plugins/internal/didcomm/classes/MediatorConnection.md)
 
-Defined in: [src/edge-agent/connections/ConnectionsManager.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/connections/ConnectionsManager.ts#L18)
+Defined in: [packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts#L18)
 
 ##### Returns
 
-[`Nil`](../namespaces/Utils/type-aliases/Nil.md) \| [`MediatorConnection`](../../plugins/internal/didcomm/classes/MediatorConnection.md)
+[`Nil`](../type-aliases/Nil.md) \| [`MediatorConnection`](../../plugins/internal/didcomm/classes/MediatorConnection.md)
 
 ## Methods
 
@@ -44,7 +44,7 @@ Defined in: [src/edge-agent/connections/ConnectionsManager.ts:18](https://github
 
 > **add**(`connection`: [`Connection`](../interfaces/Connection.md)): `void`
 
-Defined in: [src/edge-agent/connections/ConnectionsManager.ts:48](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/connections/ConnectionsManager.ts#L48)
+Defined in: [packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts#L48)
 
 add a Connection
 
@@ -52,7 +52,7 @@ add a Connection
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `connection` | [`Connection`](../interfaces/Connection.md) |  |
+| `connection` | [`Connection`](../interfaces/Connection.md) | - |
 
 #### Returns
 
@@ -64,7 +64,7 @@ add a Connection
 
 > **addMediator**(`mediator`: [`Connection`](../interfaces/Connection.md)): `void`
 
-Defined in: [src/edge-agent/connections/ConnectionsManager.ts:56](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/connections/ConnectionsManager.ts#L56)
+Defined in: [packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts:56](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts#L56)
 
 add a Connection and mark it as a Mediator
 
@@ -72,7 +72,7 @@ add a Connection and mark it as a Mediator
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `mediator` | [`Connection`](../interfaces/Connection.md) |  |
+| `mediator` | [`Connection`](../interfaces/Connection.md) | - |
 
 #### Returns
 
@@ -84,7 +84,7 @@ add a Connection and mark it as a Mediator
 
 > **find**(`uri`: `string`): [`Connection`](../interfaces/Connection.md) \| `undefined`
 
-Defined in: [src/edge-agent/connections/ConnectionsManager.ts:85](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/connections/ConnectionsManager.ts#L85)
+Defined in: [packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts:85](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts#L85)
 
 Search for a Connection by it's unique identifier
 
@@ -92,7 +92,7 @@ Search for a Connection by it's unique identifier
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `uri` | `string` |  |
+| `uri` | `string` | - |
 
 #### Returns
 
@@ -104,7 +104,7 @@ Search for a Connection by it's unique identifier
 
 > **remove**(`connection`: `string` \| [`Connection`](../interfaces/Connection.md)): `Promise`\<`void`\>
 
-Defined in: [src/edge-agent/connections/ConnectionsManager.ts:69](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/connections/ConnectionsManager.ts#L69)
+Defined in: [packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts:69](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts#L69)
 
 Remove a Connection
 this but just means the connection will be removed from the current storage
@@ -113,7 +113,7 @@ this but just means the connection will be removed from the current storage
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `connection` | `string` \| [`Connection`](../interfaces/Connection.md) |  |
+| `connection` | `string` \| [`Connection`](../interfaces/Connection.md) | - |
 
 #### Returns
 
@@ -125,7 +125,7 @@ this but just means the connection will be removed from the current storage
 
 > **stop**(): `Promise`\<`void`\>
 
-Defined in: [src/edge-agent/connections/ConnectionsManager.ts:35](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/connections/ConnectionsManager.ts#L35)
+Defined in: [packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/connections/ConnectionsManager.ts#L35)
 
 close all active connections
 

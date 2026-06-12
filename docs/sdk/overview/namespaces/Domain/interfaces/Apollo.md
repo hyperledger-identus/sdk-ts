@@ -6,21 +6,21 @@
 
 # Interface: Apollo
 
-Defined in: [src/domain/buildingBlocks/Apollo.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Apollo.ts#L6)
+Defined in: packages/shared/domain/build/index.d.ts:2377
 
 ## Methods
 
 ### createPrivateKey() {#createprivatekey}
 
-> **createPrivateKey**(`parameters`: \{\[`name`: `string`\]: `any`; \}): [`PrivateKey`](../classes/PrivateKey.md)
+> **createPrivateKey**(`parameters`: [`KeyOptions`](../type-aliases/KeyOptions.md)): [`PrivateKey`](../classes/PrivateKey.md)
 
-Defined in: [src/domain/buildingBlocks/Apollo.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Apollo.ts#L10)
+Defined in: packages/shared/domain/build/index.d.ts:2382
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `parameters` | \{\[`name`: `string`\]: `any`; \} |
+| `parameters` | [`KeyOptions`](../type-aliases/KeyOptions.md) |
 
 #### Returns
 
@@ -30,15 +30,15 @@ Defined in: [src/domain/buildingBlocks/Apollo.ts:10](https://github.com/hyperled
 
 ### createPublicKey() {#createpublickey}
 
-> **createPublicKey**(`parameters`: \{\[`name`: `string`\]: `any`; \}): [`PublicKey`](../classes/PublicKey.md)
+> **createPublicKey**(`parameters`: [`KeyOptions`](../type-aliases/KeyOptions.md)): [`PublicKey`](../classes/PublicKey.md)
 
-Defined in: [src/domain/buildingBlocks/Apollo.ts:13](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Apollo.ts#L13)
+Defined in: packages/shared/domain/build/index.d.ts:2381
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `parameters` | \{\[`name`: `string`\]: `any`; \} |
+| `parameters` | [`KeyOptions`](../type-aliases/KeyOptions.md) |
 
 #### Returns
 
@@ -50,7 +50,7 @@ Defined in: [src/domain/buildingBlocks/Apollo.ts:13](https://github.com/hyperled
 
 > **createRandomMnemonics**(): [`MnemonicWordList`](../type-aliases/MnemonicWordList.md)
 
-Defined in: [src/domain/buildingBlocks/Apollo.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Apollo.ts#L7)
+Defined in: packages/shared/domain/build/index.d.ts:2378
 
 #### Returns
 
@@ -62,7 +62,7 @@ Defined in: [src/domain/buildingBlocks/Apollo.ts:7](https://github.com/hyperledg
 
 > **createRandomSeed**(`passphrase?`: `string`): [`SeedWords`](SeedWords.md)
 
-Defined in: [src/domain/buildingBlocks/Apollo.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Apollo.ts#L9)
+Defined in: packages/shared/domain/build/index.d.ts:2380
 
 #### Parameters
 
@@ -80,7 +80,7 @@ Defined in: [src/domain/buildingBlocks/Apollo.ts:9](https://github.com/hyperledg
 
 > **createSeed**(`mnemonics`: [`MnemonicWordList`](../type-aliases/MnemonicWordList.md), `passphrase`: `string`): [`Seed`](Seed.md)
 
-Defined in: [src/domain/buildingBlocks/Apollo.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Apollo.ts#L8)
+Defined in: packages/shared/domain/build/index.d.ts:2379
 
 #### Parameters
 

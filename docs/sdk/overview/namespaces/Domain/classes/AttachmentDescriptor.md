@@ -6,7 +6,7 @@
 
 # Class: AttachmentDescriptor
 
-Defined in: [src/domain/models/MessageAttachment.ts:40](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L40)
+Defined in: packages/shared/domain/build/index.d.ts:275
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [src/domain/models/MessageAttachment.ts:40](https://github.com/hyper
 
 > **new AttachmentDescriptor**(`data`: [`AttachmentData`](../type-aliases/AttachmentData.md), `mediaType?`: `string`, `id?`: `string`, `filename?`: `string`[], `format?`: `string`, `lastModTime?`: `string`, `byteCount?`: `number`, `description?`: `string`): `AttachmentDescriptor`
 
-Defined in: [src/domain/models/MessageAttachment.ts:41](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L41)
+Defined in: packages/shared/domain/build/index.d.ts:284
 
 #### Parameters
 
@@ -37,14 +37,14 @@ Defined in: [src/domain/models/MessageAttachment.ts:41](https://github.com/hyper
 
 | Property | Modifier | Type | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="bytecount"></a> `byteCount?` | `readonly` | `number` | [src/domain/models/MessageAttachment.ts:48](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L48) |
-| <a id="data"></a> `data` | `readonly` | [`AttachmentData`](../type-aliases/AttachmentData.md) | [src/domain/models/MessageAttachment.ts:42](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L42) |
-| <a id="description"></a> `description?` | `readonly` | `string` | [src/domain/models/MessageAttachment.ts:49](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L49) |
-| <a id="filename"></a> `filename?` | `readonly` | `string`[] | [src/domain/models/MessageAttachment.ts:45](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L45) |
-| <a id="format"></a> `format?` | `readonly` | `string` | [src/domain/models/MessageAttachment.ts:46](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L46) |
-| <a id="id"></a> `id` | `readonly` | `string` | [src/domain/models/MessageAttachment.ts:44](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L44) |
-| <a id="lastmodtime"></a> `lastModTime?` | `readonly` | `string` | [src/domain/models/MessageAttachment.ts:47](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L47) |
-| <a id="mediatype"></a> `mediaType?` | `readonly` | `string` | [src/domain/models/MessageAttachment.ts:43](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L43) |
+| <a id="property-bytecount"></a> `byteCount?` | `readonly` | `number` | packages/shared/domain/build/index.d.ts:282 |
+| <a id="property-data"></a> `data` | `readonly` | [`AttachmentData`](../type-aliases/AttachmentData.md) | packages/shared/domain/build/index.d.ts:276 |
+| <a id="property-description"></a> `description?` | `readonly` | `string` | packages/shared/domain/build/index.d.ts:283 |
+| <a id="property-filename"></a> `filename?` | `readonly` | `string`[] | packages/shared/domain/build/index.d.ts:279 |
+| <a id="property-format"></a> `format?` | `readonly` | `string` | packages/shared/domain/build/index.d.ts:280 |
+| <a id="property-id"></a> `id` | `readonly` | `string` | packages/shared/domain/build/index.d.ts:278 |
+| <a id="property-lastmodtime"></a> `lastModTime?` | `readonly` | `string` | packages/shared/domain/build/index.d.ts:281 |
+| <a id="property-mediatype"></a> `mediaType?` | `readonly` | `string` | packages/shared/domain/build/index.d.ts:277 |
 
 ## Accessors
 
@@ -54,7 +54,7 @@ Defined in: [src/domain/models/MessageAttachment.ts:41](https://github.com/hyper
 
 > **get** **payload**(): `any`
 
-Defined in: [src/domain/models/MessageAttachment.ts:52](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L52)
+Defined in: packages/shared/domain/build/index.d.ts:285
 
 ##### Returns
 
@@ -64,9 +64,9 @@ Defined in: [src/domain/models/MessageAttachment.ts:52](https://github.com/hyper
 
 ### build() {#build}
 
-> `static` **build**\<`T`\>(`payload`: `T`, `id`: `string`, `mediaType`: `string`, `filename?`: `string`[], `format?`: `string`, `lastModTime?`: `string`, `byteCount?`: `number`, `description?`: `string`): `AttachmentDescriptor`
+> `static` **build**\<`T`\>(`payload`: `T`, `id?`: `string`, `mediaType?`: `string`, `filename?`: `string`[], `format?`: `string`, `lastModTime?`: `string`, `byteCount?`: `number`, `description?`: `string`): `AttachmentDescriptor`
 
-Defined in: [src/domain/models/MessageAttachment.ts:56](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L56)
+Defined in: packages/shared/domain/build/index.d.ts:293
 
 #### Type Parameters
 
@@ -76,17 +76,37 @@ Defined in: [src/domain/models/MessageAttachment.ts:56](https://github.com/hyper
 
 #### Parameters
 
-| Parameter | Type | Default value |
-| ------ | ------ | ------ |
-| `payload` | `T` | `undefined` |
-| `id` | `string` | `...` |
-| `mediaType` | `string` | `"application/json"` |
-| `filename?` | `string`[] | `undefined` |
-| `format?` | `string` | `undefined` |
-| `lastModTime?` | `string` | `undefined` |
-| `byteCount?` | `number` | `undefined` |
-| `description?` | `string` | `undefined` |
+| Parameter | Type |
+| ------ | ------ |
+| `payload` | `T` |
+| `id?` | `string` |
+| `mediaType?` | `string` |
+| `filename?` | `string`[] |
+| `format?` | `string` |
+| `lastModTime?` | `string` |
+| `byteCount?` | `number` |
+| `description?` | `string` |
 
 #### Returns
 
 `AttachmentDescriptor`
+
+***
+
+### extractJSON() {#extractjson}
+
+> `static` **extractJSON**(`attachment`: `AttachmentDescriptor`): `any`
+
+Defined in: packages/shared/domain/build/index.d.ts:292
+
+Get the presumed JSON from the attachment
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `attachment` | `AttachmentDescriptor` | - |
+
+#### Returns
+
+`any`

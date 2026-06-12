@@ -6,11 +6,11 @@
 
 # Interface: PEM
 
-Defined in: [src/domain/models/keyManagement/exportable/ExportableKey.ts:42](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/ExportableKey.ts#L42)
+Defined in: packages/shared/domain/build/index.d.ts:734
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="to"></a> `to` | \{ `PEM`: () => `string`; \} | [src/domain/models/keyManagement/exportable/ExportableKey.ts:43](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/ExportableKey.ts#L43) |
-| `to.PEM` | () => `string` | [src/domain/models/keyManagement/exportable/ExportableKey.ts:44](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/ExportableKey.ts#L44) |
+| <a id="property-to"></a> `to` | \{ `PEM`: () => `string`; \} | packages/shared/domain/build/index.d.ts:735 |
+| `to.PEM` | () => `string` | packages/shared/domain/build/index.d.ts:736 |

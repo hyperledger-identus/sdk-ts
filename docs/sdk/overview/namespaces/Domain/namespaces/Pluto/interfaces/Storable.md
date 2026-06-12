@@ -6,7 +6,7 @@
 
 # Interface: Storable
 
-Defined in: [src/domain/buildingBlocks/Pluto.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L18)
+Defined in: packages/shared/domain/build/index.d.ts:399
 
 Storable
 define properties a Domain object must implement to be compatible with Pluto
@@ -15,4 +15,4 @@ define properties a Domain object must implement to be compatible with Pluto
 
 | Property | Type | Description | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="uuid"></a> `uuid` | `string` | Universally Unique Identifier. should be unique across all items. | [src/domain/buildingBlocks/Pluto.ts:23](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L23) |
+| <a id="property-uuid"></a> `uuid` | `string` | Universally Unique Identifier. should be unique across all items. | packages/shared/domain/build/index.d.ts:404 |

@@ -6,10 +6,10 @@
 
 # Interface: AttachmentHeader
 
-Defined in: [src/domain/models/MessageAttachment.ts:4](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L4)
+Defined in: packages/shared/domain/build/index.d.ts:252
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="children"></a> `children` | `string` | [src/domain/models/MessageAttachment.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/MessageAttachment.ts#L5) |
+| <a id="property-children"></a> `children` | `string` | packages/shared/domain/build/index.d.ts:253 |

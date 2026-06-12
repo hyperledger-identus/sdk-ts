@@ -6,22 +6,22 @@
 
 # Class: Service
 
-Defined in: [src/domain/models/DIDDocument.ts:309](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L309)
+Defined in: packages/shared/domain/build/index.d.ts:959
 
 ## Constructors
 
 ### Constructor
 
-> **new Service**(`id`: `string`, `type`: `string`[], `endpoint`: `string` \| [`ServiceEndpoint`](ServiceEndpoint.md)): `Service`
+> **new Service**(`id`: `string`, `type`: `string` \| `string`[], `endpoint`: `string` \| [`ServiceEndpoint`](ServiceEndpoint.md)): `Service`
 
-Defined in: [src/domain/models/DIDDocument.ts:312](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L312)
+Defined in: packages/shared/domain/build/index.d.ts:963
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
 | `id` | `string` |
-| `type` | `string`[] |
+| `type` | `string` \| `string`[] |
 | `endpoint` | `string` \| [`ServiceEndpoint`](ServiceEndpoint.md) |
 
 #### Returns
@@ -30,11 +30,11 @@ Defined in: [src/domain/models/DIDDocument.ts:312](https://github.com/hyperledge
 
 ## Properties
 
-| Property | Modifier | Type | Defined in |
-| ------ | ------ | ------ | ------ |
-| <a id="id"></a> `id` | `public` | `string` | [src/domain/models/DIDDocument.ts:313](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L313) |
-| <a id="serviceendpoint"></a> `serviceEndpoint` | `public` | [`ServiceEndpoint`](ServiceEndpoint.md) | [src/domain/models/DIDDocument.ts:310](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L310) |
-| <a id="type"></a> `type` | `public` | `string`[] | [src/domain/models/DIDDocument.ts:314](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L314) |
+| Property | Type | Defined in |
+| ------ | ------ | ------ |
+| <a id="property-id"></a> `id` | `string` | packages/shared/domain/build/index.d.ts:960 |
+| <a id="property-serviceendpoint"></a> `serviceEndpoint` | [`ServiceEndpoint`](ServiceEndpoint.md) | packages/shared/domain/build/index.d.ts:962 |
+| <a id="property-type"></a> `type` | `string` \| `string`[] | packages/shared/domain/build/index.d.ts:961 |
 
 ## Accessors
 
@@ -44,7 +44,7 @@ Defined in: [src/domain/models/DIDDocument.ts:312](https://github.com/hyperledge
 
 > **get** **isDIDCommMessaging**(): `boolean`
 
-Defined in: [src/domain/models/DIDDocument.ts:320](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L320)
+Defined in: packages/shared/domain/build/index.d.ts:964
 
 ##### Returns
 

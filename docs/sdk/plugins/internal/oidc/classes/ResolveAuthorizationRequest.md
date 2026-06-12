@@ -6,7 +6,7 @@
 
 # Class: ResolveAuthorizationRequest
 
-Defined in: [src/plugins/internal/oidc/connection/ResolveAuthorizationRequest.ts:31](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/connection/ResolveAuthorizationRequest.ts#L31)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveAuthorizationRequest.ts:31](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveAuthorizationRequest.ts#L31)
 
 OIDC Convenience Task
 Credential Offer to Authorization Request
@@ -23,7 +23,7 @@ steps
 
 ## Extends
 
-- [`Task`](../../../../overview/namespaces/Utils/classes/Task.md)\<[`AuthorizationRequest`](AuthorizationRequest.md), [`ResolveAuthorizationRequestArgs`](../interfaces/ResolveAuthorizationRequestArgs.md)\>
+- `Task`\<[`AuthorizationRequest`](AuthorizationRequest.md), [`ResolveAuthorizationRequestArgs`](../interfaces/ResolveAuthorizationRequestArgs.md)\>
 
 ## Constructors
 
@@ -31,13 +31,13 @@ steps
 
 > **new ResolveAuthorizationRequest**(...`args`: \[[`ResolveAuthorizationRequestArgs`](../interfaces/ResolveAuthorizationRequestArgs.md)\]): `ResolveAuthorizationRequest`
 
-Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| ...`args` | \[[`ResolveAuthorizationRequestArgs`](../interfaces/ResolveAuthorizationRequestArgs.md)\] |  |
+| ...`args` | \[[`ResolveAuthorizationRequestArgs`](../interfaces/ResolveAuthorizationRequestArgs.md)\] | - |
 
 #### Returns
 
@@ -45,7 +45,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`constructor`](../../../../overview/namespaces/Utils/classes/Task.md#constructor)
+`Utils.Task<AuthorizationRequest, ResolveAuthorizationRequestArgs>.constructor`
 
 ## Methods
 
@@ -53,7 +53,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 > **log**(): `unknown`
 
-Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L26)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -61,7 +61,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`log`](../../../../overview/namespaces/Utils/classes/Task.md#log)
+`Utils.Task.log`
 
 ***
 
@@ -69,7 +69,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 > **run**(`ctx`: [`Context`](../type-aliases/Context.md)): `Promise`\<[`AuthorizationRequest`](AuthorizationRequest.md)\>
 
-Defined in: [src/plugins/internal/oidc/connection/ResolveAuthorizationRequest.ts:32](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/connection/ResolveAuthorizationRequest.ts#L32)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveAuthorizationRequest.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveAuthorizationRequest.ts#L32)
 
 #### Parameters
 
@@ -83,4 +83,4 @@ Defined in: [src/plugins/internal/oidc/connection/ResolveAuthorizationRequest.ts
 
 #### Overrides
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`run`](../../../../overview/namespaces/Utils/classes/Task.md#run)
+`Utils.Task.run`

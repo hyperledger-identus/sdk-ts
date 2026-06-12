@@ -6,7 +6,7 @@
 
 # Interface: DIDKeyLink
 
-Defined in: [src/pluto/models/relationships/DIDKeyLink.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/relationships/DIDKeyLink.ts#L9)
+Defined in: [packages/lib/sdk/src/pluto/models/relationships/DIDKeyLink.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/relationships/DIDKeyLink.ts#L9)
 
 Definition for DID -> Key relationships
 
@@ -18,7 +18,7 @@ Definition for DID -> Key relationships
 
 | Property | Type | Description | Inherited from | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="alias"></a> `alias?` | `string` | Optional name for the relationship | - | [src/pluto/models/relationships/DIDKeyLink.ts:21](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/relationships/DIDKeyLink.ts#L21) |
-| <a id="didid"></a> `didId` | `string` | UUID of DID | - | [src/pluto/models/relationships/DIDKeyLink.ts:13](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/relationships/DIDKeyLink.ts#L13) |
-| <a id="keyid"></a> `keyId` | `string` | UUID of Key | - | [src/pluto/models/relationships/DIDKeyLink.ts:17](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/relationships/DIDKeyLink.ts#L17) |
-| <a id="uuid"></a> `uuid` | `string` | Universally Unique Identifier. should be unique across all items. | `Model.uuid` | [src/domain/buildingBlocks/Pluto.ts:23](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L23) |
+| <a id="property-alias"></a> `alias?` | `string` | Optional name for the relationship | - | [packages/lib/sdk/src/pluto/models/relationships/DIDKeyLink.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/relationships/DIDKeyLink.ts#L21) |
+| <a id="property-didid"></a> `didId` | `string` | UUID of DID | - | [packages/lib/sdk/src/pluto/models/relationships/DIDKeyLink.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/relationships/DIDKeyLink.ts#L13) |
+| <a id="property-keyid"></a> `keyId` | `string` | UUID of Key | - | [packages/lib/sdk/src/pluto/models/relationships/DIDKeyLink.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/relationships/DIDKeyLink.ts#L17) |
+| <a id="property-uuid"></a> `uuid` | `string` | Universally Unique Identifier. should be unique across all items. | `Model.uuid` | packages/shared/domain/build/index.d.ts:404 |

@@ -6,11 +6,11 @@
 
 # Enumeration: JWT\_VP\_PROPS
 
-Defined in: [src/pollux/models/JWTVerifiableCredential.ts:21](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L21)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L23)
 
 ## Enumeration Members
 
 | Enumeration Member | Value | Defined in |
 | ------ | ------ | ------ |
-| <a id="nonce"></a> `nonce` | `"nonce"` | [src/pollux/models/JWTVerifiableCredential.ts:22](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L22) |
-| <a id="vp"></a> `vp` | `"vp"` | [src/pollux/models/JWTVerifiableCredential.ts:23](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/models/JWTVerifiableCredential.ts#L23) |
+| <a id="enumeration-member-nonce"></a> `nonce` | `"nonce"` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:24](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L24) |
+| <a id="enumeration-member-vp"></a> `vp` | `"vp"` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L25) |

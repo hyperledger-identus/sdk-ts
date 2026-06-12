@@ -6,15 +6,15 @@
 
 # Interface: AnoncredsInputFieldFilter
 
-Defined in: [src/plugins/internal/anoncreds/types.ts:22](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/types.ts#L22)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/types.ts:22](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/types.ts#L22)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="gt"></a> `$gt?` | [`PredicateType`](../type-aliases/PredicateType.md) | [src/plugins/internal/anoncreds/types.ts:25](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/types.ts#L25) |
-| <a id="gte"></a> `$gte?` | [`PredicateType`](../type-aliases/PredicateType.md) | [src/plugins/internal/anoncreds/types.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/types.ts#L26) |
-| <a id="lt"></a> `$lt?` | [`PredicateType`](../type-aliases/PredicateType.md) | [src/plugins/internal/anoncreds/types.ts:27](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/types.ts#L27) |
-| <a id="lte"></a> `$lte?` | [`PredicateType`](../type-aliases/PredicateType.md) | [src/plugins/internal/anoncreds/types.ts:28](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/types.ts#L28) |
-| <a id="name"></a> `name` | `string` | [src/plugins/internal/anoncreds/types.ts:24](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/types.ts#L24) |
-| <a id="type"></a> `type` | `string` | [src/plugins/internal/anoncreds/types.ts:23](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/types.ts#L23) |
+| <a id="property-gt"></a> `$gt?` | [`PredicateType`](../type-aliases/PredicateType.md) | [packages/lib/sdk/src/plugins/internal/anoncreds/types.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/types.ts#L25) |
+| <a id="property-gte"></a> `$gte?` | [`PredicateType`](../type-aliases/PredicateType.md) | [packages/lib/sdk/src/plugins/internal/anoncreds/types.ts:26](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/types.ts#L26) |
+| <a id="property-lt"></a> `$lt?` | [`PredicateType`](../type-aliases/PredicateType.md) | [packages/lib/sdk/src/plugins/internal/anoncreds/types.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/types.ts#L27) |
+| <a id="property-lte"></a> `$lte?` | [`PredicateType`](../type-aliases/PredicateType.md) | [packages/lib/sdk/src/plugins/internal/anoncreds/types.ts:28](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/types.ts#L28) |
+| <a id="property-name"></a> `name` | `string` | [packages/lib/sdk/src/plugins/internal/anoncreds/types.ts:24](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/types.ts#L24) |
+| <a id="property-type"></a> `type` | `string` | [packages/lib/sdk/src/plugins/internal/anoncreds/types.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/types.ts#L23) |

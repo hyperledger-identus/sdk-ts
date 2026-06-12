@@ -6,7 +6,7 @@
 
 # Interface: CredentialPreview
 
-Defined in: [src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts#L8)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts#L8)
 
 Specification:
 https://github.com/decentralized-identity/waci-didcomm/tree/main/issue_credential#preview-credential
@@ -15,7 +15,7 @@ https://github.com/decentralized-identity/waci-didcomm/tree/main/issue_credentia
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="body"></a> `body` | \{ `attributes`: [`Attribute`](Attribute.md)[]; \} | [src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts#L12) |
-| `body.attributes` | [`Attribute`](Attribute.md)[] | [src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts:13](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts#L13) |
-| <a id="id"></a> `id?` | `string` | [src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts#L11) |
-| <a id="type"></a> `type` | `string` | [src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts#L10) |
+| <a id="property-body"></a> `body` | \{ `attributes`: [`Attribute`](Attribute.md)[]; \} | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts#L12) |
+| `body.attributes` | [`Attribute`](Attribute.md)[] | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts#L13) |
+| <a id="property-id"></a> `id?` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts#L11) |
+| <a id="property-type"></a> `type` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/CredentialPreview.ts#L10) |

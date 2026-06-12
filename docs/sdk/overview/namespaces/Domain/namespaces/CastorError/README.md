@@ -6,17 +6,32 @@
 
 # CastorError
 
-## Classes
+## Type Aliases
 
-| Class | Description |
+| Type Alias | Description |
 | ------ | ------ |
-| [ExpectedCompressedKey](classes/ExpectedCompressedKey.md) | - |
-| [InitialStateOfDIDChanged](classes/InitialStateOfDIDChanged.md) | - |
-| [InvalidDIDString](classes/InvalidDIDString.md) | - |
-| [InvalidJWKKeysError](classes/InvalidJWKKeysError.md) | - |
-| [InvalidKeyError](classes/InvalidKeyError.md) | - |
-| [InvalidLongFormDID](classes/InvalidLongFormDID.md) | - |
-| [InvalidPeerDIDError](classes/InvalidPeerDIDError.md) | - |
-| [InvalidPublicKeyEncoding](classes/InvalidPublicKeyEncoding.md) | - |
-| [MethodIdIsDoesNotSatisfyRegex](classes/MethodIdIsDoesNotSatisfyRegex.md) | - |
-| [NotPossibleToResolveDID](classes/NotPossibleToResolveDID.md) | - |
+| [ExpectedCompressedKey](type-aliases/ExpectedCompressedKey.md) | - |
+| [InitialStateOfDIDChanged](type-aliases/InitialStateOfDIDChanged.md) | - |
+| [InvalidDIDString](type-aliases/InvalidDIDString.md) | - |
+| [InvalidJWKKeysError](type-aliases/InvalidJWKKeysError.md) | - |
+| [InvalidKeyError](type-aliases/InvalidKeyError.md) | - |
+| [InvalidLongFormDID](type-aliases/InvalidLongFormDID.md) | - |
+| [InvalidPeerDIDError](type-aliases/InvalidPeerDIDError.md) | - |
+| [InvalidPublicKeyEncoding](type-aliases/InvalidPublicKeyEncoding.md) | - |
+| [MethodIdIsDoesNotSatisfyRegex](type-aliases/MethodIdIsDoesNotSatisfyRegex.md) | - |
+| [NotPossibleToResolveDID](type-aliases/NotPossibleToResolveDID.md) | - |
+
+## Variables
+
+| Variable | Description |
+| ------ | ------ |
+| [ExpectedCompressedKey](variables/ExpectedCompressedKey.md) | - |
+| [InitialStateOfDIDChanged](variables/InitialStateOfDIDChanged.md) | - |
+| [InvalidDIDString](variables/InvalidDIDString.md) | - |
+| [InvalidJWKKeysError](variables/InvalidJWKKeysError.md) | - |
+| [InvalidKeyError](variables/InvalidKeyError.md) | - |
+| [InvalidLongFormDID](variables/InvalidLongFormDID.md) | - |
+| [InvalidPeerDIDError](variables/InvalidPeerDIDError.md) | - |
+| [InvalidPublicKeyEncoding](variables/InvalidPublicKeyEncoding.md) | - |
+| [MethodIdIsDoesNotSatisfyRegex](variables/MethodIdIsDoesNotSatisfyRegex.md) | - |
+| [NotPossibleToResolveDID](variables/NotPossibleToResolveDID.md) | - |

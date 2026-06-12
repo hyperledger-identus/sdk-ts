@@ -6,7 +6,7 @@
 
 # Interface: CredentialFormat
 
-Defined in: [src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts#L11)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts#L11)
 
 Specification:
 https://github.com/decentralized-identity/waci-didcomm/tree/main/issue_credential#request-credential
@@ -15,5 +15,5 @@ https://github.com/decentralized-identity/waci-didcomm/tree/main/issue_credentia
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="attach_id"></a> `attach_id` | `string` | [src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts#L12) |
-| <a id="format"></a> `format` | `string` | [src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts:13](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts#L13) |
+| <a id="property-attach_id"></a> `attach_id` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts#L12) |
+| <a id="property-format"></a> `format` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/RequestCredential.ts#L13) |

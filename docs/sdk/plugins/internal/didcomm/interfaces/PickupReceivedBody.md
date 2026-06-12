@@ -6,7 +6,7 @@
 
 # Interface: PickupReceivedBody
 
-Defined in: [src/plugins/internal/didcomm/protocols/pickup/PickupReceived.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupReceived.ts#L9)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupReceived.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupReceived.ts#L9)
 
 Specification:
 https://didcomm.org/messagepickup/3.0/
@@ -15,4 +15,4 @@ https://didcomm.org/messagepickup/3.0/
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="message_id_list"></a> `message_id_list` | `string`[] | [src/plugins/internal/didcomm/protocols/pickup/PickupReceived.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/pickup/PickupReceived.ts#L11) |
+| <a id="property-message_id_list"></a> `message_id_list` | `string`[] | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupReceived.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/pickup/PickupReceived.ts#L11) |

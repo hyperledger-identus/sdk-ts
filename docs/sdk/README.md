@@ -2,93 +2,38 @@
 
 ***
 
-# Identus TypeScript SDK
+<!-- title: Introduction -->
+<!-- sidebar_label: Introduction -->
+<!-- sidebar_position: 1 -->
 
-<p align="center">
-  <img src="https://cdn.jsdelivr.net/gh/hyperledger/identus@latest/resources/images/hyperledger-identus.svg" />
-</p>
+You can install the SDK with npm, yarn, etc.
 
-[![Coverage Status](https://coveralls.io/repos/github/hyperledger-identus/sdk-ts/badge.svg?branch=main)](https://coveralls.io/github/hyperledger-identus/sdk-ts?branch=main)
+```sh
+npm i @hyperledger/identus-sdk --save
 
----
-
-Identus is a self-sovereign identity (SSI) platform and service suite for
-verifiable data and digital identity. Built on Cardano, as a distributed ledger, 
-it offers core infrastructure for issuing DIDs (Decentralized identifiers) and 
-verifiable credentials, alongside tools and frameworks to help expand your ecosystem.
-The complete platform is separated into multiple repositories:
-* [Cloud Agent](https://github.com/hyperledger-identus/cloud-agent) - Repo that contains the Cloud Agent that provides self-sovereign identity services to build products and solutions.
-* [Mediator](https://github.com/hyperledger-identus/mediator) - Repo for the DIDComm V2 Mediator.
-* [SDK TS](https://github.com/hyperledger-identus/sdk-ts) - Repo for the Typescript SDK.
-
-We also have SDKs for other platforms:
-* [SDK Swift](https://github.com/hyperledger-identus/sdk-swift) - Repo for the Swift SDK.
-* [SDK KMP](https://github.com/hyperledger-identus/sdk-kmp) - Repo for the Kotlin Multi-Platform SDK.
-
-## SDK Overview
-
-- Apollo: Provides a suite of necessary cryptographic operations.
-- Castor: Provides a suite of operations to create, manage and resolve decentralized identifiers.
-- Mercury: Provides a suite of operations for handling DIDComm V2 messages.
-- Pluto: Provides an interface for storage operations in a portable, storage-agnostic manner.
-- Agent: A component using all other building blocks, provides basic edge agent capabilities, including implementing DIDComm V2 protocols.
-
-## Getting started
-We highly recommend you check out the [docs](https://hyperledger-identus.github.io/docs/home/) :world_map:
-
-### Install
-
-**NOTE**: The package was renamed from `@hyperledger/identus-edge-agent-sdk` to `@hyperledger/identus-sdk`. Modify the scripts if you ready to use the new package accordingly.
-
-```bash
-npm i @hyperledger/identus-edge-agent-sdk
 ```
 
-or
-```bash
-yarn add @hyperledger/identus-edge-agent-sdk
+Or using yarn:
+
+```sh
+yarn add @hyperledger/identus-sdk
 ```
 
-### Demo application
-This repository also includes a browser and a Node.js demo application
+Using the library:
 
-#### Build demo dependencies
-The demos assume building this repo from source, so you will need the following:
-* Bash
-* Rust ([cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)) and [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) installed.
-* Node JS Version (20/LTS Recommended)
+```javascript
+import { Apollo } from '@hyperledger/identus-sdk';
 
-Clone and build:
-```bash
-git clone git@github.com:hyperledger-identus/sdk-ts.git --recurse-submodules
-cd sdk-ts
-yarn
-npm run build
-```
-
-If you have any issues while building you can try building from docker (this runs exactly the same build):
-```bash
-docker build -t identus-sdk-ts:latest "." 
-docker run  -v $(pwd)/build:/app/build identus-sdk-ts:latest
-```
-
-#### Run the demos
-Once you have [built the demo dependencies](#build-demo-dependencies), you can try out each of the demos:
-
-Browser React / NextJS
-```bash
-cd demos/next
-npm i
-npm run dev
+const apollo = new Apollo();
 ```
 
 ## Modules
 
 | Module | Description |
 | ------ | ------ |
-| [overview](overview/README.md) | - |
-| [plugins/internal/anoncreds](plugins/internal/anoncreds/README.md) | This export contains the Anoncreds plugin for the Identus SDK. |
-| [plugins/internal/didcomm](plugins/internal/didcomm/README.md) | This export contains the DIDComm plugin for the Identus SDK |
-| [plugins/internal/dif](plugins/internal/dif/README.md) | This export contains the DIF plugin for the Identus SDK Please use the following export |
-| [plugins/internal/oea](plugins/internal/oea/README.md) | This export contains the OEA plugin for the Identus SDK Please use the following export |
-| [plugins/internal/oidc](plugins/internal/oidc/README.md) | This export contains the OIDC plugin for the Identus SDK Please use the following export |
+| [overview](overview/README.md) | <!-- title: Overview --> <!-- sidebar_label: Overview --> <!-- sidebar_position: 1 --> |
+| [plugins/internal/anoncreds](plugins/internal/anoncreds/README.md) | <!-- title: Anoncreds --> <!-- sidebar_label: Anoncreds --> <!-- sidebar_position: 1 --> |
+| [plugins/internal/didcomm](plugins/internal/didcomm/README.md) | <!-- title: DIDComm --> <!-- sidebar_label: DIDComm --> <!-- sidebar_position: 2 --> |
+| [plugins/internal/dif](plugins/internal/dif/README.md) | <!-- title: DIF --> <!-- sidebar_label: DIF --> <!-- sidebar_position: 3 --> |
+| [plugins/internal/oea](plugins/internal/oea/README.md) | <!-- title: OEA --> <!-- sidebar_label: OEA --> <!-- sidebar_position: 4 --> |
+| [plugins/internal/oidc](plugins/internal/oidc/README.md) | <!-- title: OIDC --> <!-- sidebar_label: OIDC --> <!-- sidebar_position: 5 --> |

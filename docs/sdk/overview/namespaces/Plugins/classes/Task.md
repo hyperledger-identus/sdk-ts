@@ -6,16 +6,11 @@
 
 # Abstract Class: Task\<T, R\>
 
-Defined in: [src/plugins/types.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/types.ts#L6)
-
-A Task encapsulates a unit of work
-
-args constructor parameter is mandatory if Args type given
-args constructor parameter is optional if no Args type given
+Defined in: [packages/lib/sdk/src/plugins/types.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/types.ts#L6)
 
 ## Extends
 
-- [`Task`](../../Utils/classes/Task.md)\<[`Payload`](../../../interfaces/Payload.md)\<`R`\>, `T`\>
+- `Task`\<[`Payload`](../../Domain/interfaces/Payload.md)\<`R`\>, `T`\>
 
 ## Type Parameters
 
@@ -30,13 +25,13 @@ args constructor parameter is optional if no Args type given
 
 > **new Task**\<`T`, `R`\>(...`args`: `unknown` *extends* `T` ? \[\] : \[`T`\]): `Task`\<`T`, `R`\>
 
-Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| ...`args` | `unknown` *extends* `T` ? \[\] : \[`T`\] |  |
+| ...`args` | `unknown` *extends* `T` ? \[\] : \[`T`\] | - |
 
 #### Returns
 
@@ -44,7 +39,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../Utils/classes/Task.md).[`constructor`](../../Utils/classes/Task.md#constructor)
+`Utils.Task<Payload<R>, T>.constructor`
 
 ## Methods
 
@@ -52,7 +47,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 > **log**(): `unknown`
 
-Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L26)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -60,26 +55,26 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../Utils/classes/Task.md).[`log`](../../Utils/classes/Task.md#log)
+`Utils.Task.log`
 
 ***
 
 ### run() {#run}
 
-> `abstract` **run**(`ctx`: [`Context`](../../Utils/namespaces/Task/type-aliases/Context.md)): `Promise`\<[`Payload`](../../../interfaces/Payload.md)\<`R`\>\>
+> `abstract` **run**(`ctx`: `any`): `Promise`\<[`Payload`](../../Domain/interfaces/Payload.md)\<`R`\>\>
 
-Defined in: [src/utils/tasks.ts:23](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L23)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:24](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L24)
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `ctx` | [`Context`](../../Utils/namespaces/Task/type-aliases/Context.md) |
+| `ctx` | `any` |
 
 #### Returns
 
-`Promise`\<[`Payload`](../../../interfaces/Payload.md)\<`R`\>\>
+`Promise`\<[`Payload`](../../Domain/interfaces/Payload.md)\<`R`\>\>
 
 #### Inherited from
 
-[`Task`](../../Utils/classes/Task.md).[`run`](../../Utils/classes/Task.md#run)
+`Utils.Task.run`

@@ -6,8 +6,8 @@
 
 # ImportableKey
 
-## Functions
+## Variables
 
-| Function | Description |
+| Variable | Description |
 | ------ | ------ |
-| [factory](functions/factory.md) | factory to create Key property with desired functions allows creation of a given Key through different data types |
+| [factory](variables/factory.md) | factory to create Key property with desired functions allows creation of a given Key through different data types |

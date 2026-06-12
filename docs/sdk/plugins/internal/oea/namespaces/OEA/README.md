@@ -40,6 +40,13 @@
 
 | Variable | Description |
 | ------ | ------ |
+| [JWT](variables/JWT.md) | W3C standard credential format identifier for JWT credentials |
 | [PRISM\_JWT](variables/PRISM_JWT.md) | - |
 | [PRISM\_SDJWT](variables/PRISM_SDJWT.md) | - |
 | [ProtocolIds](variables/ProtocolIds.md) | - |
+
+## Functions
+
+| Function | Description |
+| ------ | ------ |
+| [normalizeCredentialFormat](functions/normalizeCredentialFormat.md) | Normalizes a credential format string to the canonical format. Treats "jwt" and "prism/jwt" as equivalent (returns "prism/jwt" for backward compat). |

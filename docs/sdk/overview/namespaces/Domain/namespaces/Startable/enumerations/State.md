@@ -6,7 +6,7 @@
 
 # Enumeration: State
 
-Defined in: [src/domain/protocols/Startable.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L8)
+Defined in: packages/shared/domain/build/index.d.ts:2298
 
 states for a Startable entity
 
@@ -14,7 +14,7 @@ states for a Startable entity
 
 | Enumeration Member | Value | Defined in |
 | ------ | ------ | ------ |
-| <a id="running"></a> `RUNNING` | `"running"` | [src/domain/protocols/Startable.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L11) |
-| <a id="starting"></a> `STARTING` | `"starting"` | [src/domain/protocols/Startable.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L10) |
-| <a id="stopped"></a> `STOPPED` | `"stopped"` | [src/domain/protocols/Startable.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L9) |
-| <a id="stopping"></a> `STOPPING` | `"stopping"` | [src/domain/protocols/Startable.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/Startable.ts#L12) |
+| <a id="enumeration-member-running"></a> `RUNNING` | `"running"` | packages/shared/domain/build/index.d.ts:2301 |
+| <a id="enumeration-member-starting"></a> `STARTING` | `"starting"` | packages/shared/domain/build/index.d.ts:2300 |
+| <a id="enumeration-member-stopped"></a> `STOPPED` | `"stopped"` | packages/shared/domain/build/index.d.ts:2299 |
+| <a id="enumeration-member-stopping"></a> `STOPPING` | `"stopping"` | packages/shared/domain/build/index.d.ts:2302 |

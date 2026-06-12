@@ -12,8 +12,8 @@
 | ------ | ------ |
 | [RecoveryId](namespaces/RecoveryId/README.md) | - |
 
-## Functions
+## Variables
 
-| Function | Description |
+| Variable | Description |
 | ------ | ------ |
-| [recoveryId](functions/recoveryId.md) | Factory for RecoveryId. Nomenclature: - algorithm first - arbitrary suffixes for customisation - separated by "+" |
+| [recoveryId](variables/recoveryId.md) | Factory for RecoveryId. Nomenclature: - algorithm first - arbitrary suffixes for customisation - separated by "+" |

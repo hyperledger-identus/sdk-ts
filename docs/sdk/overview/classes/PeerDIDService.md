@@ -6,7 +6,7 @@
 
 # Class: PeerDIDService
 
-Defined in: [src/peer-did/PeerDID.ts:47](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L47)
+Defined in: [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L8)
 
 Provides functionality to transfrom peerDIDServices from our interfaces into DIDComm module ones
 
@@ -16,7 +16,7 @@ Provides functionality to transfrom peerDIDServices from our interfaces into DID
 
 > **new PeerDIDService**(`type`: `string`, `serviceEndpoint`: `string`, `routingKeys?`: `string`[], `accept?`: `string`[]): `PeerDIDService`
 
-Defined in: [src/peer-did/PeerDID.ts:53](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L53)
+Defined in: [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L14)
 
 #### Parameters
 
@@ -35,17 +35,17 @@ Defined in: [src/peer-did/PeerDID.ts:53](https://github.com/hyperledger/identus-
 
 | Property | Modifier | Type | Default value | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="accept"></a> `accept?` | `readonly` | `string`[] | `undefined` | [src/peer-did/PeerDID.ts:51](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L51) |
-| <a id="routingkeys"></a> `routingKeys?` | `readonly` | `string`[] | `undefined` | [src/peer-did/PeerDID.ts:50](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L50) |
-| <a id="serviceendpoint"></a> `serviceEndpoint` | `readonly` | `string` | `undefined` | [src/peer-did/PeerDID.ts:49](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L49) |
-| <a id="type"></a> `type` | `readonly` | `string` | `undefined` | [src/peer-did/PeerDID.ts:48](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L48) |
-| <a id="codingkeys"></a> `CodingKeys` | `readonly` | \{ `accept`: `string`; `routingKeys`: `string`; `serviceEndpoint`: `string`; `type`: `string`; \} | `undefined` | [src/peer-did/PeerDID.ts:68](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L68) |
-| `CodingKeys.accept` | `public` | `string` | `"a"` | [src/peer-did/PeerDID.ts:72](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L72) |
-| `CodingKeys.routingKeys` | `public` | `string` | `"r"` | [src/peer-did/PeerDID.ts:71](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L71) |
-| `CodingKeys.serviceEndpoint` | `public` | `string` | `"s"` | [src/peer-did/PeerDID.ts:70](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L70) |
-| `CodingKeys.type` | `public` | `string` | `"t"` | [src/peer-did/PeerDID.ts:69](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L69) |
-| <a id="didcommmessagingencodedkey"></a> `DIDCommMessagingEncodedKey` | `readonly` | `"dm"` | `"dm"` | [src/peer-did/PeerDID.ts:66](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L66) |
-| <a id="didcommmessagingkey"></a> `DIDCommMessagingKey` | `readonly` | `"DIDCommMessaging"` | `"DIDCommMessaging"` | [src/peer-did/PeerDID.ts:65](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L65) |
+| <a id="property-accept"></a> `accept?` | `readonly` | `string`[] | `undefined` | [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L12) |
+| <a id="property-routingkeys"></a> `routingKeys?` | `readonly` | `string`[] | `undefined` | [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L11) |
+| <a id="property-serviceendpoint"></a> `serviceEndpoint` | `readonly` | `string` | `undefined` | [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L10) |
+| <a id="property-type"></a> `type` | `readonly` | `string` | `undefined` | [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L9) |
+| <a id="property-codingkeys"></a> `CodingKeys` | `readonly` | \{ `accept`: `string`; `routingKeys`: `string`; `serviceEndpoint`: `string`; `type`: `string`; \} | `undefined` | [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:29](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L29) |
+| `CodingKeys.accept` | `public` | `string` | `"a"` | [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L33) |
+| `CodingKeys.routingKeys` | `public` | `string` | `"r"` | [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L32) |
+| `CodingKeys.serviceEndpoint` | `public` | `string` | `"s"` | [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:31](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L31) |
+| `CodingKeys.type` | `public` | `string` | `"t"` | [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:30](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L30) |
+| <a id="property-didcommmessagingencodedkey"></a> `DIDCommMessagingEncodedKey` | `readonly` | `"dm"` | `"dm"` | [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L27) |
+| <a id="property-didcommmessagingkey"></a> `DIDCommMessagingKey` | `readonly` | `"DIDCommMessaging"` | `"DIDCommMessaging"` | [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:26](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L26) |
 
 ## Methods
 
@@ -53,7 +53,7 @@ Defined in: [src/peer-did/PeerDID.ts:53](https://github.com/hyperledger/identus-
 
 > **encode**(): [`PeerDIDEncoded`](../interfaces/PeerDIDEncoded.md)
 
-Defined in: [src/peer-did/PeerDID.ts:75](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L75)
+Defined in: [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:36](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L36)
 
 #### Returns
 
@@ -65,7 +65,7 @@ Defined in: [src/peer-did/PeerDID.ts:75](https://github.com/hyperledger/identus-
 
 > `static` **decode**(`encoded`: [`PeerDIDEncoded`](../interfaces/PeerDIDEncoded.md)): `PeerDIDService`
 
-Defined in: [src/peer-did/PeerDID.ts:89](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/peer-did/PeerDID.ts#L89)
+Defined in: [packages/lib/sdk/src/castor/methods/peer/PeerDID.ts:50](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/methods/peer/PeerDID.ts#L50)
 
 #### Parameters
 

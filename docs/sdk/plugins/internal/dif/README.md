@@ -6,6 +6,10 @@
 
 # plugins/internal/dif
 
+<!-- title: DIF -->
+<!-- sidebar_label: DIF -->
+<!-- sidebar_position: 3 -->
+
 This export contains the DIF plugin for the Identus SDK
 Please use the following export
 
@@ -32,7 +36,7 @@ const DIF = require("@hyperledger/identus-sdk/plugins/dif");
 
 | Class | Description |
 | ------ | ------ |
-| [DIFModule](classes/DIFModule.md) | used to enable Modules to propagate the Context and have access to runTask |
+| [DIFModule](classes/DIFModule.md) | - |
 
 ## Type Aliases
 

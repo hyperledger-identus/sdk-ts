@@ -10,7 +10,7 @@
 
 | Class | Description |
 | ------ | ------ |
-| [Task](classes/Task.md) | A Task encapsulates a unit of work |
+| [Task](classes/Task.md) | - |
 
 ## Type Aliases
 

@@ -6,13 +6,15 @@
 
 # Type Alias: CollectionCreate
 
-> **CollectionCreate** = \{ `migrationStrategies?`: [`MigrationStrategies`](MigrationStrategies.md); `schema`: `SchemaType`; \}
+> **CollectionCreate** = \{ `migrationStrategies?`: `MigrationPathsForSchema`\<`any`\>; `schema`: `SchemaType`; \}
 
-Defined in: [src/pluto/collections/index.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/collections/index.ts#L5)
+Defined in: [packages/lib/sdk/src/pluto/collections/index.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/collections/index.ts#L18)
+
+Descriptor for a single RIDB collection.
 
 ## Properties
 
-| Property | Type | Defined in |
-| ------ | ------ | ------ |
-| <a id="migrationstrategies"></a> `migrationStrategies?` | [`MigrationStrategies`](MigrationStrategies.md) | [src/pluto/collections/index.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/collections/index.ts#L7) |
-| <a id="schema"></a> `schema` | `SchemaType` | [src/pluto/collections/index.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/collections/index.ts#L6) |
+| Property | Type | Description | Defined in |
+| ------ | ------ | ------ | ------ |
+| <a id="property-migrationstrategies"></a> `migrationStrategies?` | `MigrationPathsForSchema`\<`any`\> | Optional version migration functions. | [packages/lib/sdk/src/pluto/collections/index.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/collections/index.ts#L20) |
+| <a id="property-schema"></a> `schema` | `SchemaType` | The typed RIDB SchemaType for this collection. | [packages/lib/sdk/src/pluto/collections/index.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/collections/index.ts#L19) |

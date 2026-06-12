@@ -6,7 +6,7 @@
 
 # Class: CredentialRequest
 
-Defined in: [src/plugins/internal/oidc/protocols/CredentialRequest.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L5)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L5)
 
 ## Extends
 
@@ -16,16 +16,16 @@ Defined in: [src/plugins/internal/oidc/protocols/CredentialRequest.ts:5](https:/
 
 ### Constructor
 
-> **new CredentialRequest**(`endpoint`: `string` \| `URL`, `body`: [`JsonObj`](../../../../overview/namespaces/Utils/type-aliases/JsonObj.md)): `CredentialRequest`
+> **new CredentialRequest**(`endpoint`: `string` \| `URL`, `body`: [`JsonObj`](../../../../overview/type-aliases/JsonObj.md)): `CredentialRequest`
 
-Defined in: [src/plugins/internal/oidc/protocols/CredentialRequest.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L8)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L8)
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
 | `endpoint` | `string` \| `URL` |
-| `body` | [`JsonObj`](../../../../overview/namespaces/Utils/type-aliases/JsonObj.md) |
+| `body` | [`JsonObj`](../../../../overview/type-aliases/JsonObj.md) |
 
 #### Returns
 
@@ -39,9 +39,9 @@ Defined in: [src/plugins/internal/oidc/protocols/CredentialRequest.ts:8](https:/
 
 | Property | Modifier | Type | Default value | Inherited from | Defined in |
 | ------ | ------ | ------ | ------ | ------ | ------ |
-| <a id="body"></a> `body?` | `public` | `string` \| [`JsonObj`](../../../../overview/namespaces/Utils/type-aliases/JsonObj.md) | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`body`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#body) | [src/domain/models/Api.ts:40](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Api.ts#L40) |
-| <a id="headers"></a> `headers` | `readonly` | `Headers` | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`headers`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#headers) | [src/domain/models/Api.ts:37](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Api.ts#L37) |
-| <a id="method"></a> `method` | `public` | [`HttpMethod`](../../../../overview/namespaces/Domain/type-aliases/HttpMethod.md) | `"GET"` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`method`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#method) | [src/domain/models/Api.ts:39](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Api.ts#L39) |
-| <a id="params"></a> `params` | `readonly` | `URLSearchParams` | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`params`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#params) | [src/domain/models/Api.ts:38](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Api.ts#L38) |
-| <a id="protocolid"></a> `ProtocolId` | `readonly` | `"OIDC_V1/CREDENTIAL_REQUEST"` | `Protocols.CredentialRequest` | - | [src/plugins/internal/oidc/protocols/CredentialRequest.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L6) |
-| <a id="url"></a> `url` | `readonly` | `URL` | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`url`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#url) | [src/domain/models/Api.ts:42](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Api.ts#L42) |
+| <a id="property-body"></a> `body?` | `public` | `string` \| [`JsonObj`](../../../../overview/namespaces/Domain/type-aliases/JsonObj.md)\<`any`\> | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`body`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#property-body) | packages/shared/domain/build/index.d.ts:221 |
+| <a id="property-headers"></a> `headers` | `readonly` | `Headers` | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`headers`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#property-headers) | packages/shared/domain/build/index.d.ts:218 |
+| <a id="property-method"></a> `method` | `public` | [`HttpMethod`](../../../../overview/namespaces/Domain/type-aliases/HttpMethod.md) | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`method`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#property-method) | packages/shared/domain/build/index.d.ts:220 |
+| <a id="property-params"></a> `params` | `readonly` | `URLSearchParams` | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`params`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#property-params) | packages/shared/domain/build/index.d.ts:219 |
+| <a id="property-protocolid"></a> `ProtocolId` | `readonly` | `"OIDC_V1/CREDENTIAL_REQUEST"` | `Protocols.CredentialRequest` | - | [packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L6) |
+| <a id="property-url"></a> `url` | `readonly` | `URL` | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`url`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#property-url) | packages/shared/domain/build/index.d.ts:217 |

@@ -6,7 +6,7 @@
 
 # Class: ResolveTokenRequest
 
-Defined in: [src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:33](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L33)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L34)
 
 OIDC Convenience Task
 CallbackUrl to established Connection
@@ -27,7 +27,7 @@ steps
 
 ## Extends
 
-- [`Task`](../../../../overview/namespaces/Utils/classes/Task.md)\<[`TokenResponse`](../type-aliases/TokenResponse.md), [`ResolveTokenRequestArgs`](../interfaces/ResolveTokenRequestArgs.md)\>
+- `Task`\<[`TokenResponse`](../type-aliases/TokenResponse.md), [`ResolveTokenRequestArgs`](../interfaces/ResolveTokenRequestArgs.md)\>
 
 ## Constructors
 
@@ -35,13 +35,13 @@ steps
 
 > **new ResolveTokenRequest**(...`args`: \[[`ResolveTokenRequestArgs`](../interfaces/ResolveTokenRequestArgs.md)\]): `ResolveTokenRequest`
 
-Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| ...`args` | \[[`ResolveTokenRequestArgs`](../interfaces/ResolveTokenRequestArgs.md)\] |  |
+| ...`args` | \[[`ResolveTokenRequestArgs`](../interfaces/ResolveTokenRequestArgs.md)\] | - |
 
 #### Returns
 
@@ -49,7 +49,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`constructor`](../../../../overview/namespaces/Utils/classes/Task.md#constructor)
+`Task<TokenResponse, ResolveTokenRequestArgs>.constructor`
 
 ## Methods
 
@@ -57,7 +57,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 > **log**(): `unknown`
 
-Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L26)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -65,7 +65,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`log`](../../../../overview/namespaces/Utils/classes/Task.md#log)
+`Task.log`
 
 ***
 
@@ -73,7 +73,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 > **run**(`ctx`: [`Context`](../type-aliases/Context.md)): `Promise`\<\{ `access_token`: `string`; `c_nonce?`: `string`; `c_nonce_expires_in?`: `number`; `expires_in?`: `number`; `id_token?`: `string`; `refresh_expires_in?`: `number`; `refresh_token?`: `string`; `scope?`: `string`; `session_state?`: `string`; `token_type`: `string`; \}\>
 
-Defined in: [src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:34](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L34)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L35)
 
 #### Parameters
 
@@ -87,4 +87,4 @@ Defined in: [src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:34](htt
 
 #### Overrides
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`run`](../../../../overview/namespaces/Utils/classes/Task.md#run)
+`Task.run`

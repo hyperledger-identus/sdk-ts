@@ -6,10 +6,10 @@
 
 # Interface: FetchCredentialDefinitionArgs
 
-Defined in: [src/plugins/internal/anoncreds/FetchCredentialDefinition.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts#L5)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts#L5)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="uri"></a> `uri` | `string` | [src/plugins/internal/anoncreds/FetchCredentialDefinition.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts#L6) |
+| <a id="property-uri"></a> `uri` | `string` | [packages/lib/sdk/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts#L6) |

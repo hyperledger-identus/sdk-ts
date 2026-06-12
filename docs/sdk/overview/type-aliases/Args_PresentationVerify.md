@@ -8,4 +8,4 @@
 
 > **Args\_PresentationVerify** = [`IArgs`](../interfaces/IArgs.md)\<`"presentation-verify"`, \{ `presentation`: `any`; `presentationRequest`: `any`; `thid?`: `string`; \}\>
 
-Defined in: [src/edge-agent/helpers/RunProtocol.ts:54](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/helpers/RunProtocol.ts#L54)
+Defined in: [packages/lib/sdk/src/edge-agent/helpers/RunProtocol.ts:55](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/helpers/RunProtocol.ts#L55)

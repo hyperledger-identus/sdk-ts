@@ -6,7 +6,7 @@
 
 # Class: Authentication
 
-Defined in: [src/domain/models/DIDDocument.ts:358](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L358)
+Defined in: packages/shared/domain/build/index.d.ts:983
 
 ## Extends
 
@@ -16,16 +16,16 @@ Defined in: [src/domain/models/DIDDocument.ts:358](https://github.com/hyperledge
 
 ### Constructor
 
-> **new Authentication**(`urls`: `string`[], `verificationMethods`: [`VerificationMethod`](VerificationMethod.md)[]): `Authentication`
+> **new Authentication**(`urls?`: `string`[], `verificationMethods?`: [`VerificationMethod`](VerificationMethod.md)[]): `Authentication`
 
-Defined in: [src/domain/models/DIDDocument.ts:339](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L339)
+Defined in: packages/shared/domain/build/index.d.ts:979
 
 #### Parameters
 
-| Parameter | Type | Default value |
-| ------ | ------ | ------ |
-| `urls` | `string`[] | `[]` |
-| `verificationMethods` | [`VerificationMethod`](VerificationMethod.md)[] | `[]` |
+| Parameter | Type |
+| ------ | ------ |
+| `urls?` | `string`[] |
+| `verificationMethods?` | [`VerificationMethod`](VerificationMethod.md)[] |
 
 #### Returns
 
@@ -37,10 +37,10 @@ Defined in: [src/domain/models/DIDDocument.ts:339](https://github.com/hyperledge
 
 ## Properties
 
-| Property | Modifier | Type | Default value | Inherited from | Defined in |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| <a id="urls"></a> `urls` | `public` | `string`[] | `[]` | `VerificationMethodGroup.urls` | [src/domain/models/DIDDocument.ts:340](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L340) |
-| <a id="verificationmethods"></a> `verificationMethods` | `public` | [`VerificationMethod`](VerificationMethod.md)[] | `[]` | `VerificationMethodGroup.verificationMethods` | [src/domain/models/DIDDocument.ts:341](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L341) |
+| Property | Type | Inherited from | Defined in |
+| ------ | ------ | ------ | ------ |
+| <a id="property-urls"></a> `urls` | `string`[] | `VerificationMethodGroup.urls` | packages/shared/domain/build/index.d.ts:977 |
+| <a id="property-verificationmethods"></a> `verificationMethods` | [`VerificationMethod`](VerificationMethod.md)[] | `VerificationMethodGroup.verificationMethods` | packages/shared/domain/build/index.d.ts:978 |
 
 ## Methods
 
@@ -48,7 +48,7 @@ Defined in: [src/domain/models/DIDDocument.ts:339](https://github.com/hyperledge
 
 > **add**(`method`: [`VerificationMethod`](VerificationMethod.md)): `void`
 
-Defined in: [src/domain/models/DIDDocument.ts:344](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L344)
+Defined in: packages/shared/domain/build/index.d.ts:980
 
 #### Parameters
 
@@ -70,7 +70,7 @@ Defined in: [src/domain/models/DIDDocument.ts:344](https://github.com/hyperledge
 
 > **cloneWithNewDID**(`did`: [`DID`](../../../classes/DID.md)): `Authentication`
 
-Defined in: [src/domain/models/DIDDocument.ts:359](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L359)
+Defined in: packages/shared/domain/build/index.d.ts:984
 
 #### Parameters
 

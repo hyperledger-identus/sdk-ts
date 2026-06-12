@@ -6,7 +6,7 @@
 
 # Class: Plugin
 
-Defined in: [src/plugins/Plugin.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/Plugin.ts#L12)
+Defined in: [packages/lib/sdk/src/plugins/Plugin.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/Plugin.ts#L12)
 
 Provide interface to augment the SDK.
 
@@ -28,8 +28,8 @@ Currently able to:
 
 | Property | Modifier | Type | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="modules"></a> `modules` | `readonly` | `Map`\<`string`, `any`\> | [src/plugins/Plugin.ts:13](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/Plugin.ts#L13) |
-| <a id="tasks"></a> `tasks` | `readonly` | `Map`\<`string`, [`Ctor`](../namespaces/Utils/interfaces/Ctor.md)\<[`Task`](../namespaces/Utils/classes/Task.md)\<`any`, `unknown`\>\>\> | [src/plugins/Plugin.ts:14](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/Plugin.ts#L14) |
+| <a id="property-modules"></a> `modules` | `readonly` | `Map`\<`string`, `any`\> | [packages/lib/sdk/src/plugins/Plugin.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/Plugin.ts#L13) |
+| <a id="property-tasks"></a> `tasks` | `readonly` | `Map`\<`string`, [`Ctor`](../interfaces/Ctor.md)\<`Task`\<`any`, `unknown`\>\>\> | [packages/lib/sdk/src/plugins/Plugin.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/Plugin.ts#L14) |
 
 ## Methods
 
@@ -37,7 +37,7 @@ Currently able to:
 
 > **addModule**(`key`: `string`, `module`: `any`): `this`
 
-Defined in: [src/plugins/Plugin.ts:17](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/Plugin.ts#L17)
+Defined in: [packages/lib/sdk/src/plugins/Plugin.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/Plugin.ts#L17)
 
 #### Parameters
 
@@ -54,16 +54,16 @@ Defined in: [src/plugins/Plugin.ts:17](https://github.com/hyperledger/identus-ed
 
 ### register() {#register}
 
-> **register**(`pids`: [`Arrayable`](../namespaces/Utils/type-aliases/Arrayable.md)\<`string`\>, `task`: [`Ctor`](../namespaces/Utils/interfaces/Ctor.md)\<[`Task`](../namespaces/Utils/classes/Task.md)\<`any`, `unknown`\>\>): `this`
+> **register**(`pids`: [`Arrayable`](../type-aliases/Arrayable.md)\<`string`\>, `task`: [`Ctor`](../interfaces/Ctor.md)\<`Task`\<`any`, `unknown`\>\>): `this`
 
-Defined in: [src/plugins/Plugin.ts:25](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/Plugin.ts#L25)
+Defined in: [packages/lib/sdk/src/plugins/Plugin.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/Plugin.ts#L25)
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `pids` | [`Arrayable`](../namespaces/Utils/type-aliases/Arrayable.md)\<`string`\> |
-| `task` | [`Ctor`](../namespaces/Utils/interfaces/Ctor.md)\<[`Task`](../namespaces/Utils/classes/Task.md)\<`any`, `unknown`\>\> |
+| `pids` | [`Arrayable`](../type-aliases/Arrayable.md)\<`string`\> |
+| `task` | [`Ctor`](../interfaces/Ctor.md)\<`Task`\<`any`, `unknown`\>\> |
 
 #### Returns
 

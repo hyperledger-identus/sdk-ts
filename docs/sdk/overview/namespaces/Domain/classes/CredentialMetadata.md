@@ -6,7 +6,7 @@
 
 # Class: CredentialMetadata
 
-Defined in: [src/domain/models/CredentialMetadata.ts:4](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/CredentialMetadata.ts#L4)
+Defined in: packages/shared/domain/build/index.d.ts:1765
 
 Storable
 define properties a Domain object must implement to be compatible with Pluto
@@ -19,15 +19,15 @@ define properties a Domain object must implement to be compatible with Pluto
 
 ### Constructor
 
-> **new CredentialMetadata**(`type`: [`CredentialType`](../enumerations/CredentialType.md), `name`: `string`, `json`: `Record`\<`string`, `any`\>): `CredentialMetadata`
+> **new CredentialMetadata**(`type`: [`CredentialType`](../../../../plugins/internal/oea/enumerations/CredentialType.md), `name`: `string`, `json`: `Record`\<`string`, `any`\>): `CredentialMetadata`
 
-Defined in: [src/domain/models/CredentialMetadata.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/CredentialMetadata.ts#L7)
+Defined in: packages/shared/domain/build/index.d.ts:1770
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `type` | [`CredentialType`](../enumerations/CredentialType.md) |
+| `type` | [`CredentialType`](../../../../plugins/internal/oea/enumerations/CredentialType.md) |
 | `name` | `string` |
 | `json` | `Record`\<`string`, `any`\> |
 
@@ -39,17 +39,17 @@ Defined in: [src/domain/models/CredentialMetadata.ts:7](https://github.com/hyper
 
 | Property | Modifier | Type | Description | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="name"></a> `name` | `readonly` | `string` | - | [src/domain/models/CredentialMetadata.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/CredentialMetadata.ts#L9) |
-| <a id="type"></a> `type` | `readonly` | [`CredentialType`](../enumerations/CredentialType.md) | - | [src/domain/models/CredentialMetadata.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/CredentialMetadata.ts#L8) |
-| <a id="uuid"></a> `uuid` | `readonly` | `string` | Universally Unique Identifier. should be unique across all items. | [src/domain/models/CredentialMetadata.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/CredentialMetadata.ts#L5) |
+| <a id="property-name"></a> `name` | `readonly` | `string` | - | packages/shared/domain/build/index.d.ts:1767 |
+| <a id="property-type"></a> `type` | `readonly` | [`CredentialType`](../../../../plugins/internal/oea/enumerations/CredentialType.md) | - | packages/shared/domain/build/index.d.ts:1766 |
+| <a id="property-uuid"></a> `uuid` | `readonly` | `string` | Universally Unique Identifier. should be unique across all items. | packages/shared/domain/build/index.d.ts:1769 |
 
 ## Methods
 
 ### isType() {#istype}
 
-> **isType**(`type`: [`CredentialType`](../enumerations/CredentialType.md)): `boolean`
+> **isType**(`type`: [`CredentialType`](../../../../plugins/internal/oea/enumerations/CredentialType.md)): `boolean`
 
-Defined in: [src/domain/models/CredentialMetadata.ts:19](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/CredentialMetadata.ts#L19)
+Defined in: packages/shared/domain/build/index.d.ts:1777
 
 Check the CredentialType of this Metadata
 
@@ -57,7 +57,7 @@ Check the CredentialType of this Metadata
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `type` | [`CredentialType`](../enumerations/CredentialType.md) |  |
+| `type` | [`CredentialType`](../../../../plugins/internal/oea/enumerations/CredentialType.md) | - |
 
 #### Returns
 
@@ -69,7 +69,7 @@ Check the CredentialType of this Metadata
 
 > **toJSON**(): `Record`\<`string`, `any`\>
 
-Defined in: [src/domain/models/CredentialMetadata.ts:28](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/CredentialMetadata.ts#L28)
+Defined in: packages/shared/domain/build/index.d.ts:1783
 
 Get the raw CredentialMetadata JSON
 

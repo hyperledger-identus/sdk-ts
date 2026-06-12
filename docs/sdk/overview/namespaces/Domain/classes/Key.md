@@ -6,7 +6,7 @@
 
 # Abstract Class: Key
 
-Defined in: [src/domain/models/keyManagement/Key.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L11)
+Defined in: packages/shared/domain/build/index.d.ts:798
 
 ## Extended by
 
@@ -27,13 +27,13 @@ Defined in: [src/domain/models/keyManagement/Key.ts:11](https://github.com/hyper
 
 | Property | Modifier | Type | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="keyspecification"></a> `keySpecification` | `abstract` | `Map`\<`string`, `string`\> | [src/domain/models/keyManagement/Key.ts:13](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L13) |
-| <a id="raw"></a> `raw` | `abstract` | `Uint8Array` | [src/domain/models/keyManagement/Key.ts:15](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L15) |
-| <a id="size"></a> `size` | `abstract` | `number` | [src/domain/models/keyManagement/Key.ts:14](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L14) |
-| <a id="to"></a> `to` | `abstract` | \{ `Buffer`: () => `Buffer`; `String`: (`encoding?`: `BufferEncoding`) => `string`; \} | [src/domain/models/keyManagement/Key.ts:16](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L16) |
-| `to.Buffer` | `public` | () => `Buffer` | [src/domain/models/keyManagement/exportable/ExportableKey.ts:31](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/ExportableKey.ts#L31) |
-| `to.String` | `public` | (`encoding?`: `BufferEncoding`) => `string` | [src/domain/models/keyManagement/exportable/ExportableKey.ts:32](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/ExportableKey.ts#L32) |
-| <a id="type"></a> `type` | `abstract` | [`KeyTypes`](../enumerations/KeyTypes.md) | [src/domain/models/keyManagement/Key.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L12) |
+| <a id="property-keyspecification"></a> `keySpecification` | `abstract` | `Map`\<`string`, `string`\> | packages/shared/domain/build/index.d.ts:800 |
+| <a id="property-raw"></a> `raw` | `abstract` | `Uint8Array` | packages/shared/domain/build/index.d.ts:802 |
+| <a id="property-size"></a> `size` | `abstract` | `number` | packages/shared/domain/build/index.d.ts:801 |
+| <a id="property-to"></a> `to` | `abstract` | \{ `Buffer`: () => `Buffer`; `String`: (`encoding?`: `BufferEncoding`) => `string`; \} | packages/shared/domain/build/index.d.ts:803 |
+| `to.Buffer` | `public` | () => `Buffer` | packages/shared/domain/build/index.d.ts:725 |
+| `to.String` | `public` | (`encoding?`: `BufferEncoding`) => `string` | packages/shared/domain/build/index.d.ts:726 |
+| <a id="property-type"></a> `type` | `abstract` | [`KeyTypes`](../enumerations/KeyTypes.md) | packages/shared/domain/build/index.d.ts:799 |
 
 ## Accessors
 
@@ -43,7 +43,7 @@ Defined in: [src/domain/models/keyManagement/Key.ts:11](https://github.com/hyper
 
 > **get** **alg**(): [`JWT_ALG`](../enumerations/JWT_ALG.md)
 
-Defined in: [src/domain/models/keyManagement/Key.ts:25](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L25)
+Defined in: packages/shared/domain/build/index.d.ts:807
 
 ##### Returns
 
@@ -57,11 +57,25 @@ Defined in: [src/domain/models/keyManagement/Key.ts:25](https://github.com/hyper
 
 > **get** **curve**(): `string`
 
-Defined in: [src/domain/models/keyManagement/Key.ts:20](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L20)
+Defined in: packages/shared/domain/build/index.d.ts:805
 
 ##### Returns
 
 `string`
+
+***
+
+### data {#data}
+
+#### Get Signature
+
+> **get** **data**(): `Uint8Array`
+
+Defined in: packages/shared/domain/build/index.d.ts:806
+
+##### Returns
+
+`Uint8Array`
 
 ## Methods
 
@@ -69,7 +83,7 @@ Defined in: [src/domain/models/keyManagement/Key.ts:20](https://github.com/hyper
 
 > **canVerify**(): `this is VerifiableKey`
 
-Defined in: [src/domain/models/keyManagement/Key.ts:53](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L53)
+Defined in: packages/shared/domain/build/index.d.ts:812
 
 #### Returns
 
@@ -81,7 +95,7 @@ Defined in: [src/domain/models/keyManagement/Key.ts:53](https://github.com/hyper
 
 > `abstract` **getEncoded**(): `Uint8Array`
 
-Defined in: [src/domain/models/keyManagement/Key.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L18)
+Defined in: packages/shared/domain/build/index.d.ts:804
 
 #### Returns
 
@@ -93,7 +107,7 @@ Defined in: [src/domain/models/keyManagement/Key.ts:18](https://github.com/hyper
 
 > **getProperty**(`name`: `string`): `string` \| `undefined`
 
-Defined in: [src/domain/models/keyManagement/Key.ts:57](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L57)
+Defined in: packages/shared/domain/build/index.d.ts:813
 
 #### Parameters
 
@@ -111,7 +125,7 @@ Defined in: [src/domain/models/keyManagement/Key.ts:57](https://github.com/hyper
 
 > **isCurve**\<`T`\>(`curve`: `string`): `this is T`
 
-Defined in: [src/domain/models/keyManagement/Key.ts:61](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L61)
+Defined in: packages/shared/domain/build/index.d.ts:814
 
 #### Type Parameters
 
@@ -135,7 +149,7 @@ Defined in: [src/domain/models/keyManagement/Key.ts:61](https://github.com/hyper
 
 > **isDerivable**(): `this is DerivableKey`
 
-Defined in: [src/domain/models/keyManagement/Key.ts:37](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L37)
+Defined in: packages/shared/domain/build/index.d.ts:808
 
 #### Returns
 
@@ -147,7 +161,7 @@ Defined in: [src/domain/models/keyManagement/Key.ts:37](https://github.com/hyper
 
 > **isExportable**(): `this is All`
 
-Defined in: [src/domain/models/keyManagement/Key.ts:41](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L41)
+Defined in: packages/shared/domain/build/index.d.ts:809
 
 #### Returns
 
@@ -159,7 +173,7 @@ Defined in: [src/domain/models/keyManagement/Key.ts:41](https://github.com/hyper
 
 > **isSignable**(): `this is SignableKey`
 
-Defined in: [src/domain/models/keyManagement/Key.ts:45](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L45)
+Defined in: packages/shared/domain/build/index.d.ts:810
 
 #### Returns
 
@@ -171,7 +185,7 @@ Defined in: [src/domain/models/keyManagement/Key.ts:45](https://github.com/hyper
 
 > **isStorable**(): `this is StorableKey`
 
-Defined in: [src/domain/models/keyManagement/Key.ts:49](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/Key.ts#L49)
+Defined in: packages/shared/domain/build/index.d.ts:811
 
 #### Returns
 

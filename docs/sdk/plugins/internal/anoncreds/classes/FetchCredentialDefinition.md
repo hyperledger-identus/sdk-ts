@@ -6,16 +6,11 @@
 
 # Class: FetchCredentialDefinition
 
-Defined in: [src/plugins/internal/anoncreds/FetchCredentialDefinition.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts#L9)
-
-A Task encapsulates a unit of work
-
-args constructor parameter is mandatory if Args type given
-args constructor parameter is optional if no Args type given
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts#L9)
 
 ## Extends
 
-- [`Task`](../../../../overview/namespaces/Utils/classes/Task.md)\<[`CredentialDefinition`](../type-aliases/CredentialDefinition.md), [`FetchCredentialDefinitionArgs`](../interfaces/FetchCredentialDefinitionArgs.md)\>
+- `Task`\<[`CredentialDefinition`](../type-aliases/CredentialDefinition.md), [`FetchCredentialDefinitionArgs`](../interfaces/FetchCredentialDefinitionArgs.md)\>
 
 ## Constructors
 
@@ -23,13 +18,13 @@ args constructor parameter is optional if no Args type given
 
 > **new FetchCredentialDefinition**(...`args`: \[[`FetchCredentialDefinitionArgs`](../interfaces/FetchCredentialDefinitionArgs.md)\]): `FetchCredentialDefinition`
 
-Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| ...`args` | \[[`FetchCredentialDefinitionArgs`](../interfaces/FetchCredentialDefinitionArgs.md)\] |  |
+| ...`args` | \[[`FetchCredentialDefinitionArgs`](../interfaces/FetchCredentialDefinitionArgs.md)\] | - |
 
 #### Returns
 
@@ -37,7 +32,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`constructor`](../../../../overview/namespaces/Utils/classes/Task.md#constructor)
+`Task<Types.CredentialDefinition, FetchCredentialDefinitionArgs>.constructor`
 
 ## Methods
 
@@ -45,7 +40,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 > **log**(): `unknown`
 
-Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L26)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -53,7 +48,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`log`](../../../../overview/namespaces/Utils/classes/Task.md#log)
+`Task.log`
 
 ***
 
@@ -61,7 +56,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 > **run**(`ctx`: [`Context`](../type-aliases/Context.md)): `Promise`\<`CredentialDefinitionType`\>
 
-Defined in: [src/plugins/internal/anoncreds/FetchCredentialDefinition.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts#L10)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/anoncreds/FetchCredentialDefinition.ts#L10)
 
 #### Parameters
 
@@ -75,4 +70,4 @@ Defined in: [src/plugins/internal/anoncreds/FetchCredentialDefinition.ts:10](htt
 
 #### Overrides
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`run`](../../../../overview/namespaces/Utils/classes/Task.md#run)
+`Task.run`

@@ -4,9 +4,9 @@
 
 [@hyperledger/identus-sdk](../../README.md) / [overview](../README.md) / BaseRepository
 
-# Abstract Class: BaseRepository\<T\>
+# Abstract Class: BaseRepository\<K\>
 
-Defined in: [src/pluto/repositories/builders/BaseRepository.ts:14](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/BaseRepository.ts#L14)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L14)
 
 BaseRepository
 
@@ -21,26 +21,26 @@ Encapsulate the functionality for interacting with the Store
 
 | Type Parameter |
 | ------ |
-| `T` *extends* [`Model`](../type-aliases/Model.md) |
+| `K` *extends* [`TableName`](../type-aliases/TableName.md) |
 
 ## Constructors
 
 ### Constructor
 
-> **new BaseRepository**\<`T`\>(`store`: [`Store`](../namespaces/Pluto/interfaces/Store.md), `name`: `string`): `BaseRepository`\<`T`\>
+> **new BaseRepository**\<`K`\>(`store`: [`Store`](../namespaces/Pluto/interfaces/Store.md), `name`: `K`): `BaseRepository`\<`K`\>
 
-Defined in: [src/pluto/repositories/builders/BaseRepository.ts:20](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/BaseRepository.ts#L20)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L20)
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
 | `store` | [`Store`](../namespaces/Pluto/interfaces/Store.md) |
-| `name` | `string` |
+| `name` | `K` |
 
 #### Returns
 
-`BaseRepository`\<`T`\>
+`BaseRepository`\<`K`\>
 
 ## Methods
 
@@ -48,7 +48,7 @@ Defined in: [src/pluto/repositories/builders/BaseRepository.ts:20](https://githu
 
 > **delete**(`uuid`: `string`): `Promise`\<`void`\>
 
-Defined in: [src/pluto/repositories/builders/BaseRepository.ts:52](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/BaseRepository.ts#L52)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:53](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L53)
 
 #### Parameters
 
@@ -64,9 +64,9 @@ Defined in: [src/pluto/repositories/builders/BaseRepository.ts:52](https://githu
 
 ### getModels() {#getmodels}
 
-> **getModels**(`query?`: [`Query`](../type-aliases/Query.md)\<`T`\>): `Promise`\<`T`[]\>
+> **getModels**(`query?`: [`Query`](../type-aliases/Query.md)\<[`CollectionSchemas`](../type-aliases/CollectionSchemas.md)\[`K`\]\>): `Promise`\<[`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\][]\>
 
-Defined in: [src/pluto/repositories/builders/BaseRepository.ts:86](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/BaseRepository.ts#L86)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:87](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L87)
 
 Search the Store for Models
 
@@ -74,11 +74,11 @@ Search the Store for Models
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `query?` | [`Query`](../type-aliases/Query.md)\<`T`\> | a Query object, a set of values and operators defining the query |
+| `query?` | [`Query`](../type-aliases/Query.md)\<[`CollectionSchemas`](../type-aliases/CollectionSchemas.md)\[`K`\]\> | a Query object, a set of values and operators defining the query |
 
 #### Returns
 
-`Promise`\<`T`[]\>
+`Promise`\<[`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\][]\>
 
 Array of matched Models
 
@@ -105,15 +105,15 @@ search for all models
 
 #### Throws
 
-[Domain.Models](../namespaces/Domain/namespaces/Models/README.md) if the query fails
+Domain.Models if the query fails
 
 ***
 
 ### insert() {#insert}
 
-> **insert**(`model`: `T`): `Promise`\<`T`\>
+> **insert**(`model`: [`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\]): `Promise`\<[`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\]\>
 
-Defined in: [src/pluto/repositories/builders/BaseRepository.ts:32](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/BaseRepository.ts#L32)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L32)
 
 Persist the Model in the Store.
 
@@ -121,29 +121,29 @@ Persist the Model in the Store.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `model` | `T` |  |
+| `model` | [`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\] | - |
 
 #### Returns
 
-`Promise`\<`T`\>
+`Promise`\<[`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\]\>
 
 #### Throws
 
-[Domain.PlutoError.StoreInsertError](../namespaces/Domain/namespaces/PlutoError/classes/StoreInsertError.md) if insert fails
+[Domain.PlutoError.StoreInsertError](../namespaces/Domain/namespaces/PlutoError/type-aliases/StoreInsertError.md) if insert fails
 
 ***
 
 ### update() {#update}
 
-> **update**(`model`: `T`): `Promise`\<`void`\>
+> **update**(`model`: [`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\]): `Promise`\<`void`\>
 
-Defined in: [src/pluto/repositories/builders/BaseRepository.ts:43](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/BaseRepository.ts#L43)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L44)
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `model` | `T` |
+| `model` | [`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\] |
 
 #### Returns
 

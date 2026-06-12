@@ -6,10 +6,10 @@
 
 # Interface: Message
 
-Defined in: [src/pluto/models/Message.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Message.ts#L11)
+Defined in: [packages/lib/sdk/src/pluto/models/Message.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/Message.ts#L12)
 
 Definition for Message model
-Represents [Message](../namespaces/Domain/namespaces/Message/README.md)
+Represents [Message](../namespaces/Domain/classes/Message.md)
 
 ## See
 
@@ -23,12 +23,13 @@ Domain.Message
 
 | Property | Type | Description | Inherited from | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="createdtime"></a> `createdTime` | `number` | - | - | [src/pluto/models/Message.ts:19](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Message.ts#L19) |
-| <a id="datajson"></a> `dataJson` | `string` | Stringified JSON values | - | [src/pluto/models/Message.ts:15](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Message.ts#L15) |
-| <a id="from"></a> `from?` | `string` | - | - | [src/pluto/models/Message.ts:22](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Message.ts#L22) |
-| <a id="id"></a> `id` | `string` | - | - | [src/pluto/models/Message.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Message.ts#L18) |
-| <a id="isreceived"></a> `isReceived` | `number` | - | - | [src/pluto/models/Message.ts:24](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Message.ts#L24) |
-| <a id="piuri"></a> `piuri` | `string` | - | - | [src/pluto/models/Message.ts:21](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Message.ts#L21) |
-| <a id="thid"></a> `thid?` | `string` | - | - | [src/pluto/models/Message.ts:20](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Message.ts#L20) |
-| <a id="to"></a> `to?` | `string` | - | - | [src/pluto/models/Message.ts:23](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/models/Message.ts#L23) |
-| <a id="uuid"></a> `uuid` | `string` | Universally Unique Identifier. should be unique across all items. | `Model.uuid` | [src/domain/buildingBlocks/Pluto.ts:23](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Pluto.ts#L23) |
+| <a id="property-createdtime"></a> `createdTime` | `number` | - | - | [packages/lib/sdk/src/pluto/models/Message.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/Message.ts#L20) |
+| <a id="property-datajson"></a> `dataJson` | `string` | Stringified JSON values | - | [packages/lib/sdk/src/pluto/models/Message.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/Message.ts#L16) |
+| <a id="property-from"></a> `from?` | `string` | - | - | [packages/lib/sdk/src/pluto/models/Message.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/Message.ts#L23) |
+| <a id="property-id"></a> `id` | `string` | - | - | [packages/lib/sdk/src/pluto/models/Message.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/Message.ts#L19) |
+| <a id="property-isreceived"></a> `isReceived` | `number` | - | - | [packages/lib/sdk/src/pluto/models/Message.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/Message.ts#L25) |
+| <a id="property-piuri"></a> `piuri` | `string` | - | - | [packages/lib/sdk/src/pluto/models/Message.ts:22](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/Message.ts#L22) |
+| <a id="property-read"></a> `read` | `boolean` | - | - | [packages/lib/sdk/src/pluto/models/Message.ts:26](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/Message.ts#L26) |
+| <a id="property-thid"></a> `thid?` | `string` | - | - | [packages/lib/sdk/src/pluto/models/Message.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/Message.ts#L21) |
+| <a id="property-to"></a> `to?` | `string` | - | - | [packages/lib/sdk/src/pluto/models/Message.ts:24](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/models/Message.ts#L24) |
+| <a id="property-uuid"></a> `uuid` | `string` | Universally Unique Identifier. should be unique across all items. | `Model.uuid` | packages/shared/domain/build/index.d.ts:404 |

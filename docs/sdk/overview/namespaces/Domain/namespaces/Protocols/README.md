@@ -6,14 +6,15 @@
 
 # Protocols
 
-## References
+## Type Aliases
 
-### KeyRestoration {#keyrestoration}
+| Type Alias | Description |
+| ------ | ------ |
+| [KeyRestoration](type-aliases/KeyRestoration.md) | - |
 
-Re-exports [KeyRestoration](../../interfaces/KeyRestoration.md)
+## Variables
 
-***
-
-### Startable {#startable}
-
-Re-exports [Startable](../Startable/README.md)
+| Variable | Description |
+| ------ | ------ |
+| [Payload](variables/Payload.md) | - |
+| [Startable](variables/Startable.md) | - |

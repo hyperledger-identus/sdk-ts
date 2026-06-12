@@ -6,7 +6,7 @@
 
 # Class: PluginManager
 
-Defined in: [src/plugins/PluginManager.ts:4](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/PluginManager.ts#L4)
+Defined in: [packages/lib/sdk/src/plugins/PluginManager.ts:4](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/PluginManager.ts#L4)
 
 ## Constructors
 
@@ -22,9 +22,9 @@ Defined in: [src/plugins/PluginManager.ts:4](https://github.com/hyperledger/iden
 
 ### findProtocol() {#findprotocol}
 
-> **findProtocol**(`type`: `string`, `id`: `string`): [`Ctor`](../namespaces/Utils/interfaces/Ctor.md)\<[`Task`](../namespaces/Utils/classes/Task.md)\<`any`, `unknown`\>\> \| `null`
+> **findProtocol**(`type`: `string`, `id`: `string`): [`Ctor`](../interfaces/Ctor.md)\<`Task`\<`any`, `unknown`\>\> \| `null`
 
-Defined in: [src/plugins/PluginManager.ts:19](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/PluginManager.ts#L19)
+Defined in: [packages/lib/sdk/src/plugins/PluginManager.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/PluginManager.ts#L19)
 
 #### Parameters
 
@@ -35,7 +35,7 @@ Defined in: [src/plugins/PluginManager.ts:19](https://github.com/hyperledger/ide
 
 #### Returns
 
-[`Ctor`](../namespaces/Utils/interfaces/Ctor.md)\<[`Task`](../namespaces/Utils/classes/Task.md)\<`any`, `unknown`\>\> \| `null`
+[`Ctor`](../interfaces/Ctor.md)\<`Task`\<`any`, `unknown`\>\> \| `null`
 
 ***
 
@@ -43,7 +43,7 @@ Defined in: [src/plugins/PluginManager.ts:19](https://github.com/hyperledger/ide
 
 > **getModules**(): \{\[`k`: `string`\]: `any`; \}
 
-Defined in: [src/plugins/PluginManager.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/PluginManager.ts#L11)
+Defined in: [packages/lib/sdk/src/plugins/PluginManager.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/PluginManager.ts#L11)
 
 #### Returns
 
@@ -55,7 +55,7 @@ Defined in: [src/plugins/PluginManager.ts:11](https://github.com/hyperledger/ide
 
 > **register**(`plugin`: [`Plugin`](Plugin.md)): `void`
 
-Defined in: [src/plugins/PluginManager.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/PluginManager.ts#L7)
+Defined in: [packages/lib/sdk/src/plugins/PluginManager.ts:7](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/PluginManager.ts#L7)
 
 #### Parameters
 

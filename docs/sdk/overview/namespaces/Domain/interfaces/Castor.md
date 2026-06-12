@@ -6,22 +6,30 @@
 
 # Interface: Castor
 
-Defined in: [src/domain/buildingBlocks/Castor.ts:4](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Castor.ts#L4)
+Defined in: packages/shared/domain/build/index.d.ts:2404
+
+Building block for creating, resolving, and managing Decentralized
+Identifiers across multiple DID methods.
+
+The concrete SDK implementation (@hyperledger/identus-sdk!Castor)
+narrows these signatures by inferring the payload and metadata types
+directly from the DID method instances registered on that Castor, so
+`createDID`, `publishDID`, etc. are fully typed per method.
 
 ## Methods
 
-### createPeerDID() {#createpeerdid}
+### createDID() {#createdid}
 
-> **createPeerDID**(`publicKeys`: [`PublicKey`](../classes/PublicKey.md)[], `services`: [`Service`](../namespaces/DIDDocument/classes/Service.md)[]): `Promise`\<[`DID`](../classes/DID.md)\>
+> **createDID**(`method`: `string`, `opts`: `unknown`): `Promise`\<[`DID`](../classes/DID.md)\>
 
-Defined in: [src/domain/buildingBlocks/Castor.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Castor.ts#L11)
+Defined in: packages/shared/domain/build/index.d.ts:2405
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `publicKeys` | [`PublicKey`](../classes/PublicKey.md)[] |
-| `services` | [`Service`](../namespaces/DIDDocument/classes/Service.md)[] |
+| `method` | `string` |
+| `opts` | `unknown` |
 
 #### Returns
 
@@ -29,60 +37,41 @@ Defined in: [src/domain/buildingBlocks/Castor.ts:11](https://github.com/hyperled
 
 ***
 
-### createPrismDID() {#createprismdid}
+### deactivateDID() {#deactivatedid}
 
-> **createPrismDID**(`masterPublicKey`: [`PublicKey`](../classes/PublicKey.md), `services?`: [`Service`](../namespaces/DIDDocument/classes/Service.md)[], `authenticationKeys?`: ([`PublicKey`](../classes/PublicKey.md) \| [`KeyPair`](../classes/KeyPair.md))[]): `Promise`\<[`DID`](../classes/DID.md)\>
+> **deactivateDID**(`method`: `string`, `opts`: `unknown`): `Promise`\<`unknown`\>
 
-Defined in: [src/domain/buildingBlocks/Castor.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Castor.ts#L6)
+Defined in: packages/shared/domain/build/index.d.ts:2408
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `masterPublicKey` | [`PublicKey`](../classes/PublicKey.md) |
-| `services?` | [`Service`](../namespaces/DIDDocument/classes/Service.md)[] |
-| `authenticationKeys?` | ([`PublicKey`](../classes/PublicKey.md) \| [`KeyPair`](../classes/KeyPair.md))[] |
+| `method` | `string` |
+| `opts` | `unknown` |
 
 #### Returns
 
-`Promise`\<[`DID`](../classes/DID.md)\>
+`Promise`\<`unknown`\>
 
 ***
 
-### getEcnumbasis() {#getecnumbasis}
+### publishDID() {#publishdid}
 
-> **getEcnumbasis**(`did`: [`DID`](../classes/DID.md), `publicKey`: [`PublicKey`](../classes/PublicKey.md)): `string`
+> **publishDID**(`method`: `string`, `opts`: `unknown`): `Promise`\<`unknown`\>
 
-Defined in: [src/domain/buildingBlocks/Castor.ts:21](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Castor.ts#L21)
-
-#### Parameters
-
-| Parameter | Type |
-| ------ | ------ |
-| `did` | [`DID`](../classes/DID.md) |
-| `publicKey` | [`PublicKey`](../classes/PublicKey.md) |
-
-#### Returns
-
-`string`
-
-***
-
-### parseDID() {#parsedid}
-
-> **parseDID**(`did`: `string`): [`DID`](../classes/DID.md)
-
-Defined in: [src/domain/buildingBlocks/Castor.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Castor.ts#L5)
+Defined in: packages/shared/domain/build/index.d.ts:2406
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `did` | `string` |
+| `method` | `string` |
+| `opts` | `unknown` |
 
 #### Returns
 
-[`DID`](../classes/DID.md)
+`Promise`\<`unknown`\>
 
 ***
 
@@ -90,17 +79,40 @@ Defined in: [src/domain/buildingBlocks/Castor.ts:5](https://github.com/hyperledg
 
 > **resolveDID**(`did`: `string` \| [`DID`](../classes/DID.md)): `Promise`\<[`DIDDocument`](../classes/DIDDocument.md)\>
 
-Defined in: [src/domain/buildingBlocks/Castor.ts:15](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Castor.ts#L15)
+Defined in: packages/shared/domain/build/index.d.ts:2415
+
+Resolve a DID to its DID Document.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `did` | `string` \| [`DID`](../classes/DID.md) | a [DID](../classes/DID.md) instance or DID string |
+
+#### Returns
+
+`Promise`\<[`DIDDocument`](../classes/DIDDocument.md)\>
+
+the resolved [DIDDocument](../classes/DIDDocument.md)
+
+***
+
+### updateDID() {#updatedid}
+
+> **updateDID**(`method`: `string`, `opts`: `unknown`): `Promise`\<`unknown`\>
+
+Defined in: packages/shared/domain/build/index.d.ts:2407
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `did` | `string` \| [`DID`](../classes/DID.md) |
+| `method` | `string` |
+| `opts` | `unknown` |
 
 #### Returns
 
-`Promise`\<[`DIDDocument`](../classes/DIDDocument.md)\>
+`Promise`\<`unknown`\>
 
 ***
 
@@ -108,16 +120,20 @@ Defined in: [src/domain/buildingBlocks/Castor.ts:15](https://github.com/hyperled
 
 > **verifySignature**(`did`: [`DID`](../classes/DID.md), `challenge`: `Uint8Array`, `signature`: `Uint8Array`): `Promise`\<`boolean`\>
 
-Defined in: [src/domain/buildingBlocks/Castor.ts:16](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/buildingBlocks/Castor.ts#L16)
+Defined in: packages/shared/domain/build/index.d.ts:2424
+
+Verify a cryptographic signature against a DID's verification methods.
 
 #### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `did` | [`DID`](../classes/DID.md) |
-| `challenge` | `Uint8Array` |
-| `signature` | `Uint8Array` |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `did` | [`DID`](../classes/DID.md) | the signer's DID |
+| `challenge` | `Uint8Array` | the original data that was signed |
+| `signature` | `Uint8Array` | the signature bytes to verify |
 
 #### Returns
 
 `Promise`\<`boolean`\>
+
+`true` if any verification method on the DID validates the signature

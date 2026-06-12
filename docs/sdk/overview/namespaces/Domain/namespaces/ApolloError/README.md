@@ -6,17 +6,32 @@
 
 # ApolloError
 
-## Classes
+## Type Aliases
 
-| Class | Description |
+| Type Alias | Description |
 | ------ | ------ |
-| [ApolloLibError](classes/ApolloLibError.md) | thrown when Apollo library returns unexpected result |
-| [CouldNotParseMessageString](classes/CouldNotParseMessageString.md) | // ?? |
-| [InvalidDerivationPath](classes/InvalidDerivationPath.md) | thrown when failing to create a DerivationPath |
-| [InvalidKeyCurve](classes/InvalidKeyCurve.md) | thrown when given Key Curve is not supported |
-| [InvalidKeyType](classes/InvalidKeyType.md) | thrown when give Key Type is not supported |
-| [KeyInitializationError](classes/KeyInitializationError.md) | thrown when failing to create a key |
-| [KeyRestoratonFailed](classes/KeyRestoratonFailed.md) | thrown when Key recovery fails during restoration attempt |
-| [MissingKeyParameters](classes/MissingKeyParameters.md) | thrown when expected parameter is missing for Key operation |
-| [MnemonicLengthError](classes/MnemonicLengthError.md) | thrown when the number of Mnemonic words is different to expected |
-| [MnemonicWordError](classes/MnemonicWordError.md) | thrown when at least one Mnemonic word does not match in the wordlist |
+| [ApolloLibError](type-aliases/ApolloLibError.md) | - |
+| [CouldNotParseMessageString](type-aliases/CouldNotParseMessageString.md) | - |
+| [InvalidDerivationPath](type-aliases/InvalidDerivationPath.md) | - |
+| [InvalidKeyCurve](type-aliases/InvalidKeyCurve.md) | - |
+| [InvalidKeyType](type-aliases/InvalidKeyType.md) | - |
+| [KeyInitializationError](type-aliases/KeyInitializationError.md) | - |
+| [KeyRestoratonFailed](type-aliases/KeyRestoratonFailed.md) | - |
+| [MissingKeyParameters](type-aliases/MissingKeyParameters.md) | - |
+| [MnemonicLengthError](type-aliases/MnemonicLengthError.md) | - |
+| [MnemonicWordError](type-aliases/MnemonicWordError.md) | - |
+
+## Variables
+
+| Variable | Description |
+| ------ | ------ |
+| [ApolloLibError](variables/ApolloLibError.md) | - |
+| [CouldNotParseMessageString](variables/CouldNotParseMessageString.md) | - |
+| [InvalidDerivationPath](variables/InvalidDerivationPath.md) | - |
+| [InvalidKeyCurve](variables/InvalidKeyCurve.md) | - |
+| [InvalidKeyType](variables/InvalidKeyType.md) | - |
+| [KeyInitializationError](variables/KeyInitializationError.md) | - |
+| [KeyRestoratonFailed](variables/KeyRestoratonFailed.md) | - |
+| [MissingKeyParameters](variables/MissingKeyParameters.md) | - |
+| [MnemonicLengthError](variables/MnemonicLengthError.md) | - |
+| [MnemonicWordError](variables/MnemonicWordError.md) | - |

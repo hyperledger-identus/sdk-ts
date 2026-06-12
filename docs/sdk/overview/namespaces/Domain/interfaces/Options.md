@@ -6,7 +6,7 @@
 
 # Interface: Options
 
-Defined in: [src/domain/models/keyManagement/exportable/ExportableKey.ts:19](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/ExportableKey.ts#L19)
+Defined in: packages/shared/domain/build/index.d.ts:710
 
 Factory options to customise export / import functions
 
@@ -14,4 +14,4 @@ Factory options to customise export / import functions
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="pemlabel"></a> `pemLabel` | `string` | [src/domain/models/keyManagement/exportable/ExportableKey.ts:20](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/ExportableKey.ts#L20) |
+| <a id="property-pemlabel"></a> `pemLabel` | `string` | packages/shared/domain/build/index.d.ts:711 |

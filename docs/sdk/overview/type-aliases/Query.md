@@ -4,23 +4,34 @@
 
 [@hyperledger/identus-sdk](../../README.md) / [overview](../README.md) / Query
 
-# Type Alias: Query\<Doc\>
+# Type Alias: Query\<S\>
 
-> **Query**\<`Doc`\> = [`QueryNoLimit`](QueryNoLimit.md)\<`Doc`\> & \{ `limit?`: `number`; `skip?`: `number`; \}
+> **Query**\<`S`\> = \{ `selector?`: [`QueryType`](QueryType.md)\<`S`\>; \} & [`QueryOptions`](QueryOptions.md)
 
-Defined in: [src/pluto/types.ts:76](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/types.ts#L76)
+Defined in: [packages/lib/sdk/src/pluto/types.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/types.ts#L48)
 
-Query type for Pluto
+Query type used by Pluto repositories.
+
+Wraps `@trust0/ridb-core` `QueryType` inside a `selector` field
+and extends it with [QueryOptions](QueryOptions.md) (e.g. `limit`, `skip`).
 
 ## Type Declaration
 
 | Name | Type | Defined in |
 | ------ | ------ | ------ |
-| `limit?` | `number` | [src/pluto/types.ts:78](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/types.ts#L78) |
-| `skip?` | `number` | [src/pluto/types.ts:77](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/types.ts#L77) |
+| `selector?` | [`QueryType`](QueryType.md)\<`S`\> | [packages/lib/sdk/src/pluto/types.ts:49](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/types.ts#L49) |
 
 ## Type Parameters
 
-| Type Parameter | Default type |
+| Type Parameter | Description |
 | ------ | ------ |
-| `Doc` | `any` |
+| `S` *extends* `SchemaType` | The SchemaType of the target collection. |
+
+## Example
+
+```ts
+const q: Query<typeof CredentialSchema> = {
+  selector: { issuer: "did:example:123" },
+  limit: 10
+};
+```

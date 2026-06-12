@@ -6,7 +6,7 @@
 
 # Class: PrismDID
 
-Defined in: [src/domain/models/PrismDID.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/PrismDID.ts#L5)
+Defined in: packages/shared/domain/build/index.d.ts:1704
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [src/domain/models/PrismDID.ts:5](https://github.com/hyperledger/ide
 
 > **new PrismDID**(`did`: [`DID`](DID.md), `privateKey`: [`PrivateKey`](PrivateKey.md), `alias?`: `string`): `PrismDID`
 
-Defined in: [src/domain/models/PrismDID.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/PrismDID.ts#L6)
+Defined in: packages/shared/domain/build/index.d.ts:1708
 
 #### Parameters
 
@@ -32,9 +32,9 @@ Defined in: [src/domain/models/PrismDID.ts:6](https://github.com/hyperledger/ide
 
 | Property | Modifier | Type | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="alias"></a> `alias?` | `readonly` | `string` | [src/domain/models/PrismDID.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/PrismDID.ts#L9) |
-| <a id="did"></a> `did` | `readonly` | [`DID`](DID.md) | [src/domain/models/PrismDID.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/PrismDID.ts#L7) |
-| <a id="privatekey"></a> `privateKey` | `readonly` | [`PrivateKey`](PrivateKey.md) | [src/domain/models/PrismDID.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/PrismDID.ts#L8) |
+| <a id="property-alias"></a> `alias?` | `readonly` | `string` | packages/shared/domain/build/index.d.ts:1707 |
+| <a id="property-did"></a> `did` | `readonly` | [`DID`](DID.md) | packages/shared/domain/build/index.d.ts:1705 |
+| <a id="property-privatekey"></a> `privateKey` | `readonly` | [`PrivateKey`](PrivateKey.md) | packages/shared/domain/build/index.d.ts:1706 |
 
 ## Methods
 
@@ -42,7 +42,7 @@ Defined in: [src/domain/models/PrismDID.ts:6](https://github.com/hyperledger/ide
 
 > `static` **parseMethodId**(`value`: `string` \| `string`[]): `string`
 
-Defined in: [src/domain/models/PrismDID.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/PrismDID.ts#L12)
+Defined in: packages/shared/domain/build/index.d.ts:1709
 
 #### Parameters
 

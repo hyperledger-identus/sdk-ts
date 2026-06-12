@@ -6,7 +6,7 @@
 
 # Class: CredentialRepository
 
-Defined in: [src/pluto/repositories/CredentialRepository.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/CredentialRepository.ts#L9)
+Defined in: [packages/lib/sdk/src/pluto/repositories/CredentialRepository.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/CredentialRepository.ts#L10)
 
 MapperRepository
 
@@ -15,7 +15,7 @@ while mapping between a Domain class and a Model object
 
 ## Extends
 
-- [`MapperRepository`](MapperRepository.md)\<[`Credential`](../interfaces/Credential.md), [`Credential`](../namespaces/Domain/classes/Credential.md)\>
+- [`MapperRepository`](MapperRepository.md)\<`"credentials"`, [`Credential`](../namespaces/Domain/classes/Credential.md)\>
 
 ## Constructors
 
@@ -23,7 +23,7 @@ while mapping between a Domain class and a Model object
 
 > **new CredentialRepository**(`store`: [`Store`](../namespaces/Pluto/interfaces/Store.md)): `CredentialRepository`
 
-Defined in: [src/pluto/repositories/CredentialRepository.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/CredentialRepository.ts#L10)
+Defined in: [packages/lib/sdk/src/pluto/repositories/CredentialRepository.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/CredentialRepository.ts#L11)
 
 #### Parameters
 
@@ -45,7 +45,7 @@ Defined in: [src/pluto/repositories/CredentialRepository.ts:10](https://github.c
 
 > **byUUID**(`uuid`: `string`): `Promise`\<[`Credential`](../namespaces/Domain/classes/Credential.md) \| `null`\>
 
-Defined in: [src/pluto/repositories/builders/MapperRepository.ts:75](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/MapperRepository.ts#L75)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:75](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L75)
 
 Utility fn for common use of find with uuid
 
@@ -53,7 +53,7 @@ Utility fn for common use of find with uuid
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `uuid` | `string` |  |
+| `uuid` | `string` | - |
 
 #### Returns
 
@@ -63,7 +63,7 @@ first found Domain instance or undefined
 
 #### Throws
 
-[Domain.PlutoError.StoreQueryFailed](../namespaces/Domain/namespaces/PlutoError/classes/StoreQueryFailed.md) if the query fails
+[Domain.PlutoError.StoreQueryFailed](../namespaces/Domain/namespaces/PlutoError/type-aliases/StoreQueryFailed.md) if the query fails
 
 #### Inherited from
 
@@ -75,7 +75,7 @@ first found Domain instance or undefined
 
 > **delete**(`uuid`: `string`): `Promise`\<`void`\>
 
-Defined in: [src/pluto/repositories/builders/BaseRepository.ts:52](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/BaseRepository.ts#L52)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:53](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L53)
 
 #### Parameters
 
@@ -97,7 +97,7 @@ Defined in: [src/pluto/repositories/builders/BaseRepository.ts:52](https://githu
 
 > **find**(`selector?`: `Partial`\<[`Credential`](../interfaces/Credential.md)\>): `Promise`\<[`Credential`](../namespaces/Domain/classes/Credential.md)[]\>
 
-Defined in: [src/pluto/repositories/builders/MapperRepository.ts:48](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/MapperRepository.ts#L48)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L48)
 
 Search for instances based on given values
 
@@ -115,7 +115,7 @@ all found Domain instances
 
 #### Throws
 
-[Domain.PlutoError.StoreQueryFailed](../namespaces/Domain/namespaces/PlutoError/classes/StoreQueryFailed.md) if the query fails
+[Domain.PlutoError.StoreQueryFailed](../namespaces/Domain/namespaces/PlutoError/type-aliases/StoreQueryFailed.md) if the query fails
 
 #### Inherited from
 
@@ -127,7 +127,7 @@ all found Domain instances
 
 > **findOne**(`selector?`: `Partial`\<[`Credential`](../interfaces/Credential.md)\>): `Promise`\<[`Credential`](../namespaces/Domain/classes/Credential.md) \| `null`\>
 
-Defined in: [src/pluto/repositories/builders/MapperRepository.ts:61](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/MapperRepository.ts#L61)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:61](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L61)
 
 Search for single instance based on given values
 
@@ -145,7 +145,7 @@ first found Domain instance or null
 
 #### Throws
 
-[Domain.PlutoError.StoreQueryFailed](../namespaces/Domain/namespaces/PlutoError/classes/StoreQueryFailed.md) if the query fails
+[Domain.PlutoError.StoreQueryFailed](../namespaces/Domain/namespaces/PlutoError/type-aliases/StoreQueryFailed.md) if the query fails
 
 #### Inherited from
 
@@ -155,9 +155,9 @@ first found Domain instance or null
 
 ### get() {#get}
 
-> **get**(`query?`: [`Query`](../type-aliases/Query.md)\<[`Credential`](../interfaces/Credential.md)\>): `Promise`\<[`Credential`](../namespaces/Domain/classes/Credential.md)[]\>
+> **get**(`query?`: [`Query`](../type-aliases/Query.md)\<[`TypedSchema`](../type-aliases/TypedSchema.md)\<[`Credential`](../interfaces/Credential.md)\>\>): `Promise`\<[`Credential`](../namespaces/Domain/classes/Credential.md)[]\>
 
-Defined in: [src/pluto/repositories/builders/MapperRepository.ts:36](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/MapperRepository.ts#L36)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:36](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L36)
 
 Search the Store, mapping any found to Domain
 
@@ -165,7 +165,7 @@ Search the Store, mapping any found to Domain
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `query?` | [`Query`](../type-aliases/Query.md)\<[`Credential`](../interfaces/Credential.md)\> | either an object or array of objects with matchable properties |
+| `query?` | [`Query`](../type-aliases/Query.md)\<[`TypedSchema`](../type-aliases/TypedSchema.md)\<[`Credential`](../interfaces/Credential.md)\>\> | either an object or array of objects with matchable properties |
 
 #### Returns
 
@@ -175,7 +175,7 @@ Array of matched Domain instances
 
 #### Throws
 
-[Domain.PlutoError.StoreQueryFailed](../namespaces/Domain/namespaces/PlutoError/classes/StoreQueryFailed.md) if the query fails
+[Domain.PlutoError.StoreQueryFailed](../namespaces/Domain/namespaces/PlutoError/type-aliases/StoreQueryFailed.md) if the query fails
 
 #### Inherited from
 
@@ -185,9 +185,9 @@ Array of matched Domain instances
 
 ### getModels() {#getmodels}
 
-> **getModels**(`query?`: [`Query`](../type-aliases/Query.md)\<[`Credential`](../interfaces/Credential.md)\>): `Promise`\<[`Credential`](../interfaces/Credential.md)[]\>
+> **getModels**(`query?`: [`Query`](../type-aliases/Query.md)\<[`TypedSchema`](../type-aliases/TypedSchema.md)\<[`Credential`](../interfaces/Credential.md)\>\>): `Promise`\<[`Credential`](../interfaces/Credential.md)[]\>
 
-Defined in: [src/pluto/repositories/builders/BaseRepository.ts:86](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/BaseRepository.ts#L86)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:87](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L87)
 
 Search the Store for Models
 
@@ -195,7 +195,7 @@ Search the Store for Models
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `query?` | [`Query`](../type-aliases/Query.md)\<[`Credential`](../interfaces/Credential.md)\> | a Query object, a set of values and operators defining the query |
+| `query?` | [`Query`](../type-aliases/Query.md)\<[`TypedSchema`](../type-aliases/TypedSchema.md)\<[`Credential`](../interfaces/Credential.md)\>\> | a Query object, a set of values and operators defining the query |
 
 #### Returns
 
@@ -226,7 +226,7 @@ search for all models
 
 #### Throws
 
-[Domain.Models](../namespaces/Domain/namespaces/Models/README.md) if the query fails
+Domain.Models if the query fails
 
 #### Inherited from
 
@@ -238,7 +238,7 @@ search for all models
 
 > **insert**(`model`: [`Credential`](../interfaces/Credential.md)): `Promise`\<[`Credential`](../interfaces/Credential.md)\>
 
-Defined in: [src/pluto/repositories/builders/BaseRepository.ts:32](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/BaseRepository.ts#L32)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L32)
 
 Persist the Model in the Store.
 
@@ -246,7 +246,7 @@ Persist the Model in the Store.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `model` | [`Credential`](../interfaces/Credential.md) |  |
+| `model` | [`Credential`](../interfaces/Credential.md) | - |
 
 #### Returns
 
@@ -254,7 +254,7 @@ Persist the Model in the Store.
 
 #### Throws
 
-[Domain.PlutoError.StoreInsertError](../namespaces/Domain/namespaces/PlutoError/classes/StoreInsertError.md) if insert fails
+[Domain.PlutoError.StoreInsertError](../namespaces/Domain/namespaces/PlutoError/type-aliases/StoreInsertError.md) if insert fails
 
 #### Inherited from
 
@@ -266,7 +266,7 @@ Persist the Model in the Store.
 
 > **save**(`domain`: [`Credential`](../namespaces/Domain/classes/Credential.md)): `Promise`\<`void`\>
 
-Defined in: [src/pluto/repositories/builders/MapperRepository.ts:89](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/MapperRepository.ts#L89)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:88](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L88)
 
 Persist the Domain instance in the Store.
 
@@ -286,7 +286,7 @@ Persist the Domain instance in the Store.
 
 #### Throws
 
-[Domain.PlutoError.StoreInsertError](../namespaces/Domain/namespaces/PlutoError/classes/StoreInsertError.md) if insert fails
+[Domain.PlutoError.StoreInsertError](../namespaces/Domain/namespaces/PlutoError/type-aliases/StoreInsertError.md) if insert fails
 
 #### Inherited from
 
@@ -298,7 +298,7 @@ Persist the Domain instance in the Store.
 
 > **toDomain**(`model`: [`Credential`](../interfaces/Credential.md)): [`Credential`](../namespaces/Domain/classes/Credential.md)
 
-Defined in: [src/pluto/repositories/CredentialRepository.ts:14](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/CredentialRepository.ts#L14)
+Defined in: [packages/lib/sdk/src/pluto/repositories/CredentialRepository.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/CredentialRepository.ts#L15)
 
 Map from a Model to the Domain class
 
@@ -324,7 +324,7 @@ Domain with uuid set
 
 > **toModel**(`credential`: [`Credential`](../namespaces/Domain/classes/Credential.md)): [`Credential`](../interfaces/Credential.md)
 
-Defined in: [src/pluto/repositories/CredentialRepository.ts:46](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/CredentialRepository.ts#L46)
+Defined in: [packages/lib/sdk/src/pluto/repositories/CredentialRepository.ts:47](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/CredentialRepository.ts#L47)
 
 Map from a Domain class to a Model
 
@@ -350,7 +350,7 @@ Model potentially without uuid
 
 > **update**(`model`: [`Credential`](../interfaces/Credential.md)): `Promise`\<`void`\>
 
-Defined in: [src/pluto/repositories/builders/BaseRepository.ts:43](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/repositories/builders/BaseRepository.ts#L43)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L44)
 
 #### Parameters
 

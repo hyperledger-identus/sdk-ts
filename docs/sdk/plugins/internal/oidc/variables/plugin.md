@@ -8,4 +8,4 @@
 
 > `const` **plugin**: [`Plugin`](../../../../overview/classes/Plugin.md)
 
-Defined in: [src/plugins/internal/oidc/plugin.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/plugin.ts#L8)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/plugin.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/plugin.ts#L8)

@@ -8,13 +8,13 @@
 
 > **DefinitionFormat** = \{ `jwt?`: \{ `alg`: `string`[]; \}; `sdjwt?`: \{ `alg`: `string`[]; \}; \}
 
-Defined in: [src/plugins/internal/oea/types.ts:78](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L78)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:95](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L95)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="jwt"></a> `jwt?` | \{ `alg`: `string`[]; \} | [src/plugins/internal/oea/types.ts:79](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L79) |
-| `jwt.alg` | `string`[] | [src/plugins/internal/oea/types.ts:80](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L80) |
-| <a id="sdjwt"></a> `sdjwt?` | \{ `alg`: `string`[]; \} | [src/plugins/internal/oea/types.ts:82](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L82) |
-| `sdjwt.alg` | `string`[] | [src/plugins/internal/oea/types.ts:83](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L83) |
+| <a id="property-jwt"></a> `jwt?` | \{ `alg`: `string`[]; \} | [packages/lib/sdk/src/plugins/internal/oea/types.ts:96](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L96) |
+| `jwt.alg` | `string`[] | [packages/lib/sdk/src/plugins/internal/oea/types.ts:97](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L97) |
+| <a id="property-sdjwt"></a> `sdjwt?` | \{ `alg`: `string`[]; \} | [packages/lib/sdk/src/plugins/internal/oea/types.ts:99](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L99) |
+| `sdjwt.alg` | `string`[] | [packages/lib/sdk/src/plugins/internal/oea/types.ts:100](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L100) |

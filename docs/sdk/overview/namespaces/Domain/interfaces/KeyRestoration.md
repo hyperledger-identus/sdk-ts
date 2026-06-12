@@ -6,7 +6,7 @@
 
 # Interface: KeyRestoration
 
-Defined in: [src/domain/protocols/KeyRestoration.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/KeyRestoration.ts#L6)
+Defined in: packages/shared/domain/build/index.d.ts:2272
 
 KeyRestoration protocol defines methods for verifying and restoring cryptographic keys from raw data.
 
@@ -16,7 +16,7 @@ KeyRestoration protocol defines methods for verifying and restoring cryptographi
 
 > **restorePrivateKey**(`key`: [`StorableKey`](StorableKey.md)): [`PrivateKey`](../classes/PrivateKey.md)
 
-Defined in: [src/domain/protocols/KeyRestoration.ts:14](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/KeyRestoration.ts#L14)
+Defined in: packages/shared/domain/build/index.d.ts:2280
 
 Restores a PrivateKey from the given StorableKey
 
@@ -24,7 +24,7 @@ Restores a PrivateKey from the given StorableKey
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`StorableKey`](StorableKey.md) |  |
+| `key` | [`StorableKey`](StorableKey.md) | - |
 
 #### Returns
 
@@ -42,7 +42,7 @@ if the restoration process fails
 
 > **restorePublicKey**(`key`: [`StorableKey`](StorableKey.md)): [`PublicKey`](../classes/PublicKey.md)
 
-Defined in: [src/domain/protocols/KeyRestoration.ts:23](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/protocols/KeyRestoration.ts#L23)
+Defined in: packages/shared/domain/build/index.d.ts:2288
 
 Restores a PublicKey from the given StorableKey
 
@@ -50,7 +50,7 @@ Restores a PublicKey from the given StorableKey
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`StorableKey`](StorableKey.md) |  |
+| `key` | [`StorableKey`](StorableKey.md) | - |
 
 #### Returns
 

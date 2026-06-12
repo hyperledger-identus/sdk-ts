@@ -6,7 +6,7 @@
 
 # Interface: Api
 
-Defined in: [src/domain/models/Api.ts:15](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Api.ts#L15)
+Defined in: packages/shared/domain/build/index.d.ts:202
 
 Api Dependency
 
@@ -16,7 +16,7 @@ Api Dependency
 
 > **request**\<`T`\>(`httpMethod`: [`HttpMethod`](../type-aliases/HttpMethod.md), `url`: `string`, `urlParameters?`: `Map`\<`string`, `string`\>, `httpHeaders?`: `Map`\<`string`, `string`\>, `body?`: `string` \| `Record`\<`string`, `any`\>): `Promise`\<[`ApiResponse`](../classes/ApiResponse.md)\<`T`\>\>
 
-Defined in: [src/domain/models/Api.ts:27](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Api.ts#L27)
+Defined in: packages/shared/domain/build/index.d.ts:214
 
 make a request
 return an ApiResponse on any 2xx status
@@ -32,11 +32,11 @@ throw ApiError otherwise
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `httpMethod` | [`HttpMethod`](../type-aliases/HttpMethod.md) |  |
-| `url` | `string` |  |
-| `urlParameters?` | `Map`\<`string`, `string`\> |  |
-| `httpHeaders?` | `Map`\<`string`, `string`\> |  |
-| `body?` | `string` \| `Record`\<`string`, `any`\> |  |
+| `httpMethod` | [`HttpMethod`](../type-aliases/HttpMethod.md) | - |
+| `url` | `string` | - |
+| `urlParameters?` | `Map`\<`string`, `string`\> | - |
+| `httpHeaders?` | `Map`\<`string`, `string`\> | - |
+| `body?` | `string` \| `Record`\<`string`, `any`\> | - |
 
 #### Returns
 

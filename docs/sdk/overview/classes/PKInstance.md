@@ -6,16 +6,11 @@
 
 # Class: PKInstance
 
-Defined in: [src/pollux/utils/jwt/PKInstance.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/PKInstance.ts#L10)
-
-A Task encapsulates a unit of work
-
-args constructor parameter is mandatory if Args type given
-args constructor parameter is optional if no Args type given
+Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/PKInstance.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/didFunctions/PKInstance.ts#L11)
 
 ## Extends
 
-- [`Task`](../namespaces/Utils/classes/Task.md)\<[`PublicKey`](../namespaces/Domain/classes/PublicKey.md) \| `undefined`, [`PKInstanceArgs`](../interfaces/PKInstanceArgs.md)\>
+- `Task`\<[`PublicKey`](../namespaces/Domain/classes/PublicKey.md) \| `undefined`, [`PKInstanceArgs`](../interfaces/PKInstanceArgs.md)\>
 
 ## Constructors
 
@@ -23,13 +18,13 @@ args constructor parameter is optional if no Args type given
 
 > **new PKInstance**(...`args`: \[[`PKInstanceArgs`](../interfaces/PKInstanceArgs.md)\]): `PKInstance`
 
-Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| ...`args` | \[[`PKInstanceArgs`](../interfaces/PKInstanceArgs.md)\] |  |
+| ...`args` | \[[`PKInstanceArgs`](../interfaces/PKInstanceArgs.md)\] | - |
 
 #### Returns
 
@@ -37,7 +32,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../namespaces/Utils/classes/Task.md).[`constructor`](../namespaces/Utils/classes/Task.md#constructor)
+Task\<Domain.PublicKey \| undefined, Args\>.constructor
 
 ## Methods
 
@@ -45,7 +40,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 > **log**(): `unknown`
 
-Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L26)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -53,7 +48,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../namespaces/Utils/classes/Task.md).[`log`](../namespaces/Utils/classes/Task.md#log)
+`Task.log`
 
 ***
 
@@ -61,7 +56,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 > **run**(`ctx`: [`AgentContext`](AgentContext.md)): `Promise`\<[`PublicKey`](../namespaces/Domain/classes/PublicKey.md) \| `undefined`\>
 
-Defined in: [src/pollux/utils/jwt/PKInstance.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/PKInstance.ts#L11)
+Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/PKInstance.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/didFunctions/PKInstance.ts#L12)
 
 #### Parameters
 
@@ -75,4 +70,4 @@ Defined in: [src/pollux/utils/jwt/PKInstance.ts:11](https://github.com/hyperledg
 
 #### Overrides
 
-[`Task`](../namespaces/Utils/classes/Task.md).[`run`](../namespaces/Utils/classes/Task.md#run)
+`Task.run`

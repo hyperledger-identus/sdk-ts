@@ -6,7 +6,7 @@
 
 # Interface: RSA
 
-Defined in: [src/domain/models/keyManagement/exportable/JWK.ts:86](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L86)
+Defined in: packages/shared/domain/build/index.d.ts:681
 
 ## Extends
 
@@ -20,22 +20,22 @@ Defined in: [src/domain/models/keyManagement/exportable/JWK.ts:86](https://githu
 
 | Property | Type | Overrides | Inherited from | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="alg"></a> `alg?` | `string` | - | [`Base`](Base.md).[`alg`](Base.md#alg) | [src/domain/models/keyManagement/exportable/JWK.ts:31](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L31) |
-| <a id="d"></a> `d` | `string` | - | - | [src/domain/models/keyManagement/exportable/JWK.ts:88](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L88) |
-| <a id="dp"></a> `dp` | `string` | - | - | [src/domain/models/keyManagement/exportable/JWK.ts:89](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L89) |
-| <a id="dq"></a> `dq` | `string` | - | - | [src/domain/models/keyManagement/exportable/JWK.ts:90](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L90) |
-| <a id="e"></a> `e` | `string` | - | - | [src/domain/models/keyManagement/exportable/JWK.ts:91](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L91) |
-| <a id="ext"></a> `ext?` | `boolean` | - | [`Base`](Base.md).[`ext`](Base.md#ext) | [src/domain/models/keyManagement/exportable/JWK.ts:33](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L33) |
-| <a id="key_ops"></a> `key_ops?` | [`key_ops`](../type-aliases/key_ops.md)[] | - | [`Base`](Base.md).[`key_ops`](Base.md#key_ops) | [src/domain/models/keyManagement/exportable/JWK.ts:35](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L35) |
-| <a id="kid"></a> `kid?` | `string` | - | [`Base`](Base.md).[`kid`](Base.md#kid) | [src/domain/models/keyManagement/exportable/JWK.ts:37](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L37) |
-| <a id="kty"></a> `kty` | `"RSA"` | [`Base`](Base.md).[`kty`](Base.md#kty) | - | [src/domain/models/keyManagement/exportable/JWK.ts:87](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L87) |
-| <a id="n"></a> `n` | `string` | - | - | [src/domain/models/keyManagement/exportable/JWK.ts:92](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L92) |
-| <a id="oth"></a> `oth` | \{ `d?`: `string`; `r?`: `string`; `t?`: `string`; \}[] | - | - | [src/domain/models/keyManagement/exportable/JWK.ts:93](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L93) |
-| <a id="p"></a> `p` | `string` | - | - | [src/domain/models/keyManagement/exportable/JWK.ts:98](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L98) |
-| <a id="q"></a> `q` | `string` | - | - | [src/domain/models/keyManagement/exportable/JWK.ts:99](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L99) |
-| <a id="qi"></a> `qi` | `string` | - | - | [src/domain/models/keyManagement/exportable/JWK.ts:100](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L100) |
-| <a id="use"></a> `use?` | `"sig"` \| `"enc"` | - | [`Base`](Base.md).[`use`](Base.md#use) | [src/domain/models/keyManagement/exportable/JWK.ts:41](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L41) |
-| <a id="x5c"></a> `x5c?` | `string`[] | - | [`Base`](Base.md).[`x5c`](Base.md#x5c) | [src/domain/models/keyManagement/exportable/JWK.ts:43](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L43) |
-| <a id="x5t"></a> `x5t?` | `string` | - | [`Base`](Base.md).[`x5t`](Base.md#x5t) | [src/domain/models/keyManagement/exportable/JWK.ts:45](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L45) |
-| <a id="x5ts256"></a> `x5t#S256?` | `string` | - | [`Base`](Base.md).[`x5t#S256`](Base.md#x5ts256) | [src/domain/models/keyManagement/exportable/JWK.ts:47](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L47) |
-| <a id="x5u"></a> `x5u?` | `string` | - | [`Base`](Base.md).[`x5u`](Base.md#x5u) | [src/domain/models/keyManagement/exportable/JWK.ts:49](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/keyManagement/exportable/JWK.ts#L49) |
+| <a id="property-alg"></a> `alg?` | `string` | - | [`Base`](Base.md).[`alg`](Base.md#property-alg) | packages/shared/domain/build/index.d.ts:652 |
+| <a id="property-d"></a> `d` | `string` | - | - | packages/shared/domain/build/index.d.ts:683 |
+| <a id="property-dp"></a> `dp` | `string` | - | - | packages/shared/domain/build/index.d.ts:684 |
+| <a id="property-dq"></a> `dq` | `string` | - | - | packages/shared/domain/build/index.d.ts:685 |
+| <a id="property-e"></a> `e` | `string` | - | - | packages/shared/domain/build/index.d.ts:686 |
+| <a id="property-ext"></a> `ext?` | `boolean` | - | [`Base`](Base.md).[`ext`](Base.md#property-ext) | packages/shared/domain/build/index.d.ts:653 |
+| <a id="property-key_ops"></a> `key_ops?` | [`key_ops`](../type-aliases/key_ops.md)[] | - | [`Base`](Base.md).[`key_ops`](Base.md#property-key_ops) | packages/shared/domain/build/index.d.ts:654 |
+| <a id="property-kid"></a> `kid?` | `string` | - | [`Base`](Base.md).[`kid`](Base.md#property-kid) | packages/shared/domain/build/index.d.ts:655 |
+| <a id="property-kty"></a> `kty` | `"RSA"` | [`Base`](Base.md).[`kty`](Base.md#property-kty) | - | packages/shared/domain/build/index.d.ts:682 |
+| <a id="property-n"></a> `n` | `string` | - | - | packages/shared/domain/build/index.d.ts:687 |
+| <a id="property-oth"></a> `oth` | \{ `d?`: `string`; `r?`: `string`; `t?`: `string`; \}[] | - | - | packages/shared/domain/build/index.d.ts:688 |
+| <a id="property-p"></a> `p` | `string` | - | - | packages/shared/domain/build/index.d.ts:693 |
+| <a id="property-q"></a> `q` | `string` | - | - | packages/shared/domain/build/index.d.ts:694 |
+| <a id="property-qi"></a> `qi` | `string` | - | - | packages/shared/domain/build/index.d.ts:695 |
+| <a id="property-use"></a> `use?` | `"sig"` \| `"enc"` | - | [`Base`](Base.md).[`use`](Base.md#property-use) | packages/shared/domain/build/index.d.ts:657 |
+| <a id="property-x5c"></a> `x5c?` | `string`[] | - | [`Base`](Base.md).[`x5c`](Base.md#property-x5c) | packages/shared/domain/build/index.d.ts:658 |
+| <a id="property-x5t"></a> `x5t?` | `string` | - | [`Base`](Base.md).[`x5t`](Base.md#property-x5t) | packages/shared/domain/build/index.d.ts:659 |
+| <a id="property-x5ts256"></a> `x5t#S256?` | `string` | - | [`Base`](Base.md).[`x5t#S256`](Base.md#property-x5ts256) | packages/shared/domain/build/index.d.ts:660 |
+| <a id="property-x5u"></a> `x5u?` | `string` | - | [`Base`](Base.md).[`x5u`](Base.md#property-x5u) | packages/shared/domain/build/index.d.ts:661 |

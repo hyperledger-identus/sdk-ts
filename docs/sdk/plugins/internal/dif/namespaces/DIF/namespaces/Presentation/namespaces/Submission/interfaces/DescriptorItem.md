@@ -6,13 +6,13 @@
 
 # Interface: DescriptorItem
 
-Defined in: [src/plugins/internal/dif/types.ts:68](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L68)
+Defined in: [packages/lib/sdk/src/plugins/internal/dif/types.ts:68](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L68)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="format"></a> `format` | [`Format`](../type-aliases/Format.md) | [src/plugins/internal/dif/types.ts:70](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L70) |
-| <a id="id"></a> `id` | `string` | [src/plugins/internal/dif/types.ts:69](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L69) |
-| <a id="path"></a> `path` | `string` | [src/plugins/internal/dif/types.ts:71](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L71) |
-| <a id="path_nested"></a> `path_nested?` | `DescriptorItem` | [src/plugins/internal/dif/types.ts:72](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L72) |
+| <a id="property-format"></a> `format` | [`Format`](../type-aliases/Format.md) | [packages/lib/sdk/src/plugins/internal/dif/types.ts:70](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L70) |
+| <a id="property-id"></a> `id` | `string` | [packages/lib/sdk/src/plugins/internal/dif/types.ts:69](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L69) |
+| <a id="property-path"></a> `path` | `string` | [packages/lib/sdk/src/plugins/internal/dif/types.ts:71](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L71) |
+| <a id="property-path_nested"></a> `path_nested?` | `DescriptorItem` | [packages/lib/sdk/src/plugins/internal/dif/types.ts:72](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/types.ts#L72) |

@@ -6,7 +6,7 @@
 
 # Class: BackupManager
 
-Defined in: [src/pluto/backup/BackupManager.ts:13](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/backup/BackupManager.ts#L13)
+Defined in: [packages/lib/sdk/src/pluto/backup/BackupManager.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/backup/BackupManager.ts#L13)
 
 BackupManager
 handle the different versions of backup and restore
@@ -17,7 +17,7 @@ handle the different versions of backup and restore
 
 > **new BackupManager**(`Pluto`: [`Pluto`](Pluto.md), `Repositories`: \{ `CredentialMetadata`: [`CredentialMetadataRepository`](CredentialMetadataRepository.md); `Credentials`: [`CredentialRepository`](CredentialRepository.md); `DIDKeyLinks`: [`DIDKeyLinkRepository`](DIDKeyLinkRepository.md); `DIDLinks`: [`DIDLinkRepository`](DIDLinkRepository.md); `DIDs`: [`DIDRepository`](DIDRepository.md); `Keys`: [`KeyRepository`](KeyRepository.md); `LinkSecrets`: [`LinkSecretRepository`](LinkSecretRepository.md); `Messages`: [`MessageRepository`](MessageRepository.md); \}): `BackupManager`
 
-Defined in: [src/pluto/backup/BackupManager.ts:14](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/backup/BackupManager.ts#L14)
+Defined in: [packages/lib/sdk/src/pluto/backup/BackupManager.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/backup/BackupManager.ts#L14)
 
 #### Parameters
 
@@ -44,7 +44,7 @@ Defined in: [src/pluto/backup/BackupManager.ts:14](https://github.com/hyperledge
 
 > **backup**(`version?`: `"0.0.1"`): `Promise`\<\{ `credentials`: \{ `data`: `string`; `recovery_id`: `string`; \}[]; `did_pairs`: \{ `alias`: `string`; `holder`: `string`; `recipient`: `string`; \}[]; `dids`: \{ `alias?`: `string`; `did`: `string`; \}[]; `keys`: \{ `did?`: `string`; `index?`: `number`; `key`: `string`; `recovery_id`: `string`; \}[]; `link_secret?`: `string`; `mediators`: \{ `holder_did`: `string`; `mediator_did`: `string`; `routing_did`: `string`; \}[]; `messages`: `string`[]; `version?`: `"0.0.1"`; \}\>
 
-Defined in: [src/pluto/backup/BackupManager.ts:25](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/backup/BackupManager.ts#L25)
+Defined in: [packages/lib/sdk/src/pluto/backup/BackupManager.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/backup/BackupManager.ts#L25)
 
 convert stored data to JSON
 
@@ -64,7 +64,7 @@ convert stored data to JSON
 
 > **restore**(`backup`: \{ `credentials`: \{ `data`: `string`; `recovery_id`: `string`; \}[]; `did_pairs`: \{ `alias`: `string`; `holder`: `string`; `recipient`: `string`; \}[]; `dids`: \{ `alias?`: `string`; `did`: `string`; \}[]; `keys`: \{ `did?`: `string`; `index?`: `number`; `key`: `string`; `recovery_id`: `string`; \}[]; `link_secret?`: `string`; `mediators`: \{ `holder_did`: `string`; `mediator_did`: `string`; `routing_did`: `string`; \}[]; `messages`: `string`[]; `version?`: `"0.0.1"`; \}): `Promise`\<`void`\>
 
-Defined in: [src/pluto/backup/BackupManager.ts:35](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pluto/backup/BackupManager.ts#L35)
+Defined in: [packages/lib/sdk/src/pluto/backup/BackupManager.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/backup/BackupManager.ts#L35)
 
 convert JSON to stored data
 
@@ -72,7 +72,7 @@ convert JSON to stored data
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `backup` | \{ `credentials`: \{ `data`: `string`; `recovery_id`: `string`; \}[]; `did_pairs`: \{ `alias`: `string`; `holder`: `string`; `recipient`: `string`; \}[]; `dids`: \{ `alias?`: `string`; `did`: `string`; \}[]; `keys`: \{ `did?`: `string`; `index?`: `number`; `key`: `string`; `recovery_id`: `string`; \}[]; `link_secret?`: `string`; `mediators`: \{ `holder_did`: `string`; `mediator_did`: `string`; `routing_did`: `string`; \}[]; `messages`: `string`[]; `version?`: `"0.0.1"`; \} |  |
+| `backup` | \{ `credentials`: \{ `data`: `string`; `recovery_id`: `string`; \}[]; `did_pairs`: \{ `alias`: `string`; `holder`: `string`; `recipient`: `string`; \}[]; `dids`: \{ `alias?`: `string`; `did`: `string`; \}[]; `keys`: \{ `did?`: `string`; `index?`: `number`; `key`: `string`; `recovery_id`: `string`; \}[]; `link_secret?`: `string`; `mediators`: \{ `holder_did`: `string`; `mediator_did`: `string`; `routing_did`: `string`; \}[]; `messages`: `string`[]; `version?`: `"0.0.1"`; \} | - |
 | `backup.credentials` | \{ `data`: `string`; `recovery_id`: `string`; \}[] | - |
 | `backup.did_pairs` | \{ `alias`: `string`; `holder`: `string`; `recipient`: `string`; \}[] | - |
 | `backup.dids` | \{ `alias?`: `string`; `did`: `string`; \}[] | - |

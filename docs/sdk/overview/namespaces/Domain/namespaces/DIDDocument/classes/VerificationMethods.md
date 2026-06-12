@@ -6,21 +6,21 @@
 
 # Class: VerificationMethods
 
-Defined in: [src/domain/models/DIDDocument.ts:299](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L299)
+Defined in: packages/shared/domain/build/index.d.ts:954
 
 ## Constructors
 
 ### Constructor
 
-> **new VerificationMethods**(`values`: [`VerificationMethod`](VerificationMethod.md)[]): `VerificationMethods`
+> **new VerificationMethods**(`values?`: [`VerificationMethod`](VerificationMethod.md)[]): `VerificationMethods`
 
-Defined in: [src/domain/models/DIDDocument.ts:300](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L300)
+Defined in: packages/shared/domain/build/index.d.ts:956
 
 #### Parameters
 
-| Parameter | Type | Default value |
-| ------ | ------ | ------ |
-| `values` | [`VerificationMethod`](VerificationMethod.md)[] | `[]` |
+| Parameter | Type |
+| ------ | ------ |
+| `values?` | [`VerificationMethod`](VerificationMethod.md)[] |
 
 #### Returns
 
@@ -28,9 +28,9 @@ Defined in: [src/domain/models/DIDDocument.ts:300](https://github.com/hyperledge
 
 ## Properties
 
-| Property | Modifier | Type | Default value | Defined in |
-| ------ | ------ | ------ | ------ | ------ |
-| <a id="values"></a> `values` | `public` | [`VerificationMethod`](VerificationMethod.md)[] | `[]` | [src/domain/models/DIDDocument.ts:301](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L301) |
+| Property | Type | Defined in |
+| ------ | ------ | ------ |
+| <a id="property-values"></a> `values` | [`VerificationMethod`](VerificationMethod.md)[] | packages/shared/domain/build/index.d.ts:955 |
 
 ## Methods
 
@@ -38,7 +38,7 @@ Defined in: [src/domain/models/DIDDocument.ts:300](https://github.com/hyperledge
 
 > **cloneWithNewDID**(`did`: [`DID`](../../../classes/DID.md)): `VerificationMethods`
 
-Defined in: [src/domain/models/DIDDocument.ts:303](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/DIDDocument.ts#L303)
+Defined in: packages/shared/domain/build/index.d.ts:957
 
 #### Parameters
 

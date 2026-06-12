@@ -8,15 +8,15 @@
 
 > **InputField** = \{ `filter?`: [`InputFieldFilter`](InputFieldFilter.md); `id?`: `string`; `name?`: `string`; `optional?`: `boolean`; `path`: `string`[]; `purpose?`: `string`; \}
 
-Defined in: [src/plugins/internal/oea/types.ts:105](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L105)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:122](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L122)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="filter"></a> `filter?` | [`InputFieldFilter`](InputFieldFilter.md) | [src/plugins/internal/oea/types.ts:110](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L110) |
-| <a id="id"></a> `id?` | `string` | [src/plugins/internal/oea/types.ts:107](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L107) |
-| <a id="name"></a> `name?` | `string` | [src/plugins/internal/oea/types.ts:109](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L109) |
-| <a id="optional"></a> `optional?` | `boolean` | [src/plugins/internal/oea/types.ts:111](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L111) |
-| <a id="path"></a> `path` | `string`[] | [src/plugins/internal/oea/types.ts:106](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L106) |
-| <a id="purpose"></a> `purpose?` | `string` | [src/plugins/internal/oea/types.ts:108](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L108) |
+| <a id="property-filter"></a> `filter?` | [`InputFieldFilter`](InputFieldFilter.md) | [packages/lib/sdk/src/plugins/internal/oea/types.ts:127](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L127) |
+| <a id="property-id"></a> `id?` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:124](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L124) |
+| <a id="property-name"></a> `name?` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:126](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L126) |
+| <a id="property-optional"></a> `optional?` | `boolean` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:128](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L128) |
+| <a id="property-path"></a> `path` | `string`[] | [packages/lib/sdk/src/plugins/internal/oea/types.ts:123](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L123) |
+| <a id="property-purpose"></a> `purpose?` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:125](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L125) |

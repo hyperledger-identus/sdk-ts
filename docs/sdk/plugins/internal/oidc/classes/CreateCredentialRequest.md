@@ -6,7 +6,7 @@
 
 # Class: CreateCredentialRequest
 
-Defined in: [src/plugins/internal/oidc/tasks/CreateCredentialRequest.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/tasks/CreateCredentialRequest.ts#L26)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/CreateCredentialRequest.ts:26](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/tasks/CreateCredentialRequest.ts#L26)
 
 create a CredentialRequest for the given offer
 a connection with the relevant Issuer must have already been established
@@ -19,7 +19,7 @@ a connection with the relevant Issuer must have already been established
 
 ## Extends
 
-- [`Task`](../../../../overview/namespaces/Utils/classes/Task.md)\<[`CredentialRequest`](CredentialRequest.md), [`CreateCredentialRequestArgs`](../interfaces/CreateCredentialRequestArgs.md)\>
+- `Task`\<[`CredentialRequest`](CredentialRequest.md), [`CreateCredentialRequestArgs`](../interfaces/CreateCredentialRequestArgs.md)\>
 
 ## Constructors
 
@@ -27,13 +27,13 @@ a connection with the relevant Issuer must have already been established
 
 > **new CreateCredentialRequest**(...`args`: \[[`CreateCredentialRequestArgs`](../interfaces/CreateCredentialRequestArgs.md)\]): `CreateCredentialRequest`
 
-Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| ...`args` | \[[`CreateCredentialRequestArgs`](../interfaces/CreateCredentialRequestArgs.md)\] |  |
+| ...`args` | \[[`CreateCredentialRequestArgs`](../interfaces/CreateCredentialRequestArgs.md)\] | - |
 
 #### Returns
 
@@ -41,7 +41,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`constructor`](../../../../overview/namespaces/Utils/classes/Task.md#constructor)
+`Utils.Task<CredentialRequest, CreateCredentialRequestArgs>.constructor`
 
 ## Methods
 
@@ -49,7 +49,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 > **log**(): `unknown`
 
-Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L26)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -57,7 +57,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`log`](../../../../overview/namespaces/Utils/classes/Task.md#log)
+`Utils.Task.log`
 
 ***
 
@@ -65,7 +65,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 > **run**(`ctx`: [`Context`](../type-aliases/Context.md)): `Promise`\<[`CredentialRequest`](CredentialRequest.md)\>
 
-Defined in: [src/plugins/internal/oidc/tasks/CreateCredentialRequest.ts:27](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/tasks/CreateCredentialRequest.ts#L27)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/CreateCredentialRequest.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/tasks/CreateCredentialRequest.ts#L27)
 
 #### Parameters
 
@@ -79,4 +79,4 @@ Defined in: [src/plugins/internal/oidc/tasks/CreateCredentialRequest.ts:27](http
 
 #### Overrides
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`run`](../../../../overview/namespaces/Utils/classes/Task.md#run)
+`Utils.Task.run`

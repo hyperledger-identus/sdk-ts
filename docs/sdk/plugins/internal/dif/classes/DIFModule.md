@@ -6,14 +6,11 @@
 
 # Class: DIFModule
 
-Defined in: [src/plugins/internal/dif/module/index.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/module/index.ts#L5)
-
-used to enable Modules to propagate the Context
-and have access to runTask
+Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/module/index.ts#L5)
 
 ## Extends
 
-- [`Runner`](../../../../overview/namespaces/Utils/namespaces/Task/classes/Runner.md)
+- `Runner`
 
 ## Constructors
 
@@ -27,7 +24,7 @@ and have access to runTask
 
 #### Inherited from
 
-[`Runner`](../../../../overview/namespaces/Utils/namespaces/Task/classes/Runner.md).[`constructor`](../../../../overview/namespaces/Utils/namespaces/Task/classes/Runner.md#constructor)
+`Task.Runner.constructor`
 
 ## Methods
 
@@ -35,7 +32,7 @@ and have access to runTask
 
 > **clone**(): `DIFModule`
 
-Defined in: [src/plugins/internal/dif/module/index.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/module/index.ts#L6)
+Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/module/index.ts#L6)
 
 #### Returns
 
@@ -43,21 +40,21 @@ Defined in: [src/plugins/internal/dif/module/index.ts:6](https://github.com/hype
 
 #### Overrides
 
-[`Runner`](../../../../overview/namespaces/Utils/namespaces/Task/classes/Runner.md).[`clone`](../../../../overview/namespaces/Utils/namespaces/Task/classes/Runner.md#clone)
+`Task.Runner.clone`
 
 ***
 
 ### createPresentationDefinition() {#createpresentationdefinition}
 
-> **createPresentationDefinition**(`claims`: [`JsonObj`](../../../../overview/namespaces/Utils/type-aliases/JsonObj.md)\<[`Filter`](../namespaces/DIF/namespaces/Presentation/namespaces/Definition/namespaces/Field/interfaces/Filter.md)\>, `opts?`: \{ `issuer?`: `string`; \}): `Promise`\<[`Request`](../namespaces/DIF/namespaces/Presentation/interfaces/Request.md)\>
+> **createPresentationDefinition**(`claims`: [`JsonObj`](../../../../overview/type-aliases/JsonObj.md)\<[`Filter`](../namespaces/DIF/namespaces/Presentation/namespaces/Definition/namespaces/Field/interfaces/Filter.md)\>, `opts?`: \{ `issuer?`: `string`; \}): `Promise`\<[`Request`](../namespaces/DIF/namespaces/Presentation/interfaces/Request.md)\>
 
-Defined in: [src/plugins/internal/dif/module/index.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/module/index.ts#L10)
+Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/dif/module/index.ts#L10)
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `claims` | [`JsonObj`](../../../../overview/namespaces/Utils/type-aliases/JsonObj.md)\<[`Filter`](../namespaces/DIF/namespaces/Presentation/namespaces/Definition/namespaces/Field/interfaces/Filter.md)\> |
+| `claims` | [`JsonObj`](../../../../overview/type-aliases/JsonObj.md)\<[`Filter`](../namespaces/DIF/namespaces/Presentation/namespaces/Definition/namespaces/Field/interfaces/Filter.md)\> |
 | `opts?` | \{ `issuer?`: `string`; \} |
 | `opts.issuer?` | `string` |
 
@@ -69,20 +66,20 @@ Defined in: [src/plugins/internal/dif/module/index.ts:10](https://github.com/hyp
 
 ### withContext() {#withcontext}
 
-> **withContext**(`ctx`: [`Context`](../../../../overview/namespaces/Utils/namespaces/Task/type-aliases/Context.md)): [`Runner`](../../../../overview/namespaces/Utils/namespaces/Task/classes/Runner.md)
+> **withContext**(`ctx`: `ContextProxy`): `Runner`
 
-Defined in: [src/utils/tasks.ts:103](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L103)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:108](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L108)
 
 #### Parameters
 
 | Parameter | Type |
 | ------ | ------ |
-| `ctx` | [`Context`](../../../../overview/namespaces/Utils/namespaces/Task/type-aliases/Context.md) |
+| `ctx` | `ContextProxy` |
 
 #### Returns
 
-[`Runner`](../../../../overview/namespaces/Utils/namespaces/Task/classes/Runner.md)
+`Runner`
 
 #### Inherited from
 
-[`Runner`](../../../../overview/namespaces/Utils/namespaces/Task/classes/Runner.md).[`withContext`](../../../../overview/namespaces/Utils/namespaces/Task/classes/Runner.md#withcontext)
+`Task.Runner.withContext`

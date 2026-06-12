@@ -6,11 +6,11 @@
 
 # Enumeration: MessageDirection
 
-Defined in: [src/domain/models/Message.ts:15](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Message.ts#L15)
+Defined in: packages/shared/domain/build/index.d.ts:296
 
 ## Enumeration Members
 
 | Enumeration Member | Value | Defined in |
 | ------ | ------ | ------ |
-| <a id="received"></a> `RECEIVED` | `1` | [src/domain/models/Message.ts:17](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Message.ts#L17) |
-| <a id="sent"></a> `SENT` | `0` | [src/domain/models/Message.ts:16](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/models/Message.ts#L16) |
+| <a id="enumeration-member-received"></a> `RECEIVED` | `1` | packages/shared/domain/build/index.d.ts:298 |
+| <a id="enumeration-member-sent"></a> `SENT` | `0` | packages/shared/domain/build/index.d.ts:297 |

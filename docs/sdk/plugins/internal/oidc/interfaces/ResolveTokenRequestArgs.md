@@ -6,11 +6,11 @@
 
 # Interface: ResolveTokenRequestArgs
 
-Defined in: [src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L10)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L11)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="authorizationrequest"></a> `authorizationRequest` | [`AuthorizationRequest`](../classes/AuthorizationRequest.md) | [src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L11) |
-| <a id="callbackurl"></a> `callbackUrl?` | `string` \| `URL` | [src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L12) |
+| <a id="property-authorizationrequest"></a> `authorizationRequest` | [`AuthorizationRequest`](../classes/AuthorizationRequest.md) | [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L12) |
+| <a id="property-callbackurl"></a> `callbackUrl?` | `string` \| `URL` | [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L13) |

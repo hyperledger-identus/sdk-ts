@@ -6,7 +6,7 @@
 
 # Interface: MediationKeysUpdateListBody
 
-Defined in: [src/plugins/internal/didcomm/protocols/mediation/MediationKeysUpdateList.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/mediation/MediationKeysUpdateList.ts#L10)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationKeysUpdateList.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationKeysUpdateList.ts#L10)
 
 Specification:
 https://didcomm.org/coordinate-mediation/2.0/
@@ -15,4 +15,4 @@ https://didcomm.org/coordinate-mediation/2.0/
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="updates"></a> `updates` | \{ `action`: `"add"`; `recipient_did`: `string`; \}[] | [src/plugins/internal/didcomm/protocols/mediation/MediationKeysUpdateList.ts:11](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/mediation/MediationKeysUpdateList.ts#L11) |
+| <a id="property-updates"></a> `updates` | \{ `action`: `"add"`; `recipient_did`: `string`; \}[] | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationKeysUpdateList.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationKeysUpdateList.ts#L11) |

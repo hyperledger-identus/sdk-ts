@@ -6,7 +6,7 @@
 
 # Class: ProposeCredential
 
-Defined in: [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:21](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L21)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L21)
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCrede
 
 > **new ProposeCredential**(`body`: [`ProposeCredentialBody`](../interfaces/ProposeCredentialBody.md), `attachments`: [`AttachmentDescriptor`](../../../../overview/namespaces/Domain/classes/AttachmentDescriptor.md)[], `from?`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md), `to?`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md), `thid?`: `string`, `id?`: `string`): `ProposeCredential`
 
-Defined in: [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:24](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L24)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:24](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L24)
 
 #### Parameters
 
@@ -35,13 +35,13 @@ Defined in: [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCrede
 
 | Property | Modifier | Type | Default value | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="attachments"></a> `attachments` | `public` | [`AttachmentDescriptor`](../../../../overview/namespaces/Domain/classes/AttachmentDescriptor.md)[] | `undefined` | [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L26) |
-| <a id="body"></a> `body` | `public` | [`ProposeCredentialBody`](../interfaces/ProposeCredentialBody.md) | `undefined` | [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:25](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L25) |
-| <a id="from"></a> `from?` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:27](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L27) |
-| <a id="id"></a> `id` | `public` | `string` | `undefined` | [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:30](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L30) |
-| <a id="thid"></a> `thid?` | `public` | `string` | `undefined` | [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:29](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L29) |
-| <a id="to"></a> `to?` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:28](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L28) |
-| <a id="type"></a> `type` | `static` | `"https://didcomm.org/issue-credential/3.0/propose-credential"` | `ProtocolIds.ProposeCredential` | [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:22](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L22) |
+| <a id="property-attachments"></a> `attachments` | `public` | [`AttachmentDescriptor`](../../../../overview/namespaces/Domain/classes/AttachmentDescriptor.md)[] | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:26](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L26) |
+| <a id="property-body"></a> `body` | `public` | [`ProposeCredentialBody`](../interfaces/ProposeCredentialBody.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L25) |
+| <a id="property-from"></a> `from?` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L27) |
+| <a id="property-id"></a> `id` | `public` | `string` | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:30](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L30) |
+| <a id="property-thid"></a> `thid?` | `public` | `string` | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:29](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L29) |
+| <a id="property-to"></a> `to?` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:28](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L28) |
+| <a id="property-type"></a> `type` | `static` | `"https://didcomm.org/issue-credential/3.0/propose-credential"` | `ProtocolIds.ProposeCredential` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:22](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L22) |
 
 ## Methods
 
@@ -49,7 +49,7 @@ Defined in: [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCrede
 
 > **makeMessage**(): [`Message`](../../../../overview/namespaces/Domain/classes/Message.md)
 
-Defined in: [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:33](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L33)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L33)
 
 #### Returns
 
@@ -61,7 +61,7 @@ Defined in: [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCrede
 
 > `static` **fromMessage**(`msg`: [`Message`](../../../../overview/namespaces/Domain/classes/Message.md)): `ProposeCredential`
 
-Defined in: [src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:46](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L46)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts:46](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/issueCredential/ProposeCredential.ts#L46)
 
 #### Parameters
 

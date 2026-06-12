@@ -8,14 +8,14 @@
 
 > **InputFieldFilter** = \{ `const?`: [`PredicateType`](PredicateType.md)[]; `enum?`: [`PredicateType`](PredicateType.md)[]; `pattern?`: `string`; `type`: `string`; `value?`: [`PredicateType`](PredicateType.md); \}
 
-Defined in: [src/plugins/internal/oea/types.ts:95](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L95)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:112](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L112)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="const"></a> `const?` | [`PredicateType`](PredicateType.md)[] | [src/plugins/internal/oea/types.ts:99](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L99) |
-| <a id="enum"></a> `enum?` | [`PredicateType`](PredicateType.md)[] | [src/plugins/internal/oea/types.ts:98](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L98) |
-| <a id="pattern"></a> `pattern?` | `string` | [src/plugins/internal/oea/types.ts:97](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L97) |
-| <a id="type"></a> `type` | `string` | [src/plugins/internal/oea/types.ts:96](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L96) |
-| <a id="value"></a> `value?` | [`PredicateType`](PredicateType.md) | [src/plugins/internal/oea/types.ts:100](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L100) |
+| <a id="property-const"></a> `const?` | [`PredicateType`](PredicateType.md)[] | [packages/lib/sdk/src/plugins/internal/oea/types.ts:116](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L116) |
+| <a id="property-enum"></a> `enum?` | [`PredicateType`](PredicateType.md)[] | [packages/lib/sdk/src/plugins/internal/oea/types.ts:115](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L115) |
+| <a id="property-pattern"></a> `pattern?` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:114](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L114) |
+| <a id="property-type"></a> `type` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:113](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L113) |
+| <a id="property-value"></a> `value?` | [`PredicateType`](PredicateType.md) | [packages/lib/sdk/src/plugins/internal/oea/types.ts:117](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L117) |

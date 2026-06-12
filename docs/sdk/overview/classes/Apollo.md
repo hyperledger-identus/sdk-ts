@@ -6,7 +6,7 @@
 
 # Class: Apollo
 
-Defined in: [src/apollo/Apollo.ts:107](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/apollo/Apollo.ts#L107)
+Defined in: [packages/lib/sdk/src/apollo/Apollo.ts:210](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/apollo/Apollo.ts#L210)
 
 Apollo defines the set of cryptographic operations.
 
@@ -60,8 +60,6 @@ export enum KeyProperties {
   algorithm = "algorithm",
   /// The 'curve'  represents the elliptic curve used for an elliptic-curve key.,
   curve = "curve",
-  /// The 'seed'  corresponds to the seed value from which a key is derived.,
-  seed = "seed",
   /// The 'rawKey'  refers to the raw binary form of the key.,
   rawKey = "raw",
   /// The 'derivationPath'  refers to the path used to derive a key in a hierarchical deterministic (HD) key generation scheme.,
@@ -97,25 +95,25 @@ export enum KeyProperties {
 
 | Property | Modifier | Type | Default value | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="ed25519privatekey"></a> `Ed25519PrivateKey` | `static` | *typeof* `Ed25519PrivateKey` | `Ed25519PrivateKey` | [src/apollo/Apollo.ts:110](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/apollo/Apollo.ts#L110) |
-| <a id="secp256k1privatekey"></a> `Secp256k1PrivateKey` | `static` | *typeof* `Secp256k1PrivateKey` | `Secp256k1PrivateKey` | [src/apollo/Apollo.ts:109](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/apollo/Apollo.ts#L109) |
-| <a id="x25519privatekey"></a> `X25519PrivateKey` | `static` | *typeof* `X25519PrivateKey` | `X25519PrivateKey` | [src/apollo/Apollo.ts:111](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/apollo/Apollo.ts#L111) |
+| <a id="property-ed25519privatekey"></a> `Ed25519PrivateKey` | `static` | *typeof* `Ed25519PrivateKey` | `Ed25519PrivateKey` | [packages/lib/sdk/src/apollo/Apollo.ts:213](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/apollo/Apollo.ts#L213) |
+| <a id="property-secp256k1privatekey"></a> `Secp256k1PrivateKey` | `static` | *typeof* `Secp256k1PrivateKey` | `Secp256k1PrivateKey` | [packages/lib/sdk/src/apollo/Apollo.ts:212](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/apollo/Apollo.ts#L212) |
+| <a id="property-x25519privatekey"></a> `X25519PrivateKey` | `static` | *typeof* `X25519PrivateKey` | `X25519PrivateKey` | [packages/lib/sdk/src/apollo/Apollo.ts:214](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/apollo/Apollo.ts#L214) |
 
 ## Methods
 
 ### createPrivateKey() {#createprivatekey}
 
-> **createPrivateKey**(`parameters`: \{\[`name`: `string`\]: `any`; \}): [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md)
+> **createPrivateKey**(`parameters`: [`KeyOptions`](../namespaces/Domain/type-aliases/KeyOptions.md)): [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md)
 
-Defined in: [src/apollo/Apollo.ts:291](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/apollo/Apollo.ts#L291)
+Defined in: [packages/lib/sdk/src/apollo/Apollo.ts:400](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/apollo/Apollo.ts#L400)
 
-Creates a private key based on the current cryptographic abstraction
+Asyncronously creates a private key based on the current cryptographic abstraction
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `parameters` | \{\[`name`: `string`\]: `any`; \} |  |
+| `parameters` | [`KeyOptions`](../namespaces/Domain/type-aliases/KeyOptions.md) | - |
 
 #### Returns
 
@@ -123,12 +121,20 @@ Creates a private key based on the current cryptographic abstraction
 
 #### Examples
 
+Creating a EC Key with secp256k1 curve from an external seed
+```ts
+ const privateKey = apollo.createPrivateKey({
+   curve: Curve.SECP256K1,
+   seed: seed.value, // As a uint8array
+ });
+```
+
 Create an EC Key with secp256k1 curve
 
 ```ts
  const privateKey = apollo.createPrivateKey({
    curve: Curve.SECP256K1,
-   seed: Buffer.from(seed.value).toString("hex"),
+   seed: seed.value,
  });
 ```
 
@@ -137,7 +143,7 @@ Create an EC Key with secp256k1 curve, but also specify a derivationPath
 ```ts
  const privateKey = apollo.createPrivateKey({
    curve: Curve.SECP256K1,
-   seed: Buffer.from(seed.value).toString("hex"),
+   seed: seed.value,
    derivationPath: "m/0'/0'/0'"
  });
 ```
@@ -170,9 +176,9 @@ Calling this function just generates a new random privateKey for that curve
 
 ### createPublicKey() {#createpublickey}
 
-> **createPublicKey**(`parameters`: \{\[`name`: `string`\]: `any`; \}): [`PublicKey`](../namespaces/Domain/classes/PublicKey.md)
+> **createPublicKey**(`parameters`: [`KeyOptions`](../namespaces/Domain/type-aliases/KeyOptions.md)): [`PublicKey`](../namespaces/Domain/classes/PublicKey.md)
 
-Defined in: [src/apollo/Apollo.ts:202](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/apollo/Apollo.ts#L202)
+Defined in: [packages/lib/sdk/src/apollo/Apollo.ts:305](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/apollo/Apollo.ts#L305)
 
 Creates a public key based on the current cryptographic abstraction
 
@@ -180,7 +186,7 @@ Creates a public key based on the current cryptographic abstraction
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `parameters` | \{\[`name`: `string`\]: `any`; \} |  |
+| `parameters` | [`KeyOptions`](../namespaces/Domain/type-aliases/KeyOptions.md) | - |
 
 #### Returns
 
@@ -207,7 +213,7 @@ Create an EC Key with secp256k1 curve
 
 > **createRandomMnemonics**(): [`MnemonicWordList`](../namespaces/Domain/type-aliases/MnemonicWordList.md)
 
-Defined in: [src/apollo/Apollo.ts:125](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/apollo/Apollo.ts#L125)
+Defined in: [packages/lib/sdk/src/apollo/Apollo.ts:228](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/apollo/Apollo.ts#L228)
 
 Creates a random set of mnemonic phrases that can be used as a seed for generating a private key.
 
@@ -233,7 +239,7 @@ This function creates a random mnemonic phrase whose usage is as a seed for gene
 
 > **createRandomSeed**(`passphrase?`: `string`): [`SeedWords`](../namespaces/Domain/interfaces/SeedWords.md)
 
-Defined in: [src/apollo/Apollo.ts:174](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/apollo/Apollo.ts#L174)
+Defined in: [packages/lib/sdk/src/apollo/Apollo.ts:277](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/apollo/Apollo.ts#L277)
 
 Creates a random seed and a corresponding set of mnemonic phrases.
 
@@ -241,7 +247,7 @@ Creates a random seed and a corresponding set of mnemonic phrases.
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `passphrase?` | `string` |  |
+| `passphrase?` | `string` | - |
 
 #### Returns
 
@@ -265,7 +271,7 @@ This function creates a random mnemonic phrase and seed.
 
 > **createSeed**(`mnemonics`: [`MnemonicWordList`](../namespaces/Domain/type-aliases/MnemonicWordList.md), `passphrase?`: `string`): [`Seed`](../namespaces/Domain/interfaces/Seed.md)
 
-Defined in: [src/apollo/Apollo.ts:143](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/apollo/Apollo.ts#L143)
+Defined in: [packages/lib/sdk/src/apollo/Apollo.ts:246](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/apollo/Apollo.ts#L246)
 
 Takes in a set of mnemonics and a passphrase, and returns a seed object used to generate a private key.
 
@@ -273,8 +279,8 @@ Takes in a set of mnemonics and a passphrase, and returns a seed object used to 
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `mnemonics` | [`MnemonicWordList`](../namespaces/Domain/type-aliases/MnemonicWordList.md) |  |
-| `passphrase?` | `string` |  |
+| `mnemonics` | [`MnemonicWordList`](../namespaces/Domain/type-aliases/MnemonicWordList.md) | - |
+| `passphrase?` | `string` | - |
 
 #### Returns
 
@@ -298,7 +304,7 @@ This function takes mnemonics and passphrases and creates a seed object to gener
 
 > **restorePrivateKey**(`key`: [`StorableKey`](../namespaces/Domain/interfaces/StorableKey.md)): [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md)
 
-Defined in: [src/apollo/Apollo.ts:405](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/apollo/Apollo.ts#L405)
+Defined in: [packages/lib/sdk/src/apollo/Apollo.ts:433](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/apollo/Apollo.ts#L433)
 
 Restores a PrivateKey from the given StorableKey
 
@@ -306,7 +312,7 @@ Restores a PrivateKey from the given StorableKey
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`StorableKey`](../namespaces/Domain/interfaces/StorableKey.md) |  |
+| `key` | [`StorableKey`](../namespaces/Domain/interfaces/StorableKey.md) | - |
 
 #### Returns
 
@@ -328,7 +334,7 @@ if the restoration process fails
 
 > **restorePublicKey**(`key`: [`StorableKey`](../namespaces/Domain/interfaces/StorableKey.md)): [`PublicKey`](../namespaces/Domain/classes/PublicKey.md)
 
-Defined in: [src/apollo/Apollo.ts:420](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/apollo/Apollo.ts#L420)
+Defined in: [packages/lib/sdk/src/apollo/Apollo.ts:466](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/apollo/Apollo.ts#L466)
 
 Restores a PublicKey from the given StorableKey
 
@@ -336,7 +342,7 @@ Restores a PublicKey from the given StorableKey
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| `key` | [`StorableKey`](../namespaces/Domain/interfaces/StorableKey.md) |  |
+| `key` | [`StorableKey`](../namespaces/Domain/interfaces/StorableKey.md) | - |
 
 #### Returns
 

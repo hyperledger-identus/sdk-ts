@@ -6,6 +6,8 @@
 
 # Variable: credential
 
-> `const` **credential**: `TObject`\<\{ `data`: `TString`; `recovery_id`: `TString`; \}\>
+> `const` **credential**: `TB.TObject`\<\{ `data`: `TB.TString`; `recovery_id`: `TB.TString`; \}\>
 
-Defined in: [src/domain/backup/v0\_0\_1.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/domain/backup/v0_0_1.ts#L6)
+Defined in: packages/shared/domain/build/index.d.ts:10
+
+Schema definition for Backup V0.0.1

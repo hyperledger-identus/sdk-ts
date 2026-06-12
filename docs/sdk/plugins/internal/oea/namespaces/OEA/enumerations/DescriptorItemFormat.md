@@ -6,12 +6,12 @@
 
 # Enumeration: DescriptorItemFormat
 
-Defined in: [src/plugins/internal/oea/types.ts:25](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L25)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:42](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L42)
 
 ## Enumeration Members
 
 | Enumeration Member | Value | Defined in |
 | ------ | ------ | ------ |
-| <a id="jwt_vc"></a> `JWT_VC` | `"jwt_vc"` | [src/plugins/internal/oea/types.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L26) |
-| <a id="jwt_vp"></a> `JWT_VP` | `"jwt_vp"` | [src/plugins/internal/oea/types.ts:27](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L27) |
-| <a id="sdjwt"></a> `SDJWT` | `"sdjwt"` | [src/plugins/internal/oea/types.ts:28](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oea/types.ts#L28) |
+| <a id="enumeration-member-jwt_vc"></a> `JWT_VC` | `"jwt_vc"` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:43](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L43) |
+| <a id="enumeration-member-jwt_vp"></a> `JWT_VP` | `"jwt_vp"` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L44) |
+| <a id="enumeration-member-sdjwt"></a> `SDJWT` | `"sdjwt"` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:45](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/types.ts#L45) |

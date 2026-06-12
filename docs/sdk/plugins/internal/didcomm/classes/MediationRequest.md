@@ -6,15 +6,15 @@
 
 # Class: MediationRequest
 
-Defined in: [src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:5](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L5)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L5)
 
 ## Constructors
 
 ### Constructor
 
-> **new MediationRequest**(`from`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md), `to`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md), `id`: `string`): `MediationRequest`
+> **new MediationRequest**(`from`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md), `to`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md), `id?`: `string`): `MediationRequest`
 
-Defined in: [src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:12](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L12)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L12)
 
 #### Parameters
 
@@ -32,10 +32,10 @@ Defined in: [src/plugins/internal/didcomm/protocols/mediation/MediationRequest.t
 
 | Property | Modifier | Type | Default value | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="from"></a> `from` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L8) |
-| <a id="id"></a> `id` | `public` | `string` | `undefined` | [src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:10](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L10) |
-| <a id="to"></a> `to` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L9) |
-| <a id="type"></a> `type` | `static` | `"https://didcomm.org/coordinate-mediation/2.0/mediate-request"` | `ProtocolIds.MediationRequest` | [src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L6) |
+| <a id="property-from"></a> `from` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L8) |
+| <a id="property-id"></a> `id` | `public` | `string` | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L10) |
+| <a id="property-to"></a> `to` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L9) |
+| <a id="property-type"></a> `type` | `static` | `"https://didcomm.org/coordinate-mediation/2.0/mediate-request"` | `ProtocolIds.MediationRequest` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L6) |
 
 ## Methods
 
@@ -43,7 +43,7 @@ Defined in: [src/plugins/internal/didcomm/protocols/mediation/MediationRequest.t
 
 > **makeMessage**(): [`Message`](../../../../overview/namespaces/Domain/classes/Message.md)
 
-Defined in: [src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L18)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/protocols/mediation/MediationRequest.ts#L18)
 
 #### Returns
 

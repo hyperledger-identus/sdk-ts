@@ -8,4 +8,6 @@
 
 > **BackupExclude** = `"messages"` \| `"mediators"` \| `"link_secret"`
 
-Defined in: [src/edge-agent/Agent.Backup.ts:14](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/Agent.Backup.ts#L14)
+Defined in: [packages/lib/sdk/src/edge-agent/types.ts:87](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/types.ts#L87)
+
+define Agent requirements for Backup

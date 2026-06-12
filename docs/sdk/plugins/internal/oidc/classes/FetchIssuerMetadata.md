@@ -6,7 +6,7 @@
 
 # Class: FetchIssuerMetadata
 
-Defined in: [src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts#L18)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts#L19)
 
 try to retrieve Issuer Metadata from the given URI
 `/.well-known/openid-credential-issuer` will be appended to the uri
@@ -19,7 +19,7 @@ try to retrieve Issuer Metadata from the given URI
 
 ## Extends
 
-- [`Task`](../../../../overview/namespaces/Utils/classes/Task.md)\<[`IssuerMetadata`](../type-aliases/IssuerMetadata.md), [`FetchIssuerMetadataArgs`](../interfaces/FetchIssuerMetadataArgs.md)\>
+- `Task`\<[`IssuerMetadata`](../type-aliases/IssuerMetadata.md), [`FetchIssuerMetadataArgs`](../interfaces/FetchIssuerMetadataArgs.md)\>
 
 ## Constructors
 
@@ -27,13 +27,13 @@ try to retrieve Issuer Metadata from the given URI
 
 > **new FetchIssuerMetadata**(...`args`: \[[`FetchIssuerMetadataArgs`](../interfaces/FetchIssuerMetadataArgs.md)\]): `FetchIssuerMetadata`
 
-Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| ...`args` | \[[`FetchIssuerMetadataArgs`](../interfaces/FetchIssuerMetadataArgs.md)\] |  |
+| ...`args` | \[[`FetchIssuerMetadataArgs`](../interfaces/FetchIssuerMetadataArgs.md)\] | - |
 
 #### Returns
 
@@ -41,7 +41,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`constructor`](../../../../overview/namespaces/Utils/classes/Task.md#constructor)
+`Task<IssuerMetadata, FetchIssuerMetadataArgs>.constructor`
 
 ## Methods
 
@@ -49,7 +49,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 > **log**(): `unknown`
 
-Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L26)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -57,7 +57,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`log`](../../../../overview/namespaces/Utils/classes/Task.md#log)
+`Task.log`
 
 ***
 
@@ -65,7 +65,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 > **run**(`ctx`: [`Context`](../type-aliases/Context.md)): `Promise`\<\{ `authorization_servers?`: `string`[]; `batch_credential_endpoint?`: `string`; `credential_configurations_supported`: \{\[`key`: `string`\]: \{ `credential_definition`: \{ `credentialSubject?`: \{ \}; `type`: `string`[]; \}; `credential_signing_alg_values_supported?`: `string`[]; `cryptographic_binding_methods_supported?`: `string`[]; `format`: `string`; `proof_types_supported?`: \{\[`key`: `string`\]: \{ `proof_signing_alg_values_supported`: `string`[]; \}; \}; `scope?`: `string`; \}; \}; `credential_endpoint`: `string`; `credential_identifiers_supported?`: `boolean`; `credential_issuer`: `string`; `credential_response_encryption?`: \{ `alg_values_supported`: `string`[]; `enc_values_supported`: `string`[]; `encryption_required`: `boolean`; \}; `deferred_credential_endpoint?`: `string`; `display?`: \{ \}; `notification_endpoint?`: `string`; `signed_metadata?`: `string`; \}\>
 
-Defined in: [src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts:19](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts#L19)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts#L20)
 
 #### Parameters
 
@@ -79,4 +79,4 @@ Defined in: [src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts:19](https://
 
 #### Overrides
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`run`](../../../../overview/namespaces/Utils/classes/Task.md#run)
+`Task.run`
