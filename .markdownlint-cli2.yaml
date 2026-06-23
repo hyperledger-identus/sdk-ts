@@ -5,4 +5,4 @@ ignores:
   - "coverage/**"
   - "externals/**"
   - "docs/sdk/**"
-  - "CHANGELOG.md"
+  - "**/CHANGELOG.md"
