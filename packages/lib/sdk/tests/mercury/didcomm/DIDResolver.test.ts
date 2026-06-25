@@ -97,4 +97,28 @@ describe("Mercury DIDComm DIDResolver", () => {
       });
     });
   });
+
+  describe("JWK validation", () => {
+    it("should throw InvalidKeyError when JWK x coordinate is missing", async () => {
+      const idDid = Domain.DID.fromString("did:test:id");
+      const vm = new Domain.DIDDocument.VerificationMethod(
+        "vm-ED25519",
+        "1",
+        "Ed25519VerificationKey2018",
+        { crv: Domain.Curve.ED25519, kid: "kid" } as any
+      );
+
+      const castor: Pick<Castor, "resolveDID"> = {
+        resolveDID: async (): Promise<Domain.DIDDocument> =>
+          new Domain.DIDDocument(idDid, [
+            new Domain.DIDDocument.Authentication([], [vm]),
+          ]),
+      };
+
+      const sut = new DIDCommDIDResolver(castor as any);
+      await expect(sut.resolve(idDid.toString())).rejects.toThrow(
+        Domain.CastorError.InvalidKeyError
+      );
+    });
+  });
 });
