@@ -677,7 +677,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     });
 
     // ?? this seems presumptuous? couldnt hostDID be re-used?
-    const link = this.onlyOne(links);
+    const link = this.onlyOne(links, `getPairByDID(${did.toString()})`);
     const didPair = this.mapDIDPairToDomain(link);
 
     return didPair;
@@ -694,7 +694,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
       {
         selector: { alias, role: Models.DIDLink.role.pair }
       });
-    const link = this.onlyOne(links);
+    const link = this.onlyOne(links, `getPairByName(${alias})`);
     const didPair = this.mapDIDPairToDomain(link);
 
     return didPair;
@@ -739,16 +739,24 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
         const mediatorLink = links.find(x => x.hostId === hostId && x.role === Models.DIDLink.role.mediator.valueOf());
         const routingLink = links.find(x => x.hostId === hostId && x.role === Models.DIDLink.role.routing.valueOf());
 
+        // One of the two expected DID links (mediator or routing) is
+        // missing for this host — data integrity issue.
         if (!mediatorLink || !routingLink) {
-          throw new Error();
+          throw new Error(
+            `Missing mediator or routing DID link for hostId: ${hostId}`
+          );
         }
 
         const hostDID = await this.Repositories.DIDs.byUUID(hostId);
         const mediatorDID = await this.Repositories.DIDs.byUUID(mediatorLink.targetId);
         const routingDID = await this.Repositories.DIDs.byUUID(routingLink.targetId);
 
+        // A DID that should exist (host, mediator, or routing) resolved
+        // to null — data integrity or ordering issue.
         if (!hostDID || !mediatorDID || !routingDID) {
-          throw new Error();
+          throw new Error(
+            `Empty DID for hostId: ${hostId} (host: ${!!hostDID}, mediator: ${!!mediatorDID}, routing: ${!!routingDID})`
+          );
         }
 
         const domain: Domain.Mediator = { hostDID, mediatorDID, routingDID };
@@ -785,9 +793,31 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     });
   }
 
-  private onlyOne<T>(arr: T[]): T {
-    const item = arr.at(0);
-    if (!item || arr.length !== 1) throw new Error("something wrong");
+  /**
+   * Assert that an array has exactly one element and return it.
+   *
+   * Accepts an optional `context` string so callers can identify
+   * themselves in the error message (e.g. the DID or alias being
+   * looked up) — makes debugging much faster than a bare
+   * `"something wrong"`.
+   *
+   * Two distinct failure modes are reported:
+   * - `arr.length !== 1`  — reports the actual count
+   * - `arr[0]` is falsy    — reports an unexpected null/empty slot
+   */
+  private onlyOne<T>(arr: T[], context?: string): T {
+    if (arr.length !== 1) {
+      throw new Error(
+        `Expected one result but got ${arr.length}${context ? `: ${context}` : ""}`
+      );
+    }
+
+    const item = arr[0];
+    if (!item) {
+      throw new Error(
+        `Unexpected empty result${context ? `: ${context}` : ""}`
+      );
+    }
 
     return item;
   }
