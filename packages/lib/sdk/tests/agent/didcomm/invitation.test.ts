@@ -1,9 +1,10 @@
 import { vi, describe, it, expect, test, beforeEach, afterEach } from 'vitest';
 import { Agent, SeedFunction } from "../../../src/edge-agent";
-import { AttachmentDescriptor, DID, MessageDirection, Seed, AgentError } from '@hyperledger/identus-domain';
+import { AttachmentDescriptor, DID, Message, MessageDirection, Seed, AgentError } from '@hyperledger/identus-domain';
 import { Apollo, Pluto, ProtocolType } from "../../../src";
 import { mockTask } from "../../testFns";
-import { StartMediator, StartFetchingMessages, CreateOOBOffer } from '../../../src/plugins/internal/didcomm';
+import { Send, StartMediator, StartFetchingMessages, CreateOOBOffer } from '../../../src/plugins/internal/didcomm';
+import { ProtocolIds } from '../../../src/plugins/internal/didcomm/types';
 import { MediatorConnection, OfferCredential, OutOfBandInvitation } from '../../../src/plugins/internal/didcomm';
 import { randomUUID } from 'node:crypto';
 import { HandshakeRequest } from '../../../src/plugins/internal/oea';
@@ -35,6 +36,30 @@ describe("Agent", () => {
 
     mockTask(StartMediator, "StartMediator");
     mockTask(StartFetchingMessages, "StartFetchingMessages");
+
+    // Real Mercury here is wired to a stubbed `sendMessage` per test, so the
+    // keylist-update HTTP roundtrip never produces a valid response. Send
+    // the message through the real pipeline (to keep per-test sendMessage
+    // spies happy) and synthesise a matching keylist-update-response so
+    // createPeerDID(updateMediator: true) can validate and proceed.
+    const realSendRun = Send.prototype.run;
+    vi.spyOn(Send.prototype, 'run').mockImplementation(async function (this: any, ctx: any) {
+      const outgoing = this.args.message;
+      const realResult = await realSendRun.call(this, ctx);
+      if (outgoing instanceof Message && outgoing.piuri === ProtocolIds.MediationKeysUpdate) {
+        return new Message(
+          { updated: [{ recipient_did: '', action: 'add', result: 'success' }] } as any,
+          randomUUID(),
+          ProtocolIds.MediationKeysUpdateResponse,
+          undefined,
+          undefined,
+          [],
+          outgoing.id,
+        );
+      }
+      return realResult;
+    });
+
     agent.connections.addMediator(
       new MediatorConnection(
         "did:peer:2.Ez6LSghwSE437wnDE1pt3X6hVDUQzSjsHzinpX3XFvMjRAm7y.Vz6Mkhh1e5CEYYq6JBUcTZ6Cp2ranCWRrv7Yax3Le4N59R6dd.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6Imh0dHA6Ly8xOTIuMTY4LjEuNDQ6ODA4MCIsImEiOlsiZGlkY29tbS92MiJdfX0.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6IndzOi8vMTkyLjE2OC4xLjQ0OjgwODAvd3MiLCJhIjpbImRpZGNvbW0vdjIiXX19",

@@ -10,6 +10,7 @@ export const ProtocolIds = {
   MediationGrant: "https://didcomm.org/coordinate-mediation/2.0/mediate-grant",
   MediationDeny: "https://didcomm.org/coordinate-mediation/2.0/mediate-deny",
   MediationKeysUpdate: "https://didcomm.org/coordinate-mediation/2.0/keylist-update",
+  MediationKeysUpdateResponse: "https://didcomm.org/coordinate-mediation/2.0/keylist-update-response",
   // message-pickup
   PickupRequest: "https://didcomm.org/messagepickup/3.0/delivery-request",
   PickupDelivery: "https://didcomm.org/messagepickup/3.0/delivery",
