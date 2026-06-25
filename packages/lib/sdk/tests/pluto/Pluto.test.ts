@@ -46,9 +46,9 @@ describe("Pluto", () => {
 
         const resultPrivateKey = resultPeerDID.privateKeys[0];
         expect(resultPrivateKey)
-          .to.have.property("keyCurve")
-          .to.deep.equal({ curve: privateKey.curve });
-        expect(resultPrivateKey).to.have.property("value").to.deep.eq(raw);
+          .to.have.property("curve")
+          .to.equal(privateKey.curve);
+        expect(resultPrivateKey.getEncoded()).to.deep.eq(privateKey.getEncoded());
       });
     });
   });
