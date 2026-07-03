@@ -99,6 +99,86 @@ describe("AtalaOperation", () => {
     expect(verify).toBe(true);
   });
 
+  it("Should create a signed prism did deactivate AtalaObject", async () => {
+    const { publicKey, privateKey } = Fixtures.Keys.secp256K1;
+
+    const did = await castor.createDID('prism', {
+      keys: {
+        MASTER_KEY: privateKey,
+      },
+    });
+    const previousOperationHash = new Uint8Array(
+      (new SHA256()).update(Buffer.from("previous")).digest()
+    );
+    const atalaObjectBuffer = await castor.deactivateDID(
+      'prism',
+      {
+        key: privateKey,
+        did: did,
+        previousOperationHash,
+      }
+    );
+    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(atalaObjectBuffer);
+    expect(atalaObject).toHaveProperty("block_content");
+    expect(atalaObject.block_content).toHaveProperty("operations");
+    expect(atalaObject.block_content.operations).toHaveLength(1);
+    expect(atalaObject.block_content.operations[0]).toHaveProperty("operation");
+    expect(atalaObject.block_content.operations[0].operation).toHaveProperty("deactivate_did");
+    expect(atalaObject.block_content.operations[0].operation.deactivate_did).toHaveProperty("previous_operation_hash");
+    expect(Buffer.from(atalaObject.block_content.operations[0].operation.deactivate_did.previous_operation_hash))
+      .toEqual(Buffer.from(previousOperationHash));
+    const signedOperation = atalaObject.block_content.operations[0];
+    expect(signedOperation.signed_with).to.equal("master-0");
+    const signature = Buffer.from(signedOperation.signature);
+    const operation = signedOperation.operation;
+    const serializedOperation = operation.serializeBinary();
+    const verify = publicKey.verify(Buffer.from(serializedOperation), signature);
+    expect(verify).toBe(true);
+  });
+
+  it("Should be able to verify a created deactivate AtalaObject", async () => {
+    const randomSeed = apollo.createRandomSeed().seed.value;
+    const masterSK = await apollo.createPrivateKey({
+      type: Domain.KeyTypes.EC,
+      curve: Domain.Curve.SECP256K1,
+      seed: randomSeed,
+    });
+    const did = await castor.createDID('prism', {
+      keys: {
+        MASTER_KEY: masterSK,
+      },
+    });
+    const previousOperationHash = new Uint8Array(
+      (new SHA256()).update(Buffer.from("previous")).digest()
+    );
+    const atalaObjectBuffer = await castor.deactivateDID(
+      'prism',
+      {
+        key: masterSK,
+        did: did,
+        previousOperationHash,
+      }
+    );
+    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(atalaObjectBuffer);
+    expect(atalaObject).toHaveProperty("block_content");
+    expect(atalaObject.block_content).toBeInstanceOf(Protos.io.iohk.atala.prism.protos.AtalaBlock);
+    const atalaBlock = atalaObject.block_content;
+    expect(atalaBlock).toHaveProperty("operations");
+    expect(atalaBlock.operations).toBeInstanceOf(Array);
+    const signedOperations = atalaBlock.operations;
+    expect(signedOperations.length).toBe(1);
+    const signedOperation = signedOperations[0];
+    expect(signedOperation).toHaveProperty('operation');
+    expect(signedOperation).toHaveProperty('signature');
+    expect(signedOperation.operation).toHaveProperty('deactivate_did');
+    const signature = Buffer.from(signedOperation.signature);
+    const operation = signedOperation.operation;
+    const serializedOperation = operation.serializeBinary();
+    const verifiableKey = masterSK.publicKey() as PublicKey & VerifiableKey;
+    const verify = verifiableKey.verify(Buffer.from(serializedOperation), signature);
+    expect(verify).toBe(true);
+  });
+
   it("Should be able to recover a valid operations and verify its signatures", async () => {
     const atalaObjects = [
       [
