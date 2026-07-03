@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Abstract Class: LinkRepository\<K\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/LinkRepository.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/LinkRepository.ts#L10)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/LinkRepository.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/LinkRepository.ts#L10)
 
 LinkRepository
 
@@ -33,7 +33,7 @@ Extends [BaseRepository](BaseRepository.md) to handle model relationships
 
 > **new LinkRepository**\<`K`\>(`store`: [`Store`](../namespaces/Pluto/interfaces/Store.md), `name`: `K`): `LinkRepository`\<`K`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L20)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L20)
 
 #### Parameters
 
@@ -56,7 +56,7 @@ Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:
 
 > **delete**(`uuid`: `string`): `Promise`\<`void`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:53](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L53)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:53](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L53)
 
 #### Parameters
 
@@ -78,7 +78,7 @@ Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:
 
 > **getModels**(`query?`: [`Query`](../type-aliases/Query.md)\<[`CollectionSchemas`](../type-aliases/CollectionSchemas.md)\[`K`\]\>): `Promise`\<[`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\][]\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:87](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L87)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:87](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L87)
 
 Search the Store for Models
 
@@ -129,7 +129,7 @@ Domain.Models if the query fails
 
 > **insert**(`model`: [`OptionalId`](../type-aliases/OptionalId.md)\<[`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\]\>): `Promise`\<[`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\]\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/LinkRepository.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/LinkRepository.ts#L12)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/LinkRepository.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/LinkRepository.ts#L12)
 
 Persist the Model in the Store.
 
@@ -157,7 +157,7 @@ Persist the Model in the Store.
 
 > **update**(`model`: [`CollectionMap`](../interfaces/CollectionMap.md)\[`K`\]): `Promise`\<`void`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L44)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L44)
 
 #### Parameters
 

@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: KeyRepository
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/KeyRepository.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/KeyRepository.ts#L8)
+Defined in: [packages/lib/sdk/src/pluto/repositories/KeyRepository.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/KeyRepository.ts#L8)
 
 MapperRepository
 
@@ -23,7 +23,7 @@ while mapping between a Domain class and a Model object
 
 > **new KeyRepository**(`store`: [`Store`](../namespaces/Pluto/interfaces/Store.md), `keyRestoration`: [`KeyRestoration`](../namespaces/Domain/interfaces/KeyRestoration.md)): `KeyRepository`
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/KeyRepository.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/KeyRepository.ts#L9)
+Defined in: [packages/lib/sdk/src/pluto/repositories/KeyRepository.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/KeyRepository.ts#L9)
 
 #### Parameters
 
@@ -46,7 +46,7 @@ Defined in: [packages/lib/sdk/src/pluto/repositories/KeyRepository.ts:9](https:/
 
 > **byUUID**(`uuid`: `string`): `Promise`\<[`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md) \| `null`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:75](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L75)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:75](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L75)
 
 Utility fn for common use of find with uuid
 
@@ -76,7 +76,7 @@ first found Domain instance or undefined
 
 > **delete**(`uuid`: `string`): `Promise`\<`void`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:53](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L53)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:53](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L53)
 
 #### Parameters
 
@@ -98,7 +98,7 @@ Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:
 
 > **find**(`selector?`: `Partial`\<[`Key`](../interfaces/Key.md)\>): `Promise`\<[`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md)[]\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L48)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L48)
 
 Search for instances based on given values
 
@@ -128,7 +128,7 @@ all found Domain instances
 
 > **findOne**(`selector?`: `Partial`\<[`Key`](../interfaces/Key.md)\>): `Promise`\<[`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md) \| `null`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:61](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L61)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:61](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L61)
 
 Search for single instance based on given values
 
@@ -158,7 +158,7 @@ first found Domain instance or null
 
 > **get**(`query?`: [`Query`](../type-aliases/Query.md)\<[`TypedSchema`](../type-aliases/TypedSchema.md)\<[`Key`](../interfaces/Key.md)\>\>): `Promise`\<[`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md)[]\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:36](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L36)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:36](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L36)
 
 Search the Store, mapping any found to Domain
 
@@ -188,7 +188,7 @@ Array of matched Domain instances
 
 > **getModels**(`query?`: [`Query`](../type-aliases/Query.md)\<[`TypedSchema`](../type-aliases/TypedSchema.md)\<[`Key`](../interfaces/Key.md)\>\>): `Promise`\<[`Key`](../interfaces/Key.md)[]\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/KeyRepository.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/KeyRepository.ts#L16)
+Defined in: [packages/lib/sdk/src/pluto/repositories/KeyRepository.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/KeyRepository.ts#L16)
 
 Search the Store for Models
 
@@ -239,7 +239,7 @@ Domain.Models if the query fails
 
 > **insert**(`model`: [`Key`](../interfaces/Key.md)): `Promise`\<[`Key`](../interfaces/Key.md)\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L32)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L32)
 
 Persist the Model in the Store.
 
@@ -267,7 +267,7 @@ Persist the Model in the Store.
 
 > **save**(`domain`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md)): `Promise`\<`void`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:88](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L88)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:88](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L88)
 
 Persist the Domain instance in the Store.
 
@@ -299,7 +299,7 @@ Persist the Domain instance in the Store.
 
 > **toDomain**(`model`: [`Key`](../interfaces/Key.md)): [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md)
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/KeyRepository.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/KeyRepository.ts#L23)
+Defined in: [packages/lib/sdk/src/pluto/repositories/KeyRepository.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/KeyRepository.ts#L23)
 
 Map from a Model to the Domain class
 
@@ -325,7 +325,7 @@ Domain with uuid set
 
 > **toModel**(`domain`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md)): [`Key`](../interfaces/Key.md)
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/KeyRepository.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/KeyRepository.ts#L34)
+Defined in: [packages/lib/sdk/src/pluto/repositories/KeyRepository.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/KeyRepository.ts#L34)
 
 Map from a Domain class to a Model
 
@@ -351,7 +351,7 @@ Model potentially without uuid
 
 > **update**(`model`: [`Key`](../interfaces/Key.md)): `Promise`\<`void`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L44)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L44)
 
 #### Parameters
 

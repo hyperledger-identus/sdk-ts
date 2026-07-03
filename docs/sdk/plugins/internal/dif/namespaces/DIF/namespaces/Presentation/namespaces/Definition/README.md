@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../../../../../../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../../../../../../../../../README.md)
 
 ***
 

@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: ResolveTokenRequest
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L34)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L34)
 
 OIDC Convenience Task
 CallbackUrl to established Connection
@@ -35,7 +35,7 @@ steps
 
 > **new ResolveTokenRequest**(...`args`: \[[`ResolveTokenRequestArgs`](../interfaces/ResolveTokenRequestArgs.md)\]): `ResolveTokenRequest`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
@@ -57,7 +57,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperled
 
 > **log**(): `unknown`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -73,7 +73,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperled
 
 > **run**(`ctx`: [`Context`](../type-aliases/Context.md)): `Promise`\<\{ `access_token`: `string`; `c_nonce?`: `string`; `c_nonce_expires_in?`: `number`; `expires_in?`: `number`; `id_token?`: `string`; `refresh_expires_in?`: `number`; `refresh_token?`: `string`; `scope?`: `string`; `session_state?`: `string`; `token_type`: `string`; \}\>
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L35)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveTokenRequest.ts#L35)
 
 #### Parameters
 

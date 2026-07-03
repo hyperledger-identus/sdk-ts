@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **ProtocolType** = *typeof* [`ProtocolIds`](../../plugins/internal/didcomm/variables/ProtocolIds.md) \| *typeof* [`ProtocolIds`](../../plugins/internal/oea/namespaces/OEA/variables/ProtocolIds.md)
 
-Defined in: [packages/lib/sdk/src/edge-agent/types.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/types.ts#L21)
+Defined in: [packages/lib/sdk/src/edge-agent/types.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/types.ts#L21)
 
 Temporary workaround to smooth transition of internal module splitting and end-user consumables
 ProtocolType is a merging of all the supported ProtocolIds

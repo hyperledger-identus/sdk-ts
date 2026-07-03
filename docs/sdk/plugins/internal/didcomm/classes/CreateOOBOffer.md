@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: CreateOOBOffer
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L33)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L33)
 
 Task class for creating out-of-band (OOB) credential offer invitations.
 
@@ -24,7 +24,7 @@ potential credential holders to initiate the credential issuance flow.
 
 > **new CreateOOBOffer**(...`args`: \[[`CreateOOBOfferArgs`](../interfaces/CreateOOBOfferArgs.md)\]): `CreateOOBOffer`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
@@ -48,7 +48,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperled
 
 > **get** **attachments**(): [`AttachmentDescriptor`](../../../../overview/namespaces/Domain/classes/AttachmentDescriptor.md)[]
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:52](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L52)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:52](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L52)
 
 Gets the attachments for the out-of-band invitation.
 
@@ -66,7 +66,7 @@ Array containing the credential offer as an attachment descriptor
 
 > **get** **oobBody**(): \{ `accept`: `string`[]; `goal`: `string`; `goal_code`: `string`; \}
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:39](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L39)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:39](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L39)
 
 Gets the body configuration for the out-of-band invitation.
 
@@ -78,9 +78,9 @@ The OOB invitation body with goal code, goal description, and accepted protocols
 
 | Name | Type | Defined in |
 | ------ | ------ | ------ |
-| `accept` | `string`[] | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:43](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L43) |
-| `goal` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:42](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L42) |
-| `goal_code` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:41](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L41) |
+| `accept` | `string`[] | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:43](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L43) |
+| `goal` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:42](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L42) |
+| `goal_code` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:41](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L41) |
 
 ## Methods
 
@@ -88,7 +88,7 @@ The OOB invitation body with goal code, goal description, and accepted protocols
 
 > **log**(): `unknown`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -104,7 +104,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperled
 
 > **run**(`_ctx`: [`AgentContext`](../../../../overview/classes/AgentContext.md)): `Promise`\<`string`\>
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:73](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L73)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts:73](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBOffer.ts#L73)
 
 Executes the task to create an out-of-band credential offer invitation.
 

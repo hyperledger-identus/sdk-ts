@@ -1,3 +1,17 @@
+## 8.1.0 (2026-07-03)
+
+### 🚀 Features
+
+- implement deactivate prism:did operations on sdk-ts ([#665](https://github.com/hyperledger-identus/sdk-ts/pull/665))
+
+### 🩹 Fixes
+
+- implement update did operation on castor for prism:did ([#666](https://github.com/hyperledger-identus/sdk-ts/pull/666))
+
+### ❤️ Thank You
+
+- Javier Ribó
+
 # 8.0.0 (2026-06-12)
 
 ### 🚀 Features

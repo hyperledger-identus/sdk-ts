@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: CreatePresentationRequest
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/tasks/CreatePresentationRequest.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/tasks/CreatePresentationRequest.ts#L19)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/tasks/CreatePresentationRequest.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oea/tasks/CreatePresentationRequest.ts#L19)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oea/tasks/CreatePresentationR
 
 > **new CreatePresentationRequest**(...`args`: \[[`CreatePresentationRequestArgs`](../interfaces/CreatePresentationRequestArgs.md)\]): `CreatePresentationRequest`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
@@ -40,7 +40,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperled
 
 > **log**(): `unknown`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/utils/tasks.ts#L27)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -56,7 +56,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperled
 
 > **run**(`ctx`: [`CreatePresentationRequestTaskContext`](../type-aliases/CreatePresentationRequestTaskContext.md)): `Promise`\<[`RequestPresentation`](RequestPresentation.md)\>
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/tasks/CreatePresentationRequest.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/plugins/internal/oea/tasks/CreatePresentationRequest.ts#L20)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/tasks/CreatePresentationRequest.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oea/tasks/CreatePresentationRequest.ts#L20)
 
 #### Parameters
 

@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: AgentBackup
 
-Defined in: [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.Backup.ts#L12)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/Agent.Backup.ts#L12)
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:12](https://github.
 
 > **new AgentBackup**(`Agent`: [`Agent`](Agent.md)): `AgentBackup`
 
-Defined in: [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.Backup.ts#L13)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/Agent.Backup.ts#L13)
 
 #### Parameters
 
@@ -30,7 +30,7 @@ Defined in: [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:13](https://github.
 
 | Property | Modifier | Type | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="property-agent"></a> `Agent` | `readonly` | [`Agent`](Agent.md) | [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.Backup.ts#L14) |
+| <a id="property-agent"></a> `Agent` | `readonly` | [`Agent`](Agent.md) | [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/Agent.Backup.ts#L14) |
 
 ## Methods
 
@@ -38,7 +38,7 @@ Defined in: [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:13](https://github.
 
 > **createJWE**(`options?`: [`BackupOptions`](../type-aliases/BackupOptions.md)): `Promise`\<`string`\>
 
-Defined in: [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.Backup.ts#L33)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/Agent.Backup.ts#L33)
 
 Creates a JWE (JSON Web Encryption) containing the backup data stored in Pluto.
 The data can optionally be encrypted using a custom master key, compressed, 
@@ -66,7 +66,7 @@ restore - Method to restore data from a JWE string.
 
 > **restore**(`jwe`: `string`, `options?`: [`BackupOptions`](../type-aliases/BackupOptions.md)): `Promise`\<`void`\>
 
-Defined in: [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:67](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/Agent.Backup.ts#L67)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.Backup.ts:67](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/Agent.Backup.ts#L67)
 
 Decodes a JWE (JSON Web Encryption) string and restores the backup data to the store.
 If the JWE is compressed (Base64-encoded), it will attempt to decompress it first.

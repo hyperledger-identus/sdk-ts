@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
 
 ***
 
@@ -6,10 +6,10 @@
 
 # Interface: ForwardMessageBody
 
-Defined in: [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:4](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L4)
+Defined in: [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:4](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L4)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="property-next"></a> `next` | `string` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L5) |
+| <a id="property-next"></a> `next` | `string` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L5) |

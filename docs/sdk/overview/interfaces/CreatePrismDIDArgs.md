@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
 
 ***
 
@@ -6,13 +6,13 @@
 
 # Interface: CreatePrismDIDArgs
 
-Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts#L11)
+Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts#L11)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="property-alias"></a> `alias?` | `string` | [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts#L14) |
-| <a id="property-authenticationkeycurve"></a> `authenticationKeyCurve?` | [`Curve`](../namespaces/Domain/enumerations/Curve.md) | [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts#L12) |
-| <a id="property-keypathindex"></a> `keyPathIndex?` | `number` | [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts#L15) |
-| <a id="property-services"></a> `services?` | [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[] | [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts#L13) |
+| <a id="property-alias"></a> `alias?` | `string` | [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts#L14) |
+| <a id="property-authenticationkeycurve"></a> `authenticationKeyCurve?` | [`Curve`](../namespaces/Domain/enumerations/Curve.md) | [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts#L12) |
+| <a id="property-keypathindex"></a> `keyPathIndex?` | `number` | [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts#L15) |
+| <a id="property-services"></a> `services?` | [`Service`](../namespaces/Domain/namespaces/DIDDocument/classes/Service.md)[] | [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDID.ts#L13) |

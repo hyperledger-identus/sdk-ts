@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: Castor\<Extras\>
 
-Defined in: [packages/lib/sdk/src/castor/index.ts:49](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L49)
+Defined in: [packages/lib/sdk/src/castor/index.ts:49](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/index.ts#L49)
 
 Castor is a powerful and flexible library for working with DIDs. Whether you are building a decentralised application
 or a more traditional system requiring secure and private identity management, Castor provides the tools and features
@@ -36,7 +36,7 @@ and infer their payload types directly from each DID method instance.
 
 > **new Castor**\<`Extras`\>(`apollo`: [`Apollo`](../namespaces/Domain/interfaces/Apollo.md), `extraMethods?`: `Extras`): `Castor`\<`Extras`\>
 
-Defined in: [packages/lib/sdk/src/castor/index.ts:74](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L74)
+Defined in: [packages/lib/sdk/src/castor/index.ts:74](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/index.ts#L74)
 
 Creates an instance of Castor as soon as a valid cryptographic interface is provided (Apollo).
 Registers `prism` and `peer` DID methods by default.
@@ -59,7 +59,7 @@ Pass additional DIDMethod instances to extend or override defaults.
 
 > **createDID**\<`M`\>(`method`: `M`, `opts`: [`CreatePayloadOf`](../type-aliases/CreatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
 
-Defined in: [packages/lib/sdk/src/castor/index.ts:79](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L79)
+Defined in: [packages/lib/sdk/src/castor/index.ts:79](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/index.ts#L79)
 
 #### Type Parameters
 
@@ -88,7 +88,7 @@ Defined in: [packages/lib/sdk/src/castor/index.ts:79](https://github.com/hyperle
 
 > **deactivateDID**\<`M`\>(`method`: `M`, `opts`: [`DeactivatePayloadOf`](../type-aliases/DeactivatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>): `Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
 
-Defined in: [packages/lib/sdk/src/castor/index.ts:116](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L116)
+Defined in: [packages/lib/sdk/src/castor/index.ts:116](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/index.ts#L116)
 
 #### Type Parameters
 
@@ -117,7 +117,7 @@ Defined in: [packages/lib/sdk/src/castor/index.ts:116](https://github.com/hyperl
 
 > **publishDID**\<`M`\>(`method`: `M`, `opts`: [`PublishPayloadOf`](../type-aliases/PublishPayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>): `Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
 
-Defined in: [packages/lib/sdk/src/castor/index.ts:94](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L94)
+Defined in: [packages/lib/sdk/src/castor/index.ts:94](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/index.ts#L94)
 
 #### Type Parameters
 
@@ -146,7 +146,7 @@ Defined in: [packages/lib/sdk/src/castor/index.ts:94](https://github.com/hyperle
 
 > **resolveDID**(`didstr`: `string` \| [`DID`](../namespaces/Domain/classes/DID.md)): `Promise`\<[`DIDDocument`](../namespaces/Domain/classes/DIDDocument.md)\>
 
-Defined in: [packages/lib/sdk/src/castor/index.ts:143](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L143)
+Defined in: [packages/lib/sdk/src/castor/index.ts:143](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/index.ts#L143)
 
 Asynchronously resolves a DID to its corresponding DID Document. This function may throw an error if
 the DID is invalid or the document cannot be retrieved.
@@ -180,7 +180,7 @@ const didDocument = await castor.resolveDID("did:prism:123456")
 
 > **updateDID**\<`M`\>(`method`: `M`, `opts`: [`UpdatePayloadOf`](../type-aliases/UpdatePayloadOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>): `Promise`\<[`MetadataOf`](../type-aliases/MetadataOf.md)\<[`MethodMapOf`](../type-aliases/MethodMapOf.md)\<readonly \[[`PrismDIDMethod`](PrismDIDMethod.md), [`PeerDIDMethod`](PeerDIDMethod.md), `Extras`\]\>\[`M`\]\>\>
 
-Defined in: [packages/lib/sdk/src/castor/index.ts:105](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L105)
+Defined in: [packages/lib/sdk/src/castor/index.ts:105](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/index.ts#L105)
 
 #### Type Parameters
 
@@ -209,7 +209,7 @@ Defined in: [packages/lib/sdk/src/castor/index.ts:105](https://github.com/hyperl
 
 > **verifySignature**(`did`: [`DID`](../namespaces/Domain/classes/DID.md), `challenge`: `Uint8Array`, `signature`: `Uint8Array`): `Promise`\<`boolean`\>
 
-Defined in: [packages/lib/sdk/src/castor/index.ts:86](https://github.com/hyperledger-identus/sdk-ts/blob/2f63e5682344b1a50ca2de0bd0cd67794e71c239/packages/lib/sdk/src/castor/index.ts#L86)
+Defined in: [packages/lib/sdk/src/castor/index.ts:86](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/index.ts#L86)
 
 Verify a cryptographic signature against a DID's verification methods.
 

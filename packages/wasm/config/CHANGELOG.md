@@ -1,3 +1,7 @@
+## 1.0.1 (2026-07-03)
+
+This was a version bump only for @hyperledger/identus-wasm-config to align it with other projects, there were no code changes.
+
 # 1.0.0 (2026-06-12)
 
 ### 🩹 Fixes

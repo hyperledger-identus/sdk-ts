@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../README.md)
+[**@hyperledger/identus-sdk v8.0.0**](../README.md)
 
 ***
 
@@ -30,6 +30,7 @@
 | [ListenerKey](enumerations/ListenerKey.md) | - |
 | [SDJWT\_VP\_PROPS](enumerations/SDJWT_VP_PROPS.md) | - |
 | [StorageType](enumerations/StorageType.md) | Enumeration of built-in storage types supported by RIDB. |
+| [UpdateActionType](enumerations/UpdateActionType.md) | The kind of mutation an [UpdateAction](type-aliases/UpdateAction.md) performs on a Prism DID. |
 
 ## Classes
 
@@ -120,6 +121,8 @@
 
 | Type Alias | Description |
 | ------ | ------ |
+| [AddKeyActionData](type-aliases/AddKeyActionData.md) | Add a new public key to the DID Document. |
+| [AddServiceActionData](type-aliases/AddServiceActionData.md) | Add a new service to the DID Document. |
 | [AgentOptions](type-aliases/AgentOptions.md) | - |
 | [Args\_CredentialIssue](type-aliases/Args_CredentialIssue.md) | - |
 | [Args\_CredentialOffer](type-aliases/Args_CredentialOffer.md) | - |
@@ -139,8 +142,10 @@
 | [CollectionSchemas](type-aliases/CollectionSchemas.md) | Maps each collection name to its concrete SchemaType. |
 | [ConnectionEventArg](type-aliases/ConnectionEventArg.md) | - |
 | [CreateOptions](type-aliases/CreateOptions.md) | Options for creating a Pluto instance via [Pluto.create](classes/Pluto.md#create). |
+| [CreatePayload](type-aliases/CreatePayload.md) | Options for creating a new Prism DID. |
 | [CreatePayloadOf](type-aliases/CreatePayloadOf.md) | Extract the `create` payload type from a DID method instance type. |
 | [CreatePrismDIDWithKeysArgs](type-aliases/CreatePrismDIDWithKeysArgs.md) | - |
+| [DeactivatePayload](type-aliases/DeactivatePayload.md) | Options for deactivating a Prism DID. |
 | [DeactivatePayloadOf](type-aliases/DeactivatePayloadOf.md) | Extract the `deactivate` payload type from a DID method instance type. Resolves to `never` when the method does not support deactivating. |
 | [DefaultDIDMethods](type-aliases/DefaultDIDMethods.md) | Tuple of DID methods Castor always registers by default. User-supplied extras are appended to this tuple. |
 | [DIDKeys](type-aliases/DIDKeys.md) | Optional private-key map for DID creation, keyed by usage name. Every usage except `MASTER_KEY` is optional and holds an array of [PrivateKey](namespaces/Domain/classes/PrivateKey.md) instances. |
@@ -152,6 +157,7 @@
 | [LogLevel](type-aliases/LogLevel.md) | - |
 | [MasterKey](type-aliases/MasterKey.md) | - |
 | [MessageEventArg](type-aliases/MessageEventArg.md) | - |
+| [Metadata](type-aliases/Metadata.md) | Serialised Atala object bytes returned after a publish operation. |
 | [MetadataOf](type-aliases/MetadataOf.md) | Extract the metadata type returned by the lifecycle operations of a DID method instance type. Uses `publish` as the canonical source. |
 | [MethodMapOf](type-aliases/MethodMapOf.md) | Build a `{ methodName: MethodInstance }` map from a tuple of DID method instances. When multiple entries share the same `method` name, later entries override earlier ones (so user-supplied extras can replace the built-in `prism` / `peer` implementations at the type level). |
 | [MethodNameOf](type-aliases/MethodNameOf.md) | Extract the literal `method` name from a DID method instance type. Falls back to `string` when the method field is not a string literal. |
@@ -161,10 +167,13 @@
 | [OptionalId](type-aliases/OptionalId.md) | - |
 | [PlutoRepositories](type-aliases/PlutoRepositories.md) | - |
 | [ProtocolType](type-aliases/ProtocolType.md) | Temporary workaround to smooth transition of internal module splitting and end-user consumables ProtocolType is a merging of all the supported ProtocolIds These have been split internally into Didcomm and OEA modules But we can hide that from our users until full support exists |
+| [PublishPayload](type-aliases/PublishPayload.md) | Options for publishing a Prism DID to the ledger. |
 | [PublishPayloadOf](type-aliases/PublishPayloadOf.md) | Extract the `publish` payload type from a DID method instance type. Resolves to `never` when the method does not support publishing. |
 | [Query](type-aliases/Query.md) | Query type used by Pluto repositories. |
 | [QueryOptions](type-aliases/QueryOptions.md) | - |
 | [QueryType](type-aliases/QueryType.md) | - |
+| [RemoveKeyActionData](type-aliases/RemoveKeyActionData.md) | Remove an existing public key from the DID Document. |
+| [RemoveServiceActionData](type-aliases/RemoveServiceActionData.md) | Remove an existing service from the DID Document. |
 | [RequiredPrismDIDSecretKeys](type-aliases/RequiredPrismDIDSecretKeys.md) | Key map that **requires** a `MASTER_KEY` entry. Used as the payload for Prism DID creation where a master signing key is mandatory. |
 | [RevokeEventArg](type-aliases/RevokeEventArg.md) | - |
 | [SeedFunction](type-aliases/SeedFunction.md) | - |
@@ -172,7 +181,10 @@
 | [TableName](type-aliases/TableName.md) | Union of all valid table names in the Pluto store. |
 | [Task](type-aliases/Task.md) | - |
 | [TypedSchema](type-aliases/TypedSchema.md) | Fully-typed RIDB schema derived from a Model interface `T`. |
+| [UpdateAction](type-aliases/UpdateAction.md) | A single, type-safe DID update action. |
+| [UpdatePayload](type-aliases/UpdatePayload.md) | Options for updating a Prism DID. |
 | [UpdatePayloadOf](type-aliases/UpdatePayloadOf.md) | Extract the `update` payload type from a DID method instance type. Resolves to `never` when the method does not support updating. |
+| [UpdateServiceActionData](type-aliases/UpdateServiceActionData.md) | Replace an existing service's type and/or endpoints. |
 | [WithId](type-aliases/WithId.md) | - |
 | [WithOptions](type-aliases/WithOptions.md) | Start options for the default RIDB-backed store. |
 | [WithStart](type-aliases/WithStart.md) | Start option that delegates database initialisation to a custom function. |
