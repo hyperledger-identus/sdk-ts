@@ -228,21 +228,7 @@ export class PrismDIDMethod
       update_did: updateOperation,
     });
 
-    const encodedState = operation.serializeBinary();
-    const encodedStateHash = new SHA256().update(encodedState).digest();
-    const signature = secp256k1.sign(encodedStateHash, key.raw);
-    const signedOperation = Protos.io.iohk.atala.prism.protos.SignedAtalaOperation.fromObject({
-      signature: signature.toDERRawBytes(),
-      operation,
-      signed_with: this.getUsageId(PrismDIDKeyUsage.MASTER_KEY, 0),
-    });
-    const block = Protos.io.iohk.atala.prism.protos.AtalaBlock.fromObject({
-      operations: [signedOperation],
-    });
-    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.fromObject({
-      block_content: block,
-    });
-    return atalaObject.serialize();
+    return this.signOperation(operation, key);
   }
 
   /**
@@ -299,6 +285,79 @@ export class PrismDIDMethod
   }
 
   /**
+   * Sign an Atala operation with the master key and wrap it into a serialised
+   * `AtalaObject`, ready to be published to the ledger.
+   *
+   * @param operation - the Atala operation to sign
+   * @param key - the master key used to sign the operation
+   * @returns serialised `AtalaObject` bytes
+   */
+  private signOperation(
+    operation: Protos.io.iohk.atala.prism.protos.AtalaOperation,
+    key: Domain.PrivateKey,
+  ): Metadata {
+    const encodedState = operation.serializeBinary();
+    const encodedStateHash = (new SHA256()).update(encodedState).digest();
+
+    const signature = secp256k1.sign(
+      encodedStateHash,
+      key.raw
+    );
+
+    const signedOperation = Protos.io.iohk.atala.prism.protos.SignedAtalaOperation.fromObject({
+      signature: signature.toDERRawBytes(),
+      operation,
+      signed_with: this.getUsageId(PrismDIDKeyUsage.MASTER_KEY, 0)
+    });
+
+    const block = Protos.io.iohk.atala.prism.protos.AtalaBlock.fromObject({
+      operations: [
+        signedOperation
+      ]
+    });
+
+    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.fromObject({
+      block_content: block
+    });
+
+    return atalaObject.serialize();
+  }
+
+  /**
+   * Build a `create_did` Atala operation from the provided public keys and
+   * DID Document services.
+   *
+   * @param publicKeys - the Prism public keys to embed in the DID
+   * @param services - optional DID Document services to embed
+   * @returns the assembled `create_did` Atala operation
+   */
+  private buildCreateOperation(
+    publicKeys: Protos.io.iohk.atala.prism.protos.PublicKey[],
+    services?: DIDDocument.Service[],
+  ): Protos.io.iohk.atala.prism.protos.AtalaOperation {
+    const didCreationData =
+      new Protos.io.iohk.atala.prism.protos.CreateDIDOperation.DIDCreationData({
+        public_keys: publicKeys,
+        services: services?.map((service) => {
+          return new Protos.io.iohk.atala.prism.protos.Service({
+            service_endpoint: [service.serviceEndpoint.uri],
+            id: service.id,
+            type: service.type.at(0),
+          });
+        }),
+      });
+
+    const didOperation =
+      new Protos.io.iohk.atala.prism.protos.CreateDIDOperation({
+        did_data: didCreationData,
+      });
+
+    return new Protos.io.iohk.atala.prism.protos.AtalaOperation({
+      create_did: didOperation,
+    });
+  }
+
+  /**
    * Create a new long-form Prism DID from the provided keys and services.
    *
    * @param opts - creation options containing keys and optional services
@@ -336,26 +395,7 @@ export class PrismDIDMethod
         didPublicKeys.push(prismDIDPublicKey);
       }
     }
-    const didCreationData =
-      new Protos.io.iohk.atala.prism.protos.CreateDIDOperation.DIDCreationData({
-        public_keys: didPublicKeys,
-        services: services?.map((service) => {
-          return new Protos.io.iohk.atala.prism.protos.Service({
-            service_endpoint: [service.serviceEndpoint.uri],
-            id: service.id,
-            type: service.type.at(0),
-          });
-        }),
-      });
-
-    const didOperation =
-      new Protos.io.iohk.atala.prism.protos.CreateDIDOperation({
-        did_data: didCreationData,
-      });
-
-    const operation = new Protos.io.iohk.atala.prism.protos.AtalaOperation({
-      create_did: didOperation,
-    });
+    const operation = this.buildCreateOperation(didPublicKeys, services);
 
     const encodedState = operation.serializeBinary();
     const sha256 = new SHA256();
@@ -383,42 +423,8 @@ export class PrismDIDMethod
     if (key.isSignable() && key instanceof Secp256k1PrivateKey) {
       const resolved = await this.resolver.resolve(did.toString());
       const didPublicKeys = resolved.verificationMethods.map(x => this.getPrismDIDKeyFromVerificationMethod(x));
-      const didCreationData = new Protos.io.iohk.atala.prism.protos.CreateDIDOperation.DIDCreationData({
-        public_keys: didPublicKeys,
-        services: resolved.services?.map((service) => {
-          return new Protos.io.iohk.atala.prism.protos.Service({
-            service_endpoint: [service.serviceEndpoint.uri],
-            id: service.id,
-            type: service.type.at(0),
-          });
-        }),
-      });
-      const didOperation = new Protos.io.iohk.atala.prism.protos.CreateDIDOperation({
-        did_data: didCreationData,
-      });
-      const operation = new Protos.io.iohk.atala.prism.protos.AtalaOperation({
-        create_did: didOperation,
-      });
-      const encodedState = operation.serializeBinary();
-      const encodedStateHash = (new SHA256()).update(encodedState).digest();
-      const signature = secp256k1.sign(
-        encodedStateHash,
-        key.raw
-      );
-      const signedOperation = Protos.io.iohk.atala.prism.protos.SignedAtalaOperation.fromObject({
-        signature: signature.toDERRawBytes(),
-        operation,
-        signed_with: this.getUsageId(PrismDIDKeyUsage.MASTER_KEY, 0)
-      });
-      const block = Protos.io.iohk.atala.prism.protos.AtalaBlock.fromObject({
-        operations: [
-          signedOperation
-        ]
-      });
-      const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.fromObject({
-        block_content: block
-      });
-      return atalaObject.serialize();
+      const operation = this.buildCreateOperation(didPublicKeys, resolved.services);
+      return this.signOperation(operation, key);
     }
     throw new Domain.CastorError.InvalidKeyError("Cannot sign with this key");
   }
