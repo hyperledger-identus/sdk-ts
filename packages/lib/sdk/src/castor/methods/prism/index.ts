@@ -32,6 +32,8 @@ export type DeactivatePayload = {
   key: Domain.PrivateKey;
   /** The DID to deactivate. */
   did: Domain.DID;
+  /** The previous operation hash (last operation hash, create, update, deactivate) */
+  previousOperationHash: Uint8Array;
 };
 
 /**
@@ -178,7 +180,7 @@ export type Metadata = Uint8Array
  * ```
  */
 export class PrismDIDMethod
-  implements DIDMethod<Metadata, CreatePayload, PublishPayload, UpdatePayload> {
+  implements DIDMethod<Metadata, CreatePayload, PublishPayload, UpdatePayload, DeactivatePayload> {
   method = "prism" as const;
   resolver: PrismDIDResolver;
 
@@ -187,6 +189,24 @@ export class PrismDIDMethod
    */
   constructor(prismResolverEndpoint: string) {
     this.resolver = new PrismDIDResolver(prismResolverEndpoint);
+  }
+
+  /**
+   * The previous operation hash is the hash of the last operation, create, update, deactivate
+   * We can use the neoprism API to get the last operation hash for a specific did and TX
+   */
+  async deactivate(opts: DeactivatePayload): Promise<DIDMethodOperation<Metadata>> {
+    const { key, previousOperationHash } = opts;
+    const deactivateDID = new Protos.io.iohk.atala.prism.protos.DeactivateDIDOperation({
+      previous_operation_hash: previousOperationHash,
+      id: '2',
+    });
+
+    const operation = new Protos.io.iohk.atala.prism.protos.AtalaOperation({
+      deactivate_did: deactivateDID,
+    });
+
+    return this.signOperation(operation, key);
   }
 
   /**
