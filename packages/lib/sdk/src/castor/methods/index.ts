@@ -1,7 +1,20 @@
 import { type PrismDIDMethod } from "./prism";
 import { type PeerDIDMethod } from "./peer";
 
-export { PrismDIDMethod } from "./prism";
+export { PrismDIDMethod, UpdateActionType } from "./prism";
+export type {
+  CreatePayload,
+  DeactivatePayload,
+  UpdatePayload,
+  PublishPayload,
+  UpdateAction,
+  AddKeyActionData,
+  RemoveKeyActionData,
+  AddServiceActionData,
+  RemoveServiceActionData,
+  UpdateServiceActionData,
+  Metadata,
+} from "./prism";
 export { PeerDIDMethod } from "./peer";
 
 /**

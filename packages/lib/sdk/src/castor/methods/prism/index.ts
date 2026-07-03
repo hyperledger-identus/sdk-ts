@@ -34,12 +34,121 @@ export type DeactivatePayload = {
   did: Domain.DID;
 };
 
+/**
+ * The kind of mutation an {@link UpdateAction} performs on a Prism DID.
+ *
+ * The literal value is used as the `actionType` discriminant, which in turn
+ * determines exactly which payload field is present on the action.
+ */
+export enum UpdateActionType {
+  addKey = "addKey",
+  removeKey = "removeKey",
+  addService = "addService",
+  removeService = "removeService",
+  updateService = "updateService",
+}
+
+/** Add a new public key to the DID Document. */
+export type AddKeyActionData = {
+  /** Verification method id, unique within the Document. */
+  id: string;
+  /** The key usage this key fulfils. */
+  purpose: PrismDIDKeyUsageType;
+  /** The public key material to add. */
+  publicKey: Domain.PublicKey;
+};
+
+/** Remove an existing public key from the DID Document. */
+export type RemoveKeyActionData = {
+  /** Verification method id to remove. */
+  id: string;
+};
+
+/** Add a new service to the DID Document. */
+export type AddServiceActionData = {
+  /** Service id, unique within the Document. */
+  id: string;
+  /** Service type. */
+  type: string;
+  /** One or more service endpoint URIs. */
+  serviceEndpoint: string[];
+};
+
+/** Remove an existing service from the DID Document. */
+export type RemoveServiceActionData = {
+  /** Service id to remove. */
+  id: string;
+};
+
+/** Replace an existing service's type and/or endpoints. */
+export type UpdateServiceActionData = {
+  /** Service id to update. */
+  id: string;
+  /** New service type. */
+  type: string;
+  /** New service endpoint URIs. */
+  serviceEndpoint: string[];
+};
+
+/**
+ * Maps each {@link UpdateActionType} to the payload field it declares.
+ *
+ * This is the single source of truth for the discriminated union below:
+ * the key is the `actionType` value, and the value type is the shape of the
+ * field named after that same key.
+ *
+ * @example
+ * ```json
+ * {
+ *   "actionType": "addService",
+ *   "addService": {
+ *     "id": "<string>",
+ *     "type": "<string>",
+ *     "serviceEndpoint": ["<string>", "<string>"]
+ *   }
+ * }
+ * ```
+ */
+type UpdateActionDataMap = {
+  [UpdateActionType.addKey]: AddKeyActionData;
+  [UpdateActionType.removeKey]: RemoveKeyActionData;
+  [UpdateActionType.addService]: AddServiceActionData;
+  [UpdateActionType.removeService]: RemoveServiceActionData;
+  [UpdateActionType.updateService]: UpdateServiceActionData;
+};
+
+/**
+ * A single, type-safe DID update action.
+ *
+ * `actionType` is the discriminant: narrowing on it (e.g.
+ * `if (action.actionType === UpdateActionType.addService)`) makes only the
+ * matching payload field available. Supplying any other field, or omitting the
+ * matching one, is a compile-time error — `addService` is only available when
+ * `actionType` is `"addService"`, and so on.
+ */
+export type UpdateAction<
+  T extends UpdateActionType = UpdateActionType
+> = {
+  [K in T]: { actionType: K } & { [F in K]: UpdateActionDataMap[K] };
+}[T];
+
 /** Options for updating a Prism DID. */
 export type UpdatePayload = {
   /** Master signing key used to authorise the update. */
   key: Domain.PrivateKey;
   /** The DID to update. */
   did: Domain.DID;
+  /** The actions to update the DID with. */
+  actions: UpdateAction[];
+  /**
+   * SHA-256 hash of the last Atala operation applied to this DID.
+   *
+   * For the first update this is the create operation's hash, which equals the
+   * DID's state hash — defaulted from {@link Domain.DID.methodId} when omitted.
+   * For chained updates the caller must supply the hash of the previous update
+   * operation.
+   */
+  previousOperationHash?: Uint8Array;
 };
 
 /** Options for publishing a Prism DID to the ledger. */
@@ -69,7 +178,7 @@ export type Metadata = Uint8Array
  * ```
  */
 export class PrismDIDMethod
-  implements DIDMethod<Metadata, CreatePayload, PublishPayload> {
+  implements DIDMethod<Metadata, CreatePayload, PublishPayload, UpdatePayload> {
   method = "prism" as const;
   resolver: PrismDIDResolver;
 
@@ -78,6 +187,174 @@ export class PrismDIDMethod
    */
   constructor(prismResolverEndpoint: string) {
     this.resolver = new PrismDIDResolver(prismResolverEndpoint);
+  }
+
+  /**
+   * Update a published Prism DID by building and signing an Atala operation.
+   *
+   * @param opts - the master key, DID, ordered actions and (optionally) the
+   *   previous operation hash
+   * @returns serialised `AtalaObject` bytes
+   * @throws {CastorError.InvalidKeyError} if the key cannot sign the operation
+   */
+  async update(opts: UpdatePayload): Promise<DIDMethodOperation<Metadata>> {
+    const { key, did, actions } = opts;
+
+    if (!(key.isSignable() && key instanceof Secp256k1PrivateKey)) {
+      throw new Domain.CastorError.InvalidKeyError("Cannot sign with this key");
+    }
+
+    if (actions.length === 0) {
+      throw new Domain.CastorError.InvalidKeyError("At least one update action is required");
+    }
+
+    // The DID suffix (state hash) is the first section of the method id; the
+    // long-form encoded state, if present, follows a `:` separator.
+    const stateHash = did.methodId.split(":").at(0);
+    if (!stateHash) {
+      throw new Domain.CastorError.MethodIdIsDoesNotSatisfyRegex();
+    }
+
+    const previousOperationHash =
+      opts.previousOperationHash ?? Uint8Array.from(Buffer.from(stateHash, "hex"));
+
+    const updateOperation = new Protos.io.iohk.atala.prism.protos.UpdateDIDOperation({
+      id: stateHash,
+      previous_operation_hash: previousOperationHash,
+      actions: actions.map((action) => this.buildUpdateAction(action)),
+    });
+
+    const operation = new Protos.io.iohk.atala.prism.protos.AtalaOperation({
+      update_did: updateOperation,
+    });
+
+    return this.signOperation(operation, key);
+  }
+
+  /**
+   * Convert a type-safe {@link UpdateAction} into its protobuf representation.
+   *
+   * Narrowing on `actionType` guarantees the matching payload field is present,
+   * so each branch can safely read only the field it owns.
+   */
+  private buildUpdateAction(
+    action: UpdateAction,
+  ): Protos.io.iohk.atala.prism.protos.UpdateDIDAction {
+    const protos = Protos.io.iohk.atala.prism.protos;
+    switch (action.actionType) {
+      case UpdateActionType.addKey: {
+        const { id, purpose, publicKey } = action.addKey;
+        // `purpose` is authoritative for the key usage; the trailing number of
+        // the id (e.g. `issuing-1`) gives the occurrence index.
+        const index = parseInt(id.split("-").at(-1) ?? "", 10) || 0;
+        return new protos.UpdateDIDAction({
+          add_key: new protos.AddKeyAction({
+            key: this.createProtos(publicKey, purpose, index),
+          }),
+        });
+      }
+      case UpdateActionType.removeKey:
+        return new protos.UpdateDIDAction({
+          remove_key: new protos.RemoveKeyAction({ keyId: action.removeKey.id }),
+        });
+      case UpdateActionType.addService:
+        return new protos.UpdateDIDAction({
+          add_service: new protos.AddServiceAction({
+            service: new protos.Service({
+              id: action.addService.id,
+              type: action.addService.type,
+              service_endpoint: action.addService.serviceEndpoint,
+            }),
+          }),
+        });
+      case UpdateActionType.removeService:
+        return new protos.UpdateDIDAction({
+          remove_service: new protos.RemoveServiceAction({
+            serviceId: action.removeService.id,
+          }),
+        });
+      case UpdateActionType.updateService:
+        return new protos.UpdateDIDAction({
+          update_service: new protos.UpdateServiceAction({
+            serviceId: action.updateService.id,
+            type: action.updateService.type,
+            service_endpoints: action.updateService.serviceEndpoint,
+          }),
+        });
+    }
+  }
+
+  /**
+   * Sign an Atala operation with the master key and wrap it into a serialised
+   * `AtalaObject`, ready to be published to the ledger.
+   *
+   * @param operation - the Atala operation to sign
+   * @param key - the master key used to sign the operation
+   * @returns serialised `AtalaObject` bytes
+   */
+  private signOperation(
+    operation: Protos.io.iohk.atala.prism.protos.AtalaOperation,
+    key: Domain.PrivateKey,
+  ): Metadata {
+    const encodedState = operation.serializeBinary();
+    const encodedStateHash = (new SHA256()).update(encodedState).digest();
+
+    const signature = secp256k1.sign(
+      encodedStateHash,
+      key.raw
+    );
+
+    const signedOperation = Protos.io.iohk.atala.prism.protos.SignedAtalaOperation.fromObject({
+      signature: signature.toDERRawBytes(),
+      operation,
+      signed_with: this.getUsageId(PrismDIDKeyUsage.MASTER_KEY, 0)
+    });
+
+    const block = Protos.io.iohk.atala.prism.protos.AtalaBlock.fromObject({
+      operations: [
+        signedOperation
+      ]
+    });
+
+    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.fromObject({
+      block_content: block
+    });
+
+    return atalaObject.serialize();
+  }
+
+  /**
+   * Build a `create_did` Atala operation from the provided public keys and
+   * DID Document services.
+   *
+   * @param publicKeys - the Prism public keys to embed in the DID
+   * @param services - optional DID Document services to embed
+   * @returns the assembled `create_did` Atala operation
+   */
+  private buildCreateOperation(
+    publicKeys: Protos.io.iohk.atala.prism.protos.PublicKey[],
+    services?: DIDDocument.Service[],
+  ): Protos.io.iohk.atala.prism.protos.AtalaOperation {
+    const didCreationData =
+      new Protos.io.iohk.atala.prism.protos.CreateDIDOperation.DIDCreationData({
+        public_keys: publicKeys,
+        services: services?.map((service) => {
+          return new Protos.io.iohk.atala.prism.protos.Service({
+            service_endpoint: [service.serviceEndpoint.uri],
+            id: service.id,
+            type: service.type.at(0),
+          });
+        }),
+      });
+
+    const didOperation =
+      new Protos.io.iohk.atala.prism.protos.CreateDIDOperation({
+        did_data: didCreationData,
+      });
+
+    return new Protos.io.iohk.atala.prism.protos.AtalaOperation({
+      create_did: didOperation,
+    });
   }
 
   /**
@@ -118,26 +395,7 @@ export class PrismDIDMethod
         didPublicKeys.push(prismDIDPublicKey);
       }
     }
-    const didCreationData =
-      new Protos.io.iohk.atala.prism.protos.CreateDIDOperation.DIDCreationData({
-        public_keys: didPublicKeys,
-        services: services?.map((service) => {
-          return new Protos.io.iohk.atala.prism.protos.Service({
-            service_endpoint: [service.serviceEndpoint.uri],
-            id: service.id,
-            type: service.type.at(0),
-          });
-        }),
-      });
-
-    const didOperation =
-      new Protos.io.iohk.atala.prism.protos.CreateDIDOperation({
-        did_data: didCreationData,
-      });
-
-    const operation = new Protos.io.iohk.atala.prism.protos.AtalaOperation({
-      create_did: didOperation,
-    });
+    const operation = this.buildCreateOperation(didPublicKeys, services);
 
     const encodedState = operation.serializeBinary();
     const sha256 = new SHA256();
@@ -165,42 +423,8 @@ export class PrismDIDMethod
     if (key.isSignable() && key instanceof Secp256k1PrivateKey) {
       const resolved = await this.resolver.resolve(did.toString());
       const didPublicKeys = resolved.verificationMethods.map(x => this.getPrismDIDKeyFromVerificationMethod(x));
-      const didCreationData = new Protos.io.iohk.atala.prism.protos.CreateDIDOperation.DIDCreationData({
-        public_keys: didPublicKeys,
-        services: resolved.services?.map((service) => {
-          return new Protos.io.iohk.atala.prism.protos.Service({
-            service_endpoint: [service.serviceEndpoint.uri],
-            id: service.id,
-            type: service.type.at(0),
-          });
-        }),
-      });
-      const didOperation = new Protos.io.iohk.atala.prism.protos.CreateDIDOperation({
-        did_data: didCreationData,
-      });
-      const operation = new Protos.io.iohk.atala.prism.protos.AtalaOperation({
-        create_did: didOperation,
-      });
-      const encodedState = operation.serializeBinary();
-      const encodedStateHash = (new SHA256()).update(encodedState).digest();
-      const signature = secp256k1.sign(
-        encodedStateHash,
-        key.raw
-      );
-      const signedOperation = Protos.io.iohk.atala.prism.protos.SignedAtalaOperation.fromObject({
-        signature: signature.toDERRawBytes(),
-        operation,
-        signed_with: this.getUsageId(PrismDIDKeyUsage.MASTER_KEY, 0)
-      });
-      const block = Protos.io.iohk.atala.prism.protos.AtalaBlock.fromObject({
-        operations: [
-          signedOperation
-        ]
-      });
-      const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.fromObject({
-        block_content: block
-      });
-      return atalaObject.serialize();
+      const operation = this.buildCreateOperation(didPublicKeys, resolved.services);
+      return this.signOperation(operation, key);
     }
     throw new Domain.CastorError.InvalidKeyError("Cannot sign with this key");
   }
