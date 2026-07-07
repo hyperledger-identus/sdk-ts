@@ -483,30 +483,24 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
    * @returns Array of {@link Domain.PrismDID} instances.
    */
   async getAllPrismDIDs(): Promise<Domain.PrismDID[]> {
-    const dids = await this.Repositories.DIDs.find({ method: "prism" });
-    const prismDIDS: Domain.PrismDID[] = [];
-    for (const did of dids) {
-      const dbDids = await this.getPrismDIDS(did.uuid);
-      for (const prismDID of dbDids) {
-        prismDIDS.push(prismDID);
-      }
-    }
-    return prismDIDS;
-  }
+    const allDids = await this.Repositories.DIDs.find({ method: "prism" });
+    const allLinks = await this.Repositories.DIDKeyLinks.getModels({
+      selector: { $or: allDids.map(x => ({ didId: x.uuid })) }
+    });
+    const allKeys = await this.Repositories.Keys.get({
+      selector: { $or: allLinks.map(x => ({ uuid: x.keyId })) }
+    });
 
-  private async getPrismDIDS(didId: string) {
-    const links = await this.Repositories.DIDKeyLinks.getModels({ selector: { didId } });
-    return Promise.all(
-      links.map(async (link) => {
-        const did = await this.Repositories.DIDs.byUUID(link.didId);
-        const key = await this.Repositories.Keys.byUUID(link.keyId);
-        if (!did || !key) {
-          throw new Error("PrismDID not found");
-        }
-        const prismDID = new Domain.PrismDID(did, key, link.alias);
-        return prismDID;
-      })
-    );
+    return allDids.flatMap(did => {
+      const links = allLinks.filter(x => x.didId === did.uuid);
+      return links
+        .map(link => {
+          const key = allKeys.find(x => x.uuid === link.keyId);
+          if (!key) return null;
+          return new Domain.PrismDID(did, key, link.alias);
+        })
+        .filter((x): x is Domain.PrismDID => x !== null);
+    });
   }
 
 
