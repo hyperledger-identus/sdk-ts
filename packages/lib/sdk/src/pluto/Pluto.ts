@@ -556,7 +556,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
       selector: { $or: allLinks.map(x => ({ uuid: x.keyId })) }
     });
 
-    const getKeyCurveByNameAndIndex = (name: string, index?: number): Domain.KeyCurve => {
+    const _getKeyCurveByNameAndIndex = (name: string, index?: number): Domain.KeyCurve => {
       switch (name) {
         case Domain.Curve.X25519.toString():
           return { curve: Domain.Curve.X25519 };
@@ -572,15 +572,7 @@ export class Pluto extends Domain.Startable.Controller implements Domain.Pluto {
     const peerDids = allDids.map(did => {
       const keyIds = allLinks.filter(x => x.didId === did.uuid).map(x => x.keyId);
       const keys = allKeys.filter(x => keyIds.includes(x.uuid));
-
-      const peerDid = new PeerDID(
-        did,
-        // TODO: remove this when PeerDIDs are updated to use PrivateKey
-        keys.map(x => ({
-          keyCurve: getKeyCurveByNameAndIndex(x.curve, x.index),
-          value: x.getEncoded()
-        }))
-      );
+      const peerDid = new PeerDID(did, keys)
 
       return peerDid;
     });
