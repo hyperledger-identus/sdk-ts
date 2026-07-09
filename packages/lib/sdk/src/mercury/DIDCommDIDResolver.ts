@@ -41,8 +41,8 @@ export class DIDCommDIDResolver implements DIDComm.DIDResolver {
               keyAgreements.push(method.id);
               break;
           }
-          const publicKeyBase64 = method.publicKeyJwk?.x as any;
-          const publicKeyKid = (method.publicKeyJwk as any).kid;
+          const publicKeyBase64 = expect(method.publicKeyJwk?.x, CastorError.InvalidKeyError);
+          const publicKeyKid = method.publicKeyJwk?.kid;
           const kty = (curve === Curve.ED25519 || curve === Curve.X25519) ? "OKP" : "EC";
           verificationMethods.push({
             controller: method.controller,
