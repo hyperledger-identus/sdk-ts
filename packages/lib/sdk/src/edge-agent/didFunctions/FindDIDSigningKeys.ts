@@ -6,8 +6,38 @@ import type * as Domain from "@hyperledger/identus-domain";
 import { base64url } from "multiformats/bases/base64";
 
 /**
- * Maps DID key purposes to W3C DID Document verification relationships.
- * @see https://www.w3.org/TR/did-core/#verification-relationships
+ * DID Verification Relationships — Core Concepts for Self-Sovereign Identity (SSI)
+ *
+ * A Decentralized Identifier (DID) can prove ownership through cryptographic keys.
+ * Different operations require different keys — this is the concept of "verification relationships".
+ *
+ * See: https://www.w3.org/TR/did-core/#verification-relationships
+ *
+ * Mapping of SDK key purposes to DID Document verification relationships:
+ *
+ * | SDK Purpose               | DID Verification Relationship | Use Case                          |
+ * |---------------------------|-------------------------------|-----------------------------------|
+ * | ISSUING_KEY               | assertionMethod               | Credential issuance (JWT/SD-JWT)  |
+ * | AUTHENTICATION_KEY        | authentication                | Proving DID ownership             |
+ * | KEY_AGREEMENT_KEY         | keyAgreement                  | Encryption / key exchange         |
+ * | CAPABILITY_INVOCATION_KEY | capabilityInvocation          | Invoking delegated capabilities   |
+ * | CAPABILITY_DELEGATION_KEY | capabilityDelegation          | Delegating capabilities to others |
+ * | REVOCATION_KEY            | revocation                    | Revoking credentials/keys         |
+ *
+ * Why Multiple Keys?
+ * - Key rotation: If an issuing key is compromised, you can rotate it without affecting authentication
+ * - Security: Each key should only be used for its intended purpose
+ * - Scalability: The SDK can support additional key purposes as SSI evolves
+ *
+ * DID Document Structure (simplified):
+ * {
+ *   "id": "did:prism:abc123...",
+ *   "assertionMethod": ["#key-1"],      // ISSUING_KEY
+ *   "authentication": ["#key-2"],       // AUTHENTICATION_KEY
+ *   "keyAgreement": ["#key-3"],         // KEY_AGREEMENT_KEY (future)
+ *   "capabilityInvocation": ["#key-4"], // CAPABILITY_INVOCATION_KEY (future)
+ *   "capabilityDelegation": ["#key-5"]  // CAPABILITY_DELEGATION_KEY (future)
+ * }
  */
 const PURPOSE_TO_VERIFICATION_RELATIONSHIP: Record<string, string> = {
   AUTHENTICATION_KEY: "authentication",
@@ -36,20 +66,35 @@ interface FindSigningKeysArgs {
 }
 
 /**
- * Search for the PrivateKeys that should be used for signing based on their key purpose.
- * Maps DID key purposes to W3C DID Document verification relationships.
+ * Finds the private signing keys for a DID that match a specific verification relationship purpose.
+ *
+ * This task:
+ * 1. Resolves the DID document to get verification methods
+ * 2. Maps the given purpose to a W3C DID verification relationship
+ * 3. Matches those verification methods against available private keys
+ * 4. Returns the keys that can be used for the specified purpose
+ *
+ * Workflow:
+ * - ISSUING_KEY → looks in the DID's "assertionMethod" (for credential issuance)
+ * - AUTHENTICATION_KEY → looks in the DID's "authentication" (for DID ownership proofs)
+ * - Matches keys by multibase encoding or JWK representation
+ *
  * @see https://www.w3.org/TR/did-core/#verification-relationships
  *
- * @param {Domain.DID} did subject of the search
- * @param {Domain.PrivateKey} [privateKey] optional filter search to only this PrivateKey
- * @param {string} [purpose] key purpose to search for:
- *   - "AUTHENTICATION_KEY" → "authentication" (proving ownership/control)
- *   - "ISSUING_KEY" → "assertionMethod" (issuing credentials)
- *   - "KEY_AGREEMENT_KEY" → "keyAgreement" (key agreement for encryption)
- *   - "CAPABILITY_INVOCATION_KEY" → "capabilityInvocation" (invoking capabilities)
- *   - "CAPABILITY_DELEGATION_KEY" → "capabilityDelegation" (delegating capabilities)
- *   - "REVOCATION_KEY" → "revocation" (revoking credentials/keys)
+ * @param {Domain.DID} did The DID subject — resolves its DID document
+ * @param {Domain.PrivateKey} [privateKey] Optional: filter to only check this specific key
+ * @param {string} purpose Key purpose to search for:
+ *   - AUTHENTICATION_KEY → "authentication" (proving ownership/control)
+ *   - ISSUING_KEY → "assertionMethod" (issuing credentials)
+ *   - KEY_AGREEMENT_KEY → "keyAgreement" (key agreement for encryption)
+ *   - CAPABILITY_INVOCATION_KEY → "capabilityInvocation" (invoking capabilities)
+ *   - CAPABILITY_DELEGATION_KEY → "capabilityDelegation" (delegating capabilities)
+ *   - REVOCATION_KEY → "revocation" (revoking credentials/keys)
+ * @returns {SigningKeyData[]} Array of matched signing keys with public key info and key IDs
  *
+ * Example usage:
+ * - CreateJWT defaults to ISSUING_KEY for credential issuance
+ * - Authentication flows use AUTHENTICATION_KEY for DID ownership proofs
  */
 export class FindSigningKeys extends Task<SigningKeyData[], Args> {
   async run(ctx: AgentContext) {
@@ -73,6 +118,23 @@ export class FindSigningKeys extends Task<SigningKeyData[], Args> {
     return signingKeyData;
   }
 
+  /**
+   * Matches verification methods from the DID document with available private keys.
+   *
+   * For each verification method in the DID document:
+   * 1. Encode the private key's public key in the same format (multibase or JWK)
+   * 2. Compare against the verification method's public key representation
+   * 3. If they match, include this key-pair in the results
+   *
+   * This ensures we only return keys that are:
+   * - Actually present in the DID document
+   * - Listed for the requested verification relationship
+   * - Have corresponding private keys available locally
+   *
+   * Why two encoding formats? DIDs can represent keys as either:
+   * - "publicKeyMultibase": compact encoding (base58, etc)
+   * - "publicKeyJwk": JSON Web Key format (for JWK-based cryptography)
+   */
   private matchKeys(
     methods: Domain.DIDDocument.VerificationMethod[],
     keyData: { privateKey: any; publicKey: any; encoded: string; encodedBase64Url: string }[]
