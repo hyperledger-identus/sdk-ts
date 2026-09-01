@@ -162,7 +162,10 @@ export type PublishPayload = {
 }
 
 /** Serialised Atala object bytes returned after a publish operation. */
-export type Metadata = Uint8Array
+export type Metadata = {
+  operation: Uint8Array;
+  operationHash: string;
+}
 
 /**
  * DID method implementation for `did:prism`.
@@ -347,7 +350,10 @@ export class PrismDIDMethod
       block_content: block
     });
 
-    return atalaObject.serialize();
+    return {
+      operation: atalaObject.serialize(),
+      operationHash: Buffer.from(encodedStateHash).toString("hex"),
+    };
   }
 
   /**

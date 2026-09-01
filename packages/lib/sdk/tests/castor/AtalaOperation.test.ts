@@ -11,6 +11,8 @@ import { CastorError, PrismDIDKeyUsage, PublicKey, VerifiableKey } from '@hyperl
 let apollo: Apollo;
 let castor: Castor;
 
+const hashAtalaOperation = (operation: Protos.io.iohk.atala.prism.protos.AtalaOperation) =>
+  Buffer.from(new SHA256().update(operation.serializeBinary()).digest()).toString("hex");
 
 describe("AtalaOperation", () => {
   beforeEach(() => {
@@ -26,14 +28,16 @@ describe("AtalaOperation", () => {
         MASTER_KEY: privateKey,
       },
     });
-    const atalaObjectBuffer = await castor.publishDID(
+    const metadata = await castor.publishDID(
       'prism',
       {
         key: privateKey,
         did: did,
       }
     );
-    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(atalaObjectBuffer);
+    expect(metadata.operation).toBeInstanceOf(Uint8Array);
+    expect(metadata.operationHash).toMatch(/^[0-9a-f]{64}$/);
+    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(metadata.operation);
     expect(atalaObject).toHaveProperty("block_content");
     expect(atalaObject.block_content).toHaveProperty("operations");
     expect(atalaObject.block_content.operations).toHaveLength(1);
@@ -47,6 +51,7 @@ describe("AtalaOperation", () => {
     const signature = Buffer.from(signedOperation.signature);
     const keyId = signedOperation.signed_with;
     const operation = signedOperation.operation;
+    expect(metadata.operationHash).toEqual(hashAtalaOperation(operation));
     const pkProto = operation.create_did.did_data.public_keys.find((key) => {
       return key.id === keyId;
     })!;
@@ -68,14 +73,16 @@ describe("AtalaOperation", () => {
         MASTER_KEY: masterSK,
       },
     });
-    const atalaObjectBuffer = await castor.publishDID(
+    const metadata = await castor.publishDID(
       'prism',
       {
         key: masterSK,
         did: did,
       }
     );
-    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(atalaObjectBuffer);
+    expect(metadata.operation).toBeInstanceOf(Uint8Array);
+    expect(metadata.operationHash).toMatch(/^[0-9a-f]{64}$/);
+    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(metadata.operation);
     expect(atalaObject).toHaveProperty("block_content");
     expect(atalaObject.block_content).toBeInstanceOf(Protos.io.iohk.atala.prism.protos.AtalaBlock);
     const atalaBlock = atalaObject.block_content;
@@ -93,6 +100,7 @@ describe("AtalaOperation", () => {
       return key.id === keyId;
     })!;
     expect(pkProto).to.not.toBeUndefined();
+    expect(metadata.operationHash).toEqual(hashAtalaOperation(operation));
     const serializedOperation = operation.serializeBinary();
     const verifiableKey = masterSK.publicKey() as PublicKey & VerifiableKey;
     const verify = verifiableKey.verify(Buffer.from(serializedOperation), signature);
@@ -110,7 +118,7 @@ describe("AtalaOperation", () => {
     const previousOperationHash = new Uint8Array(
       (new SHA256()).update(Buffer.from("previous")).digest()
     );
-    const atalaObjectBuffer = await castor.deactivateDID(
+    const metadata = await castor.deactivateDID(
       'prism',
       {
         key: privateKey,
@@ -118,7 +126,9 @@ describe("AtalaOperation", () => {
         previousOperationHash,
       }
     );
-    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(atalaObjectBuffer);
+    expect(metadata.operation).toBeInstanceOf(Uint8Array);
+    expect(metadata.operationHash).toMatch(/^[0-9a-f]{64}$/);
+    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(metadata.operation);
     expect(atalaObject).toHaveProperty("block_content");
     expect(atalaObject.block_content).toHaveProperty("operations");
     expect(atalaObject.block_content.operations).toHaveLength(1);
@@ -131,6 +141,7 @@ describe("AtalaOperation", () => {
     expect(signedOperation.signed_with).to.equal("master-0");
     const signature = Buffer.from(signedOperation.signature);
     const operation = signedOperation.operation;
+    expect(metadata.operationHash).toEqual(hashAtalaOperation(operation));
     const serializedOperation = operation.serializeBinary();
     const verify = publicKey.verify(Buffer.from(serializedOperation), signature);
     expect(verify).toBe(true);
@@ -151,7 +162,7 @@ describe("AtalaOperation", () => {
     const previousOperationHash = new Uint8Array(
       (new SHA256()).update(Buffer.from("previous")).digest()
     );
-    const atalaObjectBuffer = await castor.deactivateDID(
+    const metadata = await castor.deactivateDID(
       'prism',
       {
         key: masterSK,
@@ -159,7 +170,9 @@ describe("AtalaOperation", () => {
         previousOperationHash,
       }
     );
-    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(atalaObjectBuffer);
+    expect(metadata.operation).toBeInstanceOf(Uint8Array);
+    expect(metadata.operationHash).toMatch(/^[0-9a-f]{64}$/);
+    const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(metadata.operation);
     expect(atalaObject).toHaveProperty("block_content");
     expect(atalaObject.block_content).toBeInstanceOf(Protos.io.iohk.atala.prism.protos.AtalaBlock);
     const atalaBlock = atalaObject.block_content;
@@ -173,6 +186,7 @@ describe("AtalaOperation", () => {
     expect(signedOperation.operation).toHaveProperty('deactivate_did');
     const signature = Buffer.from(signedOperation.signature);
     const operation = signedOperation.operation;
+    expect(metadata.operationHash).toEqual(hashAtalaOperation(operation));
     const serializedOperation = operation.serializeBinary();
     const verifiableKey = masterSK.publicKey() as PublicKey & VerifiableKey;
     const verify = verifiableKey.verify(Buffer.from(serializedOperation), signature);
@@ -261,14 +275,18 @@ describe("AtalaOperation", () => {
     const createDid = () =>
       castor.createDID('prism', { keys: { MASTER_KEY: privateKey } });
 
-    const deserializeUpdate = (buffer: Uint8Array) => {
-      const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(buffer);
+    const deserializeUpdate = (metadata: { operation: Uint8Array; operationHash: string }) => {
+      expect(metadata.operation).toBeInstanceOf(Uint8Array);
+      expect(metadata.operationHash).toMatch(/^[0-9a-f]{64}$/);
+      const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(metadata.operation);
       const signedOperation = atalaObject.block_content.operations[0];
+      expect(metadata.operationHash).toEqual(hashAtalaOperation(signedOperation.operation));
       return {
         atalaObject,
         signedOperation,
         updateDid: signedOperation.operation.update_did,
         actions: signedOperation.operation.update_did.actions,
+        operationHash: metadata.operationHash,
       };
     };
 
@@ -276,13 +294,13 @@ describe("AtalaOperation", () => {
       const did = await createDid();
       const stateHash = did.methodId.split(":")[0];
 
-      const buffer = await castor.updateDID('prism', {
+      const metadata = await castor.updateDID('prism', {
         key: privateKey,
         did,
         actions: [{ actionType: UpdateActionType.removeKey, removeKey: { id: "issuing-0" } }],
       });
 
-      const { atalaObject, signedOperation, updateDid } = deserializeUpdate(buffer);
+      const { atalaObject, signedOperation, updateDid } = deserializeUpdate(metadata);
 
       expect(atalaObject.block_content.operations).toHaveLength(1);
       expect(signedOperation.signed_with).toEqual("master-0");
@@ -295,13 +313,13 @@ describe("AtalaOperation", () => {
 
     it("signs the operation with the master key so the signature verifies", async () => {
       const did = await createDid();
-      const buffer = await castor.updateDID('prism', {
+      const metadata = await castor.updateDID('prism', {
         key: privateKey,
         did,
         actions: [{ actionType: UpdateActionType.removeService, removeService: { id: "service-0" } }],
       });
 
-      const { signedOperation } = deserializeUpdate(buffer);
+      const { signedOperation } = deserializeUpdate(metadata);
       const operationBytes = signedOperation.operation.serializeBinary();
       const digest = new SHA256().update(operationBytes).digest();
       const publicKey = privateKey.publicKey();
@@ -314,7 +332,7 @@ describe("AtalaOperation", () => {
 
     it("builds an add_key action from a public key", async () => {
       const did = await createDid();
-      const buffer = await castor.updateDID('prism', {
+      const metadata = await castor.updateDID('prism', {
         key: privateKey,
         did,
         actions: [{
@@ -327,7 +345,7 @@ describe("AtalaOperation", () => {
         }],
       });
 
-      const { actions } = deserializeUpdate(buffer);
+      const { actions } = deserializeUpdate(metadata);
       expect(actions).toHaveLength(1);
       expect(actions[0].action).toEqual("add_key");
       expect(actions[0].add_key.key.id).toEqual("issuing-1");
@@ -336,20 +354,20 @@ describe("AtalaOperation", () => {
 
     it("builds a remove_key action", async () => {
       const did = await createDid();
-      const buffer = await castor.updateDID('prism', {
+      const metadata = await castor.updateDID('prism', {
         key: privateKey,
         did,
         actions: [{ actionType: UpdateActionType.removeKey, removeKey: { id: "authentication-0" } }],
       });
 
-      const { actions } = deserializeUpdate(buffer);
+      const { actions } = deserializeUpdate(metadata);
       expect(actions[0].action).toEqual("remove_key");
       expect(actions[0].remove_key.keyId).toEqual("authentication-0");
     });
 
     it("builds an add_service action", async () => {
       const did = await createDid();
-      const buffer = await castor.updateDID('prism', {
+      const metadata = await castor.updateDID('prism', {
         key: privateKey,
         did,
         actions: [{
@@ -362,7 +380,7 @@ describe("AtalaOperation", () => {
         }],
       });
 
-      const { actions } = deserializeUpdate(buffer);
+      const { actions } = deserializeUpdate(metadata);
       expect(actions[0].action).toEqual("add_service");
       expect(actions[0].add_service.service.id).toEqual("service-1");
       expect(actions[0].add_service.service.type).toEqual("LinkedDomains");
@@ -374,20 +392,20 @@ describe("AtalaOperation", () => {
 
     it("builds a remove_service action", async () => {
       const did = await createDid();
-      const buffer = await castor.updateDID('prism', {
+      const metadata = await castor.updateDID('prism', {
         key: privateKey,
         did,
         actions: [{ actionType: UpdateActionType.removeService, removeService: { id: "service-2" } }],
       });
 
-      const { actions } = deserializeUpdate(buffer);
+      const { actions } = deserializeUpdate(metadata);
       expect(actions[0].action).toEqual("remove_service");
       expect(actions[0].remove_service.serviceId).toEqual("service-2");
     });
 
     it("builds an update_service action", async () => {
       const did = await createDid();
-      const buffer = await castor.updateDID('prism', {
+      const metadata = await castor.updateDID('prism', {
         key: privateKey,
         did,
         actions: [{
@@ -400,7 +418,7 @@ describe("AtalaOperation", () => {
         }],
       });
 
-      const { actions } = deserializeUpdate(buffer);
+      const { actions } = deserializeUpdate(metadata);
       expect(actions[0].action).toEqual("update_service");
       expect(actions[0].update_service.serviceId).toEqual("service-3");
       expect(actions[0].update_service.type).toEqual("LinkedDomains");
@@ -409,7 +427,7 @@ describe("AtalaOperation", () => {
 
     it("preserves the order of multiple actions", async () => {
       const did = await createDid();
-      const buffer = await castor.updateDID('prism', {
+      const metadata = await castor.updateDID('prism', {
         key: privateKey,
         did,
         actions: [
@@ -422,7 +440,7 @@ describe("AtalaOperation", () => {
         ],
       });
 
-      const { actions } = deserializeUpdate(buffer);
+      const { actions } = deserializeUpdate(metadata);
       expect(actions).toHaveLength(3);
       expect(actions.map((a) => a.action)).toEqual(["remove_key", "add_service", "remove_service"]);
     });
@@ -431,14 +449,14 @@ describe("AtalaOperation", () => {
       const did = await createDid();
       const previousOperationHash = new SHA256().update(Buffer.from("previous-op")).digest();
 
-      const buffer = await castor.updateDID('prism', {
+      const metadata = await castor.updateDID('prism', {
         key: privateKey,
         did,
         previousOperationHash,
         actions: [{ actionType: UpdateActionType.removeKey, removeKey: { id: "issuing-0" } }],
       });
 
-      const { updateDid } = deserializeUpdate(buffer);
+      const { updateDid } = deserializeUpdate(metadata);
       expect(Buffer.from(updateDid.previous_operation_hash)).toEqual(Buffer.from(previousOperationHash));
     });
 
