@@ -14,6 +14,7 @@ export type {
   RemoveServiceActionData,
   UpdateServiceActionData,
   Metadata,
+  getOperationHash
 } from "./prism";
 export { PeerDIDMethod } from "./peer";
 
