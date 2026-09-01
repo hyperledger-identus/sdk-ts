@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: LinkSecretRepository
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:7](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L7)
+Defined in: [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:7](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L7)
 
 MapperRepository
 
@@ -23,7 +23,7 @@ while mapping between a Domain class and a Model object
 
 > **new LinkSecretRepository**(`store`: [`Store`](../namespaces/Pluto/interfaces/Store.md)): `LinkSecretRepository`
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L12)
+Defined in: [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L12)
 
 #### Parameters
 
@@ -43,8 +43,8 @@ Defined in: [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:12]
 
 | Property | Type | Description | Overrides | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="property-basemodel"></a> `baseModel` | \{ `recoveryId`: `string`; \} | Allows setting of properties to be present in all Models sent to Store | `MapperRepository.baseModel` | [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L8) |
-| `baseModel.recoveryId` | `string` | - | - | [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L9) |
+| <a id="property-basemodel"></a> `baseModel` | \{ `recoveryId`: `string`; \} | Allows setting of properties to be present in all Models sent to Store | `MapperRepository.baseModel` | [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L8) |
+| `baseModel.recoveryId` | `string` | - | - | [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L9) |
 
 ## Methods
 
@@ -52,7 +52,7 @@ Defined in: [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:12]
 
 > **byUUID**(`uuid`: `string`): `Promise`\<[`LinkSecret`](../namespaces/Domain/classes/LinkSecret.md) \| `null`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:75](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L75)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:75](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L75)
 
 Utility fn for common use of find with uuid
 
@@ -82,7 +82,7 @@ first found Domain instance or undefined
 
 > **delete**(`uuid`: `string`): `Promise`\<`void`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:53](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L53)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:53](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L53)
 
 #### Parameters
 
@@ -104,7 +104,7 @@ Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:
 
 > **find**(`selector?`: `Partial`\<[`Key`](../interfaces/Key.md)\>): `Promise`\<[`LinkSecret`](../namespaces/Domain/classes/LinkSecret.md)[]\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L48)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L48)
 
 Search for instances based on given values
 
@@ -134,7 +134,7 @@ all found Domain instances
 
 > **findOne**(`selector?`: `Partial`\<[`Key`](../interfaces/Key.md)\>): `Promise`\<[`LinkSecret`](../namespaces/Domain/classes/LinkSecret.md) \| `null`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:61](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L61)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:61](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L61)
 
 Search for single instance based on given values
 
@@ -164,7 +164,7 @@ first found Domain instance or null
 
 > **get**(`query?`: [`Query`](../type-aliases/Query.md)\<[`TypedSchema`](../type-aliases/TypedSchema.md)\<[`Key`](../interfaces/Key.md)\>\>): `Promise`\<[`LinkSecret`](../namespaces/Domain/classes/LinkSecret.md)[]\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:36](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L36)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:36](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L36)
 
 Search the Store, mapping any found to Domain
 
@@ -194,7 +194,7 @@ Array of matched Domain instances
 
 > **getModels**(`query?`: [`Query`](../type-aliases/Query.md)\<[`TypedSchema`](../type-aliases/TypedSchema.md)\<[`Key`](../interfaces/Key.md)\>\>): `Promise`\<[`Key`](../interfaces/Key.md)[]\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:87](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L87)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:87](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L87)
 
 Search the Store for Models
 
@@ -245,7 +245,7 @@ Domain.Models if the query fails
 
 > **insert**(`model`: [`Key`](../interfaces/Key.md)): `Promise`\<[`Key`](../interfaces/Key.md)\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L32)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L32)
 
 Persist the Model in the Store.
 
@@ -273,7 +273,7 @@ Persist the Model in the Store.
 
 > **save**(`domain`: [`LinkSecret`](../namespaces/Domain/classes/LinkSecret.md)): `Promise`\<`void`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:88](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L88)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts:88](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/builders/MapperRepository.ts#L88)
 
 Persist the Domain instance in the Store.
 
@@ -305,7 +305,7 @@ Persist the Domain instance in the Store.
 
 > **toDomain**(`model`: [`Key`](../interfaces/Key.md)): [`LinkSecret`](../namespaces/Domain/classes/LinkSecret.md)
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L16)
+Defined in: [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L16)
 
 Map from a Model to the Domain class
 
@@ -331,7 +331,7 @@ Domain with uuid set
 
 > **toModel**(`domain`: [`LinkSecret`](../namespaces/Domain/classes/LinkSecret.md)): [`Key`](../interfaces/Key.md)
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L23)
+Defined in: [packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/LinkSecretRepository.ts#L23)
 
 Map from a Domain class to a Model
 
@@ -357,7 +357,7 @@ Model potentially without uuid
 
 > **update**(`model`: [`Key`](../interfaces/Key.md)): `Promise`\<`void`\>
 
-Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L44)
+Defined in: [packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/repositories/builders/BaseRepository.ts#L44)
 
 #### Parameters
 

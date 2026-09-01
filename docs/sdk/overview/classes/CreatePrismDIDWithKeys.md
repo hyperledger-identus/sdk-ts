@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: CreatePrismDIDWithKeys
 
-Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDIDWithKeys.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDIDWithKeys.ts#L21)
+Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDIDWithKeys.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDIDWithKeys.ts#L21)
 
 Handle the creation of a PrismDID
 
@@ -32,7 +32,7 @@ specify the Curve used for an additional IssuingKey (maps to assertionMethod)
 
 > **new CreatePrismDIDWithKeys**(...`args`: \[[`CreatePrismDIDWithKeysArgs`](../type-aliases/CreatePrismDIDWithKeysArgs.md)\]): `CreatePrismDIDWithKeys`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
@@ -54,7 +54,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperled
 
 > **log**(): `unknown`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/utils/tasks.ts#L27)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -70,7 +70,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperled
 
 > **run**(`ctx`: [`AgentContext`](AgentContext.md)): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
 
-Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDIDWithKeys.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDIDWithKeys.ts#L23)
+Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDIDWithKeys.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/edge-agent/didFunctions/CreatePrismDIDWithKeys.ts#L23)
 
 #### Parameters
 

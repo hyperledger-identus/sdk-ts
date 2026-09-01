@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **createStore**(`dbName`: `string`, `options?`: [`StartOptions`](../type-aliases/StartOptions.md)): `Promise`\<[`Store`](../namespaces/Pluto/interfaces/Store.md)\>
 
-Defined in: [packages/lib/sdk/src/pluto/store/index.ts:45](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/store/index.ts#L45)
+Defined in: [packages/lib/sdk/src/pluto/store/index.ts:45](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/store/index.ts#L45)
 
 Create a default [Pluto.Store](../namespaces/Pluto/interfaces/Store.md) backed by RIDB.
 

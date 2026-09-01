@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **Query**\<`S`\> = \{ `selector?`: [`QueryType`](QueryType.md)\<`S`\>; \} & [`QueryOptions`](QueryOptions.md)
 
-Defined in: [packages/lib/sdk/src/pluto/types.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/types.ts#L48)
+Defined in: [packages/lib/sdk/src/pluto/types.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/types.ts#L48)
 
 Query type used by Pluto repositories.
 
@@ -19,7 +19,7 @@ and extends it with [QueryOptions](QueryOptions.md) (e.g. `limit`, `skip`).
 
 | Name | Type | Defined in |
 | ------ | ------ | ------ |
-| `selector?` | [`QueryType`](QueryType.md)\<`S`\> | [packages/lib/sdk/src/pluto/types.ts:49](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/types.ts#L49) |
+| `selector?` | [`QueryType`](QueryType.md)\<`S`\> | [packages/lib/sdk/src/pluto/types.ts:49](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/types.ts#L49) |
 
 ## Type Parameters
 

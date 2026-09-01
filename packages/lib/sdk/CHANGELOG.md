@@ -1,3 +1,13 @@
+## 8.1.1 (2026-09-01)
+
+### 🩹 Fixes
+
+- remove hardcoded id in deactivate prism did operation ([#671](https://github.com/hyperledger-identus/sdk-ts/pull/671))
+
+### ❤️ Thank You
+
+- Javier Ribó
+
 ## 8.1.0 (2026-07-03)
 
 ### 🚀 Features

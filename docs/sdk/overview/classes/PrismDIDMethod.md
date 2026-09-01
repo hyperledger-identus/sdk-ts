@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: PrismDIDMethod
 
-Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:182](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/methods/prism/index.ts#L182)
+Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:182](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L182)
 
 DID method implementation for `did:prism`.
 
@@ -33,7 +33,7 @@ const did = await prism.create({
 
 > **new PrismDIDMethod**(`prismResolverEndpoint`: `string`): `PrismDIDMethod`
 
-Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:190](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/methods/prism/index.ts#L190)
+Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:190](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L190)
 
 #### Parameters
 
@@ -49,8 +49,8 @@ Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:190](https://git
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="property-method"></a> `method` | `"prism"` | [packages/lib/sdk/src/castor/methods/prism/index.ts:184](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/methods/prism/index.ts#L184) |
-| <a id="property-resolver"></a> `resolver` | `PrismDIDResolver` | [packages/lib/sdk/src/castor/methods/prism/index.ts:185](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/methods/prism/index.ts#L185) |
+| <a id="property-method"></a> `method` | `"prism"` | [packages/lib/sdk/src/castor/methods/prism/index.ts:184](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L184) |
+| <a id="property-resolver"></a> `resolver` | `PrismDIDResolver` | [packages/lib/sdk/src/castor/methods/prism/index.ts:185](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L185) |
 
 ## Methods
 
@@ -58,7 +58,7 @@ Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:190](https://git
 
 > **create**(`opts`: [`CreatePayload`](../type-aliases/CreatePayload.md)): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
 
-Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:387](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/methods/prism/index.ts#L387)
+Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:394](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L394)
 
 Create a new long-form Prism DID from the provided keys and services.
 
@@ -88,7 +88,7 @@ if `MASTER_KEY` is missing
 
 > **deactivate**(`opts`: [`DeactivatePayload`](../type-aliases/DeactivatePayload.md)): `Promise`\<[`Metadata`](../type-aliases/Metadata.md)\>
 
-Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:198](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/methods/prism/index.ts#L198)
+Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:198](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L198)
 
 The previous operation hash is the hash of the last operation, create, update, deactivate
 We can use the neoprism API to get the last operation hash for a specific did and TX
@@ -113,7 +113,7 @@ We can use the neoprism API to get the last operation hash for a specific did an
 
 > **publish**(`opts`: [`PublishPayload`](../type-aliases/PublishPayload.md)): `Promise`\<[`Metadata`](../type-aliases/Metadata.md)\>
 
-Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:439](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/methods/prism/index.ts#L439)
+Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:446](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L446)
 
 Publish a Prism DID by building and signing an Atala operation.
 
@@ -143,7 +143,7 @@ if the key cannot sign
 
 > **update**(`opts`: [`UpdatePayload`](../type-aliases/UpdatePayload.md)): `Promise`\<[`Metadata`](../type-aliases/Metadata.md)\>
 
-Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:220](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/methods/prism/index.ts#L220)
+Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:227](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L227)
 
 Update a published Prism DID by building and signing an Atala operation.
 
@@ -173,7 +173,7 @@ if the key cannot sign the operation
 
 > **verifySignature**(`did`: [`DID`](../namespaces/Domain/classes/DID.md), `challenge`: `Uint8Array`, `signature`: `Uint8Array`): `Promise`\<`boolean`\>
 
-Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:597](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/castor/methods/prism/index.ts#L597)
+Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:604](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L604)
 
 Verify a signature against a Prism DID's verification methods.
 

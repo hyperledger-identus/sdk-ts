@@ -1,3 +1,9 @@
+## 1.0.2 (2026-09-01)
+
+### 🧱 Updated Dependencies
+
+- Updated @hyperledger/identus-domain to 0.1.2
+
 ## 1.0.1 (2026-07-03)
 
 ### 🧱 Updated Dependencies

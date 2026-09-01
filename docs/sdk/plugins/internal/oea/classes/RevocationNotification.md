@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.0.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.0**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: RevocationNotification
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L14)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L14)
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfi
 
 > **new RevocationNotification**(`body`: [`PrismRevocationBody`](../interfaces/PrismRevocationBody.md), `from`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md), `to`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md)): `RevocationNotification`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L17)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L17)
 
 #### Parameters
 
@@ -32,10 +32,10 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfi
 
 | Property | Modifier | Type | Default value | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="property-body"></a> `body` | `public` | [`PrismRevocationBody`](../interfaces/PrismRevocationBody.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L18) |
-| <a id="property-from"></a> `from` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L19) |
-| <a id="property-to"></a> `to` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L20) |
-| <a id="property-type"></a> `type` | `static` | `"https://atalaprism.io/revocation_notification/1.0/revoke"` | `OEA.ProtocolIds.PrismRevocation` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L15) |
+| <a id="property-body"></a> `body` | `public` | [`PrismRevocationBody`](../interfaces/PrismRevocationBody.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L18) |
+| <a id="property-from"></a> `from` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L19) |
+| <a id="property-to"></a> `to` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L20) |
+| <a id="property-type"></a> `type` | `static` | `"https://atalaprism.io/revocation_notification/1.0/revoke"` | `OEA.ProtocolIds.PrismRevocation` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L15) |
 
 ## Methods
 
@@ -43,7 +43,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfi
 
 > **makeMessage**(): [`Message`](../../../../overview/namespaces/Domain/classes/Message.md)
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L23)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L23)
 
 #### Returns
 
@@ -55,7 +55,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfi
 
 > `static` **fromMessage**(`message`: [`Message`](../../../../overview/namespaces/Domain/classes/Message.md)): `RevocationNotification`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L35)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RevocationNotfiication.ts#L35)
 
 #### Parameters
 

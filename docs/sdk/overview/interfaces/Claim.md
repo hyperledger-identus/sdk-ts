@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: Claim
 
-Defined in: [packages/lib/sdk/src/pluto/models/Issuance.ts:7](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/models/Issuance.ts#L7)
+Defined in: [packages/lib/sdk/src/pluto/models/Issuance.ts:7](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/models/Issuance.ts#L7)
 
 A single attribute within an [Issuance](Issuance.md).
 
@@ -14,6 +14,6 @@ A single attribute within an [Issuance](Issuance.md).
 
 | Property | Type | Description | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="property-name"></a> `name` | `string` | Claim attribute name (e.g. `"dateOfBirth"`). | [packages/lib/sdk/src/pluto/models/Issuance.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/models/Issuance.ts#L9) |
-| <a id="property-type"></a> `type` | `string` | Semantic type of the value (e.g. `"string"`, `"date"`). | [packages/lib/sdk/src/pluto/models/Issuance.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/models/Issuance.ts#L13) |
-| <a id="property-value"></a> `value` | `string` | Claim value. | [packages/lib/sdk/src/pluto/models/Issuance.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/pluto/models/Issuance.ts#L11) |
+| <a id="property-name"></a> `name` | `string` | Claim attribute name (e.g. `"dateOfBirth"`). | [packages/lib/sdk/src/pluto/models/Issuance.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/models/Issuance.ts#L9) |
+| <a id="property-type"></a> `type` | `string` | Semantic type of the value (e.g. `"string"`, `"date"`). | [packages/lib/sdk/src/pluto/models/Issuance.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/models/Issuance.ts#L13) |
+| <a id="property-value"></a> `value` | `string` | Claim value. | [packages/lib/sdk/src/pluto/models/Issuance.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pluto/models/Issuance.ts#L11) |

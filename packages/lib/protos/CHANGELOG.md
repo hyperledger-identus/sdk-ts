@@ -1,3 +1,7 @@
+## 0.1.2 (2026-09-01)
+
+This was a version bump only for @hyperledger/identus-protos to align it with other projects, there were no code changes.
+
 ## 0.1.1 (2026-07-03)
 
 This was a version bump only for @hyperledger/identus-protos to align it with other projects, there were no code changes.

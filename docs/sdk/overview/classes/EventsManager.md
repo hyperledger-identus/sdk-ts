@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: EventsManager
 
-Defined in: [packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts#L11)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts#L11)
 
 An extension for the Edge agent that gives it capability of
 creating listeners for specific events and also emitting or notifying any listener available with the
@@ -30,7 +30,7 @@ new event.
 
 > **addListener**\<`T`\>(`eventName`: `T`, `callback`: [`EventCallback`](../type-aliases/EventCallback.md)\<`T`\>): `number`
 
-Defined in: [packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts#L23)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts#L23)
 
 Just adds a new event listener by passing the event name and the callback function we want
 to be notified at
@@ -58,7 +58,7 @@ to be notified at
 
 > **emit**(`eventName`: [`ListenerKey`](../enumerations/ListenerKey.md), `data`: `any`): `void`
 
-Defined in: [packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts:56](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts#L56)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts:56](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts#L56)
 
 Emit some data to all the listeners of a specific event
 
@@ -79,7 +79,7 @@ Emit some data to all the listeners of a specific event
 
 > **removeListener**\<`T`\>(`eventName`: `T`, `callback`: [`EventCallback`](../type-aliases/EventCallback.md)\<`T`\>): `void`
 
-Defined in: [packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts:41](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts#L41)
+Defined in: [packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts:41](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/edge-agent/Agent.MessageEvents.ts#L41)
 
 Remove an existing event listener, used when the Agent is
 stopping to make sure no memory leaks are produced

@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: ForwardMessage
 
-Defined in: [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L8)
+Defined in: [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L8)
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:8](https://g
 
 > **new ForwardMessage**(`body`: [`ForwardMessageBody`](../interfaces/ForwardMessageBody.md), `from`: [`DID`](../namespaces/Domain/classes/DID.md), `to`: [`DID`](../namespaces/Domain/classes/DID.md), `encryptedMessage`: `string`, `id?`: `string`): `ForwardMessage`
 
-Defined in: [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L11)
+Defined in: [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L11)
 
 #### Parameters
 
@@ -34,12 +34,12 @@ Defined in: [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:11](https://
 
 | Property | Modifier | Type | Default value | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="property-body"></a> `body` | `public` | [`ForwardMessageBody`](../interfaces/ForwardMessageBody.md) | `undefined` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L12) |
-| <a id="property-encryptedmessage"></a> `encryptedMessage` | `public` | `string` | `undefined` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L15) |
-| <a id="property-from"></a> `from` | `public` | [`DID`](../namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L13) |
-| <a id="property-id"></a> `id` | `public` | `string` | `undefined` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L16) |
-| <a id="property-to"></a> `to` | `public` | [`DID`](../namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L14) |
-| <a id="property-type"></a> `type` | `static` | `string` | `"https://didcomm.org/routing/2.0/forward"` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L9) |
+| <a id="property-body"></a> `body` | `public` | [`ForwardMessageBody`](../interfaces/ForwardMessageBody.md) | `undefined` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L12) |
+| <a id="property-encryptedmessage"></a> `encryptedMessage` | `public` | `string` | `undefined` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L15) |
+| <a id="property-from"></a> `from` | `public` | [`DID`](../namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L13) |
+| <a id="property-id"></a> `id` | `public` | `string` | `undefined` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L16) |
+| <a id="property-to"></a> `to` | `public` | [`DID`](../namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L14) |
+| <a id="property-type"></a> `type` | `static` | `string` | `"https://didcomm.org/routing/2.0/forward"` | [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L9) |
 
 ## Methods
 
@@ -47,7 +47,7 @@ Defined in: [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:11](https://
 
 > **makeMessage**(): [`Message`](../namespaces/Domain/classes/Message.md)
 
-Defined in: [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L19)
+Defined in: [packages/lib/sdk/src/mercury/forward/ForwardMessage.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/forward/ForwardMessage.ts#L19)
 
 #### Returns
 

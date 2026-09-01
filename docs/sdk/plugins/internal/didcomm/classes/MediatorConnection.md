@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.0.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.0**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: MediatorConnection
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L6)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L6)
 
 Define the structure of a Connection
 
@@ -22,7 +22,7 @@ Connections are used to capture Protocol specific behaviours and metadata
 
 > **new MediatorConnection**(`uri`: `string`, `host`: `string`, `routingDID?`: `string`): `MediatorConnection`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L9)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L9)
 
 #### Parameters
 
@@ -44,12 +44,12 @@ Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorCo
 
 | Property | Modifier | Type | Default value | Description | Inherited from | Defined in |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-| <a id="property-alias"></a> `alias?` | `readonly` | `string` | `undefined` | - | [`DIDCommConnection`](DIDCommConnection.md).[`alias`](DIDCommConnection.md#property-alias) | [packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts#L15) |
-| <a id="property-host"></a> `host` | `readonly` | `string` | `undefined` | - | [`DIDCommConnection`](DIDCommConnection.md).[`host`](DIDCommConnection.md#property-host) | [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L11) |
-| <a id="property-routingdid"></a> `routingDID?` | `public` | `string` | `undefined` | - | - | [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L12) |
-| <a id="property-state"></a> `state` | `public` | [`State`](../../../../overview/namespaces/Connection/enumerations/State.md) | `Connection.State.NEW` | current condition of the connection | [`DIDCommConnection`](DIDCommConnection.md).[`state`](DIDCommConnection.md#property-state) | [packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts#L10) |
-| <a id="property-type"></a> `type` | `readonly` | `"DIDComm"` | `"DIDComm"` | - | [`DIDCommConnection`](DIDCommConnection.md).[`type`](DIDCommConnection.md#property-type) | [packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts#L9) |
-| <a id="property-uri"></a> `uri` | `readonly` | `string` | `undefined` | unique identifer for the connection | [`DIDCommConnection`](DIDCommConnection.md).[`uri`](DIDCommConnection.md#property-uri) | [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L10) |
+| <a id="property-alias"></a> `alias?` | `readonly` | `string` | `undefined` | - | [`DIDCommConnection`](DIDCommConnection.md).[`alias`](DIDCommConnection.md#property-alias) | [packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts#L15) |
+| <a id="property-host"></a> `host` | `readonly` | `string` | `undefined` | - | [`DIDCommConnection`](DIDCommConnection.md).[`host`](DIDCommConnection.md#property-host) | [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L11) |
+| <a id="property-routingdid"></a> `routingDID?` | `public` | `string` | `undefined` | - | - | [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L12) |
+| <a id="property-state"></a> `state` | `public` | [`State`](../../../../overview/namespaces/Connection/enumerations/State.md) | `Connection.State.NEW` | current condition of the connection | [`DIDCommConnection`](DIDCommConnection.md).[`state`](DIDCommConnection.md#property-state) | [packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts#L10) |
+| <a id="property-type"></a> `type` | `readonly` | `"DIDComm"` | `"DIDComm"` | - | [`DIDCommConnection`](DIDCommConnection.md).[`type`](DIDCommConnection.md#property-type) | [packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts#L9) |
+| <a id="property-uri"></a> `uri` | `readonly` | `string` | `undefined` | unique identifer for the connection | [`DIDCommConnection`](DIDCommConnection.md).[`uri`](DIDCommConnection.md#property-uri) | [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L10) |
 
 ## Accessors
 
@@ -59,7 +59,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorCo
 
 > **get** **liveMode**(): `boolean`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L17)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L17)
 
 ##### Returns
 
@@ -71,7 +71,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorCo
 
 > **asMediator**(): [`Mediator`](../../../../overview/namespaces/Domain/interfaces/Mediator.md)
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L21)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L21)
 
 #### Returns
 
@@ -83,7 +83,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorCo
 
 > **close**(): `Promise`\<`void`\>
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:29](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L29)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:29](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L29)
 
 #### Returns
 
@@ -95,7 +95,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorCo
 
 > **receive**(`message`: [`Message`](../../../../overview/namespaces/Domain/classes/Message.md) \| `undefined`, `ctx`: [`AgentContext`](../../../../overview/classes/AgentContext.md)): `Promise`\<`any`\>
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts#L34)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts#L34)
 
 called when a Message is received from this connection
 
@@ -120,7 +120,7 @@ called when a Message is received from this connection
 
 > **send**(`msg`: [`Message`](../../../../overview/namespaces/Domain/classes/Message.md), `ctx`: [`AgentContext`](../../../../overview/classes/AgentContext.md)): `Promise`\<`any`\>
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts#L18)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/DIDCommConnection.ts#L18)
 
 handle delivering a Message to the connected entity
 
@@ -145,7 +145,7 @@ handle delivering a Message to the connected entity
 
 > **useLiveMode**(`socket`: `WebSocket`): `void`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/b5f0a60034821e4996d061b01361bb3c04c7c9c3/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L34)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/connection/MediatorConnection.ts#L34)
 
 #### Parameters
 
