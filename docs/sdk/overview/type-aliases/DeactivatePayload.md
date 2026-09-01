@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **DeactivatePayload** = \{ `did`: [`DID`](../namespaces/Domain/classes/DID.md); `key`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md); `previousOperationHash`: `Uint8Array`; \}
 
-Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:30](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L30)
+Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:30](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/prism/index.ts#L30)
 
 Options for deactivating a Prism DID.
 
@@ -16,6 +16,6 @@ Options for deactivating a Prism DID.
 
 | Property | Type | Description | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="property-did"></a> `did` | [`DID`](../namespaces/Domain/classes/DID.md) | The DID to deactivate. | [packages/lib/sdk/src/castor/methods/prism/index.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L34) |
-| <a id="property-key"></a> `key` | [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md) | Master signing key used to authorise the deactivation. | [packages/lib/sdk/src/castor/methods/prism/index.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L32) |
-| <a id="property-previousoperationhash"></a> `previousOperationHash` | `Uint8Array` | The previous operation hash (last operation hash, create, update, deactivate) | [packages/lib/sdk/src/castor/methods/prism/index.ts:36](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L36) |
+| <a id="property-did"></a> `did` | [`DID`](../namespaces/Domain/classes/DID.md) | The DID to deactivate. | [packages/lib/sdk/src/castor/methods/prism/index.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/prism/index.ts#L34) |
+| <a id="property-key"></a> `key` | [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md) | Master signing key used to authorise the deactivation. | [packages/lib/sdk/src/castor/methods/prism/index.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/prism/index.ts#L32) |
+| <a id="property-previousoperationhash"></a> `previousOperationHash` | `Uint8Array` | The previous operation hash (last operation hash, create, update, deactivate) | [packages/lib/sdk/src/castor/methods/prism/index.ts:36](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/prism/index.ts#L36) |

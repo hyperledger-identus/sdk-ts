@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: OutOfBandInvitation
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L12)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L12)
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/
 
 > **new OutOfBandInvitation**(`body`: [`OutOfBandInvitationBody`](../interfaces/OutOfBandInvitationBody.md), `from`: `string`, `id?`: `string`, `attachments?`: [`AttachmentDescriptor`](../../../../overview/namespaces/Domain/classes/AttachmentDescriptor.md)[], `expiration?`: `number` \| `null`): `OutOfBandInvitation`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L17)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L17)
 
 #### Parameters
 
@@ -34,13 +34,13 @@ Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/
 
 | Property | Modifier | Type | Default value | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="property-attachments"></a> `attachments` | `public` | [`AttachmentDescriptor`](../../../../overview/namespaces/Domain/classes/AttachmentDescriptor.md)[] | `[]` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L21) |
-| <a id="property-body"></a> `body` | `public` | [`OutOfBandInvitationBody`](../interfaces/OutOfBandInvitationBody.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L18) |
-| <a id="property-expiration"></a> `expiration` | `public` | `number` \| `null` | `null` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:22](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L22) |
-| <a id="property-from"></a> `from` | `public` | `string` | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L19) |
-| <a id="property-id"></a> `id` | `public` | `string` | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L20) |
-| <a id="property-piuri"></a> `piuri` | `public` | `"https://didcomm.org/out-of-band/2.0/invitation"` | `ProtocolIds.OOBInvitation` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L15) |
-| <a id="property-type"></a> `type` | `public` | `"https://didcomm.org/out-of-band/2.0/invitation"` | `ProtocolIds.OOBInvitation` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L13) |
+| <a id="property-attachments"></a> `attachments` | `public` | [`AttachmentDescriptor`](../../../../overview/namespaces/Domain/classes/AttachmentDescriptor.md)[] | `[]` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L21) |
+| <a id="property-body"></a> `body` | `public` | [`OutOfBandInvitationBody`](../interfaces/OutOfBandInvitationBody.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L18) |
+| <a id="property-expiration"></a> `expiration` | `public` | `number` \| `null` | `null` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:22](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L22) |
+| <a id="property-from"></a> `from` | `public` | `string` | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L19) |
+| <a id="property-id"></a> `id` | `public` | `string` | `undefined` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L20) |
+| <a id="property-piuri"></a> `piuri` | `public` | `"https://didcomm.org/out-of-band/2.0/invitation"` | `ProtocolIds.OOBInvitation` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L15) |
+| <a id="property-type"></a> `type` | `public` | `"https://didcomm.org/out-of-band/2.0/invitation"` | `ProtocolIds.OOBInvitation` | [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L13) |
 
 ## Accessors
 
@@ -50,7 +50,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/
 
 > **get** **isExpired**(): `boolean`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L25)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L25)
 
 ##### Returns
 
@@ -62,7 +62,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/
 
 > `static` **parsePrismOnboardingInvitationFromJson**(`json`: `string`): [`PrismOnboardingInvitation`](PrismOnboardingInvitation.md)
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:39](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L39)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts:39](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/protocols/invitation/OutOfBandInvitation.ts#L39)
 
 #### Parameters
 

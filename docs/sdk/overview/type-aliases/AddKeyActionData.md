@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **AddKeyActionData** = \{ `id`: `string`; `publicKey`: [`PublicKey`](../namespaces/Domain/classes/PublicKey.md); `purpose`: [`PrismDIDKeyUsageType`](../namespaces/Domain/type-aliases/PrismDIDKeyUsageType.md); \}
 
-Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:54](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L54)
+Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:54](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/prism/index.ts#L54)
 
 Add a new public key to the DID Document.
 
@@ -16,6 +16,6 @@ Add a new public key to the DID Document.
 
 | Property | Type | Description | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="property-id"></a> `id` | `string` | Verification method id, unique within the Document. | [packages/lib/sdk/src/castor/methods/prism/index.ts:56](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L56) |
-| <a id="property-publickey"></a> `publicKey` | [`PublicKey`](../namespaces/Domain/classes/PublicKey.md) | The public key material to add. | [packages/lib/sdk/src/castor/methods/prism/index.ts:60](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L60) |
-| <a id="property-purpose"></a> `purpose` | [`PrismDIDKeyUsageType`](../namespaces/Domain/type-aliases/PrismDIDKeyUsageType.md) | The key usage this key fulfils. | [packages/lib/sdk/src/castor/methods/prism/index.ts:58](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/prism/index.ts#L58) |
+| <a id="property-id"></a> `id` | `string` | Verification method id, unique within the Document. | [packages/lib/sdk/src/castor/methods/prism/index.ts:56](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/prism/index.ts#L56) |
+| <a id="property-publickey"></a> `publicKey` | [`PublicKey`](../namespaces/Domain/classes/PublicKey.md) | The public key material to add. | [packages/lib/sdk/src/castor/methods/prism/index.ts:60](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/prism/index.ts#L60) |
+| <a id="property-purpose"></a> `purpose` | [`PrismDIDKeyUsageType`](../namespaces/Domain/type-aliases/PrismDIDKeyUsageType.md) | The key usage this key fulfils. | [packages/lib/sdk/src/castor/methods/prism/index.ts:58](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/prism/index.ts#L58) |

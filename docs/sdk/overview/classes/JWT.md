@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: JWT
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L11)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L11)
 
 ## Extends
 
@@ -32,7 +32,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:11](https://github.com
 
 > **clone**(): `JWT`
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L12)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L12)
 
 #### Returns
 
@@ -48,7 +48,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:12](https://github.com
 
 > **decode**(`jws`: `string`): `Promise`\<[`DecodedObj`](../namespaces/Domain/namespaces/JWT/interfaces/DecodedObj.md)\>
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L16)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L16)
 
 #### Parameters
 
@@ -66,7 +66,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:16](https://github.com
 
 > **signWithDID**(`did`: [`DID`](../namespaces/Domain/classes/DID.md), `payload`: `Partial`\<[`Payload`](../namespaces/Domain/namespaces/JWT/type-aliases/Payload.md)\>, `header?`: `Partial`\<[`Header`](../namespaces/Domain/namespaces/JWT/interfaces/Header.md)\>, `privateKey?`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md), `purpose?`: `"ISSUING_KEY"` \| `"AUTHENTICATION_KEY"`): `Promise`\<`string`\>
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:30](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L30)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:30](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L30)
 
 Creates a signed JWT from a DID and Key
 
@@ -90,7 +90,7 @@ Creates a signed JWT from a DID and Key
 
 > **verify**(`options`: \{ `holderDID?`: [`DID`](../namespaces/Domain/classes/DID.md); `issuerDID`: [`DID`](../namespaces/Domain/classes/DID.md); `jws`: `string`; \}): `Promise`\<`boolean`\>
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:40](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L40)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:40](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/JWT.ts#L40)
 
 #### Parameters
 
@@ -111,7 +111,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/JWT.ts:40](https://github.com
 
 > **withContext**(`ctx`: `ContextProxy`): `Runner`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:108](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L108)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:108](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/tasks.ts#L108)
 
 #### Parameters
 

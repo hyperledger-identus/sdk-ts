@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: DIFModule
 
-Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/dif/module/index.ts#L5)
+Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/dif/module/index.ts#L5)
 
 ## Extends
 
@@ -32,7 +32,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:5](https:
 
 > **clone**(): `DIFModule`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/dif/module/index.ts#L6)
+Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/dif/module/index.ts#L6)
 
 #### Returns
 
@@ -48,7 +48,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:6](https:
 
 > **createPresentationDefinition**(`claims`: [`JsonObj`](../../../../overview/type-aliases/JsonObj.md)\<[`Filter`](../namespaces/DIF/namespaces/Presentation/namespaces/Definition/namespaces/Field/interfaces/Filter.md)\>, `opts?`: \{ `issuer?`: `string`; \}): `Promise`\<[`Request`](../namespaces/DIF/namespaces/Presentation/interfaces/Request.md)\>
 
-Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/dif/module/index.ts#L10)
+Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:10](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/dif/module/index.ts#L10)
 
 #### Parameters
 
@@ -68,7 +68,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/dif/module/index.ts:10](https
 
 > **withContext**(`ctx`: `ContextProxy`): `Runner`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:108](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L108)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:108](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/tasks.ts#L108)
 
 #### Parameters
 

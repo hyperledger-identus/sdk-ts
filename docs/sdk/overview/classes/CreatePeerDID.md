@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: CreatePeerDID
 
-Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts:24](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts#L24)
+Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts:24](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts#L24)
 
 Task class for creating and storing new peer DIDs.
 
@@ -24,7 +24,7 @@ in the agent's storage. It can also update the mediator's key list if specified.
 
 > **new CreatePeerDID**(...`args`: \[[`CreatePeerDIDArgs`](../interfaces/CreatePeerDIDArgs.md)\]): `CreatePeerDID`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
@@ -46,7 +46,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperled
 
 > **log**(): `unknown`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L27)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -62,7 +62,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperled
 
 > **run**(`ctx`: [`AgentContext`](AgentContext.md)): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
 
-Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts:38](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts#L38)
+Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts:38](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts#L38)
 
 Executes the task to create and store a new peer DID.
 
@@ -95,7 +95,7 @@ A Promise that resolves to the created DID
 
 > **updateKeyListWithDID**(`ctx`: [`AgentContext`](AgentContext.md), `did`: [`DID`](../namespaces/Domain/classes/DID.md)): `Promise`\<`void`\>
 
-Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts:106](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts#L106)
+Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts:106](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/edge-agent/didFunctions/CreatePeerDID.ts#L106)
 
 Asynchronously updates the mediator with the new key list.
 

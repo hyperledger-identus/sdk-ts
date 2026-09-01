@@ -1,3 +1,13 @@
+## 8.1.2 (2026-09-01)
+
+### 🩹 Fixes
+
+- Adding the operation has as return for all the operations ([#672](https://github.com/hyperledger-identus/sdk-ts/pull/672))
+
+### ❤️ Thank You
+
+- Javier Ribó
+
 ## 8.1.1 (2026-09-01)
 
 ### 🩹 Fixes

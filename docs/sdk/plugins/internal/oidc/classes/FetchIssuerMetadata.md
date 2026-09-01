@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: FetchIssuerMetadata
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts#L19)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts#L19)
 
 try to retrieve Issuer Metadata from the given URI
 `/.well-known/openid-credential-issuer` will be appended to the uri
@@ -27,7 +27,7 @@ try to retrieve Issuer Metadata from the given URI
 
 > **new FetchIssuerMetadata**(...`args`: \[[`FetchIssuerMetadataArgs`](../interfaces/FetchIssuerMetadataArgs.md)\]): `FetchIssuerMetadata`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
@@ -49,7 +49,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperled
 
 > **log**(): `unknown`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L27)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -65,7 +65,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperled
 
 > **run**(`ctx`: [`Context`](../type-aliases/Context.md)): `Promise`\<\{ `authorization_servers?`: `string`[]; `batch_credential_endpoint?`: `string`; `credential_configurations_supported`: \{\[`key`: `string`\]: \{ `credential_definition`: \{ `credentialSubject?`: \{ \}; `type`: `string`[]; \}; `credential_signing_alg_values_supported?`: `string`[]; `cryptographic_binding_methods_supported?`: `string`[]; `format`: `string`; `proof_types_supported?`: \{\[`key`: `string`\]: \{ `proof_signing_alg_values_supported`: `string`[]; \}; \}; `scope?`: `string`; \}; \}; `credential_endpoint`: `string`; `credential_identifiers_supported?`: `boolean`; `credential_issuer`: `string`; `credential_response_encryption?`: \{ `alg_values_supported`: `string`[]; `enc_values_supported`: `string`[]; `encryption_required`: `boolean`; \}; `deferred_credential_endpoint?`: `string`; `display?`: \{ \}; `notification_endpoint?`: `string`; `signed_metadata?`: `string`; \}\>
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts#L20)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/tasks/FetchIssuerMetadata.ts#L20)
 
 #### Parameters
 

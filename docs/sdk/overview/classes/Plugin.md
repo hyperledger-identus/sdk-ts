@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: Plugin
 
-Defined in: [packages/lib/sdk/src/plugins/Plugin.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/Plugin.ts#L12)
+Defined in: [packages/lib/sdk/src/plugins/Plugin.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/Plugin.ts#L12)
 
 Provide interface to augment the SDK.
 
@@ -28,8 +28,8 @@ Currently able to:
 
 | Property | Modifier | Type | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="property-modules"></a> `modules` | `readonly` | `Map`\<`string`, `any`\> | [packages/lib/sdk/src/plugins/Plugin.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/Plugin.ts#L13) |
-| <a id="property-tasks"></a> `tasks` | `readonly` | `Map`\<`string`, [`Ctor`](../interfaces/Ctor.md)\<`Task`\<`any`, `unknown`\>\>\> | [packages/lib/sdk/src/plugins/Plugin.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/Plugin.ts#L14) |
+| <a id="property-modules"></a> `modules` | `readonly` | `Map`\<`string`, `any`\> | [packages/lib/sdk/src/plugins/Plugin.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/Plugin.ts#L13) |
+| <a id="property-tasks"></a> `tasks` | `readonly` | `Map`\<`string`, [`Ctor`](../interfaces/Ctor.md)\<`Task`\<`any`, `unknown`\>\>\> | [packages/lib/sdk/src/plugins/Plugin.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/Plugin.ts#L14) |
 
 ## Methods
 
@@ -37,7 +37,7 @@ Currently able to:
 
 > **addModule**(`key`: `string`, `module`: `any`): `this`
 
-Defined in: [packages/lib/sdk/src/plugins/Plugin.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/Plugin.ts#L17)
+Defined in: [packages/lib/sdk/src/plugins/Plugin.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/Plugin.ts#L17)
 
 #### Parameters
 
@@ -56,7 +56,7 @@ Defined in: [packages/lib/sdk/src/plugins/Plugin.ts:17](https://github.com/hyper
 
 > **register**(`pids`: [`Arrayable`](../type-aliases/Arrayable.md)\<`string`\>, `task`: [`Ctor`](../interfaces/Ctor.md)\<`Task`\<`any`, `unknown`\>\>): `this`
 
-Defined in: [packages/lib/sdk/src/plugins/Plugin.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/Plugin.ts#L25)
+Defined in: [packages/lib/sdk/src/plugins/Plugin.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/Plugin.ts#L25)
 
 #### Parameters
 

@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: RequestPresentation
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L20)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L20)
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresenta
 
 > **new RequestPresentation**(`body`: [`RequestPresentationBody`](../interfaces/RequestPresentationBody.md), `attachments`: [`AttachmentDescriptor`](../../../../overview/namespaces/Domain/classes/AttachmentDescriptor.md)[], `from`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md), `to`: [`DID`](../../../../overview/namespaces/Domain/classes/DID.md), `thid?`: `string`, `id?`: `string`): `RequestPresentation`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L23)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L23)
 
 #### Parameters
 
@@ -35,13 +35,13 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresenta
 
 | Property | Modifier | Type | Default value | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="property-attachments"></a> `attachments` | `public` | [`AttachmentDescriptor`](../../../../overview/namespaces/Domain/classes/AttachmentDescriptor.md)[] | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L25) |
-| <a id="property-body"></a> `body` | `public` | [`RequestPresentationBody`](../interfaces/RequestPresentationBody.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:24](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L24) |
-| <a id="property-from"></a> `from` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:26](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L26) |
-| <a id="property-id"></a> `id` | `public` | `string` | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:29](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L29) |
-| <a id="property-thid"></a> `thid?` | `public` | `string` | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:28](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L28) |
-| <a id="property-to"></a> `to` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L27) |
-| <a id="property-type"></a> `type` | `static` | `"https://didcomm.atalaprism.io/present-proof/3.0/request-presentation"` | `OEA.ProtocolIds.RequestPresentation` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L21) |
+| <a id="property-attachments"></a> `attachments` | `public` | [`AttachmentDescriptor`](../../../../overview/namespaces/Domain/classes/AttachmentDescriptor.md)[] | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L25) |
+| <a id="property-body"></a> `body` | `public` | [`RequestPresentationBody`](../interfaces/RequestPresentationBody.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:24](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L24) |
+| <a id="property-from"></a> `from` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:26](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L26) |
+| <a id="property-id"></a> `id` | `public` | `string` | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:29](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L29) |
+| <a id="property-thid"></a> `thid?` | `public` | `string` | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:28](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L28) |
+| <a id="property-to"></a> `to` | `public` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | `undefined` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L27) |
+| <a id="property-type"></a> `type` | `static` | `"https://didcomm.atalaprism.io/present-proof/3.0/request-presentation"` | `OEA.ProtocolIds.RequestPresentation` | [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L21) |
 
 ## Accessors
 
@@ -51,7 +51,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresenta
 
 > **get** **decodedAttachments**(): `any`[]
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L34)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L34)
 
 ##### Returns
 
@@ -63,7 +63,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresenta
 
 > **makeMessage**(): [`Message`](../../../../overview/namespaces/Domain/classes/Message.md)
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:52](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L52)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:52](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L52)
 
 #### Returns
 
@@ -75,7 +75,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresenta
 
 > `static` **fromMessage**(`fromMessage`: [`Message`](../../../../overview/namespaces/Domain/classes/Message.md)): `RequestPresentation`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:65](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L65)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts:65](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/protocols/RequestPresentation.ts#L65)
 
 #### Parameters
 

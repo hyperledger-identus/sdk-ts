@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../../../../../README.md)
 
 ***
 
@@ -6,16 +6,16 @@
 
 # Interface: PresentationRequest
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:83](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/types.ts#L83)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:83](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L83)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="property-options"></a> `options` | \{ `challenge`: `string`; `domain`: `string`; \} | [packages/lib/sdk/src/plugins/internal/oea/types.ts:84](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/types.ts#L84) |
-| `options.challenge` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:85](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/types.ts#L85) |
-| `options.domain` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:86](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/types.ts#L86) |
-| <a id="property-presentation_definition"></a> `presentation_definition` | \{ `format?`: [`DefinitionFormat`](../type-aliases/DefinitionFormat.md); `id`: `string`; `input_descriptors`: [`InputDescriptor`](../type-aliases/InputDescriptor.md)[]; \} | [packages/lib/sdk/src/plugins/internal/oea/types.ts:88](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/types.ts#L88) |
-| `presentation_definition.format?` | [`DefinitionFormat`](../type-aliases/DefinitionFormat.md) | [packages/lib/sdk/src/plugins/internal/oea/types.ts:91](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/types.ts#L91) |
-| `presentation_definition.id` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:89](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/types.ts#L89) |
-| `presentation_definition.input_descriptors` | [`InputDescriptor`](../type-aliases/InputDescriptor.md)[] | [packages/lib/sdk/src/plugins/internal/oea/types.ts:90](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oea/types.ts#L90) |
+| <a id="property-options"></a> `options` | \{ `challenge`: `string`; `domain`: `string`; \} | [packages/lib/sdk/src/plugins/internal/oea/types.ts:84](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L84) |
+| `options.challenge` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:85](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L85) |
+| `options.domain` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:86](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L86) |
+| <a id="property-presentation_definition"></a> `presentation_definition` | \{ `format?`: [`DefinitionFormat`](../type-aliases/DefinitionFormat.md); `id`: `string`; `input_descriptors`: [`InputDescriptor`](../type-aliases/InputDescriptor.md)[]; \} | [packages/lib/sdk/src/plugins/internal/oea/types.ts:88](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L88) |
+| `presentation_definition.format?` | [`DefinitionFormat`](../type-aliases/DefinitionFormat.md) | [packages/lib/sdk/src/plugins/internal/oea/types.ts:91](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L91) |
+| `presentation_definition.id` | `string` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:89](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L89) |
+| `presentation_definition.input_descriptors` | [`InputDescriptor`](../type-aliases/InputDescriptor.md)[] | [packages/lib/sdk/src/plugins/internal/oea/types.ts:90](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L90) |

@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **DIDMethod**\<`TMetadata`, `CreatePayload`, `PublishPayload`, `UpdatePayload`, `DeactivatePayload`\> = \{ `create`: (`opts`: `CreatePayload`) => `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>; `method`: `string`; `resolver`: [`DIDResolver`](../namespaces/Domain/classes/DIDResolver.md); `verifySignature`: (`did`: [`DID`](../namespaces/Domain/classes/DID.md), `challenge`: `Uint8Array`, `signature`: `Uint8Array`) => `Promise`\<`boolean`\>; \} & `OptionalMethod`\<`"publish"`, `PublishPayload`, [`DIDMethodOperation`](DIDMethodOperation.md)\<`TMetadata`\>\> & `OptionalMethod`\<`"update"`, `UpdatePayload`, [`DIDMethodOperation`](DIDMethodOperation.md)\<`TMetadata`\>\> & `OptionalMethod`\<`"deactivate"`, `DeactivatePayload`, [`DIDMethodOperation`](DIDMethodOperation.md)\<`TMetadata`\>\>
 
-Defined in: [packages/lib/sdk/src/castor/methods/types.ts:54](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/types.ts#L54)
+Defined in: [packages/lib/sdk/src/castor/methods/types.ts:54](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/types.ts#L54)
 
 Core abstraction for a pluggable DID method.
 
@@ -20,10 +20,10 @@ they only appear when the corresponding payload type parameter is not `never`.
 
 | Name | Type | Defined in |
 | ------ | ------ | ------ |
-| `create()` | (`opts`: `CreatePayload`) => `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\> | [packages/lib/sdk/src/castor/methods/types.ts:63](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/types.ts#L63) |
-| `method` | `string` | [packages/lib/sdk/src/castor/methods/types.ts:62](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/types.ts#L62) |
-| `resolver` | [`DIDResolver`](../namespaces/Domain/classes/DIDResolver.md) | [packages/lib/sdk/src/castor/methods/types.ts:61](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/types.ts#L61) |
-| `verifySignature()` | (`did`: [`DID`](../namespaces/Domain/classes/DID.md), `challenge`: `Uint8Array`, `signature`: `Uint8Array`) => `Promise`\<`boolean`\> | [packages/lib/sdk/src/castor/methods/types.ts:64](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/types.ts#L64) |
+| `create()` | (`opts`: `CreatePayload`) => `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\> | [packages/lib/sdk/src/castor/methods/types.ts:63](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/types.ts#L63) |
+| `method` | `string` | [packages/lib/sdk/src/castor/methods/types.ts:62](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/types.ts#L62) |
+| `resolver` | [`DIDResolver`](../namespaces/Domain/classes/DIDResolver.md) | [packages/lib/sdk/src/castor/methods/types.ts:61](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/types.ts#L61) |
+| `verifySignature()` | (`did`: [`DID`](../namespaces/Domain/classes/DID.md), `challenge`: `Uint8Array`, `signature`: `Uint8Array`) => `Promise`\<`boolean`\> | [packages/lib/sdk/src/castor/methods/types.ts:64](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/types.ts#L64) |
 
 ## Type Parameters
 

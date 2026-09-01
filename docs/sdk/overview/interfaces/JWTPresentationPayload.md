@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
 
 ***
 
@@ -6,17 +6,17 @@
 
 # Interface: JWTPresentationPayload
 
-Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:40](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L40)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:40](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L40)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="property-aud"></a> `aud?` | `string` \| `string`[] | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L44) |
-| <a id="property-exp"></a> `exp?` | `number` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:46](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L46) |
-| <a id="property-iat"></a> `iat?` | `number` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:42](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L42) |
-| <a id="property-iss"></a> `iss?` | `string` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:41](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L41) |
-| <a id="property-jti"></a> `jti?` | `string` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:43](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L43) |
-| <a id="property-nbf"></a> `nbf?` | `number` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:45](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L45) |
-| <a id="property-nonce"></a> `nonce?` | `string` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:47](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L47) |
-| <a id="property-vp"></a> `vp` | [`W3CVerifiablePresentation`](../../plugins/internal/oea/type-aliases/W3CVerifiablePresentation.md) | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L48) |
+| <a id="property-aud"></a> `aud?` | `string` \| `string`[] | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L44) |
+| <a id="property-exp"></a> `exp?` | `number` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:46](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L46) |
+| <a id="property-iat"></a> `iat?` | `number` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:42](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L42) |
+| <a id="property-iss"></a> `iss?` | `string` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:41](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L41) |
+| <a id="property-jti"></a> `jti?` | `string` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:43](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L43) |
+| <a id="property-nbf"></a> `nbf?` | `number` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:45](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L45) |
+| <a id="property-nonce"></a> `nonce?` | `string` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:47](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L47) |
+| <a id="property-vp"></a> `vp` | [`W3CVerifiablePresentation`](../../plugins/internal/oea/type-aliases/W3CVerifiablePresentation.md) | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:48](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L48) |

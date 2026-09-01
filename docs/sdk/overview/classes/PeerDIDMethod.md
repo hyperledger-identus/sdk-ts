@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: PeerDIDMethod
 
-Defined in: [packages/lib/sdk/src/castor/methods/peer/index.ts:41](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/peer/index.ts#L41)
+Defined in: [packages/lib/sdk/src/castor/methods/peer/index.ts:41](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/peer/index.ts#L41)
 
 DID method implementation for `did:peer` (algorithm 2).
 
@@ -44,8 +44,8 @@ const did = await peer.create({
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="property-method"></a> `method` | `"peer"` | [packages/lib/sdk/src/castor/methods/peer/index.ts:42](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/peer/index.ts#L42) |
-| <a id="property-resolver"></a> `resolver` | `PeerDIDResolver` | [packages/lib/sdk/src/castor/methods/peer/index.ts:43](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/peer/index.ts#L43) |
+| <a id="property-method"></a> `method` | `"peer"` | [packages/lib/sdk/src/castor/methods/peer/index.ts:42](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/peer/index.ts#L42) |
+| <a id="property-resolver"></a> `resolver` | `PeerDIDResolver` | [packages/lib/sdk/src/castor/methods/peer/index.ts:43](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/peer/index.ts#L43) |
 
 ## Methods
 
@@ -53,7 +53,7 @@ const did = await peer.create({
 
 > **create**(`opts`: `CreatePayload`): `Promise`\<[`DID`](../namespaces/Domain/classes/DID.md)\>
 
-Defined in: [packages/lib/sdk/src/castor/methods/peer/index.ts:52](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/peer/index.ts#L52)
+Defined in: [packages/lib/sdk/src/castor/methods/peer/index.ts:52](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/peer/index.ts#L52)
 
 Create a new `did:peer:2` DID from the provided keys and services.
 
@@ -83,7 +83,7 @@ if required keys are missing
 
 > **verifySignature**(`did`: [`DID`](../namespaces/Domain/classes/DID.md), `challenge`: `Uint8Array`, `signature`: `Uint8Array`): `Promise`\<`boolean`\>
 
-Defined in: [packages/lib/sdk/src/castor/methods/peer/index.ts:71](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/castor/methods/peer/index.ts#L71)
+Defined in: [packages/lib/sdk/src/castor/methods/peer/index.ts:71](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/peer/index.ts#L71)
 
 Verify a signature against a Peer DID's Ed25519 verification methods.
 

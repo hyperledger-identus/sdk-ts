@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: DIDCommDIDResolver
 
-Defined in: [packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts#L13)
+Defined in: [packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts#L13)
 
 Bridges the SDK's [Castor](Castor.md) DID resolution to the DIDComm library's
 `DIDResolver` interface.
@@ -24,7 +24,7 @@ Resolves a DID via Castor and maps the resulting DID Document into the
 
 > **new DIDCommDIDResolver**(`castor`: [`Castor`](../namespaces/Domain/interfaces/Castor.md)): `DIDCommDIDResolver`
 
-Defined in: [packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts#L14)
+Defined in: [packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts#L14)
 
 #### Parameters
 
@@ -42,7 +42,7 @@ Defined in: [packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts:14](https://gith
 
 > **resolve**(`did`: `string`): `Promise`\<`DIDDoc` \| `null`\>
 
-Defined in: [packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts:22](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts#L22)
+Defined in: [packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts:22](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/mercury/DIDCommDIDResolver.ts#L22)
 
 Resolve a DID string to a DIDComm-compatible DID Document.
 

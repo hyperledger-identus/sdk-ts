@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: ParseCredentialOffer
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts#L25)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts#L25)
 
 validates the offer is correctly formed OIDC Credential Offer
 returns the offer Typed as such
@@ -25,7 +25,7 @@ json object
 
 > **new ParseCredentialOffer**(...`args`: \[[`ParseCredentialOfferArgs`](../interfaces/ParseCredentialOfferArgs.md)\]): `ParseCredentialOffer`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
@@ -47,7 +47,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperled
 
 > **log**(): `unknown`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L27)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -63,7 +63,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperled
 
 > **run**(`ctx`: [`Context`](../type-aliases/Context.md)): `Promise`\<\{ `credential_configuration_ids`: `string`[]; `credential_issuer`: `string`; `grants?`: \{ `authorization_code?`: \{ `authorization_server?`: `string`; `issuer_state?`: `string`; \}; `urn:ietf:params:oauth:grant-type:pre-authorized_code?`: \{ `authorization_server?`: `string`; `interval?`: `number`; `pre-authorized_code`: `string`; `tx_code?`: \{ `description?`: `string`; `input_mode?`: `string`; `length?`: `number`; \}; \}; \}; \}\>
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts:26](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts#L26)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts:26](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/tasks/ParseCredentialOffer.ts#L26)
 
 #### Parameters
 

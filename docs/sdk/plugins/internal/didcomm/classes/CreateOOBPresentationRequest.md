@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: CreateOOBPresentationRequest
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L34)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:34](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L34)
 
 Task class for creating out-of-band (OOB) presentation request invitations.
 
@@ -24,7 +24,7 @@ potential credential holders to initiate the presentation verification flow.
 
 > **new CreateOOBPresentationRequest**(...`args`: \[[`CreateOOBPresentationRequestArgs`](../interfaces/CreateOOBPresentationRequestArgs.md)\]): `CreateOOBPresentationRequest`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
@@ -48,7 +48,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperled
 
 > **get** **attachments**(): [`AttachmentDescriptor`](../../../../overview/namespaces/Domain/classes/AttachmentDescriptor.md)[]
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:53](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L53)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:53](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L53)
 
 Gets the attachments for the out-of-band invitation.
 
@@ -66,7 +66,7 @@ Array containing the presentation request as an attachment descriptor
 
 > **get** **oobBody**(): \{ `accept`: `string`[]; `goal`: `string`; `goal_code`: `string`; \}
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:40](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L40)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:40](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L40)
 
 Gets the body configuration for the out-of-band invitation.
 
@@ -78,9 +78,9 @@ The OOB invitation body with goal code, goal description, and accepted protocols
 
 | Name | Type | Defined in |
 | ------ | ------ | ------ |
-| `accept` | `string`[] | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L44) |
-| `goal` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:43](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L43) |
-| `goal_code` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:42](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L42) |
+| `accept` | `string`[] | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L44) |
+| `goal` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:43](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L43) |
+| `goal_code` | `string` | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:42](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L42) |
 
 ## Methods
 
@@ -88,7 +88,7 @@ The OOB invitation body with goal code, goal description, and accepted protocols
 
 > **log**(): `unknown`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/utils/tasks.ts#L27)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -104,7 +104,7 @@ Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperled
 
 > **run**(`_ctx`: [`AgentContext`](../../../../overview/classes/AgentContext.md)): `Promise`\<`string`\>
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:74](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L74)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts:74](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/tasks/CreateOOBPresentationRequest.ts#L74)
 
 Executes the task to create an out-of-band presentation request invitation.
 

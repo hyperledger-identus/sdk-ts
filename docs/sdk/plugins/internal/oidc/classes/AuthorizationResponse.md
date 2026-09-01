@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.1**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: AuthorizationResponse
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:1](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L1)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:1](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L1)
 
 ## Constructors
 
@@ -14,7 +14,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationR
 
 > **new AuthorizationResponse**(`callbackUrl`: `string` \| `URL`, `code`: `string`): `AuthorizationResponse`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L5)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L5)
 
 #### Parameters
 
@@ -31,8 +31,8 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationR
 
 | Property | Modifier | Type | Defined in |
 | ------ | ------ | ------ | ------ |
-| <a id="property-code"></a> `code` | `readonly` | `string` | [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:3](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L3) |
-| <a id="property-url"></a> `url` | `readonly` | `URL` | [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:2](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L2) |
+| <a id="property-code"></a> `code` | `readonly` | `string` | [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:3](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L3) |
+| <a id="property-url"></a> `url` | `readonly` | `URL` | [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:2](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L2) |
 
 ## Accessors
 
@@ -42,7 +42,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationR
 
 > **get** **issuer**(): `string` \| `null`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L18)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L18)
 
 ##### Returns
 
@@ -56,7 +56,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationR
 
 > **get** **params**(): `URLSearchParams`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L13)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L13)
 
 ##### Returns
 
@@ -70,7 +70,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationR
 
 > **get** **state**(): `string` \| `null`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:22](https://github.com/hyperledger-identus/sdk-ts/blob/170e1efdccd6a1bbc55c6992c3fbf0ba2b84a0ed/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L22)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts:22](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/protocols/AuthorizationResponse.ts#L22)
 
 ##### Returns
 
