@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: DID
 
-Defined in: [packages/lib/sdk/src/pluto/models/DID.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/models/DID.ts#L11)
+Defined in: [packages/lib/sdk/src/pluto/models/DID.ts:11](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/models/DID.ts#L11)
 
 Definition for DID model
 Represents [DID](../namespaces/Domain/classes/DID.md)
@@ -23,8 +23,8 @@ Domain.DID
 
 | Property | Type | Description | Inherited from | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="property-alias"></a> `alias?` | `string` | Optional name | - | [packages/lib/sdk/src/pluto/models/DID.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/models/DID.ts#L21) |
-| <a id="property-method"></a> `method` | `string` | - | - | [packages/lib/sdk/src/pluto/models/DID.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/models/DID.ts#L16) |
-| <a id="property-schema"></a> `schema` | `string` | - | - | [packages/lib/sdk/src/pluto/models/DID.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/models/DID.ts#L15) |
-| <a id="property-status"></a> `status?` | `string` | - | - | [packages/lib/sdk/src/pluto/models/DID.ts:22](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/models/DID.ts#L22) |
+| <a id="property-alias"></a> `alias?` | `string` | Optional name | - | [packages/lib/sdk/src/pluto/models/DID.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/models/DID.ts#L21) |
+| <a id="property-method"></a> `method` | `string` | - | - | [packages/lib/sdk/src/pluto/models/DID.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/models/DID.ts#L16) |
+| <a id="property-schema"></a> `schema` | `string` | - | - | [packages/lib/sdk/src/pluto/models/DID.ts:15](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/models/DID.ts#L15) |
+| <a id="property-status"></a> `status?` | `string` | - | - | [packages/lib/sdk/src/pluto/models/DID.ts:22](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/models/DID.ts#L22) |
 | <a id="property-uuid"></a> `uuid` | `string` | Universally Unique Identifier. should be unique across all items. | `Model.uuid` | packages/shared/domain/build/index.d.ts:404 |

@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: SDJWT
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L32)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:32](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L32)
 
 ## Extends
 
@@ -32,7 +32,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:32](https://github.c
 
 > **clone**(): `SDJWT`
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L33)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L33)
 
 #### Returns
 
@@ -48,7 +48,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:33](https://github.c
 
 > **createPresentationFor**\<`T`\>(`options`: \{ `jws`: `string`; `kb?`: `KBOptions`; `presentationFrame?`: `PFrame`\<`T`\>; `privateKey`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md); \}): `Promise`\<`string`\>
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:125](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L125)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:125](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L125)
 
 #### Type Parameters
 
@@ -76,7 +76,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:125](https://github.
 
 > **decode**(`jws`: `string`): `DecodedSDJwt`
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:37](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L37)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:37](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L37)
 
 #### Parameters
 
@@ -94,7 +94,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:37](https://github.c
 
 > **getPKConfig**(`publicKey`: [`PublicKey`](../namespaces/Domain/classes/PublicKey.md)): `SDJWTVCConfig`
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:150](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L150)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:150](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L150)
 
 #### Parameters
 
@@ -112,7 +112,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:150](https://github.
 
 > **getSKConfig**(`privateKey`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md)): `SDJWTVCConfig`
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:184](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L184)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:184](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L184)
 
 #### Parameters
 
@@ -130,7 +130,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:184](https://github.
 
 > **reveal**(`disclosedPayload`: `Record`\<`string`, `unknown`\>, `disclosures`: `Disclosure`\<`unknown`\>[]): `Promise`\<`unknown`\>
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:139](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L139)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:139](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L139)
 
 #### Parameters
 
@@ -149,7 +149,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:139](https://github.
 
 > **sign**\<`E`\>(`options`: \{ `disclosureFrame`: `DisclosureFrame`\<`E`\>; `issuerDID`: [`DID`](../namespaces/Domain/classes/DID.md); `kid?`: `string`; `payload`: `E`; `privateKey?`: [`PrivateKey`](../namespaces/Domain/classes/PrivateKey.md); `purpose?`: `"ISSUING_KEY"` \| `"AUTHENTICATION_KEY"`; \}): `Promise`\<`string`\>
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:41](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L41)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:41](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L41)
 
 #### Type Parameters
 
@@ -179,7 +179,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:41](https://github.c
 
 > **verify**(`options`: \{ `issuerDID`: [`DID`](../namespaces/Domain/classes/DID.md); `jws`: `string`; `requiredClaimKeys?`: `string`[]; `requiredKeyBindings?`: `boolean`; \}): `Promise`\<`boolean`\>
 
-Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:59](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L59)
+Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:59](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts#L59)
 
 #### Parameters
 
@@ -201,7 +201,7 @@ Defined in: [packages/lib/sdk/src/pollux/utils/jwt/SDJWT.ts:59](https://github.c
 
 > **withContext**(`ctx`: `ContextProxy`): `Runner`
 
-Defined in: [packages/lib/sdk/src/utils/tasks.ts:108](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/tasks.ts#L108)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:108](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/utils/tasks.ts#L108)
 
 #### Parameters
 

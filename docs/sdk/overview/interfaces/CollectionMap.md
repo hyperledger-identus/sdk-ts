@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: CollectionMap
 
-Defined in: [packages/lib/sdk/src/pluto/types.ts:58](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/types.ts#L58)
+Defined in: [packages/lib/sdk/src/pluto/types.ts:58](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/types.ts#L58)
 
 Maps every known table name to its corresponding Model interface.
 
@@ -17,12 +17,12 @@ the correct model shape is used for a given table.
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="property-credential-metadata"></a> `credential-metadata` | [`CredentialMetadata`](CredentialMetadata.md) | [packages/lib/sdk/src/pluto/types.ts:60](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/types.ts#L60) |
-| <a id="property-credentials"></a> `credentials` | [`Credential`](Credential.md) | [packages/lib/sdk/src/pluto/types.ts:59](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/types.ts#L59) |
-| <a id="property-did-link"></a> `did-link` | [`DIDLink`](DIDLink.md) | [packages/lib/sdk/src/pluto/types.ts:65](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/types.ts#L65) |
-| <a id="property-didkey-link"></a> `didkey-link` | [`DIDKeyLink`](DIDKeyLink.md) | [packages/lib/sdk/src/pluto/types.ts:64](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/types.ts#L64) |
-| <a id="property-dids"></a> `dids` | [`DID`](DID.md) | [packages/lib/sdk/src/pluto/types.ts:61](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/types.ts#L61) |
-| <a id="property-issuance"></a> `issuance` | [`Issuance`](Issuance.md) | [packages/lib/sdk/src/pluto/types.ts:67](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/types.ts#L67) |
-| <a id="property-keys"></a> `keys` | [`Key`](Key.md) | [packages/lib/sdk/src/pluto/types.ts:62](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/types.ts#L62) |
-| <a id="property-messages"></a> `messages` | [`Message`](Message.md) | [packages/lib/sdk/src/pluto/types.ts:63](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/types.ts#L63) |
-| <a id="property-settings"></a> `settings` | [`Settings`](Settings.md) | [packages/lib/sdk/src/pluto/types.ts:66](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/types.ts#L66) |
+| <a id="property-credential-metadata"></a> `credential-metadata` | [`CredentialMetadata`](CredentialMetadata.md) | [packages/lib/sdk/src/pluto/types.ts:60](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/types.ts#L60) |
+| <a id="property-credentials"></a> `credentials` | [`Credential`](Credential.md) | [packages/lib/sdk/src/pluto/types.ts:59](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/types.ts#L59) |
+| <a id="property-did-link"></a> `did-link` | [`DIDLink`](DIDLink.md) | [packages/lib/sdk/src/pluto/types.ts:65](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/types.ts#L65) |
+| <a id="property-didkey-link"></a> `didkey-link` | [`DIDKeyLink`](DIDKeyLink.md) | [packages/lib/sdk/src/pluto/types.ts:64](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/types.ts#L64) |
+| <a id="property-dids"></a> `dids` | [`DID`](DID.md) | [packages/lib/sdk/src/pluto/types.ts:61](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/types.ts#L61) |
+| <a id="property-issuance"></a> `issuance` | [`Issuance`](Issuance.md) | [packages/lib/sdk/src/pluto/types.ts:67](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/types.ts#L67) |
+| <a id="property-keys"></a> `keys` | [`Key`](Key.md) | [packages/lib/sdk/src/pluto/types.ts:62](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/types.ts#L62) |
+| <a id="property-messages"></a> `messages` | [`Message`](Message.md) | [packages/lib/sdk/src/pluto/types.ts:63](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/types.ts#L63) |
+| <a id="property-settings"></a> `settings` | [`Settings`](Settings.md) | [packages/lib/sdk/src/pluto/types.ts:66](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/types.ts#L66) |

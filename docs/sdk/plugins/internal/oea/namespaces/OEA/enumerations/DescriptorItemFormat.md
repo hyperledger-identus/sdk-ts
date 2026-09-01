@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../../../../../README.md)
 
 ***
 
@@ -6,12 +6,12 @@
 
 # Enumeration: DescriptorItemFormat
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:42](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L42)
+Defined in: [packages/lib/sdk/src/plugins/internal/oea/types.ts:42](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/oea/types.ts#L42)
 
 ## Enumeration Members
 
 | Enumeration Member | Value | Defined in |
 | ------ | ------ | ------ |
-| <a id="enumeration-member-jwt_vc"></a> `JWT_VC` | `"jwt_vc"` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:43](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L43) |
-| <a id="enumeration-member-jwt_vp"></a> `JWT_VP` | `"jwt_vp"` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L44) |
-| <a id="enumeration-member-sdjwt"></a> `SDJWT` | `"sdjwt"` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:45](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oea/types.ts#L45) |
+| <a id="enumeration-member-jwt_vc"></a> `JWT_VC` | `"jwt_vc"` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:43](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/oea/types.ts#L43) |
+| <a id="enumeration-member-jwt_vp"></a> `JWT_VP` | `"jwt_vp"` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:44](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/oea/types.ts#L44) |
+| <a id="enumeration-member-sdjwt"></a> `SDJWT` | `"sdjwt"` | [packages/lib/sdk/src/plugins/internal/oea/types.ts:45](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/oea/types.ts#L45) |

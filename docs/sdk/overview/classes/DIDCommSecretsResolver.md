@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: DIDCommSecretsResolver
 
-Defined in: [packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts#L12)
+Defined in: [packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts#L12)
 
 Bridges the SDK's key storage (Pluto) to the DIDComm library's
 `SecretsResolver` interface.
@@ -24,7 +24,7 @@ into JWK-based `Secret` objects consumable by the DIDComm WASM layer.
 
 > **new DIDCommSecretsResolver**(`apollo`: [`Apollo`](../namespaces/Domain/interfaces/Apollo.md), `castor`: [`Castor`](../namespaces/Domain/interfaces/Castor.md), `pluto`: [`Pluto`](../namespaces/Domain/interfaces/Pluto.md)): `DIDCommSecretsResolver`
 
-Defined in: [packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts#L13)
+Defined in: [packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts#L13)
 
 #### Parameters
 
@@ -44,7 +44,7 @@ Defined in: [packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts:13](https://
 
 > **find\_secrets**(`secret_ids`: `string`[]): `Promise`\<`string`[]\>
 
-Defined in: [packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts:46](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts#L46)
+Defined in: [packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts:46](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts#L46)
 
 Find all secrets that have one of the given IDs.
 Return secrets only for key IDs for which a secret is present.
@@ -87,7 +87,7 @@ throw e
 
 > **get\_secret**(`secret_id`: `string`): `Promise`\<`Secret` \| `null`\>
 
-Defined in: [packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts:57](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts#L57)
+Defined in: [packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts:57](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/mercury/DIDCommSecretsResolver.ts#L57)
 
 Finds secret (usually private key) identified by the given key ID.
 

@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: StartMediatorArgs
 
-Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/StartMediator.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/tasks/StartMediator.ts#L18)
+Defined in: [packages/lib/sdk/src/plugins/internal/didcomm/tasks/StartMediator.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/didcomm/tasks/StartMediator.ts#L18)
 
 Handle existing mediator logic
 either reconnects existing mediator
@@ -18,4 +18,4 @@ currently hard limits to a single mediator
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="property-mediatordid"></a> `mediatorDID` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/StartMediator.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/didcomm/tasks/StartMediator.ts#L19) |
+| <a id="property-mediatordid"></a> `mediatorDID` | [`DID`](../../../../overview/namespaces/Domain/classes/DID.md) | [packages/lib/sdk/src/plugins/internal/didcomm/tasks/StartMediator.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/didcomm/tasks/StartMediator.ts#L19) |

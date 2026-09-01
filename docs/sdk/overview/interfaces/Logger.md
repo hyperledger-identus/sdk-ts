@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: Logger
 
-Defined in: [packages/lib/sdk/src/utils/logger.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/logger.ts#L9)
+Defined in: [packages/lib/sdk/src/utils/logger.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/utils/logger.ts#L9)
 
 ## Methods
 
@@ -14,7 +14,7 @@ Defined in: [packages/lib/sdk/src/utils/logger.ts:9](https://github.com/hyperled
 
 > **debug**(`message`: `string`, ...`params`: `any`[]): `void`
 
-Defined in: [packages/lib/sdk/src/utils/logger.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/logger.ts#L13)
+Defined in: [packages/lib/sdk/src/utils/logger.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/utils/logger.ts#L13)
 
 very verbose information for debugging purposes
 
@@ -35,7 +35,7 @@ very verbose information for debugging purposes
 
 > **error**(`message`: `string`, ...`params`: `any`[]): `void`
 
-Defined in: [packages/lib/sdk/src/utils/logger.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/logger.ts#L25)
+Defined in: [packages/lib/sdk/src/utils/logger.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/utils/logger.ts#L25)
 
 unexpected or critical information
 
@@ -56,7 +56,7 @@ unexpected or critical information
 
 > **info**(`message`: `string`, ...`params`: `any`[]): `void`
 
-Defined in: [packages/lib/sdk/src/utils/logger.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/logger.ts#L17)
+Defined in: [packages/lib/sdk/src/utils/logger.ts:17](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/utils/logger.ts#L17)
 
 verbose information about normal operation
 
@@ -77,7 +77,7 @@ verbose information about normal operation
 
 > **warn**(`message`: `string`, ...`params`: `any`[]): `void`
 
-Defined in: [packages/lib/sdk/src/utils/logger.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/utils/logger.ts#L21)
+Defined in: [packages/lib/sdk/src/utils/logger.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/utils/logger.ts#L21)
 
 expected information that might warrant require attention
 
