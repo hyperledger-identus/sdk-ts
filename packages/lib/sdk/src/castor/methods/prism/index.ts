@@ -196,10 +196,17 @@ export class PrismDIDMethod
    * We can use the neoprism API to get the last operation hash for a specific did and TX
    */
   async deactivate(opts: DeactivatePayload): Promise<DIDMethodOperation<Metadata>> {
-    const { key, previousOperationHash } = opts;
+    const { key, previousOperationHash, did } = opts;
+    // The DID suffix (state hash) is the first section of the method id; the
+    // long-form encoded state, if present, follows a `:` separator.
+    const stateHash = did.methodId.split(":").at(0);
+    if (!stateHash) {
+      throw new Domain.CastorError.MethodIdIsDoesNotSatisfyRegex();
+    }
+
     const deactivateDID = new Protos.io.iohk.atala.prism.protos.DeactivateDIDOperation({
       previous_operation_hash: previousOperationHash,
-      id: '2',
+      id: stateHash,
     });
 
     const operation = new Protos.io.iohk.atala.prism.protos.AtalaOperation({
