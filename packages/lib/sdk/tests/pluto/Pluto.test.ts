@@ -384,6 +384,90 @@ describe("Pluto", () => {
     expect(result?.body).deep.equal(message.body);
   });
 
+  describe("onlyOne error context", () => {
+    it("should throw with context when getPairByName finds no results", async () => {
+      await expect(
+        instance.getPairByName("nonexistent")
+      ).rejects.toThrow(/Expected one result but got 0.*getPairByName/);
+    });
+
+    it("should throw with context when getPairByName finds multiple results", async () => {
+      const host1 = SDK.Domain.DID.fromString("did:prism:111");
+      const receiver1 = SDK.Domain.DID.fromString("did:prism:222");
+      const host2 = SDK.Domain.DID.fromString("did:prism:333");
+      const receiver2 = SDK.Domain.DID.fromString("did:prism:444");
+      const name = "duplicate";
+
+      const pk = new SDK.Ed25519PrivateKey(
+        Buffer.from("01011010011101010100011000100010")
+      );
+      for (const did of [host1, receiver1, host2, receiver2]) {
+        await instance.storePrismDID(did, pk);
+      }
+
+      await instance.storeDIDPair(host1, receiver1, name);
+      await instance.storeDIDPair(host2, receiver2, name);
+
+      await expect(
+        instance.getPairByName(name)
+      ).rejects.toThrow(/Expected one result but got 2.*getPairByName/);
+    });
+  });
+
+  describe("getAllMediators error handling", () => {
+    it("should throw when mediator link exists without routing link", async () => {
+      const hostDID = SDK.Domain.DID.fromString("did:prism:901");
+      const mediatorDID = SDK.Domain.DID.fromString("did:prism:902");
+      const pk = new SDK.Ed25519PrivateKey(
+        Buffer.from("01011010011101010100011000100010")
+      );
+      await instance.storePrismDID(hostDID, pk);
+      await instance.storePrismDID(mediatorDID, pk);
+
+      // Insert a mediator link without the corresponding routing link
+      await (instance.store as any).insert("did-link", {
+        uuid: randomUUID(),
+        role: 2,
+        hostId: hostDID.uuid,
+        targetId: mediatorDID.uuid,
+      });
+
+      await expect(
+        instance.getAllMediators()
+      ).rejects.toThrow(/Missing mediator or routing DID link for hostId/);
+    });
+
+    it("should throw when DIDs are missing for stored links", async () => {
+      const hostDID = SDK.Domain.DID.fromString("did:prism:903");
+      const mediatorDID = SDK.Domain.DID.fromString("did:prism:904");
+      const routingDID = SDK.Domain.DID.fromString("did:prism:905");
+      const pk = new SDK.Ed25519PrivateKey(
+        Buffer.from("01011010011101010100011000100010")
+      );
+      await instance.storePrismDID(hostDID, pk);
+      await instance.storePrismDID(mediatorDID, pk);
+      // Intentionally NOT storing routingDID
+
+      // Insert both links but routing DID won't resolve
+      await (instance.store as any).insert("did-link", {
+        uuid: randomUUID(),
+        role: 2,
+        hostId: hostDID.uuid,
+        targetId: mediatorDID.uuid,
+      });
+      await (instance.store as any).insert("did-link", {
+        uuid: randomUUID(),
+        role: 3,
+        hostId: hostDID.uuid,
+        targetId: routingDID.uuid,
+      });
+
+      await expect(
+        instance.getAllMediators()
+      ).rejects.toThrow(/Empty DID for hostId/);
+    });
+  });
+
   //
   it("should get all mediators", async function () {
     const mediator = SDK.Domain.DID.fromString("did:prism:123");
