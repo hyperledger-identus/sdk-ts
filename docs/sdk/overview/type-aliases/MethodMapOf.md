@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **MethodMapOf**\<`Methods`\> = `Methods` *extends* readonly \[infer Head, `...(infer Tail)`\] ? `Tail` *extends* readonly `unknown`[] ? [`MethodNameOf`](MethodNameOf.md)\<`Head`\> *extends* infer N ? `N` *extends* `string` ? `Omit`\<`{ [K in N]: Head }`, keyof `MethodMapOf`\<`Tail`\>\> & `MethodMapOf`\<`Tail`\> : `MethodMapOf`\<`Tail`\> : `MethodMapOf`\<`Tail`\> : `never` : \{ \}
 
-Defined in: [packages/lib/sdk/src/castor/methods/types.ts:118](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/types.ts#L118)
+Defined in: [packages/lib/sdk/src/castor/methods/types.ts:118](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/castor/methods/types.ts#L118)
 
 Build a `{ methodName: MethodInstance }` map from a tuple of DID method
 instances. When multiple entries share the same `method` name, later

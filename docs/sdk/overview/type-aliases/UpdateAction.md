@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../README.md)
 
 ***
 
@@ -8,7 +8,7 @@
 
 > **UpdateAction**\<`T`\> = `{ [K in T]: { actionType: K } & { [F in K]: UpdateActionDataMap[K] } }`\[`T`\]
 
-Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:131](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/castor/methods/prism/index.ts#L131)
+Defined in: [packages/lib/sdk/src/castor/methods/prism/index.ts:131](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/castor/methods/prism/index.ts#L131)
 
 A single, type-safe DID update action.
 

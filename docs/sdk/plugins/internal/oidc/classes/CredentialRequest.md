@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: CredentialRequest
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L5)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts:5](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L5)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequ
 
 > **new CredentialRequest**(`endpoint`: `string` \| `URL`, `body`: [`JsonObj`](../../../../overview/type-aliases/JsonObj.md)): `CredentialRequest`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L8)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L8)
 
 #### Parameters
 
@@ -43,5 +43,5 @@ Defined in: [packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequ
 | <a id="property-headers"></a> `headers` | `readonly` | `Headers` | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`headers`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#property-headers) | packages/shared/domain/build/index.d.ts:218 |
 | <a id="property-method"></a> `method` | `public` | [`HttpMethod`](../../../../overview/namespaces/Domain/type-aliases/HttpMethod.md) | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`method`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#property-method) | packages/shared/domain/build/index.d.ts:220 |
 | <a id="property-params"></a> `params` | `readonly` | `URLSearchParams` | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`params`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#property-params) | packages/shared/domain/build/index.d.ts:219 |
-| <a id="property-protocolid"></a> `ProtocolId` | `readonly` | `"OIDC_V1/CREDENTIAL_REQUEST"` | `Protocols.CredentialRequest` | - | [packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L6) |
+| <a id="property-protocolid"></a> `ProtocolId` | `readonly` | `"OIDC_V1/CREDENTIAL_REQUEST"` | `Protocols.CredentialRequest` | - | [packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/oidc/protocols/CredentialRequest.ts#L6) |
 | <a id="property-url"></a> `url` | `readonly` | `URL` | `undefined` | [`ApiRequest`](../../../../overview/namespaces/Domain/classes/ApiRequest.md).[`url`](../../../../overview/namespaces/Domain/classes/ApiRequest.md#property-url) | packages/shared/domain/build/index.d.ts:217 |

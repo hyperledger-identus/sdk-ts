@@ -1,3 +1,13 @@
+## 8.1.3 (2026-09-01)
+
+### 🩹 Fixes
+
+- extract operation hash in hex from the signed data ([#673](https://github.com/hyperledger-identus/sdk-ts/pull/673))
+
+### ❤️ Thank You
+
+- Javier Ribó
+
 ## 8.1.2 (2026-09-01)
 
 ### 🩹 Fixes

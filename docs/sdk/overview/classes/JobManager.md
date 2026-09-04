@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: JobManager
 
-Defined in: [packages/lib/sdk/src/edge-agent/connections/JobManager.ts:3](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/edge-agent/connections/JobManager.ts#L3)
+Defined in: [packages/lib/sdk/src/edge-agent/connections/JobManager.ts:3](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/edge-agent/connections/JobManager.ts#L3)
 
 ## Constructors
 
@@ -22,8 +22,8 @@ Defined in: [packages/lib/sdk/src/edge-agent/connections/JobManager.ts:3](https:
 
 | Property | Modifier | Type | Default value | Description | Defined in |
 | ------ | ------ | ------ | ------ | ------ | ------ |
-| <a id="property-cancellables"></a> `cancellables` | `public` | [`CancellableTask`](CancellableTask.md)\<`any`\>[] | `[]` | An array with cancellable tasks, mainly used to store one or multiple didcomm connections in storage implementation at the same time. All of them can be cancelled despite they run asyncronously when the Edge agent stops | [packages/lib/sdk/src/edge-agent/connections/JobManager.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/edge-agent/connections/JobManager.ts#L13) |
-| <a id="property-fetchmessages"></a> `fetchMessages?` | `public` | [`CancellableTask`](CancellableTask.md)\<`void`\> | `undefined` | Cancellable task used to listen for new messages, stopping the Agent should also stop this from running and destroy the instance of the task until agent is started again | [packages/lib/sdk/src/edge-agent/connections/JobManager.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/edge-agent/connections/JobManager.ts#L21) |
+| <a id="property-cancellables"></a> `cancellables` | `public` | [`CancellableTask`](CancellableTask.md)\<`any`\>[] | `[]` | An array with cancellable tasks, mainly used to store one or multiple didcomm connections in storage implementation at the same time. All of them can be cancelled despite they run asyncronously when the Edge agent stops | [packages/lib/sdk/src/edge-agent/connections/JobManager.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/edge-agent/connections/JobManager.ts#L13) |
+| <a id="property-fetchmessages"></a> `fetchMessages?` | `public` | [`CancellableTask`](CancellableTask.md)\<`void`\> | `undefined` | Cancellable task used to listen for new messages, stopping the Agent should also stop this from running and destroy the instance of the task until agent is started again | [packages/lib/sdk/src/edge-agent/connections/JobManager.ts:21](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/edge-agent/connections/JobManager.ts#L21) |
 
 ## Methods
 
@@ -31,7 +31,7 @@ Defined in: [packages/lib/sdk/src/edge-agent/connections/JobManager.ts:3](https:
 
 > **stop**(): `void`
 
-Defined in: [packages/lib/sdk/src/edge-agent/connections/JobManager.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/edge-agent/connections/JobManager.ts#L27)
+Defined in: [packages/lib/sdk/src/edge-agent/connections/JobManager.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/edge-agent/connections/JobManager.ts#L27)
 
 Stops all jobs
 

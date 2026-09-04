@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../README.md)
 
 ***
 
@@ -6,11 +6,11 @@
 
 # Enumeration: JWT\_VC\_PROPS
 
-Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L18)
+Defined in: [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L18)
 
 ## Enumeration Members
 
 | Enumeration Member | Value | Defined in |
 | ------ | ------ | ------ |
-| <a id="enumeration-member-revoked"></a> `revoked` | `"revoked"` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L20) |
-| <a id="enumeration-member-vc"></a> `vc` | `"vc"` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L19) |
+| <a id="enumeration-member-revoked"></a> `revoked` | `"revoked"` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:20](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L20) |
+| <a id="enumeration-member-vc"></a> `vc` | `"vc"` | [packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts:19](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pollux/models/JWTVerifiableCredential.ts#L19) |

@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: Issuance
 
-Defined in: [packages/lib/sdk/src/pluto/models/Issuance.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/models/Issuance.ts#L23)
+Defined in: [packages/lib/sdk/src/pluto/models/Issuance.ts:23](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/models/Issuance.ts#L23)
 
 Model for credential issuance records.
 
@@ -22,9 +22,9 @@ encrypted at rest.
 
 | Property | Type | Description | Inherited from | Defined in |
 | ------ | ------ | ------ | ------ | ------ |
-| <a id="property-automaticissuance"></a> `automaticIssuance?` | `boolean` | Whether the credential should be issued automatically. | - | [packages/lib/sdk/src/pluto/models/Issuance.ts:31](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/models/Issuance.ts#L31) |
-| <a id="property-claims"></a> `claims` | [`Claim`](Claim.md)[] | Set of claims to include in the issued credential. | - | [packages/lib/sdk/src/pluto/models/Issuance.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/models/Issuance.ts#L27) |
-| <a id="property-credentialformat"></a> `credentialFormat` | `string` | Credential format identifier (e.g. `"jwt"`, `"anoncreds"`). | - | [packages/lib/sdk/src/pluto/models/Issuance.ts:29](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/models/Issuance.ts#L29) |
-| <a id="property-id"></a> `id` | `string` | Application-defined identifier for this issuance. | - | [packages/lib/sdk/src/pluto/models/Issuance.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/models/Issuance.ts#L25) |
-| <a id="property-issuingdid"></a> `issuingDID` | `string` | DID of the issuer. | - | [packages/lib/sdk/src/pluto/models/Issuance.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/pluto/models/Issuance.ts#L33) |
+| <a id="property-automaticissuance"></a> `automaticIssuance?` | `boolean` | Whether the credential should be issued automatically. | - | [packages/lib/sdk/src/pluto/models/Issuance.ts:31](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/models/Issuance.ts#L31) |
+| <a id="property-claims"></a> `claims` | [`Claim`](Claim.md)[] | Set of claims to include in the issued credential. | - | [packages/lib/sdk/src/pluto/models/Issuance.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/models/Issuance.ts#L27) |
+| <a id="property-credentialformat"></a> `credentialFormat` | `string` | Credential format identifier (e.g. `"jwt"`, `"anoncreds"`). | - | [packages/lib/sdk/src/pluto/models/Issuance.ts:29](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/models/Issuance.ts#L29) |
+| <a id="property-id"></a> `id` | `string` | Application-defined identifier for this issuance. | - | [packages/lib/sdk/src/pluto/models/Issuance.ts:25](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/models/Issuance.ts#L25) |
+| <a id="property-issuingdid"></a> `issuingDID` | `string` | DID of the issuer. | - | [packages/lib/sdk/src/pluto/models/Issuance.ts:33](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/pluto/models/Issuance.ts#L33) |
 | <a id="property-uuid"></a> `uuid` | `string` | Universally Unique Identifier. should be unique across all items. | `Model.uuid` | packages/shared/domain/build/index.d.ts:404 |

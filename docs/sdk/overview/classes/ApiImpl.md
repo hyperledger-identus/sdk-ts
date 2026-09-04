@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: ApiImpl
 
-Defined in: [packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts#L6)
+Defined in: [packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts#L6)
 
 Implement API using built in fetch
 
@@ -30,7 +30,7 @@ Implement API using built in fetch
 
 > **request**\<`T`\>(`method`: [`HttpMethod`](../namespaces/Domain/type-aliases/HttpMethod.md), `urlStr`: `string`, `urlParameters?`: `Map`\<`string`, `string`\>, `httpHeaders?`: `Map`\<`string`, `string`\>, `body?`: `string` \| `Record`\<`string`, `any`\>): `Promise`\<[`ApiResponse`](../namespaces/Domain/classes/ApiResponse.md)\<`T`\>\>
 
-Defined in: [packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts:7](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts#L7)
+Defined in: [packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts:7](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts#L7)
 
 make a request
 return an ApiResponse on any 2xx status

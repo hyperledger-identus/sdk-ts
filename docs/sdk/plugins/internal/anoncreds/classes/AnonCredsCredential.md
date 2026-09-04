@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v8.1.1**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.2**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: AnonCredsCredential
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L9)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L9)
 
 Storable
 define properties a Domain object must implement to be compatible with Pluto
@@ -25,7 +25,7 @@ define properties a Domain object must implement to be compatible with Pluto
 
 > **new AnonCredsCredential**(`credential`: `CredentialType`, `isRevoked?`: `boolean`): `AnonCredsCredential`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L16)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:16](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L16)
 
 #### Parameters
 
@@ -46,9 +46,9 @@ Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:16](
 
 | Property | Modifier | Type | Default value | Description | Overrides | Inherited from | Defined in |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-| <a id="property-credentialtype"></a> `credentialType` | `public` | [`CredentialType`](../../oea/enumerations/CredentialType.md) | `CredentialType.AnonCreds` | - | [`Credential`](../../../../overview/namespaces/Domain/classes/Credential.md).[`credentialType`](../../../../overview/namespaces/Domain/classes/Credential.md#property-credentialtype) | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L12) |
-| <a id="property-properties"></a> `properties` | `public` | `Map`\<[`AnonCredsCredentialProperties`](../enumerations/AnonCredsCredentialProperties.md), `any`\> | `undefined` | - | [`Credential`](../../../../overview/namespaces/Domain/classes/Credential.md).[`properties`](../../../../overview/namespaces/Domain/classes/Credential.md#property-properties) | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L14) |
-| <a id="property-recoveryid"></a> `recoveryId` | `public` | `string` | `AnonCredsRecoveryId` | - | [`Credential`](../../../../overview/namespaces/Domain/classes/Credential.md).[`recoveryId`](../../../../overview/namespaces/Domain/classes/Credential.md#property-recoveryid) | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L13) |
+| <a id="property-credentialtype"></a> `credentialType` | `public` | [`CredentialType`](../../oea/enumerations/CredentialType.md) | `CredentialType.AnonCreds` | - | [`Credential`](../../../../overview/namespaces/Domain/classes/Credential.md).[`credentialType`](../../../../overview/namespaces/Domain/classes/Credential.md#property-credentialtype) | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:12](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L12) |
+| <a id="property-properties"></a> `properties` | `public` | `Map`\<[`AnonCredsCredentialProperties`](../enumerations/AnonCredsCredentialProperties.md), `any`\> | `undefined` | - | [`Credential`](../../../../overview/namespaces/Domain/classes/Credential.md).[`properties`](../../../../overview/namespaces/Domain/classes/Credential.md#property-properties) | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:14](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L14) |
+| <a id="property-recoveryid"></a> `recoveryId` | `public` | `string` | `AnonCredsRecoveryId` | - | [`Credential`](../../../../overview/namespaces/Domain/classes/Credential.md).[`recoveryId`](../../../../overview/namespaces/Domain/classes/Credential.md#property-recoveryid) | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:13](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L13) |
 | <a id="property-uuid"></a> `uuid` | `readonly` | `string` | `undefined` | Universally Unique Identifier. should be unique across all items. | - | [`Credential`](../../../../overview/namespaces/Domain/classes/Credential.md).[`uuid`](../../../../overview/namespaces/Domain/classes/Credential.md#property-uuid) | packages/shared/domain/build/index.d.ts:338 |
 
 ## Accessors
@@ -59,7 +59,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:16](
 
 > **get** **claims**(): \{\[`key`: `string`\]: `any`; \}[]
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:50](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L50)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:50](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L50)
 
 ##### Returns
 
@@ -77,7 +77,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:50](
 
 > **get** **credentialDefinitionId**(): `string`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:57](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L57)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:57](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L57)
 
 ##### Returns
 
@@ -91,7 +91,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:57](
 
 > **get** **id**(): `string`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L35)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:35](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L35)
 
 ##### Returns
 
@@ -109,7 +109,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:35](
 
 > **get** **issuer**(): `any`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:61](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L61)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:61](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L61)
 
 ##### Returns
 
@@ -127,7 +127,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:61](
 
 > **get** **revoked**(): `any`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:73](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L73)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:73](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L73)
 
 ##### Returns
 
@@ -141,7 +141,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:73](
 
 > **get** **schemaId**(): `string`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:65](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L65)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:65](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L65)
 
 ##### Returns
 
@@ -155,7 +155,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:65](
 
 > **get** **subject**(): `any`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:69](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L69)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:69](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L69)
 
 ##### Returns
 
@@ -241,7 +241,7 @@ Defined in: packages/shared/domain/build/index.d.ts:341
 
 > **toJSON**(): `CredentialType`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:91](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L91)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:91](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L91)
 
 #### Returns
 
@@ -253,7 +253,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:91](
 
 > **toStorable**(): \{ `credentialData`: `string`; `id`: `string`; `issuer`: `any`; `recoveryId`: `string`; `subject`: `any`; `validUntil`: `any`; \}
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:77](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L77)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:77](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L77)
 
 #### Returns
 
@@ -261,12 +261,12 @@ Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:77](
 
 | Name | Type | Default value | Defined in |
 | ------ | ------ | ------ | ------ |
-| `credentialData` | `string` | `credentialData` | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:82](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L82) |
-| `id` | `string` | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:83](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L83) |
-| `issuer` | `any` | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:84](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L84) |
-| `recoveryId` | `string` | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:81](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L81) |
-| `subject` | `any` | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:85](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L85) |
-| `validUntil` | `any` | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:86](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L86) |
+| `credentialData` | `string` | `credentialData` | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:82](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L82) |
+| `id` | `string` | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:83](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L83) |
+| `issuer` | `any` | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:84](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L84) |
+| `recoveryId` | `string` | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:81](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L81) |
+| `subject` | `any` | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:85](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L85) |
+| `validUntil` | `any` | - | [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:86](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L86) |
 
 #### Implementation of
 
@@ -278,7 +278,7 @@ Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:77](
 
 > `static` **fromJson**(`value`: `unknown`): `AnonCredsCredential`
 
-Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:101](https://github.com/hyperledger-identus/sdk-ts/blob/2339594d2f94c77f1b65e16649c0597d971fc865/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L101)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts:101](https://github.com/hyperledger-identus/sdk-ts/blob/5a2cd1f0ed4e00a35c63d03f877a5bdce569f623/packages/lib/sdk/src/plugins/internal/anoncreds/utils/index.ts#L101)
 
 #### Parameters
 

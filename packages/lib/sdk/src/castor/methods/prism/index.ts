@@ -167,6 +167,19 @@ export type Metadata = {
   operationHash: string;
 }
 
+export function getOperationHash(serializedOperation: Uint8Array): string {
+
+  const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserialize(serializedOperation);
+
+  const block = atalaObject.block_content;
+
+  const operation = block.operations[0].serialize();
+
+  const operationHash = Buffer.from(operation).toString("hex");
+
+  return operationHash;
+}
+
 /**
  * DID method implementation for `did:prism`.
  *
