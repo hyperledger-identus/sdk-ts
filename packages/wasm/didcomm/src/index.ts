@@ -1,4 +1,4 @@
-export { DIDCommWrapper } from "./Wrapper";
+export { DIDCommWrapper, ReturnRouteProtocols } from "./Wrapper";
 export type { DIDCommProtocol } from "./Wrapper";
 
 // Re-export WASM types for downstream consumers
