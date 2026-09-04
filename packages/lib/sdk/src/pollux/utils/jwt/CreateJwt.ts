@@ -8,13 +8,35 @@ import { base64url } from "multiformats/bases/base64";
 import { FindSigningKeys } from "../../../edge-agent/didFunctions/FindDIDSigningKeys";
 
 /**
- * Asyncronously sign with a DID
+ * Creates a signed JWT (JSON Web Token) using a DID's private key.
  *
- * 
- * @param {DID} did
- * @param payload
- * @param header
- * @returns {string}
+ * In Self-Sovereign Identity (SSI) systems, JWTs are commonly used for:
+ * - Issuing verifiable credentials (VCs)
+ * - Creating proof of DID ownership
+ * - Sharing signed claims about subjects
+ *
+ * Key Purpose Selection:
+ * - Default is "ISSUING_KEY" because most JWT creation is for credential issuance,
+ *   which requires the "assertionMethod" capability (see DID spec)
+ * - Use "AUTHENTICATION_KEY" only when signing challenge-response proofs for DID ownership
+ *
+ * How it works:
+ * 1. Finds signing keys matching the specified purpose
+ * 2. Creates a JWT with the DID as the issuer
+ * 3. Signs with the found private key
+ * 4. Returns the signed JWT string (can be transmitted to other parties)
+ *
+ * The recipient can verify this JWT by:
+ * - Resolving your DID document
+ * - Getting your public key from the matching verification relationship
+ * - Using the public key to verify the JWT signature
+ *
+ * @param {DID} did - The DID that will be the issuer of this JWT
+ * @param {JWT.Payload} payload - The claims to include in the JWT
+ * @param {JWT.Header} [header] - Optional custom JWT header fields
+ * @param {PrivateKey} [privateKey] - Optional: specific key to use (otherwise searches all keys)
+ * @param {keyof PrismDIDKeys} [purpose] - Verification relationship to use (default: "ISSUING_KEY")
+ * @returns {string} The signed JWT
  */
 
 interface Args {
@@ -27,6 +49,10 @@ interface Args {
 
 export class CreateJWT extends Task<string, Args> {
   async run(ctx: AgentContext) {
+    // Default to ISSUING_KEY because JWT creation is most commonly used for:
+    // - Credential issuance (requires "assertionMethod" in DID document)
+    // - Proof of claims about subjects
+    // Change to AUTHENTICATION_KEY only for challenge-response authentication flows
     const signingKeys = await ctx.run(new FindSigningKeys({
       did: this.args.did,
       privateKey: this.args.privateKey,
