@@ -1,6 +1,8 @@
 import { uuid } from "@stablelib/uuid";
 import { base64, base64url } from "multiformats/bases/base64";
 
+import { UnknownAttachmentDataError } from "./errors/Mercury";
+
 export interface AttachmentHeader {
   children: string;
 }
@@ -95,8 +97,9 @@ export class AttachmentDescriptor {
         : JSON.parse(decoded);
     }
 
-    // TODO better error
-    throw new Error("Unhandled attachment");
+    throw new UnknownAttachmentDataError(
+      "Unhandled attachment payload: expected base64-encoded JSON or a json-compatible attachment shape"
+    );
   }
 
   static build<T>(
