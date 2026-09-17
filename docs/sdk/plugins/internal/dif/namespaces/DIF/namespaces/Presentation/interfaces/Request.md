@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: Request
 
-Defined in: [src/plugins/internal/dif/types.ts:55](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L55)
+Defined in: [packages/lib/sdk/src/plugins/internal/dif/types.ts:55](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/plugins/internal/dif/types.ts#L55)
 
 ## Indexable
 
@@ -16,4 +16,4 @@ Defined in: [src/plugins/internal/dif/types.ts:55](https://github.com/hyperledge
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="presentation_definition"></a> `presentation_definition` | [`Definition`](Definition.md) | [src/plugins/internal/dif/types.ts:56](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L56) |
+| <a id="property-presentation_definition"></a> `presentation_definition` | [`Definition`](Definition.md) | [packages/lib/sdk/src/plugins/internal/dif/types.ts:56](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/plugins/internal/dif/types.ts#L56) |

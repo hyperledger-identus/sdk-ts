@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../../README.md)
 
 ***
 
@@ -6,8 +6,8 @@
 
 # ImportableKey
 
-## Functions
+## Variables
 
-| Function | Description |
+| Variable | Description |
 | ------ | ------ |
-| [factory](functions/factory.md) | factory to create Key property with desired functions allows creation of a given Key through different data types |
+| [factory](variables/factory.md) | factory to create Key property with desired functions allows creation of a given Key through different data types |

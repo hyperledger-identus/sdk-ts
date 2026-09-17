@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../../README.md)
 
 ***
 
@@ -10,7 +10,7 @@
 
 | Type Alias | Description |
 | ------ | ------ |
-| [Schema](type-aliases/Schema.md) | All supported backup schemas |
+| [Schema](type-aliases/Schema.md) | - |
 | [Version](type-aliases/Version.md) | - |
 
 ## Variables

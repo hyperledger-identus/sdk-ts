@@ -1,6 +1,6 @@
 {
   "name": "@hyperledger/identus-sdk",
-  "version": "7.0.0",
+  "version": "8.1.4",
   "description": "Identus SDK - Typescript",
   "type": "module",
   "main": "./build/index.cjs",
@@ -126,7 +126,7 @@
     "typedoc-plugin-md": "^0.7.1",
     "unified": "^11.0.5",
     "vfile": "^6.0.3",
-    "ws": "^8.20.1"
+    "ws": "^8.21.1"
   },
   "peerDependencies": {
     "@types/elliptic": "^6.4.16",
@@ -136,6 +136,6 @@
     "jsdom": "^24.1.0"
   },
   "overrides": {
-    "ws": "^8.20.1"
+    "ws": "^8.21.1"
   }
 }

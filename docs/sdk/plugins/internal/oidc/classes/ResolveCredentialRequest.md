@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: ResolveCredentialRequest
 
-Defined in: [src/plugins/internal/oidc/connection/ResolveCredentialRequest.ts:28](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/connection/ResolveCredentialRequest.ts#L28)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveCredentialRequest.ts:29](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveCredentialRequest.ts#L29)
 
 OIDC Convenience Task
 Credential Offer to issued Credential
@@ -21,7 +21,7 @@ steps
 
 ## Extends
 
-- [`Task`](../../../../overview/namespaces/Utils/classes/Task.md)\<[`JWTCredential`](../../../../overview/classes/JWTCredential.md), [`ResolveCredentialRequestArgs`](../interfaces/ResolveCredentialRequestArgs.md)\>
+- `Task`\<[`JWTCredential`](../../../../overview/classes/JWTCredential.md), [`ResolveCredentialRequestArgs`](../interfaces/ResolveCredentialRequestArgs.md)\>
 
 ## Constructors
 
@@ -29,13 +29,13 @@ steps
 
 > **new ResolveCredentialRequest**(...`args`: \[[`ResolveCredentialRequestArgs`](../interfaces/ResolveCredentialRequestArgs.md)\]): `ResolveCredentialRequest`
 
-Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L18)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:18](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/utils/tasks.ts#L18)
 
 #### Parameters
 
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
-| ...`args` | \[[`ResolveCredentialRequestArgs`](../interfaces/ResolveCredentialRequestArgs.md)\] |  |
+| ...`args` | \[[`ResolveCredentialRequestArgs`](../interfaces/ResolveCredentialRequestArgs.md)\] | - |
 
 #### Returns
 
@@ -43,7 +43,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`constructor`](../../../../overview/namespaces/Utils/classes/Task.md#constructor)
+`Task<JWTCredential, ResolveCredentialRequestArgs>.constructor`
 
 ## Methods
 
@@ -51,7 +51,7 @@ Defined in: [src/utils/tasks.ts:18](https://github.com/hyperledger/identus-edge-
 
 > **log**(): `unknown`
 
-Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/utils/tasks.ts#L26)
+Defined in: [packages/lib/sdk/src/utils/tasks.ts:27](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/utils/tasks.ts#L27)
 
 #### Returns
 
@@ -59,7 +59,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 #### Inherited from
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`log`](../../../../overview/namespaces/Utils/classes/Task.md#log)
+`Task.log`
 
 ***
 
@@ -67,7 +67,7 @@ Defined in: [src/utils/tasks.ts:26](https://github.com/hyperledger/identus-edge-
 
 > **run**(`ctx`: [`Context`](../type-aliases/Context.md)): `Promise`\<[`JWTCredential`](../../../../overview/classes/JWTCredential.md)\>
 
-Defined in: [src/plugins/internal/oidc/connection/ResolveCredentialRequest.ts:29](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/oidc/connection/ResolveCredentialRequest.ts#L29)
+Defined in: [packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveCredentialRequest.ts:30](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/plugins/internal/oidc/connection/ResolveCredentialRequest.ts#L30)
 
 #### Parameters
 
@@ -81,4 +81,4 @@ Defined in: [src/plugins/internal/oidc/connection/ResolveCredentialRequest.ts:29
 
 #### Overrides
 
-[`Task`](../../../../overview/namespaces/Utils/classes/Task.md).[`run`](../../../../overview/namespaces/Utils/classes/Task.md#run)
+`Task.run`

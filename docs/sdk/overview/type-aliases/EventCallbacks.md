@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../README.md)
 
 ***
 
@@ -6,14 +6,14 @@
 
 # Type Alias: EventCallbacks
 
-> **EventCallbacks** = \{ `connection`: (`connection`: [`ConnectionEventArg`](ConnectionEventArg.md)) => `void`; `message`: (`messages`: [`MessageEventArg`](MessageEventArg.md)) => `void`; `revoke`: (`revoke`: [`RevokeEventArg`](RevokeEventArg.md)) => `void`; \}
+> **EventCallbacks** = \{ `connection`: (`connection`: [`ConnectionEventArg`](ConnectionEventArg.md)) => `void` \| `Promise`\<`void`\>; `message`: (`messages`: [`MessageEventArg`](MessageEventArg.md)) => `void` \| `Promise`\<`void`\>; `revoke`: (`revoke`: [`RevokeEventArg`](RevokeEventArg.md)) => `void` \| `Promise`\<`void`\>; \}
 
-Defined in: [src/edge-agent/types/index.ts:67](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/types/index.ts#L67)
+Defined in: [packages/lib/sdk/src/edge-agent/types.ts:76](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/edge-agent/types.ts#L76)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="connection"></a> `connection` | (`connection`: [`ConnectionEventArg`](ConnectionEventArg.md)) => `void` | [src/edge-agent/types/index.ts:69](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/types/index.ts#L69) |
-| <a id="message"></a> `message` | (`messages`: [`MessageEventArg`](MessageEventArg.md)) => `void` | [src/edge-agent/types/index.ts:68](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/types/index.ts#L68) |
-| <a id="revoke"></a> `revoke` | (`revoke`: [`RevokeEventArg`](RevokeEventArg.md)) => `void` | [src/edge-agent/types/index.ts:70](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/types/index.ts#L70) |
+| <a id="property-connection"></a> `connection` | (`connection`: [`ConnectionEventArg`](ConnectionEventArg.md)) => `void` \| `Promise`\<`void`\> | [packages/lib/sdk/src/edge-agent/types.ts:78](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/edge-agent/types.ts#L78) |
+| <a id="property-message"></a> `message` | (`messages`: [`MessageEventArg`](MessageEventArg.md)) => `void` \| `Promise`\<`void`\> | [packages/lib/sdk/src/edge-agent/types.ts:77](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/edge-agent/types.ts#L77) |
+| <a id="property-revoke"></a> `revoke` | (`revoke`: [`RevokeEventArg`](RevokeEventArg.md)) => `void` \| `Promise`\<`void`\> | [packages/lib/sdk/src/edge-agent/types.ts:79](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/edge-agent/types.ts#L79) |

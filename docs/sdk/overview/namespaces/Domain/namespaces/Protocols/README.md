@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../../README.md)
 
 ***
 
@@ -6,14 +6,15 @@
 
 # Protocols
 
-## References
+## Type Aliases
 
-### KeyRestoration {#keyrestoration}
+| Type Alias | Description |
+| ------ | ------ |
+| [KeyRestoration](type-aliases/KeyRestoration.md) | - |
 
-Re-exports [KeyRestoration](../../interfaces/KeyRestoration.md)
+## Variables
 
-***
-
-### Startable {#startable}
-
-Re-exports [Startable](../Startable/README.md)
+| Variable | Description |
+| ------ | ------ |
+| [Payload](variables/Payload.md) | - |
+| [Startable](variables/Startable.md) | - |

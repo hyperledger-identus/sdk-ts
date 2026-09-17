@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../../README.md)
 
 ***
 
@@ -6,11 +6,20 @@
 
 # CommonError
 
-## Classes
+## Type Aliases
 
-| Class | Description |
+| Type Alias | Description |
 | ------ | ------ |
-| [ExpectError](classes/ExpectError.md) | - |
-| [SDKError](classes/SDKError.md) | - |
-| [UnknownError](classes/UnknownError.md) | - |
-| [ValidationError](classes/ValidationError.md) | - |
+| [ExpectError](type-aliases/ExpectError.md) | - |
+| [SDKError](type-aliases/SDKError.md) | - |
+| [UnknownError](type-aliases/UnknownError.md) | - |
+| [ValidationError](type-aliases/ValidationError.md) | - |
+
+## Variables
+
+| Variable | Description |
+| ------ | ------ |
+| [ExpectError](variables/ExpectError.md) | - |
+| [SDKError](variables/SDKError.md) | - |
+| [UnknownError](variables/UnknownError.md) | - |
+| [ValidationError](variables/ValidationError.md) | - |

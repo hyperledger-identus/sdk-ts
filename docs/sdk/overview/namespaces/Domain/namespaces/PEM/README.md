@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../../README.md)
 
 ***
 
@@ -6,9 +6,9 @@
 
 # PEM
 
-## Functions
+## Variables
 
-| Function | Description |
+| Variable | Description |
 | ------ | ------ |
-| [fromKey](functions/fromKey.md) | create a PEM from a Key |
-| [toRaw](functions/toRaw.md) | create a Uint8Array from a PEM |
+| [fromKey](variables/fromKey.md) | create a PEM from a Key |
+| [toRaw](variables/toRaw.md) | create a Uint8Array from a PEM |

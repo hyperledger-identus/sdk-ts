@@ -18,6 +18,12 @@
     "releaseTagPattern": "{projectName}@{version}",
     "projectsRelationship": "independent",
     "versionPlans": false,
+    "git": {
+      "commit": true,
+      "commitMessage": "chore(release): {version} [skip ci]",
+      "tag": true,
+      "push": true
+    },
     "version": {
       "preVersionCommand": "sh release.sh",
       "conventionalCommits": true,
@@ -25,13 +31,8 @@
       "fallbackCurrentVersionResolver": "disk"
     },
     "changelog": {
-      "workspaceChangelog": {
-        "createRelease": "github"
-      },
-      "git": {
-        "commit": true,
-        "commitMessage": "chore(release): {version} [skip ci]"
-      },
+      "automaticFromRef": true,
+      "workspaceChangelog": false,
       "projectChangelogs": {
         "createRelease": "github"
       },

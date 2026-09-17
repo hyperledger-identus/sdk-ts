@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../README.md)
 
 ***
 
@@ -6,12 +6,12 @@
 
 # Type Alias: Modules
 
-> **Modules** = \{ `Anoncreds`: [`AnoncredsLoader`](../classes/AnoncredsLoader.md); \}
+> **Modules** = \{ `Anoncreds`: `AnoncredsLoader`; \}
 
-Defined in: [src/plugins/internal/anoncreds/plugin.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/plugin.ts#L9)
+Defined in: [packages/lib/sdk/src/plugins/internal/anoncreds/plugin.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/plugins/internal/anoncreds/plugin.ts#L9)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="anoncreds"></a> `Anoncreds` | [`AnoncredsLoader`](../classes/AnoncredsLoader.md) | [src/plugins/internal/anoncreds/plugin.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/anoncreds/plugin.ts#L9) |
+| <a id="property-anoncreds"></a> `Anoncreds` | `AnoncredsLoader` | [packages/lib/sdk/src/plugins/internal/anoncreds/plugin.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/plugins/internal/anoncreds/plugin.ts#L9) |

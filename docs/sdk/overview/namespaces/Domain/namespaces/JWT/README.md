@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../../README.md)
 
 ***
 
@@ -25,8 +25,8 @@
 | ------ | ------ |
 | [Payload](type-aliases/Payload.md) | - |
 
-## Functions
+## Variables
 
-| Function | Description |
+| Variable | Description |
 | ------ | ------ |
-| [decode](functions/decode.md) | decode a JWT into its parts TODO move this to JWT component - needs removing from JWTCredential first |
+| [decode](variables/decode.md) | decode a JWT into its parts TODO move this to JWT component - needs removing from JWTCredential first |

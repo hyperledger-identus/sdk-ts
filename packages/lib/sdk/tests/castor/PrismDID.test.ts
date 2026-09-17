@@ -45,8 +45,10 @@ describe("PrismDID",
             }
           }
         );
-        const atalaObjectBuffer = await castor.publishDID('prism', { key: privateKey, did: did });
-        const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(atalaObjectBuffer);
+        const metadata = await castor.publishDID('prism', { key: privateKey, did: did });
+        expect(metadata.operation).toBeInstanceOf(Uint8Array);
+        expect(metadata.operationHash).toMatch(/^[0-9a-f]{64}$/);
+        const atalaObject = Protos.io.iohk.atala.prism.protos.AtalaObject.deserializeBinary(metadata.operation);
 
         expect(atalaObject).toHaveProperty("block_content");
         expect(atalaObject.block_content).toHaveProperty("operations");

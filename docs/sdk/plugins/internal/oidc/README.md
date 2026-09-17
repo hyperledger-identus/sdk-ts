@@ -1,10 +1,14 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../README.md)
 
 ***
 
 [@hyperledger/identus-sdk](../../../README.md) / plugins/internal/oidc
 
 # plugins/internal/oidc
+
+<!-- title: OIDC -->
+<!-- sidebar_label: OIDC -->
+<!-- sidebar_position: 5 -->
 
 This export contains the OIDC plugin for the Identus SDK
 Please use the following export
@@ -40,7 +44,7 @@ const OIDC = require("@hyperledger/identus-sdk/plugins/oidc");
 | [OIDCConnection](classes/OIDCConnection.md) | Define the structure of a Connection |
 | [OIDCModule](classes/OIDCModule.md) | https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html |
 | [ParseCredentialOffer](classes/ParseCredentialOffer.md) | validates the offer is correctly formed OIDC Credential Offer returns the offer Typed as such |
-| [ProcessCallbackUrl](classes/ProcessCallbackUrl.md) | A Task encapsulates a unit of work |
+| [ProcessCallbackUrl](classes/ProcessCallbackUrl.md) | - |
 | [ResolveAuthorizationRequest](classes/ResolveAuthorizationRequest.md) | OIDC Convenience Task Credential Offer to Authorization Request |
 | [ResolveCredentialRequest](classes/ResolveCredentialRequest.md) | OIDC Convenience Task Credential Offer to issued Credential |
 | [ResolveTokenRequest](classes/ResolveTokenRequest.md) | OIDC Convenience Task CallbackUrl to established Connection |

@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: ApiImpl
 
-Defined in: [src/edge-agent/helpers/FetchApi.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/helpers/FetchApi.ts#L6)
+Defined in: [packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts#L6)
 
 Implement API using built in fetch
 
@@ -28,9 +28,9 @@ Implement API using built in fetch
 
 ### request() {#request}
 
-> **request**\<`T`\>(`method`: [`HttpMethod`](../namespaces/Domain/type-aliases/HttpMethod.md), `urlStr`: `string`, `urlParameters`: `Map`\<`string`, `string`\>, `httpHeaders`: `Map`\<`string`, `string`\>, `body?`: `string` \| `Record`\<`string`, `any`\>): `Promise`\<[`ApiResponse`](../namespaces/Domain/classes/ApiResponse.md)\<`T`\>\>
+> **request**\<`T`\>(`method`: [`HttpMethod`](../namespaces/Domain/type-aliases/HttpMethod.md), `urlStr`: `string`, `urlParameters?`: `Map`\<`string`, `string`\>, `httpHeaders?`: `Map`\<`string`, `string`\>, `body?`: `string` \| `Record`\<`string`, `any`\>): `Promise`\<[`ApiResponse`](../namespaces/Domain/classes/ApiResponse.md)\<`T`\>\>
 
-Defined in: [src/edge-agent/helpers/FetchApi.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/edge-agent/helpers/FetchApi.ts#L7)
+Defined in: [packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts:7](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/edge-agent/helpers/FetchApi.ts#L7)
 
 make a request
 return an ApiResponse on any 2xx status
@@ -48,9 +48,9 @@ throw ApiError otherwise
 | ------ | ------ | ------ |
 | `method` | [`HttpMethod`](../namespaces/Domain/type-aliases/HttpMethod.md) | - |
 | `urlStr` | `string` | - |
-| `urlParameters` | `Map`\<`string`, `string`\> |  |
-| `httpHeaders` | `Map`\<`string`, `string`\> |  |
-| `body?` | `string` \| `Record`\<`string`, `any`\> |  |
+| `urlParameters` | `Map`\<`string`, `string`\> | - |
+| `httpHeaders` | `Map`\<`string`, `string`\> | - |
+| `body?` | `string` \| `Record`\<`string`, `any`\> | - |
 
 #### Returns
 

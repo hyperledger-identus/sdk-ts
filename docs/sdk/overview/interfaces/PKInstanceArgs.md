@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../README.md)
 
 ***
 
@@ -6,10 +6,10 @@
 
 # Interface: PKInstanceArgs
 
-Defined in: [src/pollux/utils/jwt/PKInstance.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/PKInstance.ts#L7)
+Defined in: [packages/lib/sdk/src/edge-agent/didFunctions/PKInstance.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/edge-agent/didFunctions/PKInstance.ts#L8)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="verificationmethod"></a> `verificationMethod` | [`VerificationMethod`](../namespaces/Domain/namespaces/DIDDocument/classes/VerificationMethod.md) | [src/pollux/utils/jwt/PKInstance.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/pollux/utils/jwt/PKInstance.ts#L8) |
+| <a id="property-verificationmethod"></a> `verificationMethod` | [`VerificationMethod`](../namespaces/Domain/namespaces/DIDDocument/classes/VerificationMethod.md) | [packages/lib/sdk/src/edge-agent/didFunctions/PKInstance.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/edge-agent/didFunctions/PKInstance.ts#L9) |

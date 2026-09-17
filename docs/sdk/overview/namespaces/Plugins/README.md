@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../README.md)
 
 ***
 
@@ -10,7 +10,7 @@
 
 | Class | Description |
 | ------ | ------ |
-| [Task](classes/Task.md) | A Task encapsulates a unit of work |
+| [Task](classes/Task.md) | - |
 
 ## Type Aliases
 

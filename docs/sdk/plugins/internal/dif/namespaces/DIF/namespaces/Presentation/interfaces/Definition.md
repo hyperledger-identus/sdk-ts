@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../../../../../README.md)
 
 ***
 
@@ -6,12 +6,12 @@
 
 # Interface: Definition
 
-Defined in: [src/plugins/internal/dif/types.ts:6](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L6)
+Defined in: [packages/lib/sdk/src/plugins/internal/dif/types.ts:6](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/plugins/internal/dif/types.ts#L6)
 
 ## Properties
 
 | Property | Type | Defined in |
 | ------ | ------ | ------ |
-| <a id="format"></a> `format?` | [`Format`](../namespaces/Definition/type-aliases/Format.md) | [src/plugins/internal/dif/types.ts:9](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L9) |
-| <a id="id"></a> `id` | `string` | [src/plugins/internal/dif/types.ts:7](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L7) |
-| <a id="input_descriptors"></a> `input_descriptors` | [`InputDescriptor`](../namespaces/Definition/interfaces/InputDescriptor.md)[] | [src/plugins/internal/dif/types.ts:8](https://github.com/hyperledger/identus-edge-agent-sdk-ts/blob/96423ee84b124a31ce63036d9d623d1cb73a13c2/src/plugins/internal/dif/types.ts#L8) |
+| <a id="property-format"></a> `format?` | [`Format`](../namespaces/Definition/type-aliases/Format.md) | [packages/lib/sdk/src/plugins/internal/dif/types.ts:9](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/plugins/internal/dif/types.ts#L9) |
+| <a id="property-id"></a> `id` | `string` | [packages/lib/sdk/src/plugins/internal/dif/types.ts:7](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/plugins/internal/dif/types.ts#L7) |
+| <a id="property-input_descriptors"></a> `input_descriptors` | [`InputDescriptor`](../namespaces/Definition/interfaces/InputDescriptor.md)[] | [packages/lib/sdk/src/plugins/internal/dif/types.ts:8](https://github.com/hyperledger-identus/sdk-ts/blob/4ce15c3080f44e7e00a0b9a53e696f0a8ec66794/packages/lib/sdk/src/plugins/internal/dif/types.ts#L8) |

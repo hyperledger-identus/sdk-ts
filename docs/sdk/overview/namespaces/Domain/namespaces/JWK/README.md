@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../../README.md)
 
 ***
 
@@ -25,8 +25,8 @@ based on https://www.iana.org/assignments/jose/jose.xhtml
 | ------ | ------ |
 | [key\_ops](type-aliases/key_ops.md) | - |
 
-## Functions
+## Variables
 
-| Function | Description |
+| Variable | Description |
 | ------ | ------ |
-| [fromKey](functions/fromKey.md) | create a JWK from a given Key |
+| [fromKey](variables/fromKey.md) | create a JWK from a given Key |

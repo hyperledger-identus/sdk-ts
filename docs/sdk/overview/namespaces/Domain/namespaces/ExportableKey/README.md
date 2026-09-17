@@ -1,4 +1,4 @@
-[**@hyperledger/identus-sdk v7.0.0**](../../../../../README.md)
+[**@hyperledger/identus-sdk v8.1.3**](../../../../../README.md)
 
 ***
 
@@ -22,8 +22,8 @@ Declaration merge to contain key conversion functions
 | ------ | ------ |
 | [All](type-aliases/All.md) | - |
 
-## Functions
+## Variables
 
-| Function | Description |
+| Variable | Description |
 | ------ | ------ |
-| [factory](functions/factory.md) | factory to create Key property with desired functions which allow converting the Key raw into different formats |
+| [factory](variables/factory.md) | factory to create Key property with desired functions which allow converting the Key raw into different formats |
